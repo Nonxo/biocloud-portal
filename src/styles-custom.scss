@@ -132,3 +132,12 @@ mat-card.auth{
     background: #B21E3D;
     border: 0;
 }
+
+
+@media screen and (max-width: 575.98px){
+    mat-card.auth{
+        min-height:auto;
+        border-radius: 12px;
+    
+    }
+}
