@@ -1,0 +1,40 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
+
+body, html{
+    background: #E6E9EA;
+    height: 100%;
+}
+
+.input-field{
+    width: 100%;
+}
+
+.auth-btn{
+    border-radius: 50px !important;
+    padding: 5px 15px !important;
+    min-width: 150px !important;
+}
+
+.btn-group .btn.btn-md{
+    font-size: 12px;
+    padding: 5px 20px;
+    background: #E6E9EA;
+
+}
+
+.btn-group.curve{
+    border-radius: 12px;
+}
+
+.btn-group .btn.btn-md input{
+    display: none;
+} 
+
+
+.navbar-expand-lg .navbar-nav .nav-link {
+    padding-right: 1.5rem !important;
+    padding-left: 1.5rem !important;
+    font-size: 16px !important;
+}

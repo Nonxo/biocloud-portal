@@ -1,0 +1,62 @@
+<form class="pt-4">
+
+<div class="container-fluid">
+  <div class="row">
+
+      <div class="col-md-12">
+          <div><small>Register As:</small></div>
+          <div class="btn-group curve mb-3">
+              <label class="btn btn-md" *ngFor="let who of whom; let idx=index"
+                     [ngClass]="{'btn-primary': who.checked}">
+                <input type="radio" autocomplete="off" name="whoToggle"  [checked]="who.checked" [value]="who.name"  (click)="changeWho(idx)">
+                {{who.name}}
+              </label>
+            </div>
+      </div>
+
+      <div class="col-12" *ngIf="company">
+          <mat-form-field class="input-field">
+            <input matInput placeholder="Company Name">
+          </mat-form-field>
+        </div>
+
+      <div class="col-6">
+        <mat-form-field class="input-field">
+          <input matInput placeholder="First Name">
+        </mat-form-field>
+      </div>
+    
+      <div class="col-6">
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Last Name">
+        </mat-form-field>
+      </div>
+
+      <div class="col-6">
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Phone">
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Email">
+        </mat-form-field>
+      </div>
+      
+      <div class="col-12">
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'">
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 pt-5 pb-5"></div>
+    
+    
+      <div class="col-md-12">
+          <button mat-raised-button color="accent" class="auth-btn">LOGIN</button>
+      </div>
+  </div>
+</div>  
+
+</form>
