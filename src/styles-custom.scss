@@ -99,6 +99,11 @@ mat-card.auth{
     box-shadow: 0 0 30px #808080 !important;
 
 }
+
+mat-card{
+    border-radius: 5px !important;
+}
+
 .mat-tab-group.mat-primary .mat-ink-bar{
     height: 3px;
     background-color: mat-color($candy-app-accent) !important;
@@ -126,7 +131,9 @@ mat-card.auth{
     color:#fff;
 }
 
-
+.text-brand{
+    color:mat-color($candy-app-primary) !important;
+}
 
 .btn-danger{
     background: #B21E3D;
