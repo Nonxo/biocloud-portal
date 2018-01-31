@@ -5,6 +5,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {AppConfigComponent} from "./app-config.component";
 import {SetupComponent} from "./setup/setup.component";
+import { AddAttendeesComponent } from './add-attendees/add-attendees.component';
+import { GroupAttendeesComponent } from './group-attendees/group-attendees.component';
 
 const routes: Routes = [
     {
@@ -14,6 +16,15 @@ const routes: Routes = [
             {
                 path:'',
                 component: SetupComponent
+            },
+            {
+                path:'add-attendees',
+                component: AddAttendeesComponent
+            }
+            ,
+            {
+                path:'group-attendees',
+                component: GroupAttendeesComponent
             }
         ]
     }
