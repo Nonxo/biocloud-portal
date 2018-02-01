@@ -44,10 +44,16 @@
                 </mat-select>
               </mat-form-field>
           </div>
-          <div class="col-md-6"  *ngIf="specific_loc_input">
+          <div class="col-md-4"  *ngIf="specific_loc_input">
             <mat-form-field class="input-field">
               <input matInput placeholder="Enter Organisation Address">
             </mat-form-field>
+          </div>
+          <div class="col-md-1 d-none d-md-block"  *ngIf="specific_loc_input">
+            <i class="material-icons loc-icon"  matTooltip="Use current Location">place</i>
+          </div>
+          <div class="col-md-1  d-none d-md-block"  *ngIf="specific_loc_input">
+              <i class="material-icons loc-icon"  matTooltip="Use a map">public</i>
           </div>
           <div class="col-md-6" *ngIf="resumption">
             <mat-form-field class="input-field">
