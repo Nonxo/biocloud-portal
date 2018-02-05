@@ -1,0 +1,69 @@
+<div class="container py-5">
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card>
+          <div class="row px-md-3 p-0">
+  
+            <div class="col-md-12">
+                <h6 class="text-brand">Add Attendees</h6>
+            </div>
+  
+            <div class="col-md-12">
+                <div><small>Add By:</small></div>
+                <div class="btn-group curve mb-3">
+                    <label class="btn btn-md" *ngFor="let add of addBy; let idx=index"
+                           [ngClass]="{'btn-primary': add.checked}">
+                      <input type="radio" autocomplete="off" name="addToggle"  [checked]="add.checked" [value]="add.name"  (click)="changeAdd(idx)">
+                      {{add.name}}
+                    </label>
+                  </div>
+            </div>
+          </div>
+          <div class="row px-md-3 p-0" *ngIf="invites">
+              <div class="col-md-5">
+                <mat-form-field class="input-field">
+                  <input matInput placeholder="Enter Organisation Address">
+                </mat-form-field>
+              </div>
+              <div class="col-md-5">
+                  <mat-form-field class="input-field">
+                    <mat-select placeholder="Select Location">
+                      <mat-option value="option">Option</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+              </div>
+              
+              <div class="col-md-2">
+                <button mat-raised-button class="btn-block" color="accent">
+                  INVITE
+                </button>
+              </div>
+
+              <div class="col-md-12 text-right  mt-3 mt-md-0">
+                  <button mat-mini-fab color="accent">
+                    <mat-icon>add</mat-icon>
+                  </button>
+              </div>
+          </div>
+
+          <div class="row  p-md-3 p-0" *ngIf="bulk">
+            <div class="col-md-6 mb-4">
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. 
+            </div>
+            <div class="col-md-6"></div>
+            <div class="col-md-2 my-2">
+              <button mat-raised-button color="warning" class="mat-btn">DOWNLOAD EXCEL</button>
+            </div>
+            <div class="col-md-2 my-2">
+                <button mat-raised-button color="accent" class="mat-btn">UPLOAD EXCEL</button>
+              </div>
+          </div>
+        </mat-card>
+      </div>
+  
+      <div class="col-md-12 pt-4 text-right">
+          <button mat-button class="mat-btn">BACK</button>
+          <button mat-raised-button color="primary" class="mat-btn">PROCEED</button>
+      </div>
+    </div>
+  </div>

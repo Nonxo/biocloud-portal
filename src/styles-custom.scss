@@ -95,10 +95,15 @@ mat-card.logo-carousel{
 
 mat-card.auth{
     min-height:600px;
-    border-radius: 0 12px 12px 0;
+    border-radius: 0 12px 12px 0 !important;
     box-shadow: 0 0 30px #808080 !important;
 
 }
+
+mat-card{
+    border-radius: 5px !important;
+}
+
 .mat-tab-group.mat-primary .mat-ink-bar{
     height: 3px;
     background-color: mat-color($candy-app-accent) !important;
@@ -126,7 +131,9 @@ mat-card.auth{
     color:#fff;
 }
 
-
+.text-brand{
+    color:mat-color($candy-app-primary) !important;
+}
 
 .btn-danger{
     background: #B21E3D;
@@ -134,10 +141,10 @@ mat-card.auth{
 }
 
 
-@media screen and (max-width: 575.98px){
+@media (max-width: 575.98px){
     mat-card.auth{
         min-height:auto;
-        border-radius: 12px;
+        border-radius: 12px !important;
     
     }
 }
