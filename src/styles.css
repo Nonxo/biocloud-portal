@@ -44,3 +44,26 @@ body, html{
     padding-left: 1.5rem !important;
     font-size: 16px !important;
 }
+
+.cursor{
+    cursor: pointer; 
+}
+
+.modal-backdrop {
+    z-index: 5 !important;
+}
+.modal{
+    z-index: 5 !important; 
+}
+.modal-dialog {
+    min-height: calc(100vh - 130px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: auto;
+}
+@media(max-width: 768px) {
+  .modal-dialog {
+    min-height: calc(100vh - 20px);
+  }
+}
