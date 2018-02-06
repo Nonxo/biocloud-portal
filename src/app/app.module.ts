@@ -14,7 +14,8 @@ import { DataService } from './service/data.service';
 import { AuthService } from './components/auth/auth.service';
 import { StorageService } from './service/storage.service';
 import { NotifyService } from './service/notify.service';
-
+import { AppRoutingModule } from './app-routing.module';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -24,9 +25,11 @@ import { NotifyService } from './service/notify.service';
     LoginComponent,
   ],
   imports: [
-    BrowserModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule
   ],
   providers: [
     AuthService,
