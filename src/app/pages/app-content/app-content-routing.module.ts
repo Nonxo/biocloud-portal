@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {AppContentComponent} from "./app-content.component";
 import {HomeComponent} from "./home/home.component";
+import { SubscribeComponent } from './subscribe/subscribe.component';
 
 const routes: Routes = [
     {
@@ -19,7 +20,12 @@ const routes: Routes = [
             {
                 path: 'config',
                 loadChildren: 'app/pages/app-content/app-config/app-config.module#AppConfigModule'
+            },
+            {
+                path:'subscribe',
+                component:SubscribeComponent
             }
+            
         ]
     }
 ];

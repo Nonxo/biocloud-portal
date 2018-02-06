@@ -15,7 +15,7 @@ $mat-mcprimary: (
     A100 : #607dff,
     A200 : #2d54ff,
     A400 : #002ef9,
-    A700 : #FFFFFF,
+    A700 : #808080,
     contrast: (
         50 : #000000,
         100 : #000000,
@@ -131,13 +131,47 @@ mat-card{
     color:#fff;
 }
 
-.text-brand{
+.text-brand, a{
     color:mat-color($candy-app-primary) !important;
+}
+
+a:hover{
+    text-decoration: none;
 }
 
 .btn-danger{
     background: #B21E3D;
     border: 0;
+}
+
+
+
+.list-group-item.active {
+    background-color: mat-color($candy-app-accent, 500) !important; 
+    border-color: mat-color($candy-app-accent, 500) !important; 
+    color: #fff !important;
+}
+
+.badge-accent {
+    color: #fff;
+    background-color: mat-color($candy-app-primary) !important;
+}
+
+.add-loc{
+    color: mat-color($candy-app-accent, 500) !important;
+    opacity:0.5;
+}
+
+.big-font{
+    font-size: 115px;
+}
+
+.designed-loc{
+    color:#e6e9ea;
+}
+
+.modal-backdrop {
+    background-color: mat-color($candy-app-primary) !important;
 }
 
 
