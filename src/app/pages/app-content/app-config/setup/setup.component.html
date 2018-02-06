@@ -1,0 +1,76 @@
+<div class="container py-5">
+  <div class="row">
+    <div class="col-md-12">
+      <mat-card>
+        <div class="row p-md-3 p-0">
+          <div class="col-md-12">
+              <h6 class="text-brand">BioCloud Details</h6>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="input-field">
+              <input matInput placeholder="Organisation Name">
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+              <mat-form-field class="input-field">
+                <mat-select placeholder="Type of Organisation">
+                  <mat-option value="option">Option</mat-option>
+                </mat-select>
+              </mat-form-field>
+          </div>
+
+          <div class="col-md-12 pt-5">
+              <h6 class="text-brand">Add Location</h6>
+          </div>
+
+          <div class="col-md-6">
+              <mat-form-field class="input-field">
+                <mat-select placeholder="Location Type" (change)="locationChange($event)">
+                  <mat-option *ngFor="let locType of locationTypes" value="{{locType.value}}" >{{locType.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+          </div>
+          <div class="col-md-6" *ngIf="country">
+              <mat-form-field class="input-field">
+                <mat-select placeholder="Select Country">
+                  <mat-option value="option">Option</mat-option>
+                </mat-select>
+              </mat-form-field>
+          </div>
+          <div class="col-md-6" *ngIf="state">
+              <mat-form-field class="input-field">
+                <mat-select placeholder="Select State">
+                  <mat-option value="option">Option</mat-option>
+                </mat-select>
+              </mat-form-field>
+          </div>
+          <div class="col-md-4"  *ngIf="specific_loc_input">
+            <mat-form-field class="input-field">
+              <input matInput placeholder="Enter Organisation Address">
+            </mat-form-field>
+          </div>
+          <div class="col-md-1 d-none d-md-block"  *ngIf="specific_loc_input">
+            <i class="material-icons loc-icon"  matTooltip="Use current Location">place</i>
+          </div>
+          <div class="col-md-1  d-none d-md-block"  *ngIf="specific_loc_input">
+              <i class="material-icons loc-icon"  matTooltip="Use a map">public</i>
+          </div>
+          <div class="col-md-6" *ngIf="resumption">
+            <mat-form-field class="input-field">
+              <input matInput placeholder="Resumption Time">
+            </mat-form-field>
+          </div>
+          <div class="col-md-12 text-right">
+              <button mat-mini-fab color="accent">
+                <mat-icon>add</mat-icon>
+              </button>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+
+    <div class="col-md-12 pt-4 text-right">
+        <button mat-raised-button color="primary" class="mat-btn">PROCEED</button>
+    </div>
+  </div>
+</div>
