@@ -39,7 +39,8 @@ import {NavComponent} from '../components/nav/nav.component';
 import {RouterModule} from "@angular/router";
 import { 
     ModalModule ,
-    PopoverModule 
+    PopoverModule,
+    CarouselModule 
 } from 'ngx-bootstrap';
 
 
@@ -83,7 +84,8 @@ import {
         ReactiveFormsModule,
         RouterModule,
         ModalModule.forRoot(),
-        PopoverModule.forRoot()
+        PopoverModule.forRoot(),
+        CarouselModule.forRoot()
     ],
     exports: [
         CdkTableModule,
@@ -122,7 +124,10 @@ import {
         MatNativeDateModule,
         ReactiveFormsModule,
         NavComponent,
-        RouterModule
+        RouterModule,
+        ModalModule,
+        PopoverModule,
+        CarouselModule
         
     ],
     declarations: [NavComponent]

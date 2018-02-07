@@ -7,6 +7,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {AppContentComponent} from "./app-content.component";
 import {HomeComponent} from "./home/home.component";
 import { SubscribeComponent } from './subscribe/subscribe.component';
+import { SubscriptionHistoryComponent } from './subscription-history/subscription-history.component';
 
 const routes: Routes = [
     {
@@ -24,6 +25,10 @@ const routes: Routes = [
             {
                 path:'subscribe',
                 component:SubscribeComponent
+            },
+            {
+                path:'subscription-history',
+                component:SubscriptionHistoryComponent
             }
             
         ]
