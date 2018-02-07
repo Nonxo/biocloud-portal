@@ -11,6 +11,10 @@ body, html{
     width: 100%;
 }
 
+.alignment{
+    vertical-align: middle;
+}
+
 .auth-btn{
     border-radius: 50px !important;
     padding: 5px 15px !important;
@@ -49,6 +53,22 @@ body, html{
     cursor: pointer; 
 }
 
+.carousel,.carousel-inner{
+    height: 100% !important;
+}
+
+.sticky-right{
+    position: fixed;
+    position: -webkit-sticky;
+    right: 0;
+}
+
+.sticky-left{
+    position: fixed;
+    position: -webkit-sticky;
+    left: 0;
+}
+
 .modal-backdrop {
     z-index: 5 !important;
 }
@@ -62,6 +82,18 @@ body, html{
     justify-content: center;
     overflow: auto;
 }
+
+.list-group-item{
+    border:0;
+    margin-bottom:0;
+    border-bottom: 1px solid rgba(0,0,0,0.125);
+    border-radius: 0;
+}
+
+.list-group-item:first-child{
+    border-top: 1px solid rgba(0,0,0,0.125);
+}
+
 @media(max-width: 768px) {
   .modal-dialog {
     min-height: calc(100vh - 20px);

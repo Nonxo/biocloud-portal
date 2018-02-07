@@ -5,6 +5,7 @@ import {HomeComponent} from "./home/home.component";
 import {SharedModule} from "../../shared/shared.module";
 import {CommonModule} from '@angular/common';
 import { SubscribeComponent } from './subscribe/subscribe.component';
+import { SubscriptionHistoryComponent } from './subscription-history/subscription-history.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { SubscribeComponent } from './subscribe/subscribe.component';
   declarations: [
     HomeComponent,
     AppContentComponent,
-    SubscribeComponent
+    SubscribeComponent,
+    SubscriptionHistoryComponent
   ]
 })
 export class AppContentModule { }
