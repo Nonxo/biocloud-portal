@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NotifyService } from '../../../service/notify.service';
+import { AuthService } from '../auth.service';
+import { RegisterModel } from './register.model';
 
 @Component({
   selector: 'app-register',
@@ -7,27 +10,44 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor() { }
+  company = false;
+  model: RegisterModel = {
+    email: 'a@b.c',
+    companyName: 'company name',
+    fName: 'banky',
+    lName: 'slacks',
+    password: 'testing',
+    phone: '08099223322',
+    role: 'ADMIN'
+  };
+
+  whom = [
+    {name: 'INDIVIDUAL', checked: true},
+    {name: 'CORPORATE', checked: false}
+  ];
+
+  constructor(private authService: AuthService, private ns: NotifyService) {
+  }
 
   ngOnInit() {
   }
-
-  company: boolean = false;
-
-  whom = [
-    {name: "INDIVIDUAL", checked: true},
-    {name: "CORPERATE", checked: false}
-  ];
 
   changeWho(index) {
     this.whom[0].checked = false;
     this.whom[1].checked = false;
     this.whom[index].checked = true;
 
-    if (index === 0) {
-      this.company = false;
-    } else {
-      this.company = true;
-    }
+    this.company = index !== 0;
+  }
+
+  register() {
+    this.authService.register(this.model).subscribe(
+      res => {
+        console.log(res);
+      }, err => {
+        console.log(err);
+        this.ns.showError('Failed');
+      }
+    );
   }
 }
