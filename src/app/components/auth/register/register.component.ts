@@ -11,6 +11,7 @@ import { RegisterModel } from './register.model';
 export class RegisterComponent implements OnInit {
 
   company = false;
+  hide:boolean;
   model: RegisterModel = {
     email: 'a@b.c',
     companyName: 'company name',
