@@ -7,7 +7,6 @@ import { NotifyService } from '../../../service/notify.service';
 import { StorageService } from '../../../service/storage.service';
 import { AuthService } from '../auth.service';
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -72,7 +71,7 @@ export class LoginComponent implements OnInit {
         res => {
           console.log(res);
           if (res.code == 0) {
-
+            this.ns.showSuccess(res.description);
           } else {
             this.ns.showError(res.description);
           }

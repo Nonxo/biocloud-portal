@@ -36,7 +36,7 @@ export class AuthService {
     const params = new URLSearchParams();
     params.set('email', email);
 
-    return this.httpClient.put(Endpoints.FORGOT_PASSWORD, params.toString(), {
+    return this.httpClient.post(Endpoints.FORGOT_PASSWORD, params.toString(), {
       headers: this.urlEncodeHeader
     });
   }
