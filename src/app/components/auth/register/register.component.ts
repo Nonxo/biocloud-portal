@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import 'rxjs/add/operator/finally';
 import { NotifyService } from '../../../service/notify.service';
 import { AuthService } from '../auth.service';
-import { RegisterModel } from './register.model';
 
 @Component({
   selector: 'app-register',
@@ -10,44 +11,60 @@ import { RegisterModel } from './register.model';
 })
 export class RegisterComponent implements OnInit {
 
+  form: FormGroup;
   company = false;
-  model: RegisterModel = {
-    email: 'a@b.c',
-    companyName: 'company name',
-    fName: 'banky',
-    lName: 'slacks',
-    password: 'testing',
-    phone: '08099223322',
-    role: 'ADMIN'
-  };
+  loading = false;
 
-  whom = [
+  userTypes: Array<{ name, checked }> = [
     {name: 'INDIVIDUAL', checked: true},
     {name: 'CORPORATE', checked: false}
   ];
 
-  constructor(private authService: AuthService, private ns: NotifyService) {
+  constructor(private authService: AuthService, private ns: NotifyService, private fb: FormBuilder) {
   }
 
   ngOnInit() {
+    this.form = this.fb.group({
+      companyName: ['', Validators.required],
+      fName: ['', Validators.required],
+      lName: ['', Validators.required],
+      phone: ['', Validators.required],
+      email: ['', Validators.email],
+      password: ['', Validators.required]
+    });
+
+    // disable validation for company name when it is invisible initially
+    this.form.controls.companyName.disable();
   }
 
-  changeWho(index) {
-    this.whom[0].checked = false;
-    this.whom[1].checked = false;
-    this.whom[index].checked = true;
+  changeUserType(index) {
+    this.userTypes[0].checked = false;
+    this.userTypes[1].checked = false;
+    this.userTypes[index].checked = true;
 
     this.company = index !== 0;
+    if (this.company) {
+      this.form.controls.companyName.enable();
+    }
   }
 
   register() {
-    this.authService.register(this.model).subscribe(
-      res => {
-        console.log(res);
-      }, err => {
-        console.log(err);
-        this.ns.showError('Failed');
-      }
-    );
+    this.loading = true;
+    const payload = this.form.value;
+    this.company ? payload.customerType = 'C' : payload.customerType = 'I';
+    this.authService.register(payload)
+      .finally(() => this.loading = false)
+      .subscribe(
+        res => {
+          console.log(res);
+          if (res.code == 0) {
+
+          } else {
+            this.ns.showError(res.description);
+          }
+        }, err => {
+          this.ns.showError(err ? '' : err.description);
+        }
+      );
   }
 }

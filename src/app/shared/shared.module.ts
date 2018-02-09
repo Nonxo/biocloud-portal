@@ -36,13 +36,13 @@ import {
 } from '@angular/material';
 import {CdkTableModule} from '@angular/cdk/table';
 import {NavComponent} from '../components/nav/nav.component';
-import {RouterModule} from "@angular/router";
-import { 
+import {RouterModule} from '@angular/router';
+import {
     ModalModule ,
     PopoverModule,
-    CarouselModule 
+    CarouselModule
 } from 'ngx-bootstrap';
-
+import { AlertModule } from 'ngx-alerts';
 
 @NgModule({
     imports: [
@@ -85,7 +85,8 @@ import {
         RouterModule,
         ModalModule.forRoot(),
         PopoverModule.forRoot(),
-        CarouselModule.forRoot()
+        CarouselModule.forRoot(),
+        AlertModule.forRoot({maxMessages: 5, timeout: 5000})
     ],
     exports: [
         CdkTableModule,
@@ -127,8 +128,9 @@ import {
         RouterModule,
         ModalModule,
         PopoverModule,
-        CarouselModule
-        
+        CarouselModule,
+        AlertModule
+
     ],
     declarations: [NavComponent]
 })

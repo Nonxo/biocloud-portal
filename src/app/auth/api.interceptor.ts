@@ -5,10 +5,10 @@ import * as moment from 'moment';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/timeout';
 import { Observable } from 'rxjs/Observable';
 import { DataService } from '../service/data.service';
 import { StorageService } from '../service/storage.service';
-import 'rxjs/add/operator/timeout';
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
@@ -17,18 +17,20 @@ export class ApiInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log(`Intercepting request ${req.method} ${req.url}`);
+    // console.log(`Intercepting request ${req.method} ${req.url}`);
+
+    const loggedInUserEmail = this.ss.getLoggedInUserEmail();
 
     const authReq = req.clone({
       headers: req.headers
         .set('br-auth-key', this.ss.authToken || '')
         .set('br-client-type', 'portal')
-        .set('br-tag', this.ss.getLoggedInUserEmail())
+        .set('br-tag', loggedInUserEmail)
         .set('br-time', moment().toDate().getTime().toString())
     });
 
     return next.handle(authReq)
-      // .timeout(60000)
+    // .timeout(60000)
       .map((value) => {
         const type = value.constructor.name;
 
@@ -42,7 +44,7 @@ export class ApiInterceptor implements HttpInterceptor {
         return value;
       })
       .catch((err, caught) => {
-        console.log(`Error occured ${err}`);
+        console.log(`Error occurred ${err}`);
         return Observable.throw(err);
       });
   }
