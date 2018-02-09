@@ -10,20 +10,22 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 export class HomeComponent implements OnInit {
 
   modalRef: BsModalRef;
-  constructor(private modalService: BsModalService) {}
- 
+
+  constructor(private modalService: BsModalService) {
+  }
+
   ngOnInit() {
   }
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
-  
-  workspaces=[
-    {name: "Seamfix Nig LTD", hits: "02", active:true},
-    {name: "Hitman Organisation", hits: "19", active:false},
-    {name: "Halo - Ubisoft", hits: "35", active:false}
-  ]
+
+  workspaces = [
+    {name: 'Seamfix Nig LTD', hits: '02', active: true},
+    {name: 'Hitman Organisation', hits: '19', active: false},
+    {name: 'Halo - Ubisoft', hits: '35', active: false}
+  ];
 
 
 }

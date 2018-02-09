@@ -1,26 +1,47 @@
-<form class="pt-5">
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-12">
-        <mat-form-field class="input-field">
-          <input matInput placeholder="Email">
-        </mat-form-field>
-      </div>
-      
+<form class="pt-5" [formGroup]="loginForm" (submit)="login()">
+  <div class="container-fluid">
+    <div class="row">
       <div class="col-12">
         <mat-form-field class="input-field">
-          <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'">
+          <input matInput placeholder="Email" formControlName="email" autofocus>
+        </mat-form-field>
+      </div>
+
+      <div class="col-12">
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" formControlName="pw">
           <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
         </mat-form-field>
       </div>
-    
-      <div class="col-12 text-right pt-3 pb-4"> 
-        <small>CAN'T REMEMBER PASSWORD</small>
+
+      <div class="col-12 text-right pt-3 pb-4">
+        <small (click)="openModal(template)" class="cursor">CAN'T REMEMBER PASSWORD?</small>
       </div>
-    
+
       <div class="col-md-12">
-          <button mat-raised-button color="accent" class="auth-btn">LOGIN</button>
-      </div>     
+        <button type="submit" mat-raised-button color="accent" class="auth-btn" [disabled]="loginForm.invalid || loading">LOGIN</button>
+      </div>
+    </div>
   </div>
-</div>
 </form>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Forgot Password?</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form (submit)="forgotPassword()" [formGroup]="resetForm">
+      <div class="col-md-12">
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Email" type="email" formControlName="email">
+        </mat-form-field>
+      </div>
+      <div class="col-md-12 text-right">
+        <button mat-raised-button color="accent" class="auth-btn" [disabled]="resetForm.invalid || loading">SEND</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

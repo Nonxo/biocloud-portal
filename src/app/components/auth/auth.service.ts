@@ -2,26 +2,43 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Endpoints } from '../../util/endpoints';
-import { RegisterModel } from './register/register.model';
 
 @Injectable()
 export class AuthService {
 
+  staticAuthKey = '57662cef-cd4a-4e5b-87dc-f0ef7481ef84';
+  urlEncodeHeader = {
+    'sc-auth-key': this.staticAuthKey,
+    'Content-Type': 'application/x-www-form-urlencoded'
+  };
+
   constructor(private httpClient: HttpClient) {
   }
 
-  login(username, password): Observable<any> {
-    const body = {username, password};
-    return this.httpClient.post(Endpoints.LOGIN, body);
+  login(email, pw): Observable<any> {
+    const params = new URLSearchParams();
+    params.set('email', email);
+    params.set('pw', pw);
+
+    return this.httpClient.post(Endpoints.LOGIN, params.toString(), {
+      headers: this.urlEncodeHeader
+    });
   }
 
-  register(registerModel: RegisterModel): Observable<any> {
-    return this.httpClient.post(Endpoints.REGISTER, registerModel, {headers: {'sc-auth-key': '57662cef-cd4a-4e5b-87dc-f0ef7481ef84'}}).map((res: Response) => res.json());
+  register(registerPayload): Observable<any> {
+    return this.httpClient.post(Endpoints.REGISTER, registerPayload, {
+        headers: {'sc-auth-key': this.staticAuthKey}
+      }
+    );
   }
 
-  forgotPassword(username, password) {
-    const body = {username, password};
-    this.httpClient.post(`${Endpoints.FORGOT_PASSWORD}`, body).subscribe();
+  forgotPassword(email): Observable<any> {
+    const params = new URLSearchParams();
+    params.set('email', email);
+
+    return this.httpClient.put(Endpoints.FORGOT_PASSWORD, params.toString(), {
+      headers: this.urlEncodeHeader
+    });
   }
 
   test() {
