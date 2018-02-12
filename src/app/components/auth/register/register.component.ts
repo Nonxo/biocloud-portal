@@ -4,6 +4,7 @@ import 'rxjs/add/operator/finally';
 import { NotifyService } from '../../../service/notify.service';
 import { AuthService } from '../auth.service';
 import {Constants} from "../../../util/constants";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-register',
@@ -27,7 +28,7 @@ export class RegisterComponent implements OnInit {
     {name: 'CORPORATE', checked: false}
   ];
 
-  constructor(private authService: AuthService, private ns: NotifyService, private fb: FormBuilder) {
+  constructor(private authService: AuthService,private router: Router, private ns: NotifyService, private fb: FormBuilder) {
   }
 
   ngOnInit() {
@@ -96,7 +97,7 @@ export class RegisterComponent implements OnInit {
         .subscribe(
             res => {
               if (res.code == 0) {
-
+                this.router.navigate(['/portal']);
               } else {
                 this.ns.showError(res.description);
                 this.resetCaptcha();
