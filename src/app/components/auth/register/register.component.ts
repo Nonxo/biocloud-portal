@@ -15,6 +15,7 @@ export class RegisterComponent implements OnInit {
   company = false;
   loading = false;
   hide: boolean;
+  show: boolean;
 
   userTypes: Array<{ name, checked }> = [
     {name: 'INDIVIDUAL', checked: true},
