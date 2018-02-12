@@ -41,6 +41,15 @@ export class AuthService {
     });
   }
 
+  validateCaptcha(token): Observable<any> {
+    const params = new URLSearchParams();
+    params.set('resp', token);
+
+    return this.httpClient.post(Endpoints.VERIFY_CAPTCHA, params.toString(), {
+      headers: this.urlEncodeHeader
+    });
+  }
+
   test() {
     this.httpClient.get('https://jsonplaceholder.typicode.com/posts')
       .subscribe(

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import 'rxjs/add/operator/finally';
 import { NotifyService } from '../../../service/notify.service';
 import { AuthService } from '../auth.service';
+import {Constants} from "../../../util/constants";
 
 @Component({
   selector: 'app-register',
@@ -16,6 +17,10 @@ export class RegisterComponent implements OnInit {
   loading = false;
   hide: boolean;
   show: boolean;
+  recaptchaSiteKey:string = Constants.SITE_KEY;
+  captchaResponse:string;
+  payload:any;
+  @ViewChild('cap') public recaptchaInstance;
 
   userTypes: Array<{ name, checked }> = [
     {name: 'INDIVIDUAL', checked: true},
@@ -52,21 +57,56 @@ export class RegisterComponent implements OnInit {
 
   register() {
     this.loading = true;
-    const payload = this.form.value;
-    this.company ? payload.customerType = 'C' : payload.customerType = 'I';
-    this.authService.register(payload)
-      .finally(() => this.loading = false)
-      .subscribe(
-        res => {
-          console.log(res);
-          if (res.code == 0) {
+    this.payload = this.form.value;
+    this.company ? this.payload.customerType = 'C' : this.payload.customerType = 'I';
 
-          } else {
-            this.ns.showError(res.description);
-          }
-        }, err => {
-          this.ns.showError(err ? '' : err.description);
-        }
-      );
+    if(this.captchaResponse) {
+      this.validateCaptcha();
+    } else {
+      this.resetCaptcha();
+      this.ns.showError("Error Validating Captcha");
+    }
+    
   }
+
+  resolved(captchaResponse: string) {
+    console.log(`Resolved captcha with response ${captchaResponse}:`);
+    this.captchaResponse = captchaResponse;
+  }
+  
+  validateCaptcha() {
+    this.authService.validateCaptcha(this.captchaResponse)
+        .subscribe(
+            res => {
+              if (res.code == 0) {
+                  this.registerUser();
+              } else {
+                this.ns.showError(res.description);
+                this.resetCaptcha();
+              }
+
+            },
+            error => {this.ns.showError(error ? '' : error.description); this.resetCaptcha();}
+        )
+  }
+  
+  registerUser() {
+    this.authService.register(this.payload)
+        .finally(() => this.loading = false)
+        .subscribe(
+            res => {
+              if (res.code == 0) {
+
+              } else {
+                this.ns.showError(res.description);
+                this.resetCaptcha();
+              }
+            }, error => {this.ns.showError(error ? '' : error.description); this.resetCaptcha();}
+        );
+  }
+
+  resetCaptcha() {
+    this.recaptchaInstance.reset();
+  }
+
 }
