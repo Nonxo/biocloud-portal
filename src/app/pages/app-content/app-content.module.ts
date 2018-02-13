@@ -8,6 +8,7 @@ import { SubscribeComponent } from './subscribe/subscribe.component';
 import { SubscriptionHistoryComponent } from './subscription-history/subscription-history.component';
 import {SideNavComponent} from "../../components/side-nav/side-nav.component";
 import {AppContentService} from "./services/app-content.service";
+import {MessageService} from "../../service/message.service";
 
 @NgModule({
   imports: [
@@ -22,6 +23,6 @@ import {AppContentService} from "./services/app-content.service";
     SubscriptionHistoryComponent,
     SideNavComponent
   ],
-  providers: [AppContentService]
+  providers: [AppContentService, MessageService]
 })
 export class AppContentModule { }

@@ -43,4 +43,16 @@ export class AppContentService {
 
     }
 
+    fetchOrgLocations(orgId:string): Observable<any> {
+        const params = new URLSearchParams();
+        params.set('orgId', orgId);
+
+        return this.httpClient
+            .get(Endpoints.FETCH_ORG_LOCATIONS + params, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', 'application/x-www-form-urlencoded')
+            })
+
+    }
+
 }
