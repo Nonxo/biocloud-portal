@@ -76,12 +76,8 @@ export class ApiInterceptor implements HttpInterceptor {
   logout(): void {
     // clear token remove user from local storage to log user out
 
-    sessionStorage.removeItem('_u');
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('br-auth-token');
-    localStorage.removeItem('bioRegistraData');
-    localStorage.removeItem('_bw');
-    localStorage.removeItem('_templates');
+    localStorage.removeItem('_u');
+    localStorage.removeItem('_tkn');
   }
 
 }

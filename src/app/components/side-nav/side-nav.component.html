@@ -1,0 +1,48 @@
+<div class="col-lg-2 col-md-4 d-none d-sm-block sidebar-fixed sticky-left bg-white">
+  <div class="row py-md-3">
+    <div class="col-md-8">
+      <small><b>ORGANIZATIONS</b></small>
+    </div>
+    <div class="col-md-4  d-flex justify-content-between align-items-center">
+      <i class="material-icons cursor" matTooltip="Create new organisation" (click)="openModal(template)">add_box</i>
+      <i class="material-icons cursor" matTooltip="Search for organisation">search</i>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="list-group w-100">
+      <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" *ngFor="let org of orgs" [ngClass]="{'active': org.selected}">
+        {{org.name}}
+        <span class="badge badge-accent badge-pill">{{org.hits}}</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h5 class="modal-title pull-left">New organisation</h5>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="col-md-12">
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Organisation Name" name="orgName" [(ngModel)]="orgRequest.name">
+        </mat-form-field>
+      </div>
+      <div class="col-md-12">
+        <mat-form-field class="input-field">
+          <mat-select placeholder="Type of Organisation" [(ngModel)]="orgRequest.type">
+            <mat-option value="option">Option</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-12 text-right">
+        <button mat-raised-button color="accent" class="auth-btn" (click)="saveOrg()">PROCEED</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
