@@ -52,6 +52,11 @@
         </mat-form-field>
       </div>
 
+      <div class="col-md-6 col-12">
+        <re-captcha #cap (resolved)="resolved($event)"
+                    siteKey="{{recaptchaSiteKey}}"></re-captcha>
+      </div>
+
       <div class="col-12 pt-5 pb-5"></div>
 
 

@@ -18,6 +18,7 @@ import { AppRoutingModule } from './app-routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {RecaptchaModule} from "ng-recaptcha";
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -35,6 +36,7 @@ export function createTranslateLoader(http: HttpClient) {
     SharedModule,
     BrowserModule,
     BrowserAnimationsModule,
+    RecaptchaModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
