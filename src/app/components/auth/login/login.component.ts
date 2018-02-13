@@ -58,16 +58,14 @@ export class LoginComponent implements OnInit {
                     console.log(res);
                     if (res.code == 0) {
                         this.ss.authToken = res.token;
-                        this.ss.loggedInUser = res.user;
+                        this.ss.loggedInUser = res.bioUser;
 
                         this.router.navigate(['/portal']);
                     } else {
                         this.ns.showError(res.description);
                     }
                 },
-                error => {
-
-                }
+                error => {}
             );
     }
 

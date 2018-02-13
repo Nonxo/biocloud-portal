@@ -3,29 +3,47 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class StorageService {
 
-  private _authToken: string;
-  private _loggedInUser: any;
-
   get loggedInUser(): any {
-    return this._loggedInUser;
+    let obj = JSON.parse(localStorage.getItem('_u'));
+    return obj? obj: null;
   }
 
   set loggedInUser(value: any) {
-    this._loggedInUser = value;
-
-    localStorage.setItem('user', JSON.stringify(value));
+    localStorage.setItem('_u', JSON.stringify(value));
   }
 
   get authToken(): string {
-    return this._authToken;
+    let obj = JSON.parse(localStorage.getItem('_tkn'));
+    return obj? obj: null;
   }
 
   set authToken(value: string) {
-    this._authToken = value;
+    localStorage.setItem('_tkn', JSON.stringify(value));
   }
 
   getLoggedInUserEmail(): string {
-    return this.loggedInUser ? this.loggedInUser.username || '' : '';
+    let obj:any = JSON.parse(localStorage.getItem('_u'));
+    if (obj) {
+      return obj.email? obj.email: '';
+    }
+    return '';
+  }
+
+  getUserId():string {
+    let obj:any = JSON.parse(localStorage.getItem('_u'));
+    if (obj) {
+      return obj.userId? obj.userId: '';
+    }
+    return '';
+  }
+
+  cacheUsersOrg(value:any) {
+    localStorage.setItem("_orgs", JSON.stringify(value));
+  }
+  
+  getUsersOrg() {
+    let obj:any = JSON.parse(localStorage.getItem('_orgs'));
+    return obj? obj: null;
   }
 
 }
