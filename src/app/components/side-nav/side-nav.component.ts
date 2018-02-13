@@ -4,6 +4,7 @@ import {CreateOrgRequest} from "../../pages/app-content/model/app-content.model"
 import {StorageService} from "../../service/storage.service";
 import {AppContentService} from "../../pages/app-content/services/app-content.service";
 import {NotifyService} from "../../service/notify.service";
+import {MessageService} from "../../service/message.service";
 
 @Component({
     selector: 'app-side-nav',
@@ -14,16 +15,19 @@ export class SideNavComponent implements OnInit {
 
     modalRef:BsModalRef;
     orgRequest:CreateOrgRequest = new CreateOrgRequest();
-    orgs = [
+    orgs:any = [
         {name: 'Seamfix Nig LTD', hits: '02', active: true},
         {name: 'Hitman Organisation', hits: '19', active: false},
         {name: 'Halo - Ubisoft', hits: '35', active: false}
     ];
+    selectedOrg:string;
+    selectedOrgIndex:number;
 
     constructor(private modalService:BsModalService,
                 private ss:StorageService,
                 private contentService:AppContentService,
-                private ns:NotifyService) {
+                private ns:NotifyService,
+                private mService:MessageService) {
     }
 
     ngOnInit() {
@@ -86,14 +90,28 @@ export class SideNavComponent implements OnInit {
                         this.ns.showError(result.description);
                     }
                 },
-                error => {
-                    this.ns.showError("An Error Occurred.");
-                }
+                error => {this.ns.showError("An Error Occurred.");}
             )
     }
 
     cacheOrg() {
         this.ss.cacheUsersOrg(this.orgs);
+    }
+
+    selectOrg(orgId:string, index:number) {
+        //change selected state
+        this.changeSelectedState(orgId, index);
+        this.mService.setSelectedOrg(orgId);
+    }
+
+    changeSelectedState(orgId:string, index:number) {
+        if(this.selectedOrg && this.selectedOrgIndex >= 0) {
+            this.orgs[this.selectedOrgIndex].selected = false;
+        }
+
+        this.selectedOrg = orgId;
+        this.selectedOrgIndex = index;
+        this.orgs[this.selectedOrgIndex].selected = true;
     }
 
 }

@@ -9,4 +9,5 @@ export class Endpoints {
   public static CREATE_ORG = `${Endpoints.BASE_URL}/users/api/org`;
   public static RETRIEVE_ORG_DETAILS = `${Endpoints.BASE_URL}/users/api/org/`;
   public static FETCH_USERS_ORG = `${Endpoints.BASE_URL}/users/api/u/`;
+  public static FETCH_ORG_LOCATIONS = `${Endpoints.BASE_URL}/users/api/locations?`;
 }
