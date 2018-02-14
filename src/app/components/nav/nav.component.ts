@@ -13,10 +13,25 @@ export class NavComponent implements OnInit {
     ngOnInit() {
     }
 
-    navs:Object[] = [
-        {name: "Home", route: "/portal"},
-        {name: "Reports", route: "/portal"},
-        {name: "Subscription", route: "/portal"}
-    ]
+    sidenavWidth = 16;
 
+    views:Object[] =[
+        {icon:"home",route:"Home", url:"/"},
+        {icon:"group",route:"Attendees", url:"/"},
+        {icon:"insert_chart",route:"Report", url:"/"},
+        {icon:"payment",route:"Subscribe", url:"/"}
+      ];
+    
+      increase(){
+        this.sidenavWidth = 16;
+        console.log("increase sidenav width");
+      }
+      decrease(){
+        this.sidenavWidth = 4;
+        console.log("decrease sidenav width");
+      }
+
+     
+
+    
 }

@@ -1,4 +1,8 @@
 @import '~@angular/material/theming';
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+$font-stack : 'Montserrat', sans-serif;
+
 @include mat-core();
 
 $mat-mcprimary: (
@@ -12,9 +16,9 @@ $mat-mcprimary: (
     700 : #0e1c3c,
     800 : #0b1733,
     900 : #060d24,
-    A100 : #607dff,
-    A200 : #2d54ff,
-    A400 : #002ef9,
+    A100 : #f9f9f9,
+    A200 : #efefef,
+    A400 : #ffffff,
     A700 : #808080,
     contrast: (
         50 : #000000,
@@ -83,20 +87,24 @@ $red: "#B21E3D";
 
 @include angular-material-theme($candy-app-theme);
 
+html, body{
+    font-family: $font-stack !important;
+}
+
 
 mat-card.logo-carousel{
     min-height:640px;
     background-color: mat-color($candy-app-primary) !important; 
     color: mat-color($candy-app-primary, A700) !important; 
     border-radius: 12px;
-    box-shadow: 0 0 30px #808080 !important;
+    box-shadow: 0 0 30px mat-color($candy-app-primary, A700) !important; 
     z-index:1;
 }
 
 mat-card.auth{
     min-height:600px;
     border-radius: 0 12px 12px 0 !important;
-    box-shadow: 0 0 30px #808080 !important;
+    box-shadow: 0 0 30px mat-color($candy-app-primary, A700) !important; 
 
 }
 
@@ -123,22 +131,26 @@ mat-card{
 
 .btn-primary{
     background-color: mat-color($candy-app-primary) !important;
-    border: 1px solid mat-color($candy-app-primary) !important;
+    border: 1px solid mat-color($candy-app-primary);
 }
 
 .btn-accent{
     background-color: mat-color($candy-app-accent, 500) !important;
     border: 1px solid mat-color($candy-app-accent, 500) !important;
-    color:#fff;
+    color:mat-color($candy-app-primary, A400) !important; 
 }
 
 .bg-brand{
     background-color: mat-color($candy-app-primary) !important;
-    color:#fff;
+    color:mat-color($candy-app-primary, A400) !important; 
 }
 
 .text-brand, a{
     color:mat-color($candy-app-primary) !important;
+}
+
+.bg-light-grey{
+    background-color:mat-color($candy-app-primary, A100) !important; 
 }
 
 a:hover{
@@ -146,7 +158,7 @@ a:hover{
 }
 
 .btn-danger{
-    background: #B21E3D;
+    background: $red;
     border: 0;
 }
 
@@ -155,11 +167,11 @@ a:hover{
 .list-group-item.active {
     background-color: mat-color($candy-app-accent, 500) !important; 
     border-color: mat-color($candy-app-accent, 500) !important; 
-    color: #fff !important;
+    color: mat-color($candy-app-primary, A400) !important; 
 }
 
 .badge-accent {
-    color: #fff;
+    color: mat-color($candy-app-primary, A400) !important; 
     background-color: mat-color($candy-app-primary) !important;
 }
 
@@ -178,6 +190,10 @@ a:hover{
 
 .modal-backdrop {
     background-color: mat-color($candy-app-primary) !important;
+}
+
+.mat-drawer-container {
+    background-color: mat-color($candy-app-primary, A200) !important; 
 }
 
 
