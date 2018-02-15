@@ -3,11 +3,12 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../../util/endpoints";
 import {LocationRequest} from "../model/app-config.model";
+import {StorageService} from "../../../../service/storage.service";
 
 @Injectable()
 export class AppConfigService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private ss: StorageService) { }
 
 
   fetchCountries(): Observable<any> {
@@ -36,8 +37,8 @@ export class AppConfigService {
     }
 
     saveLocation(model:LocationRequest): Observable<any> {
-        model.orgId = "a0ca5431-7228-44ca-9592-a5e321e87837";
-        model.createdBy = "elast@gustr.com";
+        model.orgId = this.ss.getSelectedOrg();
+        model.createdBy = this.ss.getLoggedInUserEmail();
 
         return this.httpClient
             .post(Endpoints.SAVE_LOCATION, JSON.stringify(model), {
