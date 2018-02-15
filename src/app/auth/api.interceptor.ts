@@ -78,6 +78,7 @@ export class ApiInterceptor implements HttpInterceptor {
 
     localStorage.removeItem('_u');
     localStorage.removeItem('_tkn');
+    localStorage.removeItem('_orgs');
   }
 
 }
