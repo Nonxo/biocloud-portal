@@ -16,13 +16,8 @@ import { StorageService } from './service/storage.service';
 import { NotifyService } from './service/notify.service';
 import { AppRoutingModule } from './app-routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {RecaptchaModule} from "ng-recaptcha";
 
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
 
 @NgModule({
   declarations: [
@@ -37,13 +32,6 @@ export function createTranslateLoader(http: HttpClient) {
     BrowserModule,
     BrowserAnimationsModule,
     RecaptchaModule.forRoot(),
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [HttpClient]
-      }
-    }),
     AppRoutingModule
   ],
   providers: [

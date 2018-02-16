@@ -1,0 +1,8 @@
+{
+  "ADD_ATTENDEES": {
+    "TITLE": "Add Attendees",
+    "ADD_MODE_TITLE": "Add By:",
+    "ADD_MODE_INVITE": "Invite",
+    "ADD_MODE_BULK": "Bulk"
+  }
+}
