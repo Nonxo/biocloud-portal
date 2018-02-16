@@ -118,7 +118,7 @@ export class SetupComponent implements OnInit {
                         this.ns.showSuccess("Location was successfully added");
                         this.router.navigate(['/portal/config/add-attendees'])
                     } else {
-                        this.ns.showSuccess(result.description);
+                        this.ns.showError(result.description);
                     }
                 },
                 error => {this.ns.showError("An Error Occurred");}
@@ -196,12 +196,12 @@ export class SetupComponent implements OnInit {
             })
     }
 
-    markerDragEnd($event:MouseEvent) {
+    markerDragEnd($event:any) {
         this.lat = $event.coords.lat;
         this.lng = $event.coords.lng;
     }
 
-    mapClicked($event:MouseEvent) {
+    mapClicked($event:any) {
         this.lat = $event.coords.lat;
         this.lng = $event.coords.lng;
     }

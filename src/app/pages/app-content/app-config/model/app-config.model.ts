@@ -4,7 +4,6 @@
 
 export class LocationRequest {
     locId:string;
-    orgId:string;
     longitude:number;
     latitude:number;
     radiusThreshold:number;
