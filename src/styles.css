@@ -43,6 +43,10 @@ body, html{
     display: none;
 } 
 
+button:focus {
+    outline: none !important;
+}
+
 
 .navbar-expand-lg .navbar-nav .nav-link {
     padding-right: 1.5rem !important;

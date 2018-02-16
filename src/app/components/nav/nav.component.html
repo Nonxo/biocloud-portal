@@ -1,39 +1,117 @@
-<div class="container-fluid bg-white px-md-5 py-md-2 nav-fixed">
-    <div class="row">
-        <div class="col-md-12 p-0">
-            <nav class="navbar navbar-expand-lg navbar-light">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                
-                <a class="navbar-brand" href="#"><img src="assets/img/logo.png"/></a>
-                
-                <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                        <li class="nav-item" *ngFor="let nav of navs">
-                            <a class="nav-link" routerLink="{{nav.route}}">{{nav.name}}</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" routerLink="#">Bal: <b class="accent-text">NGN 0.00</b></a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                John Doe
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item">My Profile</a>
-                                <a class="dropdown-item" role="button" (click)="logout()">Sign Out</a>
-                            </div>
-                        </li>
-                    </ul>
-
-                    
-                    <a href=""><i class="material-icons pl-5" matTooltip="Switch to Bioregistra">apps</i></a>
-                </div>
-            </nav>
+ <mat-sidenav-container autosize>
+    <mat-sidenav #sidenav mode="side" opened [ngStyle]="{ 'width.em': sidenavWidth }" (mouseenter)="increase()">
+        <div class="nav-header">
+            <div class="py-4 px-3">
+                <img src="assets/img/logo.png" class="img-fluid logo-icon" *ngIf="sidenavWidth >= 15" style="max-height:26px;"/>
+                <img src="assets/img/logo-icon.png" class="img-fluid logo-icon" *ngIf="sidenavWidth < 15"/>
+            </div>
         </div>
-    </div>
+
+
+        <div class="container-fluid">
+            <div class="row my-3 bg-light-grey cursor border-0 align-items-center" [matMenuTriggerFor]="organisation">
+                <img src=" assets/img/1.png" class="img-fluid logo-icon" style="max-height:4em;" />
+                <small class="p-2" *ngIf="sidenavWidth >= 15"><b>SEAMFIX LTD</b></small>
+                <i class="material-icons ml-auto mr-3" *ngIf="sidenavWidth >= 15">arrow_drop_down</i>
+            </div>
+
+            <mat-menu #organisation="matMenu">
+                <ul class="list-unstyled p-3">
+                    <li class="media">
+                        <mat-form-field class="w-100">
+                            <input matInput placeholder="Search organisation" type="text">
+                            <mat-icon matSuffix>search</mat-icon>
+                        </mat-form-field>
+                    </li>
+                    <li class="media my-4 cursor" routerLink="/">
+                        <img class="mr-3" src="assets/img/2.jpg" style="max-height:2.5em;"> 
+                        <div class="media-body">
+                            <h6 class="mt-0 mb-1 text-capitalize">hitman Enterprise LTD</h6>
+                            <small>123 Attendees</small>
+                        </div>
+                    </li>
+                    <li class="media cursor" routerLink="/">
+                        <img class="mr-3" src="assets/img/1.png" style="max-height:2.5em;">
+                        <div class="media-body">
+                            <h6 class="mt-0 mb-1 text-capitalize">Bruno Republic</h6>
+                            <small>123 Attendees</small>
+                        </div>
+                    </li>
+                </ul>
+
+                <a routerLink="/">
+                    <div class="p-3 cursor border-top">
+                        <mat-icon mat-list-icon class="mr-4">add</mat-icon>
+                        <span mat-line>Add Organisation</span>
+                    </div>
+                </a>
+            </mat-menu>
+        </div>
+
+        <mat-nav-list>
+            <ul>
+                <li routerLinkActive="active" *ngFor="let view of views">
+                    <a routerLink="{{view.url}}" mat-list-item >
+                        <mat-icon mat-list-icon>{{view.icon}}</mat-icon>
+                        <span mat-line>{{view.route}}</span>
+                    </a>
+                </li>
+            </ul>
+        </mat-nav-list>
+        <mat-divider></mat-divider>
+        <mat-nav-list>
+            <ul>
+                <li routerLinkActive="active" *ngFor="let nav of navs">
+                    <a routerLink="{{nav.url}}" mat-list-item >
+                        <mat-icon mat-list-icon>{{nav.icon}}</mat-icon>
+                        <span mat-line>{{nav.route}}</span>
+                    </a>
+                </li>
+            </ul>
+        </mat-nav-list>
+
+    </mat-sidenav>
+    <mat-toolbar color="primary">
+        <button mat-icon-button (click)="sidenav.toggle()" class="d-block d-md-none">
+            <mat-icon>menu</mat-icon>
+        </button>
+
+        <button mat-icon-button (click)="decrease()" class="d-none d-md-block" *ngIf="sidenavWidth >= 15" matTooltip="Minimize navigation">
+            <mat-icon>fullscreen_exit</mat-icon>
+        </button>
+
+        <button mat-icon-button (click)="increase()" class="d-none d-md-block" *ngIf="sidenavWidth < 15" matTooltip="Maximize navigation">
+            <mat-icon>fullscreen</mat-icon>
+        </button>
+
+
+        <span>Page Name</span>
+        <span class="example-spacer"></span>
+        
+        <button mat-icon-button class="pr-5" matTooltip="Switch to bioregistra">
+            <mat-icon class="example-icon">apps</mat-icon>
+        </button>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="logOut()">
+                <mat-icon>person</mat-icon>
+                <span>Profile</span>
+            </button>
+            <button mat-menu-item (click)="logOut()">
+                <mat-icon>message</mat-icon>
+                <span>Notification</span>
+            </button>
+            <button mat-menu-item (click)="logOut()">
+                <mat-icon>power_settings_new</mat-icon>
+                <span>Logout</span>
+            </button>
+        </mat-menu>
+    </mat-toolbar>
+
+    <ng-content></ng-content>
     
-</div>
+</mat-sidenav-container> 
+
+

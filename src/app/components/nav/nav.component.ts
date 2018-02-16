@@ -1,33 +1,43 @@
-import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-nav',
-  templateUrl: './nav.component.html',
-  styleUrls: ['./nav.component.css']
+    selector: 'app-nav',
+    templateUrl: './nav.component.html',
+    styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
 
-  navs: Object[] = [
-    {name: 'Home', route: '/portal'},
-    {name: 'Reports', route: '/portal'},
-    {name: 'Subscription', route: '/portal'}
-  ];
+    constructor() {
+    }
 
-  constructor(private router: Router) {
-  }
+    ngOnInit() {
+    }
 
-  ngOnInit() {
-  }
+    sidenavWidth = 16;
 
-  logout() {
-    localStorage.removeItem('_u');
-    localStorage.removeItem('_tkn');
-    localStorage.removeItem('_orgs');
-    localStorage.removeItem('_st');
+    views:Object[] =[
+      {icon:"home",route:"Home", url:"/"},
+      {icon:"group",route:"Attendees", url:"/"},
+      {icon:"insert_chart",route:"Report", url:"/"},
+      {icon:"payment",route:"Subscribe", url:"/"}
+    ];
 
-    this.router.navigate(['/auth']);
-  }
+    navs:Object[] =[
+      {icon:"person",route:"Profile", url:"/"},
+      {icon:"message",route:"Notifications", url:"/"},
+      {icon:"power_settings_new",route:"Log out", url:"/"}
+    ];
+    
+      increase(){
+        this.sidenavWidth = 16;
+        console.log("increase sidenav width");
+      }
+      decrease(){
+        this.sidenavWidth = 4;
+        console.log("decrease sidenav width");
+      }
 
+     
 
+    
 }
