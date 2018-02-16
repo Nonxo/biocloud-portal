@@ -28,14 +28,6 @@ export class AppConfigService {
         })
   }
 
-    placesAutocomplete(): Observable<any> {
-        return this.httpClient
-            .get("https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Amoeba&types=establishment&location=37.76999,-122.44696&radius=500&key=AIzaSyDX0uywgARFKu6Tsr6qC4v6acFdtrCxfAI", {
-                headers: new HttpHeaders()
-                    .set('Content-Type', 'application/x-www-form-urlencoded')
-            })
-    }
-
     saveLocation(model:LocationRequest): Observable<any> {
         model.orgId = this.ss.getSelectedOrg();
         model.createdBy = this.ss.getLoggedInUserEmail();

@@ -51,6 +51,7 @@ export class LoginComponent implements OnInit {
     login() {
         this.loading = true;
         const payload = this.loginForm.value;
+        
         this.authService.login(payload.email, payload.pw)
             .finally(() => this.loading = false)
             .subscribe(
@@ -59,7 +60,6 @@ export class LoginComponent implements OnInit {
                     if (res.code == 0) {
                         this.ss.authToken = res.token;
                         this.ss.loggedInUser = res.bioUser;
-
                         this.router.navigate(['/portal']);
                     } else {
                         this.ns.showError(res.description);

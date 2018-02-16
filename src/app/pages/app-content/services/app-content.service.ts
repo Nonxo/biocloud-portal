@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../util/endpoints";
 import {CreateOrgRequest} from "../model/app-content.model";
@@ -44,8 +44,8 @@ export class AppContentService {
     }
 
     fetchOrgLocations(orgId:string): Observable<any> {
-        const params = new URLSearchParams();
-        params.set('orgId', orgId);
+        let params = new HttpParams()
+            .set('orgId', orgId)
 
         return this.httpClient
             .get(Endpoints.FETCH_ORG_LOCATIONS + params, {
