@@ -58,6 +58,17 @@
                 </li>
             </ul>
         </mat-nav-list>
+        <mat-divider></mat-divider>
+        <mat-nav-list>
+            <ul>
+                <li routerLinkActive="active" *ngFor="let nav of navs">
+                    <a routerLink="{{nav.url}}" mat-list-item >
+                        <mat-icon mat-list-icon>{{nav.icon}}</mat-icon>
+                        <span mat-line>{{nav.route}}</span>
+                    </a>
+                </li>
+            </ul>
+        </mat-nav-list>
 
     </mat-sidenav>
     <mat-toolbar color="primary">
@@ -84,14 +95,13 @@
             <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-            <button mat-menu-item>
-                <mat-slide-toggle
-                    class="example-margin"
-                    [color]="color"
-                    [checked]="checked"
-                    [disabled]="disabled">
-                    Change Theme
-                </mat-slide-toggle>
+            <button mat-menu-item (click)="logOut()">
+                <mat-icon>person</mat-icon>
+                <span>Profile</span>
+            </button>
+            <button mat-menu-item (click)="logOut()">
+                <mat-icon>message</mat-icon>
+                <span>Notification</span>
             </button>
             <button mat-menu-item (click)="logOut()">
                 <mat-icon>power_settings_new</mat-icon>

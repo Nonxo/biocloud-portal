@@ -16,11 +16,17 @@ export class NavComponent implements OnInit {
     sidenavWidth = 16;
 
     views:Object[] =[
-        {icon:"home",route:"Home", url:"/"},
-        {icon:"group",route:"Attendees", url:"/"},
-        {icon:"insert_chart",route:"Report", url:"/"},
-        {icon:"payment",route:"Subscribe", url:"/"}
-      ];
+      {icon:"home",route:"Home", url:"/"},
+      {icon:"group",route:"Attendees", url:"/"},
+      {icon:"insert_chart",route:"Report", url:"/"},
+      {icon:"payment",route:"Subscribe", url:"/"}
+    ];
+
+    navs:Object[] =[
+      {icon:"person",route:"Profile", url:"/"},
+      {icon:"message",route:"Notifications", url:"/"},
+      {icon:"power_settings_new",route:"Log out", url:"/"}
+    ];
     
       increase(){
         this.sidenavWidth = 16;
