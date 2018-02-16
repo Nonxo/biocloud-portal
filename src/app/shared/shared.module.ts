@@ -46,6 +46,7 @@ import { AlertModule } from 'ngx-alerts';
 import {HttpClient} from "@angular/common/http";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {TranslateModule, TranslateLoader} from "@ngx-translate/core";
+import {ClickOutsideModule} from "ng-click-outside/lib/index";
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -102,6 +103,7 @@ export function createTranslateLoader(http: HttpClient) {
                 deps: [HttpClient]
             }
         }),
+        ClickOutsideModule
     ],
     exports: [
         CdkTableModule,
@@ -145,7 +147,8 @@ export function createTranslateLoader(http: HttpClient) {
         PopoverModule,
         CarouselModule,
         AlertModule,
-        TranslateModule
+        TranslateModule,
+        ClickOutsideModule
 
     ],
     declarations: [NavComponent]

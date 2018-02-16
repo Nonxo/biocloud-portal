@@ -1,57 +1,60 @@
- <mat-sidenav-container autosize>
+<mat-sidenav-container autosize>
     <mat-sidenav #sidenav mode="side" opened [ngStyle]="{ 'width.em': sidenavWidth }" (mouseenter)="increase()">
         <div class="nav-header">
             <div class="py-4 px-3">
-                <img src="assets/img/logo.png" class="img-fluid logo-icon" *ngIf="sidenavWidth >= 15" style="max-height:26px;"/>
+                <img src="assets/img/logo.png" class="img-fluid logo-icon" *ngIf="sidenavWidth >= 15"
+                     style="max-height:26px;"/>
                 <img src="assets/img/logo-icon.png" class="img-fluid logo-icon" *ngIf="sidenavWidth < 15"/>
             </div>
         </div>
 
 
         <div class="container-fluid">
-            <div class="row my-3 bg-light-grey cursor border-0 align-items-center" [matMenuTriggerFor]="organisation">
-                <img src=" assets/img/1.png" class="img-fluid logo-icon" style="max-height:4em;" />
-                <small class="p-2" *ngIf="sidenavWidth >= 15"><b>SEAMFIX LTD</b></small>
-                <i class="material-icons ml-auto mr-3" *ngIf="sidenavWidth >= 15">arrow_drop_down</i>
+            <div (clickOutside)="onClickedOutside($event)">
+                <div class="row my-3 bg-light-grey cursor border-0 align-items-center" (click)="show()">
+                    <img src=" assets/img/1.png" class="img-fluid logo-icon" style="max-height:4em;"/>
+                    <small class="p-2" *ngIf="sidenavWidth >= 15"><b>SEAMFIX LTD</b></small>
+                    <i class="material-icons ml-auto mr-3" *ngIf="sidenavWidth >= 15">arrow_drop_down</i>
+                </div>
+
+                <div *ngIf="open">
+                    <ul class="list-unstyled">
+                        <li class="media">
+                            <mat-form-field class="w-100">
+                                <input matInput placeholder="Search organisation" type="text">
+                                <mat-icon matSuffix>search</mat-icon>
+                            </mat-form-field>
+                        </li>
+                        <li class="media my-4 cursor" routerLink="/">
+                            <img class="mr-3" src="assets/img/2.jpg" style="max-height:2.5em;">
+                            <div class="media-body">
+                                <b class="mt-0 mb-1 text-capitalize">hitman Enterprise LTD</b>
+                                <small>123 Attendees</small>
+                            </div>
+                        </li>
+                        <li class="media cursor" routerLink="/">
+                            <img class="mr-3" src="assets/img/1.png" style="max-height:2.5em;">
+                            <div class="media-body">
+                                <b class="mt-0 mb-1 text-capitalize">Bruno Republic</b>
+                                <small>123 Attendees</small>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <a routerLink="/">
+                        <div class="p-3 cursor border-top">
+                            <mat-icon class="mr-4">add</mat-icon>
+                            <small mat-line>Add Organisation</small>
+                        </div>
+                    </a>
+                </div>
             </div>
-
-            <mat-menu #organisation="matMenu">
-                <ul class="list-unstyled p-3">
-                    <li class="media">
-                        <mat-form-field class="w-100">
-                            <input matInput placeholder="Search organisation" type="text">
-                            <mat-icon matSuffix>search</mat-icon>
-                        </mat-form-field>
-                    </li>
-                    <li class="media my-4 cursor" routerLink="/">
-                        <img class="mr-3" src="assets/img/2.jpg" style="max-height:2.5em;"> 
-                        <div class="media-body">
-                            <h6 class="mt-0 mb-1 text-capitalize">hitman Enterprise LTD</h6>
-                            <small>123 Attendees</small>
-                        </div>
-                    </li>
-                    <li class="media cursor" routerLink="/">
-                        <img class="mr-3" src="assets/img/1.png" style="max-height:2.5em;">
-                        <div class="media-body">
-                            <h6 class="mt-0 mb-1 text-capitalize">Bruno Republic</h6>
-                            <small>123 Attendees</small>
-                        </div>
-                    </li>
-                </ul>
-
-                <a routerLink="/">
-                    <div class="p-3 cursor border-top">
-                        <mat-icon mat-list-icon class="mr-4">add</mat-icon>
-                        <span mat-line>Add Organisation</span>
-                    </div>
-                </a>
-            </mat-menu>
         </div>
 
         <mat-nav-list>
             <ul>
                 <li routerLinkActive="active" *ngFor="let view of views">
-                    <a routerLink="{{view.url}}" mat-list-item >
+                    <a routerLink="{{view.url}}" mat-list-item>
                         <mat-icon mat-list-icon>{{view.icon}}</mat-icon>
                         <span mat-line>{{view.route}}</span>
                     </a>
@@ -62,7 +65,7 @@
         <mat-nav-list>
             <ul>
                 <li routerLinkActive="active" *ngFor="let nav of navs">
-                    <a routerLink="{{nav.url}}" mat-list-item >
+                    <a routerLink="{{nav.url}}" mat-list-item>
                         <mat-icon mat-list-icon>{{nav.icon}}</mat-icon>
                         <span mat-line>{{nav.route}}</span>
                     </a>
@@ -76,18 +79,20 @@
             <mat-icon>menu</mat-icon>
         </button>
 
-        <button mat-icon-button (click)="decrease()" class="d-none d-md-block" *ngIf="sidenavWidth >= 15" matTooltip="Minimize navigation">
+        <button mat-icon-button (click)="decrease()" class="d-none d-md-block" *ngIf="sidenavWidth >= 15"
+                matTooltip="Minimize navigation">
             <mat-icon>fullscreen_exit</mat-icon>
         </button>
 
-        <button mat-icon-button (click)="increase()" class="d-none d-md-block" *ngIf="sidenavWidth < 15" matTooltip="Maximize navigation">
+        <button mat-icon-button (click)="increase()" class="d-none d-md-block" *ngIf="sidenavWidth < 15"
+                matTooltip="Maximize navigation">
             <mat-icon>fullscreen</mat-icon>
         </button>
 
 
         <span>Page Name</span>
         <span class="example-spacer"></span>
-        
+
         <button mat-icon-button class="pr-5" matTooltip="Switch to bioregistra">
             <mat-icon class="example-icon">apps</mat-icon>
         </button>
@@ -111,7 +116,7 @@
     </mat-toolbar>
 
     <ng-content></ng-content>
-    
+
 </mat-sidenav-container> 
 
 

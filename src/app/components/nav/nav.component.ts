@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-nav',
@@ -7,13 +8,22 @@ import {Component, OnInit} from '@angular/core';
 })
 export class NavComponent implements OnInit {
 
-    constructor() {
+    constructor(private router: Router) {
     }
 
     ngOnInit() {
     }
 
+    show() {
+        !this.open? this.open = true: this.open = false;
+    }
+
+    onClickedOutside(e: Event) {
+       this.open = false;
+    }
+    
     sidenavWidth = 16;
+    open:boolean;
 
     views:Object[] =[
       {icon:"home",route:"Home", url:"/"},
@@ -37,7 +47,14 @@ export class NavComponent implements OnInit {
         console.log("decrease sidenav width");
       }
 
-     
+    logout() {
+        localStorage.removeItem('_u');
+        localStorage.removeItem('_tkn');
+        localStorage.removeItem('_orgs');
+        localStorage.removeItem('_st');
+
+        this.router.navigate(['/auth']);
+    }
 
     
 }
