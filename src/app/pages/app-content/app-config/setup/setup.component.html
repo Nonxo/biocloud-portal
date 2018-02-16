@@ -1,61 +1,166 @@
 <div class="container py-5">
-  <div class="row">
-    <div class="col-md-12">
-      <mat-card>
-        <div class="row p-md-3 p-0">
+    <form (ngSubmit)="submit()" name="addLocationForm" #addLocationForm="ngForm" ngNativeValidate>
+        <div class="row">
+            <div class="col-md-12">
+                <mat-card>
+                    <div class="row p-md-3 p-0">
 
-          <div class="col-md-12">
-              <h6 class="text-brand">Add Location</h6>
-          </div>
+                        <div class="col-md-12">
+                            <h6 class="text-brand">Add Location</h6>
+                        </div>
 
-          <div class="col-md-6">
-              <mat-form-field class="input-field">
-                <mat-select placeholder="Location Type" (change)="locationChange($event)">
-                  <mat-option *ngFor="let locType of locationTypes" value="{{locType.value}}" >{{locType.name}}</mat-option>
-                </mat-select>
-              </mat-form-field>
-          </div>
-          <div class="col-md-6" *ngIf="country">
-              <mat-form-field class="input-field">
-                <mat-select placeholder="Select Country">
-                  <mat-option value="option">Option</mat-option>
-                </mat-select>
-              </mat-form-field>
-          </div>
-          <div class="col-md-6" *ngIf="state">
-              <mat-form-field class="input-field">
-                <mat-select placeholder="Select State">
-                  <mat-option value="option">Option</mat-option>
-                </mat-select>
-              </mat-form-field>
-          </div>
-          <div class="col-md-4"  *ngIf="specific_loc_input">
-            <mat-form-field class="input-field">
-              <input matInput placeholder="Enter Organisation Address">
-            </mat-form-field>
-          </div>
-          <div class="col-md-1 d-none d-md-block"  *ngIf="specific_loc_input">
-            <i class="material-icons loc-icon"  matTooltip="Use current Location">place</i>
-          </div>
-          <div class="col-md-1  d-none d-md-block"  *ngIf="specific_loc_input">
-              <i class="material-icons loc-icon"  matTooltip="Use a map">public</i>
-          </div>
-          <div class="col-md-6" *ngIf="resumption">
-            <mat-form-field class="input-field">
-              <input matInput placeholder="Resumption Time">
-            </mat-form-field>
-          </div>
-          <div class="col-md-12 text-right">
-              <button mat-mini-fab color="accent">
-                <mat-icon>add</mat-icon>
-              </button>
-          </div>
+                        <div class="col-md-6">
+                            <mat-form-field class="input-field">
+                                <mat-select placeholder="Location Type" name="locType"
+                                            [(ngModel)]="locRequest.locationType"
+                                            (change)="clearData()" required>
+                                    <mat-option *ngFor="let locType of locationTypes" value="{{locType.value}}">
+                                        {{locType.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6"
+                             *ngIf="locRequest.locationType == 'COUNTRY' || locRequest.locationType == 'STATE'">
+                            <mat-form-field class="input-field">
+                                <mat-select placeholder="Select Country" name="country"
+                                            [(ngModel)]="locRequest.countryId"
+                                            (change)="fetchStates(locRequest.countryId)"
+                                            [required]="locRequest.locationType == 'COUNTRY' || locRequest.locationType == 'STATE'">
+                                    <mat-option *ngFor="let country of countries" value="{{country.id}}">
+                                        {{country.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6" *ngIf="locRequest.locationType == 'STATE'">
+                            <mat-form-field class="input-field">
+                                <mat-select placeholder="Select State" name="states" [(ngModel)]="locRequest.stateId"
+                                            [required]="locRequest.locationType == 'STATE'">
+                                    <mat-option *ngFor="let state of states" value="{{state.id}}">{{state.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4" *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS'">
+                            <mat-form-field class="input-field">
+                                <input matInput placeholder="Address will appear here" name="address"
+                                       [(ngModel)]="locRequest.address" disabled
+                                       [required]="locRequest.locationType == 'SPECIFIC_ADDRESS'">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-1 d-none d-md-block" *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS'">
+                            <i class="material-icons loc-icon" matTooltip="Use current Location"
+                               (click)="getCurrentPosition(true)">place</i>
+                        </div>
+                        <div class="col-md-1  d-none d-md-block" *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS'">
+                            <a (click)="openModal(template, false)"><i class="material-icons loc-icon"
+                                                                       matTooltip="Use a map">public</i></a>
+                        </div>
+
+                        <div class="col-md-6" *ngIf="locRequest.address">
+                            <button (click)="openModal(template, true)" mat-raised-button color="default"
+                                    class="mat-btn" type="button">
+                                Add Acceptable Range
+                            </button>
+                        </div>
+
+                        <div class="col-md-6" *ngIf="locRequest.locationType">
+                            <mat-form-field class="input-field">
+                                <input matInput placeholder="Enter Branch/Business/Location Name" name="locName"
+                                       [(ngModel)]="locRequest.name" required>
+                            </mat-form-field>
+                        </div>
+
+                        <!--resumption time-->
+                        <ng-container *ngIf="locRequest.locationType">
+                            <div class="col-md-4">
+                                <mat-form-field class="input-field">
+                                    <input matInput placeholder="Resumption Time" name="rTime"
+                                           [(ngModel)]="resumption" [owlDateTimeTrigger]="dt4"
+                                           [owlDateTime]="dt4">
+                                    <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-2">
+                                <mat-form-field class="input-field">
+                                    <mat-select placeholder="Select Timezone" name="timezone"
+                                                [(ngModel)]="locRequest.resumptionTimezoneId"
+                                                [required]="resumption">
+                                        <mat-option *ngFor="let timezone of timezones" value="{{timezone}}">
+                                            {{timezone}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <div class="errors" ngMessages="addLocationForm.timezone.$error" *ngIf="addLocationForm.$dirty">
+                                        <div ngMessage="required">Required</div>
+                                    </div>
+                                </mat-form-field>
+                            </div>
+                        </ng-container>
+
+                        <!--grace period-->
+                        <div class="col-md-6" *ngIf="locRequest.locationType">
+                            <mat-form-field class="input-field">
+                                <input matInput type="number" placeholder="Enter a grace period in minutes"
+                                       name="gracePeriod" [(ngModel)]="locRequest.gracePeriodInMinutes">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-12 text-right">
+                            <button mat-mini-fab color="accent" type="submit">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+
+
+            <div class="col-md-12 pt-4 text-right">
+                <button mat-raised-button color="primary" class="mat-btn" type="submit">PROCEED</button>
+            </div>
         </div>
-      </mat-card>
-    </div>
-
-    <div class="col-md-12 pt-4 text-right">
-        <button mat-raised-button color="primary" class="mat-btn">PROCEED</button>
-    </div>
-  </div>
+    </form>
 </div>
+
+
+<ng-template #template>
+    <div class="modal-header">
+        <h5 class="modal-title pull-left">Map</h5>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="col-md-12">
+            <div class="row p-md-3 p-0">
+                <div class="col-md-6">
+                    <mat-form-field *ngIf="!addRange" class="input-field">
+                        <input matInput placeholder="Search" id="autocompleteInput">
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="addRange" class="input-field">
+                        <input matInput type="number" placeholder="Enter Radius" name="radius"
+                               [(ngModel)]="locRequest.radiusThreshold">
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4 text-right">
+                    <button (click)="useAddress()" mat-raised-button color="primary" class="mat-btn">USE</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="13" (mapClick)="mapClicked($event)">
+                <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true"
+                            (dragEnd)="markerDragEnd($event)"></agm-marker>
+
+                <agm-circle *ngIf="addRange" [latitude]="lat" [longitude]="lng"
+                            [radius]="locRequest.radiusThreshold">
+                </agm-circle>
+            </agm-map>
+        </div>
+    </div>
+</ng-template>

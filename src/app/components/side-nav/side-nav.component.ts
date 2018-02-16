@@ -5,6 +5,7 @@ import {StorageService} from "../../service/storage.service";
 import {AppContentService} from "../../pages/app-content/services/app-content.service";
 import {NotifyService} from "../../service/notify.service";
 import {MessageService} from "../../service/message.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-side-nav',
@@ -27,7 +28,8 @@ export class SideNavComponent implements OnInit {
                 private ss:StorageService,
                 private contentService:AppContentService,
                 private ns:NotifyService,
-                private mService:MessageService) {
+                private mService:MessageService,
+                private router:Router) {
     }
 
     ngOnInit() {
@@ -55,6 +57,8 @@ export class SideNavComponent implements OnInit {
                 result => {
                     if (result.code == 0) {
                         this.ns.showSuccess(result.description);
+                        this.modalRef.hide();
+                        this.router.navigate(['/portal/config']);
                     } else {
                         this.ns.showError(result.description);
                     }
@@ -90,7 +94,9 @@ export class SideNavComponent implements OnInit {
                         this.ns.showError(result.description);
                     }
                 },
-                error => {this.ns.showError("An Error Occurred.");}
+                error => {
+                    this.ns.showError("An Error Occurred.");
+                }
             )
     }
 
@@ -101,11 +107,12 @@ export class SideNavComponent implements OnInit {
     selectOrg(orgId:string, index:number) {
         //change selected state
         this.changeSelectedState(orgId, index);
+        this.ss.setSelectedOrg(orgId);
         this.mService.setSelectedOrg(orgId);
     }
 
     changeSelectedState(orgId:string, index:number) {
-        if(this.selectedOrg && this.selectedOrgIndex >= 0) {
+        if (this.selectedOrg && this.selectedOrgIndex >= 0) {
             this.orgs[this.selectedOrgIndex].selected = false;
         }
 

@@ -46,4 +46,14 @@ export class StorageService {
     return obj? obj: null;
   }
 
+  setSelectedOrg(value) {
+    let obj = {selectedOrg: value};
+    localStorage.setItem("_st", JSON.stringify(obj));
+  }
+
+  getSelectedOrg() {
+    let obj:any = JSON.parse(localStorage.getItem('_st'));
+    return obj? obj.selectedOrg: null;
+  }
+
 }

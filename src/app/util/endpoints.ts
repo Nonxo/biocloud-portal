@@ -10,4 +10,7 @@ export class Endpoints {
   public static RETRIEVE_ORG_DETAILS = `${Endpoints.BASE_URL}/users/api/org/`;
   public static FETCH_USERS_ORG = `${Endpoints.BASE_URL}/users/api/u/`;
   public static FETCH_ORG_LOCATIONS = `${Endpoints.BASE_URL}/users/api/locations?`;
+  public static FETCH_COUNTRIES = `${Endpoints.BASE_URL}/users/api/countries`;
+  public static FETCH_STATES = `${Endpoints.BASE_URL}/users/api/countries/`;
+  public static SAVE_LOCATION = `${Endpoints.BASE_URL}/users/api/locations`;
 }

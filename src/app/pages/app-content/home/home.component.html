@@ -17,7 +17,7 @@
         <div class="col-lg-10 ml-auto col-md-8 px-md-4 px-lg-5">
             <div class="row pb-md-3 row-eq-height">
                 <div class="col-lg-3 col-md-6 mt-4">
-                    <a>
+                    <a routerLink="/portal/config">
                         <mat-card class="py-md-4 text-center">
                             <i class="material-icons add-loc big-font">add_circle</i>
                             <div>Add new location</div>
@@ -28,7 +28,7 @@
                 <div class="col-lg-3 col-md-6 mt-4" *ngFor="let loc of locations">
                     <mat-card class="py-md-4 text-center">
                         <i class="material-icons big-font designed-loc">place</i>
-                        <div>Uyo, Okota Branch</div>
+                        <div>{{loc.name}}</div>
                         <div style="position:absolute; top:0; right:0;">
                             <button mat-icon-button [matMenuTriggerFor]="menu">
                                 <mat-icon>more_vert</mat-icon>

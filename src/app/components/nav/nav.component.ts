@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-nav',
@@ -13,10 +14,19 @@ export class NavComponent implements OnInit {
     {name: 'Subscription', route: '/portal'}
   ];
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit() {
+  }
+
+  logout() {
+    localStorage.removeItem('_u');
+    localStorage.removeItem('_tkn');
+    localStorage.removeItem('_orgs');
+    localStorage.removeItem('_st');
+
+    this.router.navigate(['/auth']);
   }
 
 
