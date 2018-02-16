@@ -43,6 +43,14 @@ import {
     CarouselModule
 } from 'ngx-bootstrap';
 import { AlertModule } from 'ngx-alerts';
+import {HttpClient} from "@angular/common/http";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {TranslateModule, TranslateLoader} from "@ngx-translate/core";
+
+export function createTranslateLoader(http: HttpClient) {
+    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
 
 @NgModule({
     imports: [
@@ -86,7 +94,14 @@ import { AlertModule } from 'ngx-alerts';
         ModalModule.forRoot(),
         PopoverModule.forRoot(),
         CarouselModule.forRoot(),
-        AlertModule.forRoot({maxMessages: 5, timeout: 5000})
+        AlertModule.forRoot({maxMessages: 5, timeout: 5000}),
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (createTranslateLoader),
+                deps: [HttpClient]
+            }
+        }),
     ],
     exports: [
         CdkTableModule,
@@ -129,7 +144,8 @@ import { AlertModule } from 'ngx-alerts';
         ModalModule,
         PopoverModule,
         CarouselModule,
-        AlertModule
+        AlertModule,
+        TranslateModule
 
     ],
     declarations: [NavComponent]

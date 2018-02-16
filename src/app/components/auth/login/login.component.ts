@@ -29,8 +29,8 @@ export class LoginComponent implements OnInit {
                 private ns:NotifyService,
                 private modalService:BsModalService,
                 public translate:TranslateService) {
-        translate.setDefaultLang('en');
-        translate.use('en');
+        translate.setDefaultLang('en/login');
+        translate.use('en/login');
 
     }
 

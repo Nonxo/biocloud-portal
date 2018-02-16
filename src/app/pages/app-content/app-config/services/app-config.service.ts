@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../../util/endpoints";
-import {LocationRequest} from "../model/app-config.model";
+import {LocationRequest, InviteRequest} from "../model/app-config.model";
 import {StorageService} from "../../../../service/storage.service";
 
 @Injectable()
@@ -42,6 +42,17 @@ export class AppConfigService {
 
         return this.httpClient
             .post(Endpoints.SAVE_LOCATION, JSON.stringify(model), {
+                headers: new HttpHeaders()
+                    .set('Content-Type', 'application/json')
+            })
+    }
+
+    inviteAttendees(model:InviteRequest): Observable<any> {
+        model.orgId = this.ss.getSelectedOrg();
+        model.role = "ATTENDEE";
+
+        return this.httpClient
+            .post(Endpoints.SEND_INVITES, JSON.stringify(model), {
                 headers: new HttpHeaders()
                     .set('Content-Type', 'application/json')
             })
