@@ -39,8 +39,7 @@ export class SetupComponent implements OnInit {
                 private ngZone:NgZone,
                 private mapService:GeoMapService,
                 private ns:NotifyService,
-                private router:Router,
-                private bsModalRef:BsModalRef) {
+                private router:Router) {
     }
 
     ngOnInit() {
@@ -107,6 +106,8 @@ export class SetupComponent implements OnInit {
     submit() {
         if (this.resumption) {
             this.locRequest.resumption = this.formatResumptionTime();
+        }else {
+            this.locRequest.resumption = "";
         }
 
         if (this.locRequest.locationType == 'SPECIFIC_ADDRESS') {

@@ -6,6 +6,7 @@ import {AppConfigRoutingModule} from "./app-config-routing.module";
 import {CommonModule} from '@angular/common';
 import {AddAttendeesComponent} from './add-attendees/add-attendees.component';
 import {GroupAttendeesComponent} from './group-attendees/group-attendees.component';
+import {BsModalRef} from "ngx-bootstrap/index";
 
 @NgModule({
     imports: [
@@ -19,7 +20,7 @@ import {GroupAttendeesComponent} from './group-attendees/group-attendees.compone
         AddAttendeesComponent,
         GroupAttendeesComponent
     ],
-    providers: []
+    providers: [BsModalRef]
 })
 export class AppConfigModule {
 }

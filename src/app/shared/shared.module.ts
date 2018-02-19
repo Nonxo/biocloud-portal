@@ -110,10 +110,7 @@ export function createTranslateLoader(http: HttpClient) {
         ClickOutsideModule,
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
-        AgmCoreModule.forRoot({
-            apiKey: 'AIzaSyDX0uywgARFKu6Tsr6qC4v6acFdtrCxfAI',
-            libraries: ['places']
-        })
+        AgmCoreModule
     ],
     exports: [
         CdkTableModule,
