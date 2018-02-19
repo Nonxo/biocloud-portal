@@ -29,7 +29,7 @@ export class AppConfigService {
   }
 
     saveLocation(model:LocationRequest): Observable<any> {
-        model.orgId = this.ss.getSelectedOrg();
+        model.orgId = this.ss.getSelectedOrg()? this.ss.getSelectedOrg().orgId:null;
         model.createdBy = this.ss.getLoggedInUserEmail();
 
         return this.httpClient
@@ -40,7 +40,7 @@ export class AppConfigService {
     }
 
     inviteAttendees(model:InviteRequest): Observable<any> {
-        model.orgId = this.ss.getSelectedOrg();
+        model.orgId = this.ss.getSelectedOrg()? this.ss.getSelectedOrg().orgId: null;
         model.role = "ATTENDEE";
 
         return this.httpClient

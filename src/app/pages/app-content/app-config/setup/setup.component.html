@@ -14,6 +14,7 @@
                                 <mat-select placeholder="Location Type" name="locType"
                                             [(ngModel)]="locRequest.locationType"
                                             (change)="clearData()" required>
+                                    <mat-option value="">--</mat-option>
                                     <mat-option *ngFor="let locType of locationTypes" value="{{locType.value}}">
                                         {{locType.name}}
                                     </mat-option>
@@ -27,6 +28,7 @@
                                             [(ngModel)]="locRequest.countryId"
                                             (change)="fetchStates(locRequest.countryId)"
                                             [required]="locRequest.locationType == 'COUNTRY' || locRequest.locationType == 'STATE'">
+                                    <mat-option value="0">--</mat-option>
                                     <mat-option *ngFor="let country of countries" value="{{country.id}}">
                                         {{country.name}}
                                     </mat-option>
@@ -37,6 +39,7 @@
                             <mat-form-field class="input-field">
                                 <mat-select placeholder="Select State" name="states" [(ngModel)]="locRequest.stateId"
                                             [required]="locRequest.locationType == 'STATE'">
+                                    <mat-option value="0">--</mat-option>
                                     <mat-option *ngFor="let state of states" value="{{state.id}}">{{state.name}}
                                     </mat-option>
                                 </mat-select>
@@ -107,7 +110,7 @@
                         </div>
 
                         <div class="col-md-12 text-right">
-                            <button mat-mini-fab color="accent" type="submit">
+                            <button mat-mini-fab color="accent" type="button" (click)="addnewLocation()">
                                 <mat-icon>add</mat-icon>
                             </button>
                         </div>
@@ -117,7 +120,7 @@
 
 
             <div class="col-md-12 pt-4 text-right">
-                <button mat-raised-button color="primary" class="mat-btn" type="submit">PROCEED</button>
+                <button mat-raised-button color="primary" [disabled]="addLocationForm.invalid" class="mat-btn" type="submit">PROCEED</button>
             </div>
         </div>
     </form>

@@ -7,9 +7,9 @@ import {} from '@types/googlemaps';
 
 const GEOLOCATION_ERRORS = {
     'errors.location.unsupportedBrowser': 'Browser does not support location services. Please use another browser.',
-    'errors.location.permissionDenied': 'You have rejected access to your location. Please turn on your location from your browser settings to proceed with this capture.',
-    'errors.location.positionUnavailable': 'Unable to determine your location. Please turn on your location from your browser settings to proceed with this capture.',
-    'errors.location.timeout': 'Service timeout has been reached. Please turn on your location from your browser settings to proceed with this capture.'
+    'errors.location.permissionDenied': 'You have rejected access to your location. Please turn on your location from your browser settings to proceed.',
+    'errors.location.positionUnavailable': 'Unable to determine your location. Please turn on your location from your browser settings to proceed.',
+    'errors.location.timeout': 'Service timeout has been reached. Please turn on your location from your browser settings to proceed.'
 };
 
 

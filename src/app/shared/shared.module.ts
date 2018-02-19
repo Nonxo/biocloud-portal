@@ -47,6 +47,7 @@ import {HttpClient} from "@angular/common/http";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {TranslateModule, TranslateLoader} from "@ngx-translate/core";
 import {ClickOutsideModule} from "ng-click-outside/lib/index";
+import {EllipsisPipe} from "../util/pipes/ellipsis-pipe";
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -148,10 +149,11 @@ export function createTranslateLoader(http: HttpClient) {
         CarouselModule,
         AlertModule,
         TranslateModule,
-        ClickOutsideModule
+        ClickOutsideModule,
+        EllipsisPipe
 
     ],
-    declarations: [NavComponent]
+    declarations: [NavComponent, EllipsisPipe]
 })
 export class SharedModule {
 }

@@ -7,3 +7,17 @@ export class CreateOrgRequest {
     type:string;
     createdBy:string;
 }
+
+export class Org {
+    active:boolean;
+    created:number;
+    createdBy:string;
+    lastModified:number;
+    logo:string;
+    name:string;
+    orgCode:string;
+    orgId:string;
+    productName:string;
+    sector:string;
+    walletId:number;
+}

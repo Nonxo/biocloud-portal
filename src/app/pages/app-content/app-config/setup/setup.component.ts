@@ -25,6 +25,7 @@ export class SetupComponent implements OnInit {
     addRange:boolean;
     resumption:string;
     timezones:string[] = Timezones.list;
+    addNewLoc:boolean;
     locationTypes = [
         {value: "SPECIFIC_ADDRESS", name: "Specific Address"},
         {value: "COUNTRY", name: "Country"},
@@ -96,6 +97,11 @@ export class SetupComponent implements OnInit {
         this.locRequest.address = null;
     }
 
+    addnewLocation() {
+        this.addNewLoc = true;
+        this.submit();
+    }
+
     submit() {
         if(this.resumption) {
             this.locRequest.resumption = this.formatResumptionTime();
@@ -106,17 +112,24 @@ export class SetupComponent implements OnInit {
             this.locRequest.longitude = this.lng;
         }
 
-        console.log(this.locRequest);
         this.saveLocation();
     }
 
     saveLocation() {
+        //noinspection TypeScriptValidateTypes
         this.aService.saveLocation(this.locRequest)
+            .finally(() => {this.addNewLoc = false;})
             .subscribe(
                 result => {
                     if(result.code == 0) {
                         this.ns.showSuccess("Location was successfully added");
-                        this.router.navigate(['/portal/config/add-attendees'])
+
+                        if(this.addNewLoc) {
+                            this.locRequest = new LocationRequest();
+                        }else {
+                            this.router.navigate(['/portal/config/add-attendees']);
+                        }
+
                     } else {
                         this.ns.showError(result.description);
                     }
