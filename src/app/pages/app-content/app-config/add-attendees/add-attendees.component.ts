@@ -5,6 +5,7 @@ import {AppContentService} from "../../services/app-content.service";
 import {AppConfigService} from "../services/app-config.service";
 import {NotifyService} from "../../../../service/notify.service";
 import {TranslateService} from "@ngx-translate/core";
+import * as FileSaver from 'file-saver';
 
 @Component({
     selector: 'app-add-attendees',
@@ -81,6 +82,21 @@ export class AddAttendeesComponent implements OnInit {
                     }
                 },
                 error => {
+                }
+            )
+    }
+
+    downloadTemplate() {
+        this.configService.downloadTemplate()
+            .subscribe(
+                result => {
+                    debugger;
+                    var blob = new Blob([result], {type: 'application/vnd.ms-excel'});
+                    FileSaver.saveAs(blob, "template.xls");
+                },
+                error => {
+                    debugger;
+                    this.ns.showError("An Error Occurred.")
                 }
             )
     }

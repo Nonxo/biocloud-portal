@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../../util/endpoints";
 import {LocationRequest, InviteRequest} from "../model/app-config.model";
@@ -45,6 +45,19 @@ export class AppConfigService {
 
         return this.httpClient
             .post(Endpoints.SEND_INVITES, JSON.stringify(model), {
+                headers: new HttpHeaders()
+                    .set('Content-Type', 'application/json')
+            })
+    }
+
+    downloadTemplate(): Observable<any> {
+        let params = new HttpParams()
+        .set('orgId', this.ss.getSelectedOrg()? this.ss.getSelectedOrg().orgId: null)
+        .set('name', 'TEMPLATE')
+
+        return this.httpClient
+            .get(Endpoints.DOWNLOAD_TEMPLATE_BULK + params.toString(), {
+                responseType: "blob",
                 headers: new HttpHeaders()
                     .set('Content-Type', 'application/json')
             })

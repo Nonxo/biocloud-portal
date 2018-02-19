@@ -14,4 +14,6 @@ export class Endpoints {
   public static FETCH_STATES = `${Endpoints.BASE_URL}/users/api/countries/`;
   public static SAVE_LOCATION = `${Endpoints.BASE_URL}/users/api/locations`;
   public static SEND_INVITES = `${Endpoints.BASE_URL}/users/api/org/invites`;
+  public static DOWNLOAD_TEMPLATE_BULK = `${Endpoints.BASE_URL}/users/api/org/invites/bulk?`;
+  public static UPLOAD_TEMPLATE_BULK = `${Endpoints.BASE_URL}/users/api/org/invites/bulk`;
 }
