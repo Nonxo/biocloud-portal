@@ -73,7 +73,7 @@ export class AddAttendeesComponent implements OnInit {
     }
 
     callLocationService() {
-        this.contentService.fetchOrgLocations(this.ss.getSelectedOrg())
+        this.contentService.fetchOrgLocations(this.ss.getSelectedOrg()? this.ss.getSelectedOrg().orgId:null)
             .subscribe(
                 result => {
                     if (result.code == 0) {
