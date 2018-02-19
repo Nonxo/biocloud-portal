@@ -16,6 +16,7 @@ import {Router} from "@angular/router";
 export class SetupComponent implements OnInit {
 
     locRequest:LocationRequest = new LocationRequest();
+    editMode:boolean;
     countries:any[] = [];
     states:any[] = [];
     modalRef:BsModalRef;
@@ -38,7 +39,7 @@ export class SetupComponent implements OnInit {
                 private ngZone:NgZone,
                 private mapService:GeoMapService,
                 private ns:NotifyService,
-    private router: Router) {
+                private router:Router) {
     }
 
     ngOnInit() {
@@ -103,30 +104,50 @@ export class SetupComponent implements OnInit {
     }
 
     submit() {
-        if(this.resumption) {
+        if (this.resumption) {
             this.locRequest.resumption = this.formatResumptionTime();
+        }else {
+            this.locRequest.resumption = "";
         }
 
-        if(this.locRequest.locationType == 'SPECIFIC_ADDRESS') {
+        if (this.locRequest.locationType == 'SPECIFIC_ADDRESS') {
             this.locRequest.latitude = this.lat;
             this.locRequest.longitude = this.lng;
         }
 
-        this.saveLocation();
+        this.editMode ? this.editLocation() : this.saveLocation();
+    }
+
+    editLocation() {
+        this.aService.editLocation(this.locRequest)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.ns.showSuccess("Location was successfully updated");
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {
+                    this.ns.showError("An Error Occurred");
+                }
+            )
     }
 
     saveLocation() {
         //noinspection TypeScriptValidateTypes
         this.aService.saveLocation(this.locRequest)
-            .finally(() => {this.addNewLoc = false;})
+            .finally(() => {
+                this.addNewLoc = false;
+            })
             .subscribe(
                 result => {
-                    if(result.code == 0) {
+                    if (result.code == 0) {
                         this.ns.showSuccess("Location was successfully added");
 
-                        if(this.addNewLoc) {
+                        if (this.addNewLoc) {
                             this.locRequest = new LocationRequest();
-                        }else {
+                        } else {
                             this.router.navigate(['/portal/config/add-attendees']);
                         }
 
@@ -134,7 +155,9 @@ export class SetupComponent implements OnInit {
                         this.ns.showError(result.description);
                     }
                 },
-                error => {this.ns.showError("An Error Occurred");}
+                error => {
+                    this.ns.showError("An Error Occurred");
+                }
             )
     }
 
