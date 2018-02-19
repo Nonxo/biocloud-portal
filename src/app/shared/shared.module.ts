@@ -48,6 +48,9 @@ import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {TranslateModule, TranslateLoader} from "@ngx-translate/core";
 import {ClickOutsideModule} from "ng-click-outside/lib/index";
 import {EllipsisPipe} from "../util/pipes/ellipsis-pipe";
+import {SetupComponent} from "../pages/app-content/app-config/setup/setup.component";
+import {OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime/picker";
+import {AgmCoreModule} from "@agm/core";
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -104,7 +107,13 @@ export function createTranslateLoader(http: HttpClient) {
                 deps: [HttpClient]
             }
         }),
-        ClickOutsideModule
+        ClickOutsideModule,
+        OwlDateTimeModule,
+        OwlNativeDateTimeModule,
+        AgmCoreModule.forRoot({
+            apiKey: 'AIzaSyDX0uywgARFKu6Tsr6qC4v6acFdtrCxfAI',
+            libraries: ['places']
+        })
     ],
     exports: [
         CdkTableModule,
@@ -150,10 +159,12 @@ export function createTranslateLoader(http: HttpClient) {
         AlertModule,
         TranslateModule,
         ClickOutsideModule,
-        EllipsisPipe
+        EllipsisPipe,
+        SetupComponent,
+        AgmCoreModule
 
     ],
-    declarations: [NavComponent, EllipsisPipe]
+    declarations: [NavComponent, SetupComponent, EllipsisPipe]
 })
 export class SharedModule {
 }

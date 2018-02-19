@@ -50,4 +50,15 @@ export class AppConfigService {
             })
     }
 
+    editLocation(model:LocationRequest): Observable<any>{
+        model.orgId = this.ss.getSelectedOrg()? this.ss.getSelectedOrg().orgId:null;
+        model.createdBy = this.ss.getLoggedInUserEmail();
+
+        return this.httpClient
+            .put(Endpoints.SEND_INVITES + model.locId, JSON.stringify(model), {
+                headers: new HttpHeaders()
+                    .set('Content-Type', 'application/json')
+            })
+    }
+
 }
