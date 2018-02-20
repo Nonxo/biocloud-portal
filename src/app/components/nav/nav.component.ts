@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnInit, TemplateRef, HostListener} from '@angular/core';
 import {Router} from "@angular/router";
 import {BsModalService, BsModalRef} from "ngx-bootstrap/index";
 import {StorageService} from "../../service/storage.service";
@@ -13,6 +13,33 @@ import {MessageService} from "../../service/message.service";
     styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
+
+    sideNavMode = "side";
+    opener:boolean = true;
+
+    onResizeByWindowScreen(){
+        if(window.screen.width < 767){
+            this.sideNavMode = "over";
+            this.opener = false;
+        }
+        else{
+            this.sideNavMode = "side";
+            this.opener = true;
+        }
+
+    }
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        if(event.target.innerWidth < 767){
+            this.sideNavMode = "over";
+            this.opener = false;
+        }
+        else{
+            this.sideNavMode = "side";
+            this.opener = true;
+        }
+    }
 
     modalRef:BsModalRef;
     views:Object[] = [
@@ -47,6 +74,7 @@ export class NavComponent implements OnInit {
     ngOnInit() {
         this.selectedOrg = this.ss.getSelectedOrg()? this.ss.getSelectedOrg(): new Org();
         this.fetchUsersOrg();
+        this.onResizeByWindowScreen();
     }
 
     openModal(template:TemplateRef<any>) {
