@@ -31,6 +31,10 @@ html, body, material-app, mat-sidenav-container, .my-content {
   .user-avatar{
       max-width:60px;
   }
+
+  .font-12{
+      font-size:12px !important;
+  }
   
   /* mat-sidenav-container.mat-drawer-container.mat-sidenav-container.mat-drawer-transition{
       height: calc(100vh - 64px) !important;

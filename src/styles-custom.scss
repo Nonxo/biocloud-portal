@@ -3,7 +3,11 @@
 
 $font-stack : 'Montserrat', sans-serif;
 
-@include mat-core();
+$custom-typography: mat-typography-config(
+    $font-family: $font-stack
+);
+
+@include mat-core($custom-typography);
 
 $mat-mcprimary: (
     50 : #e3e5ea,
@@ -74,15 +78,17 @@ $mat-mcaccent: (
 
 $candy-app-primary: mat-palette($mat-mcprimary);
 $candy-app-accent:  mat-palette($mat-mcaccent);
-
-
 $candy-app-warn:    mat-palette($mat-red);
-
-
 $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
 
 
-$red: "#B21E3D";
+$red: #B21E3D;
+$white: #ffffff;
+$off-white:#f0f5f7;
+$grey: #72797A;
+
+$standard-size: 14px;
+
 
 
 @include angular-material-theme($candy-app-theme);
@@ -95,17 +101,25 @@ html, body{
 mat-card.logo-carousel{
     min-height:640px;
     background-color: mat-color($candy-app-primary) !important; 
-    color: mat-color($candy-app-primary, A700) !important; 
+    color: $grey !important; 
     border-radius: 12px;
-    box-shadow: 0 0 30px mat-color($candy-app-primary, A700) !important; 
+    box-shadow: 0 0 30px $grey !important; 
     z-index:1;
+}
+
+mat-nav-list ul li a{
+    color: $grey !important;
 }
 
 mat-card.auth{
     min-height:600px;
     border-radius: 0 12px 12px 0 !important;
-    box-shadow: 0 0 30px mat-color($candy-app-primary, A700) !important; 
+    box-shadow: 0 0 30px $grey !important; 
 
+}
+
+.mat-toolbar{
+    background: $white !important;
 }
 
 mat-card{
@@ -146,7 +160,7 @@ mat-card{
 }
 
 .text-brand, a{
-    color:mat-color($candy-app-primary) !important;
+    color:mat-color($candy-app-primary);
 }
 
 .bg-light-grey{
@@ -193,7 +207,16 @@ a:hover{
 }
 
 .mat-drawer-container {
-    background-color: mat-color($candy-app-primary, A200) !important; 
+    background-color: $off-white !important; 
+}
+
+mat-sidenav {
+    border-right: 4px solid $off-white;
+}
+
+
+.mat-list .mat-list-item, .mat-nav-list .mat-list-item, .mat-selection-list .mat-list-item{
+    font-size: $standard-size;
 }
 
 
@@ -202,5 +225,11 @@ a:hover{
         min-height:auto;
         border-radius: 12px !important;
     
+    }
+}
+
+@media (max-width: 767.98px){
+    mat-sidenav {
+        border-right: 0;
     }
 }

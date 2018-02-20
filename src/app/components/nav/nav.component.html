@@ -1,5 +1,5 @@
 <mat-sidenav-container autosize>
-    <mat-sidenav #sidenav mode="side" [opened]="true" [ngStyle]="{ 'width.em': sidenavWidth }"
+    <mat-sidenav #sidenav mode="{{sideNavMode}}" [opened]="opener" [ngStyle]="{ 'width.em': sidenavWidth }"
                  (mouseenter)="toggleNavFromMouseEvent(true)" (mouseleave)="toggleNavFromMouseEvent(false)">
         <div class="nav-header">
             <div class="py-4 px-3">
@@ -10,40 +10,45 @@
         </div>
 
 
-        <div class="container-fluid">
-            <div (clickOutside)="onClickedOutside($event)">
-                <div class="row my-3 bg-light-grey cursor border-0 align-items-center" (click)="show()">
-                    <img src=" assets/img/1.png" class="img-fluid logo-icon" style="max-height:4em;"/>
-                    <small class="p-2" *ngIf="sidenavWidth >= 15"><b>{{selectedOrg.name? (selectedOrg.name | ellipsis:15):''}}</b></small>
-                    <i class="material-icons ml-auto mr-3" *ngIf="sidenavWidth >= 15">arrow_drop_down</i>
-                </div>
+        
+        <div  class="container-fluid px-0" (clickOutside)="onClickedOutside($event)">
+            <div class="row my-3 px-3 cursor border-0 align-items-center" (click)="show()">
+                <img src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon ml-3" style="max-height:2em;"/>
+                <small class="p-2" *ngIf="sidenavWidth >= 15"><b>{{selectedOrg.name? (selectedOrg.name | ellipsis:15):''}}</b></small>
+                <i class="material-icons ml-auto mr-3"  *ngIf="sidenavWidth >= 15">arrow_drop_down</i>
+            </div>
 
-                <div *ngIf="openDropdown">
-                    <ul class="list-unstyled">
-                        <li class="media">
-                            <mat-form-field class="w-100">
-                                <input matInput placeholder="Search organisation" type="text">
-                                <mat-icon matSuffix>search</mat-icon>
-                            </mat-form-field>
+            <div *ngIf="openDropdown"  class="bg-light-grey pt-2 font-12">
+                <ul class="list-unstyled px-3">
+                    <li class="media">
+                        <mat-form-field class="w-100">
+                            <input matInput placeholder="Search organisation" type="text">
+                            <mat-icon matSuffix>search</mat-icon>
+                        </mat-form-field>
+                    </li>
+                    <ng-container *ngFor="let org of orgs">
+                        <li *ngIf="org.orgId != selectedOrg.orgId" class="media my-4 cursor" (click)="selectOrg(org)">
+                            <img class="mr-3" src="assets/img/2.jpg" style="max-height:2.5em;">
+                            <div class="media-body" g>
+                                <b class="mt-0 mb-1 text-capitalize">{{org.name}}</b>
+                                <small>123 Attendees</small>
+                            </div>
                         </li>
-                        <ng-container *ngFor="let org of orgs">
-                            <li *ngIf="org.orgId != selectedOrg.orgId" class="media my-4 cursor" (click)="selectOrg(org)">
-                                <img class="mr-3" src="assets/img/2.jpg" style="max-height:2.5em;">
-                                <div class="media-body" g>
-                                    <b class="mt-0 mb-1 text-capitalize">{{org.name}}</b>
-                                    <small>123 Attendees</small>
-                                </div>
-                            </li>
-                        </ng-container>
-                    </ul>
+                    </ng-container>
+                </ul>
 
-                    <a role="button" (click)="openModal(template)">
-                        <div class="p-3 cursor border-top">
-                            <mat-icon class="mr-4">add</mat-icon>
-                            <small mat-line>Add Organisation</small>
-                        </div>
-                    </a>
-                </div>
+                <a role="button" (click)="openModal(template)">
+                    <div class="cursor border-top">
+                        <small>
+                            <mat-list>
+                                <mat-list-item class="p-0 font-12">
+                                    <mat-icon mat-list-icon>add_box</mat-icon>
+                                    <p mat-line> Add Organistaion</p>
+                                </mat-list-item>
+                            </mat-list>
+                        </small>
+                    </div>
+                </a>
             </div>
         </div>
 
@@ -76,7 +81,7 @@
         </mat-nav-list>
 
     </mat-sidenav>
-    <mat-toolbar color="primary">
+    <mat-toolbar>
         <button mat-icon-button (click)="sidenav.toggle()" class="d-block d-md-none">
             <mat-icon>menu</mat-icon>
         </button>
