@@ -19,7 +19,6 @@ export class SetupComponent implements OnInit {
     editMode:boolean;
     countries:any[] = [];
     states:any[] = [];
-    modalRef:BsModalRef;
     modalOptions:ModalOptions = new ModalOptions();
     lat:number = 9.0820;
     lng:number = 8.6753;
@@ -39,7 +38,8 @@ export class SetupComponent implements OnInit {
                 private ngZone:NgZone,
                 private mapService:GeoMapService,
                 private ns:NotifyService,
-                private router:Router) {
+                private router:Router,
+                public modalRef:BsModalRef) {
     }
 
     ngOnInit() {
@@ -106,7 +106,7 @@ export class SetupComponent implements OnInit {
     submit() {
         if (this.resumption) {
             this.locRequest.resumption = this.formatResumptionTime();
-        }else {
+        } else {
             this.locRequest.resumption = "";
         }
 
@@ -124,6 +124,7 @@ export class SetupComponent implements OnInit {
                 result => {
                     if (result.code == 0) {
                         this.ns.showSuccess("Location was successfully updated");
+                        this.modalRef.hide();
                     } else {
                         this.ns.showError(result.description);
                     }
