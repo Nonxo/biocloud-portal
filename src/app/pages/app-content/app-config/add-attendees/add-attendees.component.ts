@@ -5,6 +5,8 @@ import {AppContentService} from "../../services/app-content.service";
 import {AppConfigService} from "../services/app-config.service";
 import {NotifyService} from "../../../../service/notify.service";
 import {TranslateService} from "@ngx-translate/core";
+import * as FileSaver from 'file-saver';
+import {BsModalRef} from "ngx-bootstrap/index";
 
 @Component({
     selector: 'app-add-attendees',
@@ -16,6 +18,7 @@ export class AddAttendeesComponent implements OnInit {
     invites:boolean = true;
     bulk:boolean;
     location:string;
+    editMode:boolean;
     locations:any[] = [];
     inviteRequest:InviteRequest = new InviteRequest();
 
@@ -28,7 +31,8 @@ export class AddAttendeesComponent implements OnInit {
                 private configService:AppConfigService,
                 private ss:StorageService,
                 private ns:NotifyService,
-                private translate: TranslateService) {
+                private translate:TranslateService,
+                public modalRef:BsModalRef) {
         translate.setDefaultLang('en/add-attendees');
         translate.use('en/add-attendees');
     }
@@ -73,7 +77,7 @@ export class AddAttendeesComponent implements OnInit {
     }
 
     callLocationService() {
-        this.contentService.fetchOrgLocations(this.ss.getSelectedOrg()? this.ss.getSelectedOrg().orgId:null)
+        this.contentService.fetchOrgLocations(this.ss.getSelectedOrg() ? this.ss.getSelectedOrg().orgId : null)
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -82,6 +86,31 @@ export class AddAttendeesComponent implements OnInit {
                 },
                 error => {
                 }
+            )
+    }
+
+    downloadTemplate() {
+        this.configService.downloadTemplate()
+            .subscribe(
+                result => {
+                        var blob = new Blob([result], {type: 'application/vnd.ms-excel'});
+                        FileSaver.saveAs(blob, "template.xls");
+                },
+                error => {this.ns.showError("An Error Occurred.");}
+            )
+    }
+
+    fileChange(event) {
+        this.configService.uploadTemplate(event.target.files[0])
+            .subscribe(
+                result => {
+                    if(result.code == 0) {
+                        this.ns.showSuccess("Invites successfully sent");
+                    }else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {this.ns.showError("An Error Occurred.")}
             )
     }
 
