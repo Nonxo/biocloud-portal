@@ -51,6 +51,7 @@ import {EllipsisPipe} from "../util/pipes/ellipsis-pipe";
 import {SetupComponent} from "../pages/app-content/app-config/setup/setup.component";
 import {OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime/picker";
 import {AgmCoreModule} from "@agm/core";
+import {AddAttendeesComponent} from "../pages/app-content/app-config/add-attendees/add-attendees.component";
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -158,10 +159,11 @@ export function createTranslateLoader(http: HttpClient) {
         ClickOutsideModule,
         EllipsisPipe,
         SetupComponent,
-        AgmCoreModule
+        AgmCoreModule,
+        AddAttendeesComponent
 
     ],
-    declarations: [NavComponent, SetupComponent, EllipsisPipe]
+    declarations: [NavComponent, SetupComponent, EllipsisPipe, AddAttendeesComponent]
 })
 export class SharedModule {
 }

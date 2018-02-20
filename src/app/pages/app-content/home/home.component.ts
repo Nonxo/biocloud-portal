@@ -6,6 +6,7 @@ import {StorageService} from "../../../service/storage.service";
 import {BsModalService, BsModalRef, ModalOptions} from "ngx-bootstrap/index";
 import {LocationRequest} from "../app-config/model/app-config.model";
 import {SetupComponent} from "../app-config/setup/setup.component";
+import {AddAttendeesComponent} from "../app-config/add-attendees/add-attendees.component";
 
 @Component({
     selector: 'app-home',
@@ -64,13 +65,25 @@ export class HomeComponent implements OnInit {
         this.openLocationModal(loc);
     }
 
+    invite() {
+        this.openInviteModal();
+    }
+
     openLocationModal(loc: LocationRequest) {
         this.modalOptions.class = 'modal-lg mt-0';
         this.modalOptions.initialState = {
             locRequest: loc,
             editMode: true
-        }
+        };
         this.bsModalRef = this.modalService.show(SetupComponent, this.modalOptions);
+    }
+
+    openInviteModal() {
+        this.modalOptions.class = 'modal-lg mt-0';
+        this.modalOptions.initialState = {
+            editMode: true
+        }
+        this.bsModalRef = this.modalService.show(AddAttendeesComponent, this.modalOptions);
     }
 
 }

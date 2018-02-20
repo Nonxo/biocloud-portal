@@ -107,7 +107,7 @@ export class SetupComponent implements OnInit {
         if (this.resumption) {
             this.locRequest.resumption = this.formatResumptionTime();
         } else {
-            this.locRequest.resumption = "";
+            this.locRequest.resumption = 0;
         }
 
         if (this.locRequest.locationType == 'SPECIFIC_ADDRESS') {
@@ -163,11 +163,7 @@ export class SetupComponent implements OnInit {
     }
 
     formatResumptionTime() {
-        let h = this.addZero(new Date(this.resumption).getHours()).toString();
-        let m = this.addZero(new Date(this.resumption).getMinutes()).toString();
-        let s = "00";
-
-        return h + ":" + m + ":" + s;
+        return new Date(this.resumption).getTime();
     }
 
 

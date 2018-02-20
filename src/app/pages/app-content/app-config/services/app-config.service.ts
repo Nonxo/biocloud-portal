@@ -53,7 +53,7 @@ export class AppConfigService {
     downloadTemplate(): Observable<any> {
         let params = new HttpParams()
         .set('orgId', this.ss.getSelectedOrg()? this.ss.getSelectedOrg().orgId: null)
-        .set('name', 'TEMPLATE')
+        .set('name', 'TEMPLATE');
 
         return this.httpClient
             .get(Endpoints.DOWNLOAD_TEMPLATE_BULK + params.toString(), {
@@ -61,6 +61,14 @@ export class AppConfigService {
                 headers: new HttpHeaders()
                     .set('Content-Type', 'application/json')
             })
+    }
+
+    uploadTemplate(file: File) : Observable<any> {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('orgId', this.ss.getSelectedOrg()? this.ss.getSelectedOrg().orgId: null);
+
+        return this.httpClient.post(Endpoints.UPLOAD_TEMPLATE_BULK, formData)
     }
 
     editLocation(model:LocationRequest): Observable<any>{

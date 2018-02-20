@@ -1,3 +1,10 @@
+<div *ngIf="editMode" class="modal-header">
+    <h4 class="modal-title pull-left">{{title}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
 <div class="container py-5">
     <div class="row">
         <div class="col-md-12">
@@ -55,18 +62,23 @@
                     </div>
                     <div class="col-md-6"></div>
                     <div class="col-md-2 my-2">
-                        <button mat-raised-button color="warning" (click)="downloadTemplate()" class="mat-btn">DOWNLOAD EXCEL</button>
+                        <button mat-raised-button color="warning" id="downloadTemplate" (click)="downloadTemplate()" class="mat-btn">DOWNLOAD EXCEL</button>
                     </div>
                     <div class="col-md-2 my-2">
-                        <button mat-raised-button color="accent" class="mat-btn">UPLOAD EXCEL</button>
+                        <!--<button mat-raised-button color="accent" class="mat-btn">UPLOAD EXCEL</button>-->
+                        <div class="fileUpload btn btn-success">
+                            <span mat-raised-button color="accent" class="mat-btn">Upload Template</span>
+                            <input type="file" class="upload" id="uploadTemplate" name="uploadTemplate"
+                                   (change)="fileChange($event)">
+                        </div>
                     </div>
                 </div>
             </mat-card>
         </div>
 
-        <div class="col-md-12 pt-4 text-right">
+        <div *ngIf="!editMode" class="col-md-12 pt-4 text-right">
             <button mat-button class="mat-btn" routerLink="/portal/config">BACK</button>
-            <button mat-raised-button color="primary" class="mat-btn">PROCEED</button>
+            <button mat-raised-button color="primary" class="mat-btn" routerLink="/portal">DONE</button>
         </div>
     </div>
 </div>

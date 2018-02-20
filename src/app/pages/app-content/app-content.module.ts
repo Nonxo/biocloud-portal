@@ -12,6 +12,7 @@ import {MessageService} from "../../service/message.service";
 import {SetupComponent} from "./app-config/setup/setup.component";
 import {AppConfigService} from "./app-config/services/app-config.service";
 import {GeoMapService} from "../../service/geo-map.service";
+import {AddAttendeesComponent} from "./app-config/add-attendees/add-attendees.component";
 
 @NgModule({
     imports: [
@@ -27,7 +28,7 @@ import {GeoMapService} from "../../service/geo-map.service";
         SideNavComponent
     ],
     providers: [AppContentService, MessageService, AppConfigService, GeoMapService],
-    entryComponents: [SetupComponent]
+    entryComponents: [SetupComponent, AddAttendeesComponent]
 })
 export class AppContentModule {
 }

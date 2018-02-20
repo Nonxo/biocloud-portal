@@ -13,7 +13,7 @@ export class LocationRequest {
     stateId:number;
     address:string;
     gracePeriodInMinutes:number;
-    resumption:string;
+    resumption:number;
     resumptionTimezoneId:string;
     orgId:string;
     createdBy:string;
