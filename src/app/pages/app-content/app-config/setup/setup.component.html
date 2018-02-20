@@ -1,6 +1,6 @@
 <div *ngIf="editMode" class="modal-header">
     <h4 class="modal-title pull-left">{{title}}</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
@@ -127,7 +127,7 @@
 
 
             <div class="col-md-12 pt-4 text-right">
-                <button mat-raised-button color="primary" [disabled]="addLocationForm.invalid" class="mat-btn" type="submit">PROCEED</button>
+                <button mat-raised-button color="primary" [disabled]="addLocationForm.invalid" class="mat-btn" type="submit">{{editMode? 'SAVE':'PROCEED'}}</button>
             </div>
         </div>
     </form>
