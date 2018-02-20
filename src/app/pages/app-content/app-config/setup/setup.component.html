@@ -1,3 +1,10 @@
+<div *ngIf="editMode" class="modal-header">
+    <h4 class="modal-title pull-left">{{title}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
 <div class="container py-5">
     <form (ngSubmit)="submit()" name="addLocationForm" #addLocationForm="ngForm" ngNativeValidate>
         <div class="row">
@@ -109,7 +116,7 @@
                             </mat-form-field>
                         </div>
 
-                        <div class="col-md-12 text-right">
+                        <div class="col-md-12 text-right" *ngIf="!editMode">
                             <button mat-mini-fab color="accent" type="button" (click)="addnewLocation()">
                                 <mat-icon>add</mat-icon>
                             </button>

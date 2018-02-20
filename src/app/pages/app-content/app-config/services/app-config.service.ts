@@ -63,4 +63,21 @@ export class AppConfigService {
             })
     }
 
+    editLocation(model:LocationRequest): Observable<any>{
+        model.orgId = this.ss.getSelectedOrg()? this.ss.getSelectedOrg().orgId:null;
+        model.createdBy = this.ss.getLoggedInUserEmail();
+
+        let body = JSON.parse(JSON.stringify(model));
+        delete body.created;
+        delete body.active;
+        delete body.lastModified;
+        delete body.locId;
+
+        return this.httpClient
+            .post(Endpoints.EDIT_LOCATION + model.locId, JSON.stringify(body), {
+                headers: new HttpHeaders()
+                    .set('Content-Type', 'application/json')
+            })
+    }
+
 }
