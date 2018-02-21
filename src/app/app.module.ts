@@ -18,6 +18,7 @@ import { AppRoutingModule } from './app-routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RecaptchaModule} from "ng-recaptcha";
 import {AgmCoreModule} from "@agm/core";
+import { NotificationsComponent } from './notifications/notifications.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import {AgmCoreModule} from "@agm/core";
     AuthComponent,
     RegisterComponent,
     LoginComponent,
+    NotificationsComponent,
   ],
   imports: [
     HttpClientModule,
