@@ -5,11 +5,11 @@ export class DataService {
 
   private _logoutMessage: string;
 
-  get logoutMessage(): any {
+  getLogoutMessage(): any {
     return this._logoutMessage;
   }
 
-  set logoutMessage(value: any) {
+  setLogoutMessage(value: any) {
     this._logoutMessage = value;
   }
 

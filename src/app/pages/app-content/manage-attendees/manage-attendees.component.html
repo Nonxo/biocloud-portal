@@ -1,0 +1,115 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 px-md-4 px-lg-4">
+            <div class="row pb-md-3 row-eq-height">
+
+
+                <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="5">
+                    <thead>
+                    <tr>
+                        <th>
+                            <mfDefaultSorter by=""><mat-checkbox class="example-margin" (change)="selectAll($event)"></mat-checkbox></mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="name">First Name</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="email">Last Name</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="age">Phone Number</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="city">Email Address</mfDefaultSorter>
+                        </th>
+
+                        <th >
+                            <mfDefaultSorter by="city">Assigned Location</mfDefaultSorter>
+                        </th>
+
+                        <th>
+                            <mfDefaultSorter by="city">Status</mfDefaultSorter>
+                        </th>
+
+                        <th >
+                            <mfDefaultSorter by="city">Action</mfDefaultSorter>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let item of mf.data">
+                        <td><mat-checkbox class="example-margin" name="{{item.userId}}" [(ngModel)]="item.checked"></mat-checkbox></td>
+                        <td>{{item.fName}}</td>
+                        <td>{{item.lName}}</td>
+                        <td>{{item.phone}}</td>
+                        <td>{{item.email}}</td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <mat-icon matTooltip="Reassign user" (click)="openAssignModal(assignuserTemplate)">error</mat-icon>
+                            <mat-icon matTooltip="View Report">error</mat-icon>
+                            <mat-icon matTooltip="De-activate" (click)="openActivateUserModal(activateUserTemplate)">error</mat-icon>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #assignuserTemplate>
+    <div class="modal-header">
+        <h4 class="modal-title">Reassign Attendee</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row p-md-3 p-0">
+
+            <div class="col-md-12">
+                <h6 class="text-brand">Reassign the selected attendee(s) to a new location</h6>
+            </div>
+
+            <div class="col-md-8">
+                <mat-form-field class="input-field">
+                    <input matInput placeholder="Reassign Attendees to new Location">
+                </mat-form-field>
+            </div>
+
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #activateUserTemplate>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Modal</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="col-md-12">
+            <h6 class="text-brand">Are you sure you want to the selected attendee(s).</h6>
+            <h6 class="text-brand">This means they will be unable to clock in to your institution anymore</h6>
+        </div>
+
+        <div class="col-md-12 text-right">
+            <button mat-raised-button color="danger" type="button">CANCEL</button>
+            <button mat-raised-button color="primary" type="button">OK</button>
+        </div>
+
+
+    </div>
+</ng-template>
