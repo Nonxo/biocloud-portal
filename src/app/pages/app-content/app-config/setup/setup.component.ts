@@ -119,7 +119,7 @@ export class SetupComponent implements OnInit {
         if (this.resumption) {
             this.locRequest.resumption = this.formatResumptionTime();
         } else {
-            this.locRequest.resumption = 0;
+            this.locRequest.resumption = null;
         }
 
         if (this.locRequest.locationType == 'SPECIFIC_ADDRESS') {

@@ -17,4 +17,6 @@ export class Endpoints {
   public static EDIT_LOCATION = `${Endpoints.BASE_URL}/users/api/locations/`;
   public static DOWNLOAD_TEMPLATE_BULK = `${Endpoints.BASE_URL}/users/api/org/invites/bulk/download?`;
   public static UPLOAD_TEMPLATE_BULK = `${Endpoints.BASE_URL}/users/api/org/invites/bulk/upload`;
+  public static FETCH_USERS = `${Endpoints.BASE_URL}/users/api/locations/`;
+  public static FETCH_USERS_IN_AN_ORG = `${Endpoints.BASE_URL}/users/api/org/`;
 }
