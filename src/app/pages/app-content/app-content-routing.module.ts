@@ -8,6 +8,7 @@ import { AppContentComponent } from './app-content.component';
 import { HomeComponent } from './home/home.component';
 import { SubscribeComponent } from './subscribe/subscribe.component';
 import { SubscriptionHistoryComponent } from './subscription-history/subscription-history.component';
+import {ManageAttendeesComponent} from "./manage-attendees/manage-attendees.component";
 
 const routes: Routes = [
   {
@@ -25,6 +26,10 @@ const routes: Routes = [
       {
         path: 'subscribe',
         component: SubscribeComponent
+      },
+      {
+        path: 'manage-users',
+        component: ManageAttendeesComponent
       },
       {
         path: 'subscription-history',

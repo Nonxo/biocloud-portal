@@ -16,39 +16,13 @@ export class NavComponent implements OnInit {
 
     sideNavMode = "side";
     opener:boolean = true;
-
-    onResizeByWindowScreen(){
-        if(window.screen.width < 767){
-            this.sideNavMode = "over";
-            this.opener = false;
-        }
-        else{
-            this.sideNavMode = "side";
-            this.opener = true;
-        }
-
-    }
-
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        if(event.target.innerWidth < 767){
-            this.sideNavMode = "over";
-            this.opener = false;
-        }
-        else{
-            this.sideNavMode = "side";
-            this.opener = true;
-        }
-    }
-
     modalRef:BsModalRef;
     views:Object[] = [
         {icon: "home", route: "Home", url: "/portal"},
-        {icon: "group", route: "Attendees", url: "/"},
+        {icon: "group", route: "Attendees", url: "/portal/manage-users"},
         {icon: "insert_chart", route: "Report", url: "/"},
         {icon: "payment", route: "Subscribe", url: "/"}
     ];
-
     orgTypes:string[] = ["SCHOOL", "SECURITY", "HOSPITAL"];
 
     navs:Object[] = [
@@ -61,6 +35,7 @@ export class NavComponent implements OnInit {
     sidenavWidth = 16;
     openDropdown:boolean;
     hamburgerClicked:boolean = true;
+    title:string = "Home";
 
 
     constructor(private router:Router,
@@ -144,8 +119,7 @@ export class NavComponent implements OnInit {
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.ns.showSuccess(result.description);
-                        this.orgs = result.organisations;
+                        this.orgs = result.organisations? result.organisations: [];
                         //cache orgs
                         this.cacheOrg();
                         this.setDefaultSelectedOrg();
@@ -205,6 +179,30 @@ export class NavComponent implements OnInit {
         localStorage.removeItem('_orgs');
         localStorage.removeItem('_st');
         this.router.navigate(['/auth']);
+    }
+
+    onResizeByWindowScreen(){
+        if(window.screen.width < 767){
+            this.sideNavMode = "over";
+            this.opener = false;
+        }
+        else{
+            this.sideNavMode = "side";
+            this.opener = true;
+        }
+
+    }
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        if(event.target.innerWidth < 767){
+            this.sideNavMode = "over";
+            this.opener = false;
+        }
+        else{
+            this.sideNavMode = "side";
+            this.opener = true;
+        }
     }
 
 

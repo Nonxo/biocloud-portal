@@ -7,6 +7,7 @@ import {BsModalService, BsModalRef, ModalOptions} from "ngx-bootstrap/index";
 import {LocationRequest} from "../app-config/model/app-config.model";
 import {SetupComponent} from "../app-config/setup/setup.component";
 import {AddAttendeesComponent} from "../app-config/add-attendees/add-attendees.component";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-home',
@@ -18,14 +19,15 @@ export class HomeComponent implements OnInit {
     locationsSubscription:any;
     orgId:string;
     locations:any = [];
-    bsModalRef: BsModalRef;
-    modalOptions: ModalOptions = new ModalOptions();
+    bsModalRef:BsModalRef;
+    modalOptions:ModalOptions = new ModalOptions();
 
     constructor(private mService:MessageService,
                 private ns:NotifyService,
                 private contentService:AppContentService,
                 private ss:StorageService,
-                private modalService:BsModalService) {
+                private modalService:BsModalService,
+                private router:Router) {
     }
 
     ngOnInit() {
@@ -40,6 +42,7 @@ export class HomeComponent implements OnInit {
                 result => {
                     this.orgId = result;
                     this.callLocationService();
+                    this.router.navigate(['/portal']);
                 }
             )
 
@@ -53,10 +56,12 @@ export class HomeComponent implements OnInit {
                         this.locations = result.locations;
                     } else {
                         this.ns.showError(result.description);
+                        this.locations = [];
                     }
                 },
                 error => {
                     this.ns.showError("An Error Occurred");
+                    this.locations = [];
                 }
             )
     }
@@ -69,12 +74,15 @@ export class HomeComponent implements OnInit {
         this.openInviteModal();
     }
 
-    openLocationModal(loc: LocationRequest) {
+    openLocationModal(loc:LocationRequest) {
         this.modalOptions.class = 'modal-lg mt-0';
         this.modalOptions.initialState = {
             locRequest: loc,
-            editMode: true
-        };
+            editMode: true,
+            lat: loc.latitude? loc.latitude: 9.0820,
+            lng: loc.longitude? loc.longitude: 8.6753
+    }
+        ;
         this.bsModalRef = this.modalService.show(SetupComponent, this.modalOptions);
     }
 

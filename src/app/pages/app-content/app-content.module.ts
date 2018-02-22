@@ -13,11 +13,14 @@ import {SetupComponent} from "./app-config/setup/setup.component";
 import {AppConfigService} from "./app-config/services/app-config.service";
 import {GeoMapService} from "../../service/geo-map.service";
 import {AddAttendeesComponent} from "./app-config/add-attendees/add-attendees.component";
+import {DataTableModule} from "angular2-datatable";
+import { ManageAttendeesComponent } from './manage-attendees/manage-attendees.component';
 
 @NgModule({
     imports: [
         CommonModule,
         SharedModule,
+        DataTableModule,
         AppContentRoutingModule
     ],
     declarations: [
@@ -25,7 +28,8 @@ import {AddAttendeesComponent} from "./app-config/add-attendees/add-attendees.co
         AppContentComponent,
         SubscribeComponent,
         SubscriptionHistoryComponent,
-        SideNavComponent
+        SideNavComponent,
+        ManageAttendeesComponent
     ],
     providers: [AppContentService, MessageService, AppConfigService, GeoMapService],
     entryComponents: [SetupComponent, AddAttendeesComponent]
