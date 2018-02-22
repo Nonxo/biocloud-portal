@@ -23,6 +23,7 @@ export class SetupComponent implements OnInit {
     lat:number = 9.0820;
     lng:number = 8.6753;
     zoomSize:number = 15;
+    draggable:boolean = true;
     addRange:boolean;
     resumption:string;
     timezones:string[] = Timezones.list;
@@ -68,8 +69,10 @@ export class SetupComponent implements OnInit {
 
     customSettings() {
         if(this.addRange) {
+            this.draggable = false;
             this.zoomSize = 20;
         }else {
+            this.draggable = true
             this.zoomSize = 15;
         }
     }
@@ -247,8 +250,10 @@ export class SetupComponent implements OnInit {
     }
 
     mapClicked($event:any) {
-        this.lat = $event.coords.lat;
-        this.lng = $event.coords.lng;
+        if(!this.addRange) {
+            this.lat = $event.coords.lat;
+            this.lng = $event.coords.lng;
+        }
     }
 
     useAddress() {

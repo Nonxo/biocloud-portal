@@ -162,7 +162,7 @@
 
         <div class="col-md-12">
             <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoomSize" (mapClick)="mapClicked($event)">
-                <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true"
+                <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="draggable"
                             (dragEnd)="markerDragEnd($event)"></agm-marker>
 
                 <agm-circle *ngIf="addRange" [latitude]="lat" [longitude]="lng"
