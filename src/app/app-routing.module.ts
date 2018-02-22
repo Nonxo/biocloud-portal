@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './pages/auth/auth.component';
 
+
 const routes: Routes = [
   {path: '', redirectTo: '/auth', pathMatch: 'full'},
   {path: 'auth', component: AuthComponent},
@@ -9,6 +10,10 @@ const routes: Routes = [
     path: 'portal',
     loadChildren: 'app/pages/app-content/app-content.module#AppContentModule'
   },
+  // {
+  //   path: 'report-dashboard',
+  //   component: ReportDashboardComponent
+  // },
   {path: '**', redirectTo: '/auth'},
 ];
 

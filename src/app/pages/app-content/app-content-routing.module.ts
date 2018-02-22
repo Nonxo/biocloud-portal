@@ -8,6 +8,9 @@ import { AppContentComponent } from './app-content.component';
 import { HomeComponent } from './home/home.component';
 import { SubscribeComponent } from './subscribe/subscribe.component';
 import { SubscriptionHistoryComponent } from './subscription-history/subscription-history.component';
+import { ReportDashboardComponent } from './report-dashboard/report-dashboard.component';
+import { CustomReportComponent } from './custom-report/custom-report.component';
+import { LatenessReportComponent } from './lateness-report/lateness-report.component';
 
 const routes: Routes = [
   {
@@ -25,6 +28,18 @@ const routes: Routes = [
       {
         path: 'subscribe',
         component: SubscribeComponent
+      },
+      {
+        path: 'report-dashboard',
+        component: ReportDashboardComponent
+      },
+      {
+        path: 'lateness-report',
+        component: LatenessReportComponent
+      },
+      {
+        path: 'custom-report',
+        component: CustomReportComponent
       },
       {
         path: 'subscription-history',

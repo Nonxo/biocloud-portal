@@ -1,0 +1,120 @@
+<div class="container py-5">
+  <div class="row">
+    <div class="col-12">
+      <mat-card>
+
+        <div class="col-md-6 col-12">
+          <h5 class="py-3">Enter search parameters</h5>
+
+        </div>
+        <div class="row px-3">
+          <div class="col-12 col-md-2">
+            <mat-form-field class="input-field">
+              <input matInput placeholder="First Name">
+            </mat-form-field>
+          </div>
+          <div class="col-12 col-md-2">
+            <mat-form-field class="input-field">
+              <input matInput placeholder="Last Name">
+            </mat-form-field>
+          </div>
+          <div class="col-12 col-md-2">
+            <mat-form-field class="input-field">
+              <input matInput placeholder="Clock in Start Time">
+              <!-- <owl-date-time ></owl-date-time> -->
+            </mat-form-field>
+          </div>
+          <div class="col-12 col-md-2">
+            <mat-form-field class="input-field">
+              <input matInput placeholder="Clock in End Time">
+              <!-- <owl-date-time ></owl-date-time> -->
+            </mat-form-field>
+          </div>
+          <div class="col-12 col-md-2">
+            <mat-form-field class="input-field">
+              <input matInput placeholder="Email Address">
+            </mat-form-field>
+          </div>
+
+          <div class="col-12 col-md-2">
+            <mat-form-field class="input-field">
+              <mat-select placeholder="Time in" name="">
+                <mat-option value=""> Early</mat-option>
+                <mat-option value=""> Late </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row px-3">
+          <div class="col-12 col-md-2">
+            <mat-form-field class="input-field">
+              <input matInput placeholder="Device ID">
+            </mat-form-field>
+          </div>
+
+
+          <div class="col-12 col-md-2">
+            <mat-form-field class="input-field">
+              <mat-select placeholder="Clocked in" name="">
+                <mat-option value=""> Before</mat-option>
+                <mat-option value=""> After</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-12 col-md-2">
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="float-right">
+              <button type="submit" mat-raised-button color="accent" class="auth-btn">RUN REPORT</button>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 pt-5">
+            <h5 class="py-3">Result output</h5>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Handle</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>

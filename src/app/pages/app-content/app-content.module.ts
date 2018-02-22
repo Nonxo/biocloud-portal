@@ -9,6 +9,9 @@ import { SubscriptionHistoryComponent } from './subscription-history/subscriptio
 import {SideNavComponent} from "../../components/side-nav/side-nav.component";
 import {AppContentService} from "./services/app-content.service";
 import {MessageService} from "../../service/message.service";
+import { ReportDashboardComponent } from './report-dashboard/report-dashboard.component';
+import { CustomReportComponent } from './custom-report/custom-report.component';
+import { LatenessReportComponent } from './lateness-report/lateness-report.component';
 
 @NgModule({
   imports: [
@@ -21,7 +24,10 @@ import {MessageService} from "../../service/message.service";
     AppContentComponent,
     SubscribeComponent,
     SubscriptionHistoryComponent,
-    SideNavComponent
+    SideNavComponent,
+    ReportDashboardComponent,
+    CustomReportComponent,
+    LatenessReportComponent
   ],
   providers: [AppContentService, MessageService]
 })
