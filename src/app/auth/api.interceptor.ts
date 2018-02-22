@@ -29,6 +29,7 @@ export class ApiInterceptor implements HttpInterceptor {
         .set('br-time', moment().toDate().getTime().toString())
     });
 
+    //noinspection TypeScriptValidateTypes
     return next.handle(authReq)
     // .timeout(60000)
       .map((value) => {
@@ -54,19 +55,19 @@ export class ApiInterceptor implements HttpInterceptor {
       this.logout();
       this.router.navigate(['/auth']);
     } else if (message == 'Token provided is invalid') {
-      this.ds.logoutMessage('Your session has expired. Please login again');
+      this.ds.setLogoutMessage('Your session has expired. Please login again');
       this.logout();
       this.router.navigate(['/auth']);
     } else if (message == 'Your session has expired, please login again') {
-      this.ds.logoutMessage('Your session has expired. Please login again');
+      this.ds.setLogoutMessage('Your session has expired. Please login again');
       this.logout();
       this.router.navigate(['/auth']);
     } else if (message == 'Not Authorized') {
-      this.ds.logoutMessage('Your session has expired. Please login again');
+      this.ds.setLogoutMessage('Your session has expired. Please login again');
       this.logout();
       this.router.navigate(['/auth']);
     } else if (message == 'Correct your device time and try again') {
-      this.ds.logoutMessage('Correct your device time and try again');
+      this.ds.setLogoutMessage('Correct your device time and try again');
       this.logout();
       this.router.navigate(['/auth']);
     }

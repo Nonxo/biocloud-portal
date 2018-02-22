@@ -17,6 +17,7 @@ import { NotifyService } from './service/notify.service';
 import { AppRoutingModule } from './app-routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RecaptchaModule} from "ng-recaptcha";
+import {AgmCoreModule} from "@agm/core";
 
 
 @NgModule({
@@ -32,6 +33,10 @@ import {RecaptchaModule} from "ng-recaptcha";
     BrowserModule,
     BrowserAnimationsModule,
     RecaptchaModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDX0uywgARFKu6Tsr6qC4v6acFdtrCxfAI',
+      libraries: ['places']
+    }),
     AppRoutingModule
   ],
   providers: [

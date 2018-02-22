@@ -9,26 +9,35 @@ import { SubscriptionHistoryComponent } from './subscription-history/subscriptio
 import {SideNavComponent} from "../../components/side-nav/side-nav.component";
 import {AppContentService} from "./services/app-content.service";
 import {MessageService} from "../../service/message.service";
+import {SetupComponent} from "./app-config/setup/setup.component";
+import {AppConfigService} from "./app-config/services/app-config.service";
+import {GeoMapService} from "../../service/geo-map.service";
+import {AddAttendeesComponent} from "./app-config/add-attendees/add-attendees.component";
+import {DataTableModule} from "angular2-datatable";
+import { ManageAttendeesComponent } from './manage-attendees/manage-attendees.component';
 import { ReportDashboardComponent } from './report-dashboard/report-dashboard.component';
 import { CustomReportComponent } from './custom-report/custom-report.component';
 import { LatenessReportComponent } from './lateness-report/lateness-report.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule,
-    AppContentRoutingModule
-  ],
-  declarations: [
-    HomeComponent,
-    AppContentComponent,
-    SubscribeComponent,
-    SubscriptionHistoryComponent,
-    SideNavComponent,
-    ReportDashboardComponent,
-    CustomReportComponent,
-    LatenessReportComponent
-  ],
-  providers: [AppContentService, MessageService]
+    imports: [
+        CommonModule,
+        SharedModule,
+        DataTableModule,
+        AppContentRoutingModule
+    ],
+    declarations: [
+        HomeComponent,
+        AppContentComponent,
+        SubscribeComponent,
+        SubscriptionHistoryComponent,
+        SideNavComponent,
+        ManageAttendeesComponent,
+        ReportDashboardComponent,
+        CustomReportComponent,
+        LatenessReportComponent
+    ],
+    providers: [AppContentService, MessageService, AppConfigService, GeoMapService],
+    entryComponents: [SetupComponent, AddAttendeesComponent]
 })
 export class AppContentModule { }

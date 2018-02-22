@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnInit, TemplateRef, HostListener} from '@angular/core';
 import {Router} from "@angular/router";
 import {BsModalService, BsModalRef} from "ngx-bootstrap/index";
 import {StorageService} from "../../service/storage.service";
@@ -14,10 +14,12 @@ import {MessageService} from "../../service/message.service";
 })
 export class NavComponent implements OnInit {
 
+    sideNavMode = "side";
+    opener:boolean = true;
     modalRef:BsModalRef;
     views:Object[] = [
         {icon: "home", route: "Home", url: "/portal"},
-        {icon: "group", route: "Attendees", url: "/"},
+        {icon: "group", route: "Attendees", url: "/portal/manage-users"},
         {icon: "insert_chart", route: "Report", url: "/portal/report-dashboard"},
         {icon: "payment", route: "Subscribe", url: "/"}
     ];
@@ -34,6 +36,7 @@ export class NavComponent implements OnInit {
     sidenavWidth = 16;
     openDropdown:boolean;
     hamburgerClicked:boolean = true;
+    title:string = "Home";
 
 
     constructor(private router:Router,
@@ -47,6 +50,7 @@ export class NavComponent implements OnInit {
     ngOnInit() {
         this.selectedOrg = this.ss.getSelectedOrg()? this.ss.getSelectedOrg(): new Org();
         this.fetchUsersOrg();
+        this.onResizeByWindowScreen();
     }
 
     openModal(template:TemplateRef<any>) {
@@ -116,8 +120,7 @@ export class NavComponent implements OnInit {
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.ns.showSuccess(result.description);
-                        this.orgs = result.organisations;
+                        this.orgs = result.organisations? result.organisations: [];
                         //cache orgs
                         this.cacheOrg();
                         this.setDefaultSelectedOrg();
@@ -177,6 +180,30 @@ export class NavComponent implements OnInit {
         localStorage.removeItem('_orgs');
         localStorage.removeItem('_st');
         this.router.navigate(['/auth']);
+    }
+
+    onResizeByWindowScreen(){
+        if(window.screen.width < 767){
+            this.sideNavMode = "over";
+            this.opener = false;
+        }
+        else{
+            this.sideNavMode = "side";
+            this.opener = true;
+        }
+
+    }
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        if(event.target.innerWidth < 767){
+            this.sideNavMode = "over";
+            this.opener = false;
+        }
+        else{
+            this.sideNavMode = "side";
+            this.opener = true;
+        }
     }
 
 
