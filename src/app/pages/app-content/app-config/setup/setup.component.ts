@@ -22,6 +22,7 @@ export class SetupComponent implements OnInit {
     modalOptions:ModalOptions = new ModalOptions();
     lat:number = 9.0820;
     lng:number = 8.6753;
+    zoomSize:number = 15;
     addRange:boolean;
     resumption:string;
     timezones:string[] = Timezones.list;
@@ -51,6 +52,9 @@ export class SetupComponent implements OnInit {
     openModal(template:TemplateRef<any>, addRange) {
         !this.locRequest.address ? this.getCurrentPosition(false) : '';
         this.addRange = addRange;
+
+        this.customSettings();
+
         this.modalOptions.class = 'modal-lg mt-0';
         this.modalRef = this.modalService.show(template, this.modalOptions);
 
@@ -60,6 +64,14 @@ export class SetupComponent implements OnInit {
             }, 2000);
         }
 
+    }
+
+    customSettings() {
+        if(this.addRange) {
+            this.zoomSize = 20;
+        }else {
+            this.zoomSize = 15;
+        }
     }
 
     fetchCountries() {

@@ -86,10 +86,8 @@
                         <ng-container *ngIf="locRequest.locationType">
                             <div class="col-md-4">
                                 <mat-form-field class="input-field">
-                                    <input matInput placeholder="Resumption Time" name="rTime"
-                                           [(ngModel)]="resumption" [owlDateTimeTrigger]="dt4"
-                                           [owlDateTime]="dt4">
-                                    <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
+                                    <input matInput type="time" placeholder="Resumption Time" name="rTime"
+                                           [(ngModel)]="resumption">
                                 </mat-form-field>
                             </div>
                             <div class="col-md-2">
@@ -163,7 +161,7 @@
         </div>
 
         <div class="col-md-12">
-            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="13" (mapClick)="mapClicked($event)">
+            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoomSize" (mapClick)="mapClicked($event)">
                 <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true"
                             (dragEnd)="markerDragEnd($event)"></agm-marker>
 
