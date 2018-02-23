@@ -1,0 +1,8 @@
+.fixed-action-btn {
+    position: fixed;
+    z-index: 998;
+    right: 25px;
+    bottom: 45px;
+    padding-top: 15px;
+    margin-bottom: 0;
+}
