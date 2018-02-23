@@ -3,6 +3,7 @@ import {AppContentService} from "../services/app-content.service";
 import {StorageService} from "../../../service/storage.service";
 import {NotifyService} from "../../../service/notify.service";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/index";
+import {DataService} from "../../../service/data.service";
 
 @Component({
     selector: 'app-manage-attendees',
@@ -14,19 +15,25 @@ export class ManageAttendeesComponent implements OnInit {
     data:Object[] = [];
     orgId:string;
     modalRef:BsModalRef;
+    orgWideSearch:boolean;
+    actions = [
+        {name: "Re-assign", displayFor: "LOC"},
+        {name: "Deactivate", displayFor: "ALL"},
+        {name: "Activate", displayFor: "ALL"}
+    ];
 
     constructor(private contentService:AppContentService,
                 private ss:StorageService,
                 private ns:NotifyService,
-                private modalService:BsModalService) {
+                private modalService:BsModalService,
+                private dataService:DataService) {
         this.orgId = this.ss.getSelectedOrg().orgId;
+        this.dataService.getLocId()? this.orgWideSearch = false: this.orgWideSearch = true;
     }
 
     ngOnInit() {
         this.fetchUsers();
     }
-
-    actions = ["Re-assign", "Trash"];
 
     fetchUsers() {
         this.contentService.fetchUsersInAnOrg(this.orgId)
@@ -36,7 +43,8 @@ export class ManageAttendeesComponent implements OnInit {
                         this.data = result.users;
                     }
                 },
-                error => {}
+                error => {
+                }
             )
     }
 
@@ -54,7 +62,7 @@ export class ManageAttendeesComponent implements OnInit {
         }
     }
 
-    openModal(template: TemplateRef<any>) {
+    openModal(template:TemplateRef<any>) {
         this.modalRef = this.modalService.show(template);
     }
 
@@ -62,7 +70,7 @@ export class ManageAttendeesComponent implements OnInit {
         this.openModal(template);
     }
 
-    openActivateUserModal(template){
+    openActivateUserModal(template) {
         this.openModal(template);
     }
 

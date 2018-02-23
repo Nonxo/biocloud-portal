@@ -107,7 +107,7 @@ export class RegisterComponent implements OnInit {
                 res => {
                     if (res.code == 0) {
                         this.ss.authToken = res.token;
-                        this.ss.loggedInUser = res.bioUser;
+                        this.ss.loggedInUser = res.user;
                         this.router.navigate(['/portal']);
                     } else {
                         this.ns.showError(res.description);
