@@ -26,6 +26,8 @@ export class ManageAttendeesComponent implements OnInit {
         this.fetchUsers();
     }
 
+    actions = ["Re-assign", "Trash"];
+
     fetchUsers() {
         this.contentService.fetchUsersInAnOrg(this.orgId)
             .subscribe(
