@@ -95,8 +95,8 @@
                                     <mat-select placeholder="Select Timezone" name="timezone"
                                                 [(ngModel)]="locRequest.resumptionTimezoneId"
                                                 [required]="resumption">
-                                        <mat-option *ngFor="let timezone of timezones" value="{{timezone}}">
-                                            {{timezone}}
+                                        <mat-option *ngFor="let timezone of timezones" value="{{timezone.zoneId}}">
+                                            {{timezone.zoneId}} ({{timezone.offset}})
                                         </mat-option>
                                     </mat-select>
                                     <div class="errors" ngMessages="addLocationForm.timezone.$error" *ngIf="addLocationForm.$dirty">

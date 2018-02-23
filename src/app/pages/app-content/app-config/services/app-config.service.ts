@@ -4,6 +4,7 @@ import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../../util/endpoints";
 import {LocationRequest, InviteRequest} from "../model/app-config.model";
 import {StorageService} from "../../../../service/storage.service";
+import {MediaType} from "../../../../util/constants";
 
 @Injectable()
 export class AppConfigService {
@@ -15,7 +16,7 @@ export class AppConfigService {
     return this.httpClient
         .get(Endpoints.FETCH_COUNTRIES, {
           headers: new HttpHeaders()
-              .set('Content-Type', 'application/x-www-form-urlencoded')
+              .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
         })
   }
 
@@ -24,7 +25,7 @@ export class AppConfigService {
     return this.httpClient
         .get(Endpoints.FETCH_STATES + id + "/states", {
           headers: new HttpHeaders()
-              .set('Content-Type', 'application/x-www-form-urlencoded')
+              .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
         })
   }
 
@@ -35,7 +36,7 @@ export class AppConfigService {
         return this.httpClient
             .post(Endpoints.SAVE_LOCATION, JSON.stringify(model), {
                 headers: new HttpHeaders()
-                    .set('Content-Type', 'application/json')
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
             })
     }
 
@@ -46,7 +47,7 @@ export class AppConfigService {
         return this.httpClient
             .post(Endpoints.SEND_INVITES, JSON.stringify(model), {
                 headers: new HttpHeaders()
-                    .set('Content-Type', 'application/json')
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
             })
     }
 
@@ -59,7 +60,7 @@ export class AppConfigService {
             .get(Endpoints.DOWNLOAD_TEMPLATE_BULK + params.toString(), {
                 responseType: "blob",
                 headers: new HttpHeaders()
-                    .set('Content-Type', 'application/json')
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
             })
     }
 
@@ -84,7 +85,15 @@ export class AppConfigService {
         return this.httpClient
             .post(Endpoints.EDIT_LOCATION + model.locId, JSON.stringify(body), {
                 headers: new HttpHeaders()
-                    .set('Content-Type', 'application/json')
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+    }
+
+    fetchTimezones(): Observable<any> {        
+        return this.httpClient
+                .get(Endpoints.FETCH_TIMEZONES, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
     }
 

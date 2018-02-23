@@ -1,5 +1,5 @@
 import {Component, OnInit, TemplateRef, NgZone} from '@angular/core';
-import {LocationRequest, Timezones} from "../model/app-config.model";
+import {LocationRequest, Timezones, TimezonePOJO} from "../model/app-config.model";
 import {AppConfigService} from "../services/app-config.service";
 import {BsModalService, BsModalRef, ModalOptions} from "ngx-bootstrap/index";
 import {MapsAPILoader} from "@agm/core";
@@ -7,6 +7,7 @@ import {} from '@types/googlemaps';
 import {GeoMapService} from "../../../../service/geo-map.service";
 import {NotifyService} from "../../../../service/notify.service";
 import {Router} from "@angular/router";
+import {StorageService} from "../../../../service/storage.service";
 
 @Component({
     selector: 'app-setup',
@@ -26,7 +27,7 @@ export class SetupComponent implements OnInit {
     draggable:boolean = true;
     addRange:boolean;
     resumption:string;
-    timezones:string[] = Timezones.list;
+    timezones:TimezonePOJO[] = [];
     addNewLoc:boolean;
     locationTypes = [
         {value: "SPECIFIC_ADDRESS", name: "Specific Address"},
@@ -41,11 +42,13 @@ export class SetupComponent implements OnInit {
                 private mapService:GeoMapService,
                 private ns:NotifyService,
                 private router:Router,
-                public modalRef:BsModalRef) {
+                public modalRef:BsModalRef,
+                private ss:StorageService) {
     }
 
     ngOnInit() {
         this.fetchCountries();
+        this.fetchTimezones();
         this.loader.load().then(() => {
         });
     }
@@ -68,13 +71,31 @@ export class SetupComponent implements OnInit {
     }
 
     customSettings() {
-        if(this.addRange) {
+        if (this.addRange) {
             this.draggable = false;
             this.zoomSize = 20;
-        }else {
-            this.draggable = true
+        } else {
+            this.draggable = true;
             this.zoomSize = 15;
         }
+    }
+
+    fetchTimezones() {
+        if (this.ss.getTimezones()) {
+            this.timezones = this.ss.getTimezones();
+        } else {
+            this.aService.fetchTimezones()
+                .subscribe(
+                    result => {
+                        if (result.code == 0) {
+                            this.timezones = result.timezones
+                            this.ss.setTimezones(this.timezones);
+                        }
+                    },
+                    error => {}
+                )
+        }
+
     }
 
     fetchCountries() {
@@ -250,7 +271,7 @@ export class SetupComponent implements OnInit {
     }
 
     mapClicked($event:any) {
-        if(!this.addRange) {
+        if (!this.addRange) {
             this.lat = $event.coords.lat;
             this.lng = $event.coords.lng;
         }

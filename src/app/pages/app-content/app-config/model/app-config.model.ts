@@ -33,3 +33,8 @@ export class InviteRequest {
         this.locIds = [];
     }
 }
+
+export class TimezonePOJO {
+    zoneId:string;
+    offset:string;
+}

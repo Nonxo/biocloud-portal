@@ -34,9 +34,7 @@ export class ManageAttendeesComponent implements OnInit {
                         this.data = result.users;
                     }
                 },
-                error => {
-                    debugger
-                }
+                error => {}
             )
     }
 
