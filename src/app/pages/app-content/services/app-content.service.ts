@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../util/endpoints";
@@ -8,15 +8,16 @@ import {StorageService} from "../../../service/storage.service";
 @Injectable()
 export class AppContentService {
 
-  constructor(private httpClient: HttpClient, private ss: StorageService) { }
+  constructor(private httpClient: HttpClient, private ss: StorageService) {
+  }
 
-  createOrg(model:CreateOrgRequest): Observable<any> {
+  createOrg(model: CreateOrgRequest): Observable<any> {
 
     return this.httpClient
-        .post(Endpoints.CREATE_ORG, JSON.stringify(model), {
-          headers: new HttpHeaders()
-              .set('Content-Type', 'application/json')
-        })
+      .post(Endpoints.CREATE_ORG, JSON.stringify(model), {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/json')
+      })
 
   }
 
@@ -25,34 +26,51 @@ export class AppContentService {
     const body = "";
 
     return this.httpClient
-        .get(Endpoints.RETRIEVE_ORG_DETAILS + body , {
-          headers: new HttpHeaders()
-              .set('Content-Type', 'application/x-www-form-urlencoded')
-        })
+      .get(Endpoints.RETRIEVE_ORG_DETAILS + body, {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      })
 
   }
 
-    fetchUsersOrg(): Observable<any> {
-        const body = this.ss.getUserId();
+  fetchUsersOrg(): Observable<any> {
+    const body = this.ss.getUserId();
 
-        return this.httpClient
-            .get(Endpoints.FETCH_USERS_ORG + body + "/orgs", {
-                headers: new HttpHeaders()
-                    .set('Content-Type', 'application/x-www-form-urlencoded')
-            })
+    return this.httpClient
+      .get(Endpoints.FETCH_USERS_ORG + body + "/orgs", {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      })
 
-    }
+  }
 
-    fetchOrgLocations(orgId:string): Observable<any> {
-        let params = new HttpParams()
-            .set('orgId', orgId)
+  fetchOrgLocations(orgId: string): Observable<any> {
+    let params = new HttpParams()
+      .set('orgId', orgId)
 
-        return this.httpClient
-            .get(Endpoints.FETCH_ORG_LOCATIONS + params, {
-                headers: new HttpHeaders()
-                    .set('Content-Type', 'application/x-www-form-urlencoded')
-            })
+    return this.httpClient
+      .get(Endpoints.FETCH_ORG_LOCATIONS + params, {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+      })
 
-    }
+  }
+
+  fetchNotification(orgId: string): Observable<any> {
+    let params = new HttpParams().set('orgId', orgId)
+    return this.httpClient.get(Endpoints.FETCH_NOTIFICATION + params, {
+      headers: new HttpHeaders()
+
+    })
+
+  }
+
+
+  fetchNotificationDetails(invitesId: string): Observable<any> {
+    let params = new HttpParams().set('invites', invitesId)
+    return this.httpClient.get(Endpoints.FETCH_NOTIFICATION_DETAILS + params, {
+      headers: new HttpHeaders()
+    })
+  }
 
 }

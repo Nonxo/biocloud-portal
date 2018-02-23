@@ -1,3 +1,36 @@
-<p>
-  notifications works!
-</p>
+<nav class="navbar"></nav>
+
+<h3>Notifications</h3>
+<div class="card text-center" style="width: 60rem;" *ngFor="let notif of notifications">
+  <div class="card-block">
+    <p class="card-text">You have a {{notif.status}} attendee request from {{notif.email}}</p>
+    <button type="button" class="btn btn-primary float-right" (click)="openModal(viewDetails, notif.inviteId)">View Details</button>
+  </div>
+</div>
+
+
+<ng-template #viewDetails>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLongTitle">Attendee Information Capture</h5>
+          <button type="button" class="reject" data-dismiss="modal" aria-label="Reject" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <ul>
+            <li>{{details.firstname}}</li>
+            <li>{{details.lastname}}</li>
+            <li>{{details.email}}</li>
+          </ul>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Reject</button>
+          <button type="button" class="btn btn-primary">Accept</button>
+        </div>
+      </div>
+</ng-template>
+
+
+
