@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {TimezonePOJO} from "../pages/app-content/app-config/model/app-config.model";
 
 @Injectable()
 export class StorageService {
@@ -54,6 +55,15 @@ export class StorageService {
   getSelectedOrg() {
     let obj:any = JSON.parse(localStorage.getItem('_st'));
     return obj? obj.selectedOrg: null;
+  }
+
+  setTimezones(value:TimezonePOJO[]) {
+    localStorage.setItem("timezones", JSON.stringify(value));
+  }
+
+  getTimezones() {
+    let arr:TimezonePOJO[] = JSON.parse(localStorage.getItem('timezones'));
+    return arr? arr: null;
   }
 
 }
