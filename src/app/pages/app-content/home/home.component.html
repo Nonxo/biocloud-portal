@@ -46,9 +46,9 @@
                                     <mat-icon>playlist_add_check</mat-icon>
                                     <span>Report</span>
                                 </button>
-                                <button mat-menu-item>
+                                <button mat-menu-item (click)="activateLocation(loc.active, loc.locId)">
                                     <mat-icon>delete_forever</mat-icon>
-                                    <span>delete</span>
+                                    <span>{{loc.active? 'Deactivate':'Activate'}}</span>
                                 </button>
                             </mat-menu>
                         </div>    
