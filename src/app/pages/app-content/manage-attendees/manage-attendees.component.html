@@ -92,15 +92,31 @@
                         </div>
                         <div class="w-100 pl-3">
                             <div class="d-flex w-100 ">
-                                <mat-form-field>
-                                    <mat-select placeholder="Actions">
-                                        <ng-container *ngFor="let action of actions">
-                                            <mat-option *ngIf="(orgWideSearch && action.displayFor == 'ALL') || !orgWideSearch" [value]="action.name">
-                                                {{ action.name }}
-                                            </mat-option>
-                                        </ng-container>
-                                    </mat-select>
-                                </mat-form-field>
+                               <div class="row">
+                                   <div class="col-md-6">
+                                       <mat-form-field>
+                                           <mat-select placeholder="Actions" name="action" [(ngModel)]="action" (change)="groupActions()">
+                                               <ng-container *ngFor="let action of actions">
+                                                   <mat-option *ngIf="(orgWideSearch && action.displayFor == 'ALL') || !orgWideSearch" [value]="action.enum">
+                                                       {{ action.name }}
+                                                   </mat-option>
+                                               </ng-container>
+                                           </mat-select>
+                                       </mat-form-field>
+                                   </div>
+                                   <div class="col-md-6 ml-auto">
+                                       <mat-form-field>
+                                           <mat-select placeholder="" name="location" [(ngModel)]="selectedLocId" (change)="fetchUsers()">
+                                               <mat-option value ="">ALL</mat-option>
+                                               <ng-container *ngFor="let loc of locations">
+                                                   <mat-option [value]="loc.locId">
+                                                       {{ loc.name }}
+                                                   </mat-option>
+                                               </ng-container>
+                                           </mat-select>
+                                       </mat-form-field>
+                                   </div>
+                               </div>
                             </div>
                         </div>
                     </div>
@@ -112,13 +128,13 @@
                         </div>
                         <div class="w-100 pl-3">
                             <div class="d-flex w-100 justify-content-between">
-                                <p class=" mb-1 font-weight-bold">{{d.fName }} {{ d.lName}}</p>
+                                <p class=" mb-1 font-weight-bold">{{d.firstName }} {{ d.lastName}}</p>
                                 <small>
                                     <button mat-icon-button [matMenuTriggerFor]="menu">
                                         <mat-icon>more_horiz</mat-icon>
                                     </button>
                                     <mat-menu #menu="matMenu">
-                                        <button *ngIf="!orgWideSearch" mat-menu-item (click)="openAssignModal(assignuserTemplate)">
+                                        <button *ngIf="!orgWideSearch" mat-menu-item (click)="openAssignModal(assignuserTemplate, d.email)">
                                             <mat-icon>assignment_ind</mat-icon>
                                             <span>Reassign User</span>
                                         </button>
@@ -160,8 +176,19 @@
 
             <div class="col-md-8">
                 <mat-form-field class="input-field">
-                    <input matInput placeholder="Reassign Attendees to new Location">
+                    <mat-select placeholder="Select Location" name="locId" [(ngModel)]="assignRequestObj.newlocId">
+                        <mat-option value="0">--</mat-option>
+                        <ng-container *ngFor="let loc of locations">
+                        <mat-option *ngIf="selectedLocId !== loc.locId" value="{{loc.locId}}">{{loc.name}}
+                        </mat-option>
+                        </ng-container>
+                    </mat-select>
                 </mat-form-field>
+            </div>
+
+            <div class="col-md-12 text-right">
+                <button mat-raised-button color="danger" type="button">CANCEL</button>
+                <button mat-raised-button color="primary" type="button" (click)="assignUser()">Reassign</button>
             </div>
 
         </div>

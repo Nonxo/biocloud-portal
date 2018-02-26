@@ -21,3 +21,15 @@ export class Org {
     sector:string;
     walletId:number;
 }
+
+export class AssignUserRequest {
+    oldlocId:string;
+    newlocId:string;
+    emails:string[];
+    role:string;
+
+    constructor() {
+        this.emails = [];
+        this.role = "ATTENDEE";
+    }
+}
