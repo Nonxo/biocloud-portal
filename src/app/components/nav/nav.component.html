@@ -94,18 +94,17 @@
                                 <mat-icon matSuffix>search</mat-icon>
                             </mat-form-field>
                         </li>
-                        <ng-container *ngFor="let org of orgs">
-                            <li *ngIf="org.orgId != selectedOrg.orgId" class="media my-4 cursor" (click)="selectOrg(org)">
+                        <ng-container *ngFor="let user of users">
+                            <li class="media my-4 cursor">
                                 <img class="mr-3" src="assets/img/2.jpg" style="max-height:2.5em;">
                                 <div class="media-body">
-                                    <b class="mt-0 mb-1 text-capitalize">{{org.name}}</b>
-                                    <small>123 Attendees</small>
+                                    <b class="mt-0 mb-1 text-capitalize">{{user.fName}}</b>
                                 </div>
                             </li>
                         </ng-container>
                     </ul>
 
-                    <a role="button" (click)="openModal(template)">
+                    <a role="button" (click)="openModal(inviteAdminTemplate)">
                         <div class="cursor border-top">
                             <small>
                                 <mat-list>
@@ -211,4 +210,48 @@
     </div>
 </ng-template>
 
+<ng-template #inviteAdminTemplate>
+    <div class="modal-header">
+        <h5 class="modal-title pull-left">Invite Admin</h5>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form (ngSubmit)="inviteAdmin()" name="inviteAdminForm" #inviteAdminForm="ngForm" ngNativeValidate>
+            <div class="col-md-12">
+                <mat-form-field class="input-field">
+                    <input matInput type="email" placeholder="Email Address" name="email" [(ngModel)]="inviteRequest.email" required>
+                </mat-form-field>
+            </div>
+            <div class="col-md-12">
+                <mat-form-field class="input-field">
+                    <mat-select placeholder="Role" name="role"  #role="ngModel" [(ngModel)]="inviteRequest.role" [required]="true">
+                        <mat-option value="GENERAL_ADMIN">GENERAL ADMIN</mat-option>
+                        <mat-option value="LOCATION_ADMIN">LOCATION ADMIN</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="role.errors?.required">You must make a selection</mat-error>
+                </mat-form-field>
+            </div>
 
+
+            <div class="col-md-12">
+                <mat-form-field class="input-field">
+                    <mat-select placeholder="Select Locations" name="locations" [(ngModel)]="inviteRequest.locIds" multiple>
+                        <mat-select-trigger>
+                            {{locations? getSelectedLocationName() : ''}}
+                <span *ngIf="inviteRequest.locIds?.length > 1">
+                  (+{{inviteRequest.locIds.length - 1}} others)
+                </span>
+                        </mat-select-trigger>
+                        <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-12 text-right">
+                <button mat-raised-button color="accent" class="auth-btn" type="submit">PROCEED</button>
+            </div>
+        </form>
+    </div>
+</ng-template>

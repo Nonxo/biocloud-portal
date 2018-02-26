@@ -1,5 +1,5 @@
 import {Component, OnInit, TemplateRef, NgZone} from '@angular/core';
-import {LocationRequest, Timezones, TimezonePOJO} from "../model/app-config.model";
+import {LocationRequest, TimezonePOJO} from "../model/app-config.model";
 import {AppConfigService} from "../services/app-config.service";
 import {BsModalService, BsModalRef, ModalOptions} from "ngx-bootstrap/index";
 import {MapsAPILoader} from "@agm/core";
