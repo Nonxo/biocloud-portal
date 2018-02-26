@@ -94,4 +94,19 @@ export class HomeComponent implements OnInit {
         this.bsModalRef = this.modalService.show(AddAttendeesComponent, this.modalOptions);
     }
 
+    activateLocation(status:boolean, locId:string) {
+        let active = status? false:true;
+        this.contentService.activateLocation(active, locId)
+            .subscribe(
+                result => {
+                    if(result.code == 0) {
+                        this.ns.showSuccess(result.description);
+                    }else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {this.ns.showError("An Error Occurred.");}
+            )
+    }
+
 }

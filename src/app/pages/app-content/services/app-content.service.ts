@@ -4,6 +4,7 @@ import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../util/endpoints";
 import {CreateOrgRequest} from "../model/app-content.model";
 import {StorageService} from "../../../service/storage.service";
+import {MediaType} from "../../../util/constants";
 
 @Injectable()
 export class AppContentService {
@@ -68,7 +69,15 @@ export class AppContentService {
         return this.httpClient
             .get(Endpoints.FETCH_USERS_IN_AN_ORG + orgId + "/users", {
                 headers: new HttpHeaders()
-                    .set('Content-Type', 'application/x-www-form-urlencoded')
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+    }
+
+    activateLocation(status:boolean, locId:string): Observable<any> {
+        return this.httpClient
+            .post(Endpoints.DEACTIVATE_ACTIVATE_LOCATION + locId + "/" + status,null, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
     }
 
