@@ -8,6 +8,7 @@ import {LocationRequest} from "../app-config/model/app-config.model";
 import {SetupComponent} from "../app-config/setup/setup.component";
 import {AddAttendeesComponent} from "../app-config/add-attendees/add-attendees.component";
 import {Router} from "@angular/router";
+import {DataService} from "../../../service/data.service";
 
 @Component({
     selector: 'app-home',
@@ -27,7 +28,8 @@ export class HomeComponent implements OnInit {
                 private contentService:AppContentService,
                 private ss:StorageService,
                 private modalService:BsModalService,
-                private router:Router) {
+                private router:Router,
+                private dataService:DataService) {
     }
 
     ngOnInit() {
@@ -92,6 +94,11 @@ export class HomeComponent implements OnInit {
             editMode: true
         }
         this.bsModalRef = this.modalService.show(AddAttendeesComponent, this.modalOptions);
+    }
+
+    viewAttendees(locId:string) {
+        this.dataService.setLocId(locId);
+        this.router.navigate(['/portal/manage-users']);
     }
 
     activateLocation(status:boolean, locId:string) {
