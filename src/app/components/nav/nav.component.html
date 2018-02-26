@@ -18,7 +18,7 @@
                         <mat-list>
                             <mat-list-item class="p-0 font-12">
                                 <mat-icon mat-list-icon>add_box</mat-icon>
-                                <p mat-line> Add Organistaion</p>
+                                <p mat-line> Add Organisation</p>
                             </mat-list-item>
                         </mat-list>
                     </small>
@@ -78,6 +78,49 @@
         <mat-divider></mat-divider>
         <mat-nav-list>
             <ul>
+                <li routerLinkActive="active">
+                    <a (click)="manageAdmin = true" mat-list-item>
+                        <mat-icon mat-list-icon>group</mat-icon>
+                        <span mat-line>ADMINS</span>
+                        <i class="material-icons ml-auto mr-3"  *ngIf="sidenavWidth >= 15">arrow_drop_down</i>
+                    </a>
+                </li>
+
+                <div *ngIf="manageAdmin"  class="bg-light-grey pt-2 font-12">
+                    <ul class="list-unstyled px-3">
+                        <li class="media">
+                            <mat-form-field class="w-100">
+                                <input matInput placeholder="Search Admins" type="text">
+                                <mat-icon matSuffix>search</mat-icon>
+                            </mat-form-field>
+                        </li>
+                        <ng-container *ngFor="let org of orgs">
+                            <li *ngIf="org.orgId != selectedOrg.orgId" class="media my-4 cursor" (click)="selectOrg(org)">
+                                <img class="mr-3" src="assets/img/2.jpg" style="max-height:2.5em;">
+                                <div class="media-body">
+                                    <b class="mt-0 mb-1 text-capitalize">{{org.name}}</b>
+                                    <small>123 Attendees</small>
+                                </div>
+                            </li>
+                        </ng-container>
+                    </ul>
+
+                    <a role="button" (click)="openModal(template)">
+                        <div class="cursor border-top">
+                            <small>
+                                <mat-list>
+                                    <mat-list-item class="p-0 font-12">
+                                        <mat-icon mat-list-icon>add_box</mat-icon>
+                                        <p mat-line>Invite Admin</p>
+                                    </mat-list-item>
+                                </mat-list>
+                            </small>
+                        </div>
+                    </a>
+                </div>
+
+
+
                 <li routerLinkActive="active" *ngFor="let nav of navs">
                     <a routerLink="{{nav.url}}" mat-list-item>
                         <mat-icon mat-list-icon>{{nav.icon}}</mat-icon>

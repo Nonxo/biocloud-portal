@@ -17,6 +17,7 @@ export class NavComponent implements OnInit {
     sideNavMode = "side";
     opener:boolean = true;
     modalRef:BsModalRef;
+    manageAdmin:boolean;
     views:Object[] = [
         {icon: "home", route: "Home", url: "/portal"},
         {icon: "group", route: "Attendees", url: "/portal/manage-users"},
