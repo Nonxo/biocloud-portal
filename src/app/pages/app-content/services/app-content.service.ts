@@ -66,10 +66,17 @@ export class AppContentService {
   }
 
 
-  fetchNotificationDetails(invitesId: string): Observable<any> {
-    let params = new HttpParams().set('invites', invitesId)
-    return this.httpClient.get(Endpoints.FETCH_NOTIFICATION_DETAILS + params, {
+  fetchNotificationDetails(inviteId: string): Observable<any> {
+    return this.httpClient.get(Endpoints.FETCH_NOTIFICATION_DETAILS + inviteId, {
       headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
+    })
+  }
+
+  approveRejectNotification(inviteId:string, action:string): Observable<any> {
+    return this.httpClient.post(Endpoints.APPROVE_REJECT_NOTIFICATION + inviteId + "/" + action, null, {
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
     })
   }
 
