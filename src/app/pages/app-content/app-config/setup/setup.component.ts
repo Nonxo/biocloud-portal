@@ -1,5 +1,5 @@
 import {Component, OnInit, TemplateRef, NgZone} from '@angular/core';
-import {LocationRequest, Timezones} from "../model/app-config.model";
+import {LocationRequest, Timezones, TimezonePOJO} from "../model/app-config.model";
 import {AppConfigService} from "../services/app-config.service";
 import {BsModalService, BsModalRef, ModalOptions} from "ngx-bootstrap/index";
 import {MapsAPILoader} from "@agm/core";
@@ -7,6 +7,7 @@ import {} from '@types/googlemaps';
 import {GeoMapService} from "../../../../service/geo-map.service";
 import {NotifyService} from "../../../../service/notify.service";
 import {Router} from "@angular/router";
+import {StorageService} from "../../../../service/storage.service";
 
 @Component({
     selector: 'app-setup',
@@ -22,9 +23,11 @@ export class SetupComponent implements OnInit {
     modalOptions:ModalOptions = new ModalOptions();
     lat:number = 9.0820;
     lng:number = 8.6753;
+    zoomSize:number = 15;
+    draggable:boolean = true;
     addRange:boolean;
     resumption:string;
-    timezones:string[] = Timezones.list;
+    timezones:TimezonePOJO[] = [];
     addNewLoc:boolean;
     locationTypes = [
         {value: "SPECIFIC_ADDRESS", name: "Specific Address"},
@@ -39,11 +42,13 @@ export class SetupComponent implements OnInit {
                 private mapService:GeoMapService,
                 private ns:NotifyService,
                 private router:Router,
-                public modalRef:BsModalRef) {
+                public modalRef:BsModalRef,
+                private ss:StorageService) {
     }
 
     ngOnInit() {
         this.fetchCountries();
+        this.fetchTimezones();
         this.loader.load().then(() => {
         });
     }
@@ -51,6 +56,9 @@ export class SetupComponent implements OnInit {
     openModal(template:TemplateRef<any>, addRange) {
         !this.locRequest.address ? this.getCurrentPosition(false) : '';
         this.addRange = addRange;
+
+        this.customSettings();
+
         this.modalOptions.class = 'modal-lg mt-0';
         this.modalRef = this.modalService.show(template, this.modalOptions);
 
@@ -58,6 +66,34 @@ export class SetupComponent implements OnInit {
             setTimeout(()=> {
                 this.autocomplete();
             }, 2000);
+        }
+
+    }
+
+    customSettings() {
+        if (this.addRange) {
+            this.draggable = false;
+            this.zoomSize = 20;
+        } else {
+            this.draggable = true;
+            this.zoomSize = 15;
+        }
+    }
+
+    fetchTimezones() {
+        if (this.ss.getTimezones()) {
+            this.timezones = this.ss.getTimezones();
+        } else {
+            this.aService.fetchTimezones()
+                .subscribe(
+                    result => {
+                        if (result.code == 0) {
+                            this.timezones = result.timezones
+                            this.ss.setTimezones(this.timezones);
+                        }
+                    },
+                    error => {}
+                )
         }
 
     }
@@ -107,7 +143,7 @@ export class SetupComponent implements OnInit {
         if (this.resumption) {
             this.locRequest.resumption = this.formatResumptionTime();
         } else {
-            this.locRequest.resumption = 0;
+            this.locRequest.resumption = null;
         }
 
         if (this.locRequest.locationType == 'SPECIFIC_ADDRESS') {
@@ -235,8 +271,10 @@ export class SetupComponent implements OnInit {
     }
 
     mapClicked($event:any) {
-        this.lat = $event.coords.lat;
-        this.lng = $event.coords.lng;
+        if (!this.addRange) {
+            this.lat = $event.coords.lat;
+            this.lng = $event.coords.lng;
+        }
     }
 
     useAddress() {

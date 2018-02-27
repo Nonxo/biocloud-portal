@@ -13,12 +13,18 @@ import {SetupComponent} from "./app-config/setup/setup.component";
 import {AppConfigService} from "./app-config/services/app-config.service";
 import {GeoMapService} from "../../service/geo-map.service";
 import {AddAttendeesComponent} from "./app-config/add-attendees/add-attendees.component";
+import {DataTableModule} from "angular2-datatable";
+import { ManageAttendeesComponent } from './manage-attendees/manage-attendees.component';
+import { ReportDashboardComponent } from './report-dashboard/report-dashboard.component';
+import { CustomReportComponent } from './custom-report/custom-report.component';
+import { LatenessReportComponent } from './lateness-report/lateness-report.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 
 @NgModule({
     imports: [
         CommonModule,
         SharedModule,
+        DataTableModule,
         AppContentRoutingModule
     ],
     declarations: [
@@ -27,10 +33,13 @@ import { NotificationsComponent } from './notifications/notifications.component'
         SubscribeComponent,
         SubscriptionHistoryComponent,
         SideNavComponent,
+        ManageAttendeesComponent,
+        ReportDashboardComponent,
+        CustomReportComponent,
+        LatenessReportComponent,
         NotificationsComponent
     ],
     providers: [AppContentService, MessageService, AppConfigService, GeoMapService],
     entryComponents: [SetupComponent, AddAttendeesComponent]
 })
-export class AppContentModule {
-}
+export class AppContentModule { }

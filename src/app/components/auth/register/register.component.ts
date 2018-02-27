@@ -1,113 +1,127 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import 'rxjs/add/operator/finally';
-import { NotifyService } from '../../../service/notify.service';
-import { AuthService } from '../auth.service';
+import {NotifyService} from '../../../service/notify.service';
+import {AuthService} from '../auth.service';
 import {Constants} from "../../../util/constants";
 import {Router} from "@angular/router";
+import {StorageService} from "../../../service/storage.service";
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+    selector: 'app-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
 
-  form: FormGroup;
-  company = false;
-  loading = false;
-  hide: boolean;
-  show: boolean;
-  recaptchaSiteKey:string = Constants.SITE_KEY;
-  captchaResponse:string;
-  payload:any;
-  @ViewChild('cap') public recaptchaInstance;
+    form:FormGroup;
+    company = false;
+    loading = false;
+    hide:boolean;
+    show:boolean;
+    recaptchaSiteKey:string = Constants.SITE_KEY;
+    captchaResponse:string;
+    payload:any;
+    @ViewChild('cap') public recaptchaInstance;
 
-  userTypes: Array<{ name, checked }> = [
-    {name: 'INDIVIDUAL', checked: true},
-    {name: 'CORPORATE', checked: false}
-  ];
+    userTypes:Array<{ name, checked }> = [
+        {name: 'INDIVIDUAL', checked: true},
+        {name: 'CORPORATE', checked: false}
+    ];
 
-  constructor(private authService: AuthService,private router: Router, private ns: NotifyService, private fb: FormBuilder) {
-  }
-
-  ngOnInit() {
-    this.form = this.fb.group({
-      companyName: ['', Validators.required],
-      fName: ['', Validators.required],
-      lName: ['', Validators.required],
-      phone: ['', Validators.required],
-      email: ['', Validators.email],
-      password: ['', Validators.required]
-    });
-
-    // disable validation for company name when it is invisible initially
-    this.form.controls.companyName.disable();
-  }
-
-  changeUserType(index) {
-    this.userTypes[0].checked = false;
-    this.userTypes[1].checked = false;
-    this.userTypes[index].checked = true;
-
-    this.company = index !== 0;
-    if (this.company) {
-      this.form.controls.companyName.enable();
+    constructor(private authService:AuthService,
+                private router:Router,
+                private ns:NotifyService,
+                private fb:FormBuilder,
+                private ss:StorageService) {
     }
-  }
 
-  register() {
-    this.loading = true;
-    this.payload = this.form.value;
-    this.company ? this.payload.customerType = 'C' : this.payload.customerType = 'I';
+    ngOnInit() {
+        this.form = this.fb.group({
+            companyName: ['', Validators.required],
+            fName: ['', Validators.required],
+            lName: ['', Validators.required],
+            phone: ['', Validators.required],
+            email: ['', Validators.email],
+            password: ['', Validators.required]
+        });
 
-    if(this.captchaResponse) {
-      this.validateCaptcha();
-    } else {
-      this.resetCaptcha();
-      this.ns.showError("Error Validating Captcha");
+        // disable validation for company name when it is invisible initially
+        this.form.controls.companyName.disable();
     }
-    
-  }
 
-  resolved(captchaResponse: string) {
-    console.log(`Resolved captcha with response ${captchaResponse}:`);
-    this.captchaResponse = captchaResponse;
-  }
-  
-  validateCaptcha() {
-    this.authService.validateCaptcha(this.captchaResponse)
-        .subscribe(
-            res => {
-              if (res.code == 0) {
-                  this.registerUser();
-              } else {
-                this.ns.showError(res.description);
-                this.resetCaptcha();
-              }
+    changeUserType(index) {
+        this.userTypes[0].checked = false;
+        this.userTypes[1].checked = false;
+        this.userTypes[index].checked = true;
 
-            },
-            error => {this.ns.showError(error ? '' : error.description); this.resetCaptcha();}
-        )
-  }
-  
-  registerUser() {
-    this.authService.register(this.payload)
-        .finally(() => this.loading = false)
-        .subscribe(
-            res => {
-              if (res.code == 0) {
-                this.router.navigate(['/portal']);
-              } else {
-                this.ns.showError(res.description);
-                this.resetCaptcha();
-              }
-            }, error => {this.ns.showError(error ? '' : error.description); this.resetCaptcha();}
-        );
-  }
+        this.company = index !== 0;
+        if (this.company) {
+            this.form.controls.companyName.enable();
+        }
+    }
 
-  resetCaptcha() {
-    this.recaptchaInstance.reset();
-  }
+    register() {
+        this.loading = true;
+        this.payload = this.form.value;
+        this.company ? this.payload.customerType = 'C' : this.payload.customerType = 'I';
+
+        if (this.captchaResponse) {
+            this.validateCaptcha();
+        } else {
+            this.resetCaptcha();
+            this.ns.showError("Error Validating Captcha");
+        }
+
+    }
+
+    resolved(captchaResponse:string) {
+        console.log(`Resolved captcha with response ${captchaResponse}:`);
+        this.captchaResponse = captchaResponse;
+    }
+
+    validateCaptcha() {
+        this.authService.validateCaptcha(this.captchaResponse)
+            .subscribe(
+                res => {
+                    if (res.code == 0) {
+                        this.registerUser();
+                    } else {
+                        this.ns.showError(res.description);
+                        this.resetCaptcha();
+                    }
+
+                },
+                error => {
+                    this.ns.showError(error ? '' : error.description);
+                    this.resetCaptcha();
+                }
+            )
+    }
+
+    registerUser() {
+        //noinspection TypeScriptValidateTypes
+        this.authService.register(this.payload)
+            .finally(() => this.loading = false)
+            .subscribe(
+                res => {
+                    if (res.code == 0) {
+                        this.ss.authToken = res.token;
+                        this.ss.loggedInUser = res.user;
+                        this.router.navigate(['/portal']);
+                    } else {
+                        this.ns.showError(res.description);
+                        this.resetCaptcha();
+                    }
+                }, error => {
+                    this.ns.showError(error ? '' : error.description);
+                    this.resetCaptcha();
+                }
+            );
+    }
+
+    resetCaptcha() {
+        this.recaptchaInstance.reset();
+    }
 
 }
