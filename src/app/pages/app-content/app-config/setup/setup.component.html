@@ -86,10 +86,8 @@
                         <ng-container *ngIf="locRequest.locationType">
                             <div class="col-md-4">
                                 <mat-form-field class="input-field">
-                                    <input matInput placeholder="Resumption Time" name="rTime"
-                                           [(ngModel)]="resumption" [owlDateTimeTrigger]="dt4"
-                                           [owlDateTime]="dt4">
-                                    <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
+                                    <input matInput type="time" placeholder="Resumption Time" name="rTime"
+                                           [(ngModel)]="resumption">
                                 </mat-form-field>
                             </div>
                             <div class="col-md-2">
@@ -97,8 +95,8 @@
                                     <mat-select placeholder="Select Timezone" name="timezone"
                                                 [(ngModel)]="locRequest.resumptionTimezoneId"
                                                 [required]="resumption">
-                                        <mat-option *ngFor="let timezone of timezones" value="{{timezone}}">
-                                            {{timezone}}
+                                        <mat-option *ngFor="let timezone of timezones" value="{{timezone.zoneId}}">
+                                            {{timezone.zoneId}} ({{timezone.offset}})
                                         </mat-option>
                                     </mat-select>
                                     <div class="errors" ngMessages="addLocationForm.timezone.$error" *ngIf="addLocationForm.$dirty">
@@ -163,8 +161,8 @@
         </div>
 
         <div class="col-md-12">
-            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="13" (mapClick)="mapClicked($event)">
-                <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true"
+            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoomSize" (mapClick)="mapClicked($event)">
+                <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="draggable"
                             (dragEnd)="markerDragEnd($event)"></agm-marker>
 
                 <agm-circle *ngIf="addRange" [latitude]="lat" [longitude]="lng"
