@@ -33,3 +33,11 @@ export class AssignUserRequest {
         this.role = "ATTENDEE";
     }
 }
+
+export class Invitation {
+  firstName:string;
+  lastName:string;
+  email:string;
+  phoneNumber:number;
+  created:number;
+}

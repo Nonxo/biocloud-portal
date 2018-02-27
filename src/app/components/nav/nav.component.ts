@@ -33,7 +33,7 @@ export class NavComponent implements OnInit {
 
     navs:Object[] = [
         {icon: "person", route: "Profile", url: "/"},
-        {icon: "message", route: "Notifications", url: "/"}
+        {icon: "message", route: "Notifications", url: "/portal/notification"}
     ];
     orgs:Org[] = [];
     orgRequest:CreateOrgRequest = new CreateOrgRequest();
@@ -207,7 +207,7 @@ export class NavComponent implements OnInit {
     }
 
     onResizeByWindowScreen(){
-        if(window.screen.width < 767){
+        if(window.screen.width < 845){
             this.sideNavMode = "over";
             this.opener = false;
         }
@@ -220,7 +220,7 @@ export class NavComponent implements OnInit {
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
-        if(event.target.innerWidth < 767){
+        if(event.target.innerWidth < 845){
             this.sideNavMode = "over";
             this.opener = false;
         }
