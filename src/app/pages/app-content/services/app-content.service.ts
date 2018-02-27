@@ -109,4 +109,28 @@ export class AppContentService {
             })
     }
 
+  fetchNotification(orgId: string): Observable<any> {
+    let params = new HttpParams().set('orgId', orgId)
+    return this.httpClient.get(Endpoints.FETCH_NOTIFICATION + params, {
+      headers: new HttpHeaders()
+
+    })
+
+  }
+
+
+  fetchNotificationDetails(inviteId: string): Observable<any> {
+    return this.httpClient.get(Endpoints.FETCH_NOTIFICATION_DETAILS + inviteId, {
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
+    })
+  }
+
+  approveRejectNotification(inviteId:string, action:string): Observable<any> {
+    return this.httpClient.post(Endpoints.APPROVE_REJECT_NOTIFICATION + inviteId + "/" + action, null, {
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
+    })
+  }
+
 }

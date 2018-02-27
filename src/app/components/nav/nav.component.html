@@ -1,7 +1,54 @@
+<mat-toolbar color="primary" class="fixed-header">
+    <button mat-icon-button (click)="sidenav.toggle()" class="d-block d-md-none">
+        <mat-icon>menu</mat-icon>
+    </button>
+
+    <div class="d-none d-md-block" [ngClass]="{'width12em': sidenavWidth >= 15, 'width3em': sidenavWidth < 15}" >
+        <img src="assets/img/logo.svg" class="img-fluid logo-icon" *ngIf="sidenavWidth >= 15"
+             style="max-height:26px;"/>
+        <img src="assets/img/logo-icon.svg" class="img-fluid logo-icon" *ngIf="sidenavWidth < 15"/>
+    </div>
+
+    <button mat-icon-button (click)="toggleNavFromHam(false)" class="d-none d-md-block" *ngIf="sidenavWidth >= 15"
+            matTooltip="Minimize navigation">
+        <mat-icon>fullscreen_exit</mat-icon>
+    </button>
+
+    <button mat-icon-button (click)="toggleNavFromHam(true)" class="d-none d-md-block" *ngIf="sidenavWidth < 15"
+            matTooltip="Maximize navigation">
+        <mat-icon>fullscreen</mat-icon>
+    </button>
+
+
+    <span>{{title}}</span>
+    <span class="example-spacer"></span>
+
+    <button mat-icon-button class="pr-5" matTooltip="Switch to bioregistra">
+        <mat-icon class="example-icon">apps</mat-icon>
+    </button>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="logout()">
+            <mat-icon>person</mat-icon>
+            <span>Profile</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+            <mat-icon>message</mat-icon>
+            <span>Notification</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+            <mat-icon>power_settings_new</mat-icon>
+            <span>Logout</span>
+        </button>
+    </mat-menu>
+</mat-toolbar>
+
 <mat-sidenav-container autosize>
     <mat-sidenav #sidenav mode="{{sideNavMode}}" [opened]="opener" [ngStyle]="{ 'width.em': sidenavWidth }"
                  (mouseenter)="toggleNavFromMouseEvent(true)" (mouseleave)="toggleNavFromMouseEvent(false)">
-        <div class="nav-header">
+        <div class="nav-header d-block d-md-none">
             <div class="py-4 px-3">
                 <img src="assets/img/logo.png" class="img-fluid logo-icon" *ngIf="sidenavWidth >= 15"
                      style="max-height:26px;"/>
@@ -11,7 +58,7 @@
 
 
         
-        <div  class="container-fluid px-0" (clickOutside)="onClickedOutside($event)">
+        <div  class="container-fluid px-0 mt-md-5 mt-1" (clickOutside)="onClickedOutside($event)">
             <a role="button" (click)="openModal(template)" *ngIf="orgs.length == 0">
                 <div class="cursor border-top">
                     <small>
@@ -94,46 +141,7 @@
         </mat-nav-list>
 
     </mat-sidenav>
-    <mat-toolbar>
-        <button mat-icon-button (click)="sidenav.toggle()" class="d-block d-md-none">
-            <mat-icon>menu</mat-icon>
-        </button>
-
-        <button mat-icon-button (click)="toggleNavFromHam(false)" class="d-none d-md-block" *ngIf="sidenavWidth >= 15"
-                matTooltip="Minimize navigation">
-            <mat-icon>fullscreen_exit</mat-icon>
-        </button>
-
-        <button mat-icon-button (click)="toggleNavFromHam(true)" class="d-none d-md-block" *ngIf="sidenavWidth < 15"
-                matTooltip="Maximize navigation">
-            <mat-icon>fullscreen</mat-icon>
-        </button>
-
-
-        <span>{{title}}</span>
-        <span class="example-spacer"></span>
-
-        <button mat-icon-button class="pr-5" matTooltip="Switch to bioregistra">
-            <mat-icon class="example-icon">apps</mat-icon>
-        </button>
-        <button mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="logout()">
-                <mat-icon>person</mat-icon>
-                <span>Profile</span>
-            </button>
-            <button mat-menu-item (click)="logout()">
-                <mat-icon>message</mat-icon>
-                <span>Notification</span>
-            </button>
-            <button mat-menu-item (click)="logout()">
-                <mat-icon>power_settings_new</mat-icon>
-                <span>Logout</span>
-            </button>
-        </mat-menu>
-    </mat-toolbar>
+    
 
     <ng-content></ng-content>
 

@@ -25,7 +25,7 @@ import {AgmCoreModule} from "@agm/core";
     AppComponent,
     AuthComponent,
     RegisterComponent,
-    LoginComponent,
+    LoginComponent
   ],
   imports: [
     HttpClientModule,
