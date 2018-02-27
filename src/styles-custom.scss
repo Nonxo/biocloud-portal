@@ -1,5 +1,5 @@
 @import '~@angular/material/theming';
-@import url(https://fonts.googleapis.com/css?family=Montserrat);
+@import url(https://fonts.googleapis.com/css?family=Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic);
 
 $font-stack : 'Montserrat', sans-serif;
 
@@ -10,36 +10,35 @@ $custom-typography: mat-typography-config(
 @include mat-core($custom-typography);
 
 $mat-mcprimary: (
-    50 : #e3e5ea,
-    100 : #b9bec9,
-    200 : #8a93a6,
-    300 : #5b6782,
-    400 : #374767,
-    500 : #14264c,
-    600 : #122245,
-    700 : #0e1c3c,
-    800 : #0b1733,
-    900 : #060d24,
-    A100 : #f9f9f9,
-    A200 : #efefef,
-    A400 : #ffffff,
-    A700 : #808080,
+    50 : #e5f2fd,
+    100 : #bfddfa,
+    200 : #95c7f6,
+    300 : #6ab1f2,
+    400 : #4aa0f0,
+    500 : #2a8fed,
+    600 : #2587eb,
+    700 : #1f7ce8,
+    800 : #1972e5,
+    900 : #0f60e0,
+    A100 : #ffffff,
+    A200 : #dae7ff,
+    A400 : #a7c5ff,
+    A700 : #8db4ff,
     contrast: (
         50 : #000000,
         100 : #000000,
         200 : #000000,
-        300 : #ffffff,
-        400 : #ffffff,
+        300 : #000000,
+        400 : #000000,
         500 : #ffffff,
         600 : #ffffff,
         700 : #ffffff,
         800 : #ffffff,
         900 : #ffffff,
         A100 : #000000,
-        A200 : #ffffff,
-        A400 : #ffffff,
-        A700 : #ffffff,
-    
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
     )
 );
 
@@ -107,8 +106,8 @@ mat-card.logo-carousel{
     z-index:1;
 }
 
-mat-nav-list ul li a{
-    color: $grey !important;
+.mat-nav-list .mat-list-item .mat-list-text>*, h1, h2, h3, h4, h5, h6{
+    font-weight: 600 !important;
 }
 
 mat-card.auth{
@@ -116,10 +115,6 @@ mat-card.auth{
     border-radius: 0 12px 12px 0 !important;
     box-shadow: 0 0 30px $grey !important; 
 
-}
-
-.mat-toolbar{
-    background: $white !important;
 }
 
 mat-card{
@@ -210,17 +205,20 @@ a:hover{
 }
 
 .mat-drawer-container {
-    background-color: $off-white !important; 
+    background-color: $white !important; 
 }
 
 mat-sidenav {
-    border-right: 4px solid $off-white;
+    border-right:2px solid mat-color($candy-app-primary, 50);
+    background-color: mat-color($candy-app-primary, 50) !important;
 }
 
 
 .mat-list .mat-list-item, .mat-nav-list .mat-list-item, .mat-selection-list .mat-list-item{
     font-size: $standard-size;
 }
+
+
 
 
 @media (max-width: 575.98px){
