@@ -21,3 +21,10 @@ export class Org {
     sector:string;
     walletId:number;
 }
+
+export class Invitation {
+  firstname:string;
+  lastname:string;
+  status:string;
+  email:string;
+}

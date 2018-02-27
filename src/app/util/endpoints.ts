@@ -21,4 +21,6 @@ export class Endpoints {
   public static FETCH_USERS_IN_AN_ORG = `${Endpoints.BASE_URL}/users/api/org/`;
   public static FETCH_TIMEZONES = `${Endpoints.BASE_URL}/users/api/locations/get-timezones`;
   public static DEACTIVATE_ACTIVATE_LOCATION = `${Endpoints.BASE_URL}/users/api/locations/`;
+  public static FETCH_NOTIFICATION = `${Endpoints.BASE_URL}/users/api/org/invites?`;
+  public static FETCH_NOTIFICATION_DETAILS= `${Endpoints.BASE_URL}/users/org/invites?`;
 }

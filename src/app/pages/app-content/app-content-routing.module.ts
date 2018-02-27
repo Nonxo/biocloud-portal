@@ -8,6 +8,7 @@ import { AppContentComponent } from './app-content.component';
 import { HomeComponent } from './home/home.component';
 import { SubscribeComponent } from './subscribe/subscribe.component';
 import { SubscriptionHistoryComponent } from './subscription-history/subscription-history.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 import {ManageAttendeesComponent} from "./manage-attendees/manage-attendees.component";
 import { ReportDashboardComponent } from './report-dashboard/report-dashboard.component';
 import { CustomReportComponent } from './custom-report/custom-report.component';
@@ -49,6 +50,10 @@ const routes: Routes = [
       {
         path: 'subscription-history',
         component: SubscriptionHistoryComponent
+      },
+      {
+        path: 'notification',
+        component: NotificationsComponent
       }
 
     ]

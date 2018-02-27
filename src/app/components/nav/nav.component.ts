@@ -28,7 +28,7 @@ export class NavComponent implements OnInit {
 
     navs:Object[] = [
         {icon: "person", route: "Profile", url: "/"},
-        {icon: "message", route: "Notifications", url: "/"}
+        {icon: "message", route: "Notifications", url: "/portal/notification"}
     ];
     orgs:Org[] = [];
     orgRequest:CreateOrgRequest = new CreateOrgRequest();

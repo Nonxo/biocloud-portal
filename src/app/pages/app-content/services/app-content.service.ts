@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../util/endpoints";
@@ -80,5 +80,22 @@ export class AppContentService {
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
     }
+
+  fetchNotification(orgId: string): Observable<any> {
+    let params = new HttpParams().set('orgId', orgId)
+    return this.httpClient.get(Endpoints.FETCH_NOTIFICATION + params, {
+      headers: new HttpHeaders()
+
+    })
+
+  }
+
+
+  fetchNotificationDetails(invitesId: string): Observable<any> {
+    let params = new HttpParams().set('invites', invitesId)
+    return this.httpClient.get(Endpoints.FETCH_NOTIFICATION_DETAILS + params, {
+      headers: new HttpHeaders()
+    })
+  }
 
 }
