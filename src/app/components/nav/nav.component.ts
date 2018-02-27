@@ -19,6 +19,7 @@ export class NavComponent implements OnInit {
     sideNavMode = "side";
     opener:boolean = true;
     modalRef:BsModalRef;
+    selectedUser:Object;
     manageAdmin:boolean;
     locations:any[] = [];
     users:any[] = [];
@@ -29,7 +30,7 @@ export class NavComponent implements OnInit {
         {icon: "payment", route: "Subscribe", url: "/"}
     ];
 
-    orgTypes:string[] = ["SCHOOL", "SECURITY", "HOSPITAL", "OTHERS"];
+    orgTypes:string[] = ["SCHOOL", "SECURITY", "HOSPITAL"];
 
     navs:Object[] = [
         {icon: "person", route: "Profile", url: "/"},
@@ -266,6 +267,11 @@ export class NavComponent implements OnInit {
                     this.ns.showError("An Error Occurred.");
                 }
             )
+    }
+
+    viewAdminDetails(user, template:TemplateRef<any>) {
+        this.selectedUser = user;
+        this.openModal(template);
     }
 
 

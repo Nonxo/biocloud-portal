@@ -57,6 +57,7 @@ export class AddAttendeesComponent implements OnInit {
 
     onSubmit() {
         this.inviteRequest.locIds.push(this.location);
+        this.inviteRequest.role = 'ATTENDEE';
         this.invite();
     }
 
