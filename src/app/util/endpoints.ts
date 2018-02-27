@@ -22,5 +22,6 @@ export class Endpoints {
   public static FETCH_TIMEZONES = `${Endpoints.BASE_URL}/users/api/locations/get-timezones`;
   public static DEACTIVATE_ACTIVATE_LOCATION = `${Endpoints.BASE_URL}/users/api/locations/`;
   public static FETCH_NOTIFICATION = `${Endpoints.BASE_URL}/users/api/org/invites?`;
-  public static FETCH_NOTIFICATION_DETAILS= `${Endpoints.BASE_URL}/users/org/invites?`;
+  public static FETCH_NOTIFICATION_DETAILS = `${Endpoints.BASE_URL}/users/api/org/invites/`;
+  public static APPROVE_REJECT_NOTIFICATION = `${Endpoints.BASE_URL}/users/api/org/invites/`;
 }

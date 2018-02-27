@@ -23,8 +23,9 @@ export class Org {
 }
 
 export class Invitation {
-  firstname:string;
-  lastname:string;
-  status:string;
+  firstName:string;
+  lastName:string;
   email:string;
+  phoneNumber:number;
+  created:number;
 }
