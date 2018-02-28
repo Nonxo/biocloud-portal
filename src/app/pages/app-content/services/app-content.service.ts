@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../util/endpoints";
-import {CreateOrgRequest} from "../model/app-content.model";
+import {CreateOrgRequest, AssignUserRequest} from "../model/app-content.model";
 import {StorageService} from "../../../service/storage.service";
 import {MediaType} from "../../../util/constants";
 
@@ -78,6 +78,34 @@ export class AppContentService {
             .post(Endpoints.DEACTIVATE_ACTIVATE_LOCATION + locId + "/" + status,null, {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+    }
+
+    fetchAttendees(org:boolean, id:string):Observable<any> {
+
+        let params;
+
+        if(org) {
+            params = new HttpParams()
+                .set("orgId", id);
+        } else {
+            params = new HttpParams()
+                .set("locId", id);
+        }
+
+
+        return this.httpClient
+            .get(Endpoints.FETCH_ATTENDEES + params, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+    }
+
+    assignUsersToLocation(model:AssignUserRequest):Observable<any> {
+        return this.httpClient
+            .post(Endpoints.ASSIGN_USERS, JSON.stringify(model), {
+                headers: new HttpHeaders()
+                    .set('Content-Type', 'application/json')
             })
     }
 

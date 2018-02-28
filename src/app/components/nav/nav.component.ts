@@ -97,7 +97,7 @@ export class NavComponent implements OnInit {
     }
 
     fetchOrgFromCache() {
-        if (!this.ss.getUsersOrg()) {
+        if (!this.ss.getUsersOrg() || this.ss.getUsersOrg().length == 0) {
             this.callUsersOrgService();
         } else {
             this.orgs = this.ss.getUsersOrg();
@@ -155,6 +155,10 @@ export class NavComponent implements OnInit {
                     if (result.code == 0) {
                         this.ns.showSuccess(result.description);
                         this.modalRef.hide();
+
+                        this.orgs.push(result.organisation)
+                        this.selectOrg(result.organisation);
+
                         this.router.navigate(['/portal/config']);
                     } else {
                         this.ns.showError(result.description);

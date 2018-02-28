@@ -18,6 +18,7 @@ import { AppRoutingModule } from './app-routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RecaptchaModule} from "ng-recaptcha";
 import {AgmCoreModule} from "@agm/core";
+import {DateUtil} from "./util/dateUtil";
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import {AgmCoreModule} from "@agm/core";
     StorageService,
     NotifyService,
     AuthGuardService,
+    DateUtil,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,

@@ -22,6 +22,18 @@ export class Org {
     walletId:number;
 }
 
+export class AssignUserRequest {
+    oldlocId:string;
+    newlocId:string;
+    emails:string[];
+    role:string;
+
+    constructor() {
+        this.emails = [];
+        this.role = "ATTENDEE";
+    }
+}
+
 export class Invitation {
   firstName:string;
   lastName:string;
