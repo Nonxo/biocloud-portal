@@ -15,20 +15,30 @@
         <!--<app-side-nav></app-side-nav>-->
 
         <div class="col-lg-12 px-md-4 px-lg-4">
-            <div class="row pb-md-3 row-eq-height">
+            <div class="row pb-md-3 equal-row">
                 <div class="col-lg-3 col-md-6 mt-4" *ngIf="orgId">
                     <a routerLink="/portal/config">
-                        <mat-card class="py-md-4 text-center">
-                            <i class="material-icons add-loc big-font">add_circle</i>
-                            <div>Add new location</div>
-                            
+                        <mat-card class="py-md-4 text-center h-100">
+                            <i class="py-4 material-icons add-loc display-3">add_circle</i>
+                            <h6>Add new location</h6>
                         </mat-card>
                     </a>
                 </div>
                 <div class="col-lg-3 col-md-6 mt-4" *ngFor="let loc of locations">
-                    <mat-card class="py-md-4 text-center">
-                        <i class="material-icons big-font designed-loc">place</i>
-                        <div>{{loc.name}}</div>
+                    <mat-card class="py-md-3 h-100">
+                        <img src="assets/img/loc.svg" style="max-width:32px"/>
+                        <h6 class="my-3">{{loc.name}}</h6>
+                        <mat-divider></mat-divider>
+                        <div class="py-2 row justify-content-between">
+                            <div class="mr-auto col-auto"><small>Attendees</small></div> 
+                            <div class="ml-auto col-auto"><small>1,234</small></div>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div class="py-2 row justify-content-between">
+                            <div class="mr-auto col-auto"><small>Pending</small></div> 
+                            <div class="ml-auto col-auto"><small>1,234</small></div>
+                        </div>
+
                         <div style="position:absolute; top:0; right:0;">
                             <button mat-icon-button [matMenuTriggerFor]="menu">
                                 <mat-icon>more_vert</mat-icon>

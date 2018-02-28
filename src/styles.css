@@ -1,14 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-/*@import "https://fonts.googleapis.com/icon?family=Material+Icons";*/
-
-body, html{
-    background: #E6E9EA;
-}
 
 .input-field{
     width: 100%;
 }
+
+.equal-row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .equal-row > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+  }
+  
 
 .alignment{
     vertical-align: middle;
