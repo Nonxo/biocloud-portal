@@ -1,5 +1,5 @@
 import {Component, OnInit, TemplateRef, NgZone} from '@angular/core';
-import {LocationRequest, Timezones, TimezonePOJO} from "../model/app-config.model";
+import {LocationRequest, TimezonePOJO} from "../model/app-config.model";
 import {AppConfigService} from "../services/app-config.service";
 import {BsModalService, BsModalRef, ModalOptions} from "ngx-bootstrap/index";
 import {MapsAPILoader} from "@agm/core";
@@ -8,6 +8,7 @@ import {GeoMapService} from "../../../../service/geo-map.service";
 import {NotifyService} from "../../../../service/notify.service";
 import {Router} from "@angular/router";
 import {StorageService} from "../../../../service/storage.service";
+import {DateUtil} from "../../../../util/dateUtil";
 
 @Component({
     selector: 'app-setup',
@@ -43,12 +44,19 @@ export class SetupComponent implements OnInit {
                 private ns:NotifyService,
                 private router:Router,
                 public modalRef:BsModalRef,
-                private ss:StorageService) {
+                private ss:StorageService,
+                private dateUtil:DateUtil) {
     }
 
     ngOnInit() {
+
+        if (this.locRequest.resumption) {
+            this.resumption = this.renderResumptionTime(this.locRequest.resumption);
+        }
+
         this.fetchCountries();
         this.fetchTimezones();
+        //noinspection TypeScriptUnresolvedFunction
         this.loader.load().then(() => {
         });
     }
@@ -92,7 +100,8 @@ export class SetupComponent implements OnInit {
                             this.ss.setTimezones(this.timezones);
                         }
                     },
-                    error => {}
+                    error => {
+                    }
                 )
         }
 
@@ -172,7 +181,7 @@ export class SetupComponent implements OnInit {
     }
 
     saveLocation() {
-        //noinspection TypeScriptValidateTypes
+        //noinspection TypeScriptValidateTypes,TypeScriptUnresolvedFunction
         this.aService.saveLocation(this.locRequest)
             .finally(() => {
                 this.addNewLoc = false;
@@ -199,15 +208,7 @@ export class SetupComponent implements OnInit {
     }
 
     formatResumptionTime() {
-        return new Date(this.resumption).getTime();
-    }
-
-
-    addZero(i) {
-        if (i < 10) {
-            i = "0" + i;
-        }
-        return i;
+        return this.dateUtil.getTime(this.resumption);
     }
 
     autocomplete() {
@@ -280,6 +281,11 @@ export class SetupComponent implements OnInit {
     useAddress() {
         !this.addRange ? this.getSearchAddress(this.lat, this.lng) : '';
         this.modalRef.hide();
+    }
+
+    renderResumptionTime(resumptionTime:number) {
+        let date = new Date(resumptionTime);
+        return this.dateUtil.addZero(date.getHours()) + ":" + this.dateUtil.addZero(date.getMinutes());
     }
 
 

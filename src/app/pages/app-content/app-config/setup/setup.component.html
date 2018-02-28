@@ -86,7 +86,7 @@
                         <ng-container *ngIf="locRequest.locationType">
                             <div class="col-md-4">
                                 <mat-form-field class="input-field">
-                                    <input matInput type="time" placeholder="Resumption Time" name="rTime"
+                                    <input matInput type="time" pattern="[0-9]{2}:[0-9]{2}" placeholder="Resumption Time" name="rTime"
                                            [(ngModel)]="resumption">
                                 </mat-form-field>
                             </div>
