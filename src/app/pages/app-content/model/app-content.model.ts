@@ -26,11 +26,9 @@ export class AssignUserRequest {
     oldlocId:string;
     newlocId:string;
     emails:string[];
-    role:string;
 
     constructor() {
         this.emails = [];
-        this.role = "ATTENDEE";
     }
 }
 
@@ -40,4 +38,15 @@ export class Invitation {
   email:string;
   phoneNumber:number;
   created:number;
+}
+
+export class ActivateDeactivateUserRequest {
+    emails:string[];
+    orgId:string;
+    status:boolean;
+    locId:string;
+    
+    constructor() {
+        this.emails = [];
+    }
 }

@@ -1,10 +1,10 @@
-import {Component, OnInit, TemplateRef, OnDestroy} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild, OnDestroy} from '@angular/core';
 import {AppContentService} from "../services/app-content.service";
 import {StorageService} from "../../../service/storage.service";
 import {NotifyService} from "../../../service/notify.service";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/index";
 import {DataService} from "../../../service/data.service";
-import {AssignUserRequest} from "../model/app-content.model";
+import {AssignUserRequest, ActivateDeactivateUserRequest} from "../model/app-content.model";
 
 @Component({
     selector: 'app-manage-attendees',
@@ -21,10 +21,13 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     modalRef:BsModalRef;
     orgWideSearch:boolean;
     assignRequestObj:AssignUserRequest = new AssignUserRequest();
+    adr:ActivateDeactivateUserRequest = new ActivateDeactivateUserRequest();
+    @ViewChild("activateUserTemplate") public activateUserTemplate:TemplateRef<any>;
+    @ViewChild("assignuserTemplate") public assignuserTemplate:TemplateRef<any>;
     actions = [
-        {name: "Re-assign", enum:"ASSIGN", displayFor: "LOC"},
-        {name: "Deactivate", enum:"DE_ACTIVATE", displayFor: "ALL"},
-        {name: "Activate", enum:"ACTIVATE", displayFor: "ALL"}
+        {name: "Re-assign", enum:"ASSIGN", displayFor: "LOC", template:"assignuserTemplate"},
+        {name: "Deactivate", enum:"DE_ACTIVATE", displayFor: "ALL", template:"activateUserTemplate"},
+        {name: "Activate", enum:"ACTIVATE", displayFor: "ALL", template:"activateUserTemplate"}
     ];
 
     constructor(private contentService:AppContentService,
@@ -117,15 +120,53 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     groupActions() {
         switch(this.action) {
             case "ASSIGN": {
+                this.getSelectedUsersEmail();
+                this.openModal(this.assignuserTemplate);
                 break;
             }
             case "DE_ACTIVATE": {
+                this.getSelectedUsersId(false);
+                this.openModal(this.activateUserTemplate);
                 break;
             }
             case "ACTIVATE": {
+                this.getSelectedUsersId(true);
+                this.openModal(this.activateUserTemplate);
                 break;
             }
         }
+    }
+
+    getSelectedUsersId(status:boolean) {
+        this.adr.status = status;
+        this.adr.orgId = this.orgId;
+        this.adr.emails = [];
+        let arr = this.data.filter((obj:any) => obj.checked);
+
+        if(arr.length > 0) {
+            for(let a:any of arr) {
+                this.adr.emails.push(a.email);
+            }
+        }
+    }
+
+    getSelectedUsersEmail() {
+        this.assignRequestObj.emails = [];
+        let arr = this.data.filter((obj:any) => obj.checked);
+
+        if(arr.length > 0) {
+            for(let a:any of arr) {
+                this.assignRequestObj.emails.push(a.email);
+            }
+        }
+    }
+
+    activateDeactivateUser() {
+        this.contentService.activateDeactivateAttendees(this.adr)
+            .subscribe(
+                result => {debugger;},
+                error => {debugger;}
+            )
     }
 
     openAssignModal(template, email) {
@@ -145,6 +186,7 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
                 result => {
                     if(result.code == 0) {
                         this.ns.showSuccess(result.description);
+                        this.modalRef.hide();
                     }else {
                         this.ns.showError(result.description);
                     }

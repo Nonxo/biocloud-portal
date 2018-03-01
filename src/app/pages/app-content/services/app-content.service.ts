@@ -133,4 +133,12 @@ export class AppContentService {
     })
   }
 
+    activateDeactivateAttendees(model) {
+        return this.httpClient
+            .post(Endpoints.ACTIVATE_DEACTIVATE_ATTENDEE, JSON.stringify(model), {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+    }
+
 }

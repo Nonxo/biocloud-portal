@@ -21,7 +21,7 @@ export class NavComponent implements OnInit {
         {icon: "home", route: "Home", url: "/portal"},
         {icon: "group", route: "Attendees", url: "/portal/manage-users"},
         {icon: "insert_chart", route: "Report", url: "/portal/report-dashboard"},
-        {icon: "payment", route: "Subscribe", url: "/"}
+        {icon: "payment", route: "Subscribe", url: "/portal/subscribe"}
     ];
 
     orgTypes:string[] = ["SCHOOL", "SECURITY", "HOSPITAL"];
