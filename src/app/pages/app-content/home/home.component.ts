@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
 
     locationsSubscription:any;
     orgId:string;
-    locations:any = [];
+    locations:any[] = [];
     bsModalRef:BsModalRef;
     modalOptions:ModalOptions = new ModalOptions();
 

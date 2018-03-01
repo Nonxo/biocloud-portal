@@ -6,6 +6,8 @@ import {AppContentService} from "../../pages/app-content/services/app-content.se
 import {NotifyService} from "../../service/notify.service";
 import {CreateOrgRequest, Org} from "../../pages/app-content/model/app-content.model";
 import {MessageService} from "../../service/message.service";
+import {InviteRequest} from "../../pages/app-content/app-config/model/app-config.model";
+import {AppConfigService} from "../../pages/app-content/app-config/services/app-config.service";
 
 @Component({
     selector: 'app-nav',
@@ -17,6 +19,10 @@ export class NavComponent implements OnInit {
     sideNavMode = "side";
     opener:boolean = true;
     modalRef:BsModalRef;
+    selectedUser:Object;
+    manageAdmin:boolean;
+    locations:any[] = [];
+    users:any[] = [];
     views:Object[] = [
         {icon: "home", route: "Home", url: "/portal"},
         {icon: "group", route: "Attendees", url: "/portal/manage-users"},
@@ -37,6 +43,7 @@ export class NavComponent implements OnInit {
     openDropdown:boolean;
     hamburgerClicked:boolean = true;
     title:string = "Home";
+    inviteRequest:InviteRequest = new InviteRequest();
 
 
     constructor(private router:Router,
@@ -44,12 +51,15 @@ export class NavComponent implements OnInit {
                 private ss:StorageService,
                 private contentService:AppContentService,
                 private ns:NotifyService,
-                private mService:MessageService) {
+                private mService:MessageService,
+                private configService:AppConfigService) {
     }
 
     ngOnInit() {
         this.selectedOrg = this.ss.getSelectedOrg()? this.ss.getSelectedOrg(): new Org();
         this.fetchUsersOrg();
+        this.fetchAdminUsers();
+        this.callLocationService();
         this.onResizeByWindowScreen();
     }
 
@@ -90,6 +100,21 @@ export class NavComponent implements OnInit {
             this.openDropdown = false;
             !this.hamburgerClicked? this.decrease():'';
         }
+    }
+
+
+    fetchAdminUsers() {
+        this.contentService.fetchUsersInAnOrg(this.selectedOrg.orgId)
+            .subscribe(
+                result => {
+                    if(result.code == 0) {
+                        this.users = result.users
+                    }else {
+
+                    }
+                },
+                error => {}
+            )
     }
 
     fetchUsersOrg() {
@@ -208,6 +233,49 @@ export class NavComponent implements OnInit {
             this.sideNavMode = "side";
             this.opener = true;
         }
+    }
+
+    callLocationService() {
+        this.contentService.fetchOrgLocations(this.selectedOrg.orgId)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.locations = result.locations;
+                    }
+                },
+                error => {}
+            )
+    }
+
+    getSelectedLocationName() {
+        if (this.inviteRequest.locIds.length > 0) {
+            for(let l of this.locations) {
+                if (l.locId == this.inviteRequest.locIds[0]) {
+                    return l.name;
+                }
+            }
+        }
+    }
+
+    inviteAdmin() {
+        this.configService.inviteAttendees(this.inviteRequest)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.ns.showSuccess(result.description);
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {
+                    this.ns.showError("An Error Occurred.");
+                }
+            )
+    }
+
+    viewAdminDetails(user, template:TemplateRef<any>) {
+        this.selectedUser = user;
+        this.openModal(template);
     }
 
 

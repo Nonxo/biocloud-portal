@@ -42,7 +42,6 @@ export class AppConfigService {
 
     inviteAttendees(model:InviteRequest): Observable<any> {
         model.orgId = this.ss.getSelectedOrg()? this.ss.getSelectedOrg().orgId: null;
-        model.role = "ATTENDEE";
 
         return this.httpClient
             .post(Endpoints.SEND_INVITES, JSON.stringify(model), {
