@@ -26,11 +26,9 @@ export class AssignUserRequest {
     oldlocId:string;
     newlocId:string;
     emails:string[];
-    role:string;
 
     constructor() {
         this.emails = [];
-        this.role = "ATTENDEE";
     }
 }
 
@@ -50,4 +48,15 @@ export class ApproveRequest {
   constructor () {
     this.locIds = [];
   }
+}
+
+export class ActivateDeactivateUserRequest {
+    emails:string[];
+    orgId:string;
+    status:boolean;
+    locId:string;
+    
+    constructor() {
+        this.emails = [];
+    }
 }

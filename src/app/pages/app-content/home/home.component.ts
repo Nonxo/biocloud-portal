@@ -42,12 +42,13 @@ export class HomeComponent implements OnInit {
         this.locationsSubscription = this.mService.getSelectedOrg()
             .subscribe(
                 result => {
-                    this.orgId = result;
-                    this.callLocationService();
-                    this.router.navigate(['/portal']);
+                    if(this.orgId != result) {
+                        this.orgId = result;
+                        this.callLocationService();
+                        this.router.navigate(['/portal']);
+                    }
                 }
             )
-
     }
 
     callLocationService() {
