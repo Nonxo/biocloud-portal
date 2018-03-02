@@ -6,13 +6,13 @@
 
                 <div class="list-group">
                     <div class="list-group-item list-group-item-action d-flex flex-row align-items-start bg-light-grey">
-                        <div class="mt-4">
-                            <mat-checkbox (change)="selectAll($event)"></mat-checkbox>
+                        <div class="mt-4"  *ngIf="data.length > 0">
+                            <mat-checkbox name="selAll" [(ngModel)]="selAll" (change)="selectAll($event)"></mat-checkbox>
                         </div>
                         <div class="w-100 pl-3">
                             <div class="d-flex w-100 ">
                                <div class="row">
-                                   <div class="col-md-6">
+                                   <div class="col-md-6" *ngIf="data.length > 0 && selAll">
                                        <mat-form-field>
                                            <mat-select placeholder="Actions" name="action" [(ngModel)]="action" (change)="groupActions()">
                                                <mat-option value="">--</mat-option>
@@ -62,15 +62,15 @@
                                             <mat-icon>view_list</mat-icon>
                                             <span>View report</span>
                                         </button>
-                                        <button mat-menu-item (click)="openActivateUserModal(activateUserTemplate)">
+                                        <button mat-menu-item (click)="openActivateUserModal(activateUserTemplate, d.email, d.status)">
                                             <mat-icon>delete_forever</mat-icon>
-                                            <span>Delete</span>
+                                            <span>{{d.status? 'Deactivate':'Activate'}}</span>
                                         </button>
                                     </mat-menu>
                                 </small>
                             </div>
                             <p class="mb-1 d-flex justify-content-between">12 John okafor street Agungi Lekki, Lagos
-                                <span class="text-success">Success</span></p>
+                                <span class="{{d.status? 'text-success':'text-danger'}}">{{d.status? 'Active':'Inactive'}}</span></p>
                         </div>
                     </div>
                 </div>
@@ -82,7 +82,7 @@
 
 <ng-template #assignuserTemplate>
     <div class="modal-header">
-        <h4 class="modal-title">Reassign Attendee</h4>
+        <h4 class="modal-title">Reassign Attendee(s)</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -91,7 +91,7 @@
         <div class="row p-md-3 p-0">
 
             <div class="col-md-12">
-                <h6 class="text-brand">Reassign the selected attendee(s) to a new location</h6>
+                <p>Reassign the selected attendee(s) to a new location</p>
             </div>
 
             <div class="col-md-8">
@@ -117,7 +117,7 @@
 
 <ng-template #activateUserTemplate>
     <div class="modal-header">
-        <h4 class="modal-title pull-left">Modal</h4>
+        <h4 class="modal-title pull-left">{{adr.status? 'Activate':'Deactivate'}} Attendee(s)</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -125,8 +125,8 @@
     <div class="modal-body">
 
         <div class="col-md-12">
-            <h6 class="text-brand">Are you sure you want to the selected attendee(s).</h6>
-            <h6 class="text-brand">This means they will be unable to clock in to your institution anymore</h6>
+            <p>Are you sure you want to {{adr.status? 'Activate':'Deactivate'}} the selected attendee(s).</p>
+            <p>This means they will be unable to clock in to your institution anymore</p>
         </div>
 
         <div class="col-md-12 text-right">

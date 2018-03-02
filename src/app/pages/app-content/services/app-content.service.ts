@@ -82,17 +82,14 @@ export class AppContentService {
     }
 
     fetchAttendees(org:boolean, id:string):Observable<any> {
-
         let params;
-
-        if(org) {
+        if (org) {
             params = new HttpParams()
                 .set("orgId", id);
         } else {
             params = new HttpParams()
                 .set("locId", id);
         }
-
 
         return this.httpClient
             .get(Endpoints.FETCH_ATTENDEES + params, {
@@ -114,9 +111,9 @@ export class AppContentService {
     return this.httpClient.get(Endpoints.FETCH_NOTIFICATION + params, {
       headers: new HttpHeaders()
 
-    })
+        })
 
-  }
+    }
 
 
   fetchNotificationDetails(inviteId: string): Observable<any> {

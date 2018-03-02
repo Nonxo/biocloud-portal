@@ -20,6 +20,7 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     selectedLocId:string;
     modalRef:BsModalRef;
     orgWideSearch:boolean;
+    selAll:boolean;
     assignRequestObj:AssignUserRequest = new AssignUserRequest();
     adr:ActivateDeactivateUserRequest = new ActivateDeactivateUserRequest();
     @ViewChild("activateUserTemplate") public activateUserTemplate:TemplateRef<any>;
@@ -164,8 +165,17 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     activateDeactivateUser() {
         this.contentService.activateDeactivateAttendees(this.adr)
             .subscribe(
-                result => {debugger;},
-                error => {debugger;}
+                result => {
+                    let res:any = result;
+                    if(res.code == 0) {
+                        this.ns.showSuccess(res.description);
+                        this.modalRef.hide();
+                        this.fetchUsers();
+                    }else {
+                        this.ns.showError(res.description);
+                    }
+                },
+                error => {this.ns.showError("An Error Occurred.");}
             )
     }
 
@@ -175,7 +185,10 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
         this.openModal(template);
     }
 
-    openActivateUserModal(template) {
+    openActivateUserModal(template:TemplateRef<any>, email:string, status:boolean) {
+        this.adr.emails = [];
+        this.adr.emails.push(email);
+        this.adr.status = status? false:true;
         this.openModal(template);
     }
 
@@ -187,6 +200,7 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
                     if(result.code == 0) {
                         this.ns.showSuccess(result.description);
                         this.modalRef.hide();
+                        this.fetchUsers();
                     }else {
                         this.ns.showError(result.description);
                     }
