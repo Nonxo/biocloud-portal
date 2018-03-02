@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../util/endpoints";
-import {CreateOrgRequest, AssignUserRequest} from "../model/app-content.model";
+import {CreateOrgRequest, AssignUserRequest, ApproveRequest} from "../model/app-content.model";
 import {StorageService} from "../../../service/storage.service";
 import {MediaType} from "../../../util/constants";
 
@@ -110,7 +110,7 @@ export class AppContentService {
     }
 
   fetchNotification(orgId: string): Observable<any> {
-    let params = new HttpParams().set('orgId', orgId)
+    let params = new HttpParams().set('orgId', orgId);
     return this.httpClient.get(Endpoints.FETCH_NOTIFICATION + params, {
       headers: new HttpHeaders()
 
@@ -126,10 +126,10 @@ export class AppContentService {
     })
   }
 
-  approveRejectNotification(inviteId:string, action:string): Observable<any> {
-    return this.httpClient.post(Endpoints.APPROVE_REJECT_NOTIFICATION + inviteId + "/" + action, null, {
+  approveRejectNotification(inviteId:string, model:ApproveRequest): Observable<any> {
+    return this.httpClient.post(Endpoints.APPROVE_REJECT_NOTIFICATION + inviteId + "/status", JSON.stringify(model), {
       headers: new HttpHeaders()
-        .set('Content-Type', 'application/json')
+        .set('Content-Type', MediaType.APPLICATION_JSON)
     })
   }
 

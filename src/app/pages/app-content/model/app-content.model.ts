@@ -38,6 +38,16 @@ export class Invitation {
   email:string;
   phoneNumber:number;
   created:number;
+  locId:string;
+}
+
+export class ApproveRequest {
+  status: string;
+  locIds: string[];
+
+  constructor () {
+    this.locIds = [];
+  }
 }
 
 export class ActivateDeactivateUserRequest {
