@@ -1,84 +1,3 @@
-<!-- <div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12 p-md-3 p-lg-5">
-            <mat-card>
-                <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="5">
-                    <thead>
-                    <tr>
-                        <th>
-                            <mfDefaultSorter by=""><mat-checkbox class="example-margin" (change)="selectAll($event)"></mat-checkbox></mfDefaultSorter>
-                        </th>
-                        <th>
-                            <mfDefaultSorter by="name">First Name</mfDefaultSorter>
-                        </th>
-                        <th>
-                            <mfDefaultSorter by="email">Last Name</mfDefaultSorter>
-                        </th>
-                        <th>
-                            <mfDefaultSorter by="age">Phone Number</mfDefaultSorter>
-                        </th>
-                        <th>
-                            <mfDefaultSorter by="city">Email Address</mfDefaultSorter>
-                        </th>
-
-                        <th >
-                            <mfDefaultSorter by="city">Assigned Location</mfDefaultSorter>
-                        </th>
-
-                        <th>
-                            <mfDefaultSorter by="city">Status</mfDefaultSorter>
-                        </th>
-
-                        <th >
-                            <mfDefaultSorter by="city">Action</mfDefaultSorter>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor="let item of mf.data">
-                        <td><mat-checkbox class="example-margin" name="{{item.userId}}" [(ngModel)]="item.checked"></mat-checkbox></td>
-                        <td>{{item.fName}}</td>
-                        <td>{{item.lName}}</td>
-                        <td>{{item.phone}}</td>
-                        <td>{{item.email}}</td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <button mat-icon-button [matMenuTriggerFor]="menu">
-                                <mat-icon>more_horiz</mat-icon>
-                            </button>
-                            <mat-menu #menu="matMenu">
-                                <button mat-menu-item (click)="openAssignModal(assignuserTemplate)">
-                                    <mat-icon>assignment_ind</mat-icon>
-                                    <span>Reassign User</span>
-                                </button>
-                                <button mat-menu-item>
-                                    <mat-icon>view_list</mat-icon>
-                                    <span>View report</span>
-                                </button>
-                                <button mat-menu-item (click)="openActivateUserModal(activateUserTemplate)">
-                                    <mat-icon>delete_forever</mat-icon>
-                                    <span>Delete</span>
-                                </button>
-                            </mat-menu>
-
-                        </td>
-                    </tr>
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <td colspan="4">
-                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-                        </td>
-                    </tr>
-                    </tfoot>
-                </table>
-            </mat-card>
-        </div>
-    </div>
-</div> -->
-
-
 <div class="container">
     <div class="row mt-lg-5 ">
         <div class="col-md-12 mt-4">
@@ -87,15 +6,16 @@
 
                 <div class="list-group">
                     <div class="list-group-item list-group-item-action d-flex flex-row align-items-start bg-light-grey">
-                        <div class="mt-4">
-                            <mat-checkbox (change)="selectAll($event)"></mat-checkbox>
+                        <div class="mt-4"  *ngIf="data.length > 0">
+                            <mat-checkbox name="selAll" [(ngModel)]="selAll" (change)="selectAll($event)"></mat-checkbox>
                         </div>
                         <div class="w-100 pl-3">
                             <div class="d-flex w-100 ">
                                <div class="row">
-                                   <div class="col-md-6">
+                                   <div class="col-md-6" *ngIf="data.length > 0 && selAll">
                                        <mat-form-field>
                                            <mat-select placeholder="Actions" name="action" [(ngModel)]="action" (change)="groupActions()">
+                                               <mat-option value="">--</mat-option>
                                                <ng-container *ngFor="let action of actions">
                                                    <mat-option *ngIf="(orgWideSearch && action.displayFor == 'ALL') || !orgWideSearch" [value]="action.enum">
                                                        {{ action.name }}
@@ -142,15 +62,15 @@
                                             <mat-icon>view_list</mat-icon>
                                             <span>View report</span>
                                         </button>
-                                        <button mat-menu-item (click)="openActivateUserModal(activateUserTemplate)">
+                                        <button mat-menu-item (click)="openActivateUserModal(activateUserTemplate, d.email, d.status)">
                                             <mat-icon>delete_forever</mat-icon>
-                                            <span>Delete</span>
+                                            <span>{{d.status? 'Deactivate':'Activate'}}</span>
                                         </button>
                                     </mat-menu>
                                 </small>
                             </div>
                             <p class="mb-1 d-flex justify-content-between">12 John okafor street Agungi Lekki, Lagos
-                                <span class="text-success">Success</span></p>
+                                <span class="{{d.status? 'text-success':'text-danger'}}">{{d.status? 'Active':'Inactive'}}</span></p>
                         </div>
                     </div>
                 </div>
@@ -162,7 +82,7 @@
 
 <ng-template #assignuserTemplate>
     <div class="modal-header">
-        <h4 class="modal-title">Reassign Attendee</h4>
+        <h4 class="modal-title">Reassign Attendee(s)</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -171,7 +91,7 @@
         <div class="row p-md-3 p-0">
 
             <div class="col-md-12">
-                <h6 class="text-brand">Reassign the selected attendee(s) to a new location</h6>
+                <p>Reassign the selected attendee(s) to a new location</p>
             </div>
 
             <div class="col-md-8">
@@ -187,7 +107,7 @@
             </div>
 
             <div class="col-md-12 text-right">
-                <button mat-raised-button color="danger" type="button">CANCEL</button>
+                <button mat-raised-button color="danger" type="button" (click)="modalRef.hide()">CANCEL</button>
                 <button mat-raised-button color="primary" type="button" (click)="assignUser()">Reassign</button>
             </div>
 
@@ -197,7 +117,7 @@
 
 <ng-template #activateUserTemplate>
     <div class="modal-header">
-        <h4 class="modal-title pull-left">Modal</h4>
+        <h4 class="modal-title pull-left">{{adr.status? 'Activate':'Deactivate'}} Attendee(s)</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -205,13 +125,13 @@
     <div class="modal-body">
 
         <div class="col-md-12">
-            <h6 class="text-brand">Are you sure you want to the selected attendee(s).</h6>
-            <h6 class="text-brand">This means they will be unable to clock in to your institution anymore</h6>
+            <p>Are you sure you want to {{adr.status? 'Activate':'Deactivate'}} the selected attendee(s).</p>
+            <p>This means they will be unable to clock in to your institution anymore</p>
         </div>
 
         <div class="col-md-12 text-right">
             <button mat-raised-button color="danger" type="button">CANCEL</button>
-            <button mat-raised-button color="primary" type="button">OK</button>
+            <button mat-raised-button color="primary" type="button" (click)="activateDeactivateUser()">OK</button>
         </div>
 
 
