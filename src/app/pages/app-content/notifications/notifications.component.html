@@ -27,10 +27,10 @@
 
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="approveRejectNotifications(details.email, details.inviteId,  'REJECTED')"
+    <button type="button" class="btn btn-secondary" (click)="rejectNotifications(details.email, details.inviteId,  'REJECTED')"
             data-dismiss="modal">Reject
     </button>
-    <button type="button" class="btn btn-primary" (click)="approveRejectNotifications(details.email, details.inviteId, 'APPROVED')">
+    <button type="button" class="btn btn-primary" (click)="approveNotifications(details.email, details.inviteId, 'APPROVED')">
       Accept
     </button>
   </div>
@@ -58,8 +58,8 @@
     </mat-form-field>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">Assign Later</button>
-    <button type="button" class="btn btn-primary" (click)="confirmAssignment(details.inviteId)">Assign</button>
+    <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Assign Later</button>
+    <button type="button" [disabled]="approveRequest.locIds.length == 0" class="btn btn-primary" (click)="confirmAssignment(details.inviteId)">Assign</button>
   </div>
 </ng-template>
 
