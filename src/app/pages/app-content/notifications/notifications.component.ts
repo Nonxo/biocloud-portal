@@ -39,6 +39,7 @@ export class NotificationsComponent implements OnInit {
     if (this.ss.getSelectedOrg()) {
       this.orgId = this.ss.getSelectedOrg().orgId;
       this.callNotificationService();
+      this.assignLocation
     }
 
   }
@@ -71,7 +72,7 @@ export class NotificationsComponent implements OnInit {
           if (result.code == 0) {
             this.notifications = result.attendees;
           } else {
-            this.ns.showError(result.description);
+            this.ns.showError(result.description)
           }
         },
         error => {
@@ -99,7 +100,7 @@ export class NotificationsComponent implements OnInit {
   }
 
 
-  approveRejectNotifications(email:string, inviteId:string, status:string) {
+  approveNotifications(email:string, inviteId:string, status:string) {
 
     this.approveRequest.status = status;
 
@@ -113,6 +114,23 @@ export class NotificationsComponent implements OnInit {
     }
 
   }
+
+  rejectNotifications(email:string, inviteId:string, status:string) {
+  debugger;
+    this.approveRequest.status = status;
+
+    if (!this.selectedLocIds || this.selectedLocIds.length == 0) {
+      this.callRejectService(inviteId);
+      debugger;
+
+    } else {
+      this.modalRef.hide();
+      this.selectedEmail = email;
+
+    }
+  }
+
+
 
   confirmAssignment(inviteId:string) {
     //do logic to ensure that user selects at least one location in the dropdown
@@ -138,6 +156,25 @@ export class NotificationsComponent implements OnInit {
         error => {this.ns.showError("An Error Occurred");}
       )
   }
+
+  callRejectService(inviteId:string) {
+    this.contentService.approveRejectNotification(inviteId, this.approveRequest)
+      .subscribe(
+        result => {
+          if (result.code == 0) {
+            this.ns.showSuccess("Notification Rejected");
+            this.modalRef.hide();
+            this.callNotificationService();
+
+          } else {
+            this.ns.showError(result.description);
+          }
+        },
+        error => {this.ns.showError("An Error Occurred");}
+      )
+  }
+
+
 
   callLocationService() {
     this.contentService.fetchOrgLocations(this.orgId)
