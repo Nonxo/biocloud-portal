@@ -26,4 +26,5 @@ export class Endpoints {
   public static FETCH_NOTIFICATION = `${Endpoints.BASE_URL}/users/api/org/invites?`;
   public static FETCH_NOTIFICATION_DETAILS = `${Endpoints.BASE_URL}/users/api/org/invites/`;
   public static APPROVE_REJECT_NOTIFICATION = `${Endpoints.BASE_URL}/users/api/org/invites/`;
+
 }
