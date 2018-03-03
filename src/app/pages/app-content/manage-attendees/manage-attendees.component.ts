@@ -142,10 +142,10 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
         this.adr.status = status;
         this.adr.orgId = this.orgId;
         this.adr.emails = [];
-        let arr = this.data.filter((obj:any) => obj.checked);
+        let arr:any[] = this.data.filter((obj:any) => obj.checked);
 
         if(arr.length > 0) {
-            for(let a:any of arr) {
+            for(let a of arr) {
                 this.adr.emails.push(a.email);
             }
         }
@@ -153,10 +153,10 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
 
     getSelectedUsersEmail() {
         this.assignRequestObj.emails = [];
-        let arr = this.data.filter((obj:any) => obj.checked);
+        let arr:any[] = this.data.filter((obj:any) => obj.checked);
 
         if(arr.length > 0) {
-            for(let a:any of arr) {
+            for(let a of arr) {
                 this.assignRequestObj.emails.push(a.email);
             }
         }
