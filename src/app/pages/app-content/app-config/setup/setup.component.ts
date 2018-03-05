@@ -54,8 +54,9 @@ export class SetupComponent implements OnInit {
             this.setEditMode();
         } else {
             this.fetchCountries();
-            this.fetchTimezones();
         }
+
+        this.fetchTimezones();
 
         //noinspection TypeScriptUnresolvedFunction
         this.loader.load().then(() => {
@@ -65,7 +66,6 @@ export class SetupComponent implements OnInit {
     setEditMode() {
         if (this.locRequest.resumption) {
             this.resumption = this.renderResumptionTime(this.locRequest.resumption);
-            this.fetchTimezones();
         }
 
         if (this.locRequest.locationType == 'COUNTRY') {
