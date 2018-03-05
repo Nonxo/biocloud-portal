@@ -8,6 +8,8 @@ import {CreateOrgRequest, Org} from "../../pages/app-content/model/app-content.m
 import {MessageService} from "../../service/message.service";
 import {InviteRequest} from "../../pages/app-content/app-config/model/app-config.model";
 import {AppConfigService} from "../../pages/app-content/app-config/services/app-config.service";
+import {SearchService} from "../../service/search.service";
+import {Subject} from "rxjs/Subject";
 
 @Component({
     selector: 'app-nav',
@@ -45,6 +47,9 @@ export class NavComponent implements OnInit {
     title:string = "Home";
     inviteRequest:InviteRequest = new InviteRequest();
 
+    searchField:string;
+    searchOrgTerm$ = new Subject<string>();
+
 
     constructor(private router:Router,
                 private modalService:BsModalService,
@@ -52,11 +57,17 @@ export class NavComponent implements OnInit {
                 private contentService:AppContentService,
                 private ns:NotifyService,
                 private mService:MessageService,
-                private configService:AppConfigService) {
+                private configService:AppConfigService,
+                private searchService:SearchService) {
+
+        this.searchService.search(this.searchOrgTerm$, "ORG")
+            .subscribe(results => {
+                this.orgs = results;
+            });
     }
 
     ngOnInit() {
-        this.selectedOrg = this.ss.getSelectedOrg()? this.ss.getSelectedOrg(): new Org();
+        this.selectedOrg = this.ss.getSelectedOrg() ? this.ss.getSelectedOrg() : new Org();
         this.fetchUsersOrg();
         this.fetchAdminUsers();
         this.callLocationService();
@@ -73,6 +84,11 @@ export class NavComponent implements OnInit {
 
     onClickedOutside(e:Event) {
         this.openDropdown = false;
+
+        if(this.searchField) {
+            this.searchField = "";
+            this.orgs = this.ss.getUsersOrg();
+        }
     }
 
     increase() {
@@ -84,7 +100,7 @@ export class NavComponent implements OnInit {
     }
 
     toggleNavFromHam(increase:boolean) {
-        if(increase) {
+        if (increase) {
             this.hamburgerClicked = true;
             this.increase();
         } else {
@@ -94,11 +110,17 @@ export class NavComponent implements OnInit {
     }
 
     toggleNavFromMouseEvent(increase:boolean) {
-        if(increase) {
-            !this.hamburgerClicked? this.increase():'';
+        if (increase) {
+            !this.hamburgerClicked ? this.increase() : '';
         } else {
+            //when closing side nav, check if a search operation was made and return the initial state of the searched items
+            if(this.searchField) {
+                this.searchField = ""
+                this.orgs = this.ss.getUsersOrg();
+            }
+
             this.openDropdown = false;
-            !this.hamburgerClicked? this.decrease():'';
+            !this.hamburgerClicked ? this.decrease() : '';
         }
     }
 
@@ -107,13 +129,14 @@ export class NavComponent implements OnInit {
         this.contentService.fetchUsersInAnOrg(this.selectedOrg.orgId)
             .subscribe(
                 result => {
-                    if(result.code == 0) {
+                    if (result.code == 0) {
                         this.users = result.users
-                    }else {
+                    } else {
 
                     }
                 },
-                error => {}
+                error => {
+                }
             )
     }
 
@@ -131,8 +154,8 @@ export class NavComponent implements OnInit {
     }
 
     setDefaultSelectedOrg() {
-        if(!this.selectedOrg.orgId) {
-            if(this.orgs.length > 0) {
+        if (!this.selectedOrg.orgId) {
+            if (this.orgs.length > 0) {
                 this.selectedOrg = this.orgs[0];
                 this.ss.setSelectedOrg(this.orgs[0]);
                 this.mService.setSelectedOrg(this.orgs[0].orgId);
@@ -145,7 +168,7 @@ export class NavComponent implements OnInit {
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.orgs = result.organisations? result.organisations: [];
+                        this.orgs = result.organisations ? result.organisations : [];
                         //cache orgs
                         this.cacheOrg();
                         this.setDefaultSelectedOrg();
@@ -211,12 +234,12 @@ export class NavComponent implements OnInit {
         this.router.navigate(['/auth']);
     }
 
-    onResizeByWindowScreen(){
-        if(window.screen.width < 845){
+    onResizeByWindowScreen() {
+        if (window.screen.width < 845) {
             this.sideNavMode = "over";
             this.opener = false;
         }
-        else{
+        else {
             this.sideNavMode = "side";
             this.opener = true;
         }
@@ -225,11 +248,11 @@ export class NavComponent implements OnInit {
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
-        if(event.target.innerWidth < 845){
+        if (event.target.innerWidth < 845) {
             this.sideNavMode = "over";
             this.opener = false;
         }
-        else{
+        else {
             this.sideNavMode = "side";
             this.opener = true;
         }
@@ -243,13 +266,14 @@ export class NavComponent implements OnInit {
                         this.locations = result.locations;
                     }
                 },
-                error => {}
+                error => {
+                }
             )
     }
 
     getSelectedLocationName() {
         if (this.inviteRequest.locIds.length > 0) {
-            for(let l of this.locations) {
+            for (let l of this.locations) {
                 if (l.locId == this.inviteRequest.locIds[0]) {
                     return l.name;
                 }

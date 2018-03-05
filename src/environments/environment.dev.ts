@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:7020'
+  baseUrl: 'https://bcstaging.bioregistra.com'
 };

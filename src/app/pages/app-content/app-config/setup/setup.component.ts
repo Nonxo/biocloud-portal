@@ -50,15 +50,32 @@ export class SetupComponent implements OnInit {
 
     ngOnInit() {
 
-        if (this.locRequest.resumption) {
-            this.resumption = this.renderResumptionTime(this.locRequest.resumption);
+        if(this.editMode) {
+            this.setEditMode();
+        } else {
+            this.fetchCountries();
+            this.fetchTimezones();
         }
 
-        this.fetchCountries();
-        this.fetchTimezones();
         //noinspection TypeScriptUnresolvedFunction
         this.loader.load().then(() => {
         });
+    }
+
+    setEditMode() {
+        if (this.locRequest.resumption) {
+            this.resumption = this.renderResumptionTime(this.locRequest.resumption);
+            this.fetchTimezones();
+        }
+
+        if (this.locRequest.locationType == 'COUNTRY') {
+            this.fetchCountries();
+        }
+
+        if (this.locRequest.locationType == 'STATE') {
+            this.fetchCountries();
+            this.fetchStates(this.locRequest.countryId);
+        }
     }
 
     openModal(template:TemplateRef<any>, addRange) {
@@ -80,10 +97,8 @@ export class SetupComponent implements OnInit {
 
     customSettings() {
         if (this.addRange) {
-            this.draggable = false;
             this.zoomSize = 20;
         } else {
-            this.draggable = true;
             this.zoomSize = 15;
         }
     }
@@ -137,6 +152,8 @@ export class SetupComponent implements OnInit {
     }
 
     clearData() {
+        this.locRequest.latitude = null;
+        this.locRequest.longitude = null;
         this.locRequest.countryId = 0;
         this.locRequest.stateId = 0;
         this.locRequest.radiusThreshold = 0;
@@ -150,17 +167,50 @@ export class SetupComponent implements OnInit {
 
     submit() {
         if (this.resumption) {
+            if(!this.locRequest.resumptionTimezoneId) {
+                this.ns.showError("You must select a timezone.");
+                return;
+            }
             this.locRequest.resumption = this.formatResumptionTime();
         } else {
             this.locRequest.resumption = null;
         }
 
+        if(!this.isFormValid()) {
+            return
+        }
+
+        this.editMode ? this.editLocation() : this.saveLocation();
+    }
+
+    isFormValid() {
+        
         if (this.locRequest.locationType == 'SPECIFIC_ADDRESS') {
+
+            if(!this.locRequest.address) {
+                this.ns.showError("You must select an Address");
+                return false;
+            }
+
             this.locRequest.latitude = this.lat;
             this.locRequest.longitude = this.lng;
         }
 
-        this.editMode ? this.editLocation() : this.saveLocation();
+        if (this.locRequest.locationType == 'COUNTRY') {
+            if (this.locRequest.countryId < 1) {
+                this.ns.showError("You must select a Country");
+                return false;
+            }
+        }
+
+        if (this.locRequest.locationType == 'STATE') {
+            if (this.locRequest.countryId < 1 || this.locRequest.stateId < 1) {
+                this.ns.showError("You must select a State");
+                return false;
+            }
+        }
+
+        return true;
     }
 
     editLocation() {
@@ -272,14 +322,12 @@ export class SetupComponent implements OnInit {
     }
 
     mapClicked($event:any) {
-        if (!this.addRange) {
             this.lat = $event.coords.lat;
             this.lng = $event.coords.lng;
-        }
     }
 
     useAddress() {
-        !this.addRange ? this.getSearchAddress(this.lat, this.lng) : '';
+        this.getSearchAddress(this.lat, this.lng);
         this.modalRef.hide();
     }
 

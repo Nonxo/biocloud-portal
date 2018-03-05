@@ -34,7 +34,7 @@
             <mat-icon>person</mat-icon>
             <span>Profile</span>
         </button>
-        <button mat-menu-item (click)="logout()">
+        <button mat-menu-item routerLink="/portal/notification">
             <mat-icon>message</mat-icon>
             <span>Notification</span>
         </button>
@@ -59,7 +59,7 @@
 
         
         <div  class="container-fluid px-0 mt-md-5 mt-1" (clickOutside)="onClickedOutside($event)">
-            <a role="button" (click)="openModal(template)" *ngIf="orgs.length == 0">
+            <a role="button" (click)="openModal(template)" *ngIf="orgs.length == 0 && !selectedOrg">
                 <div class="cursor border-top">
                     <small>
                         <mat-list>
@@ -72,17 +72,17 @@
                 </div>
             </a>
 
-            <div class="row my-3 px-3 cursor border-0 align-items-center" (click)="show()" *ngIf="orgs.length > 0">
+            <div class="row my-3 px-3 cursor border-0 align-items-center" (click)="show()" *ngIf="orgs.length > 0 || selectedOrg">
                 <img src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon ml-3" style="max-height:2em;"/>
                 <small class="p-2" *ngIf="sidenavWidth >= 15"><b>{{selectedOrg.name? (selectedOrg.name | ellipsis:15):''}}</b></small>
-                <i class="material-icons ml-auto mr-3"  *ngIf="sidenavWidth >= 15">arrow_drop_down</i>
+                <i class="material-icons ml-auto mr-3"  *ngIf="sidenavWidth >= 15">{{openDropdown? 'arrow_drop_up':'arrow_drop_down'}}</i>
             </div>
 
             <div *ngIf="openDropdown"  class="bg-light-grey pt-2 font-12">
                 <ul class="list-unstyled px-3">
                     <li class="media">
                         <mat-form-field class="w-100">
-                            <input matInput placeholder="Search organisation" type="text">
+                            <input matInput placeholder="Search organisation" type="text" name="searchField" [(ngModel)]="searchField" (keyup)="searchOrgTerm$.next($event.target.value)">
                             <mat-icon matSuffix>search</mat-icon>
                         </mat-form-field>
                     </li>
@@ -126,10 +126,10 @@
         <mat-nav-list>
             <ul>
                 <li routerLinkActive="active">
-                    <a (click)="manageAdmin = true" mat-list-item>
+                    <a (click)="manageAdmin = manageAdmin? false:true" mat-list-item>
                         <mat-icon mat-list-icon>group</mat-icon>
-                        <span mat-line>ADMINS</span>
-                        <i class="material-icons ml-auto mr-3"  *ngIf="sidenavWidth >= 15">arrow_drop_down</i>
+                        <span mat-line>Admins</span>
+                        <i class="material-icons ml-auto mr-3"  *ngIf="sidenavWidth >= 15">{{manageAdmin? 'arrow_drop_up':'arrow_drop_down'}}</i>
                     </a>
                 </li>
 

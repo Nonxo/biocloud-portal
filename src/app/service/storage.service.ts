@@ -4,6 +4,17 @@ import {TimezonePOJO} from "../pages/app-content/app-config/model/app-config.mod
 @Injectable()
 export class StorageService {
 
+  isUserLoggedIn(): Promise<boolean> {
+    let user = this.loggedInUser;
+    let token = this.authToken;
+
+    if(!user || !token) {
+      return Promise.resolve(false);
+    }
+    return Promise.resolve(true);
+  }
+  
+  
   get loggedInUser(): any {
     let obj = JSON.parse(localStorage.getItem('_u'));
     return obj? obj: null;

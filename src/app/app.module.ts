@@ -9,7 +9,6 @@ import { AuthComponent } from './pages/auth/auth.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { SharedModule } from './shared/shared.module';
-import { AuthGuardService } from './service/auth-guard.service';
 import { DataService } from './service/data.service';
 import { AuthService } from './components/auth/auth.service';
 import { StorageService } from './service/storage.service';
@@ -19,6 +18,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RecaptchaModule} from "ng-recaptcha";
 import {AgmCoreModule} from "@agm/core";
 import {DateUtil} from "./util/dateUtil";
+import {AuthGuard} from "./auth/guards/auth-guard.service";
+import {SessionGuard} from "./auth/guards/session-guard.service";
 
 
 @NgModule({
@@ -43,9 +44,10 @@ import {DateUtil} from "./util/dateUtil";
   providers: [
     AuthService,
     DataService,
+    AuthGuard,
+    SessionGuard,
     StorageService,
     NotifyService,
-    AuthGuardService,
     DateUtil,
     {
       provide: HTTP_INTERCEPTORS,

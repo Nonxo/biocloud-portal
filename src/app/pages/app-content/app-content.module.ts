@@ -19,6 +19,7 @@ import { ReportDashboardComponent } from './report-dashboard/report-dashboard.co
 import { CustomReportComponent } from './custom-report/custom-report.component';
 import { LatenessReportComponent } from './lateness-report/lateness-report.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import {SearchService} from "../../service/search.service";
 
 @NgModule({
     imports: [
@@ -39,7 +40,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
         LatenessReportComponent,
         NotificationsComponent
     ],
-    providers: [AppContentService, MessageService, AppConfigService, GeoMapService],
+    providers: [AppContentService, MessageService, AppConfigService, GeoMapService, SearchService],
     entryComponents: [SetupComponent, AddAttendeesComponent]
 })
 export class AppContentModule { }
