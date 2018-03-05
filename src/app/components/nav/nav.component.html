@@ -59,7 +59,7 @@
 
         
         <div  class="container-fluid px-0 mt-md-5 mt-1" (clickOutside)="onClickedOutside($event)">
-            <a role="button" (click)="openModal(template)" *ngIf="orgs.length == 0 && !selectedOrg">
+            <a role="button" (click)="openModal(template)" *ngIf="orgs.length == 0 && !selectedOrg.orgId">
                 <div class="cursor border-top">
                     <small>
                         <mat-list>
@@ -72,7 +72,7 @@
                 </div>
             </a>
 
-            <div class="row my-3 px-3 cursor border-0 align-items-center" (click)="show()" *ngIf="orgs.length > 0 || selectedOrg">
+            <div class="row my-3 px-3 cursor border-0 align-items-center" (click)="show()" *ngIf="orgs.length > 0 || selectedOrg.orgId">
                 <img src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon ml-3" style="max-height:2em;"/>
                 <small class="p-2" *ngIf="sidenavWidth >= 15"><b>{{selectedOrg.name? (selectedOrg.name | ellipsis:15):''}}</b></small>
                 <i class="material-icons ml-auto mr-3"  *ngIf="sidenavWidth >= 15">{{openDropdown? 'arrow_drop_up':'arrow_drop_down'}}</i>
