@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import {MessageService} from "../../../service/message.service";
 import {AppContentService} from "../services/app-content.service";
 import {NotifyService} from "../../../service/notify.service";
@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
     locations:any[] = [];
     bsModalRef:BsModalRef;
     modalOptions:ModalOptions = new ModalOptions();
+    pendingAttendees:any[] = [];
 
     constructor(private mService:MessageService,
                 private ns:NotifyService,
@@ -111,6 +112,29 @@ export class HomeComponent implements OnInit {
                     if(result.code == 0) {
                         this.ns.showSuccess(result.description);
                     }else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {this.ns.showError("An Error Occurred.");}
+            )
+    }
+
+    openModal(template:TemplateRef<any>) {
+        this.bsModalRef = this.modalService.show(template);
+    }
+
+    viewPendingAttendees(template:TemplateRef<any>, locId:string) {
+        this.fetchPendingAttendees(locId);
+        this.openModal(template);
+    }
+
+    fetchPendingAttendees(locId:string) {
+        this.contentService.fetchPendingAttendees(this.ss.getSelectedOrg().orgId, locId)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.pendingAttendees = result.attendees;
+                    } else {
                         this.ns.showError(result.description);
                     }
                 },

@@ -27,4 +27,5 @@ export class Endpoints {
   public static FETCH_NOTIFICATION_DETAILS = `${Endpoints.BASE_URL}/users/api/org/invites/`;
   public static APPROVE_REJECT_NOTIFICATION = `${Endpoints.BASE_URL}/users/api/org/invites/`;
   public static ACTIVATE_DEACTIVATE_ATTENDEE = `${Endpoints.BASE_URL}/users/api/attendees/status`;
+  public static FETCH_PENDING_ATTENDEES = `${Endpoints.BASE_URL}/users/api/attendees/pending?`;
 }
