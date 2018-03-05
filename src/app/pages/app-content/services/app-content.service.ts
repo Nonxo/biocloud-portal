@@ -138,4 +138,16 @@ export class AppContentService {
             })
     }
 
+    fetchPendingAttendees(orgId:string, locId:string):Observable<any> {
+        const params = new HttpParams()
+                .set("orgId", orgId)
+                .set("locId", locId);
+
+        return this.httpClient
+            .get(Endpoints.FETCH_PENDING_ATTENDEES + params, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+    }
+
 }
