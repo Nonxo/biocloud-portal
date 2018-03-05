@@ -73,8 +73,8 @@ export class HomeComponent implements OnInit {
         this.openLocationModal(loc);
     }
 
-    invite() {
-        this.openInviteModal();
+    invite(locId:string) {
+        this.openInviteModal(locId);
     }
 
     openLocationModal(loc:LocationRequest) {
@@ -89,10 +89,11 @@ export class HomeComponent implements OnInit {
         this.bsModalRef = this.modalService.show(SetupComponent, this.modalOptions);
     }
 
-    openInviteModal() {
+    openInviteModal(locId:string) {
         this.modalOptions.class = 'modal-lg mt-0';
         this.modalOptions.initialState = {
-            editMode: true
+            editMode: true,
+            location: locId
         }
         this.bsModalRef = this.modalService.show(AddAttendeesComponent, this.modalOptions);
     }

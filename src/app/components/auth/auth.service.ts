@@ -56,4 +56,13 @@ export class AuthService {
                 err => console.log(err)
             );
     }
+
+    logout(): void {
+        // clear token remove user from local storage to log user out
+
+        localStorage.removeItem('_u');
+        localStorage.removeItem('_tkn');
+        localStorage.removeItem('_orgs');
+        localStorage.removeItem('_st');
+    }
 }
