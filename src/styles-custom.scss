@@ -150,7 +150,7 @@ mat-card{
 .btn-accent{
     background-color: mat-color($candy-app-accent, 500) !important;
     border: 1px solid mat-color($candy-app-accent, 500) !important;
-    color:mat-color($candy-app-primary, A400) !important; 
+    color:$white !important; 
 }
 
 .bg-brand{

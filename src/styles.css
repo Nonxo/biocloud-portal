@@ -28,6 +28,15 @@
     min-width: 150px !important;
 }
 
+.weight-600{
+    font-weight: 600;
+}
+
+.list-group-item {
+    background-color:transparent;
+    font-size: 14px;
+}
+
 .mat-btn{
     border-radius: 5px !important;
     padding: 5px 15px !important;
