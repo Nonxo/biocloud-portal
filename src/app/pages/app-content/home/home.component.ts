@@ -81,7 +81,7 @@ export class HomeComponent implements OnInit {
     openLocationModal(loc:LocationRequest) {
         this.modalOptions.class = 'modal-lg mt-0';
         this.modalOptions.initialState = {
-            locRequest: loc,
+            locRequest: JSON.parse(JSON.stringify(loc)),
             editMode: true,
             lat: loc.latitude? loc.latitude: 9.0820,
             lng: loc.longitude? loc.longitude: 8.6753
