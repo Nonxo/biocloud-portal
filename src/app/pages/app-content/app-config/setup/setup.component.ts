@@ -9,6 +9,7 @@ import {NotifyService} from "../../../../service/notify.service";
 import {Router} from "@angular/router";
 import {StorageService} from "../../../../service/storage.service";
 import {DateUtil} from "../../../../util/dateUtil";
+import {MessageService} from "../../../../service/message.service";
 
 @Component({
     selector: 'app-setup',
@@ -45,12 +46,13 @@ export class SetupComponent implements OnInit {
                 private router:Router,
                 public modalRef:BsModalRef,
                 private ss:StorageService,
-                private dateUtil:DateUtil) {
+                private dateUtil:DateUtil,
+                private mService:MessageService) {
     }
 
     ngOnInit() {
 
-        if(this.editMode) {
+        if (this.editMode) {
             this.setEditMode();
         } else {
             this.fetchCountries();
@@ -167,8 +169,9 @@ export class SetupComponent implements OnInit {
 
     submit() {
         if (this.resumption) {
-            if(!this.locRequest.resumptionTimezoneId) {
+            if (!this.locRequest.resumptionTimezoneId) {
                 this.ns.showError("You must select a timezone.");
+                this.addNewLoc = false;
                 return;
             }
             this.locRequest.resumption = this.formatResumptionTime();
@@ -176,18 +179,19 @@ export class SetupComponent implements OnInit {
             this.locRequest.resumption = null;
         }
 
-        if(!this.isFormValid()) {
-            return
+        if (!this.isFormValid()) {
+            this.addNewLoc = false;
+            return;
         }
 
         this.editMode ? this.editLocation() : this.saveLocation();
     }
 
     isFormValid() {
-        
+
         if (this.locRequest.locationType == 'SPECIFIC_ADDRESS') {
 
-            if(!this.locRequest.address) {
+            if (!this.locRequest.address) {
                 this.ns.showError("You must select an Address");
                 return false;
             }
@@ -219,6 +223,7 @@ export class SetupComponent implements OnInit {
                 result => {
                     if (result.code == 0) {
                         this.ns.showSuccess("Location was successfully updated");
+                        this.mService.setEditLocation(true);
                         this.modalRef.hide();
                     } else {
                         this.ns.showError(result.description);
@@ -322,8 +327,8 @@ export class SetupComponent implements OnInit {
     }
 
     mapClicked($event:any) {
-            this.lat = $event.coords.lat;
-            this.lng = $event.coords.lng;
+        this.lat = $event.coords.lat;
+        this.lng = $event.coords.lng;
     }
 
     useAddress() {
