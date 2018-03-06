@@ -9,7 +9,8 @@ import {Observable} from "rxjs/Observable";
 export class MessageService {
 
     private selectedOrg = new Subject<string>();
-    
+    private editLocation = new Subject<boolean>();
+
     constructor() {}
 
     setSelectedOrg(value:string):void {
@@ -19,4 +20,13 @@ export class MessageService {
     getSelectedOrg(): Observable<string> {
         return this.selectedOrg.asObservable();
     }
+
+    setEditLocation(value:boolean):void {
+        this.editLocation.next(value);
+    }
+
+    isEditLocation(): Observable<boolean> {
+        return this.editLocation.asObservable();
+    }
+
 }
