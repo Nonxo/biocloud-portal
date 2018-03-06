@@ -18,6 +18,7 @@ import {DataService} from "../../../service/data.service";
 export class HomeComponent implements OnInit {
 
     locationsSubscription:any;
+    editLocationsSubscription:any;
     orgId:string;
     locations:any[] = [];
     bsModalRef:BsModalRef;
@@ -50,6 +51,16 @@ export class HomeComponent implements OnInit {
                     }
                 }
             )
+
+        this.editLocationsSubscription = this.mService.isEditLocation()
+            .subscribe(
+                result => {
+                    if(result) {
+                        this.callLocationService();
+                    }
+                }
+            )
+
     }
 
     callLocationService() {

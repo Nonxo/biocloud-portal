@@ -69,7 +69,6 @@ export class NavComponent implements OnInit {
     ngOnInit() {
         this.selectedOrg = this.ss.getSelectedOrg() ? this.ss.getSelectedOrg() : new Org();
         this.fetchUsersOrg();
-        this.fetchAdminUsers();
         this.callLocationService();
         this.onResizeByWindowScreen();
     }
@@ -161,6 +160,8 @@ export class NavComponent implements OnInit {
                 this.mService.setSelectedOrg(this.orgs[0].orgId);
             }
         }
+
+        this.fetchAdminUsers();
     }
 
     callUsersOrgService() {
