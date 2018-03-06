@@ -57,6 +57,7 @@ import {ChangePasswordComponent} from "./pages/change-password/change-password.c
       multi: true
     }
   ],
+  entryComponents: [ChangePasswordComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

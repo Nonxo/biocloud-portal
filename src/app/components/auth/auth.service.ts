@@ -24,9 +24,8 @@ export class AuthService {
         });
     }
 
-    changePassword(email, oldPw, newPw):Observable<any> {
+    changePassword(oldPw, newPw):Observable<any> {
       let params = new HttpParams()
-        .set('email', email)
         .set('oldPw', oldPw)
         .set('newPw', newPw)
       return this.httpClient.post(Endpoints.CHANGE_PASSWORD, params.toString(), {

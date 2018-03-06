@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import {AuthService} from "../../components/auth/auth.service";
 import {StorageService} from "../../service/storage.service";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NotifyService} from "../../service/notify.service";
-import {BsModalService} from "ngx-bootstrap";
+
+
 
 
 @Component({
@@ -12,11 +13,15 @@ import {BsModalService} from "ngx-bootstrap";
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.css']
 })
+
+
 export class ChangePasswordComponent implements OnInit {
 
   hide = true;
   changePasswordForm:FormGroup;
   loading = false;
+
+
 
   constructor(private authService:AuthService,
               private ss:StorageService,
@@ -26,18 +31,17 @@ export class ChangePasswordComponent implements OnInit {
 
   ngOnInit() {
     this.changePasswordForm = this.fb.group({
-      email: ['', Validators.email],
       oldPw: ['', Validators.required],
       newPw: ['', Validators.required],
     });
 
   }
 
-  login() {
+  passwordChange() {
     this.loading = true;
     const payload = this.changePasswordForm.value;
 
-    this.authService.changePassword(payload.email, payload.oldPw, payload.newPw)
+    this.authService.changePassword(payload.oldPw, payload.newPw)
       .finally(() => this.loading = false)
       .subscribe(
         res => {
@@ -52,6 +56,10 @@ export class ChangePasswordComponent implements OnInit {
         },
         error => {}
       );
+
   }
+
+
+
 
 }

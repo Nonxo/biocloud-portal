@@ -55,8 +55,14 @@ export class ActivateDeactivateUserRequest {
     orgId:string;
     status:boolean;
     locId:string;
-    
+
     constructor() {
         this.emails = [];
     }
 }
+
+
+
+
+
+
