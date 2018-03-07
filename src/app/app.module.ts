@@ -20,6 +20,7 @@ import {AgmCoreModule} from "@agm/core";
 import {DateUtil} from "./util/dateUtil";
 import {AuthGuard} from "./auth/guards/auth-guard.service";
 import {SessionGuard} from "./auth/guards/session-guard.service";
+import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-auth.component";
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import {SessionGuard} from "./auth/guards/session-guard.service";
     AppComponent,
     AuthComponent,
     RegisterComponent,
+    AddAdminAuthComponent,
     LoginComponent
   ],
   imports: [
