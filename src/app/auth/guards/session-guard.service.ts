@@ -22,7 +22,7 @@ export class SessionGuard implements CanActivate {
     checkLogin(roles:string[], url:string):Promise<boolean> {
         return Promise.resolve(this.ss.isUserLoggedIn().then(isOk => {
             if (isOk) {
-                this.router.navigate[('/portal')]
+                this.router.navigate(['/portal']);
                 return false;
             } else {
                 this.as.logout();

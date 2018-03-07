@@ -96,4 +96,14 @@ export class AppConfigService {
             })
     }
 
+    assignAdmins(model:InviteRequest): Observable<any> {
+        model.orgId = this.ss.getSelectedOrg()? this.ss.getSelectedOrg().orgId: null;
+
+        return this.httpClient
+            .post(Endpoints.ASSIGN_ADMINS_LOCATIONS, JSON.stringify(model), {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+    }
+
 }
