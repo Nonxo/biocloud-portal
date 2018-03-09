@@ -1,0 +1,242 @@
+<div class="content">
+  <div class="container py-5">
+    <div class="row">
+      <div class="mat-card">
+        <div class="mat-card-content">
+          <h4 class="mat-card-title">Edit Your Profile -
+            <small class="category">Basic Information</small>
+          </h4>
+      <form class="pt-4" [formGroup]="form" (submit)="updateProfile()">
+
+      <div class="row">
+
+        <div class="col-md-6">
+          <mat-form-field class="input-field">
+            <input matInput placeholder="First Name" [type]="text">
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+          <mat-form-field class="input-field">
+            <input matInput placeholder="Last Name" [type]="text">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+       <div class="col-md-5">
+          <mat-form-field class="input-field">
+            <input matInput placeholder="Company" [type]="text">
+          </mat-form-field>
+       </div>
+
+       <div class="col-md-3">
+          <mat-form-field class="input-field">
+            <input matInput placeholder="Phone Number" [type]="number">
+          </mat-form-field>
+       </div>
+
+       <div class="col-md-4">
+         <mat-form-field class="input-field">
+           <input matInput placeholder="Email Address" [type]="email">
+         </mat-form-field>
+       </div>
+      </div>
+      <div class="row">
+
+      </div>
+
+      <div class="row">
+      <div class="col-md-12">
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Contact Address" [type]="text">
+        </mat-form-field>
+      </div>
+      </div>
+      <div class="row">
+
+      <div class="col-md-4">
+        <mat-form-field>
+          <mat-select placeholder="Choose Language">
+            <mat-option value="english">ENGLISH</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      </div>
+
+      <div class="row">
+       <div class="col-sm-12 label-on-left">
+          <div class="checkbox">
+            <label>
+              <input name="appNotif" type="checkbox">
+              <span class="checkbox-material"></span>
+                <span class="check"></span>
+                  <span class="checkbox-material"></span>
+                  <span>Receive BioCloud Email Notifications</span>
+
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row"></div>
+      <div class="row">
+      <div class="col-sm-12 label-on-left">
+        <div class="checkbox">
+          <label>
+            <input name="appNotif" type="checkbox">
+            <span class="checkbox-material"></span>
+            <span class="check"></span>
+            <span class="checkbox-material"></span>
+            <span>Receive BioCloud Promotional Notifications</span>
+
+          </label>
+        </div>
+      </div>
+      </div>
+
+      <div class="footer text-right col" id="model-2">
+        <button class="btn btn-success progress-button" id="updateProfile" type="submit">
+          <span class="btn-text">Update Profile</span>
+        </button>
+
+      </div>
+
+
+
+
+
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col-md-4">
+  <div class="card card-profile">
+    <div class="custom-file-input text-center custom-file-input-new" data-provides="fileinput">
+      <legend></legend>
+      <div class="img-thumbnail">
+        <img *ngIf="model.img == null || model.img == ''" src="assets/img/1.png" alt="">
+        <img *ngIf="model.img" src="data:"
+      </div>
+      <div>
+        <div class="col-md-12">
+          <div class="btn btn-simple hov btn-file">
+            <span>
+              <i class="material-icons"></i>"ADD PHOTO"
+            </span>
+            <input type="hidden">
+            <input name="..." type="hidden" value>
+            <input accept="image/*" name="upload" type="file">
+            <div class="mat-ripple-element"></div>
+          </div>
+          <br>
+          <div>
+            <p class="text-profile">*Not More than 100KB</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="mat-card-content">
+      <h6 class="category text-gray">Name</h6>
+      <h4 class="card-title">Ebong Ibokette</h4>
+      <a class="btn btn-simple hov" id="changePassword" role="button" (click)="confirmChangePassword">Change password</a>
+    </div>
+  </div>
+ </div>
+
+
+
+<div bsModal #changePasswordModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header header-green">
+        <h4 class="text-center modal-title pull-left"><strong>Change Password</strong></h4>
+        <button type="button" class="close pull-right" (click)="changePasswordModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="!confirmed">
+
+          <div [hidden]="!modalErrorMessage" class="alert alert-danger">
+            {{modalErrorMessage}}
+          </div>
+
+
+          <div class="col-md-12 text-center"><img src="https://s19.postimg.org/6ptozu8df/password-reset.png">
+          </div>
+          <br>
+          <form (ngSubmit)="passwordChange()" name="changePasswordForm" ngNativeValidate>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group label-floating is-empty">
+                  <label class="control-label">Current Password</label>
+                  <input type="{{showPasswordCurrent ? 'text' : 'password'}}" class="form-control" value="" name="oldPw" id="oldPw" [(ngModel)]="pw.oldPw"
+                         #oldPw="ngModel" required aria-required="true"><i (click)="passVisibility('showPasswordCurrent')"
+                                                                           [className]="showPasswordCurrent? 'fa fa-eye-slash password-icon':'fa fa-eye password-icon'"></i>
+                  <span class="help-block">Enter your Current Password</span>
+                  <span class="material-input"></span></div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group label-floating is-empty">
+                  <label class="control-label">New Password</label>
+                  <input type="{{showPasswordNew ? 'text' : 'password'}}" pattern="^([a-zA-Z0-9 @*#]{6,20})" class="form-control" value=""
+                         name="newPw" id="newPw" [(ngModel)]="pw.newPw" #newPw="ngModel" required aria-required="true">
+                  <i
+                    (click)="passVisibility('showPasswordNew')" [className]="showPasswordNew? 'fa fa-eye-slash password-icon':'fa fa-eye password-icon'"></i>
+                  <span class="help-block">Enter your new password. Password length should not be less than 6 characters</span>
+                  <span class="material-input"></span></div>
+              </div>
+            </div>
+
+
+            <br>
+            <div class="text-center">
+              <!--<button type="button" class="swal2-confirm btn btn-success" (click)="changePassword()">SUBMIT-->
+              <!--</button>-->
+              <button id="savePassword" type="submit" class="swal2-confirm btn btn-success progress-button" [disabled]="submitted">
+                <span *ngIf="!submitted" class="btn-text">SUBMIT</span><span
+                *ngIf="submitted">
+                    <img src="../../../assets/img/spin.svg">
+                    </span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+
+        <div *ngIf="confirmed">
+          <div *ngIf="confirmed" class="swal2-icon swal2-success animate" style="display: block;"><span class="line tip animate-success-tip"></span> <span class="line long animate-success-long"></span>
+            <div class="placeholder"></div>
+            <div class="fix"></div>
+          </div>
+
+          <h2 class="text-center">Password Change Was Successful</h2>
+          <br>
+
+          <div class="text-center">
+            <button type="button"  id="success" class="swal2-confirm btn btn-success " (click)="changePasswordModal.hide()">OK
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
