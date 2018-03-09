@@ -42,7 +42,6 @@ export class AppConfigService {
 
     inviteAttendees(model:InviteRequest): Observable<any> {
         model.orgId = this.ss.getSelectedOrg()? this.ss.getSelectedOrg().orgId: null;
-        model.role = "ATTENDEE";
 
         return this.httpClient
             .post(Endpoints.SEND_INVITES, JSON.stringify(model), {
@@ -94,6 +93,16 @@ export class AppConfigService {
                 .get(Endpoints.FETCH_TIMEZONES, {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+    }
+
+    assignAdmins(model:InviteRequest): Observable<any> {
+        model.orgId = this.ss.getSelectedOrg()? this.ss.getSelectedOrg().orgId: null;
+
+        return this.httpClient
+            .post(Endpoints.ASSIGN_ADMINS_LOCATIONS, JSON.stringify(model), {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
             })
     }
 

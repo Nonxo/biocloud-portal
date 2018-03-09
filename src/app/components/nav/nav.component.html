@@ -1,7 +1,54 @@
+<mat-toolbar color="primary" class="fixed-header">
+    <button mat-icon-button (click)="sidenav.toggle()" class="d-block d-md-none">
+        <mat-icon>menu</mat-icon>
+    </button>
+
+    <div class="d-none d-md-block" [ngClass]="{'width12em': sidenavWidth >= 15, 'width3em': sidenavWidth < 15}" >
+        <img src="assets/img/logo.svg" class="img-fluid logo-icon" *ngIf="sidenavWidth >= 15"
+             style="max-height:26px;"/>
+        <img src="assets/img/logo-icon.svg" class="img-fluid logo-icon" *ngIf="sidenavWidth < 15"/>
+    </div>
+
+    <button mat-icon-button (click)="toggleNavFromHam(false)" class="d-none d-md-block" *ngIf="sidenavWidth >= 15"
+            matTooltip="Minimize navigation">
+        <mat-icon>fullscreen_exit</mat-icon>
+    </button>
+
+    <button mat-icon-button (click)="toggleNavFromHam(true)" class="d-none d-md-block" *ngIf="sidenavWidth < 15"
+            matTooltip="Maximize navigation">
+        <mat-icon>fullscreen</mat-icon>
+    </button>
+
+
+    <span>{{title}}</span>
+    <span class="example-spacer"></span>
+
+    <button mat-icon-button class="pr-5" matTooltip="Switch to bioregistra">
+        <mat-icon class="example-icon">apps</mat-icon>
+    </button>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="logout()">
+            <mat-icon>person</mat-icon>
+            <span>Profile</span>
+        </button>
+        <button mat-menu-item routerLink="/portal/notification">
+            <mat-icon>message</mat-icon>
+            <span>Notification</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+            <mat-icon>power_settings_new</mat-icon>
+            <span>Logout</span>
+        </button>
+    </mat-menu>
+</mat-toolbar>
+
 <mat-sidenav-container autosize>
     <mat-sidenav #sidenav mode="{{sideNavMode}}" [opened]="opener" [ngStyle]="{ 'width.em': sidenavWidth }"
                  (mouseenter)="toggleNavFromMouseEvent(true)" (mouseleave)="toggleNavFromMouseEvent(false)">
-        <div class="nav-header">
+        <div class="nav-header d-block d-md-none">
             <div class="py-4 px-3">
                 <img src="assets/img/logo.png" class="img-fluid logo-icon" *ngIf="sidenavWidth >= 15"
                      style="max-height:26px;"/>
@@ -10,32 +57,32 @@
         </div>
 
 
-        
-        <div  class="container-fluid px-0" (clickOutside)="onClickedOutside($event)">
-            <a role="button" (click)="openModal(template)" *ngIf="orgs.length == 0">
+
+        <div  class="container-fluid px-0 mt-md-5 mt-1" (clickOutside)="onClickedOutside($event)">
+            <a role="button" (click)="openModal(template)" *ngIf="orgs.length == 0 && !selectedOrg.orgId">
                 <div class="cursor border-top">
                     <small>
                         <mat-list>
                             <mat-list-item class="p-0 font-12">
                                 <mat-icon mat-list-icon>add_box</mat-icon>
-                                <p mat-line> Add Organistaion</p>
+                                <p mat-line> Add Organisation</p>
                             </mat-list-item>
                         </mat-list>
                     </small>
                 </div>
             </a>
 
-            <div class="row my-3 px-3 cursor border-0 align-items-center" (click)="show()" *ngIf="orgs.length > 0">
+            <div class="row my-3 px-3 cursor border-0 align-items-center" (click)="show()" *ngIf="orgs.length > 0 || selectedOrg.orgId">
                 <img src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon ml-3" style="max-height:2em;"/>
                 <small class="p-2" *ngIf="sidenavWidth >= 15"><b>{{selectedOrg.name? (selectedOrg.name | ellipsis:15):''}}</b></small>
-                <i class="material-icons ml-auto mr-3"  *ngIf="sidenavWidth >= 15">arrow_drop_down</i>
+                <i class="material-icons ml-auto mr-3"  *ngIf="sidenavWidth >= 15">{{openDropdown? 'arrow_drop_up':'arrow_drop_down'}}</i>
             </div>
 
             <div *ngIf="openDropdown"  class="bg-light-grey pt-2 font-12">
                 <ul class="list-unstyled px-3">
                     <li class="media">
                         <mat-form-field class="w-100">
-                            <input matInput placeholder="Search organisation" type="text">
+                            <input matInput placeholder="Search organisation" type="text" name="searchField" [(ngModel)]="searchField" (keyup)="search('ORG',$event.target.value)">
                             <mat-icon matSuffix>search</mat-icon>
                         </mat-form-field>
                     </li>
@@ -44,7 +91,7 @@
                             <img class="mr-3" src="assets/img/2.jpg" style="max-height:2.5em;">
                             <div class="media-body" g>
                                 <b class="mt-0 mb-1 text-capitalize">{{org.name}}</b>
-                                <small>123 Attendees</small>
+                                <!--<small>123 Attendees</small>-->
                             </div>
                         </li>
                     </ng-container>
@@ -78,6 +125,49 @@
         <mat-divider></mat-divider>
         <mat-nav-list>
             <ul>
+                <li routerLinkActive="active">
+                    <a (click)="manageAdmin = manageAdmin? false:true; toggleManageAdmin()" mat-list-item>
+                        <mat-icon mat-list-icon>group</mat-icon>
+                        <span mat-line>Admins</span>
+                        <i class="material-icons ml-auto mr-3"  *ngIf="sidenavWidth >= 15">{{manageAdmin? 'arrow_drop_up':'arrow_drop_down'}}</i>
+                    </a>
+                </li>
+
+                <div *ngIf="manageAdmin"  class="bg-light-grey pt-2 font-12">
+                    <ul class="list-unstyled px-3">
+                        <li class="media">
+                            <mat-form-field class="w-100">
+                                <input matInput placeholder="Search Admins" type="text" (keyup)="search('ADMIN',$event.target.value)">
+                                <mat-icon matSuffix>search</mat-icon>
+                            </mat-form-field>
+                        </li>
+                        <ng-container *ngFor="let user of users">
+                            <li class="media my-4 cursor" *ngIf="user.email != currentUserEmail" (click)="viewAdminDetails(user, viewAdminTemplate)">
+                                <img class="mr-3" src="assets/img/2.jpg" style="max-height:2.5em;">
+                                <div class="media-body">
+                                    <b class="mt-0 mb-1 text-capitalize">{{user.firstName }} {{ user.lastName}}</b>
+                                    <p><small>{{user.email}}</small></p>
+                                </div>
+                            </li>
+                        </ng-container>
+                    </ul>
+
+                    <a role="button" (click)="inviteAdminModal(inviteAdminTemplate)">
+                        <div class="cursor border-top">
+                            <small>
+                                <mat-list>
+                                    <mat-list-item class="p-0 font-12">
+                                        <mat-icon mat-list-icon>add_box</mat-icon>
+                                        <p mat-line>Invite Admin</p>
+                                    </mat-list-item>
+                                </mat-list>
+                            </small>
+                        </div>
+                    </a>
+                </div>
+
+
+
                 <li routerLinkActive="active" *ngFor="let nav of navs">
                     <a routerLink="{{nav.url}}" mat-list-item>
                         <mat-icon mat-list-icon>{{nav.icon}}</mat-icon>
@@ -94,46 +184,7 @@
         </mat-nav-list>
 
     </mat-sidenav>
-    <mat-toolbar>
-        <button mat-icon-button (click)="sidenav.toggle()" class="d-block d-md-none">
-            <mat-icon>menu</mat-icon>
-        </button>
 
-        <button mat-icon-button (click)="toggleNavFromHam(false)" class="d-none d-md-block" *ngIf="sidenavWidth >= 15"
-                matTooltip="Minimize navigation">
-            <mat-icon>fullscreen_exit</mat-icon>
-        </button>
-
-        <button mat-icon-button (click)="toggleNavFromHam(true)" class="d-none d-md-block" *ngIf="sidenavWidth < 15"
-                matTooltip="Maximize navigation">
-            <mat-icon>fullscreen</mat-icon>
-        </button>
-
-
-        <span>{{title}}</span>
-        <span class="example-spacer"></span>
-
-        <button mat-icon-button class="pr-5" matTooltip="Switch to bioregistra">
-            <mat-icon class="example-icon">apps</mat-icon>
-        </button>
-        <button mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="logout()">
-                <mat-icon>person</mat-icon>
-                <span>Profile</span>
-            </button>
-            <button mat-menu-item (click)="logout()">
-                <mat-icon>message</mat-icon>
-                <span>Notification</span>
-            </button>
-            <button mat-menu-item (click)="logout()">
-                <mat-icon>power_settings_new</mat-icon>
-                <span>Logout</span>
-            </button>
-        </mat-menu>
-    </mat-toolbar>
 
     <ng-content></ng-content>
 
@@ -168,4 +219,101 @@
     </div>
 </ng-template>
 
+<ng-template #inviteAdminTemplate>
+    <div class="modal-header">
+        <h5 class="modal-title pull-left">Invite Admin</h5>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form (ngSubmit)="inviteAdmin()" name="inviteAdminForm" #inviteAdminForm="ngForm" ngNativeValidate>
+            <div class="col-md-12">
+                <mat-form-field class="input-field">
+                    <input matInput type="email" placeholder="Email Address" name="email" [(ngModel)]="inviteRequest.email" required>
+                </mat-form-field>
+            </div>
+            <div class="col-md-12">
+                <mat-form-field class="input-field">
+                    <mat-select placeholder="Role" name="role"  #role="ngModel" [(ngModel)]="inviteRequest.role" [required]="true">
+                        <mat-option value="GENERAL_ADMIN">GENERAL ADMIN</mat-option>
+                        <mat-option value="LOCATION_ADMIN">LOCATION ADMIN</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="role.errors?.required">You must make a selection</mat-error>
+                </mat-form-field>
+            </div>
 
+
+            <div class="col-md-12" *ngIf="inviteRequest.role == 'LOCATION_ADMIN'">
+                <mat-form-field class="input-field">
+                    <mat-select placeholder="Select Locations" name="locations" [(ngModel)]="inviteRequest.locIds" multiple>
+                        <mat-select-trigger>
+                            {{locations? getSelectedLocationName() : ''}}
+                <span *ngIf="inviteRequest.locIds?.length > 1">
+                  (+{{inviteRequest.locIds.length - 1}} others)
+                </span>
+                        </mat-select-trigger>
+                        <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-12 text-right">
+                <button mat-raised-button color="accent" class="auth-btn" type="submit">PROCEED</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+
+<ng-template #viewAdminTemplate>
+    <div class="modal-header">
+        <h5 class="modal-title pull-left">View Admin</h5>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form (ngSubmit)="assignAdmins()" name="inviteAdminForm" #inviteAdminForm="ngForm" ngNativeValidate>
+            <div class="col-md-12">
+                <mat-form-field class="input-field">
+                    <input matInput placeholder="Name" [value]="selectedUser.firstName + ' ' + selectedUser.lastName" disabled>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-12">
+                <mat-form-field class="input-field">
+                    <input matInput type="email" placeholder="Email Address" [value]="selectedUser.email" disabled>
+                </mat-form-field>
+            </div>
+            <div class="col-md-12">
+                <mat-form-field class="input-field">
+                    <mat-select placeholder="Role" name="role"  #role="ngModel" [(ngModel)]="inviteRequest.role" [required]="true">
+                        <mat-option value="GENERAL_ADMIN">GENERAL ADMIN</mat-option>
+                        <mat-option value="LOCATION_ADMIN">LOCATION ADMIN</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="role.errors?.required">You must make a selection</mat-error>
+                </mat-form-field>
+            </div>
+
+
+            <div class="col-md-12" *ngIf="inviteRequest.role == 'LOCATION_ADMIN'">
+                <mat-form-field class="input-field">
+                    <mat-select placeholder="Select Locations" name="locations" [(ngModel)]="inviteRequest.locIds" multiple>
+                        <mat-select-trigger>
+                            {{locations? getSelectedLocationName() : ''}}
+                <span *ngIf="inviteRequest.locIds?.length > 1">
+                  (+{{inviteRequest.locIds.length - 1}} others)
+                </span>
+                        </mat-select-trigger>
+                        <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-12 text-right">
+                <button mat-raised-button color="accent" class="auth-btn" type="submit">PROCEED</button>
+            </div>
+        </form>
+    </div>
+</ng-template>

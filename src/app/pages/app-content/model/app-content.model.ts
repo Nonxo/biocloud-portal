@@ -22,11 +22,44 @@ export class Org {
     walletId:number;
 }
 
+export class AssignUserRequest {
+    oldlocId:string;
+    newlocId:string;
+    emails:string[];
+
+    constructor() {
+        this.emails = [];
+    }
+}
+
 export class Invitation {
-  firstname:string;
-  lastname:string;
-  status:string;
-  email:string;
+    firstName:string;
+    lastName:string;
+    email:string;
+    phoneNumber:number;
+    created:number;
+    locId:string;
+}
+
+export class ApproveRequest {
+    status:string;
+    locIds:string[];
+
+    constructor(status?:string) {
+        this.status = status || null;
+        this.locIds = [];
+    }
+}
+
+export class ActivateDeactivateUserRequest {
+    emails:string[];
+    orgId:string;
+    status:boolean;
+    locId:string;
+
+    constructor() {
+        this.emails = [];
+    }
 }
 <<<<<<< Updated upstream
 =======

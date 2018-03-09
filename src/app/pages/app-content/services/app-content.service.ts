@@ -116,10 +116,10 @@ export class AppContentService {
     }
 
 
-  fetchNotificationDetails(inviteId: string): Observable<any> {
-    return this.httpClient.get(Endpoints.FETCH_NOTIFICATION_DETAILS + inviteId, {
+  fetchNotificationDetails(invitesId: string): Observable<any> {
+    let params = new HttpParams().set('invites', invitesId)
+    return this.httpClient.get(Endpoints.FETCH_NOTIFICATION_DETAILS + params, {
       headers: new HttpHeaders()
-        .set('Content-Type', 'application/json')
     })
   }
 

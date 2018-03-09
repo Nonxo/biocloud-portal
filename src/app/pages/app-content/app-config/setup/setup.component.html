@@ -86,22 +86,21 @@
                         <ng-container *ngIf="locRequest.locationType">
                             <div class="col-md-4">
                                 <mat-form-field class="input-field">
-                                    <input matInput type="time" placeholder="Resumption Time" name="rTime"
+                                    <input matInput type="time" pattern="[0-9]{2}:[0-9]{2}" placeholder="Resumption Time" name="rTime"
                                            [(ngModel)]="resumption">
+                                    <mat-hint>Format (HH:MM AM/PM)</mat-hint>
                                 </mat-form-field>
                             </div>
                             <div class="col-md-2">
                                 <mat-form-field class="input-field">
                                     <mat-select placeholder="Select Timezone" name="timezone"
-                                                [(ngModel)]="locRequest.resumptionTimezoneId"
-                                                [required]="resumption">
+                                                [(ngModel)]="locRequest.resumptionTimezoneId">
+                                        <mat-option value="">--</mat-option>
                                         <mat-option *ngFor="let timezone of timezones" value="{{timezone.zoneId}}">
                                             {{timezone.zoneId}} ({{timezone.offset}})
                                         </mat-option>
                                     </mat-select>
-                                    <div class="errors" ngMessages="addLocationForm.timezone.$error" *ngIf="addLocationForm.$dirty">
-                                        <div ngMessage="required">Required</div>
-                                    </div>
+                                    <mat-hint *ngIf="resumption">Required</mat-hint>
                                 </mat-form-field>
                             </div>
                         </ng-container>
@@ -109,13 +108,13 @@
                         <!--grace period-->
                         <div class="col-md-6" *ngIf="locRequest.locationType">
                             <mat-form-field class="input-field">
-                                <input matInput type="number" placeholder="Enter a grace period in minutes"
+                                <input matInput type="number" min="0" placeholder="Enter a grace period in minutes"
                                        name="gracePeriod" [(ngModel)]="locRequest.gracePeriodInMinutes">
                             </mat-form-field>
                         </div>
 
                         <div class="col-md-12 text-right" *ngIf="!editMode">
-                            <button mat-mini-fab color="accent" type="button" (click)="addnewLocation()">
+                            <button mat-mini-fab color="accent" matTooltip="Add another location" [disabled]="addLocationForm.invalid" type="button" (click)="addnewLocation()">
                                 <mat-icon>add</mat-icon>
                             </button>
                         </div>
@@ -143,6 +142,20 @@
 
         <div class="col-md-12">
             <div class="row p-md-3 p-0">
+
+                <div class="col-md-6">
+                    <mat-form-field class="input-field">
+                        <mat-select placeholder="Select Country" name="countryCode"
+                                    (change)="setMapRestriction()"
+                                    [(ngModel)]="countryCode">
+                            <mat-option value="">ALL</mat-option>
+                            <mat-option *ngFor="let country of countries" value="{{country.code}}">
+                                {{country.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
                 <div class="col-md-6">
                     <mat-form-field *ngIf="!addRange" class="input-field">
                         <input matInput placeholder="Search" id="autocompleteInput">

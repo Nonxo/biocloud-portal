@@ -1,30 +1,116 @@
-<div class="container-fluid px-lg-4 px-md-3">
-  <div class="row my-md-4 my-md-3">
+<div class="container-fluid px-lg-4 px-md-3 ">
+  <div class="row ">
     
-    <div class="col-md-8">
-      <mat-card>
-          <h6 class="text-brand">Subscription History</h6>
+    <div class="col-md-7 py-md-4 py-md-3 pt-3">
+      <mat-card class="p-0">
+        <h6 class="pt-4 pb-2 align-middle text-uppercase px-3">Subscription History</h6>
+        <div class="list-group">
+            <div class="list-group-item list-group-item-action d-flex flex-row align-items-start">
+                <div class="col-auto px-0">
+                    <small>12 JUN</small><br/>
+                    <small>2018</small>
+                </div>
+                <div class="w-100 pl-3">
+                    <div class="d-flex w-100 justify-content-between">
+                        <p class=" mb-1"><span class="weight-600">PRO PLAN</span> (TRANS-246789)</p>
+                        <small>
+                            <mat-icon [matMenuTriggerFor]="menu" class="cursor">more_horiz</mat-icon>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item>
+                                    <mat-icon>view_list</mat-icon>
+                                    <span>View Invoice</span>
+                                </button>
+                                <button mat-menu-item>
+                                    <mat-icon>file_download</mat-icon>
+                                    <span>Download Invoice</span>
+                                </button>
+                            </mat-menu>
+                        </small>
+                    </div>
+                    <p class="mb-1 d-flex justify-content-between">
+                        <span class="text-success">Active</span>
+                    </p>
+                </div>
+                
+            </div>
+            <div class="list-group-item list-group-item-action d-flex flex-row align-items-start">
+                <div class="col-auto px-0">
+                    <small>12 JUN</small><br/>
+                    <small>2018</small>
+                </div>
+                <div class="w-100 pl-3">
+                    <div class="d-flex w-100 justify-content-between">
+                        <p class=" mb-1"><span class="weight-600">BASIC PLAN</span> (TRANS-246789)</p>
+                        <small>
+                            <mat-icon [matMenuTriggerFor]="menu" class="cursor">more_horiz</mat-icon>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item>
+                                    <mat-icon>view_list</mat-icon>
+                                    <span>View Invoice</span>
+                                </button>
+                                <button mat-menu-item>
+                                    <mat-icon>file_download</mat-icon>
+                                    <span>Download Invoice</span>
+                                </button>
+                            </mat-menu>
+                        </small>
+                    </div>
+                    <p class="mb-1 d-flex justify-content-between">
+                        <span class="text-danger">Expired</span>
+                    </p>
+                </div>
+                
+            </div>
+            <div class="list-group-item list-group-item-action d-flex flex-row align-items-start">
+                <div class="col-auto px-0">
+                    <small>12 JUN</small><br/>
+                    <small>2018</small>
+                </div>
+                <div class="w-100 pl-3">
+                    <div class="d-flex w-100 justify-content-between">
+                        <p class=" mb-1"><span class="weight-600">BASIC PLAN</span> (TRANS-246789)</p>
+                        <small>
+                            <mat-icon [matMenuTriggerFor]="menu" class="cursor">more_horiz</mat-icon>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item>
+                                    <mat-icon>view_list</mat-icon>
+                                    <span>View Invoice</span>
+                                </button>
+                                <button mat-menu-item>
+                                    <mat-icon>file_download</mat-icon>
+                                    <span>Download Invoice</span>
+                                </button>
+                            </mat-menu>
+                        </small>
+                    </div>
+                    <p class="mb-1 d-flex justify-content-between">
+                        <span class="text-danger">Expired</span>
+                    </p>
+                </div>
+                
+            </div>
+        </div>
       </mat-card>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-5 py-md-4 py-md-3 pt-3">
       <mat-card class="p-0">
           <div class="list-group">
             <div class="list-group-item list-group-item-action flex-column align-items-start">
               <div class="d-flex w-100 justify-content-between">
                 <h6 class="mb-1">Current Plan</h6>
-                <small>BASIC</small>
+                <span>BASIC</span>
               </div>
             </div>
             <div class="list-group-item list-group-item-action flex-column align-items-start">
               <div class="d-flex w-100 justify-content-between">
                 <h6 class="mb-1">Due amount</h6>
-                <small>NGN 9,000</small>
+                <span>NGN 9,000</span>
               </div>
             </div>
             <div class="list-group-item list-group-item-action flex-column align-items-start">
               <div class="d-flex w-100 justify-content-between">
                 <h6 class="mb-1">Mode of payment</h6>
-                <small class="text-muted"><i class="material-icons alignment">credit_card</i> CARD</small>
+                <span class="text-muted"><i class="material-icons alignment">credit_card</i> CARD</span>
               </div>
             </div>
             <div class="list-group-item list-group-item-action flex-column align-items-start">
@@ -32,8 +118,8 @@
                 <h6 class="mb-1">Due date</h6>
                 <small class="text-muted">30 days left</small>
               </div>
-              <p class="mb-1 mt-2"><button class=" btn-accent btn btn-sm">UPGRADE</button> 
-                <button class="btn btn-outline-secondary btn-sm">PLAN CHANGE POLICY</button></p>
+              <p class="mb-1 mt-2"><button class=" btn-accent btn px-3 py-2  btn-sm">UPGRADE</button> 
+                <button class="btn btn-primary px-3 py-2 btn-sm">PLAN CHANGE POLICY</button></p>
             </div>
             
           </div>

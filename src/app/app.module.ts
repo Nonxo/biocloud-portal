@@ -9,7 +9,6 @@ import { AuthComponent } from './pages/auth/auth.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { SharedModule } from './shared/shared.module';
-import { AuthGuardService } from './service/auth-guard.service';
 import { DataService } from './service/data.service';
 import { AuthService } from './components/auth/auth.service';
 import { StorageService } from './service/storage.service';
@@ -24,7 +23,7 @@ import {SessionGuard} from "./auth/guards/session-guard.service";
 import {ChangePasswordComponent} from "./pages/change-password/change-password.component";
 import {ProfileComponent} from "./pages/app-content/profile/profile.component";
 import {PictureUtil} from "./util/PictureUtil";
-
+import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-auth.component";
 
 @NgModule({
   declarations: [
@@ -32,9 +31,9 @@ import {PictureUtil} from "./util/PictureUtil";
     AuthComponent,
     RegisterComponent,
     LoginComponent,
+    AddAdminAuthComponent,
     ChangePasswordComponent,
     ProfileComponent
-    LoginComponent
   ],
   imports: [
     HttpClientModule,

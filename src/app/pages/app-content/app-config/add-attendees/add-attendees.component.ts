@@ -56,7 +56,13 @@ export class AddAttendeesComponent implements OnInit {
     }
 
     onSubmit() {
+        if (!this.location) {
+            this.ns.showError("You must select a location");
+            return;
+        }
+
         this.inviteRequest.locIds.push(this.location);
+        this.inviteRequest.role = 'ATTENDEE';
         this.invite();
     }
 
@@ -65,6 +71,8 @@ export class AddAttendeesComponent implements OnInit {
             .subscribe(
                 result => {
                     if (result.code == 0) {
+                        this.inviteRequest = new InviteRequest();
+                        this.location = null;
                         this.ns.showSuccess(result.description);
                     } else {
                         this.ns.showError(result.description);
