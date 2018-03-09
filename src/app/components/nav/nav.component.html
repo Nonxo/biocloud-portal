@@ -311,8 +311,10 @@
                 </mat-form-field>
             </div>
 
-            <div class="col-md-12 text-right">
-                <button mat-raised-button color="accent" class="auth-btn" type="submit">PROCEED</button>
+            <div class="col-md-12">
+                    <button mat-raised-button color="accent" class="auth-btn" type="button" (click)="removeAdmin()">REMOVE</button>
+                    <button mat-raised-button color="accent" class="auth-btn" type="submit">UPDATE</button>
+
             </div>
         </form>
     </div>
