@@ -29,8 +29,7 @@ import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-
     AppComponent,
     AuthComponent,
     RegisterComponent,
-    LoginComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
     AddAdminAuthComponent,
     LoginComponent
   ],
