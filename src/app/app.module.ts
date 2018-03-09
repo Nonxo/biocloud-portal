@@ -55,13 +55,14 @@ import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-
     StorageService,
     NotifyService,
     DateUtil,
+    PictureUtil,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,
       multi: true
     }
   ],
-  entryComponents: [ChangePasswordComponent],
+  entryComponents: [ProfileComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

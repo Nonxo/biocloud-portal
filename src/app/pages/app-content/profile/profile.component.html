@@ -6,7 +6,7 @@
           <h4 class="mat-card-title">Edit Your Profile -
             <small class="category">Basic Information</small>
           </h4>
-      <form class="pt-4" [formGroup]="form" (submit)="updateProfile()">
+      <form class="pt-4" [formGroup]="form" (submit)="onSubmit()">
 
       <div class="row">
 
@@ -122,21 +122,21 @@
       <legend></legend>
       <div class="img-thumbnail">
         <img *ngIf="model.img == null || model.img == ''" src="assets/img/1.png" alt="">
-        <img *ngIf="model.img" src="data:"
+        <img *ngIf="model.img" src="data:" alt="">
       </div>
       <div>
         <div class="col-md-12">
           <div class="btn btn-simple hov btn-file">
             <span>
-              <i class="material-icons"></i>"ADD PHOTO"
+              <i class="material-icons">&#xE412;</i> {{model.img? 'CHANGE PHOTO' :'ADD PHOTO'}}
             </span>
             <input type="hidden">
-            <input name="..." type="hidden" value>
-            <input accept="image/*" name="upload" type="file">
-            <div class="mat-ripple-element"></div>
+            <input type="hidden" value="" name="...">
+            <input type="file" (change)="fileChange($event)" accept="image/*" name="upload">
+            <div class="mat-ripple"></div>
           </div>
           <br>
-          <div>
+          <div><a *ngIf="model.img" class="btn btn-simple margin-remove text-remove" data-dismiss="fileinput" (click)="remove()"><i class="material-icons">&#xE5CD;</i>Remove</a>
             <p class="text-profile">*Not More than 100KB</p>
           </div>
 
@@ -145,11 +145,12 @@
     </div>
     <div class="mat-card-content">
       <h6 class="category text-gray">Name</h6>
-      <h4 class="card-title">Ebong Ibokette</h4>
+      <h4 class="card-title">{{model.firstName}} {{model.lastName}}</h4>
       <a class="btn btn-simple hov" id="changePassword" role="button" (click)="confirmChangePassword">Change password</a>
     </div>
   </div>
  </div>
+
 
 
 

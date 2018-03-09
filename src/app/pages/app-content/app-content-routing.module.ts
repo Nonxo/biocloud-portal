@@ -14,6 +14,8 @@ import { ReportDashboardComponent } from './report-dashboard/report-dashboard.co
 import { CustomReportComponent } from './custom-report/custom-report.component';
 import { LatenessReportComponent } from './lateness-report/lateness-report.component';
 import {AuthGuard} from "../../auth/guards/auth-guard.service";
+import {ChangePasswordComponent} from "../change-password/change-password.component";
+import {ProfileComponent} from "./profile/profile.component";
 
 const routes: Routes = [
   {
@@ -56,7 +58,15 @@ const routes: Routes = [
       {
         path: 'notification',
         component: NotificationsComponent
-      }
+      },
+      {
+        path: 'change-password',
+        component: ChangePasswordComponent
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent
+      },
 
     ]
   }

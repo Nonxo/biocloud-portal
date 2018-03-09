@@ -133,11 +133,10 @@ export class AppContentService {
   }
 
   updateProfile(userId:string, model:UpdateProfile): Observable<any> {
-      let params = new HttpParams().set('userId', userId)
-      return this.httpClient.post(Endpoints.EDIT_USER_PROFILE + params, JSON.stringify(model)), {
+      return this.httpClient.post(Endpoints.EDIT_USER_PROFILE + userId, JSON.stringify(model), {
         headers: new HttpHeaders()
           .set('Content-Type', MediaType.APPLICATION_JSON)
-      }
+      })
   }
 
   retrieveUser(userId:string): Observable<any> {

@@ -10,8 +10,6 @@ import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-
 const routes: Routes = [
   {path: '', redirectTo: '/auth', pathMatch: 'full'},
   {path: 'auth', component: AuthComponent, canActivate: [SessionGuard]},
-  {path: 'change-password', component: ChangePasswordComponent},
-  {path: 'profile', component: ProfileComponent},
   {path: 'invite', component: AddAdminAuthComponent},
   {
     path: 'portal',

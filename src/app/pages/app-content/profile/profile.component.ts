@@ -19,6 +19,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.userId = this.ss.getUserId();
+    this.fetchUser();
     this.model = new UpdateProfile();
   }
 
@@ -139,7 +140,6 @@ export class ProfileComponent implements OnInit {
   }
 
   passwordChange() {
-    this.loading = true;
     const payload = this.changePasswordForm.value;
 
     this.authService.changePassword(payload.oldPw, payload.newPw)
