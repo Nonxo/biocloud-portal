@@ -21,6 +21,7 @@ import {DateUtil} from "./util/dateUtil";
 import {AuthGuard} from "./auth/guards/auth-guard.service";
 import {SessionGuard} from "./auth/guards/session-guard.service";
 import {ChangePasswordComponent} from "./pages/change-password/change-password.component";
+import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-auth.component";
 
 
 @NgModule({
@@ -30,6 +31,8 @@ import {ChangePasswordComponent} from "./pages/change-password/change-password.c
     RegisterComponent,
     LoginComponent,
     ChangePasswordComponent
+    AddAdminAuthComponent,
+    LoginComponent
   ],
   imports: [
     HttpClientModule,

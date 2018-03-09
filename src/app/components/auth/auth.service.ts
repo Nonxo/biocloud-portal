@@ -1,7 +1,9 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Endpoints} from '../../util/endpoints';
+import {ApproveRequest} from "../../pages/app-content/model/app-content.model";
+import {MediaType} from "../../util/constants";
 
 @Injectable()
 export class AuthService {
@@ -64,6 +66,13 @@ export class AuthService {
                 res => console.log(res),
                 err => console.log(err)
             );
+    }
+
+    approveAdminNotification(inviteId:string): Observable<any> {
+        return this.httpClient.post(Endpoints.APPROVE_ADMIN_NOTIFICATION + inviteId + "/status", null, {
+            headers: new HttpHeaders()
+                .set('Content-Type', MediaType.APPLICATION_JSON)
+        })
     }
 
     logout(): void {

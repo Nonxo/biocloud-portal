@@ -33,21 +33,22 @@ export class AssignUserRequest {
 }
 
 export class Invitation {
-  firstName:string;
-  lastName:string;
-  email:string;
-  phoneNumber:number;
-  created:number;
-  locId:string;
+    firstName:string;
+    lastName:string;
+    email:string;
+    phoneNumber:number;
+    created:number;
+    locId:string;
 }
 
 export class ApproveRequest {
-  status: string;
-  locIds: string[];
+    status:string;
+    locIds:string[];
 
-  constructor () {
-    this.locIds = [];
-  }
+    constructor(status?:string) {
+        this.status = status || null;
+        this.locIds = [];
+    }
 }
 
 export class ActivateDeactivateUserRequest {
@@ -61,6 +62,11 @@ export class ActivateDeactivateUserRequest {
     }
 }
 
+export class AdminRemovalRequest {
+    userId:string;
+    orgId:string;
+    role:string;
+}
 
 
 

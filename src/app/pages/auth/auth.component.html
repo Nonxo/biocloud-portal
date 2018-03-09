@@ -2,25 +2,33 @@
 
   <div class="row justify-content-center h-100 align-items-md-center">
 
-      <div class="col-md-4 d-none d-md-block pr-md-0">
-        <mat-card class="logo-carousel">
-            
-        </mat-card>
-      </div>
+    <div class="col-md-4 d-none d-md-block pr-md-0">
+      <mat-card class="logo-carousel">
+        <div>
+          <img src="assets/img/logo-white.png" class="img-fluid logo mb-5" />
+        </div>
 
-      <div class="col-md-6 my-5 pl-md-0">
-          <mat-card class="auth">
-              <mat-tab-group>
-                  <mat-tab label="LOGIN">
-                    <app-login></app-login>
-                  </mat-tab>
-                  <mat-tab label="REGISTER">
-                    <app-register></app-register>
-                  </mat-tab>
-                </mat-tab-group>
-                
-          </mat-card>
-      </div>
+        <h3 class="font-weight-bold text-white mt-5">Manage your employee easily</h3>
+
+        <p class="mt-4 pr-5 text-white">
+          <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</small>
+        </p>
+      </mat-card>
+    </div>
+
+    <div class="col-md-6 col-lg-5 my-5 my-md-0 pl-md-0">
+      <mat-card class="auth">
+        <mat-tab-group>
+          <mat-tab label="LOGIN">
+            <app-login></app-login>
+          </mat-tab>
+          <mat-tab label="REGISTER">
+            <app-register></app-register>
+          </mat-tab>
+        </mat-tab-group>
+
+      </mat-card>
+    </div>
 
   </div>
 

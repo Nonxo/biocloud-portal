@@ -142,6 +142,20 @@
 
         <div class="col-md-12">
             <div class="row p-md-3 p-0">
+
+                <div class="col-md-6">
+                    <mat-form-field class="input-field" *ngIf="!addRange">
+                        <mat-select placeholder="Select Country" name="countryCode"
+                                    (change)="setMapRestriction()"
+                                    [(ngModel)]="countryCode">
+                            <mat-option value="">ALL</mat-option>
+                            <mat-option *ngFor="let country of countries" value="{{country.code}}">
+                                {{country.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
                 <div class="col-md-6">
                     <mat-form-field *ngIf="!addRange" class="input-field">
                         <input matInput placeholder="Search" id="autocompleteInput">
