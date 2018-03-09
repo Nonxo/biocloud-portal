@@ -31,6 +31,6 @@ export class Endpoints {
   public static CHANGE_PASSWORD = `${Endpoints.BASE_URL}/users/api/u/password/change`;
   public static FETCH_PENDING_ATTENDEES = `${Endpoints.BASE_URL}/users/api/attendees/pending?`;
   public static ASSIGN_ADMINS_LOCATIONS = `${Endpoints.BASE_URL}/users/api/locations/admins`;
-  public static FETCH_PENDING_ATTENDEES = `${Endpoints.BASE_URL}/users/api/attendees/pending?`;
   public static EDIT_USER_PROFILE = `${Endpoints.BASE_URL}/users/api/u`;
+  public static REMOVE_ADMIN = `${Endpoints.BASE_URL}/users/api/locations/admins/remove`;
 }

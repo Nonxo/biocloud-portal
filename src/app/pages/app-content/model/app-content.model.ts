@@ -86,3 +86,9 @@ export class UpdateProfile {
 
 
 
+
+export class AdminRemovalRequest {
+    userId:string;
+    orgId:string;
+    role:string;
+}

@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../util/endpoints";
 import {CreateOrgRequest, AssignUserRequest, ApproveRequest, UpdateProfile} from "../model/app-content.model";
+import {CreateOrgRequest, AssignUserRequest, ApproveRequest, AdminRemovalRequest} from "../model/app-content.model";
 import {StorageService} from "../../../service/storage.service";
 import {MediaType} from "../../../util/constants";
 
@@ -120,6 +121,7 @@ export class AppContentService {
     let params = new HttpParams().set('invites', invitesId)
     return this.httpClient.get(Endpoints.FETCH_NOTIFICATION_DETAILS + params, {
       headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
     })
   }
 
@@ -167,5 +169,16 @@ export class AppContentService {
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
     }
+
+    removeAdmin(model:AdminRemovalRequest) {
+        model.orgId = this.ss.getSelectedOrg().orgId;
+
+        return this.httpClient
+            .post(Endpoints.REMOVE_ADMIN, JSON.stringify(model), {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+    }
+
 
 }
