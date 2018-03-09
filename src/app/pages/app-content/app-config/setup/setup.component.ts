@@ -29,6 +29,7 @@ export class SetupComponent implements OnInit {
     draggable:boolean = true;
     addRange:boolean;
     resumption:string;
+    countryCode:string;
     timezones:TimezonePOJO[] = [];
     addNewLoc:boolean;
     locationTypes = [
@@ -95,6 +96,12 @@ export class SetupComponent implements OnInit {
             }, 2000);
         }
 
+    }
+
+    setMapRestriction() {
+        setTimeout(()=> {
+            this.autocomplete();
+        }, 200);
     }
 
     customSettings() {
@@ -267,8 +274,19 @@ export class SetupComponent implements OnInit {
     }
 
     autocomplete() {
+        let country = this.countryCode;
+
+
         //noinspection TypeScriptUnresolvedVariable
         let autocomplete = new google.maps.places.Autocomplete(<HTMLInputElement>document.getElementById('autocompleteInput'), {});
+
+        if(country != "") {
+            autocomplete.setComponentRestrictions(
+                {'country': country});
+        }else {
+            autocomplete.setComponentRestrictions(
+                {'country': []});
+        }
 
         autocomplete.addListener("place_changed", () => {
             this.ngZone.run(() => {
