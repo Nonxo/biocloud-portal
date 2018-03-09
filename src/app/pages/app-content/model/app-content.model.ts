@@ -28,3 +28,30 @@ export class Invitation {
   status:string;
   email:string;
 }
+<<<<<<< Updated upstream
+=======
+
+export class UpdateProfile {
+  firstName:string;
+  lastName:string;
+  email:string;
+  phoneNumber:number;
+  address:string;
+  orgId:any;
+  role:string;
+  creator:string;
+  userId: string;
+  companyName:string;
+  userType: string;
+  img:any;
+
+  promoNotif: boolean;
+  appNotif: boolean;
+
+}
+
+
+
+
+
+

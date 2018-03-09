@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
     login() {
         this.loading = true;
         const payload = this.loginForm.value;
-        
+
         //noinspection TypeScriptValidateTypes
         this.authService.login(payload.email, payload.pw)
             .finally(() => this.loading = false)
@@ -70,6 +70,23 @@ export class LoginComponent implements OnInit {
             );
     }
 
+  forgotPassword() {
+    const payload = this.resetForm.value;
+    this.loading = true;
+    //noinspection TypeScriptValidateTypes
+    this.authService.forgotPassword(payload.email)
+      .finally(() => this.loading = false)
+      .subscribe(
+        res => {
+          console.log(res);
+          if (res.code == 0) {
+            this.ns.showSuccess(res.description);
+
+          } else {
+            this.ns.showError(res.description);
+          }
+        },
+        error => {
     forgotPassword() {
         const payload = this.resetForm.value;
         this.loading = true;

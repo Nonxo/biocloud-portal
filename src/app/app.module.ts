@@ -18,6 +18,12 @@ import { AppRoutingModule } from './app-routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RecaptchaModule} from "ng-recaptcha";
 import {AgmCoreModule} from "@agm/core";
+import {DateUtil} from "./util/dateUtil";
+import {AuthGuard} from "./auth/guards/auth-guard.service";
+import {SessionGuard} from "./auth/guards/session-guard.service";
+import {ChangePasswordComponent} from "./pages/change-password/change-password.component";
+import {ProfileComponent} from "./pages/app-content/profile/profile.component";
+import {PictureUtil} from "./util/PictureUtil";
 
 
 @NgModule({
@@ -25,6 +31,9 @@ import {AgmCoreModule} from "@agm/core";
     AppComponent,
     AuthComponent,
     RegisterComponent,
+    LoginComponent,
+    ChangePasswordComponent,
+    ProfileComponent
     LoginComponent
   ],
   imports: [
@@ -42,15 +51,18 @@ import {AgmCoreModule} from "@agm/core";
   providers: [
     AuthService,
     DataService,
+    AuthGuard,
+    SessionGuard,
     StorageService,
     NotifyService,
-    AuthGuardService,
+    DateUtil,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,
       multi: true
     }
   ],
+  entryComponents: [ChangePasswordComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
