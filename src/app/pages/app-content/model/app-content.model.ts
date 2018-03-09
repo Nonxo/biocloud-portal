@@ -61,3 +61,9 @@ export class ActivateDeactivateUserRequest {
         this.emails = [];
     }
 }
+
+export class AdminRemovalRequest {
+    userId:string;
+    orgId:string;
+    role:string;
+}
