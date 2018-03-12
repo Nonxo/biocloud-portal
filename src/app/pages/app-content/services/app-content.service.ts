@@ -2,8 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../util/endpoints";
-import {CreateOrgRequest, AssignUserRequest, ApproveRequest, UpdateProfile} from "../model/app-content.model";
-import {CreateOrgRequest, AssignUserRequest, ApproveRequest, AdminRemovalRequest} from "../model/app-content.model";
+import {CreateOrgRequest, AssignUserRequest, ApproveRequest, AdminRemovalRequest, UpdateProfile} from "../model/app-content.model";
 import {StorageService} from "../../../service/storage.service";
 import {MediaType} from "../../../util/constants";
 
@@ -140,8 +139,7 @@ export class AppContentService {
   }
 
   retrieveUser(userId:string): Observable<any> {
-      let params = new HttpParams().set('userId', userId);
-      return this.httpClient.get(Endpoints.EDIT_USER_PROFILE + params, {
+            return this.httpClient.get(Endpoints.EDIT_USER_PROFILE + userId, {
         headers: new HttpHeaders()
           .set('Content-Type', MediaType.APPLICATION_JSON)
       })

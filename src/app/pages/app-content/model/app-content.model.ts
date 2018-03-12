@@ -63,8 +63,8 @@ export class ActivateDeactivateUserRequest {
 }
 
 export class UpdateProfile {
-  firstName:string;
-  lastName:string;
+  fName:string;
+  lName:string;
   email:string;
   phoneNumber:number;
   address:string;

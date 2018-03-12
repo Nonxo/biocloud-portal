@@ -60,10 +60,6 @@ const routes: Routes = [
         component: NotificationsComponent
       },
       {
-        path: 'change-password',
-        component: ChangePasswordComponent
-      },
-      {
         path: 'profile',
         component: ProfileComponent
       },

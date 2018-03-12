@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../../components/auth/auth.service";
 import {Router} from "@angular/router";
 import {NotifyService} from "../../../service/notify.service";
@@ -10,17 +10,34 @@ import {AppContentService} from "../services/app-content.service";
 import {DataService} from "../../../service/data.service";
 
 
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  userId:string;
+  model: UpdateProfile = new UpdateProfile();
+  changePasswordForm:FormGroup;
+  userId:string;
+  submitted:boolean;
+  pictureSizeErrorMessage:string;
+  retrieveStatus:boolean = true;
+  loading:false;
+
+
+
 
   ngOnInit() {
     this.userId = this.ss.getUserId();
     this.fetchUser();
-    this.model = new UpdateProfile();
+    this.changePasswordForm = this.fb.group({
+      oldPw: ['', Validators.required],
+      newPw: ['', Validators.required],
+    });
+
+
   }
 
 
@@ -35,13 +52,9 @@ export class ProfileComponent implements OnInit {
               private ss:StorageService) {
 
   }
-  model:UpdateProfile = new UpdateProfile();
-  changePasswordForm:FormGroup;
-  userId:string;
-  submitted:boolean;
-  pictureSizeErrorMessage:string;
-  retrieveStatus:boolean = true;
-  loading:false;
+
+
+
 
 
 
@@ -79,6 +92,7 @@ export class ProfileComponent implements OnInit {
       )
   }
 
+
   readFile(file, reader, callback) {
     reader.onload = () => {
       callback(reader.result);
@@ -109,7 +123,7 @@ export class ProfileComponent implements OnInit {
               },
               error => {
                 this.ns.showError("An Error Occurred While Updating Photo");
-              })
+              });
           this.readFiles(files, index + 1);
 
         });
@@ -124,18 +138,17 @@ export class ProfileComponent implements OnInit {
         result => {
           if (result.code == 0) {
             this.retrieveStatus = true;
-            this.model = result.user
-            if (this.model.img) {
-              let str = this.model.img.replace(/ /g,"+");
+            this.model = result.user;
+           if (this.model.img) {
+             let str = this.model.img.replace(/ /g,"+");
               this.model.img = str
             }
+            this.ns.showSuccess(result.description)
           } else {
-            this.ns.showSuccess(result.description);
+            this.ns.showError(result.description);
           }
         },
-        error => {
-          this.ns.showError("An error Occurred")
-        }
+
       )
   }
 
@@ -168,7 +181,7 @@ export class ProfileComponent implements OnInit {
         result => {
           if (result.code == 0) {
             this.submitted = false
-            this.dataService.setUsername(this.model.firstName + '' + this.model.lastName);
+            this.dataService.setUsername(this.model.fName + '' + this.model.lName);
             this.ns.showSuccess(result.description);
 
           } else {

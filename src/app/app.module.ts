@@ -21,7 +21,6 @@ import {DateUtil} from "./util/DateUtil";
 import {AuthGuard} from "./auth/guards/auth-guard.service";
 import {SessionGuard} from "./auth/guards/session-guard.service";
 import {ChangePasswordComponent} from "./pages/change-password/change-password.component";
-import {ProfileComponent} from "./pages/app-content/profile/profile.component";
 import {PictureUtil} from "./util/PictureUtil";
 import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-auth.component";
 
@@ -33,7 +32,6 @@ import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-
     LoginComponent,
     AddAdminAuthComponent,
     ChangePasswordComponent,
-    ProfileComponent
   ],
   imports: [
     HttpClientModule,
@@ -62,7 +60,7 @@ import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-
       multi: true
     }
   ],
-  entryComponents: [ProfileComponent],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }
