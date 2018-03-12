@@ -144,7 +144,7 @@
             <div class="row p-md-3 p-0">
 
                 <div class="col-md-6">
-                    <mat-form-field class="input-field">
+                    <mat-form-field class="input-field" *ngIf="!addRange">
                         <mat-select placeholder="Select Country" name="countryCode"
                                     (change)="setMapRestriction()"
                                     [(ngModel)]="countryCode">

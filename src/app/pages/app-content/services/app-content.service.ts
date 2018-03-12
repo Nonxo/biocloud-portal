@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../util/endpoints";
-import {CreateOrgRequest, AssignUserRequest, ApproveRequest} from "../model/app-content.model";
+import {CreateOrgRequest, AssignUserRequest, ApproveRequest, AdminRemovalRequest} from "../model/app-content.model";
 import {StorageService} from "../../../service/storage.service";
 import {MediaType} from "../../../util/constants";
 
@@ -147,6 +147,16 @@ export class AppContentService {
             .get(Endpoints.FETCH_PENDING_ATTENDEES + params, {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+    }
+
+    removeAdmin(model:AdminRemovalRequest) {
+        model.orgId = this.ss.getSelectedOrg().orgId;
+
+        return this.httpClient
+            .post(Endpoints.REMOVE_ADMIN, JSON.stringify(model), {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
             })
     }
     

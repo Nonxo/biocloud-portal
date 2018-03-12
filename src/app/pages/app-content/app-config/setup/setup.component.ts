@@ -8,7 +8,7 @@ import {GeoMapService} from "../../../../service/geo-map.service";
 import {NotifyService} from "../../../../service/notify.service";
 import {Router} from "@angular/router";
 import {StorageService} from "../../../../service/storage.service";
-import {DateUtil} from "../../../../util/dateUtil";
+import {DateUtil} from "../../../../util/DateUtil";
 import {MessageService} from "../../../../service/message.service";
 
 @Component({

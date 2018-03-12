@@ -4,7 +4,7 @@ import {BsModalService, BsModalRef} from "ngx-bootstrap/index";
 import {StorageService} from "../../service/storage.service";
 import {AppContentService} from "../../pages/app-content/services/app-content.service";
 import {NotifyService} from "../../service/notify.service";
-import {CreateOrgRequest, Org} from "../../pages/app-content/model/app-content.model";
+import {CreateOrgRequest, Org, AdminRemovalRequest} from "../../pages/app-content/model/app-content.model";
 import {MessageService} from "../../service/message.service";
 import {InviteRequest} from "../../pages/app-content/app-config/model/app-config.model";
 import {AppConfigService} from "../../pages/app-content/app-config/services/app-config.service";
@@ -21,10 +21,11 @@ export class NavComponent implements OnInit {
     sideNavMode = "side";
     opener:boolean = true;
     modalRef:BsModalRef;
-    selectedUser:Object;
+    selectedUser:any;
     manageAdmin:boolean;
     locations:any[] = [];
     users:any[] = [];
+    adminRemovalRequest:AdminRemovalRequest = new AdminRemovalRequest();
     views:Object[] = [
         {icon: "home", route: "Home", url: "/portal"},
         {icon: "group", route: "Attendees", url: "/portal/manage-users"},
@@ -80,7 +81,6 @@ export class NavComponent implements OnInit {
     ngOnInit() {
         this.selectedOrg = this.ss.getSelectedOrg() ? this.ss.getSelectedOrg() : new Org();
         this.fetchUsersOrg();
-        this.callLocationService();
         this.onResizeByWindowScreen();
     }
     
@@ -182,8 +182,8 @@ export class NavComponent implements OnInit {
                 this.mService.setSelectedOrg(this.orgs[0].orgId);
             }
         }
-
         this.fetchAdminUsers();
+        this.callLocationService();
     }
 
     callUsersOrgService() {
@@ -246,6 +246,7 @@ export class NavComponent implements OnInit {
         this.selectedOrg = org;
         this.ss.setSelectedOrg(org);
         this.fetchAdminUsers();
+        this.callLocationService();
         this.mService.setSelectedOrg(org.orgId);
     }
 
@@ -377,6 +378,26 @@ export class NavComponent implements OnInit {
                 error => {
                     this.ns.showError("An Error Occurred.");
                 }
+            )
+    }
+
+    removeAdmin() {
+        this.adminRemovalRequest.userId = this.selectedUser.userId;
+        this.adminRemovalRequest.role = this.selectedUser.role;
+
+        this.contentService.removeAdmin(this.adminRemovalRequest)
+            .subscribe(
+                result => {
+                    let res:any = result;
+                    if (res.code == 0) {
+                        this.fetchAdminUsers();
+                        this.modalRef.hide();
+                        this.ns.showSuccess(res.description);
+                    } else {
+                        this.ns.showError(res.description);
+                    }
+                },
+                error => {this.ns.showError("An Error Occurred.");}
             )
     }
 
