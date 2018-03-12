@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {Endpoints} from '../../util/endpoints';
 import {ApproveRequest} from "../../pages/app-content/model/app-content.model";
 import {MediaType} from "../../util/constants";
+import {StorageService} from "../../service/storage.service";
 
 @Injectable()
 export class AuthService {
@@ -14,7 +15,7 @@ export class AuthService {
         'Content-Type': 'application/x-www-form-urlencoded'
     };
 
-    constructor(private httpClient:HttpClient) {
+    constructor(private httpClient:HttpClient, private ss: StorageService) {
     }
 
     login(email, pw):Observable<any> {
@@ -66,6 +67,23 @@ export class AuthService {
         })
     }
 
+    hasAnyAuthority(roles: string[]): Promise<boolean> {
+        let role = this.ss.getSelectedOrgRole();
+
+        if (!role) {
+            return Promise.resolve(false);
+        }
+        
+        for (let i = 0; i < roles.length; i++) {
+            if (role == roles[i]) {
+                return Promise.resolve(true);
+
+            }
+        }
+
+        return Promise.resolve(false);
+    }
+
     logout(): void {
         // clear token remove user from local storage to log user out
 
@@ -73,5 +91,6 @@ export class AuthService {
         localStorage.removeItem('_tkn');
         localStorage.removeItem('_orgs');
         localStorage.removeItem('_st');
+        localStorage.removeItem('orgRoles');
     }
 }

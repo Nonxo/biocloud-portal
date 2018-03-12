@@ -61,6 +61,8 @@ export class LoginComponent implements OnInit {
                     if (res.code == 0) {
                         this.ss.authToken = res.token;
                         this.ss.loggedInUser = res.bioUser;
+                        this.ss.setOrgRoles(res.bioUser.orgRoles);
+
                         this.router.navigate(['/portal']);
                     } else {
                         this.ns.showError(res.description);
