@@ -17,10 +17,10 @@ import { AppRoutingModule } from './app-routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RecaptchaModule} from "ng-recaptcha";
 import {AgmCoreModule} from "@agm/core";
+import {DateUtil} from "./util/dateUtil";
 import {AuthGuard} from "./auth/guards/auth-guard.service";
 import {SessionGuard} from "./auth/guards/session-guard.service";
 import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-auth.component";
-import {DateUtil} from "./util/DateUtil";
 
 
 @NgModule({
