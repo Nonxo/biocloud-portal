@@ -246,6 +246,7 @@ export class NavComponent implements OnInit {
         this.selectedOrg = org;
         this.ss.setSelectedOrg(org);
         this.fetchAdminUsers();
+        this.callLocationService();
         this.mService.setSelectedOrg(org.orgId);
     }
 
