@@ -40,55 +40,55 @@ export class LoginComponent implements OnInit {
         this.modalRef = this.modalService.show(template);
     }
 
-  ngOnInit() {
-    this.loginForm = this.fb.group({
-      email: ['', Validators.email],
-      pw: ['', Validators.required],
-    });
-    this.resetForm = this.fb.group({
-      email: ['', Validators.email]
-    });
-
-  }
-
-  resetPasswordCheck(res:any) {
-
-    if (res.bioUser.passwordReset == true) {
-      this.openModalWithComponent();
-     } else {
-       this.ss.authToken = res.token;
-       this.ss.loggedInUser = res.bioUser;
-      this.router.navigate(['/portal']);
+    ngOnInit() {
+        this.loginForm = this.fb.group({
+            email: ['', Validators.email],
+            pw: ['', Validators.required],
+        });
+        this.resetForm = this.fb.group({
+            email: ['', Validators.email]
+        });
     }
 
-  }
+    resetPasswordCheck(res:any) {
+
+        if (res.bioUser.passwordReset == true) {
+            this.openModalWithComponent();
+        } else {
+            this.ss.authToken = res.token;
+            this.ss.loggedInUser = res.bioUser;
+            this.ss.setOrgRoles(res.bioUser.orgRoles);
+
+            this.router.navigate(['/portal']);
+        }
+
+    }
 
   openModalWithComponent() {
     this.modalRef = this.modalService.show(ChangePasswordComponent);
   }
 
-  login() {
-    this.loading = true;
-    const payload = this.loginForm.value;
-    //noinspection TypeScriptValidateTypes
-    this.authService.login(payload.email, payload.pw)
-      .finally(() => this.loading = false)
-      .subscribe(
-        res => {
-          console.log(res);
-          if (res.code == 0) {
+    login() {
+        this.loading = true;
+        const payload = this.loginForm.value;
 
-            this.resetPasswordCheck(res);
+        //noinspection TypeScriptValidateTypes
+        this.authService.login(payload.email, payload.pw)
+            .finally(() => this.loading = false)
+            .subscribe(
+                res => {
+                    console.log(res);
+                    if (res.code == 0) {
 
-          } else {
-            this.ns.showError(res.description);
-          }
-        },
-        error => {
-        }
-      );
+                        this.resetPasswordCheck(res);
 
-  }
+                    } else {
+                        this.ns.showError(res.description);
+                    }
+                },
+                error => {this.ns.showError("An Error Occurred.");}
+            );
+    }
 
   forgotPassword() {
     const payload = this.resetForm.value;

@@ -29,9 +29,9 @@ import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-
     AppComponent,
     AuthComponent,
     RegisterComponent,
-    LoginComponent,
-    AddAdminAuthComponent,
     ChangePasswordComponent,
+    AddAdminAuthComponent,
+    LoginComponent
   ],
   imports: [
     HttpClientModule,
@@ -60,7 +60,7 @@ import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-
       multi: true
     }
   ],
-
+  entryComponents: [ChangePasswordComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

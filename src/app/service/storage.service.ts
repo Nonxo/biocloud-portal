@@ -101,4 +101,37 @@ export class StorageService {
         return obj? obj.adminUsers: null;
     }
 
+    setSelectedOrgRole(value:string) {
+        let _st = JSON.parse(localStorage.getItem('_st'));
+
+        if (_st) {
+            _st['orgRole'] = value;
+        } else {
+            _st = {orgRole: value};
+        }
+
+        localStorage.setItem("_st", JSON.stringify(_st));
+    }
+
+    getSelectedOrgRole() {
+        let obj:any = JSON.parse(localStorage.getItem('_st'));
+        return obj? obj.orgRole: null;
+    }
+
+    setOrgRoles(orgRoles:any[]) {
+        let roles = orgRoles? orgRoles: [];
+        let arr:any[] = this.getOrgRoles();
+
+        for(let r of roles) {
+            arr.push(r);
+        }
+
+        localStorage.setItem("orgRoles", JSON.stringify(arr));
+    }
+
+    getOrgRoles() {
+        let obj:any = JSON.parse(localStorage.getItem('orgRoles'));
+        return obj? obj: [];
+    }
+
 }

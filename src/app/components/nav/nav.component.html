@@ -178,7 +178,7 @@
     <button mat-icon-button class="pr-5" matTooltip="Switch to bioregistra">
       <mat-icon class="example-icon">apps</mat-icon>
     </button>
-    <button mat-icon-button class="pr-5">
+    <button mat-icon-button class="pr-5" routerLink="/portal/notification" *hasAuthority="'GENERAL_ADMIN'">
       <mat-icon class="example-icon">notifications</mat-icon>
     </button>
     <button mat-icon-button class="pr-5" [matMenuTriggerFor]="menu">
