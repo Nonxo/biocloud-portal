@@ -26,6 +26,15 @@ export class AuthService {
         });
     }
 
+    changePassword(oldPw, newPw):Observable<any> {
+      let params = new HttpParams()
+        .set('oldPw', oldPw)
+        .set('newPw', newPw)
+      return this.httpClient.post(Endpoints.CHANGE_PASSWORD, params.toString(), {
+        headers: this.urlEncodeHeader
+      });
+    }
+
     register(registerPayload):Observable<any> {
         return this.httpClient.post(Endpoints.REGISTER, registerPayload, {
                 headers: {'sc-auth-key': this.staticAuthKey}
