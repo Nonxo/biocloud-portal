@@ -28,6 +28,10 @@ body,html{
     vertical-align: middle;
 }
 
+.alignment > i{
+  vertical-align: middle;
+}
+
 /*.auth-btn{
     border-radius: 50px !important;
     padding: 5px 15px !important;
