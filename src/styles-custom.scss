@@ -159,6 +159,14 @@ mat-card {
   color: mat-color($candy-app-primary, A400) !important;
 }
 
+.primary-outline{
+  border: 2px solid  mat-color($candy-app-primary) !important;
+}
+
+.mat-raised-button:not([class*=mat-elevation-z]) {
+  box-shadow: none !important;
+}
+
 .text-brand, a {
   color: mat-color($candy-app-primary);
 }
