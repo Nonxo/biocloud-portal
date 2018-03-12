@@ -20,6 +20,7 @@ import {AgmCoreModule} from "@agm/core";
 import {DateUtil} from "./util/DateUtil";
 import {AuthGuard} from "./auth/guards/auth-guard.service";
 import {SessionGuard} from "./auth/guards/session-guard.service";
+import {ChangePasswordComponent} from "./pages/change-password/change-password.component";
 import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-auth.component";
 
 
@@ -28,6 +29,7 @@ import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-
     AppComponent,
     AuthComponent,
     RegisterComponent,
+    ChangePasswordComponent,
     AddAdminAuthComponent,
     LoginComponent
   ],
@@ -57,6 +59,7 @@ import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-
       multi: true
     }
   ],
+  entryComponents: [ChangePasswordComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
