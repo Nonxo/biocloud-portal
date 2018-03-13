@@ -307,7 +307,7 @@ export class SetupComponent implements OnInit {
     }
 
     autocomplete() {
-        let country = this.countryCode;
+        let country = this.countryCode? this.countryCode:"";
 
         //noinspection TypeScriptUnresolvedVariable
         let autocomplete = new google.maps.places.Autocomplete(<HTMLInputElement>document.getElementById('autocompleteInput'), {});
@@ -421,6 +421,10 @@ export class SetupComponent implements OnInit {
         if (index >= 0) {
             this.inviteEmails.splice(index, 1);
         }
+    }
+
+    cancel() {
+        this.editMode? this.modalRef.hide(): this.router.navigate(['/portal']);
     }
 
 }

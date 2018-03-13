@@ -86,14 +86,14 @@
     <mat-divider></mat-divider>
     <mat-nav-list>
       <ul>
-        <li routerLinkActive="active">
-          <a (click)="manageAdmin = manageAdmin? false:true; toggleManageAdmin()" mat-list-item class="text-white">
-            <mat-icon mat-list-icon>group</mat-icon>
-            <span mat-line>Admins</span>
-            <!--<i class="material-icons ml-auto mr-3" *ngIf="sidenavWidth >= 15">{{manageAdmin?
-              'arrow_drop_up':'arrow_drop_down'}}</i>-->
-          </a>
-        </li>
+        <!--<li routerLinkActive="active">-->
+          <!--<a (click)="manageAdmin = manageAdmin? false:true; toggleManageAdmin()" mat-list-item class="text-white">-->
+            <!--<mat-icon mat-list-icon>group</mat-icon>-->
+            <!--<span mat-line>Admins</span>-->
+            <!--&lt;!&ndash;<i class="material-icons ml-auto mr-3" *ngIf="sidenavWidth >= 15">{{manageAdmin?-->
+              <!--'arrow_drop_up':'arrow_drop_down'}}</i>&ndash;&gt;-->
+          <!--</a>-->
+        <!--</li>-->
 
         <!--<div *ngIf="manageAdmin" class="bg-light-grey pt-2 font-12">
           <ul class="list-unstyled px-3">
@@ -138,12 +138,12 @@
             <span mat-line>{{nav.route}}</span>
           </a>
         </li>
-        <li routerLinkActive="active">
-          <a (click)="logout()" mat-list-item class="text-white">
-            <mat-icon mat-list-icon>power_settings_new</mat-icon>
-            <span mat-line>Log Out</span>
-          </a>
-        </li>
+        <!--<li routerLinkActive="active">-->
+          <!--<a (click)="logout()" mat-list-item class="text-white">-->
+            <!--<mat-icon mat-list-icon>power_settings_new</mat-icon>-->
+            <!--<span mat-line>Log Out</span>-->
+          <!--</a>-->
+        <!--</li>-->
       </ul>
     </mat-nav-list>
 
@@ -192,14 +192,14 @@
             <img src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon" style="max-height:3em;"/>
           </div>
           <div class="col-auto col-auto pt-3 pl-0">
-            <p>Henry Okonkwo</p>
+            <p>{{username}}</p>
           </div>
         </div>
       </button>
       <mat-divider></mat-divider>
       <button mat-menu-item>Setting</button>
       <mat-divider></mat-divider>
-      <button mat-menu-item>Log Out</button>
+      <button (click)="logout()" mat-menu-item>Log Out</button>
     </mat-menu>
 
 

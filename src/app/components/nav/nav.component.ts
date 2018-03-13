@@ -49,6 +49,7 @@ export class NavComponent implements OnInit {
     title:string = "Home";
     inviteRequest:InviteRequest = new InviteRequest();
     currentUserEmail:string = this.ss.getLoggedInUserEmail();
+    username = this.ss.getUserName();
 
     searchField:string;
     searchOrgTerm$ = new Subject<any>();
