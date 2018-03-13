@@ -1,32 +1,44 @@
-
 <!--<div class="bg-brand">-->
-    <!--<div class="container-fluid">-->
-        <!--<div class="row py-2 px-md-4 justify-content-end">-->
-                <!--<div class="col-md-4 pull-right text-right">-->
-                    <!--<button class="btn btn-danger">NO SUBSCRIPTION</button>-->
-                <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
+<!--<div class="container-fluid">-->
+<!--<div class="row py-2 px-md-4 justify-content-end">-->
+<!--<div class="col-md-4 pull-right text-right">-->
+<!--<button class="btn btn-danger">NO SUBSCRIPTION</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
 <!--</div>-->
 
 <div class="container-fluid">
-    <div class="row">
+    <div class="row pt-4">
 
         <!--<app-side-nav></app-side-nav>-->
 
-        <div class="col-lg-12 px-md-4 px-lg-4">
+
+
+        <div class="col-lg-7 px-md-4 px-lg-4">
+
+            <div class="row">
+                <div class=" col-lg-12 px-md-4 px-lg-4">
+                    <h5 class="float-left">Locations</h5>
+                    <a href="">
+                        <h6 class="float-right">ADD NEW LOCATION</h6>
+                    </a>
+                </div>
+            </div>
+
             <div class="row pb-md-3 equal-row">
-                <div class="col-lg-3 col-md-6 mt-4" *ngIf="orgId">
+                <!-- <div class="col-lg-4 col-md-6 mt-4" *ngIf="orgId">
                     <a routerLink="/portal/config">
                         <mat-card class="py-md-4 text-center h-100">
                             <i class="py-4 material-icons add-loc display-3">add_circle</i>
                             <h6>Add new location</h6>
                         </mat-card>
                     </a>
-                </div>
-                <div class="col-lg-3 col-md-6 mt-4" *ngFor="let loc of locations">
+                </div> -->
+
+                <div class="col-lg-4 col-md-6 mt-3" *ngFor="let loc of locations">
                     <mat-card class="py-md-3 h-100">
-                        <img src="assets/img/loc.svg" style="max-width:32px"/>
+                        <img src="assets/img/loc.svg" style="max-width:32px" />
                         <h6 class="my-3">{{loc.name}}</h6>
                         <mat-divider></mat-divider>
                         <div class="py-2 row justify-content-between">
@@ -65,12 +77,83 @@
                                     <span>{{loc.active? 'Deactivate':'Activate'}}</span>
                                 </button>
                             </mat-menu>
-                        </div>    
+                        </div>
                     </mat-card>
                 </div>
 
             </div>
         </div>
+
+        <div class="col-lg-5 px-md-4 px-lg-4">
+            <mat-card class="col-lg-12 py-md-4">
+                <mat-card-title>
+                    <h6>Latest Clock-Ins</h6>
+                </mat-card-title>
+
+                <mat-card-content>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">S/N</th>
+                                    <th scope="col">NAME</th>
+                                    <th scope="col">LOCATION</th>
+                                    <th scope="col">TIME IN</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Bismark Achodo</td>
+                                    <td>Lekki</td>
+                                    <td>08:45</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Jacob Samuel</td>
+                                    <td>Ikeja</td>
+                                    <td>07:30</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>Larry the Bird</td>
+                                    <td>Lekki</td>
+                                    <td>09:30</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </mat-card-content>
+
+            </mat-card>
+
+            <mat-card class="col-lg-12 py-md-4 mt-lg-3">
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <mat-card>
+                                <mat-card-content class="text-center">
+                                    <p class="display-3 font-weight-bold text-brand">67</p>
+                                    <p>Total Employees</p>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                        <div class="col-lg-6">
+                            <mat-card>
+                                <mat-card-content class="text-center">
+                                    <p class="display-3 font-weight-bold">20</p>
+                                    <p>Total Clock in Today</p>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+        </div>
+
+
+
     </div>
 </div>
 
@@ -83,8 +166,8 @@
         </button>
     </div>
     <div class="modal-body">
-            <div class="col-md-12" *ngFor="let a of pendingAttendees">
-                <p>{{a.email}}</p>
-            </div>
+        <div class="col-md-12" *ngFor="let a of pendingAttendees">
+            <p>{{a.email}}</p>
+        </div>
     </div>
 </ng-template>
