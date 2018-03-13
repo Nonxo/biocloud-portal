@@ -45,8 +45,10 @@ export class StorageService {
         let obj:any = JSON.parse(localStorage.getItem('_u'));
 
         if(obj) {
-            return 
+            return obj.fName + ' ' + obj.lName;
         }
+
+        return '';
     }
 
     getUserId():string {
