@@ -1,52 +1,45 @@
 <div class="wrapper wrapper-full-page">
   <div class="app-page">
-    <div class="content">
-      <div class="container">
+    <div class="container py-5">
         <div class="row">
-          <div class="col-md-8">
-            <div class="mat-card">
-            <div class="card-content">
-          <h4 class="mat-card-title">Edit Your Profile -
-            <small class="category">Basic Information</small>
+          <div class="mat-card">
+            <div class="mat-card-content">
+          <h4 class="mat-card-title">{{'PROFILE_COMPONENT.TITLE' | translate}} -
+            <small class="category">{{'PROFILE_COMPONENT.SUB_TITLE' | translate}}</small>
           </h4>
       <form #f="ngForm"  (ngSubmit)="onSubmit()">
 
       <div class="row">
 
         <div class="col-md-6">
-          <label class="control-label">First Name</label>
           <mat-form-field class="input-field">
-            <input matInput type="text" [(ngModel)]="model.fName" name="fname">
+            <input matInput type="text" [(ngModel)]="model.fName" name="fname" placeholder="First Name">
           </mat-form-field>
         </div>
 
         <div class="col-md-6">
-          <label class="control-label">Last Name</label>
           <mat-form-field class="input-field">
-            <input matInput type="text" [(ngModel)]="model.lName" name="lname">
+            <input matInput type="text" [(ngModel)]="model.lName" name="lname" placeholder="Last Name">
           </mat-form-field>
         </div>
       </div>
 
       <div class="row">
-       <div *ngIf="model.userType == 'C'" class="col-md-5">
-         <label class="control-label">Company</label>
+       <div class="col-md-5">
           <mat-form-field class="input-field">
-            <input matInput type="text" [(ngModel)]="model.companyName" name="companyName">
+            <input matInput type="text" [(ngModel)]="model.companyName" name="companyName" placeholder="Company">
           </mat-form-field>
        </div>
 
-       <div className="{{model.userType == 'C'? 'col-md-3':'col-md-6'}}">
-         <label class="control-label">Phone Number</label>
+       <div class="col-md-3">
           <mat-form-field class="input-field">
-            <input matInput type="number" [(ngModel)]="model.phoneNumber" name="phoneNumber">
+            <input matInput type="text" pattern="[0-9]{8,11}" [(ngModel)]="model.phoneNumber" name="phoneNumber" placeholder="Phone Number">
           </mat-form-field>
        </div>
 
-        <div className="{{model.userType == 'C'? 'col-md-4':'col-md-6'}}">
-          <label class="control-label">Email address</label>
+        <div className="col-md-4">
          <mat-form-field class="input-field">
-           <input matInput type="email" [(ngModel)]="model.email" name="email">
+           <input matInput type="email" [(ngModel)]="model.email" name="email" placeholder="Email Address" [disabled]="true">
          </mat-form-field>
        </div>
       </div>
@@ -57,7 +50,7 @@
       <div class="row">
       <div class="col-md-12">
         <mat-form-field class="input-field">
-          <input matInput type="text" [(ngModel)]="model.address" name="address">
+          <input matInput type="text" [(ngModel)]="model.address" name="address" placeholder="Contact Address">
         </mat-form-field>
       </div>
       </div>
@@ -72,53 +65,19 @@
       </div>
       </div>
 
-      <div class="row">
-       <div class="col-sm-12 label-on-left">
-          <div class="checkbox">
-            <label>
-              <input name="appNotif" type="checkbox">
-              <span class="checkbox-material"></span>
-                <span class="check"></span>
-                  <span class="checkbox-material"></span>
-                  <span>Receive BioCloud Email Notifications</span>
-
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <div class="row"></div>
-      <div class="row">
-      <div class="col-sm-12 label-on-left">
-        <div class="checkbox">
-          <label>
-            <input name="appNotif" type="checkbox">
-            <span class="checkbox-material"></span>
-            <span class="check"></span>
-            <span class="checkbox-material"></span>
-            <span>Receive BioCloud Promotional Notifications</span>
-
-          </label>
-        </div>
-      </div>
-      </div>
-
       <div class="footer text-right col" id="model-2">
-        <button class="btn btn-success progress-button" id="updateProfile" type="submit">
+        <button class="btn btn-success progress-button" type="submit" (click)="onSubmit()">
           <span class="btn-text">Update Profile</span>
         </button>
 
       </div>
 
 
-
-
-
-
      </form>
     </div>
   </div>
- </div>
+
+
 
 
 
@@ -127,17 +86,15 @@
     <div class="file-input text-center fileinput-new" data-provides="fileinput">
       <legend></legend>
       <div class="thumbnail">
-        <img *ngIf="model.img == null || model.img == ''" src="assets/img/default-user" alt="">
-        <img *ngIf="model.img" src="data:image/jpg;base64,{{model.img}}" alt="">
+        <img *ngIf="model.verifiableimg == null || model.img == ''" src="assets/img/default-user.png" alt="">
+        <img *ngIf="model.verifiableimg" src="data:image/jpg;base64,{{model.img}}" alt="">
       </div>
       <div>
         <div class="col-md-12">
           <div class="btn btn-simple hov btn-file">
             <span>
-              <i class="material-icons">&#xE412;</i> {{model.img? 'CHANGE PHOTO' :'ADD PHOTO'}}
-            </span>
-            <input type="hidden">
-            <input type="hidden" value="" name="...">
+              <i class="material-icons">&#xE412;</i> {{model.img? 'CHANGE PHOTO' :'ADD PHOTO'}}</span>
+            <input type="hidden"><input type="hidden" value="" name="...">
             <input type="file" (change)="fileChange($event)" accept="image/*" name="upload">
             <div class="mat-ripple"></div>
           </div>
@@ -149,16 +106,16 @@
         </div>
       </div>
     </div>
-    <div class="card-content">
+    <div class="mat-card-content">
       <h6 class="category text-gray">Name</h6>
-      <h4 class="card-title">{{model.firstName}} {{model.lastName}}</h4>
-      <a class="btn btn-simple hov" id="changePassword" role="button" (click)="confirmChangePassword">Change password</a>
+      <h4 class="card-title">{{model.fName}} {{model.lName}}</h4>
+      <a class="btn btn-simple hov" id="changePassword" role="button" (click)="openModalWithComponent()">Change password</a>
     </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+
 
 
 
@@ -195,10 +152,11 @@
                   <span class="material-input"></span></div>
               </div>
             </div>
+            <div class="row"></div>
 
             <div class="row">
-              <div class="col-sm-12">
-                <div class="form-group label-floating is-empty">
+              <div class="col-md-12">
+                <div class="form-group is-empty">
                   <label class="control-label">New Password</label>
                   <input matInput placeholder="Password" [type]="hide ?'password' : 'text'" formControlName="newPw">
                   <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
@@ -215,10 +173,11 @@
               <!--<button type="button" class="swal2-confirm btn btn-success" (click)="changePassword()">SUBMIT-->
               <!--</button>-->
               <button id="savePassword" type="submit" class="swal2-confirm btn btn-success progress-button" [disabled]="submitted">
-                <span *ngIf="!submitted" class="btn-text">SUBMIT</span><span
+                <span *ngIf="!submitted" class="btn-text">SUBMIT</span>
+               <!-- <span
                 *ngIf="submitted">
                     <img src="../../../assets/img/spin.svg">
-                    </span>
+                   </span> -->
               </button>
             </div>
           </form>

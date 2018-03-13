@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../../components/auth/auth.service";
 import {Router} from "@angular/router";
@@ -8,6 +8,9 @@ import {UpdateProfile} from "../model/app-content.model";
 import {PictureUtil} from "../../../util/PictureUtil";
 import {AppContentService} from "../services/app-content.service";
 import {DataService} from "../../../service/data.service";
+import {ChangePasswordComponent} from "../../change-password/change-password.component";
+import {BsModalRef, BsModalService} from "ngx-bootstrap";
+import {TranslateService} from "@ngx-translate/core";
 
 
 
@@ -20,11 +23,12 @@ export class ProfileComponent implements OnInit {
   userId:string;
   model: UpdateProfile = new UpdateProfile();
   changePasswordForm:FormGroup;
-  userId:string;
   submitted:boolean;
+  modalRef:BsModalRef;
   pictureSizeErrorMessage:string;
   retrieveStatus:boolean = true;
   loading:false;
+  @ViewChild('changePassword') changePassword;
 
 
 
@@ -47,9 +51,13 @@ export class ProfileComponent implements OnInit {
               private router:Router,
               private dataService:DataService,
               private ns:NotifyService,
+              private modalService:BsModalService,
               private fb:FormBuilder,
               private pictureUtil:PictureUtil,
-              private ss:StorageService) {
+              private ss:StorageService,
+              private translate:TranslateService) {
+    translate.setDefaultLang('en/profile');
+    translate.use('en/profile');
 
   }
 
@@ -152,44 +160,48 @@ export class ProfileComponent implements OnInit {
       )
   }
 
-  passwordChange() {
-    const payload = this.changePasswordForm.value;
-
-    this.authService.changePassword(payload.oldPw, payload.newPw)
-      .finally(() => this.loading = false)
-      .subscribe(
-        res => {
-          console.log(res);
-          if (res.code == 0) {
-            this.ss.authToken = res.token;
-            this.ss.loggedInUser = res.bioUser;
-            this.router.navigate(['/portal']);
-          } else {
-            this.ns.showError(res.description);
-          }
-        },
-        error => {
-        }
-      );
-
+  openModalWithComponent() {
+    this.modalRef = this.modalService.show(ChangePasswordComponent);
   }
 
-  onSubmit(userId:string) {
+  //passwordChange() {
+  //  const payload = this.changePasswordForm.value;
+
+   // this.authService.changePassword(payload.oldPw, payload.newPw)
+   //   .finally(() => this.loading = false)
+   //   .subscribe(
+    //    res => {
+    //      console.log(res);
+    //      if (res.code == 0) {
+    //        this.ss.authToken = res.token;
+    //        this.ss.loggedInUser = res.bioUser;
+    //        this.router.navigate(['/portal']);
+     //     } else {
+     //       this.ns.showError(res.description);
+     //     }
+    //    },
+    //    error => {
+    //      }
+  //    );
+
+ // }
+
+  onSubmit() {
+    this.userId = this.ss.getUserId();
     this.submitted = true;
-    this.contentService.updateProfile(userId,this.model)
+    this.contentService.updateProfile(this.userId, this.model)
       .subscribe(
         result => {
           if (result.code == 0) {
             this.submitted = false
-            this.dataService.setUsername(this.model.fName + '' + this.model.lName);
             this.ns.showSuccess(result.description);
-
           } else {
             this.ns.showError(result.description)
           }
         }
       )
   }
+
 
 
 }

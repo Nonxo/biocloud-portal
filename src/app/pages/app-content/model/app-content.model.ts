@@ -68,12 +68,8 @@ export class UpdateProfile {
   email:string;
   phoneNumber:number;
   address:string;
-  orgId:any;
-  role:string;
-  creator:string;
-  userId: string;
   companyName:string;
-  userType: string;
+  customerType: string;
   img:any;
 
   promoNotif: boolean;
