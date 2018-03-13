@@ -1,6 +1,9 @@
 {
   "ADD_LOCATION": {
-    "TITLE": ""
+    "TITLE": "Add Location"
+  },
+  "EDIT_LOCATION": {
+    "TITLE": "Edit Location"
   }
 
 }

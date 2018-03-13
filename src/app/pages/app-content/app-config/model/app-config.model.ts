@@ -17,6 +17,11 @@ export class LocationRequest {
     resumptionTimezoneId:string;
     orgId:string;
     createdBy:string;
+    inviteEmails:string[];
+    
+    constructor() {
+        this.inviteEmails = [];
+    }
 }
 
 export class InviteRequest {

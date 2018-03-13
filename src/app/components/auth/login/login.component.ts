@@ -64,6 +64,11 @@ export class LoginComponent implements OnInit {
 
     }
 
+    openModalWithComponent() {
+        this.modalRef = this.modalService.show(ChangePasswordComponent);
+    }
+
+
     login() {
         this.loading = true;
         const payload = this.loginForm.value;
