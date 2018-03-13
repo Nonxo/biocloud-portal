@@ -66,8 +66,8 @@ html, body, material-app, mat-sidenav-container, .my-content {
     html, body, material-app, mat-sidenav-container, .my-content {
         margin: 0 ;
         width: 100%;
-        margin-top: 56px;
-        height: calc(100vh - 56px);
+        margin-top:0px;
+        height: 100vh;
       }
 
       mat-sidenav-content{
@@ -76,9 +76,9 @@ html, body, material-app, mat-sidenav-container, .my-content {
 
       mat-sidenav{
         overflow-x: hidden;
-        height: calc(100vh - 56px);
+        height: 100vh ;
         position: fixed;
-        margin-top:56px;
+        margin-top:0px;
       }
 }
 

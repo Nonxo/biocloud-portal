@@ -84,6 +84,7 @@ $white: #ffffff;
 $off-white: #F4F4F4;
 $grey: #72797A;
 $dark: #271F1F;
+$dark-purple: #3C1C4C;
 
 $standard-size: 14px;
 
@@ -226,6 +227,14 @@ mat-sidenav {
 
 .mat-list .mat-list-item, .mat-nav-list .mat-list-item, .mat-selection-list .mat-list-item {
   font-size: $standard-size;
+}
+
+.subscribe-plan{
+  background: mat-color($candy-app-primary, 400);
+  background: -moz-linear-gradient(top, mat-color($candy-app-primary, 400) 17%, mat-color($candy-app-primary,900)  100%);
+  background: -webkit-linear-gradient(top, mat-color($candy-app-primary, 400) 17%,mat-color($candy-app-primary,900) 100%);
+  background: linear-gradient(to bottom, mat-color($candy-app-primary, 400) 17%,mat-color($candy-app-primary,900) 100%);
+  /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#785296', endColorstr='#331554',GradientType=0 );*/
 }
 
 @media (max-width: 575.98px) {
