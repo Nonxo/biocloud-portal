@@ -86,8 +86,7 @@
                                             <div class="col-md-6">
                                                 <mat-form-field class="input-field mb-4">
                                                     <input matInput placeholder="Search Address" name="search"
-                                                           id="autocompleteInput"
-                                                           required>
+                                                           id="autocompleteInput">
                                                     <mat-hint class="alignment text-brand  cursor"><i
                                                             class="material-icons" (click)="getCurrentPosition(true)">place</i>
                                                         Use
@@ -194,9 +193,9 @@
                                     <div class="col-md-12 mt-3">
                                         <button mat-raised-button color="primary"
                                                 class="px-4 primary-outline py-1 mr-2">
-                                            SEND
+                                            SAVE
                                         </button>
-                                        <button mat-raised-button class="px-4 primary-outline py-1">CANCEL</button>
+                                        <button mat-raised-button class="px-4 primary-outline py-1" type="button" (click)="cancel()">CANCEL</button>
                                     </div>
                             </div>
                         </div>
