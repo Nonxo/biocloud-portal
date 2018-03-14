@@ -143,7 +143,7 @@ export class ProfileComponent implements OnInit {
     this.modalRef = this.modalService.show(ChangePasswordComponent);
   }
 
-  
+
 
   onSubmit() {
     this.userId = this.ss.getUserId();
