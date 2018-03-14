@@ -24,6 +24,7 @@ export class ProfileComponent implements OnInit {
   model: UpdateProfile = new UpdateProfile();
   changePasswordForm:FormGroup;
   submitted:boolean;
+  base64Img:any = null;
   modalRef:BsModalRef;
   pictureSizeErrorMessage:string;
   retrieveStatus:boolean = true;
@@ -40,6 +41,7 @@ export class ProfileComponent implements OnInit {
       oldPw: ['', Validators.required],
       newPw: ['', Validators.required],
     });
+
 
 
   }
@@ -79,25 +81,6 @@ export class ProfileComponent implements OnInit {
 
   remove() {
     this.model.img = "";
-    //Hit service to Update image
-    this.contentService.updateProfile(this.userId,this.model.img)
-      .subscribe(
-        result => {
-          if (result.code == 0) {
-            this.retrieveStatus = true;
-            this.model = result.user
-            if (this.model.img) {
-              let str = this.model.img.replace(/ /g,"+");
-              this.model.img = str
-            }
-          } else {
-            this.ns.showSuccess(result.description);
-          }
-        },
-        error => {
-          this.ns.showError("An error Occurred")
-        }
-      )
   }
 
 
@@ -118,20 +101,6 @@ export class ProfileComponent implements OnInit {
 
         this.pictureUtil.resize(img, 250, 250, (resized_jpeg, before, after)=> {
           this.model.img = resized_jpeg;
-
-          this.contentService.updateProfile(this.userId, this.model.img)
-            .subscribe(
-              result => {
-                if (result.code == 0) {
-                  this.dataService.setUserPhoto(this.model.img);
-                  this.ns.showSuccess("Update Successful");
-                } else {
-                  this.ns.showError(result.description)
-                }
-              },
-              error => {
-                this.ns.showError("An Error Occurred While Updating Photo");
-              });
           this.readFiles(files, index + 1);
 
         });
@@ -146,18 +115,28 @@ export class ProfileComponent implements OnInit {
         result => {
           if (result.code == 0) {
             this.retrieveStatus = true;
-            this.model = result.user;
+            this.transformUserObj(result.user);
+
            if (this.model.img) {
              let str = this.model.img.replace(/ /g,"+");
               this.model.img = str
             }
-            this.ns.showSuccess(result.description)
           } else {
             this.ns.showError(result.description);
           }
         },
 
       )
+  }
+
+  transformUserObj(userObj:any) {
+    this.model.fName = userObj.fName;
+    this.model.lName = userObj.lName;
+    this.model.companyName = userObj.companyName;
+    this.model.phone = userObj.phoneNumber;
+    this.model.email = userObj.email;
+    this.model.address = userObj.address;
+    this.model.img = userObj.img;
   }
 
   openModalWithComponent() {
@@ -193,7 +172,6 @@ export class ProfileComponent implements OnInit {
       .subscribe(
         result => {
           if (result.code == 0) {
-            this.submitted = false
             this.ns.showSuccess(result.description);
           } else {
             this.ns.showError(result.description)

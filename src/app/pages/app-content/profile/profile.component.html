@@ -7,7 +7,7 @@
           <h4 class="mat-card-title">{{'PROFILE_COMPONENT.TITLE' | translate}} -
             <small class="category">{{'PROFILE_COMPONENT.SUB_TITLE' | translate}}</small>
           </h4>
-      <form #f="ngForm"  (ngSubmit)="onSubmit()">
+      <form>
 
       <div class="row">
 
@@ -33,7 +33,7 @@
 
        <div class="col-md-3">
           <mat-form-field class="input-field">
-            <input matInput type="text" pattern="[0-9]{8,11}" [(ngModel)]="model.phoneNumber" name="phoneNumber" placeholder="Phone Number">
+            <input matInput type="text" pattern="[0-9]{8,11}" [(ngModel)]="model.phone" name="phoneNumber" placeholder="Phone Number">
           </mat-form-field>
        </div>
 
@@ -86,8 +86,8 @@
     <div class="file-input text-center fileinput-new" data-provides="fileinput">
       <legend></legend>
       <div class="thumbnail">
-        <img *ngIf="model.verifiableimg == null || model.img == ''" src="assets/img/default-user.png" alt="">
-        <img *ngIf="model.verifiableimg" src="data:image/jpg;base64,{{model.img}}" alt="">
+        <img *ngIf="model.img == null || model.img == ''" src="assets/img/default-user.png" alt="">
+        <img *ngIf="model.img" src="data:image/jpg;base64,{{model.img}}" alt="">
       </div>
       <div>
         <div class="col-md-12">
@@ -115,94 +115,6 @@
       </div>
     </div>
   </div>
-
-
-
-
-
-<div bsModal #changePasswordModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-md">
-    <div class="modal-content">
-      <div class="modal-header header-green">
-        <h4 class="text-center modal-title pull-left"><strong>Change Password</strong></h4>
-        <button type="button" class="close pull-right" (click)="changePasswordModal.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div *ngIf="!confirmed">
-
-          <div [hidden]="!modalErrorMessage" class="alert alert-danger">
-            {{modalErrorMessage}}
-          </div>
-
-
-          <div class="col-md-12 text-center"><img src="https://s19.postimg.org/6ptozu8df/password-reset.png">
-          </div>
-          <br>
-          <form (submit)="passwordChange()" [formGroup]="changePasswordForm" >
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="form-group label-floating is-empty">
-                  <label class="control-label">Current Password</label>
-                  <input matInput placeholder="Password" [type]="hide ?'password' : 'text'" formControlName="oldPw">
-                  <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-                  <span class="help-block">Enter your Current Password</span>
-                  <span class="material-input"></span></div>
-              </div>
-            </div>
-            <div class="row"></div>
-
-            <div class="row">
-              <div class="col-md-12">
-                <div class="form-group is-empty">
-                  <label class="control-label">New Password</label>
-                  <input matInput placeholder="Password" [type]="hide ?'password' : 'text'" formControlName="newPw">
-                  <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-                  <i
-                    (click)="passVisibility('showPasswordNew')" [className]="showPasswordNew? 'fa fa-eye-slash password-icon':'fa fa-eye password-icon'"></i>
-                  <span class="help-block">Enter your new password. Password length should not be less than 6 characters</span>
-                  <span class="material-input"></span></div>
-              </div>
-            </div>
-
-
-            <br>
-            <div class="text-center">
-              <!--<button type="button" class="swal2-confirm btn btn-success" (click)="changePassword()">SUBMIT-->
-              <!--</button>-->
-              <button id="savePassword" type="submit" class="swal2-confirm btn btn-success progress-button" [disabled]="submitted">
-                <span *ngIf="!submitted" class="btn-text">SUBMIT</span>
-               <!-- <span
-                *ngIf="submitted">
-                    <img src="../../../assets/img/spin.svg">
-                   </span> -->
-              </button>
-            </div>
-          </form>
-        </div>
-
-
-        <div *ngIf="confirmed">
-          <div *ngIf="confirmed" class="swal2-icon swal2-success animate" style="display: block;"><span class="line tip animate-success-tip"></span> <span class="line long animate-success-long"></span>
-            <div class="placeholder"></div>
-            <div class="fix"></div>
-          </div>
-
-          <h2 class="text-center">Password Change Was Successful</h2>
-          <br>
-
-          <div class="text-center">
-            <button type="button"  id="success" class="swal2-confirm btn btn-success " (click)="changePasswordModal.hide()">OK
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
 
 </div>
 </div>

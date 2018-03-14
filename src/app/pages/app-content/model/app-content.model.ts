@@ -66,7 +66,7 @@ export class UpdateProfile {
   fName:string;
   lName:string;
   email:string;
-  phoneNumber:number;
+  phone:number;
   address:string;
   companyName:string;
   customerType: string;
