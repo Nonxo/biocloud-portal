@@ -21,8 +21,8 @@ import {DateUtil} from "./util/DateUtil";
 import {AuthGuard} from "./auth/guards/auth-guard.service";
 import {SessionGuard} from "./auth/guards/session-guard.service";
 import {ChangePasswordComponent} from "./pages/change-password/change-password.component";
+import {PictureUtil} from "./util/PictureUtil";
 import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-auth.component";
-
 
 @NgModule({
   declarations: [
@@ -53,6 +53,7 @@ import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-
     StorageService,
     NotifyService,
     DateUtil,
+    PictureUtil,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,

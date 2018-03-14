@@ -33,17 +33,17 @@ export class AssignUserRequest {
 }
 
 export class Invitation {
-    firstName:string;
-    lastName:string;
-    email:string;
-    phoneNumber:number;
-    created:number;
-    locId:string;
+  firstName:string;
+  lastName:string;
+  email:string;
+  phoneNumber:number;
+  created:number;
+  locId:string;
 }
 
 export class ApproveRequest {
-    status:string;
-    locIds:string[];
+  status: string;
+  locIds: string[];
 
     constructor(status?:string) {
         this.status = status || null;
@@ -61,6 +61,27 @@ export class ActivateDeactivateUserRequest {
         this.emails = [];
     }
 }
+
+export class UpdateProfile {
+  fName:string;
+  lName:string;
+  email:string;
+  phone:number;
+  address:string;
+  companyName:string;
+  customerType: string;
+  img:any;
+
+  promoNotif: boolean;
+  appNotif: boolean;
+
+}
+
+
+
+
+
+
 
 export class AdminRemovalRequest {
     userId:string;
