@@ -307,7 +307,7 @@ export class NavComponent implements OnInit {
     }
 
     callLocationService() {
-        this.contentService.fetchOrgLocations(this.selectedOrg.orgId)
+        this.contentService.fetchOrgUsersLocation()
             .subscribe(
                 result => {
                     if (result.code == 0) {

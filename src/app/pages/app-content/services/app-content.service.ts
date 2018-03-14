@@ -73,9 +73,9 @@ export class AppContentService {
             })
     }
 
-    activateLocation(status:boolean, locId:string): Observable<any> {
+    activateLocation(status:boolean, locId:string):Observable<any> {
         return this.httpClient
-            .post(Endpoints.DEACTIVATE_ACTIVATE_LOCATION + locId + "/" + status,null, {
+            .post(Endpoints.DEACTIVATE_ACTIVATE_LOCATION + locId + "/" + status, null, {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
@@ -106,29 +106,29 @@ export class AppContentService {
             })
     }
 
-  fetchNotification(orgId: string): Observable<any> {
-    let params = new HttpParams().set('orgId', orgId);
-    return this.httpClient.get(Endpoints.FETCH_NOTIFICATION + params, {
-      headers: new HttpHeaders()
+    fetchNotification(orgId:string):Observable<any> {
+        let params = new HttpParams().set('orgId', orgId);
+        return this.httpClient.get(Endpoints.FETCH_NOTIFICATION + params, {
+            headers: new HttpHeaders()
 
         })
 
     }
 
 
-  fetchNotificationDetails(inviteId: string): Observable<any> {
-    return this.httpClient.get(Endpoints.FETCH_NOTIFICATION_DETAILS + inviteId, {
-      headers: new HttpHeaders()
-        .set('Content-Type', 'application/json')
-    })
-  }
+    fetchNotificationDetails(inviteId:string):Observable<any> {
+        return this.httpClient.get(Endpoints.FETCH_NOTIFICATION_DETAILS + inviteId, {
+            headers: new HttpHeaders()
+                .set('Content-Type', 'application/json')
+        })
+    }
 
-  approveRejectNotification(inviteId:string, model:ApproveRequest): Observable<any> {
-    return this.httpClient.post(Endpoints.APPROVE_REJECT_NOTIFICATION + inviteId + "/status", JSON.stringify(model), {
-      headers: new HttpHeaders()
-        .set('Content-Type', MediaType.APPLICATION_JSON)
-    })
-  }
+    approveRejectNotification(inviteId:string, model:ApproveRequest):Observable<any> {
+        return this.httpClient.post(Endpoints.APPROVE_REJECT_NOTIFICATION + inviteId + "/status", JSON.stringify(model), {
+            headers: new HttpHeaders()
+                .set('Content-Type', MediaType.APPLICATION_JSON)
+        })
+    }
 
     activateDeactivateAttendees(model) {
         return this.httpClient
@@ -140,8 +140,8 @@ export class AppContentService {
 
     fetchPendingAttendees(orgId:string, locId:string):Observable<any> {
         const params = new HttpParams()
-                .set("orgId", orgId)
-                .set("locId", locId);
+            .set("orgId", orgId)
+            .set("locId", locId);
 
         return this.httpClient
             .get(Endpoints.FETCH_PENDING_ATTENDEES + params, {
@@ -159,6 +159,18 @@ export class AppContentService {
                     .set('Content-Type', MediaType.APPLICATION_JSON)
             })
     }
-    
+
+    fetchOrgUsersLocation():Observable<any> {
+        const userId = this.ss.getUserId();
+        const orgId = this.ss.getSelectedOrg().orgId;
+
+        return this.httpClient
+            .get(Endpoints.FETCH_USERS_ORG + userId + "/orgs/" + orgId + "/locations", {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+
+    }
+
 
 }

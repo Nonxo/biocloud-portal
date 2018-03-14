@@ -32,4 +32,5 @@ export class Endpoints {
   public static FETCH_PENDING_ATTENDEES = `${Endpoints.BASE_URL}/users/api/attendees/pending?`;
   public static ASSIGN_ADMINS_LOCATIONS = `${Endpoints.BASE_URL}/users/api/locations/admins`;
   public static REMOVE_ADMIN = `${Endpoints.BASE_URL}/users/api/locations/admins/remove`;
+  public static FETCH_USERS_LOCATION = `${Endpoints.BASE_URL}/users/api/u/`;
 }
