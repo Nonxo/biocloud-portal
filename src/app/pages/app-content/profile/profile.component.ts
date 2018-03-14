@@ -143,27 +143,7 @@ export class ProfileComponent implements OnInit {
     this.modalRef = this.modalService.show(ChangePasswordComponent);
   }
 
-  //passwordChange() {
-  //  const payload = this.changePasswordForm.value;
-
-   // this.authService.changePassword(payload.oldPw, payload.newPw)
-   //   .finally(() => this.loading = false)
-   //   .subscribe(
-    //    res => {
-    //      console.log(res);
-    //      if (res.code == 0) {
-    //        this.ss.authToken = res.token;
-    //        this.ss.loggedInUser = res.bioUser;
-    //        this.router.navigate(['/portal']);
-     //     } else {
-     //       this.ns.showError(res.description);
-     //     }
-    //    },
-    //    error => {
-    //      }
-  //    );
-
- // }
+  
 
   onSubmit() {
     this.userId = this.ss.getUserId();
