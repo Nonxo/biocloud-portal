@@ -41,7 +41,7 @@ export class ChangePasswordComponent implements OnInit {
     this.loading = true;
     const payload = this.changePasswordForm.value;
 
-    this.authService.changePassword(payload.oldPw, payload.newPw)
+    this.authService.changePassword(payload.email,payload.oldPw, payload.newPw)
       .finally(() => this.loading = false)
       .subscribe(
         res => {
