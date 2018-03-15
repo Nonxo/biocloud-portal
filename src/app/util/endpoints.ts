@@ -20,7 +20,17 @@ export class Endpoints {
   public static FETCH_USERS = `${Endpoints.BASE_URL}/users/api/locations/`;
   public static FETCH_USERS_IN_AN_ORG = `${Endpoints.BASE_URL}/users/api/org/`;
   public static FETCH_TIMEZONES = `${Endpoints.BASE_URL}/users/api/locations/get-timezones`;
+  public static FETCH_ATTENDEES = `${Endpoints.BASE_URL}/users/api/attendees?`;
+  public static ASSIGN_USERS = `${Endpoints.BASE_URL}/users/api/attendees`;
   public static DEACTIVATE_ACTIVATE_LOCATION = `${Endpoints.BASE_URL}/users/api/locations/`;
   public static FETCH_NOTIFICATION = `${Endpoints.BASE_URL}/users/api/org/invites?`;
-  public static FETCH_NOTIFICATION_DETAILS= `${Endpoints.BASE_URL}/users/org/invites?`;
+  public static FETCH_NOTIFICATION_DETAILS = `${Endpoints.BASE_URL}/users/api/org/invites/`;
+  public static APPROVE_REJECT_NOTIFICATION = `${Endpoints.BASE_URL}/users/api/org/invites/`;
+  public static APPROVE_ADMIN_NOTIFICATION = `${Endpoints.BASE_URL}/users/api/org/invites/web/`;
+  public static ACTIVATE_DEACTIVATE_ATTENDEE = `${Endpoints.BASE_URL}/users/api/attendees/status`;
+  public static CHANGE_PASSWORD = `${Endpoints.BASE_URL}/users/api/u/password/change`;
+  public static ASSIGN_ADMINS_LOCATIONS = `${Endpoints.BASE_URL}/users/api/locations/admins`;
+  public static EDIT_USER_PROFILE = `${Endpoints.BASE_URL}/users/api/u/`;
+  public static REMOVE_ADMIN = `${Endpoints.BASE_URL}/users/api/locations/admins/remove`;
+  public static FETCH_PENDING_ATTENDEES = `${Endpoints.BASE_URL}/users/api/attendees/pending?`;
 }

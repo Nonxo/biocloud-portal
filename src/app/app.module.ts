@@ -9,7 +9,6 @@ import { AuthComponent } from './pages/auth/auth.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { SharedModule } from './shared/shared.module';
-import { AuthGuardService } from './service/auth-guard.service';
 import { DataService } from './service/data.service';
 import { AuthService } from './components/auth/auth.service';
 import { StorageService } from './service/storage.service';
@@ -18,13 +17,20 @@ import { AppRoutingModule } from './app-routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RecaptchaModule} from "ng-recaptcha";
 import {AgmCoreModule} from "@agm/core";
-
+import {DateUtil} from "./util/DateUtil";
+import {AuthGuard} from "./auth/guards/auth-guard.service";
+import {SessionGuard} from "./auth/guards/session-guard.service";
+import {ChangePasswordComponent} from "./pages/change-password/change-password.component";
+import {PictureUtil} from "./util/PictureUtil";
+import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-auth.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthComponent,
     RegisterComponent,
+    ChangePasswordComponent,
+    AddAdminAuthComponent,
     LoginComponent
   ],
   imports: [
@@ -42,15 +48,19 @@ import {AgmCoreModule} from "@agm/core";
   providers: [
     AuthService,
     DataService,
+    AuthGuard,
+    SessionGuard,
     StorageService,
     NotifyService,
-    AuthGuardService,
+    DateUtil,
+    PictureUtil,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,
       multi: true
     }
   ],
+  entryComponents: [ChangePasswordComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

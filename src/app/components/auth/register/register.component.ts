@@ -47,32 +47,47 @@ export class RegisterComponent implements OnInit {
         });
 
         // disable validation for company name when it is invisible initially
-        this.form.controls.companyName.disable();
+        this.form.controls['companyName'].disable();
     }
 
     changeUserType(index) {
+        this.form.controls['companyName'].disable();
         this.userTypes[0].checked = false;
         this.userTypes[1].checked = false;
         this.userTypes[index].checked = true;
 
         this.company = index !== 0;
         if (this.company) {
-            this.form.controls.companyName.enable();
+            this.form.controls['companyName'].enable();
         }
     }
 
     register() {
         this.loading = true;
         this.payload = this.form.value;
-        this.company ? this.payload.customerType = 'C' : this.payload.customerType = 'I';
+
+        if(this.company) {
+            this.payload.customerType = "C"
+        }else {
+            this.payload.customerType = "I";
+            this.payload.companyName = "";
+        }
+
+        this.trimValues();
 
         if (this.captchaResponse) {
             this.validateCaptcha();
         } else {
             this.resetCaptcha();
+            this.loading = false;
             this.ns.showError("Error Validating Captcha");
         }
 
+    }
+
+    trimValues() {
+        this.payload.email = this.payload.email.toLowerCase().trim();
+        this.payload.password = this.payload.password.trim();
     }
 
     resolved(captchaResponse:string) {
@@ -88,12 +103,14 @@ export class RegisterComponent implements OnInit {
                         this.registerUser();
                     } else {
                         this.ns.showError(res.description);
+                        this.loading = false;
                         this.resetCaptcha();
                     }
 
                 },
                 error => {
                     this.ns.showError(error ? '' : error.description);
+                    this.loading = false;
                     this.resetCaptcha();
                 }
             )

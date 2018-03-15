@@ -1,7 +1,10 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Endpoints} from '../../util/endpoints';
+import {ApproveRequest} from "../../pages/app-content/model/app-content.model";
+import {MediaType} from "../../util/constants";
+import {StorageService} from "../../service/storage.service";
 
 @Injectable()
 export class AuthService {
@@ -12,7 +15,7 @@ export class AuthService {
         'Content-Type': 'application/x-www-form-urlencoded'
     };
 
-    constructor(private httpClient:HttpClient) {
+    constructor(private httpClient:HttpClient, private ss: StorageService) {
     }
 
     login(email, pw):Observable<any> {
@@ -22,6 +25,15 @@ export class AuthService {
         return this.httpClient.post(Endpoints.LOGIN, params.toString(), {
             headers: this.urlEncodeHeader
         });
+    }
+
+    changePassword(oldPw, newPw):Observable<any> {
+      let params = new HttpParams()
+        .set('oldPw', oldPw)
+        .set('newPw', newPw)
+      return this.httpClient.post(Endpoints.CHANGE_PASSWORD, params.toString(), {
+        headers: this.urlEncodeHeader
+      });
     }
 
     register(registerPayload):Observable<any> {
@@ -55,5 +67,39 @@ export class AuthService {
                 res => console.log(res),
                 err => console.log(err)
             );
+    }
+
+    approveAdminNotification(inviteId:string): Observable<any> {
+        return this.httpClient.post(Endpoints.APPROVE_ADMIN_NOTIFICATION + inviteId + "/status", null, {
+            headers: new HttpHeaders()
+                .set('Content-Type', MediaType.APPLICATION_JSON)
+        })
+    }
+
+    hasAnyAuthority(roles: string[]): Promise<boolean> {
+        let role = this.ss.getSelectedOrgRole();
+
+        if (!role) {
+            return Promise.resolve(false);
+        }
+        
+        for (let i = 0; i < roles.length; i++) {
+            if (role == roles[i]) {
+                return Promise.resolve(true);
+
+            }
+        }
+
+        return Promise.resolve(false);
+    }
+
+    logout(): void {
+        // clear token remove user from local storage to log user out
+
+        localStorage.removeItem('_u');
+        localStorage.removeItem('_tkn');
+        localStorage.removeItem('_orgs');
+        localStorage.removeItem('_st');
+        localStorage.removeItem('orgRoles');
     }
 }

@@ -1,0 +1,237 @@
+<!-- <div class="wrapper wrapper-full-page">
+  <div class="app-page">
+    <div class="container py-5">
+        <div class="row">
+          <div class="mat-card">
+            <div class="mat-card-content">
+          <h4 class="mat-card-title">{{'PROFILE_COMPONENT.TITLE' | translate}} -
+            <small class="category">{{'PROFILE_COMPONENT.SUB_TITLE' | translate}}</small>
+          </h4>
+      <form>
+
+      <div class="row">
+
+        <div class="col-md-6">
+          <mat-form-field class="input-field">
+            <input matInput type="text" [(ngModel)]="model.fName" name="fname" placeholder="First Name">
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+          <mat-form-field class="input-field">
+            <input matInput type="text" [(ngModel)]="model.lName" name="lname" placeholder="Last Name">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+       <div class="col-md-5">
+          <mat-form-field class="input-field">
+            <input matInput type="text" [(ngModel)]="model.companyName" name="companyName" placeholder="Company">
+          </mat-form-field>
+       </div>
+
+       <div class="col-md-3">
+          <mat-form-field class="input-field">
+            <input matInput type="text" pattern="[0-9]{8,11}" [(ngModel)]="model.phone" name="phoneNumber" placeholder="Phone Number">
+          </mat-form-field>
+       </div>
+
+        <div className="col-md-4">
+         <mat-form-field class="input-field">
+           <input matInput type="email" [(ngModel)]="model.email" name="email" placeholder="Email Address" [disabled]="true">
+         </mat-form-field>
+       </div>
+      </div>
+      <div class="row">
+
+      </div>
+
+      <div class="row">
+      <div class="col-md-12">
+        <mat-form-field class="input-field">
+          <input matInput type="text" [(ngModel)]="model.address" name="address" placeholder="Contact Address">
+        </mat-form-field>
+      </div>
+      </div>
+      <div class="row">
+
+      <div class="col-md-4">
+        <mat-form-field>
+          <mat-select placeholder="Choose Language">
+            <mat-option value="english">ENGLISH</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      </div>
+
+      <div class="footer text-right col" id="model-2">
+        <button class="btn btn-success progress-button" type="submit" (click)="onSubmit()">
+          <span class="btn-text">Update Profile</span>
+        </button>
+
+      </div>
+
+
+     </form>
+    </div>
+  </div>
+
+
+
+
+
+<div class="col-md-4">
+  <div class="card card-profile">
+    <div class="file-input text-center fileinput-new" data-provides="fileinput">
+      <legend></legend>
+      <div class="thumbnail">
+        <img *ngIf="model.img == null || model.img == ''" src="" alt="">
+        <img *ngIf="model.img" src="data:image/jpg;base64,{{model.img}}" alt="">
+      </div>
+      <div>
+        <div class="col-md-12">
+          <div class="btn btn-simple hov btn-file">
+            <span>
+              <i class="material-icons">&#xE412;</i> {{model.img? 'CHANGE PHOTO' :'ADD PHOTO'}}</span>
+            <input type="hidden"><input type="hidden" value="" name="...">
+            <input type="file" (change)="fileChange($event)" accept="image/*" name="upload">
+            <div class="mat-ripple"></div>
+          </div>
+          <br>
+          <div><a *ngIf="model.img" class="btn btn-simple margin-remove text-remove" data-dismiss="fileinput" (click)="remove()"><i class="material-icons">&#xE5CD;</i>Remove</a>
+            <p class="text-profile">*Not More than 100KB</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="mat-card-content">
+      <h6 class="category text-gray">Name</h6>
+      <h4 class="card-title">{{model.fName}} {{model.lName}}</h4>
+      <a class="btn btn-simple hov" id="changePassword" role="button" (click)="openModalWithComponent()">Change password</a>
+    </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+ -->
+
+<div class="container-fluid">
+    <div class="row pt-4 equal-row">
+        <div class="col-lg-6">
+            <mat-card>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h4>Biodata</h4>
+                        <img class="w-50 rounded-circle mx-auto d-block" src="assets/img/1.png" alt="Profile pciture">
+                        <h5 class="text-center pt-3">Kendrick Lamar</h5>
+                    </div>
+                    <div class="col-lg-6 pt-lg-0 pt-4 pb-4">
+                        <mat-icon class="float-right">edit</mat-icon>
+                        <div class="pt-lg-5">
+                            <p>Email Address</p>
+                            <h6>Kendrick.Lamar@grammy.com</h6>
+                        </div>
+                        <div class="pt-3">
+                            <p>Phone Number</p>
+                            <h6>08325496259</h6>
+                        </div>
+                        <div class="pt-3">
+                            <p>Residential Address</p>
+                            <h6>Plot 17 Forest Hill drive Off One road like that, Compton</h6>
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+
+        <div class="col-lg-6 pt-lg-0 pt-4">
+            <mat-card class="h-100">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h5>Dashboard</h5>
+                    </div>
+                </div>
+            </mat-card>
+
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row pt-4 equal-row">
+        <div class="col-lg-6">
+            <mat-card class="h-100">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="">
+                            <mat-icon class="float-right">edit</mat-icon>
+                            <h5 class="pb-2">About me</h5>
+                            <p class="pt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti et nemo aut odio eligendi sunt suscipit provident, facere, sint culpa, ut veniam corporis fuga hic nam error? Aut rem ipsa amet eveniet quae, laboriosam quasi,
+                                veniam earum repellendus officia suscipit a optio neque laudantium officiis vero, ducimus tempore quia eius?</p>
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+
+            <!-- <mat-card class="mt-lg-3 mt-4">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div>
+                            <h5 class="pb-2">Education</h5>
+                            <span class="font-weight-bold">Covenant University Ota </span><br> <span>Bachelor of Technology(B.Tech), Architecture</span><br><span>2011-2015</span>
+                        </div>
+                    </div>
+                </div>
+            </mat-card> -->
+        </div>
+
+        <div class="col-lg-6 pt-lg-0 pt-4">
+            <mat-card class="h-100">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h5>Work Status</h5>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>Company Name</th>
+                                        <th>Location</th>
+                                        <th>Role Type</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Seamfix Tech</td>
+                                        <td>1, Itesiwaju Street Just Move Forward Road</td>
+                                        <td>Employee</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Jextoban Schools</td>
+                                        <td>1, Itesiwaju Street Just Move Forward Road</td>
+                                        <td>Admin</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Jextoban Schools</td>
+                                        <td>1, Itesiwaju Street Just Move Forward Road</td>
+                                        <td>Employee</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+
+        </div>
+    </div>
+</div>

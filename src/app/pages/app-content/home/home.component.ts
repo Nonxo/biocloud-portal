@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import {MessageService} from "../../../service/message.service";
 import {AppContentService} from "../services/app-content.service";
 import {NotifyService} from "../../../service/notify.service";
@@ -8,6 +8,7 @@ import {LocationRequest} from "../app-config/model/app-config.model";
 import {SetupComponent} from "../app-config/setup/setup.component";
 import {AddAttendeesComponent} from "../app-config/add-attendees/add-attendees.component";
 import {Router} from "@angular/router";
+import {DataService} from "../../../service/data.service";
 
 @Component({
     selector: 'app-home',
@@ -17,17 +18,20 @@ import {Router} from "@angular/router";
 export class HomeComponent implements OnInit {
 
     locationsSubscription:any;
+    editLocationsSubscription:any;
     orgId:string;
-    locations:any = [];
+    locations:any[] = [];
     bsModalRef:BsModalRef;
     modalOptions:ModalOptions = new ModalOptions();
+    pendingAttendees:any[] = [];
 
     constructor(private mService:MessageService,
                 private ns:NotifyService,
                 private contentService:AppContentService,
                 private ss:StorageService,
                 private modalService:BsModalService,
-                private router:Router) {
+                private router:Router,
+                private dataService:DataService) {
     }
 
     ngOnInit() {
@@ -40,9 +44,20 @@ export class HomeComponent implements OnInit {
         this.locationsSubscription = this.mService.getSelectedOrg()
             .subscribe(
                 result => {
-                    this.orgId = result;
-                    this.callLocationService();
-                    this.router.navigate(['/portal']);
+                    if(this.orgId != result) {
+                        this.orgId = result;
+                        this.callLocationService();
+                        this.router.navigate(['/portal']);
+                    }
+                }
+            )
+
+        this.editLocationsSubscription = this.mService.isEditLocation()
+            .subscribe(
+                result => {
+                    if(result) {
+                        this.callLocationService();
+                    }
                 }
             )
 
@@ -70,14 +85,14 @@ export class HomeComponent implements OnInit {
         this.openLocationModal(loc);
     }
 
-    invite() {
-        this.openInviteModal();
+    invite(locId:string) {
+        this.openInviteModal(locId);
     }
 
     openLocationModal(loc:LocationRequest) {
         this.modalOptions.class = 'modal-lg mt-0';
         this.modalOptions.initialState = {
-            locRequest: loc,
+            locRequest: JSON.parse(JSON.stringify(loc)),
             editMode: true,
             lat: loc.latitude? loc.latitude: 9.0820,
             lng: loc.longitude? loc.longitude: 8.6753
@@ -86,12 +101,18 @@ export class HomeComponent implements OnInit {
         this.bsModalRef = this.modalService.show(SetupComponent, this.modalOptions);
     }
 
-    openInviteModal() {
-        this.modalOptions.class = 'modal-lg mt-0';
+    openInviteModal(locId:string) {
+        this.modalOptions.class = 'modal-md mt-0';
         this.modalOptions.initialState = {
-            editMode: true
+            editMode: true,
+            location: locId
         }
         this.bsModalRef = this.modalService.show(AddAttendeesComponent, this.modalOptions);
+    }
+
+    viewAttendees(locId:string) {
+        this.dataService.setLocId(locId);
+        this.router.navigate(['/portal/manage-users']);
     }
 
     activateLocation(status:boolean, locId:string) {
@@ -109,4 +130,28 @@ export class HomeComponent implements OnInit {
             )
     }
 
+    openModal(template:TemplateRef<any>) {
+        this.bsModalRef = this.modalService.show(template);
+    }
+
+    viewPendingAttendees(template:TemplateRef<any>, locId:string) {
+        this.fetchPendingAttendees(locId);
+        this.openModal(template);
+    }
+
+    fetchPendingAttendees(locId:string) {
+        this.contentService.fetchPendingAttendees(this.ss.getSelectedOrg().orgId, locId)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.pendingAttendees = result.attendees;
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {this.ns.showError("An Error Occurred.");}
+            )
+    }
+
 }
+

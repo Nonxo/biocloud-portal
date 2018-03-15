@@ -1,24 +1,52 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-/*@import "https://fonts.googleapis.com/icon?family=Material+Icons";*/
 
-body, html{
-    background: #E6E9EA;
-    height: 100%;
+/*
+body,html{
+  height: 100% !important;
 }
+*/
+
+
 
 .input-field{
     width: 100%;
 }
 
+.equal-row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .equal-row > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+  }
+
+
 .alignment{
     vertical-align: middle;
 }
 
-.auth-btn{
+.alignment > i{
+  vertical-align: middle;
+}
+
+/*.auth-btn{
     border-radius: 50px !important;
     padding: 5px 15px !important;
     min-width: 150px !important;
+}*/
+
+.weight-600{
+    font-weight: 600;
+}
+
+.list-group-item {
+    background-color:transparent;
+    font-size: 14px;
 }
 
 .mat-btn{
@@ -40,7 +68,7 @@ body, html{
 
 .btn-group .btn.btn-md input{
     display: none;
-} 
+}
 
 button:focus {
     outline: none !important;
@@ -54,7 +82,7 @@ button:focus {
 }
 
 .cursor{
-    cursor: pointer; 
+    cursor: pointer;
 }
 
 .carousel,.carousel-inner{
@@ -77,7 +105,7 @@ button:focus {
     z-index: 5 !important;
 }
 .modal{
-    z-index: 5 !important; 
+    z-index: 5 !important;
 }
 .modal-dialog {
     min-height: calc(100vh - 130px);

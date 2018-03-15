@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../util/endpoints";
-import {CreateOrgRequest} from "../model/app-content.model";
+import {CreateOrgRequest, AssignUserRequest, ApproveRequest, AdminRemovalRequest, UpdateProfile} from "../model/app-content.model";
 import {StorageService} from "../../../service/storage.service";
 import {MediaType} from "../../../util/constants";
 
@@ -81,21 +81,101 @@ export class AppContentService {
             })
     }
 
+    fetchAttendees(org:boolean, id:string):Observable<any> {
+        let params;
+        if (org) {
+            params = new HttpParams()
+                .set("orgId", id);
+        } else {
+            params = new HttpParams()
+                .set("locId", id);
+        }
+
+        return this.httpClient
+            .get(Endpoints.FETCH_ATTENDEES + params, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+    }
+
+    assignUsersToLocation(model:AssignUserRequest):Observable<any> {
+        return this.httpClient
+            .post(Endpoints.ASSIGN_USERS, JSON.stringify(model), {
+                headers: new HttpHeaders()
+                    .set('Content-Type', 'application/json')
+            })
+    }
+
   fetchNotification(orgId: string): Observable<any> {
-    let params = new HttpParams().set('orgId', orgId)
+    let params = new HttpParams().set('orgId', orgId);
     return this.httpClient.get(Endpoints.FETCH_NOTIFICATION + params, {
       headers: new HttpHeaders()
 
-    })
+        })
 
-  }
+    }
 
 
   fetchNotificationDetails(invitesId: string): Observable<any> {
     let params = new HttpParams().set('invites', invitesId)
     return this.httpClient.get(Endpoints.FETCH_NOTIFICATION_DETAILS + params, {
       headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
     })
   }
+
+  approveRejectNotification(inviteId:string, model:ApproveRequest): Observable<any> {
+    return this.httpClient.post(Endpoints.APPROVE_REJECT_NOTIFICATION + inviteId + "/status", JSON.stringify(model), {
+      headers: new HttpHeaders()
+        .set('Content-Type', MediaType.APPLICATION_JSON)
+    })
+  }
+
+  updateProfile(userId:string, model:UpdateProfile): Observable<any> {
+      return this.httpClient.post(Endpoints.EDIT_USER_PROFILE + userId, JSON.stringify(model), {
+        headers: new HttpHeaders()
+          .set('Content-Type', MediaType.APPLICATION_JSON)
+      })
+  }
+
+  retrieveUser(userId:string): Observable<any> {
+            return this.httpClient.get(Endpoints.EDIT_USER_PROFILE + userId, {
+        headers: new HttpHeaders()
+          .set('Content-Type', MediaType.APPLICATION_JSON)
+      })
+  }
+
+
+
+    activateDeactivateAttendees(model) {
+        return this.httpClient
+            .post(Endpoints.ACTIVATE_DEACTIVATE_ATTENDEE, JSON.stringify(model), {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+    }
+
+    fetchPendingAttendees(orgId:string, locId:string):Observable<any> {
+        const params = new HttpParams()
+                .set("orgId", orgId)
+                .set("locId", locId);
+
+        return this.httpClient
+            .get(Endpoints.FETCH_PENDING_ATTENDEES + params, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+    }
+
+    removeAdmin(model:AdminRemovalRequest) {
+        model.orgId = this.ss.getSelectedOrg().orgId;
+
+        return this.httpClient
+            .post(Endpoints.REMOVE_ADMIN, JSON.stringify(model), {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+    }
+
 
 }

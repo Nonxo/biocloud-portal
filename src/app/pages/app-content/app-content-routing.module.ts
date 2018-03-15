@@ -13,6 +13,9 @@ import {ManageAttendeesComponent} from "./manage-attendees/manage-attendees.comp
 import { ReportDashboardComponent } from './report-dashboard/report-dashboard.component';
 import { CustomReportComponent } from './custom-report/custom-report.component';
 import { LatenessReportComponent } from './lateness-report/lateness-report.component';
+import {AuthGuard} from "../../auth/guards/auth-guard.service";
+import {ChangePasswordComponent} from "../change-password/change-password.component";
+import {ProfileComponent} from "./profile/profile.component";
 
 const routes: Routes = [
   {
@@ -21,7 +24,8 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: HomeComponent
+        component: HomeComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'config',
@@ -54,7 +58,11 @@ const routes: Routes = [
       {
         path: 'notification',
         component: NotificationsComponent
-      }
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent
+      },
 
     ]
   }

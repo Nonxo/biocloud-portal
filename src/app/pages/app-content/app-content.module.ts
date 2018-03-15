@@ -6,7 +6,6 @@ import {SharedModule} from "../../shared/shared.module";
 import {CommonModule} from '@angular/common';
 import {SubscribeComponent} from './subscribe/subscribe.component';
 import {SubscriptionHistoryComponent} from './subscription-history/subscription-history.component';
-import {SideNavComponent} from "../../components/side-nav/side-nav.component";
 import {AppContentService} from "./services/app-content.service";
 import {MessageService} from "../../service/message.service";
 import {SetupComponent} from "./app-config/setup/setup.component";
@@ -19,6 +18,8 @@ import { ReportDashboardComponent } from './report-dashboard/report-dashboard.co
 import { CustomReportComponent } from './custom-report/custom-report.component';
 import { LatenessReportComponent } from './lateness-report/lateness-report.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import {SearchService} from "../../service/search.service";
+import {ProfileComponent} from "./profile/profile.component";
 
 @NgModule({
     imports: [
@@ -32,14 +33,14 @@ import { NotificationsComponent } from './notifications/notifications.component'
         AppContentComponent,
         SubscribeComponent,
         SubscriptionHistoryComponent,
-        SideNavComponent,
         ManageAttendeesComponent,
         ReportDashboardComponent,
         CustomReportComponent,
         LatenessReportComponent,
-        NotificationsComponent
+        NotificationsComponent,
+        ProfileComponent
     ],
-    providers: [AppContentService, MessageService, AppConfigService, GeoMapService],
+    providers: [AppContentService, MessageService, AppConfigService, GeoMapService, SearchService],
     entryComponents: [SetupComponent, AddAttendeesComponent]
 })
 export class AppContentModule { }

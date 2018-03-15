@@ -19,7 +19,7 @@
       </div>
 
       <div class="col-md-12">
-        <button type="submit" mat-raised-button color="accent" class="auth-btn" [disabled]="loginForm.invalid || loading">LOGIN</button>
+        <button type="submit" mat-raised-button color="primary" class="px-4 py-1" [disabled]="loginForm.invalid || loading">LOGIN</button>
       </div>
     </div>
   </div>
@@ -27,7 +27,7 @@
 
 <ng-template #template>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Forgot Password?</h4>
+    <h5 class="modal-title text-brand pull-left">Forgot Password?</h5>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -40,7 +40,7 @@
         </mat-form-field>
       </div>
       <div class="col-md-12 text-right">
-        <button mat-raised-button color="accent" class="auth-btn" [disabled]="resetForm.invalid || loading">SEND</button>
+        <button mat-raised-button color="primary" class="px-4 py-1" [disabled]="resetForm.invalid || loading">SEND</button>
       </div>
     </form>
   </div>

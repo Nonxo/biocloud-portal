@@ -1,5 +1,5 @@
 import {Component, OnInit, TemplateRef, NgZone} from '@angular/core';
-import {LocationRequest, Timezones, TimezonePOJO} from "../model/app-config.model";
+import {LocationRequest, TimezonePOJO} from "../model/app-config.model";
 import {AppConfigService} from "../services/app-config.service";
 import {BsModalService, BsModalRef, ModalOptions} from "ngx-bootstrap/index";
 import {MapsAPILoader} from "@agm/core";
@@ -8,6 +8,11 @@ import {GeoMapService} from "../../../../service/geo-map.service";
 import {NotifyService} from "../../../../service/notify.service";
 import {Router} from "@angular/router";
 import {StorageService} from "../../../../service/storage.service";
+import {DateUtil} from "../../../../util/DateUtil";
+import {MessageService} from "../../../../service/message.service";
+import {ENTER, COMMA} from "@angular/cdk/keycodes";
+import {MatChipInputEvent} from "@angular/material/chips";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'app-setup',
@@ -25,10 +30,14 @@ export class SetupComponent implements OnInit {
     lng:number = 8.6753;
     zoomSize:number = 15;
     draggable:boolean = true;
+    showMap:boolean;
     addRange:boolean;
     resumption:string;
+    countryCode:string;
     timezones:TimezonePOJO[] = [];
     addNewLoc:boolean;
+    inviteEmails:string[] = [];
+    separatorKeysCodes = [ENTER, COMMA];
     locationTypes = [
         {value: "SPECIFIC_ADDRESS", name: "Specific Address"},
         {value: "COUNTRY", name: "Country"},
@@ -43,14 +52,42 @@ export class SetupComponent implements OnInit {
                 private ns:NotifyService,
                 private router:Router,
                 public modalRef:BsModalRef,
-                private ss:StorageService) {
+                private ss:StorageService,
+                private dateUtil:DateUtil,
+                private mService:MessageService,
+                private translate:TranslateService) {
+        translate.setDefaultLang('en/add-location');
+        translate.use('en/add-location');
     }
 
     ngOnInit() {
-        this.fetchCountries();
+
+        if (this.editMode) {
+            this.setEditMode();
+        } else {
+            this.fetchCountries();
+        }
+
         this.fetchTimezones();
+
+        //noinspection TypeScriptUnresolvedFunction
         this.loader.load().then(() => {
         });
+    }
+
+    setEditMode() {
+        if (this.locRequest.resumption) {
+            this.resumption = this.renderResumptionTime(this.locRequest.resumption);
+        }
+
+        if (this.locRequest.locationType == 'COUNTRY') {
+            this.fetchCountries();
+        }
+
+        if (this.locRequest.locationType == 'STATE') {
+            this.fetchCountries();
+            this.fetchStates(this.locRequest.countryId);
+        }
     }
 
     openModal(template:TemplateRef<any>, addRange) {
@@ -62,20 +99,18 @@ export class SetupComponent implements OnInit {
         this.modalOptions.class = 'modal-lg mt-0';
         this.modalRef = this.modalService.show(template, this.modalOptions);
 
-        if (!addRange) {
-            setTimeout(()=> {
-                this.autocomplete();
-            }, 2000);
-        }
+    }
 
+    setMapRestriction() {
+        setTimeout(()=> {
+            this.autocomplete();
+        }, 200);
     }
 
     customSettings() {
         if (this.addRange) {
-            this.draggable = false;
             this.zoomSize = 20;
         } else {
-            this.draggable = true;
             this.zoomSize = 15;
         }
     }
@@ -92,7 +127,8 @@ export class SetupComponent implements OnInit {
                             this.ss.setTimezones(this.timezones);
                         }
                     },
-                    error => {}
+                    error => {
+                    }
                 )
         }
 
@@ -128,10 +164,17 @@ export class SetupComponent implements OnInit {
     }
 
     clearData() {
+        this.locRequest.latitude = null;
+        this.locRequest.longitude = null;
         this.locRequest.countryId = 0;
         this.locRequest.stateId = 0;
         this.locRequest.radiusThreshold = 0;
         this.locRequest.address = null;
+        this.showMap = false;
+
+        if (this.locRequest.locationType == 'COUNTRY' || this.locRequest.locationType == 'STATE') {
+            this.fetchCountries();
+        }
     }
 
     addnewLocation() {
@@ -141,17 +184,79 @@ export class SetupComponent implements OnInit {
 
     submit() {
         if (this.resumption) {
+            if (!this.locRequest.resumptionTimezoneId) {
+                this.ns.showError("You must select a timezone.");
+                this.addNewLoc = false;
+                return;
+            }
             this.locRequest.resumption = this.formatResumptionTime();
         } else {
             this.locRequest.resumption = null;
         }
 
+        if (!this.isFormValid()) {
+            this.addNewLoc = false;
+            return;
+        }
+
+        this.editMode ? this.editLocation() : this.saveLocation();
+    }
+
+    isFormValid() {
+
+        if (!this.locRequest.locationType) {
+            return false;
+        }
+
         if (this.locRequest.locationType == 'SPECIFIC_ADDRESS') {
+
+            if (!this.locRequest.address) {
+                this.ns.showError("You must select an Address");
+                return false;
+            }
+
             this.locRequest.latitude = this.lat;
             this.locRequest.longitude = this.lng;
         }
 
-        this.editMode ? this.editLocation() : this.saveLocation();
+        if (this.locRequest.locationType == 'COUNTRY') {
+            if (this.locRequest.countryId < 1) {
+                this.ns.showError("You must select a Country");
+                return false;
+            }
+        }
+
+        if (this.locRequest.locationType == 'STATE') {
+            if (this.locRequest.countryId < 1 || this.locRequest.stateId < 1) {
+                this.ns.showError("You must select a State");
+                return false;
+            }
+        }
+
+        if (this.inviteEmails.length > 0) {
+            if (!this.validateEmails()) {
+                return false
+            }
+        }
+
+        return true;
+    }
+
+    validateEmails():boolean {
+        let regex = /[^@\s]+@[^@\s]+\.[^@\s]+/;
+
+        for (let a of this.inviteEmails) {
+            if (a) {
+                let res = regex.test(a);
+                if (!res) {
+                    this.ns.showError("Incorrect Email format detected: " + a);
+                    return false;
+                }
+            }
+        }
+
+        this.locRequest.inviteEmails = this.inviteEmails;
+        return true;
     }
 
     editLocation() {
@@ -160,6 +265,7 @@ export class SetupComponent implements OnInit {
                 result => {
                     if (result.code == 0) {
                         this.ns.showSuccess("Location was successfully updated");
+                        this.mService.setEditLocation(true);
                         this.modalRef.hide();
                     } else {
                         this.ns.showError(result.description);
@@ -172,7 +278,7 @@ export class SetupComponent implements OnInit {
     }
 
     saveLocation() {
-        //noinspection TypeScriptValidateTypes
+        //noinspection TypeScriptValidateTypes,TypeScriptUnresolvedFunction
         this.aService.saveLocation(this.locRequest)
             .finally(() => {
                 this.addNewLoc = false;
@@ -184,6 +290,8 @@ export class SetupComponent implements OnInit {
 
                         if (this.addNewLoc) {
                             this.locRequest = new LocationRequest();
+                            this.inviteEmails = [];
+                            this.showMap = false;
                         } else {
                             this.router.navigate(['/portal/config/add-attendees']);
                         }
@@ -199,20 +307,22 @@ export class SetupComponent implements OnInit {
     }
 
     formatResumptionTime() {
-        return new Date(this.resumption).getTime();
-    }
-
-
-    addZero(i) {
-        if (i < 10) {
-            i = "0" + i;
-        }
-        return i;
+        return this.dateUtil.getTime(this.resumption);
     }
 
     autocomplete() {
+        let country = this.countryCode? this.countryCode:"";
+
         //noinspection TypeScriptUnresolvedVariable
         let autocomplete = new google.maps.places.Autocomplete(<HTMLInputElement>document.getElementById('autocompleteInput'), {});
+
+        if (country != "") {
+            autocomplete.setComponentRestrictions(
+                {'country': country});
+        } else {
+            autocomplete.setComponentRestrictions(
+                {'country': []});
+        }
 
         autocomplete.addListener("place_changed", () => {
             this.ngZone.run(() => {
@@ -271,16 +381,67 @@ export class SetupComponent implements OnInit {
     }
 
     mapClicked($event:any) {
-        if (!this.addRange) {
-            this.lat = $event.coords.lat;
-            this.lng = $event.coords.lng;
-        }
+        this.lat = $event.coords.lat;
+        this.lng = $event.coords.lng;
     }
 
     useAddress() {
-        !this.addRange ? this.getSearchAddress(this.lat, this.lng) : '';
+        this.getSearchAddress(this.lat, this.lng);
         this.modalRef.hide();
     }
 
+    renderResumptionTime(resumptionTime:number) {
+        let date = new Date(resumptionTime);
+        return this.dateUtil.addZero(date.getHours()) + ":" + this.dateUtil.addZero(date.getMinutes());
+    }
+
+    show() {
+        this.showMap = true;
+        this.setMapRestriction();
+    }
+
+    zoomInMap() {
+        this.zoomSize = 20;
+    }
+
+    addEmails(event:MatChipInputEvent) {
+        let input = event.input;
+        let value = event.value;
+
+        let arr = value.split(" ");
+
+        if(arr.length > 0) {
+            for(let a of arr) {
+                // Add email
+                if ((a || '').trim()) {
+                    this.inviteEmails.push(a.trim());
+                }
+            }
+        }else {
+            // Add email
+            if ((value || '').trim()) {
+                this.inviteEmails.push(value.trim());
+            }
+        }
+
+
+
+        // Reset the input value
+        if (input) {
+            input.value = '';
+        }
+    }
+
+    removeEmail(email:any):void {
+        let index = this.inviteEmails.indexOf(email);
+
+        if (index >= 0) {
+            this.inviteEmails.splice(index, 1);
+        }
+    }
+
+    cancel() {
+        this.editMode? this.modalRef.hide(): this.router.navigate(['/portal']);
+    }
 
 }
