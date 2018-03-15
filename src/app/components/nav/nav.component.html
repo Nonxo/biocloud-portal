@@ -235,9 +235,9 @@
       <mat-icon class="example-icon">person</mat-icon>
     </button>
 
-    <mat-menu #menu="matMenu" class="p-0">
-      <button mat-menu-item class="m-0" style="height: auto;">
-        <div class="row align-items-center">
+        <mat-menu #menu="matMenu" class="mt-5 p-0">
+            <button mat-menu-item class="m-0" style="height: auto;">
+        <div class="row align-items-center" (click)="goToProfile()">
           <div class="col-auto">
             <img src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon" style="max-height:3em;"/>
           </div>
