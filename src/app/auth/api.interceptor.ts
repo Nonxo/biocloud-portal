@@ -9,11 +9,12 @@ import 'rxjs/add/operator/timeout';
 import { Observable } from 'rxjs/Observable';
 import { DataService } from '../service/data.service';
 import { StorageService } from '../service/storage.service';
+import {AuthService} from "../components/auth/auth.service";
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
 
-  constructor(private router: Router, private ds: DataService, private ss: StorageService) {
+  constructor(private router: Router, private authService: AuthService, private ds: DataService, private ss: StorageService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -52,35 +53,27 @@ export class ApiInterceptor implements HttpInterceptor {
 
   checkUnauthorized(message): void {
     if (message == 401) {
-      this.logout();
+      this.authService.logout();
       this.router.navigate(['/auth']);
     } else if (message == 'Token provided is invalid') {
       this.ds.setLogoutMessage('Your session has expired. Please login again');
-      this.logout();
+      this.authService.logout();
       this.router.navigate(['/auth']);
     } else if (message == 'Your session has expired, please login again') {
       this.ds.setLogoutMessage('Your session has expired. Please login again');
-      this.logout();
+      this.authService.logout();
       this.router.navigate(['/auth']);
     } else if (message == 'Not Authorized') {
       this.ds.setLogoutMessage('Your session has expired. Please login again');
-      this.logout();
+      this.authService.logout();
       this.router.navigate(['/auth']);
     } else if (message == 'Correct your device time and try again') {
       this.ds.setLogoutMessage('Correct your device time and try again');
-      this.logout();
+      this.authService.logout();
       this.router.navigate(['/auth']);
     }
 
   }
 
-  logout(): void {
-    // clear token remove user from local storage to log user out
-
-    localStorage.removeItem('_u');
-    localStorage.removeItem('_tkn');
-    localStorage.removeItem('_orgs');
-    localStorage.removeItem('_st');
-  }
 
 }

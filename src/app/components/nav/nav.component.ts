@@ -10,6 +10,7 @@ import {InviteRequest} from "../../pages/app-content/app-config/model/app-config
 import {AppConfigService} from "../../pages/app-content/app-config/services/app-config.service";
 import {SearchService} from "../../service/search.service";
 import {Subject} from "rxjs/Subject";
+import {AuthService} from "../auth/auth.service";
 
 @Component({
     selector: 'app-nav',
@@ -36,8 +37,8 @@ export class NavComponent implements OnInit {
     orgTypes:string[] = ["SCHOOL", "SECURITY", "HOSPITAL"];
 
     navs:Object[] = [
-        {icon: "person", route: "Profile", url: "/"},
-        {icon: "message", route: "Notifications", url: "/portal/notification"}
+        // {icon: "person", route: "Profile", url: "/"},
+        // {icon: "message", route: "Notifications", url: "/portal/notification"}
     ];
     orgs:Org[] = [];
     orgRequest:CreateOrgRequest = new CreateOrgRequest();
@@ -48,6 +49,7 @@ export class NavComponent implements OnInit {
     title:string = "Home";
     inviteRequest:InviteRequest = new InviteRequest();
     currentUserEmail:string = this.ss.getLoggedInUserEmail();
+    username = this.ss.getUserName();
 
     searchField:string;
     searchOrgTerm$ = new Subject<any>();
@@ -55,6 +57,7 @@ export class NavComponent implements OnInit {
 
 
     constructor(private router:Router,
+                private authService: AuthService,
                 private modalService:BsModalService,
                 private ss:StorageService,
                 private contentService:AppContentService,
@@ -83,7 +86,7 @@ export class NavComponent implements OnInit {
         this.fetchUsersOrg();
         this.onResizeByWindowScreen();
     }
-    
+
     search(searchType:string, searchValue:string) {
         this.searchType = searchType;
         this.searchOrgTerm$.next({searchValue: searchValue,searchType: searchType});
@@ -179,6 +182,8 @@ export class NavComponent implements OnInit {
             if (this.orgs.length > 0) {
                 this.selectedOrg = this.orgs[0];
                 this.ss.setSelectedOrg(this.orgs[0]);
+                this.setOrgRole();
+
                 this.mService.setSelectedOrg(this.orgs[0].orgId);
             }
         }
@@ -227,7 +232,8 @@ export class NavComponent implements OnInit {
                         this.ns.showSuccess(result.description);
                         this.modalRef.hide();
 
-                        this.orgs.push(result.organisation)
+                        this.orgs.push(result.organisation);
+                        this.updateOrgRoles(result.organisation);
                         this.selectOrg(result.organisation);
 
                         this.router.navigate(['/portal/config']);
@@ -245,16 +251,34 @@ export class NavComponent implements OnInit {
         //change selected state
         this.selectedOrg = org;
         this.ss.setSelectedOrg(org);
+        this.setOrgRole();
+
         this.fetchAdminUsers();
+        this.callLocationService();
         this.mService.setSelectedOrg(org.orgId);
     }
 
+    updateOrgRoles(org:any) {
+        let arr = [{orgId: org.orgId, role: "GENERAL_ADMIN"}];
+
+        this.ss.setOrgRoles(arr);
+    }
+
+    setOrgRole() {
+        this.ss.setSelectedOrgRole(null);
+        let orgRoles:any[] = this.ss.getOrgRoles();
+
+        if(orgRoles.length > 0) {
+            for(let obj of orgRoles) {
+                if(obj.orgId == this.selectedOrg.orgId) {
+                    this.ss.setSelectedOrgRole(obj.role);
+                }
+            }
+        }
+    }
 
     logout() {
-        localStorage.removeItem('_u');
-        localStorage.removeItem('_tkn');
-        localStorage.removeItem('_orgs');
-        localStorage.removeItem('_st');
+        this.authService.logout();
         this.router.navigate(['/auth']);
     }
 

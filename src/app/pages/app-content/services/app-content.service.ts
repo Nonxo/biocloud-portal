@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../util/endpoints";
-import {CreateOrgRequest, AssignUserRequest, ApproveRequest, AdminRemovalRequest} from "../model/app-content.model";
+import {CreateOrgRequest, AssignUserRequest, ApproveRequest, AdminRemovalRequest, UpdateProfile} from "../model/app-content.model";
 import {StorageService} from "../../../service/storage.service";
 import {MediaType} from "../../../util/constants";
 
@@ -116,8 +116,9 @@ export class AppContentService {
     }
 
 
-  fetchNotificationDetails(inviteId: string): Observable<any> {
-    return this.httpClient.get(Endpoints.FETCH_NOTIFICATION_DETAILS + inviteId, {
+  fetchNotificationDetails(invitesId: string): Observable<any> {
+    let params = new HttpParams().set('invites', invitesId)
+    return this.httpClient.get(Endpoints.FETCH_NOTIFICATION_DETAILS + params, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
     })
@@ -129,6 +130,22 @@ export class AppContentService {
         .set('Content-Type', MediaType.APPLICATION_JSON)
     })
   }
+
+  updateProfile(userId:string, model:UpdateProfile): Observable<any> {
+      return this.httpClient.post(Endpoints.EDIT_USER_PROFILE + userId, JSON.stringify(model), {
+        headers: new HttpHeaders()
+          .set('Content-Type', MediaType.APPLICATION_JSON)
+      })
+  }
+
+  retrieveUser(userId:string): Observable<any> {
+            return this.httpClient.get(Endpoints.EDIT_USER_PROFILE + userId, {
+        headers: new HttpHeaders()
+          .set('Content-Type', MediaType.APPLICATION_JSON)
+      })
+  }
+
+
 
     activateDeactivateAttendees(model) {
         return this.httpClient
@@ -159,6 +176,6 @@ export class AppContentService {
                     .set('Content-Type', MediaType.APPLICATION_JSON)
             })
     }
-    
+
 
 }

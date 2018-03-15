@@ -51,6 +51,7 @@ import {EllipsisPipe} from "../util/pipes/ellipsis-pipe";
 import {SetupComponent} from "../pages/app-content/app-config/setup/setup.component";
 import {AgmCoreModule} from "@agm/core";
 import {AddAttendeesComponent} from "../pages/app-content/app-config/add-attendees/add-attendees.component";
+import {HasAuthorityDirective} from "../directives/has-authority.directive";
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -157,10 +158,11 @@ export function createTranslateLoader(http: HttpClient) {
         EllipsisPipe,
         SetupComponent,
         AgmCoreModule,
-        AddAttendeesComponent
+        AddAttendeesComponent,
+        HasAuthorityDirective
 
     ],
-    declarations: [NavComponent, SetupComponent, EllipsisPipe, AddAttendeesComponent]
+    declarations: [NavComponent, SetupComponent, EllipsisPipe, AddAttendeesComponent, HasAuthorityDirective]
 })
 export class SharedModule {
 }

@@ -117,7 +117,7 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     openModal(template:TemplateRef<any>) {
         this.modalRef = this.modalService.show(template);
     }
-    
+
     groupActions() {
         switch(this.action) {
             case "ASSIGN": {

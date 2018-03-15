@@ -20,7 +20,7 @@ import { CustomReportComponent } from './custom-report/custom-report.component';
 import { LatenessReportComponent } from './lateness-report/lateness-report.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import {SearchService} from "../../service/search.service";
-import { ProfileComponent } from './profile/profile.component';
+import {ProfileComponent} from "./profile/profile.component";
 
 @NgModule({
     imports: [
