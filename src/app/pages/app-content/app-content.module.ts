@@ -21,6 +21,7 @@ import { LatenessReportComponent } from './lateness-report/lateness-report.compo
 import { NotificationsComponent } from './notifications/notifications.component';
 import {SearchService} from "../../service/search.service";
 import {ProfileComponent} from "./profile/profile.component";
+import { SettingComponent } from './setting/setting.component';
 
 @NgModule({
     imports: [
@@ -40,7 +41,8 @@ import {ProfileComponent} from "./profile/profile.component";
         CustomReportComponent,
         LatenessReportComponent,
         NotificationsComponent,
-        ProfileComponent
+        ProfileComponent,
+        SettingComponent
     ],
     providers: [AppContentService, MessageService, AppConfigService, GeoMapService, SearchService],
     entryComponents: [SetupComponent, AddAttendeesComponent]
