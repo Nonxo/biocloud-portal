@@ -27,4 +27,5 @@ export class Invitation {
   lastname:string;
   status:string;
   email:string;
+  img:string;
 }
