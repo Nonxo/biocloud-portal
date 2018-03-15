@@ -248,6 +248,16 @@ mat-sidenav {
     background-color: $light-grey !important;
 }
 
+.mat-menu-content {
+  padding-top: 0px !important;
+}
+
+/*
+#cdk-overlay-0, #cdk-overlay-1, #cdk-overlay-2{
+  top:66px !important;
+}
+*/
+
 @media (max-width: 575.98px) {
     mat-card.auth {
         min-height: auto;

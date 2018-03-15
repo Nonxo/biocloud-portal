@@ -382,7 +382,12 @@ export class NavComponent implements OnInit {
         this.openModal(template);
     }
 
-    assignAdmins() {
+  notificationModal(template: TemplateRef<any>) {
+    this.openModal(template);
+  }
+
+
+  assignAdmins() {
         if(!this.isInviteFormValid()) {
             return;
         }
