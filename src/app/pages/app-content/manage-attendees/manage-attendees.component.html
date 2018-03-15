@@ -40,7 +40,7 @@
         <div class="container-fluid" *ngIf="currentTab == 0">
 
             <div class="table-responsive">
-                <table class="table table-striped" [mfData]="activeUsers" #mf="mfDataTable" [mfRowsOnPage]="5">
+                <table class="table table-striped" [mfData]="activeUsers" #mf="mfDataTable" [mfRowsOnPage]="12">
                     <thead>
                     <tr>
                         <th scope="col" *ngIf="mf.data.length > 0">
@@ -114,7 +114,7 @@
         <div class="container-fluid" *ngIf="currentTab == 1">
 
             <div class="table-responsive">
-                <table class="table table-striped" [mfData]="inactiveUsers" #mf="mfDataTable" [mfRowsOnPage]="5">
+                <table class="table table-striped" [mfData]="inactiveUsers" #mf="mfDataTable" [mfRowsOnPage]="12">
                     <thead>
                     <tr>
                         <th scope="col" *ngIf="mf.data.length > 0">
@@ -137,9 +137,6 @@
                         <td>{{d.email}}</td>
                         <td>{{d.phone}}</td>
                         <td>{{d.status? 'Active':'Inactive'}}</td>
-                        <td>
-                            N/A
-                        </td>
                     </tr>
 
                     </tbody>

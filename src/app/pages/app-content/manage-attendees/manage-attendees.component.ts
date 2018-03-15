@@ -80,6 +80,7 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     }
 
     fetchUsers() {
+        this.selAll = false;
         let id;
         if (!this.selectedLocId) {
             this.orgWideSearch = true;
@@ -213,7 +214,9 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     }
 
     activateDeactivateUser() {
+        //noinspection TypeScriptValidateTypes
         this.contentService.activateDeactivateAttendees(this.adr)
+            .finally(() => {this.selAll = false})
             .subscribe(
                 result => {
                     let res:any = result;
@@ -249,7 +252,9 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
      */
     assignUser() {
         this.assignRequestObj.oldlocId = this.selectedLocId;
+        //noinspection TypeScriptValidateTypes
         this.contentService.assignUsersToLocation(this.assignRequestObj)
+            .finally(() => {this.selAll = false})
             .subscribe(
                 result => {
                     if (result.code == 0) {
