@@ -74,6 +74,7 @@ export class AddAttendeesComponent implements OnInit {
                         this.inviteRequest = new InviteRequest();
                         this.location = null;
                         this.ns.showSuccess(result.description);
+                        this.cancel();
                     } else {
                         this.ns.showError(result.description);
                     }
@@ -120,6 +121,10 @@ export class AddAttendeesComponent implements OnInit {
                 },
                 error => {this.ns.showError("An Error Occurred.")}
             )
+    }
+
+    cancel() {
+        this.editMode? this.modalRef.hide():'';
     }
 
 }

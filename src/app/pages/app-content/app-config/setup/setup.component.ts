@@ -171,6 +171,10 @@ export class SetupComponent implements OnInit {
         this.locRequest.radiusThreshold = 0;
         this.locRequest.address = null;
         this.showMap = false;
+
+        if (this.locRequest.locationType == 'COUNTRY' || this.locRequest.locationType == 'STATE') {
+            this.fetchCountries();
+        }
     }
 
     addnewLocation() {
@@ -404,10 +408,23 @@ export class SetupComponent implements OnInit {
         let input = event.input;
         let value = event.value;
 
-        // Add email
-        if ((value || '').trim()) {
-            this.inviteEmails.push(value.trim());
+        let arr = value.split(" ");
+
+        if(arr.length > 0) {
+            for(let a of arr) {
+                // Add email
+                if ((a || '').trim()) {
+                    this.inviteEmails.push(a.trim());
+                }
+            }
+        }else {
+            // Add email
+            if ((value || '').trim()) {
+                this.inviteEmails.push(value.trim());
+            }
         }
+
+
 
         // Reset the input value
         if (input) {
