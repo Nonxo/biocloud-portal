@@ -432,6 +432,4 @@ export class NavComponent implements OnInit {
     goToProfile() {
       this.router.navigate(['/portal/profile']);
     }
-
-
 }
