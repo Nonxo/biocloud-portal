@@ -1,9 +1,10 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../components/auth/auth.service";
 import {StorageService} from "../../service/storage.service";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NotifyService} from "../../service/notify.service";
+import {BsModalRef} from "ngx-bootstrap";
 
 
 
@@ -20,6 +21,8 @@ export class ChangePasswordComponent implements OnInit {
   hide = true;
   changePasswordForm:FormGroup;
   loading = false;
+  email: string;
+  response:any;
 
 
 
@@ -27,6 +30,7 @@ export class ChangePasswordComponent implements OnInit {
               private ss:StorageService,
               private router:Router,
               private fb:FormBuilder,
+              private modalRef:BsModalRef,
               private ns:NotifyService) {}
 
   ngOnInit() {
@@ -40,15 +44,15 @@ export class ChangePasswordComponent implements OnInit {
   passwordChange() {
     this.loading = true;
     const payload = this.changePasswordForm.value;
-
-    this.authService.changePassword(payload.email,payload.oldPw, payload.newPw)
+    this.authService.changePassword(this.email, payload.oldPw, payload.newPw)
       .finally(() => this.loading = false)
       .subscribe(
         res => {
           console.log(res);
           if (res.code == 0) {
-            this.ss.authToken = res.token;
-            this.ss.loggedInUser = res.bioUser;
+            this.ss.authToken = this.response.token;
+            this.ss.loggedInUser = this.response.bioUser;
+            this.modalRef.hide();
             this.router.navigate(['/portal']);
           } else {
             this.ns.showError(res.description);
