@@ -72,7 +72,7 @@ export class UpdateProfile {
   address:string;
   companyName:string;
   customerType: string;
-  img:any;
+
 
   promoNotif: boolean;
   appNotif: boolean;

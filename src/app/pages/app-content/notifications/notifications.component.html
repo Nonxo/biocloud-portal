@@ -28,8 +28,7 @@
 
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="rejectNotifications(details.email, details.inviteId,  'REJECTED')"
-            data-dismiss="modal">Reject
+    <button type="button" class="btn btn-secondary" (click)="rejectNotifications(details.email, details.inviteId,  'REJECTED')" data-dismiss="modal">Reject
     </button>
     <button type="button" class="btn btn-primary" (click)="approveNotifications(details.email, details.inviteId, 'APPROVED')">
       Accept
@@ -76,14 +75,11 @@
     <div class="col-md-12 py-md-4 py-md-3 pt-3">
       <mat-card class="p-0">
         <!--<h6 class="pt-4 pb-2 align-middle text-uppercase px-3">Subscription History</h6>-->
-        <div class="list-group">
+        <div class="list-group" *ngFor="let notif of notifications">
           <div class="list-group-item list-group-item-action d-flex flex-row align-items-start">
-            <div class="col-auto px-0">
-              <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
-            </div>
             <div class="w-100 pl-3">
               <div class="d-flex w-100 justify-content-between">
-                <p class=" mb-1"><span class="weight-600">PRO PLAN</span> (TRANS-246789)</p>
+                <p class=" mb-1"><span class="weight-600">{{notif.firstName}}</span> Request to join Seamfix HQ as an employee </p>
                 <small class="d-md-none d-block">
                   <mat-icon [matMenuTriggerFor]="request" class="cursor">more_horiz</mat-icon>
                   <mat-menu #request="matMenu">

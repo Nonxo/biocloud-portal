@@ -180,6 +180,7 @@
       <mat-icon class="example-icon">notifications</mat-icon>
     </button>
 
+<<<<<<< Updated upstream
         <mat-menu #notify="matMenu" class="p-0">
             <div class="media pt-2 pl-2 pb-2">
                 <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
@@ -187,6 +188,15 @@
                     <small><b>Daniel Cole</b> request to join seamfix HQ as an emplo...</small>
                     <div class="container-fluid">
                         <small class="row">
+=======
+    <mat-menu #notify="matMenu" class="p-0">
+      <div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications">
+        <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
+        <div class="media-body">
+          <small><b>{{notif.firstName}}</b> request to join seamfix HQ as an emplo...</small>
+          <div class="container-fluid">
+            <small class="row">
+>>>>>>> Stashed changes
               <div class="mr-auto">3 Hours</div>
               <div class="ml-auto pr-3"><span class="badge badge-dark cursor" (click)="notificationModal(notificationTemplate)">Details</span></div>
             </small>
@@ -388,6 +398,18 @@
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
+<<<<<<< Updated upstream
+=======
+  </div>
+  <div class="modal-body px-5">
+    A request to join your company as been recieved with the following details.
+
+    <div class="py-4">
+      <span class="text-brand">NAME</span>
+      <h5>{{details.firstName}} {{details.lastName}}</h5>
+      <span class="text-brand">EMAIL</span>
+      <h5>{{details.email}}</h5>
+>>>>>>> Stashed changes
     </div>
     <div class="modal-body px-5">
         A request to join your company as been recieved with the following details.
@@ -399,7 +421,16 @@
             <h5>henry@gmail.com</h5>
         </div>
 
+<<<<<<< Updated upstream
         <button mat-raised-button color="primary" class="primary-outline mr-2">Approve</button>
         <button mat-raised-button class="primary-outline">Decline</button>
     </div>
 </ng-template>
+=======
+    <button mat-raised-button color="primary" class="primary-outline mr-2" (click)="approveNotifications(details.email, details.inviteId, 'APPROVED')">Approve</button>
+    <button mat-raised-button  class="primary-outline" (click)="rejectNotifications(details.email, details.inviteId,  'REJECTED')" data-dismiss="modal">Decline</button>
+  </div>
+</ng-template>
+
+
+>>>>>>> Stashed changes
