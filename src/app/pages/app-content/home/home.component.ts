@@ -102,7 +102,7 @@ export class HomeComponent implements OnInit {
     }
 
     openInviteModal(locId:string) {
-        this.modalOptions.class = 'modal-lg mt-0';
+        this.modalOptions.class = 'modal-md mt-0';
         this.modalOptions.initialState = {
             editMode: true,
             location: locId

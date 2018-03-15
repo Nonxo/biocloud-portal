@@ -29,7 +29,7 @@ export class NavComponent implements OnInit {
     adminRemovalRequest:AdminRemovalRequest = new AdminRemovalRequest();
     views:Object[] = [
         {icon: "home", route: "Home", url: "/portal"},
-        {icon: "group", route: "Attendees", url: "/portal/manage-users"},
+        {icon: "group", route: "Employees", url: "/portal/manage-users"},
         {icon: "insert_chart", route: "Report", url: "/portal/report-dashboard"},
         {icon: "payment", route: "Subscribe", url: "/portal/subscribe"}
     ];
