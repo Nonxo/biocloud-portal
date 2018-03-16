@@ -16,6 +16,7 @@ import { LatenessReportComponent } from './lateness-report/lateness-report.compo
 import {AuthGuard} from "../../auth/guards/auth-guard.service";
 import {ChangePasswordComponent} from "../change-password/change-password.component";
 import {ProfileComponent} from "./profile/profile.component";
+import {ManageAdminsComponent} from "./manage-admins/manage-admins.component";
 import { SettingComponent } from './setting/setting.component';
 
 const routes: Routes = [
@@ -39,6 +40,10 @@ const routes: Routes = [
       {
         path: 'manage-users',
         component: ManageAttendeesComponent
+      },
+      {
+        path: 'manage-admins',
+        component: ManageAdminsComponent
       },
       {
         path: 'report-dashboard',
