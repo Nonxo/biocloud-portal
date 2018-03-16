@@ -115,6 +115,9 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
         if (u.length > 0) {
             this.activeUsers = u.filter(obj => obj.status);
             this.inactiveUsers = u.filter(obj => !obj.status);
+        }else {
+            this.activeUsers = [];
+            this.inactiveUsers = [];
         }
     }
 
