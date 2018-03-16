@@ -373,7 +373,7 @@ export class NavComponent implements OnInit {
         this.selectedUser = user;
         this.inviteRequest.role = user.role;
         this.inviteRequest.locIds = user.locIds? user.locIds: [];
-        this.inviteRequest.email = user.email;
+        // this.inviteRequest.email = user.email;
 
         this.openModal(template);
     }

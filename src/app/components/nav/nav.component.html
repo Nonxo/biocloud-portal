@@ -42,25 +42,6 @@
         <ul class="list-unstyled px-3">
           <li class="media">
             <mat-form-field class="w-100">
-              <input matInput placeholder="Search organisation" type="text" name="searchField" [(ngModel)]="searchField"
-                     (keyup)="search('ORG',$event.target.value)">
-              <mat-icon matSuffix>search</mat-icon>
-            </mat-form-field>
-          </li>
-          <ng-container *ngFor="let org of orgs">
-            <li *ngIf="org.orgId != selectedOrg.orgId" class="media my-4 cursor" (click)="selectOrg(org)">
-              <img class="mr-3" src="assets/img/2.jpg" style="max-height:2.5em;">
-              <div class="media-body" g>
-                <b class="mt-0 mb-1 text-capitalize">{{org.name}}</b>
-                <!--<small>123 Attendees</small>-->
-              </div>
-            </li>
-          </ng-container>
-        </ul>
-      <div *ngIf="openDropdown" class="bg-light-grey pt-2 font-12">
-        <ul class="list-unstyled px-3">
-          <li class="media">
-            <mat-form-field class="w-100">
               <input matInput placeholder="Search organisation" class="text-white" type="text" name="searchField" [(ngModel)]="searchField" (keyup)="search('ORG',$event.target.value)">
               <mat-icon matSuffix class="text-white">search</mat-icon>
             </mat-form-field>
@@ -164,7 +145,7 @@
         <!--</li>-->
       </ul>
     </mat-nav-list>
-
+    <!--</div>-->
   </mat-sidenav>
 
 
@@ -199,23 +180,23 @@
     <!--<button mat-icon-button class="pr-5" routerLink="/portal/notification" *hasAuthority="'GENERAL_ADMIN'">
       <mat-icon class="example-icon">notifications</mat-icon>
     </button>-->
-    <button mat-icon-button class="pr-5" [matMenuTriggerFor]="notify">
+    <button mat-icon-button class="pr-5" [matMenuTriggerFor]="notify" *hasAuthority="'GENERAL_ADMIN'">
       <mat-icon class="example-icon">notifications</mat-icon>
     </button>
 
     <mat-menu #notify="matMenu" class="p-0">
-      <div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications">
-        <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
-        <div class="media-body">
-          <small><b>{{notif.firstName}} {{notif.lastName}}</b> request to join seamfix HQ as an emplo...</small>
-          <div class="container-fluid">
-            <small class="row">
-              <div class="mr-auto">3 Hours</div>
-              <div class="ml-auto pr-3"><span class="badge badge-dark cursor" (click)="openAttendeesDetailsModal(viewDetailsTemplate, notif.locIds, notif.inviteId)">Details</span></div>
-            </small>
-          </div>
-        </div>
-      </div>
+      <!--<div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications">-->
+        <!--<img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">-->
+        <!--<div class="media-body">-->
+          <!--<small><b>{{notif.firstName}} {{notif.lastName}}</b> request to join seamfix HQ as an emplo...</small>-->
+          <!--<div class="container-fluid">-->
+            <!--<small class="row">-->
+              <!--<div class="mr-auto">3 Hours</div>-->
+              <!--<div class="ml-auto pr-3"><span class="badge badge-dark cursor" (click)="openAttendeesDetailsModal(viewDetailsTemplate, notif.locIds, notif.inviteId)">Details</span></div>-->
+            <!--</small>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
       <mat-divider></mat-divider>
     <!--  <div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications">
         <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
@@ -273,6 +254,7 @@
   </mat-toolbar>
 
   <ng-content></ng-content>
+
 
 </mat-sidenav-container>
 
