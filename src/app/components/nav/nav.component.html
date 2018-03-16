@@ -164,8 +164,8 @@
         <!--</li>-->
       </ul>
     </mat-nav-list>
-
-  </mat-sidenav>
+    </div>
+   </mat-sidenav>
 
 
   <mat-toolbar>
@@ -203,7 +203,7 @@
       <mat-icon class="example-icon">notifications</mat-icon>
     </button>
 
-    <mat-menu #notify="matMenu" class="p-0">
+    <mat-menu #notify="matMenu"  class="mt-5 p-0">
       <div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications">
         <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
         <div class="media-body">
