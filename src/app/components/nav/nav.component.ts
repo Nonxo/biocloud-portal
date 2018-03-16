@@ -4,7 +4,7 @@ import {BsModalService, BsModalRef} from "ngx-bootstrap/index";
 import {StorageService} from "../../service/storage.service";
 import {AppContentService} from "../../pages/app-content/services/app-content.service";
 import {NotifyService} from "../../service/notify.service";
-import {CreateOrgRequest, Org, AdminRemovalRequest} from "../../pages/app-content/model/app-content.model";
+import {CreateOrgRequest, Org, AdminRemovalRequest, Invitation} from "../../pages/app-content/model/app-content.model";
 import {MessageService} from "../../service/message.service";
 import {InviteRequest} from "../../pages/app-content/app-config/model/app-config.model";
 import {AppConfigService} from "../../pages/app-content/app-config/services/app-config.service";
@@ -40,35 +40,36 @@ export class NavComponent implements OnInit {
         // {icon: "person", route: "Profile", url: "/"},
         // {icon: "message", route: "Notifications", url: "/portal/notification"}
     ];
-    orgs: Org[] = [];
-    orgRequest: CreateOrgRequest = new CreateOrgRequest();
-    selectedOrg: Org = new Org();
+    orgs:Org[] = [];
+    orgRequest:CreateOrgRequest = new CreateOrgRequest();
+    selectedOrg:Org = new Org();
     sidenavWidth = 16;
-    openDropdown: boolean;
-    hamburgerClicked: boolean = true;
-    title: string = "Home";
-    inviteRequest: InviteRequest = new InviteRequest();
-    currentUserEmail: string = this.ss.getLoggedInUserEmail();
+    openDropdown:boolean;
+    hamburgerClicked:boolean = true;
+    details: Invitation = new Invitation();
+    title:string = "Home";
+    inviteRequest:InviteRequest = new InviteRequest();
+    currentUserEmail:string = this.ss.getLoggedInUserEmail();
     username = this.ss.getUserName();
 
-    searchField: string;
+    searchField:string;
     searchOrgTerm$ = new Subject<any>();
-    searchType: string;
+    searchType:string;
 
 
-    constructor(private router: Router,
+    constructor(private router:Router,
                 private authService: AuthService,
-                private modalService: BsModalService,
-                private ss: StorageService,
-                private contentService: AppContentService,
-                private ns: NotifyService,
-                private mService: MessageService,
-                private configService: AppConfigService,
-                private searchService: SearchService) {
+                private modalService:BsModalService,
+                private ss:StorageService,
+                private contentService:AppContentService,
+                private ns:NotifyService,
+                private mService:MessageService,
+                private configService:AppConfigService,
+                private searchService:SearchService) {
 
         this.searchService.search(this.searchOrgTerm$)
             .subscribe(results => {
-                switch (this.searchType) {
+                switch(this.searchType) {
                     case 'ADMIN': {
                         this.users = results;
                         break;
@@ -87,12 +88,12 @@ export class NavComponent implements OnInit {
         this.onResizeByWindowScreen();
     }
 
-    search(searchType: string, searchValue: string) {
+    search(searchType:string, searchValue:string) {
         this.searchType = searchType;
-        this.searchOrgTerm$.next({searchValue: searchValue, searchType: searchType});
+        this.searchOrgTerm$.next({searchValue: searchValue,searchType: searchType});
     }
 
-    openModal(template: TemplateRef<any>) {
+    openModal(template:TemplateRef<any>) {
         // this.inviteRequest = new InviteRequest();
         this.modalRef = this.modalService.show(template);
     }
@@ -101,10 +102,10 @@ export class NavComponent implements OnInit {
         !this.openDropdown ? this.openDropdown = true : this.openDropdown = false;
     }
 
-    onClickedOutside(e: Event) {
+    onClickedOutside(e:Event) {
         this.openDropdown = false;
 
-        if (this.searchField) {
+        if(this.searchField) {
             this.searchField = "";
             this.orgs = this.ss.getUsersOrg();
         }
@@ -118,7 +119,7 @@ export class NavComponent implements OnInit {
         this.sidenavWidth = 4;
     }
 
-    toggleNavFromHam(increase: boolean) {
+    toggleNavFromHam(increase:boolean) {
         if (increase) {
             this.hamburgerClicked = true;
             this.increase();
@@ -128,12 +129,12 @@ export class NavComponent implements OnInit {
         }
     }
 
-    toggleNavFromMouseEvent(increase: boolean) {
+    toggleNavFromMouseEvent(increase:boolean) {
         if (increase) {
             !this.hamburgerClicked ? this.increase() : '';
         } else {
             //when closing side nav, check if a search operation was made and return the initial state of the searched items
-            if (this.searchField) {
+            if(this.searchField) {
                 this.searchField = "";
                 this.orgs = this.ss.getUsersOrg();
             }
@@ -153,7 +154,7 @@ export class NavComponent implements OnInit {
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.users = result.users ? result.users : [];
+                        this.users = result.users? result.users: [];
                         this.ss.setAdminUsers(this.users);
                     } else {
 
@@ -247,7 +248,7 @@ export class NavComponent implements OnInit {
             )
     }
 
-    selectOrg(org: Org) {
+    selectOrg(org:Org) {
         //change selected state
         this.selectedOrg = org;
         this.ss.setSelectedOrg(org);
@@ -259,7 +260,7 @@ export class NavComponent implements OnInit {
         this.mService.setSelectedOrg(org.orgId);
     }
 
-    updateOrgRoles(org: any) {
+    updateOrgRoles(org:any) {
         let arr = [{orgId: org.orgId, role: "GENERAL_ADMIN"}];
 
         this.ss.setOrgRoles(arr);
@@ -267,11 +268,11 @@ export class NavComponent implements OnInit {
 
     setOrgRole() {
         this.ss.setSelectedOrgRole(null);
-        let orgRoles: any[] = this.ss.getOrgRoles();
+        let orgRoles:any[] = this.ss.getOrgRoles();
 
-        if (orgRoles.length > 0) {
-            for (let obj of orgRoles) {
-                if (obj.orgId == this.selectedOrg.orgId) {
+        if(orgRoles.length > 0) {
+            for(let obj of orgRoles) {
+                if(obj.orgId == this.selectedOrg.orgId) {
                     this.ss.setSelectedOrgRole(obj.role);
                 }
             }
@@ -331,7 +332,7 @@ export class NavComponent implements OnInit {
     }
 
     inviteAdmin() {
-        if (!this.isInviteFormValid()) {
+        if(!this.isInviteFormValid()) {
             return;
         }
 
@@ -352,13 +353,13 @@ export class NavComponent implements OnInit {
     }
 
     isInviteFormValid() {
-        if (!this.inviteRequest.role) {
+        if(!this.inviteRequest.role) {
             this.ns.showError("You must select a role.");
             return false;
         }
 
-        if (this.inviteRequest.role == "LOCATION_ADMIN") {
-            if (this.inviteRequest.locIds.length == 0) {
+        if(this.inviteRequest.role == "LOCATION_ADMIN") {
+            if(this.inviteRequest.locIds.length == 0) {
                 this.ns.showError("You must select at least one location");
                 return false;
             }
@@ -367,12 +368,12 @@ export class NavComponent implements OnInit {
         return true;
     }
 
-    viewAdminDetails(user, template: TemplateRef<any>) {
+    viewAdminDetails(user, template:TemplateRef<any>) {
         this.inviteRequest = new InviteRequest();
         this.selectedUser = user;
         this.inviteRequest.role = user.role;
-        this.inviteRequest.locIds = user.locIds ? user.locIds : [];
-        // this.inviteRequest.email = user.email;
+        this.inviteRequest.locIds = user.locIds? user.locIds: [];
+        this.inviteRequest.email = user.email;
 
         this.openModal(template);
     }
@@ -417,7 +418,7 @@ export class NavComponent implements OnInit {
         this.contentService.removeAdmin(this.adminRemovalRequest)
             .subscribe(
                 result => {
-                    let res: any = result;
+                    let res:any = result;
                     if (res.code == 0) {
                         this.fetchAdminUsers();
                         this.modalRef.hide();
@@ -426,13 +427,11 @@ export class NavComponent implements OnInit {
                         this.ns.showError(res.description);
                     }
                 },
-                error => {
-                    this.ns.showError("An Error Occurred.");
-                }
+                error => {this.ns.showError("An Error Occurred.");}
             )
     }
 
     goToProfile() {
-        this.router.navigate(['/portal/profile']);
+      this.router.navigate(['/portal/profile']);
     }
 }
