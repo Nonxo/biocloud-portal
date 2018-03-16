@@ -186,7 +186,6 @@ export class SetupComponent implements OnInit {
         if (this.resumption) {
             if (!this.locRequest.resumptionTimezoneId) {
                 this.ns.showError("You must select a timezone.");
-                this.addNewLoc = false;
                 return;
             }
             this.locRequest.resumption = this.formatResumptionTime();
@@ -195,7 +194,6 @@ export class SetupComponent implements OnInit {
         }
 
         if (!this.isFormValid()) {
-            this.addNewLoc = false;
             return;
         }
 
@@ -280,9 +278,6 @@ export class SetupComponent implements OnInit {
     saveLocation() {
         //noinspection TypeScriptValidateTypes,TypeScriptUnresolvedFunction
         this.aService.saveLocation(this.locRequest)
-            .finally(() => {
-                this.addNewLoc = false;
-            })
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -293,7 +288,7 @@ export class SetupComponent implements OnInit {
                             this.inviteEmails = [];
                             this.showMap = false;
                         } else {
-                            this.router.navigate(['/portal/config/add-attendees']);
+                            this.router.navigate(['/portal']);
                         }
 
                     } else {
@@ -378,11 +373,15 @@ export class SetupComponent implements OnInit {
     markerDragEnd($event:any) {
         this.lat = $event.coords.lat;
         this.lng = $event.coords.lng;
+
+        this.getSearchAddress(this.lat, this.lng);
     }
 
     mapClicked($event:any) {
         this.lat = $event.coords.lat;
         this.lng = $event.coords.lng;
+
+        this.getSearchAddress(this.lat, this.lng);
     }
 
     useAddress() {
