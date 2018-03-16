@@ -25,10 +25,9 @@
         </div>
       </a>
 
-      <div class=" text-center my-3 px-3 pb-3 cursor border-0" (click)="show()"
-           *ngIf="orgs.length > 0 || selectedOrg.orgId">
+      <div class=" text-center my-3 px-3 pb-3 cursor border-0" (click)="show()" *ngIf="orgs.length > 0 || selectedOrg.orgId">
         <div class="mb-2">
-          <img src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon" style="max-height:6em;"/>
+          <img src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon" style="max-height:6em;" />
         </div>
         <div class="alignment">
           <small class="p-2 text-white" *ngIf="sidenavWidth >= 15"><b>{{selectedOrg.name? (selectedOrg.name |
@@ -52,6 +51,24 @@
             <li *ngIf="org.orgId != selectedOrg.orgId" class="media my-4 cursor" (click)="selectOrg(org)">
               <img class="mr-3" src="assets/img/2.jpg" style="max-height:2.5em;">
               <div class="media-body" g>
+                <b class="mt-0 mb-1 text-capitalize">{{org.name}}</b>
+                <!--<small>123 Attendees</small>-->
+              </div>
+            </li>
+          </ng-container>
+        </ul>
+      <div *ngIf="openDropdown" class="bg-light-grey pt-2 font-12">
+        <ul class="list-unstyled px-3">
+          <li class="media">
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Search organisation" class="text-white" type="text" name="searchField" [(ngModel)]="searchField" (keyup)="search('ORG',$event.target.value)">
+              <mat-icon matSuffix class="text-white">search</mat-icon>
+            </mat-form-field>
+          </li>
+          <ng-container *ngFor="let org of orgs">
+            <li *ngIf="org.orgId != selectedOrg.orgId" class="media my-3 cursor d-flex align-items-center" (click)="selectOrg(org)">
+              <img class="mr-3 rounded-circle" src="assets/img/2.jpg" style="max-height:2.5em;">
+              <div class="media-body text-white">
                 <b class="mt-0 mb-1 text-capitalize">{{org.name}}</b>
                 <!--<small>123 Attendees</small>-->
               </div>
@@ -118,19 +135,19 @@
             </ng-container>
           </ul>
 
-          <a role="button" (click)="inviteAdminModal(inviteAdminTemplate)">
-            <div class="cursor border-top">
-              <small>
-                <mat-list>
-                  <mat-list-item class="p-0 font-12">
-                    <mat-icon mat-list-icon>add_box</mat-icon>
-                    <p mat-line>Invite Admin</p>
-                  </mat-list-item>
-                </mat-list>
-              </small>
-            </div>
-          </a>
-        </div>-->
+  <a role="button" (click)="inviteAdminModal(inviteAdminTemplate)">
+    <div class="cursor border-top">
+      <small>
+        <mat-list>
+          <mat-list-item class="p-0 font-12">
+            <mat-icon mat-list-icon>add_box</mat-icon>
+            <p mat-line>Invite Admin</p>
+          </mat-list-item>
+        </mat-list>
+      </small>
+    </div>
+  </a>
+</div>-->
 
 
         <li routerLinkActive="active" *ngFor="let nav of navs">
@@ -147,8 +164,8 @@
         <!--</li>-->
       </ul>
     </mat-nav-list>
-
-  </mat-sidenav>
+    </div>
+   </mat-sidenav>
 
 
   <mat-toolbar>
@@ -157,10 +174,10 @@
     </button>
 
     <!--<div class="d-none d-md-block" [ngClass]="{'width12em': sidenavWidth >= 15, 'width3em': sidenavWidth < 15}">
-      <img src="assets/img/logo.svg" class="img-fluid logo-icon" *ngIf="sidenavWidth >= 15"
-           style="max-height:26px;"/>
-      <img src="assets/img/logo-icon.svg" class="img-fluid logo-icon" *ngIf="sidenavWidth < 15"/>
-    </div>-->
+  <img src="assets/img/logo.svg" class="img-fluid logo-icon" *ngIf="sidenavWidth >= 15"
+       style="max-height:26px;"/>
+  <img src="assets/img/logo-icon.svg" class="img-fluid logo-icon" *ngIf="sidenavWidth < 15"/>
+</div>-->
 
     <button mat-icon-button (click)="toggleNavFromHam(false)" class="d-none d-md-block" *ngIf="sidenavWidth >= 15"
             matTooltip="Minimize navigation">
@@ -186,21 +203,21 @@
       <mat-icon class="example-icon">notifications</mat-icon>
     </button>
 
-    <mat-menu #notify="matMenu" class="p-0">
-      <div class="media pt-2 pl-2 pb-2">
+    <mat-menu #notify="matMenu"  class="mt-5 p-0">
+      <div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications">
         <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
         <div class="media-body">
-          <small><b>Daniel Cole</b> request to join seamfix HQ as an emplo...</small>
+          <small><b>{{notif.firstName}} {{notif.lastName}}</b> request to join seamfix HQ as an emplo...</small>
           <div class="container-fluid">
             <small class="row">
               <div class="mr-auto">3 Hours</div>
-              <div class="ml-auto pr-3"><span class="badge badge-dark cursor" (click)="notificationModal(notificationTemplate)">Details</span></div>
+              <div class="ml-auto pr-3"><span class="badge badge-dark cursor" (click)="openAttendeesDetailsModal(viewDetailsTemplate, notif.locIds, notif.inviteId)">Details</span></div>
             </small>
           </div>
         </div>
       </div>
       <mat-divider></mat-divider>
-      <div class="media pt-2 pl-2 pb-2">
+    <!--  <div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications">
         <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
         <div class="media-body">
           <small><b>Daniel Cole</b> request to join seamfix HQ as an emplo...</small>
@@ -225,7 +242,7 @@
           </div>
         </div>
       </div>
-      <mat-divider></mat-divider>
+      <mat-divider></mat-divider> -->
       <small class="">
         <a routerLink="/portal/notification" class="float-right p-3">See All Notification</a>
       </small>
@@ -235,8 +252,8 @@
       <mat-icon class="example-icon">person</mat-icon>
     </button>
 
-        <mat-menu #menu="matMenu" class="mt-5 p-0">
-            <button mat-menu-item class="m-0" style="height: auto;">
+    <mat-menu #menu="matMenu" class="mt-5 p-0">
+      <button mat-menu-item class="m-0" style="height: auto;">
         <div class="row align-items-center" (click)="goToProfile()">
           <div class="col-auto">
             <img src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon" style="max-height:3em;"/>
@@ -247,7 +264,7 @@
         </div>
       </button>
       <mat-divider></mat-divider>
-      <button mat-menu-item>Setting</button>
+      <button mat-menu-item routerLink="/portal/setting">Setting</button>
       <mat-divider></mat-divider>
       <button (click)="logout()" mat-menu-item>Log Out</button>
     </mat-menu>
@@ -403,14 +420,12 @@
 
     <div class="py-4">
       <span class="text-brand">NAME</span>
-      <h5>Okonkwo Henry</h5>
+      <h5>{{details.firstName}} {{details.lastName}}</h5>
       <span class="text-brand">EMAIL</span>
-      <h5>henry@gmail.com</h5>
+      <h5>{{details.email}}</h5>
     </div>
 
     <button mat-raised-button color="primary" class="primary-outline mr-2">Approve</button>
-    <button mat-raised-button  class="primary-outline">Decline</button>
+    <button mat-raised-button class="primary-outline">Decline</button>
   </div>
 </ng-template>
-
-

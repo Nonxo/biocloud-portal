@@ -39,6 +39,7 @@ export class Invitation {
   phoneNumber:number;
   created:number;
   locId:string;
+  img:string;
 }
 
 export class ApproveRequest {
@@ -66,11 +67,12 @@ export class UpdateProfile {
   fName:string;
   lName:string;
   email:string;
+  img:string;
   phone:number;
   address:string;
   companyName:string;
   customerType: string;
-  img:any;
+
 
   promoNotif: boolean;
   appNotif: boolean;
