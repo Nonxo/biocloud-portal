@@ -87,14 +87,14 @@
     <mat-divider></mat-divider>
     <mat-nav-list>
       <ul>
-        <!--<li routerLinkActive="active">-->
-        <!--<a (click)="manageAdmin = manageAdmin? false:true; toggleManageAdmin()" mat-list-item class="text-white">-->
-        <!--<mat-icon mat-list-icon>group</mat-icon>-->
-        <!--<span mat-line>Admins</span>-->
-        <!--&lt;!&ndash;<i class="material-icons ml-auto mr-3" *ngIf="sidenavWidth >= 15">{{manageAdmin?-->
-        <!--'arrow_drop_up':'arrow_drop_down'}}</i>&ndash;&gt;-->
-        <!--</a>-->
-        <!--</li>-->
+        <li routerLinkActive="active">
+        <a routerLink="/portal/manage-admins" mat-list-item class="text-white">
+        <mat-icon mat-list-icon>group</mat-icon>
+        <span mat-line>Admins</span>
+        <!--<i class="material-icons ml-auto mr-3" *ngIf="sidenavWidth >= 15">{{manageAdmin?
+        'arrow_drop_up':'arrow_drop_down'}}</i>-->
+        </a>
+        </li>
 
         <!--<div *ngIf="manageAdmin" class="bg-light-grey pt-2 font-12">
           <ul class="list-unstyled px-3">

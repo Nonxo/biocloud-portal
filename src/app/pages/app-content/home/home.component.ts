@@ -47,7 +47,6 @@ export class HomeComponent implements OnInit {
                     if(this.orgId != result) {
                         this.orgId = result;
                         this.callLocationService();
-                        this.router.navigate(['/portal']);
                     }
                 }
             )

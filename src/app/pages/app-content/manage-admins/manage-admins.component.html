@@ -1,0 +1,166 @@
+<mat-divider></mat-divider>
+
+
+<div class="container-fluid pr-lg-3 pl-lg-3">
+    <div class="row mt-4">
+
+        <div class="col-lg-4 col-12  d-flex align-items-center"></div>
+
+        <div class="col-lg-4 col-12 text-md-center text-left">
+            <ng-container *ngIf="canEdit()">
+                <button mat-raised-button color="primary" (click)="viewAdminDetails(viewAdminTemplate)"
+                        class="primary-outline">Edit
+                </button>
+                <button mat-button class="primary-outline" (click)="removeAdmin()">Remove</button>
+            </ng-container>
+        </div>
+
+        <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
+            <div class="ml-md-auto mr-auto">
+                <a class="text-right" role="button" (click)="inviteAdminModal(inviteAdminTemplate)">
+                    <p>INVITE NEW ADMIN</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="table-responsive">
+    <table class="table table-striped" [mfData]="users" #mf="mfDataTable" [mfRowsOnPage]="12">
+        <thead>
+        <tr>
+            <th scope="col">
+                <mat-checkbox name="selAll" *ngIf="mf.data.length > 1" [(ngModel)]="selAll"
+                              (change)="selectAll($event)"></mat-checkbox>
+            </th>
+            <th scope="col">Name</th>
+            <th scope="col">Email Address</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Role</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let d of mf.data; let i = index">
+            <th>
+                <mat-checkbox name="check{{i}}" [(ngModel)]="d.checked"
+                              (click)="selectOne(d,$event)" [disabled]="currentUserEmail == d.email"></mat-checkbox>
+            </th>
+            <td>{{d.firstName }} {{ d.lastName}}</td>
+            <td>{{d.email}}</td>
+            <td>{{d.phone}}</td>
+            <td>{{d.role == 'GENERAL_ADMIN'? 'GENERAL ADMIN':'LOCATION ADMIN'}}</td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+
+
+<ng-template #inviteAdminTemplate>
+    <div class="modal-header">
+        <h5 class="modal-title pull-left">Invite Admin</h5>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form (ngSubmit)="inviteAdmin()" name="inviteAdminForm" #inviteAdminForm="ngForm" ngNativeValidate>
+            <div class="col-md-12">
+                <mat-form-field class="input-field">
+                    <input matInput type="email" placeholder="Email Address" name="email"
+                           [(ngModel)]="inviteEmail"
+                           required>
+                </mat-form-field>
+            </div>
+            <div class="col-md-12">
+                <mat-form-field class="input-field">
+                    <mat-select placeholder="Role" name="role" #role="ngModel" [(ngModel)]="inviteRequest.role"
+                                [required]="true">
+                        <mat-option value="GENERAL_ADMIN">GENERAL ADMIN</mat-option>
+                        <mat-option value="LOCATION_ADMIN">LOCATION ADMIN</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="role.errors?.required">You must make a selection</mat-error>
+                </mat-form-field>
+            </div>
+
+
+            <div class="col-md-12" *ngIf="inviteRequest.role == 'LOCATION_ADMIN'">
+                <mat-form-field class="input-field">
+                    <mat-select placeholder="Select Locations" name="locations" [(ngModel)]="inviteRequest.locIds"
+                                multiple>
+                        <mat-select-trigger>
+                            {{locations? getSelectedLocationName() : ''}}
+              <span *ngIf="inviteRequest.locIds?.length > 1">
+                  (+{{inviteRequest.locIds.length - 1}} others)
+                </span>
+                        </mat-select-trigger>
+                        <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-12 text-md-center text-center pt-5">
+                <ng-container>
+                    <button mat-button class="primary-outline" type="button" (click)="modalRef.hide()">Cancel</button>
+                    <button mat-raised-button color="primary" type="submit"
+                            class="primary-outline">Add Admin
+                    </button>
+                </ng-container>
+            </div>
+
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #viewAdminTemplate>
+    <div class="modal-header">
+        <h5 class="modal-title pull-left">View Admin</h5>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form (ngSubmit)="assignAdmins()" name="inviteAdminForm" #inviteAdminForm="ngForm" ngNativeValidate>
+            <div class="col-md-12">
+                <mat-form-field class="input-field">
+                    <input matInput placeholder="Name" [value]="selectedUser.firstName + ' ' + selectedUser.lastName" disabled>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-12">
+                <mat-form-field class="input-field">
+                    <input matInput type="email" placeholder="Email Address" [value]="selectedUser.email" disabled>
+                </mat-form-field>
+            </div>
+            <div class="col-md-12">
+                <mat-form-field class="input-field">
+                    <mat-select placeholder="Role" name="role" #role="ngModel" [(ngModel)]="inviteRequest.role" [required]="true">
+                        <mat-option value="GENERAL_ADMIN">GENERAL ADMIN</mat-option>
+                        <mat-option value="LOCATION_ADMIN">LOCATION ADMIN</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="role.errors?.required">You must make a selection</mat-error>
+                </mat-form-field>
+            </div>
+
+
+            <div class="col-md-12" *ngIf="inviteRequest.role == 'LOCATION_ADMIN'">
+                <mat-form-field class="input-field">
+                    <mat-select placeholder="Select Locations" name="locations" [(ngModel)]="inviteRequest.locIds" multiple>
+                        <mat-select-trigger>
+                            {{locations? getSelectedLocationName() : ''}}
+              <span *ngIf="inviteRequest.locIds?.length > 1">
+                  (+{{inviteRequest.locIds.length - 1}} others)
+                </span>
+                        </mat-select-trigger>
+                        <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-12 text-right">
+                <button mat-raised-button color="accent" class="auth-btn" type="submit">PROCEED</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
