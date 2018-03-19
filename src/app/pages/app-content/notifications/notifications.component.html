@@ -79,7 +79,7 @@
           <div class="list-group-item list-group-item-action d-flex flex-row align-items-start">
             <div class="w-100 pl-3">
               <div class="d-flex w-100 justify-content-between">
-                <p class=" mb-1"><span class="weight-600">{{notif.firstName}} {{notif.lastName}}</span> Request to join {{details.orgName}} as an employee </p>
+                <p class=" mb-1"><span class="weight-600">{{notif.firstName}} {{notif.lastName}}</span> has requested to join {{details.orgName}} as an employee </p>
                 <small class="d-md-none d-block">
                   <mat-icon [matMenuTriggerFor]="request" class="cursor">more_horiz</mat-icon>
                   <mat-menu #request="matMenu">
@@ -188,10 +188,13 @@
   <div class="modal-body px-5">
 
     <h4 class="modal-title text-brand pb-3 pt-3 text-center">Request to join {{details.orgName}}</h4>
-    <p class="pl-lg-3 pr-lg-3 text-center">A request to join your company as been recieved with the following details.</p>
+    <p class="pl-lg-3 pr-lg-3 text-center">A request to join your company has been received with the following details.</p>
+    <p class="pl-lg-3 pr-lg-3 text-center">Approve or Decline Request to proceed...</p>
 
     <div class="pt-3">
-      <img alt="Profile pciture" class=" w-25 rounded-circle mx-auto d-block" src="{{details.verifiableImg}}">
+      <img *ngIf="details.verifiableImg"  class=" w-25 rounded-circle mx-auto d-block" src="data:image/jpg;base64,{{details.verifiableImg}}" alt="Profile pciture">
+    <!--  <img class="w-25 rounded-circle mx-auto d-block" *ngIf="details.verifiableImg == null || details.verifiableImg == ''" src="assets/img/1.png" alt="Profile picture"> -->
+
     </div>
 
     <div class="py-4 pl-lg-3 pr-lg-3">
