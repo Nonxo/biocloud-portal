@@ -39,7 +39,8 @@ export class Invitation {
   phoneNumber:number;
   created:number;
   locId:string;
-  img:string;
+  verifiableImg:string;
+  orgName:string;
 }
 
 export class ApproveRequest {
