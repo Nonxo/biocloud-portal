@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../../components/auth/auth.service";
 import {Router} from "@angular/router";
@@ -139,8 +139,13 @@ export class ProfileComponent implements OnInit {
     this.model.img = userObj.img;
   }
 
-  openModalWithComponent() {
-    this.modalRef = this.modalService.show(ChangePasswordComponent);
+  openeditProfileModal(template: TemplateRef<any>) {
+    this.fetchUser()
+    this.openModal(template);
+  }
+
+  openModal(editProfile: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(editProfile);
   }
 
 
@@ -153,6 +158,7 @@ export class ProfileComponent implements OnInit {
         result => {
           if (result.code == 0) {
             this.ns.showSuccess(result.description);
+            this.modalRef.hide();
           } else {
             this.ns.showError(result.description)
           }
