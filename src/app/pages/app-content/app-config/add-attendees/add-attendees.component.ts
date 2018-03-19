@@ -7,6 +7,8 @@ import {NotifyService} from "../../../../service/notify.service";
 import {TranslateService} from "@ngx-translate/core";
 import * as FileSaver from 'file-saver';
 import {BsModalRef} from "ngx-bootstrap/index";
+import {COMMA, ENTER} from "@angular/cdk/keycodes";
+import {MatChipInputEvent} from "@angular/material";
 
 @Component({
     selector: 'app-add-attendees',
@@ -21,6 +23,7 @@ export class AddAttendeesComponent implements OnInit {
     editMode:boolean;
     locations:any[] = [];
     inviteRequest:InviteRequest = new InviteRequest();
+    separatorKeysCodes = [ENTER, COMMA];
 
     addBy = [
         {name: "INVITE", checked: true},
@@ -61,6 +64,15 @@ export class AddAttendeesComponent implements OnInit {
             return;
         }
 
+        if (this.inviteRequest.emails.length > 0) {
+            if (!this.validateEmails()) {
+                return false
+            }
+        }else {
+            this.ns.showError("You must provide atleast one Email");
+            return;
+        }
+
         this.inviteRequest.locIds.push(this.location);
         this.inviteRequest.role = 'ATTENDEE';
         this.invite();
@@ -74,6 +86,7 @@ export class AddAttendeesComponent implements OnInit {
                         this.inviteRequest = new InviteRequest();
                         this.location = null;
                         this.ns.showSuccess(result.description);
+                        this.cancel();
                     } else {
                         this.ns.showError(result.description);
                     }
@@ -120,6 +133,59 @@ export class AddAttendeesComponent implements OnInit {
                 },
                 error => {this.ns.showError("An Error Occurred.")}
             )
+    }
+
+    addEmails(event:MatChipInputEvent) {
+        let input = event.input;
+        let value = event.value;
+
+        let arr = value.split(" ");
+
+        if(arr.length > 0) {
+            for(let a of arr) {
+                // Add email
+                if ((a || '').trim()) {
+                    this.inviteRequest.emails.push(a.trim());
+                }
+            }
+        }else {
+            // Add email
+            if ((value || '').trim()) {
+                this.inviteRequest.emails.push(value.trim());
+            }
+        }
+
+        // Reset the input value
+        if (input) {
+            input.value = '';
+        }
+    }
+
+    removeEmail(email:any):void {
+        let index = this.inviteRequest.emails.indexOf(email);
+
+        if (index >= 0) {
+            this.inviteRequest.emails.splice(index, 1);
+        }
+    }
+
+    validateEmails():boolean {
+        let regex = /[^@\s]+@[^@\s]+\.[^@\s]+/;
+
+        for (let a of this.inviteRequest.emails) {
+            if (a) {
+                let res = regex.test(a);
+                if (!res) {
+                    this.ns.showError("Incorrect Email format detected: " + a);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    cancel() {
+        this.editMode? this.modalRef.hide():'';
     }
 
 }

@@ -1,5 +1,5 @@
 <div *ngIf="editMode" class="modal-header">
-    <h4 class="modal-title pull-left">{{title}}</h4>
+    <h4 class="modal-title pull-left"></h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
     </button>
@@ -8,36 +8,54 @@
 <div class="container py-5">
     <div class="row">
         <div class="col-md-12">
-            <mat-card>
-                <div class="row px-md-3 p-0">
+                <!--<div class="row px-md-3 p-0 justify-content-center">-->
 
-                    <div class="col-md-12">
-                        <h6 class="text-brand">{{ 'ADD_ATTENDEES.TITLE' | translate}}</h6>
-                    </div>
+                    <!--<div class="col-md-12">-->
+                        <!--<h6 class="text-brand">{{ 'ADD_ATTENDEES.TITLE' | translate}}</h6>-->
+                    <!--</div>-->
 
-                    <div class="col-md-12">
-                        <div>
-                            <small>Add By:</small>
-                        </div>
-                        <div class="btn-group curve mb-3">
-                            <label class="btn btn-md" *ngFor="let add of addBy; let idx=index"
-                                   [ngClass]="{'btn-primary': add.checked}">
-                                <input type="radio" autocomplete="off" name="addToggle" [checked]="add.checked"
-                                       [value]="add.name" (click)="changeAdd(idx)">
-                                {{add.name}}
-                            </label>
-                        </div>
-                    </div>
-                </div>
+                    <!--<div class="col-md-12">-->
+                        <!--<div>-->
+                            <!--<small>Add By:</small>-->
+                        <!--</div>-->
+                        <!--<div class="btn-group curve mb-3">-->
+                            <!--<label class="btn btn-md" *ngFor="let add of addBy; let idx=index"-->
+                                   <!--[ngClass]="{'btn-primary': add.checked}">-->
+                                <!--<input type="radio" autocomplete="off" name="addToggle" [checked]="add.checked"-->
+                                       <!--[value]="add.name" (click)="changeAdd(idx)">-->
+                                <!--{{add.name}}-->
+                            <!--</label>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <form (ngSubmit)="onSubmit()" name="inviteForm" #inviteForm="ngForm" ngNativeValidate>
-                    <div class="row px-md-3 p-0" *ngIf="invites">
-                        <div class="col-md-5">
-                            <mat-form-field class="input-field">
-                                <input matInput placeholder="Enter Email" type="email" name="email"
-                                       [(ngModel)]="inviteRequest.email" required>
+                    <div class="row px-md-3 p-0 justify-content-center" *ngIf="invites">
+                        <div class="col-md-8">
+                            <!--<mat-form-field class="input-field">-->
+                                <!--<input matInput placeholder="Enter Email" type="email" name="email"-->
+                                       <!--[(ngModel)]="inviteRequest.email" required>-->
+                            <!--</mat-form-field>-->
+
+                            <mat-form-field class="input-field mb-4 demo-chip-list">
+                                <mat-chip-list #chipList>
+                                    <mat-chip *ngFor="let email of inviteRequest.emails" [selectable]="true"
+                                              [removable]="true" (remove)="removeEmail(email)">
+                                        {{email}}
+                                        <mat-icon matChipRemove>cancel</mat-icon>
+                                    </mat-chip>
+                                    <input placeholder="Enter Email Address (es)"
+                                           [matChipInputFor]="chipList"
+                                           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                           [matChipInputAddOnBlur]="addOnBlur"
+                                           (matChipInputTokenEnd)="addEmails($event)"/>
+                                </mat-chip-list>
+                                <mat-hint>Separate multiple entries with comma. Press Enter key to confirm
+                                    entry
+                                </mat-hint>
                             </mat-form-field>
                         </div>
-                        <div class="col-md-5">
+
+                        <div class="col-md-8">
                             <mat-form-field class="input-field">
                                 <mat-select placeholder="Select Location" name="location" [(ngModel)]="location" required>
                                     <mat-option *ngFor="let loc of locations" value="{{loc.locId}}">{{loc.name}}
@@ -45,38 +63,47 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-
-
-                        <div class="col-md-12 text-right  mt-3 mt-md-0">
-                            <button mat-mini-fab color="accent" type="submit">
-                                <mat-icon>add</mat-icon>
-                            </button>
-                        </div>
                     </div>
+
+
+                        <!--<div class="col-md-12 text-right  mt-3 mt-md-0">-->
+                            <!--<button mat-mini-fab color="accent" type="submit">-->
+                                <!--<mat-icon>add</mat-icon>-->
+                            <!--</button>-->
+                        <!--</div>-->
+
+                        <div class="col-md-12 text-md-center text-center pt-5">
+                            <ng-container>
+                                <button mat-button class="primary-outline" type="button" (click)="cancel()">Cancel</button>
+                                <button mat-raised-button color="primary" type="submit"
+                                        class="primary-outline">Add Employee (s)
+                                </button>
+                            </ng-container>
+                        </div>
+
                 </form>
 
-                <div class="row  p-md-3 p-0" *ngIf="bulk">
-                    <div class="col-md-6 mb-4">
-                    </div>
-                    <div class="col-md-6"></div>
-                    <div class="col-md-2 my-2">
-                        <button mat-raised-button color="warning" id="downloadTemplate" (click)="downloadTemplate()" class="mat-btn">DOWNLOAD EXCEL</button>
-                    </div>
-                    <div class="col-md-2 my-2">
-                        <!--<button mat-raised-button color="accent" class="mat-btn">UPLOAD EXCEL</button>-->
-                        <div class="fileUpload btn btn-success">
-                            <span mat-raised-button color="accent" class="mat-btn">Upload Template</span>
-                            <input type="file" class="upload" id="uploadTemplate" name="uploadTemplate"
-                                   (change)="fileChange($event)">
-                        </div>
-                    </div>
-                </div>
-            </mat-card>
+                <!--<div class="row  p-md-3 p-0" *ngIf="bulk">-->
+                    <!--<div class="col-md-6 mb-4">-->
+                    <!--</div>-->
+                    <!--<div class="col-md-6"></div>-->
+                    <!--<div class="col-md-2 my-2">-->
+                        <!--<button mat-raised-button color="warning" id="downloadTemplate" (click)="downloadTemplate()" class="mat-btn">DOWNLOAD EXCEL</button>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-2 my-2">-->
+                        <!--&lt;!&ndash;<button mat-raised-button color="accent" class="mat-btn">UPLOAD EXCEL</button>&ndash;&gt;-->
+                        <!--<div class="fileUpload btn btn-success">-->
+                            <!--<span mat-raised-button color="accent" class="mat-btn">Upload Template</span>-->
+                            <!--<input type="file" class="upload" id="uploadTemplate" name="uploadTemplate"-->
+                                   <!--(change)="fileChange($event)">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
         </div>
 
-        <div *ngIf="!editMode" class="col-md-12 pt-4 text-right">
-            <button mat-button class="mat-btn" routerLink="/portal/config">BACK</button>
-            <button mat-raised-button color="primary" class="mat-btn" routerLink="/portal">DONE</button>
-        </div>
+        <!--<div *ngIf="!editMode" class="col-md-12 pt-4 text-right">-->
+            <!--<button mat-button class="mat-btn" routerLink="/portal/config">BACK</button>-->
+            <!--<button mat-raised-button color="primary" class="mat-btn" routerLink="/portal">DONE</button>-->
+        <!--</div>-->
     </div>
 </div>

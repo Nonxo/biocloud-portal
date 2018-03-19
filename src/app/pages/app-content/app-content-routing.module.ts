@@ -14,6 +14,10 @@ import { ReportDashboardComponent } from './report-dashboard/report-dashboard.co
 import { CustomReportComponent } from './custom-report/custom-report.component';
 import { LatenessReportComponent } from './lateness-report/lateness-report.component';
 import {AuthGuard} from "../../auth/guards/auth-guard.service";
+import {ChangePasswordComponent} from "../change-password/change-password.component";
+import {ProfileComponent} from "./profile/profile.component";
+import {ManageAdminsComponent} from "./manage-admins/manage-admins.component";
+import { SettingComponent } from './setting/setting.component';
 
 const routes: Routes = [
   {
@@ -38,6 +42,10 @@ const routes: Routes = [
         component: ManageAttendeesComponent
       },
       {
+        path: 'manage-admins',
+        component: ManageAdminsComponent
+      },
+      {
         path: 'report-dashboard',
         component: ReportDashboardComponent
       },
@@ -56,7 +64,15 @@ const routes: Routes = [
       {
         path: 'notification',
         component: NotificationsComponent
-      }
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent
+      },
+      {
+        path: 'setting',
+        component: SettingComponent
+      },
 
     ]
   }
