@@ -86,9 +86,12 @@ export class UpdateProfile {
 
 
 export class AdminRemovalRequest {
-    userId:string;
+    userIds:string[];
     orgId:string;
-    role:string;
+
+    constructor() {
+        this.userIds = [];
+    }
 }
 
 

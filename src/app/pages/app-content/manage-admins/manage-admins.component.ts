@@ -170,10 +170,12 @@ export class ManageAdminsComponent implements OnInit {
      * method that initiates process to remove selected Admins
      */
     removeAdmin() {
-        this.setSelectedUser();
+        this.adminRemovalRequest = new AdminRemovalRequest();
+        let selectedUsers = this.users.filter(obj => obj.checked);
 
-        this.adminRemovalRequest.userId = this.selectedUser.userId;
-        this.adminRemovalRequest.role = this.selectedUser.role;
+        for(let u of selectedUsers) {
+            this.adminRemovalRequest.userIds.push(u.userId);
+        }
 
         this.contentService.removeAdmin(this.adminRemovalRequest)
             .subscribe(
@@ -220,6 +222,14 @@ export class ManageAdminsComponent implements OnInit {
      */
     canEdit() {
         return this.users.filter(obj => obj.checked).length == 1? true:false;
+    }
+
+    /**
+     * This method determines when the remove button should be shown
+     * condition: when only one or more record is selected
+     */
+    canRemove() {
+        return this.users.filter(obj => obj.checked).length > 0? true:false;
     }
 
 }
