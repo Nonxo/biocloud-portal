@@ -1,5 +1,5 @@
 <div *ngIf="editMode" class="modal-header">
-    <h4 class="modal-title pull-left">{{title}}</h4>
+    <h4 class="modal-title pull-left"></h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
     </button>
@@ -31,11 +31,30 @@
                 <form (ngSubmit)="onSubmit()" name="inviteForm" #inviteForm="ngForm" ngNativeValidate>
                     <div class="row px-md-3 p-0 justify-content-center" *ngIf="invites">
                         <div class="col-md-8">
-                            <mat-form-field class="input-field">
-                                <input matInput placeholder="Enter Email" type="email" name="email"
-                                       [(ngModel)]="inviteRequest.email" required>
+                            <!--<mat-form-field class="input-field">-->
+                                <!--<input matInput placeholder="Enter Email" type="email" name="email"-->
+                                       <!--[(ngModel)]="inviteRequest.email" required>-->
+                            <!--</mat-form-field>-->
+
+                            <mat-form-field class="input-field mb-4 demo-chip-list">
+                                <mat-chip-list #chipList>
+                                    <mat-chip *ngFor="let email of inviteRequest.emails" [selectable]="true"
+                                              [removable]="true" (remove)="removeEmail(email)">
+                                        {{email}}
+                                        <mat-icon matChipRemove>cancel</mat-icon>
+                                    </mat-chip>
+                                    <input placeholder="Enter Email Address (es)"
+                                           [matChipInputFor]="chipList"
+                                           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                           [matChipInputAddOnBlur]="addOnBlur"
+                                           (matChipInputTokenEnd)="addEmails($event)"/>
+                                </mat-chip-list>
+                                <mat-hint>Separate multiple entries with comma. Press Enter key to confirm
+                                    entry
+                                </mat-hint>
                             </mat-form-field>
                         </div>
+
                         <div class="col-md-8">
                             <mat-form-field class="input-field">
                                 <mat-select placeholder="Select Location" name="location" [(ngModel)]="location" required>
@@ -44,6 +63,7 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
+                    </div>
 
 
                         <!--<div class="col-md-12 text-right  mt-3 mt-md-0">-->
@@ -61,8 +81,6 @@
                             </ng-container>
                         </div>
 
-
-                    </div>
                 </form>
 
                 <!--<div class="row  p-md-3 p-0" *ngIf="bulk">-->

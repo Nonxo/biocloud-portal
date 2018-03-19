@@ -7,11 +7,11 @@
         <div class="col-lg-4 col-12  d-flex align-items-center"></div>
 
         <div class="col-lg-4 col-12 text-md-center text-left">
-            <ng-container *ngIf="canEdit()">
-                <button mat-raised-button color="primary" (click)="viewAdminDetails(viewAdminTemplate)"
+            <ng-container>
+                <button mat-raised-button color="primary" *ngIf="canEdit()" (click)="viewAdminDetails(viewAdminTemplate)"
                         class="primary-outline">Edit
                 </button>
-                <button mat-button class="primary-outline" (click)="removeAdmin()">Remove</button>
+                <button mat-button class="primary-outline" *ngIf="canRemove()" (click)="removeAdmin()">Remove</button>
             </ng-container>
         </div>
 

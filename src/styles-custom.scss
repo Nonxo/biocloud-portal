@@ -22,7 +22,7 @@ $standard-size: 14px;
 html,
 body {
     font-family: $font-stack !important;
-    background: $off-white;
+    background: $off-white !important;
 }
 
 mat-card.logo-carousel {
