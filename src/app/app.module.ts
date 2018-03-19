@@ -23,6 +23,7 @@ import {SessionGuard} from "./auth/guards/session-guard.service";
 import {ChangePasswordComponent} from "./pages/change-password/change-password.component";
 import {PictureUtil} from "./util/PictureUtil";
 import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-auth.component";
+import {SignUpAsComponent} from "./pages/app-content/sign-up-as/sign-up-as.component";
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-
     RegisterComponent,
     ChangePasswordComponent,
     AddAdminAuthComponent,
-    LoginComponent
+    LoginComponent,
+    SignUpAsComponent
   ],
   imports: [
     HttpClientModule,
