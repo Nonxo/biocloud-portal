@@ -128,22 +128,24 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <h4>Biodata</h4>
-                        <img class="w-50 rounded-circle mx-auto d-block" src="assets/img/1.png" alt="Profile pciture">
-                        <h5 class="text-center pt-3">Kendrick Lamar</h5>
+                        <img class="w-50 rounded-circle mx-auto d-block" src="{{model.img}}" alt="Profile picture">
+                        <h5 class="text-center pt-3">{{model.fName}} {{model.lName}}</h5>
                     </div>
                     <div class="col-lg-6 pt-lg-0 pt-4 pb-4">
+                      <button mat-icon-button (click)="openeditProfileModal(editProfile)" class="float-lg-right">
                         <mat-icon class="float-right">edit</mat-icon>
+                      </button>
                         <div class="pt-lg-5">
                             <p>Email Address</p>
-                            <h6>Kendrick.Lamar@grammy.com</h6>
+                            <h6>{{model.email}}</h6>
                         </div>
                         <div class="pt-3">
                             <p>Phone Number</p>
-                            <h6>08325496259</h6>
+                            <h6>{{model.phone}}</h6>
                         </div>
                         <div class="pt-3">
                             <p>Residential Address</p>
-                            <h6>Plot 17 Forest Hill drive Off One road like that, Compton</h6>
+                            <h6>{{model.address}}</h6>
                         </div>
                     </div>
                 </div>
@@ -235,3 +237,80 @@
         </div>
     </div>
 </div>
+
+
+<ng-template #editProfile>
+  <div class="mat-card">
+    <div class="mat-card-content">
+      <div class="modal-header">
+       <h4 class="modal-title pull-left">{{'PROFILE_COMPONENT.TITLE' | translate}} -
+          <small class="category">{{'PROFILE_COMPONENT.SUB_TITLE' | translate}}</small>
+       </h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+
+   <div class="container py-5">
+        <form>
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field class="input-field">
+                <input matInput type="text" [(ngModel)]="model.fName" name="fname" placeholder="First Name">
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+              <mat-form-field class="input-field">
+                <input matInput type="text" [(ngModel)]="model.lName" name="lname" placeholder="Last Name">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field class="input-field">
+                <input matInput type="text" [(ngModel)]="model.companyName" name="companyName" placeholder="Company">
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+              <mat-form-field class="input-field">
+                <input matInput type="text" pattern="[0-9]{8,11}" [(ngModel)]="model.phone" name="phoneNumber" placeholder="Phone Number">
+              </mat-form-field>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-md-7">
+              <mat-form-field class="input-field">
+                <input matInput type="email" [(ngModel)]="model.email" name="email" placeholder="Email Address" [disabled]="true">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field class="input-field">
+                <input matInput type="text" [(ngModel)]="model.address" name="address" placeholder="Contact Address">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="col-md-12 mt-3">
+            <button mat-raised-button color="primary" class="px-4 primary-outline py-1 mr-2" (click)="onSubmit()">SAVE</button>
+            <button mat-raised-button class="px-4 primary-outline py-1" type="button" (click)="modalRef.hide()">CANCEL</button>
+          </div>
+
+
+        </form>
+    </div>
+    </div>
+  </div>
+</ng-template>
+
+
