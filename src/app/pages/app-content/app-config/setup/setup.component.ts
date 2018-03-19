@@ -39,9 +39,9 @@ export class SetupComponent implements OnInit {
     inviteEmails:string[] = [];
     separatorKeysCodes = [ENTER, COMMA];
     locationTypes = [
-        {value: "SPECIFIC_ADDRESS", name: "Specific Address"},
         {value: "COUNTRY", name: "Country"},
         {value: "STATE", name: "State"},
+        {value: "SPECIFIC_ADDRESS", name: "Specific Address"}
     ]
 
     constructor(private aService:AppConfigService,
