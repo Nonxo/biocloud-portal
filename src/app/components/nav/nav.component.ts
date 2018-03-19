@@ -412,8 +412,8 @@ export class NavComponent implements OnInit {
     }
 
     removeAdmin() {
-        this.adminRemovalRequest.userId = this.selectedUser.userId;
-        this.adminRemovalRequest.role = this.selectedUser.role;
+        // this.adminRemovalRequest.userId = this.selectedUser.userId;
+        // this.adminRemovalRequest.role = this.selectedUser.role;
 
         this.contentService.removeAdmin(this.adminRemovalRequest)
             .subscribe(
