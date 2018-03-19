@@ -17,7 +17,7 @@
             <div class="row">
                 <div class=" col-lg-12 px-md-4 px-lg-4">
                     <h5 class="float-left">Locations</h5>
-                    <a routerLink="/portal/config" role="button">
+                    <a routerLink="/portal/config" role="button" *hasAuthority="'GENERAL_ADMIN'">
                         <h6 class="float-right">ADD NEW LOCATION</h6>
                     </a>
                 </div>

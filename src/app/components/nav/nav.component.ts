@@ -309,11 +309,12 @@ export class NavComponent implements OnInit {
     }
 
     callLocationService() {
-        this.contentService.fetchOrgUsersLocation()
+        this.contentService.fetchOrgLocations(this.selectedOrg.orgId)
+        // this.contentService.fetchOrgUsersLocation()
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.locations = result.locations;
+                        this.locations = result.locations? result.locations:[];
                     }
                 },
                 error => {
@@ -412,8 +413,8 @@ export class NavComponent implements OnInit {
     }
 
     removeAdmin() {
-        this.adminRemovalRequest.userId = this.selectedUser.userId;
-        this.adminRemovalRequest.role = this.selectedUser.role;
+        // this.adminRemovalRequest.userId = this.selectedUser.userId;
+        // this.adminRemovalRequest.role = this.selectedUser.role;
 
         this.contentService.removeAdmin(this.adminRemovalRequest)
             .subscribe(
