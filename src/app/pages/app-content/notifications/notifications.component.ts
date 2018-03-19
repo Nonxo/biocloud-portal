@@ -1,10 +1,13 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {BsModalService} from 'ngx-bootstrap/modal';
+import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import {NotifyService} from "../../../service/notify.service";
 import {AppContentService} from "../services/app-content.service";
 import {StorageService} from "../../../service/storage.service";
-import {Invitation} from "../model/app-content.model";
+import {ApproveRequest, Invitation} from "../model/app-content.model";
+
+
+
 
 
 @Component({
@@ -14,38 +17,78 @@ import {Invitation} from "../model/app-content.model";
 })
 export class NotificationsComponent implements OnInit {
   modalRef: BsModalRef;
-  orgId:string;
-  notifications:Object[] = [];
-  details:Invitation = new Invitation();
+  orgId: string;
+  locations: any[] = [];
+  approveRequest: ApproveRequest = new ApproveRequest();
+  selectedLocIds:string[] = [];
+  notifications: Object[] = [];
+  details: Invitation = new Invitation();
+  created: Date = new Date();
+  @ViewChild("assignLocation") public assignLocation: TemplateRef<any>;
+  selectedEmail:string;
 
 
   constructor(private modalService: BsModalService,
-              private ns:NotifyService,
-              private contentService:AppContentService,
-              private ss:StorageService) {}
-
-  openModal(viewDetails: TemplateRef<any>, inviteId:string) {
-    this.callNotificationServiceDetails(inviteId);
-    this.modalRef = this.modalService.show(viewDetails);
+              private ns: NotifyService,
+              private contentService: AppContentService,
+              private ss: StorageService) {
   }
-
-
 
   ngOnInit() {
 
-    if (this.ss.getSelectedOrg()){
+    if (this.ss.getSelectedOrg()) {
       this.orgId = this.ss.getSelectedOrg().orgId;
       this.callNotificationService();
+      this.assignLocation
     }
 
   }
+
+
+
+  openAttendeesDetailsModal(template: TemplateRef<any>, locIds:string[], inviteId: string) {
+    this.selectedLocIds = [];
+    this.selectedLocIds = locIds;
+    this.callNotificationServiceDetails(inviteId);
+    this.openModal(template);
+  }
+
+  openLocationModal() {
+    this.openModal(this.assignLocation);
+    this.callLocationService();
+
+
+  }
+
+  openModal(viewDetails: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(viewDetails);
+  }
+
 
   callNotificationService() {
     this.contentService.fetchNotification(this.orgId)
       .subscribe(
         result => {
-          if (result.code == 0){
+          if (result.code == 0) {
             this.notifications = result.attendees;
+          } else {
+            this.ns.showError(result.description)
+          }
+        },
+        error => {
+          this.ns.showError("An error Occurred");
+        }
+      )
+  }
+
+
+
+  callNotificationServiceDetails(inviteId: string) {
+    this.contentService.fetchNotificationDetails(inviteId)
+      .subscribe(
+        result => {
+          if (result.code == 0) {
+            this.details = result.invitation;
           } else {
             this.ns.showError(result.description);
           }
@@ -56,20 +99,108 @@ export class NotificationsComponent implements OnInit {
       )
   }
 
-  callNotificationServiceDetails(inviteId:string){
-    this.contentService.fetchNotificationDetails(inviteId)
+
+  approveNotifications(email:string, inviteId:string, status:string) {
+
+    this.approveRequest.status = status;
+
+    if (this.selectedLocIds && this.selectedLocIds.length > 0) {
+      this.callApproveService(inviteId);
+    } else {
+
+      this.modalRef.hide();
+      this.selectedEmail = email;
+      this.openLocationModal()
+    }
+
+  }
+
+  rejectNotifications(email:string, inviteId:string, status:string) {
+    this.approveRequest.status = status;
+
+    if (!this.selectedLocIds || this.selectedLocIds.length == 0) {
+      this.callRejectService(inviteId);
+
+    } else {
+      this.modalRef.hide();
+      this.selectedEmail = email;
+
+    }
+  }
+
+
+
+  confirmAssignment(inviteId:string) {
+    //do logic to ensure that user selects at least one location in the dropdown
+
+
+    this.callApproveService(inviteId);
+  }
+
+
+  callApproveService(inviteId:string) {
+    this.contentService.approveRejectNotification(inviteId, this.approveRequest)
       .subscribe(
         result => {
-          if (result.code == 0){
-            this.details = result.invitation;
+          if (result.code == 0) {
+            this.ns.showSuccess("Notification Approved");
+            this.modalRef.hide();
+            this.callNotificationService();
+
           } else {
             this.ns.showError(result.description);
           }
         },
-          error => {
-          this.ns.showError("An error Occurred");
-          }
+        error => {this.ns.showError("An Error Occurred");}
       )
   }
+
+  callRejectService(inviteId:string) {
+    this.contentService.approveRejectNotification(inviteId, this.approveRequest)
+      .subscribe(
+        result => {
+          if (result.code == 0) {
+            this.ns.showSuccess("Notification Rejected");
+            this.modalRef.hide();
+            this.callNotificationService();
+
+          } else {
+            this.ns.showError(result.description);
+          }
+        },
+        error => {this.ns.showError("An Error Occurred");}
+      )
+  }
+
+
+
+  callLocationService() {
+    this.contentService.fetchOrgLocations(this.orgId)
+      .subscribe(
+        result => {
+          if (result.code == 0) {
+            this.locations = result.locations;
+          } else {
+            this.ns.showError(result.description);
+            this.locations = [];
+          }
+        },
+        error => {
+          this.ns.showError("An Error Occurred");
+          this.locations = [];
+        }
+      )
+  }
+  getSelectedLocationName() {
+    if (this.approveRequest.locIds.length > 0) {
+      for(let l of this.locations) {
+        if (l.locId == this.approveRequest.locIds[0]) {
+          return l.name;
+        }
+      }
+    }
+  }
+
+
 
 }

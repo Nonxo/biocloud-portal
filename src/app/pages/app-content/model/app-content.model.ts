@@ -40,6 +40,7 @@ export class Invitation {
   created:number;
   locId:string;
   verifiableImg:string;
+  orgName:string;
 }
 
 export class ApproveRequest {
