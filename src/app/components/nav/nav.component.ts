@@ -4,7 +4,7 @@ import {BsModalService, BsModalRef} from "ngx-bootstrap/index";
 import {StorageService} from "../../service/storage.service";
 import {AppContentService} from "../../pages/app-content/services/app-content.service";
 import {NotifyService} from "../../service/notify.service";
-import {CreateOrgRequest, Org, AdminRemovalRequest} from "../../pages/app-content/model/app-content.model";
+import {CreateOrgRequest, Org, AdminRemovalRequest, Invitation} from "../../pages/app-content/model/app-content.model";
 import {MessageService} from "../../service/message.service";
 import {InviteRequest} from "../../pages/app-content/app-config/model/app-config.model";
 import {AppConfigService} from "../../pages/app-content/app-config/services/app-config.service";
@@ -20,23 +20,23 @@ import {AuthService} from "../auth/auth.service";
 export class NavComponent implements OnInit {
 
     sideNavMode = "side";
-    opener:boolean = true;
-    modalRef:BsModalRef;
-    selectedUser:any;
-    manageAdmin:boolean;
-    locations:any[] = [];
-    users:any[] = [];
-    adminRemovalRequest:AdminRemovalRequest = new AdminRemovalRequest();
-    views:Object[] = [
+    opener: boolean = true;
+    modalRef: BsModalRef;
+    selectedUser: any;
+    manageAdmin: boolean;
+    locations: any[] = [];
+    users: any[] = [];
+    adminRemovalRequest: AdminRemovalRequest = new AdminRemovalRequest();
+    views: Object[] = [
         {icon: "home", route: "Home", url: "/portal"},
-        {icon: "group", route: "Attendees", url: "/portal/manage-users"},
+        {icon: "group", route: "Employees", url: "/portal/manage-users"},
         {icon: "insert_chart", route: "Report", url: "/portal/report-dashboard"},
         {icon: "payment", route: "Subscribe", url: "/portal/subscribe"}
     ];
 
-    orgTypes:string[] = ["SCHOOL", "SECURITY", "HOSPITAL"];
+    orgTypes: string[] = ["SCHOOL", "SECURITY", "HOSPITAL"];
 
-    navs:Object[] = [
+    navs: Object[] = [
         // {icon: "person", route: "Profile", url: "/"},
         // {icon: "message", route: "Notifications", url: "/portal/notification"}
     ];
@@ -46,9 +46,11 @@ export class NavComponent implements OnInit {
     sidenavWidth = 16;
     openDropdown:boolean;
     hamburgerClicked:boolean = true;
+    details: Invitation = new Invitation();
     title:string = "Home";
     inviteRequest:InviteRequest = new InviteRequest();
     currentUserEmail:string = this.ss.getLoggedInUserEmail();
+    username = this.ss.getUserName();
 
     searchField:string;
     searchOrgTerm$ = new Subject<any>();
@@ -254,6 +256,7 @@ export class NavComponent implements OnInit {
 
         this.fetchAdminUsers();
         this.callLocationService();
+        this.router.navigate(['/portal']);
         this.mService.setSelectedOrg(org.orgId);
     }
 
@@ -370,7 +373,7 @@ export class NavComponent implements OnInit {
         this.selectedUser = user;
         this.inviteRequest.role = user.role;
         this.inviteRequest.locIds = user.locIds? user.locIds: [];
-        this.inviteRequest.email = user.email;
+        // this.inviteRequest.email = user.email;
 
         this.openModal(template);
     }
@@ -381,8 +384,13 @@ export class NavComponent implements OnInit {
         this.openModal(template);
     }
 
+    notificationModal(template: TemplateRef<any>) {
+        this.openModal(template);
+    }
+
+
     assignAdmins() {
-        if(!this.isInviteFormValid()) {
+        if (!this.isInviteFormValid()) {
             return;
         }
 
@@ -423,5 +431,7 @@ export class NavComponent implements OnInit {
             )
     }
 
-
+    goToProfile() {
+      this.router.navigate(['/portal/profile']);
+    }
 }

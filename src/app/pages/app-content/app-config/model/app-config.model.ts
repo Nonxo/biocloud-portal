@@ -26,11 +26,12 @@ export class LocationRequest {
 
 export class InviteRequest {
     orgId:string;
-    email:string;
+    emails:string[];
     role:string;
     locIds:string[];
 
     constructor() {
+        this.emails = [];
         this.locIds = [];
     }
 }

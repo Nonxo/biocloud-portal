@@ -47,7 +47,6 @@ export class HomeComponent implements OnInit {
                     if(this.orgId != result) {
                         this.orgId = result;
                         this.callLocationService();
-                        this.router.navigate(['/portal']);
                     }
                 }
             )
@@ -102,7 +101,7 @@ export class HomeComponent implements OnInit {
     }
 
     openInviteModal(locId:string) {
-        this.modalOptions.class = 'modal-lg mt-0';
+        this.modalOptions.class = 'modal-md mt-0';
         this.modalOptions.initialState = {
             editMode: true,
             location: locId

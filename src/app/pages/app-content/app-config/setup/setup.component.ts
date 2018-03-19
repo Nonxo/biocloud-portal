@@ -171,6 +171,10 @@ export class SetupComponent implements OnInit {
         this.locRequest.radiusThreshold = 0;
         this.locRequest.address = null;
         this.showMap = false;
+
+        if (this.locRequest.locationType == 'COUNTRY' || this.locRequest.locationType == 'STATE') {
+            this.fetchCountries();
+        }
     }
 
     addnewLocation() {
@@ -182,7 +186,6 @@ export class SetupComponent implements OnInit {
         if (this.resumption) {
             if (!this.locRequest.resumptionTimezoneId) {
                 this.ns.showError("You must select a timezone.");
-                this.addNewLoc = false;
                 return;
             }
             this.locRequest.resumption = this.formatResumptionTime();
@@ -191,7 +194,6 @@ export class SetupComponent implements OnInit {
         }
 
         if (!this.isFormValid()) {
-            this.addNewLoc = false;
             return;
         }
 
@@ -276,9 +278,6 @@ export class SetupComponent implements OnInit {
     saveLocation() {
         //noinspection TypeScriptValidateTypes,TypeScriptUnresolvedFunction
         this.aService.saveLocation(this.locRequest)
-            .finally(() => {
-                this.addNewLoc = false;
-            })
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -289,7 +288,7 @@ export class SetupComponent implements OnInit {
                             this.inviteEmails = [];
                             this.showMap = false;
                         } else {
-                            this.router.navigate(['/portal/config/add-attendees']);
+                            this.router.navigate(['/portal']);
                         }
 
                     } else {
@@ -307,7 +306,7 @@ export class SetupComponent implements OnInit {
     }
 
     autocomplete() {
-        let country = this.countryCode;
+        let country = this.countryCode? this.countryCode:"";
 
         //noinspection TypeScriptUnresolvedVariable
         let autocomplete = new google.maps.places.Autocomplete(<HTMLInputElement>document.getElementById('autocompleteInput'), {});
@@ -374,11 +373,15 @@ export class SetupComponent implements OnInit {
     markerDragEnd($event:any) {
         this.lat = $event.coords.lat;
         this.lng = $event.coords.lng;
+
+        this.getSearchAddress(this.lat, this.lng);
     }
 
     mapClicked($event:any) {
         this.lat = $event.coords.lat;
         this.lng = $event.coords.lng;
+
+        this.getSearchAddress(this.lat, this.lng);
     }
 
     useAddress() {
@@ -404,10 +407,23 @@ export class SetupComponent implements OnInit {
         let input = event.input;
         let value = event.value;
 
-        // Add email
-        if ((value || '').trim()) {
-            this.inviteEmails.push(value.trim());
+        let arr = value.split(" ");
+
+        if(arr.length > 0) {
+            for(let a of arr) {
+                // Add email
+                if ((a || '').trim()) {
+                    this.inviteEmails.push(a.trim());
+                }
+            }
+        }else {
+            // Add email
+            if ((value || '').trim()) {
+                this.inviteEmails.push(value.trim());
+            }
         }
+
+
 
         // Reset the input value
         if (input) {
@@ -421,6 +437,10 @@ export class SetupComponent implements OnInit {
         if (index >= 0) {
             this.inviteEmails.splice(index, 1);
         }
+    }
+
+    cancel() {
+        this.editMode? this.modalRef.hide(): this.router.navigate(['/portal']);
     }
 
 }
