@@ -6,7 +6,6 @@ import {SharedModule} from "../../shared/shared.module";
 import {CommonModule} from '@angular/common';
 import {SubscribeComponent} from './subscribe/subscribe.component';
 import {SubscriptionHistoryComponent} from './subscription-history/subscription-history.component';
-import {AppContentService} from "./services/app-content.service";
 import {MessageService} from "../../service/message.service";
 import {SetupComponent} from "./app-config/setup/setup.component";
 import {AppConfigService} from "./app-config/services/app-config.service";
@@ -45,7 +44,7 @@ import {CommonsHttpService} from "./services/commons-http.service";
         ManageAdminsComponent,
         SettingComponent
     ],
-    providers: [AppContentService, MessageService, AppConfigService, GeoMapService, CommonsHttpService, SearchService],
+    providers: [MessageService, AppConfigService, GeoMapService, CommonsHttpService, SearchService],
     entryComponents: [SetupComponent, AddAttendeesComponent]
 })
 export class AppContentModule { }
