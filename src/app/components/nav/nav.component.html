@@ -188,7 +188,7 @@
 
     <mat-menu #notify="matMenu" class="p-0">
       <div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications">
-        <img class="mr-3 rounded-circle "src="data:image/jpg;base64,{{details.verifiableImg}}" style="max-height:3em;">
+        <img class="mr-3 rounded-circle "src="data:image/jpg;base64,{{notif.verifiableImg}}" style="max-height:3em;">
         <div class="media-body">
           <small><b>{{notif.firstName}} {{notif.lastName}}</b> has requested to join {{notif.orgName}} as an emplo...</small>
           <div class="container-fluid">
