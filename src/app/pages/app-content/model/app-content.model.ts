@@ -6,6 +6,7 @@ export class CreateOrgRequest {
     name:string;
     type:string;
     createdBy:string;
+    logo:string;
 }
 
 export class Org {
