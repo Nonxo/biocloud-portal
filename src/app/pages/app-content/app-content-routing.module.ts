@@ -14,11 +14,9 @@ import { ReportDashboardComponent } from './report-dashboard/report-dashboard.co
 import { CustomReportComponent } from './custom-report/custom-report.component';
 import { LatenessReportComponent } from './lateness-report/lateness-report.component';
 import {AuthGuard} from "../../auth/guards/auth-guard.service";
-import {ChangePasswordComponent} from "../change-password/change-password.component";
 import {ProfileComponent} from "./profile/profile.component";
 import {ManageAdminsComponent} from "./manage-admins/manage-admins.component";
 import { SettingComponent } from './setting/setting.component';
-import {SignUpAsComponent} from "./sign-up-as/sign-up-as.component";
 
 const routes: Routes = [
   {
@@ -73,11 +71,7 @@ const routes: Routes = [
       {
         path: 'setting',
         component: SettingComponent
-      },
-      {
-        path: 'sign-up-as',
-        component: SignUpAsComponent
-      },
+      }
 
     ]
   }

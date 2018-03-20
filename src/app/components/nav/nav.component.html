@@ -16,7 +16,7 @@
         <div class="cursor border-top">
           <small>
             <mat-list>
-              <mat-list-item class="p-0 font-12">
+              <mat-list-item class="p-0 font-12 text-white">
                 <mat-icon mat-list-icon>add_box</mat-icon>
                 <p mat-line> Add Organisation</p>
               </mat-list-item>
@@ -27,7 +27,8 @@
 
       <div class=" text-center my-3 px-3 pb-3 cursor border-0" (click)="show()" *ngIf="orgs.length > 0 || selectedOrg.orgId">
         <div class="mb-2">
-          <img src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon" style="max-height:6em;" />
+          <img *ngIf="!selectedOrg.logo" src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon" style="max-height:6em;" />
+          <img *ngIf="selectedOrg.logo" src="data:image/jpg;base64,{{selectedOrg.logo}}" class="img-fluid rounded-circle logo-icon" style="max-height:6em;" />
         </div>
         <div class="alignment">
           <small class="p-2 text-white" *ngIf="sidenavWidth >= 15"><b>{{selectedOrg.name? (selectedOrg.name |
@@ -48,7 +49,8 @@
           </li>
           <ng-container *ngFor="let org of orgs">
             <li *ngIf="org.orgId != selectedOrg.orgId" class="media my-3 cursor d-flex align-items-center" (click)="selectOrg(org)">
-              <img class="mr-3 rounded-circle" src="assets/img/2.jpg" style="max-height:2.5em;">
+              <img *ngIf="!org.logo" class="mr-3 rounded-circle" src="assets/img/2.jpg" style="max-height:2.5em;">
+              <img *ngIf="org.logo" class="mr-3 rounded-circle" src="data:image/jpg;base64,{{org.logo}}" style="max-height:2.5em;">
               <div class="media-body text-white">
                 <b class="mt-0 mb-1 text-capitalize">{{org.name}}</b>
                 <!--<small>123 Attendees</small>-->
@@ -61,7 +63,7 @@
           <div class="cursor border-top">
             <small>
               <mat-list>
-                <mat-list-item class="p-0 font-12">
+                <mat-list-item class="p-0 font-12 text-white">
                   <mat-icon mat-list-icon>add_box</mat-icon>
                   <p mat-line> Add Organistaion</p>
                 </mat-list-item>
