@@ -6,3 +6,23 @@
     padding-top: 15px;
     margin-bottom: 0;
 }
+
+.btn-search {
+    background: #603484;
+    border: none;
+    margin-left: -10px;
+    height: 38px;
+}
+
+.mat-search {
+    color: #fff;
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 736px) {
+    .btn-search {
+        background: #603484;
+        border: none;
+        margin-left: -48px;
+        height: 38px;
+    }
+}
