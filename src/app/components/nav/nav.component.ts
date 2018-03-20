@@ -41,10 +41,12 @@ export class NavComponent implements OnInit {
         // {icon: "message", route: "Notifications", url: "/portal/notification"}
     ];
     orgs:Org[] = [];
+    orgId: string;
     orgRequest:CreateOrgRequest = new CreateOrgRequest();
     selectedOrg:Org = new Org();
     sidenavWidth = 16;
     openDropdown:boolean;
+    notifications: Object[] = [];
     hamburgerClicked:boolean = true;
     details: Invitation = new Invitation();
     title:string = "Home";
@@ -143,6 +145,21 @@ export class NavComponent implements OnInit {
             !this.hamburgerClicked ? this.decrease() : '';
         }
     }
+  callNotificationService() {
+    this.contentService.fetchNotification(this.orgId)
+      .subscribe(
+        result => {
+          if (result.code == 0) {
+            this.notifications = result.attendees;
+          } else {
+            this.ns.showError(result.description)
+          }
+        },
+        error => {
+          this.ns.showError("An error Occurred");
+        }
+      )
+  }
 
     toggleManageAdmin() {
         this.users = this.ss.getAdminUsers();
@@ -410,6 +427,9 @@ export class NavComponent implements OnInit {
                 }
             )
     }
+
+
+
 
     removeAdmin() {
         // this.adminRemovalRequest.userId = this.selectedUser.userId;

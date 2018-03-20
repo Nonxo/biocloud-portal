@@ -180,31 +180,31 @@
     <!--<button mat-icon-button class="pr-5" routerLink="/portal/notification" *hasAuthority="'GENERAL_ADMIN'">
       <mat-icon class="example-icon">notifications</mat-icon>
     </button>-->
-    <button mat-icon-button class="pr-5" [matMenuTriggerFor]="notify" *hasAuthority="'GENERAL_ADMIN'">
+    <button mat-icon-button class="pr-5" [matMenuTriggerFor]="notify" *hasAuthority="'GENERAL_ADMIN'" (click)="callNotificationService()">
       <mat-icon class="example-icon">notifications</mat-icon>
     </button>
 
     <mat-menu #notify="matMenu" class="p-0">
-      <!--<div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications">-->
-        <!--<img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">-->
-        <!--<div class="media-body">-->
-          <!--<small><b>{{notif.firstName}} {{notif.lastName}}</b> request to join seamfix HQ as an emplo...</small>-->
-          <!--<div class="container-fluid">-->
-            <!--<small class="row">-->
-              <!--<div class="mr-auto">3 Hours</div>-->
-              <!--<div class="ml-auto pr-3"><span class="badge badge-dark cursor" (click)="openAttendeesDetailsModal(viewDetailsTemplate, notif.locIds, notif.inviteId)">Details</span></div>-->
-            <!--</small>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-      <mat-divider></mat-divider>
-    <!--  <div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications">
-        <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
+      <div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications">
+        <img class="mr-3 rounded-circle "src="data:image/jpg;base64,{{details.verifiableImg}}" style="max-height:3em;">
         <div class="media-body">
-          <small><b>Daniel Cole</b> request to join seamfix HQ as an emplo...</small>
+          <small><b>{{notif.firstName}} {{notif.lastName}}</b> has requested to join {{notif.orgName}} as an emplo...</small>
           <div class="container-fluid">
             <small class="row">
               <div class="mr-auto">3 Hours</div>
+              <div class="ml-auto pr-3"><span class="badge badge-dark cursor" (click)="openAttendeesDetailsModal(viewDetailsTemplate, notif.locIds, notif.inviteId)">Details</span></div>
+            </small>
+         </div>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+  <!-- <div class="media pt-2 pl-2 pb-2">
+     <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
+     <div class="media-body">
+       <small><b>{{details.firstName}} {{details.lastName}}</b> has requested to join {{details.orgName}} as an emplo...</small>
+       <div class="container-fluid">
+         <small class="row">
+           <div class="mr-auto">3 Hours</div>
               <div class="ml-auto pr-3"><span class="badge badge-dark cursor" (click)="notificationModal(notificationTemplate)">Details</span></div>
             </small>
           </div>
@@ -214,18 +214,18 @@
       <div class="media pt-2 pl-2 pb-2">
         <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
         <div class="media-body">
-          <small>You have been accent a new location</small>
+          <small><b>{{details.firstName}} {{details.lastName}}</b> has requested to join {{details.orgName}} as an emplo...</small>
           <div class="container-fluid">
             <small class="row">
               <div class="mr-auto">3 Hours</div>
-              <div class="ml-auto pr-3"><span class="badge badge-dark cursor" (click)="notificationModal(notificationTemplate)">More Info</span></div>
+              <div class="ml-auto pr-3"><span class="badge badge-dark cursor">Details</span></div>
             </small>
           </div>
         </div>
       </div>
       <mat-divider></mat-divider> -->
       <small class="">
-        <a routerLink="/portal/notification" class="float-right p-3">See All Notification</a>
+        <a routerLink="/portal/notification" class="float-right p-3">See all notifications..</a>
       </small>
     </mat-menu>
 
