@@ -22,6 +22,7 @@ import {SearchService} from "../../service/search.service";
 import {ProfileComponent} from "./profile/profile.component";
 import { ManageAdminsComponent } from './manage-admins/manage-admins.component';
 import { SettingComponent } from './setting/setting.component';
+import {CommonsHttpService} from "./services/commons-http.service";
 
 @NgModule({
     imports: [
@@ -44,7 +45,7 @@ import { SettingComponent } from './setting/setting.component';
         ManageAdminsComponent,
         SettingComponent
     ],
-    providers: [AppContentService, MessageService, AppConfigService, GeoMapService, SearchService],
+    providers: [AppContentService, MessageService, AppConfigService, GeoMapService, CommonsHttpService, SearchService],
     entryComponents: [SetupComponent, AddAttendeesComponent]
 })
 export class AppContentModule { }

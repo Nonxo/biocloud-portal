@@ -9,6 +9,7 @@ import {SetupComponent} from "../app-config/setup/setup.component";
 import {AddAttendeesComponent} from "../app-config/add-attendees/add-attendees.component";
 import {Router} from "@angular/router";
 import {DataService} from "../../../service/data.service";
+import {CommonsHttpService} from "../services/commons-http.service";
 
 @Component({
     selector: 'app-home',
@@ -31,7 +32,8 @@ export class HomeComponent implements OnInit {
                 private ss:StorageService,
                 private modalService:BsModalService,
                 private router:Router,
-                private dataService:DataService) {
+                private dataService:DataService,
+                private httpService: CommonsHttpService) {
     }
 
     ngOnInit() {
@@ -63,22 +65,26 @@ export class HomeComponent implements OnInit {
     }
 
     callLocationService() {
-        this.contentService.fetchOrgLocations(this.orgId)
+        // this.contentService.fetchOrgLocations(this.orgId)
         // this.contentService.fetchOrgUsersLocation()
-            .subscribe(
-                result => {
-                    if (result.code == 0) {
-                        this.locations = result.locations? result.locations:[];
-                    } else {
-                        this.ns.showError(result.description);
-                        this.locations = [];
-                    }
-                },
-                error => {
-                    this.ns.showError("An Error Occurred");
-                    this.locations = [];
-                }
-            )
+        //     .subscribe(
+        //         result => {
+        //             if (result.code == 0) {
+        //                 this.locations = result.locations? result.locations:[];
+        //             } else {
+        //                 this.ns.showError(result.description);
+        //                 this.locations = [];
+        //             }
+        //         },
+        //         error => {
+        //             this.ns.showError("An Error Occurred");
+        //             this.locations = [];
+        //         }
+        //     )
+
+        // this.locations = this.httpService.callLocationService();
+
+
     }
 
     editLocation(loc:LocationRequest) {
