@@ -89,19 +89,19 @@
                     </button> -->
                     <button mat-menu-item >
                       <mat-icon>file_download</mat-icon>
-                      <span>Details</span>
+                      <span>Respond</span>
                     </button>
                   </mat-menu>
                 </small>
                 <span class="d-none d-md-block">
                   <div class="ml-auto pr-3">
                   <!--  <span class="badge badge-dark cursor px-3 py-2 mr-2" >Approve</span> -->
-                    <span class="badge badge-dark cursor px-3 py-2" (click)="openAttendeesDetailsModal(notificationTemplate, notif.locIds, notif.inviteId)">Details</span>
+                    <span class="badge badge-dark cursor px-3 py-2" (click)="openAttendeesDetailsModal(notificationTemplate, notif.locIds, notif.inviteId)">Respond</span>
                   </div>
                 </span>
               </div>
              <p class="mb-1 d-flex justify-content-between">
-                <span class="text-success">{{notif.created | date:'fullDate'}}</span>
+                <span class="text-success">{{notif.created | date:'fullDate'}}  {{notif.created | date:'shortTime'}}</span>
               </p>
             </div>
 
@@ -179,12 +179,11 @@
 </div>
 
 <ng-template #notificationTemplate>
-  <!--<div class="modal-header">-->
-    <!---->
-    <!--<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">-->
-      <!--<span aria-hidden="true">&times;</span>-->
-    <!--</button>-->
-  <!--</div>-->
+  <div class="modal-header">
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
   <div class="modal-body px-5">
 
     <h4 class="modal-title text-brand pb-3 pt-3 text-center">Request to join {{details.orgName}}</h4>
@@ -192,8 +191,8 @@
     <p class="pl-lg-3 pr-lg-3 text-center">Approve or Decline Request to proceed...</p>
 
     <div class="pt-3">
-      <img *ngIf="details.verifiableImg"  class=" w-25 rounded-circle mx-auto d-block" src="data:image/jpg;base64,{{details.verifiableImg}}" alt="Profile pciture">
-    <!--  <img class="w-25 rounded-circle mx-auto d-block" *ngIf="details.verifiableImg == null || details.verifiableImg == ''" src="assets/img/1.png" alt="Profile picture"> -->
+      <img *ngIf= "!details.verifiableImg"  src="assets/img/1.png" class="w-25 rounded-circle mx-auto d-block"  alt="Profile picture">
+      <img *ngIf="details.verifiableImg" src="data:image/jpg;base64,{{details.verifiableImg}}"  class=" w-25 rounded-circle mx-auto d-block" alt="Profile pciture">
 
     </div>
 
