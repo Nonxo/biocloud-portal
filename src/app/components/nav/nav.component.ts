@@ -146,7 +146,7 @@ export class NavComponent implements OnInit {
         }
     }
   callNotificationService() {
-    this.contentService.fetchNotification(this.orgId)
+    this.contentService.fetchNotification(this.selectedOrg.orgId)
       .subscribe(
         result => {
           if (result.code == 0) {
