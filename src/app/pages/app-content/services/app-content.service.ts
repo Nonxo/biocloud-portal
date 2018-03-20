@@ -5,6 +5,7 @@ import {Endpoints} from "../../../util/endpoints";
 import {CreateOrgRequest, AssignUserRequest, ApproveRequest, AdminRemovalRequest, UpdateProfile} from "../model/app-content.model";
 import {StorageService} from "../../../service/storage.service";
 import {MediaType} from "../../../util/constants";
+import set = Reflect.set;
 
 @Injectable()
 export class AppContentService {
@@ -174,6 +175,15 @@ export class AppContentService {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_JSON)
             })
+    }
+
+    clockinsHistory(orgId:string, pageSize:number, pageNo:number):Observable<any> {
+      let params = new HttpParams()
+        .set('orgId', orgId);
+        return this.httpClient.get(Endpoints.FETCH_CLOCKINS_HISTORY + params + pageSize + pageNo, {
+        headers: new  HttpHeaders()
+          .set('Content-Type', MediaType.APPLICATION_JSON)
+      })
     }
 
 

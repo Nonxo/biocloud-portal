@@ -91,11 +91,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Bismark Achodo</td>
-                                    <td>Lekki</td>
-                                    <td>08:45</td>
+                               <tr *ngFor="let notif of notifications | slice:1 let i=index">
+                                    <th scope="row">{{i + 1}}</th>
+                                    <td>{{notif.firstName}} {{notif.lastName}}</td>
+                                    <td>{{notif.locationName}}</td>
+                                    <td>{{notif.time | date:'shortTime'}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">2</th>

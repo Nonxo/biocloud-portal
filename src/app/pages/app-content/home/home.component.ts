@@ -9,6 +9,7 @@ import {SetupComponent} from "../app-config/setup/setup.component";
 import {AddAttendeesComponent} from "../app-config/add-attendees/add-attendees.component";
 import {Router} from "@angular/router";
 import {DataService} from "../../../service/data.service";
+import {ClockinsDetails} from "../model/app-content.model";
 
 @Component({
     selector: 'app-home',
@@ -19,11 +20,15 @@ export class HomeComponent implements OnInit {
 
     locationsSubscription:any;
     editLocationsSubscription:any;
+    notifications: Object[] = [];
     orgId:string;
+    pageSize = 5;
+    pageNo = 1;
     locations:any[] = [];
     bsModalRef:BsModalRef;
     modalOptions:ModalOptions = new ModalOptions();
     pendingAttendees:any[] = [];
+    time: Date = new Date();
 
     constructor(private mService:MessageService,
                 private ns:NotifyService,
@@ -39,6 +44,7 @@ export class HomeComponent implements OnInit {
         if (this.ss.getSelectedOrg()) {
             this.orgId = this.ss.getSelectedOrg().orgId;
             this.callLocationService();
+            this.fetchClockinsHistory();
         }
 
         this.locationsSubscription = this.mService.getSelectedOrg()
@@ -150,6 +156,20 @@ export class HomeComponent implements OnInit {
                 },
                 error => {this.ns.showError("An Error Occurred.");}
             )
+    }
+
+    fetchClockinsHistory() {
+      this.contentService.clockinsHistory(this.orgId, this.pageSize, this.pageNo)
+        .subscribe(
+          result => {
+            if (result.code == 0) {
+              this.notifications = result.admin;
+            } else {
+              this.router.navigate(['/portal']);
+            }
+          },
+
+        )
     }
 
 }
