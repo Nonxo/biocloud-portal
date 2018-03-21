@@ -144,8 +144,8 @@ export class ProfileComponent implements OnInit {
     this.openModal(template);
   }
 
-  openModal(editProfile: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(editProfile);
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 
 
