@@ -1,10 +1,13 @@
-import {Component, OnInit, TemplateRef, HostListener} from '@angular/core';
+import {Component, OnInit, TemplateRef, HostListener, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
 import {BsModalService, BsModalRef} from "ngx-bootstrap/index";
 import {StorageService} from "../../service/storage.service";
 import {AppContentService} from "../../pages/app-content/services/app-content.service";
 import {NotifyService} from "../../service/notify.service";
-import {CreateOrgRequest, Org, AdminRemovalRequest, Invitation} from "../../pages/app-content/model/app-content.model";
+import {
+  CreateOrgRequest, Org, AdminRemovalRequest, Invitation,
+  ApproveRequest
+} from "../../pages/app-content/model/app-content.model";
 import {MessageService} from "../../service/message.service";
 import {InviteRequest} from "../../pages/app-content/app-config/model/app-config.model";
 import {AppConfigService} from "../../pages/app-content/app-config/services/app-config.service";
@@ -28,32 +31,29 @@ export class NavComponent implements OnInit {
     users: any[] = [];
     adminRemovalRequest: AdminRemovalRequest = new AdminRemovalRequest();
     views: Object[] = [
-        {icon: "home", route: "Home", url: "/portal"},
-        {icon: "group", route: "Employees", url: "/portal/manage-users"},
-        {icon: "insert_chart", route: "Report", url: "/portal/report-dashboard"},
-        {icon: "payment", route: "Subscribe", url: "/portal/subscribe"}
+        {icon: "group", route: "Employees", url: "/portal/manage-users", authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']},
+        {icon: "insert_chart", route: "Report", url: "/portal/report-dashboard", authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']},
+        {icon: "payment", route: "Subscribe", url: "/portal/subscribe", authority: "GENERAL_ADMIN"}
     ];
 
     orgTypes: string[] = ["SCHOOL", "SECURITY", "HOSPITAL"];
-
-    navs: Object[] = [
-        // {icon: "person", route: "Profile", url: "/"},
-        // {icon: "message", route: "Notifications", url: "/portal/notification"}
-    ];
     orgs:Org[] = [];
     orgId: string;
     orgRequest:CreateOrgRequest = new CreateOrgRequest();
     selectedOrg:Org = new Org();
     sidenavWidth = 16;
     openDropdown:boolean;
+    approveRequest: ApproveRequest = new ApproveRequest();
     notifications: Object[] = [];
     selectedLocIds:string[] = [];
     hamburgerClicked:boolean = true;
     details: Invitation = new Invitation();
     title:string = "Home";
+    selectedEmail:string;
     inviteRequest:InviteRequest = new InviteRequest();
     currentUserEmail:string = this.ss.getLoggedInUserEmail();
     username = this.ss.getUserName();
+    @ViewChild("assignLocation") public assignLocation: TemplateRef<any>;
 
     searchField:string;
     searchOrgTerm$ = new Subject<any>();
@@ -110,6 +110,13 @@ export class NavComponent implements OnInit {
     this.selectedLocIds = locIds;
     this.callNotificationServiceDetails(inviteId);
     this.openModal(template);
+  }
+
+  openLocationModal() {
+    this.openModal(this.assignLocation);
+    this.callLocationService();
+
+
   }
 
     onClickedOutside(e:Event) {
@@ -182,6 +189,67 @@ export class NavComponent implements OnInit {
         error => {
           this.ns.showError("An error Occurred");
         }
+      )
+  }
+  callApproveService(inviteId:string) {
+    this.contentService.approveRejectNotification(inviteId, this.approveRequest)
+      .subscribe(
+        result => {
+          if (result.code == 0) {
+            this.ns.showSuccess("Notification Approved");
+            this.modalRef.hide();
+            this.callNotificationService();
+
+          } else {
+            this.ns.showError(result.description);
+          }
+        },
+        error => {this.ns.showError("An Error Occurred");}
+      )
+  }
+
+  approveNotifications(email:string, inviteId:string, status:string) {
+
+    this.approveRequest.status = status;
+
+    if (this.selectedLocIds && this.selectedLocIds.length > 0) {
+      this.callApproveService(inviteId);
+    } else {
+
+      this.modalRef.hide();
+      this.selectedEmail = email;
+      this.openLocationModal()
+    }
+
+  }
+
+  rejectNotifications(email:string, inviteId:string, status:string) {
+    this.approveRequest.status = status;
+
+    if (!this.selectedLocIds || this.selectedLocIds.length == 0) {
+      this.callRejectService(inviteId);
+
+    } else {
+      this.modalRef.hide();
+      this.selectedEmail = email;
+
+    }
+  }
+
+  callRejectService(inviteId:string) {
+    this.contentService.approveRejectNotification(inviteId, this.approveRequest)
+      .subscribe(
+        result => {
+          if (result.code == 0) {
+            this.ns.showSuccess("Notification Rejected");
+            this.modalRef.hide();
+            this.callNotificationService();
+
+          } else {
+            this.ns.showError(result.description);
+          }
+        },
+        error => {this.ns.showError("An Error Occurred");}
       )
   }
 
@@ -350,11 +418,12 @@ export class NavComponent implements OnInit {
     }
 
     callLocationService() {
-        this.contentService.fetchOrgLocations(this.selectedOrg.orgId)
+        // this.contentService.fetchOrgLocations(this.selectedOrg.orgId)
+        this.contentService.fetchOrgUsersLocation()
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.locations = result.locations;
+                        this.locations = result.locations? result.locations:[];
                     }
                 },
                 error => {
