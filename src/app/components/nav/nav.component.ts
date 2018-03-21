@@ -35,10 +35,13 @@ export class NavComponent implements OnInit {
 
     orgTypes: string[] = ["SCHOOL", "SECURITY", "HOSPITAL"];
     orgs:Org[] = [];
+    orgId: string;
     orgRequest:CreateOrgRequest = new CreateOrgRequest();
     selectedOrg:Org = new Org();
     sidenavWidth = 16;
     openDropdown:boolean;
+    notifications: Object[] = [];
+    selectedLocIds:string[] = [];
     hamburgerClicked:boolean = true;
     details: Invitation = new Invitation();
     title:string = "Home";
@@ -96,6 +99,13 @@ export class NavComponent implements OnInit {
         !this.openDropdown ? this.openDropdown = true : this.openDropdown = false;
     }
 
+  openAttendeesDetailsModal(template: TemplateRef<any>, locIds:string[], inviteId: string) {
+    this.selectedLocIds = [];
+    this.selectedLocIds = locIds;
+    this.callNotificationServiceDetails(inviteId);
+    this.openModal(template);
+  }
+
     onClickedOutside(e:Event) {
         this.openDropdown = false;
 
@@ -137,6 +147,37 @@ export class NavComponent implements OnInit {
             !this.hamburgerClicked ? this.decrease() : '';
         }
     }
+  callNotificationService() {
+    this.contentService.fetchNotification(this.selectedOrg.orgId)
+      .subscribe(
+        result => {
+          if (result.code == 0) {
+            this.notifications = result.attendees;
+          } else {
+            this.ns.showError(result.description)
+          }
+        },
+        error => {
+          this.ns.showError("An error Occurred");
+        }
+      )
+  }
+
+  callNotificationServiceDetails(inviteId: string) {
+    this.contentService.fetchNotificationDetails(inviteId)
+      .subscribe(
+        result => {
+          if (result.code == 0) {
+            this.details = result.invitation;
+          } else {
+            this.ns.showError(result.description);
+          }
+        },
+        error => {
+          this.ns.showError("An error Occurred");
+        }
+      )
+  }
 
     toggleManageAdmin() {
         this.users = this.ss.getAdminUsers();
@@ -405,6 +446,9 @@ export class NavComponent implements OnInit {
                 }
             )
     }
+
+
+
 
     removeAdmin() {
         // this.adminRemovalRequest.userId = this.selectedUser.userId;
