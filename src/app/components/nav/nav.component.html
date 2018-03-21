@@ -182,31 +182,32 @@
     <!--<button mat-icon-button class="pr-5" routerLink="/portal/notification" *hasAuthority="'GENERAL_ADMIN'">
       <mat-icon class="example-icon">notifications</mat-icon>
     </button>-->
-    <button mat-icon-button class="pr-5" [matMenuTriggerFor]="notify" *hasAuthority="'GENERAL_ADMIN'">
+    <button mat-icon-button class="pr-5" [matMenuTriggerFor]="notify" *hasAuthority="'GENERAL_ADMIN'" (click)="callNotificationService()">
       <mat-icon class="example-icon">notifications</mat-icon>
     </button>
 
     <mat-menu #notify="matMenu" class="p-0">
-      <!--<div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications">-->
-        <!--<img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">-->
-        <!--<div class="media-body">-->
-          <!--<small><b>{{notif.firstName}} {{notif.lastName}}</b> request to join seamfix HQ as an emplo...</small>-->
-          <!--<div class="container-fluid">-->
-            <!--<small class="row">-->
-              <!--<div class="mr-auto">3 Hours</div>-->
-              <!--<div class="ml-auto pr-3"><span class="badge badge-dark cursor" (click)="openAttendeesDetailsModal(viewDetailsTemplate, notif.locIds, notif.inviteId)">Details</span></div>-->
-            <!--</small>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-      <mat-divider></mat-divider>
-    <!--  <div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications">
-        <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
+      <div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications">
+        <img *ngIf= "!notif.verifiableImg" class="mr-3 rounded-circle" src="assets/img/1.png" style="max-height:3em;">
+        <img *ngIf= "notif.verifiableImg" class="mr-3 rounded-circle "src="data:image/jpg;base64,{{notif.verifiableImg}}" style="max-height:3em;">
         <div class="media-body">
-          <small><b>Daniel Cole</b> request to join seamfix HQ as an emplo...</small>
+          <small><b>{{notif.firstName}} {{notif.lastName}}</b> has requested to join {{notif.orgName}} as an emplo...</small>
           <div class="container-fluid">
             <small class="row">
-              <div class="mr-auto">3 Hours</div>
+              <div class="mr-auto">{{notif.created | date:'short'}}</div>
+              <div class="ml-auto pr-3" (click)="openAttendeesDetailsModal(notificationTemplate, notif.locIds, notif.inviteId)"><span class="badge badge-dark cursor">Details</span></div>
+            </small>
+         </div>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+  <!-- <div class="media pt-2 pl-2 pb-2">
+     <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
+     <div class="media-body">
+       <small><b>{{details.firstName}} {{details.lastName}}</b> has requested to join {{details.orgName}} as an emplo...</small>
+       <div class="container-fluid">
+         <small class="row">
+           <div class="mr-auto">3 Hours</div>
               <div class="ml-auto pr-3"><span class="badge badge-dark cursor" (click)="notificationModal(notificationTemplate)">Details</span></div>
             </small>
           </div>
@@ -216,18 +217,18 @@
       <div class="media pt-2 pl-2 pb-2">
         <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
         <div class="media-body">
-          <small>You have been accent a new location</small>
+          <small><b>{{details.firstName}} {{details.lastName}}</b> has requested to join {{details.orgName}} as an emplo...</small>
           <div class="container-fluid">
             <small class="row">
               <div class="mr-auto">3 Hours</div>
-              <div class="ml-auto pr-3"><span class="badge badge-dark cursor" (click)="notificationModal(notificationTemplate)">More Info</span></div>
+              <div class="ml-auto pr-3"><span class="badge badge-dark cursor">Details</span></div>
             </small>
           </div>
         </div>
       </div>
       <mat-divider></mat-divider> -->
       <small class="">
-        <a routerLink="/portal/notification" class="float-right p-3">See All Notification</a>
+        <a routerLink="/portal/notification" class="float-right p-3">See all notifications..</a>
       </small>
     </mat-menu>
 
@@ -394,22 +395,32 @@
 
 <ng-template #notificationTemplate>
   <div class="modal-header">
-    <h5 class="modal-title text-brand pull-left text-center">Request to join seamfix HQ</h5>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body px-5">
-    A request to join your company as been recieved with the following details.
 
-    <div class="py-4">
-      <span class="text-brand">NAME</span>
-      <h5>{{details.firstName}} {{details.lastName}}</h5>
-      <span class="text-brand">EMAIL</span>
-      <h5>{{details.email}}</h5>
+    <h4 class="modal-title text-brand pb-3 pt-3 text-center">Request to join {{details.orgName}}</h4>
+    <p class="pl-lg-3 pr-lg-3 text-center">A request to join your company has been received with the following details.</p>
+    <p class="pl-lg-3 pr-lg-3 text-center">Approve or Decline Request to proceed...</p>
+
+    <div class="pt-3">
+      <img *ngIf= "!details.verifiableImg"  src="assets/img/1.png" class="w-25 rounded-circle mx-auto d-block"  alt="Profile picture">
+      <img *ngIf="details.verifiableImg" src="data:image/jpg;base64,{{details.verifiableImg}}"  class=" w-25 rounded-circle mx-auto d-block" alt="Profile pciture">
+
     </div>
 
-    <button mat-raised-button color="primary" class="primary-outline mr-2">Approve</button>
-    <button mat-raised-button class="primary-outline">Decline</button>
+    <div class="py-4 pl-lg-3 pr-lg-3">
+      <span class="text-brand">NAME</span>
+      <h6 class="pb-2">{{details.firstName}} {{details.lastName}}</h6>
+      <span class="text-brand">EMAIL</span>
+      <h6>{{details.email}}</h6>
+    </div>
+
+    <div class="text-center pt-4 pb-5">
+      <button mat-raised-button color="primary" class="primary-outline mr-2" (click)="approveNotifications(details.email, details.inviteId, 'APPROVED')">Approve</button>
+      <button mat-raised-button class="primary-outline" (click)="rejectNotifications(details.email, details.inviteId,  'REJECTED')" data-dismiss="modal">Decline</button>
+    </div>
   </div>
 </ng-template>
