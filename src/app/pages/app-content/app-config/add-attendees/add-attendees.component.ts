@@ -98,11 +98,12 @@ export class AddAttendeesComponent implements OnInit {
     }
 
     callLocationService() {
-        this.contentService.fetchOrgLocations(this.ss.getSelectedOrg() ? this.ss.getSelectedOrg().orgId : null)
+        // this.contentService.fetchOrgLocations(this.ss.getSelectedOrg() ? this.ss.getSelectedOrg().orgId : null)
+        this.contentService.fetchOrgUsersLocation()
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.locations = result.locations;
+                        this.locations = result.locations? result.locations:[];
                     }
                 },
                 error => {

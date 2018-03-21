@@ -63,11 +63,11 @@ export class HomeComponent implements OnInit {
     }
 
     callLocationService() {
-        this.contentService.fetchOrgLocations(this.orgId)
+        this.contentService.fetchOrgUsersLocation()
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.locations = result.locations;
+                        this.locations = result.locations ? result.locations : [];
                     } else {
                         this.ns.showError(result.description);
                         this.locations = [];

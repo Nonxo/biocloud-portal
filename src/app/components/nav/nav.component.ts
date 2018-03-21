@@ -28,18 +28,12 @@ export class NavComponent implements OnInit {
     users: any[] = [];
     adminRemovalRequest: AdminRemovalRequest = new AdminRemovalRequest();
     views: Object[] = [
-        {icon: "home", route: "Home", url: "/portal"},
-        {icon: "group", route: "Employees", url: "/portal/manage-users"},
-        {icon: "insert_chart", route: "Report", url: "/portal/report-dashboard"},
-        {icon: "payment", route: "Subscribe", url: "/portal/subscribe"}
+        {icon: "group", route: "Employees", url: "/portal/manage-users", authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']},
+        {icon: "insert_chart", route: "Report", url: "/portal/report-dashboard", authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']},
+        {icon: "payment", route: "Subscribe", url: "/portal/subscribe", authority: "GENERAL_ADMIN"}
     ];
 
     orgTypes: string[] = ["SCHOOL", "SECURITY", "HOSPITAL"];
-
-    navs: Object[] = [
-        // {icon: "person", route: "Profile", url: "/"},
-        // {icon: "message", route: "Notifications", url: "/portal/notification"}
-    ];
     orgs:Org[] = [];
     orgId: string;
     orgRequest:CreateOrgRequest = new CreateOrgRequest();
@@ -350,11 +344,12 @@ export class NavComponent implements OnInit {
     }
 
     callLocationService() {
-        this.contentService.fetchOrgLocations(this.selectedOrg.orgId)
+        // this.contentService.fetchOrgLocations(this.selectedOrg.orgId)
+        this.contentService.fetchOrgUsersLocation()
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.locations = result.locations;
+                        this.locations = result.locations? result.locations:[];
                     }
                 },
                 error => {
