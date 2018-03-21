@@ -315,3 +315,17 @@
 </ng-template>
 
 
+<ng-template #aboutMe>
+  <div class="modal-header">
+    <h5 class="modal-title pull-left">Map</h5>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+<mat-card>
+  <mat-form-field>
+    <input mdInput placeholder="Your Text" dividerColor="accent">
+  </mat-form-field>
+</mat-card>
+
+</ng-template>
