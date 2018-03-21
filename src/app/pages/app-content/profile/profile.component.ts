@@ -148,6 +148,11 @@ export class ProfileComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  openaboutProfileModal(template: TemplateRef<any>) {
+    this.fetchUser()
+    this.openModal(template);
+  }
+
 
 
   onSubmit() {

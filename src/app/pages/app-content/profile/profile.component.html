@@ -173,10 +173,11 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="">
+                          <button mat-icon-button (click)="openaboutProfileModal(aboutMe)" class="float-lg-right">
                             <mat-icon class="float-right">edit</mat-icon>
+                          </button>
                             <h5 class="pb-2">About me</h5>
-                            <p class="pt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti et nemo aut odio eligendi sunt suscipit provident, facere, sint culpa, ut veniam corporis fuga hic nam error? Aut rem ipsa amet eveniet quae, laboriosam quasi,
-                                veniam earum repellendus officia suscipit a optio neque laudantium officiis vero, ducimus tempore quia eius?</p>
+                            <p class="pt-3">{{model.bio}}</p>
                         </div>
                     </div>
                 </div>
@@ -317,15 +318,20 @@
 
 <ng-template #aboutMe>
   <div class="modal-header">
-    <h5 class="modal-title pull-left">Map</h5>
+    <h5 class="modal-title pull-left text-brand">About Me</h5>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
 <mat-card>
-  <mat-form-field>
-    <input mdInput placeholder="Your Text" dividerColor="accent">
+  <mat-form-field class="example-full-width">
+    <textarea matInput placeholder="Leave a comment" [(ngModel)]="model.bio"></textarea>
   </mat-form-field>
+
+  <div class="col-md-12 mt-3">
+    <button mat-raised-button color="primary" class="px-4 primary-outline py-1 mr-2" (click)="onSubmit()">SAVE</button>
+    <button mat-raised-button class="px-4 primary-outline py-1" type="button" (click)="modalRef.hide()">CANCEL</button>
+  </div>
 </mat-card>
 
 </ng-template>
