@@ -29,16 +29,16 @@ export class HasAuthorityDirective {
 
     @Input()
     set hasAuthority(value:string|string[]) {
-        this.roles = typeof value === 'string' ? [<string> value] : <string[]> value;
-        this.updateView();
+            this.roles = typeof value === 'string' ? [<string> value] : <string[]> value;
+            this.updateView();
     }
 
     private updateView():void {
-        this.authService.hasAnyAuthority(this.roles).then(result => {
-            this.viewContainerRef.clear();
-            if (result) {
-                this.viewContainerRef.createEmbeddedView(this.templateRef);
-            }
-        })
+            this.authService.hasAnyAuthority(this.roles).then(result => {
+                this.viewContainerRef.clear();
+                if (result) {
+                    this.viewContainerRef.createEmbeddedView(this.templateRef);
+                }
+            })
     }
 }

@@ -287,6 +287,7 @@ export class SetupComponent implements OnInit {
                             this.locRequest = new LocationRequest();
                             this.inviteEmails = [];
                             this.showMap = false;
+                            this.resumption = "";
                         } else {
                             this.router.navigate(['/portal']);
                         }

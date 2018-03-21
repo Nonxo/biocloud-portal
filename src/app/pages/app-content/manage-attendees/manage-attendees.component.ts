@@ -35,6 +35,7 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
         {name: "Deactivate", enum: "DE_ACTIVATE", displayFor: "ALL", template: "activateUserTemplate"},
         {name: "Activate", enum: "ACTIVATE", displayFor: "ALL", template: "activateUserTemplate"}
     ];
+    userRole = this.ss.getSelectedOrgRole();
 
     constructor(private contentService:AppContentService,
                 private ss:StorageService,
@@ -58,15 +59,24 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
             this.callLocationService();
         }
 
-        this.fetchUsers();
+        // this.fetchUsers();
     }
 
     callLocationService() {
-        this.contentService.fetchOrgLocations(this.orgId)
+        this.contentService.fetchOrgUsersLocation()
+            .finally(() => {this.fetchUsers()})
             .subscribe(
                 result => {
                     if (result.code == 0) {
                         this.locations = result.locations;
+
+                        if(this.userRole == 'LOCATION_ADMIN') {
+                            if(this.locations.length > 1) {
+                                //if user is a location admin select the first location by default
+                                this.selectedLocId = this.locations[0].locId;
+                            }
+                        }
+
                     } else {
                         this.ns.showError(result.description);
                         this.locations = [];
@@ -84,7 +94,8 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
         let id;
         if (!this.selectedLocId) {
             this.orgWideSearch = true;
-            id = this.orgId;
+
+            id = this.userRole == 'GENERAL_ADMIN'? this.orgId: "";
         } else {
             this.orgWideSearch = false;
             id = this.selectedLocId;
