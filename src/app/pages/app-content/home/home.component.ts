@@ -9,7 +9,7 @@ import {SetupComponent} from "../app-config/setup/setup.component";
 import {AddAttendeesComponent} from "../app-config/add-attendees/add-attendees.component";
 import {Router} from "@angular/router";
 import {DataService} from "../../../service/data.service";
-import {ClockinsDetails} from "../model/app-content.model";
+
 
 @Component({
     selector: 'app-home',
@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
         if (this.ss.getSelectedOrg()) {
             this.orgId = this.ss.getSelectedOrg().orgId;
             this.callLocationService();
-            this.fetchClockinsHistory();
+            this.fetchClockInsHistory();
         }
 
         this.locationsSubscription = this.mService.getSelectedOrg()
@@ -158,8 +158,9 @@ export class HomeComponent implements OnInit {
             )
     }
 
-    fetchClockinsHistory() {
-      this.contentService.clockinsHistory(this.orgId, this.pageSize, this.pageNo)
+    fetchClockInsHistory() {
+      debugger;
+      this.contentService.clockInsHistory(this.orgId, this.pageSize, this.pageNo)
         .subscribe(
           result => {
             if (result.code == 0) {

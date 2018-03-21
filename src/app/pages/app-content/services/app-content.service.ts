@@ -177,10 +177,12 @@ export class AppContentService {
             })
     }
 
-    clockinsHistory(orgId:string, pageSize:number, pageNo:number):Observable<any> {
+    clockInsHistory(orgId:string, pageSize:number, pageNo:number):Observable<any> {
       let params = new HttpParams()
-        .set('orgId', orgId);
-        return this.httpClient.get(Endpoints.FETCH_CLOCKINS_HISTORY + params + pageSize + pageNo, {
+        .set('orgId', orgId)
+        .set('pageSize', pageSize.toString())
+        .set('pageNo', pageNo.toString());
+        return this.httpClient.get(Endpoints.FETCH_CLOCKINS_HISTORY + params, {
         headers: new  HttpHeaders()
           .set('Content-Type', MediaType.APPLICATION_JSON)
       })
