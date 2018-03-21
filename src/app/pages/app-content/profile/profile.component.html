@@ -132,7 +132,7 @@
                         <img class="profile-img w-50 rounded-circle mx-auto d-block" *ngIf="model.img" src="data:image/jpg;base64,{{model.img}}" alt="">
                         <img class="profile-img w-50 rounded-circle mx-auto d-block" *ngIf="model.img == null || model.img == ''" src="assets/img/1.png" alt="Profile picture">
                         <div class="middle">
-                          <div><i class="material-icons">camera_enhance</i></div>
+                          <div><i class="material-icons cursor profileImg-icon" data-toggle="tooltip" data-placement="bottom" title="Edit Profile Picture" (click)="fileChange($event)" accept="image/*" name="upload" type="file">camera_enhance</i></div>
                         </div>
                       </div>
                         <h5 class="text-center pt-3">{{model.fName}} {{model.lName}}</h5>

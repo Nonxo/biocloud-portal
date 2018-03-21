@@ -29,3 +29,8 @@
 .container-lay:hover .middle {
   opacity: 1;
 }
+
+.profileImg-icon {
+  padding-bottom: 86px;
+  font-size: 30px;
+}
