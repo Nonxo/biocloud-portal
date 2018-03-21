@@ -20,46 +20,47 @@
               </mat-list-item>
             </mat-list>
           </small>
-        </div>
-      </a>
+                </div>
+            </a>
 
-      <div class=" text-center my-3 px-3 pb-3 cursor border-0" (click)="show()" *ngIf="orgs.length > 0 || selectedOrg.orgId">
-        <div class="mb-2">
-          <img *ngIf="!selectedOrg.logo" src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon" style="max-height:6em;" />
-          <img *ngIf="selectedOrg.logo" src="data:image/jpg;base64,{{selectedOrg.logo}}" class="img-fluid rounded-circle logo-icon" style="max-height:6em;" />
-        </div>
-        <div class="alignment">
-          <small class="p-2 text-white" *ngIf="sidenavWidth >= 15"><b>{{selectedOrg.name? (selectedOrg.name |
+            <div class=" text-center my-3 px-3 pb-3 cursor border-0" (click)="show()" *ngIf="orgs.length > 0 || selectedOrg.orgId">
+                <div class="mb-2">
+                    <img *ngIf="!selectedOrg.logo" src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon" style="max-height:6em;" />
+                    <img *ngIf="selectedOrg.logo" src="data:image/jpg;base64,{{selectedOrg.logo}}" class="img-fluid rounded-circle logo-icon" style="max-height:6em;" />
+                </div>
+                <div class="alignment">
+                    <small class="p-2 text-white" *ngIf="sidenavWidth >= 15"><b>{{selectedOrg.name? (selectedOrg.name |
             ellipsis:15):''}}</b>
           </small>
                     <i class="material-icons mr-3 text-white" *ngIf="sidenavWidth >= 15">{{openDropdown?
             'arrow_drop_up':'arrow_drop_down'}}</i>
-        </div>
-      </div>
+                </div>
+                <small class="text-white" style="font-size: 0.6em"><span class="cursor">EDIT</span> | <span class="cursor">DELETE</span></small>
+            </div>
 
-      <div *ngIf="openDropdown" class="bg-light-grey pt-2 font-12">
-        <ul class="list-unstyled px-3">
-          <li class="media">
-            <mat-form-field class="w-100">
-              <input matInput placeholder="Search Company" class="text-white" type="text" name="searchField" [(ngModel)]="searchField" (keyup)="search('ORG',$event.target.value)">
-              <mat-icon matSuffix class="text-white">search</mat-icon>
-            </mat-form-field>
-          </li>
-          <ng-container *ngFor="let org of orgs">
-            <li *ngIf="org.orgId != selectedOrg.orgId" class="media my-3 cursor d-flex align-items-center" (click)="selectOrg(org)">
-              <img *ngIf="!org.logo" class="mr-3 rounded-circle" src="assets/img/2.jpg" style="max-height:2.5em;">
-              <img *ngIf="org.logo" class="mr-3 rounded-circle" src="data:image/jpg;base64,{{org.logo}}" style="max-height:2.5em;">
-              <div class="media-body text-white">
-                <b class="mt-0 mb-1 text-capitalize">{{org.name}}</b>
-                <!--<small>123 Attendees</small>-->
-              </div>
-            </li>
-          </ng-container>
-        </ul>
+            <div *ngIf="openDropdown" class="bg-light-grey pt-2 font-12">
+                <ul class="list-unstyled px-3">
+                    <li class="media">
+                        <mat-form-field class="w-100">
+                            <input matInput placeholder="Search Company" class="text-white" type="text" name="searchField" [(ngModel)]="searchField" (keyup)="search('ORG',$event.target.value)">
+                            <mat-icon matSuffix class="text-white">search</mat-icon>
+                        </mat-form-field>
+                    </li>
+                    <ng-container *ngFor="let org of orgs">
+                        <li *ngIf="org.orgId != selectedOrg.orgId" class="media my-3 cursor d-flex align-items-center" (click)="selectOrg(org)">
+                            <img *ngIf="!org.logo" class="mr-3 rounded-circle" src="assets/img/2.jpg" style="max-height:2.5em;">
+                            <img *ngIf="org.logo" class="mr-3 rounded-circle" src="data:image/jpg;base64,{{org.logo}}" style="max-height:2.5em;">
+                            <div class="media-body text-white">
+                                <b class="mt-0 mb-1 text-capitalize">{{org.name}}</b>
+                                <!--<small>123 Attendees</small>-->
+                            </div>
+                        </li>
+                    </ng-container>
+                </ul>
 
-        <a role="button" (click)="openModal(template)">
-          <div class="cursor border-top">
-            <small>
+                <a role="button" (click)="openModal(template)">
+                    <div class="cursor border-top">
+                        <small>
               <mat-list>
                 <mat-list-item class="p-0 font-12 text-white">
                   <mat-icon mat-list-icon>add_box</mat-icon>
@@ -67,23 +68,23 @@
                 </mat-list-item>
               </mat-list>
             </small>
-          </div>
-        </a>
-      </div>
-    </div>
+                    </div>
+                </a>
+            </div>
+        </div>
 
 
         <mat-nav-list>
             <ul class="app-nav">
                 <li routerLinkActive="active">
-                    <a routerLinkActive="active" routerLink="/portal" mat-list-item>
+                    <a routerLink="/portal/" mat-list-item>
                         <mat-icon mat-list-icon>home</mat-icon>
                         <span mat-line>Home</span>
                     </a>
                 </li>
                 <ng-container *ngFor="let view of views">
                     <li routerLinkActive="active" *hasAuthority="view.authority">
-                        <a routerLinkActive="active" routerLink="{{view.url}}" mat-list-item>
+                        <a routerLink="{{view.url}}" mat-list-item>
                             <mat-icon mat-list-icon>{{view.icon}}</mat-icon>
                             <span mat-line>{{view.route}}</span>
                         </a>
@@ -91,7 +92,6 @@
                 </ng-container>
             </ul>
         </mat-nav-list>
-        <mat-divider></mat-divider>
         <mat-nav-list>
             <ul>
                 <li routerLinkActive="active" *hasAuthority="'GENERAL_ADMIN'">
@@ -120,8 +120,7 @@
       <mat-icon>fullscreen_exit</mat-icon>
     </button>
 
-        <button mat-icon-button (click)="toggleNavFromHam(true)" class="d-none d-md-block" *ngIf="sidenavWidth < 15"
-                matTooltip="Maximize navigation">
+        <button mat-icon-button (click)="toggleNavFromHam(true)" class="d-none d-md-block" *ngIf="sidenavWidth < 15" matTooltip="Maximize navigation">
             <mat-icon>fullscreen</mat-icon>
         </button>
 
@@ -134,24 +133,25 @@
         </button>
         <button mat-icon-button class="pr-5" [matMenuTriggerFor]="notify" *hasAuthority="'GENERAL_ADMIN'" (click)="callNotificationService()">
             <mat-icon class="example-icon">notifications</mat-icon>
+            <span class="badge badge-danger free-flows">20</span>
         </button>
 
-    <mat-menu #notify="matMenu" class="p-0">
-      <div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications">
-        <img *ngIf= "!notif.verifiableImg" class="mr-3 rounded-circle" src="assets/img/1.png" style="max-height:3em;">
-        <img *ngIf= "notif.verifiableImg" class="mr-3 rounded-circle "src="data:image/jpg;base64,{{notif.verifiableImg}}" style="max-height:3em;">
-        <div class="media-body">
-          <small><b>{{notif.firstName}} {{notif.lastName}}</b> has requested to join {{notif.orgName}} as an emplo...</small>
-          <div class="container-fluid">
-            <small class="row">
+        <mat-menu #notify="matMenu" class="p-0">
+            <div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications">
+                <img *ngIf="!notif.verifiableImg" class="mr-3 rounded-circle" src="assets/img/1.png" style="max-height:3em;">
+                <img *ngIf="notif.verifiableImg" class="mr-3 rounded-circle " src="data:image/jpg;base64,{{notif.verifiableImg}}" style="max-height:3em;">
+                <div class="media-body">
+                    <small><b>{{notif.firstName}} {{notif.lastName}}</b> has requested to join {{notif.orgName}} as an emplo...</small>
+                    <div class="container-fluid">
+                        <small class="row">
               <div class="mr-auto">{{notif.created | date:'short'}}</div>
               <div class="ml-auto pr-3" (click)="openAttendeesDetailsModal(notificationTemplate, notif.locIds, notif.inviteId)"><span class="badge badge-dark cursor">Details</span></div>
             </small>
-         </div>
-        </div>
-      </div>
-      <mat-divider></mat-divider>
-  <!-- <div class="media pt-2 pl-2 pb-2">
+                    </div>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+            <!-- <div class="media pt-2 pl-2 pb-2">
      <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
      <div class="media-body">
        <small><b>{{details.firstName}} {{details.lastName}}</b> has requested to join {{details.orgName}} as an emplo...</small>
@@ -177,7 +177,7 @@
         </div>
       </div>
       <mat-divider></mat-divider> -->
-      <small class="">
+            <small class="">
         <a routerLink="/portal/notification" class="float-right p-3">See all notifications..</a>
       </small>
         </mat-menu>
@@ -186,7 +186,7 @@
       <mat-icon class="example-icon">person</mat-icon>
     </button>
 
-        <mat-menu #menu="matMenu" class="mt-5 p-0">
+        <mat-menu #menu="matMenu" class="p-0">
             <button mat-menu-item class="m-0" style="height: auto;">
         <div class="row align-items-center" (click)="goToProfile()">
           <div class="col-auto">
@@ -204,16 +204,16 @@
         </mat-menu>
 
 
-  </mat-toolbar>
+    </mat-toolbar>
 
-  <ng-content></ng-content>
+    <ng-content></ng-content>
 
 
 </mat-sidenav-container>
 
 <ng-template #template>
     <div class="modal-header">
-        <h5 class="modal-title pull-left">New Company</h5>
+        <h5 class="modal-title pull-left text-brand">New Company</h5>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -222,15 +222,12 @@
         <form (ngSubmit)="saveOrg()" name="orgCreationForm" #orgCreationForm="ngForm" ngNativeValidate>
             <div class="col-md-12">
                 <mat-form-field class="input-field">
-                    <input matInput placeholder="Company Name" name="orgName" #orgName="ngModel"
-                           [(ngModel)]="orgRequest.name" required>
+                    <input matInput placeholder="Company Name" name="orgName" #orgName="ngModel" [(ngModel)]="orgRequest.name" required>
                 </mat-form-field>
             </div>
             <div class="col-md-12">
                 <mat-form-field class="input-field">
-                    <mat-select placeholder="Company Type" name="orgType" #orgType="ngModel"
-                                [(ngModel)]="orgRequest.type"
-                                [required]="true">
+                    <mat-select placeholder="Company Type" name="orgType" #orgType="ngModel" [(ngModel)]="orgRequest.type" [required]="true">
                         <mat-option *ngFor="let type of orgTypes" value="{{type}}">{{type}}</mat-option>
                     </mat-select>
                     <mat-error *ngIf="orgType.errors?.required">You must make a selection</mat-error>
@@ -245,7 +242,7 @@
 
 <ng-template #inviteAdminTemplate>
     <div class="modal-header">
-        <h5 class="modal-title pull-left">Invite Admin</h5>
+        <h5 class="modal-title pull-left text-brand">Invite Admin</h5>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -268,31 +265,31 @@
             </div>
 
 
-      <div class="col-md-12" *ngIf="inviteRequest.role == 'LOCATION_ADMIN'">
-        <mat-form-field class="input-field">
-          <mat-select placeholder="Select Locations" name="locations" [(ngModel)]="inviteRequest.locIds" multiple>
-            <mat-select-trigger>
-              {{locations? getSelectedLocationName() : ''}}
-              <span *ngIf="inviteRequest.locIds?.length > 1">
+            <div class="col-md-12" *ngIf="inviteRequest.role == 'LOCATION_ADMIN'">
+                <mat-form-field class="input-field">
+                    <mat-select placeholder="Select Locations" name="locations" [(ngModel)]="inviteRequest.locIds" multiple>
+                        <mat-select-trigger>
+                            {{locations? getSelectedLocationName() : ''}}
+                            <span *ngIf="inviteRequest.locIds?.length > 1">
                   (+{{inviteRequest.locIds.length - 1}} others)
                 </span>
-            </mat-select-trigger>
-            <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+                        </mat-select-trigger>
+                        <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
 
-      <div class="col-md-12 text-right">
-        <button mat-raised-button color="accent" class="auth-btn" type="submit">PROCEED</button>
-      </div>
-    </form>
-  </div>
+            <div class="col-md-12 text-right">
+                <button mat-raised-button color="primary" class="auth-btn" type="submit">PROCEED</button>
+            </div>
+        </form>
+    </div>
 </ng-template>
 
 
 <ng-template #viewAdminTemplate>
     <div class="modal-header">
-        <h5 class="modal-title pull-left">View Admin</h5>
+        <h5 class="modal-title pull-left text-brand">View Admin</h5>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -329,48 +326,49 @@
                             <span *ngIf="inviteRequest.locIds?.length > 1">
                   (+{{inviteRequest.locIds.length - 1}} others)
                 </span>
-            </mat-select-trigger>
-            <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+                        </mat-select-trigger>
+                        <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
 
-      <div class="col-md-12 text-right">
-        <button mat-raised-button color="accent" class="auth-btn" type="submit">PROCEED</button>
-      </div>
-    </form>
-  </div>
+            <div class="col-md-12 text-right">
+                <button mat-raised-button color="accent" class="auth-btn" type="submit">PROCEED</button>
+            </div>
+        </form>
+    </div>
 </ng-template>
 
 
 <ng-template #notificationTemplate>
     <div class="modal-header">
+        <h5 class="modal-title text-brand pb-3 pt-3 text-center">Request to join {{details.orgName}}</h5>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body px-5">
 
-        <h4 class="modal-title text-brand pb-3 pt-3 text-center">Request to join {{details.orgName}}</h4>
-        <p class="pl-lg-3 pr-lg-3 text-center">A request to join your company has been received with the following details.</p>
+
+        <p class="pl-lg-3 pr-lg-3 mt-3 text-center">A request to join your company has been received with the following details.</p>
         <p class="pl-lg-3 pr-lg-3 text-center">Approve or Decline Request to proceed...</p>
 
         <div class="pt-3">
-            <img *ngIf= "!details.verifiableImg"  src="assets/img/1.png" class="w-25 rounded-circle mx-auto d-block"  alt="Profile picture">
-            <img *ngIf="details.verifiableImg" src="data:image/jpg;base64,{{details.verifiableImg}}"  class=" w-25 rounded-circle mx-auto d-block" alt="Profile pciture">
+            <img *ngIf="!details.verifiableImg" src="assets/img/1.png" class="w-25 rounded-circle mx-auto d-block" alt="Profile picture">
+            <img *ngIf="details.verifiableImg" src="data:image/jpg;base64,{{details.verifiableImg}}" class=" w-25 rounded-circle mx-auto d-block" alt="Profile pciture">
 
         </div>
 
-        <div class="py-4 pl-lg-3 pr-lg-3">
+        <div class="py-4 pl-lg-3 pr-lg-3 text-center">
             <span class="text-brand">NAME</span>
             <h6 class="pb-2">{{details.firstName}} {{details.lastName}}</h6>
             <span class="text-brand">EMAIL</span>
             <h6>{{details.email}}</h6>
         </div>
 
-            <div class="text-center pt-4 pb-5">
-                <button mat-raised-button color="primary" class="primary-outline mr-2" (click)="approveNotifications(details.email, details.inviteId, 'APPROVED')">Approve</button>
-                <button mat-raised-button class="primary-outline" (click)="rejectNotifications(details.email, details.inviteId,  'REJECTED')" data-dismiss="modal">Decline</button>
-            </div>
+        <div class="text-center pt-4 pb-5">
+            <button mat-raised-button color="primary" class="primary-outline mr-2" (click)="approveNotifications(details.email, details.inviteId, 'APPROVED')">Approve</button>
+            <button mat-raised-button class="primary-outline" (click)="rejectNotifications(details.email, details.inviteId,  'REJECTED')" data-dismiss="modal">Decline</button>
+        </div>
     </div>
 </ng-template>

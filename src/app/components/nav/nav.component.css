@@ -1,88 +1,103 @@
-
-html, body, material-app, mat-sidenav-container, .my-content {
-    margin: 0 ;
+html,
+body,
+material-app,
+mat-sidenav-container,
+.my-content {
+    margin: 0;
     width: 100%;
     /*margin-top: 64px;
     height: calc(100vh - 64px);*/
-  }
+}
 
-  /*mat-sidenav-content{
+
+/*mat-sidenav-content{
     height: calc(100vh - 64px);
   }*/
 
-  mat-sidenav{
+mat-sidenav {
     overflow-x: hidden;
     position: fixed;
-  }
+}
 
+.free-flows {
+    position: absolute !important;
+}
 
-  .example-icon {
+.example-icon {
     padding: 0 14px;
-  }
+}
 
-  .example-spacer {
+.example-spacer {
     flex: 1 1 auto;
-  }
-  mat-sidenav {
+}
+
+mat-sidenav {
     width: 16em;
-  }
-
-  ul {
-      padding: 0;
-  }
-  ul, ul li {
-      list-style-type: none;
-  }
-  ul, ol {
-      margin-top: 0;
-      margin-bottom: 10px;
-  }
-
-  .user-avatar{
-      max-width:60px;
-  }
-
-  .font-12{
-      font-size:12px !important;
-  }
-
-  .width12em{
-    width:12.5em;
-  }
-
-  .width3em{
-    width:3em;
-  }
-
-  .fixed-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 2;
-  width: 100%  !important;
 }
 
-@media(max-width:660px){
-    html, body, material-app, mat-sidenav-container, .my-content {
-        margin: 0 ;
+ul {
+    padding: 0;
+}
+
+ul,
+ul li {
+    list-style-type: none;
+}
+
+ul,
+ol {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.user-avatar {
+    max-width: 60px;
+}
+
+.font-12 {
+    font-size: 12px !important;
+}
+
+.width12em {
+    width: 12.5em;
+}
+
+.width3em {
+    width: 3em;
+}
+
+.fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100% !important;
+}
+
+@media(max-width:660px) {
+    html,
+    body,
+    material-app,
+    mat-sidenav-container,
+    .my-content {
+        margin: 0;
         width: 100%;
-        margin-top:0px;
+        margin-top: 0px;
         height: 100vh;
-      }
-
-      mat-sidenav-content{
+    }
+    mat-sidenav-content {
         height: calc(100vh - 56px);
-      }
-
-      mat-sidenav{
+    }
+    mat-sidenav {
         overflow-x: hidden;
-        height: 100vh ;
+        height: 100vh;
         position: fixed;
-        margin-top:0px;
-      }
+        margin-top: 0px;
+    }
 }
 
-  /* mat-sidenav-container.mat-drawer-container.mat-sidenav-container.mat-drawer-transition{
+
+/* mat-sidenav-container.mat-drawer-container.mat-sidenav-container.mat-drawer-transition{
       height: calc(100vh - 64px) !important;
   }
 
@@ -93,7 +108,7 @@ html, body, material-app, mat-sidenav-container, .my-content {
   } */
 
 
-  /*mat-toolbar{
+/*mat-toolbar{
       margin-left:80%;
   }
 
