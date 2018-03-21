@@ -35,4 +35,5 @@ export class Endpoints {
   public static FETCH_PENDING_ATTENDEES = `${Endpoints.BASE_URL}/users/api/attendees/pending?`;
   public static FETCH_CLOCKINS_HISTORY = `${Endpoints.BASE_URL}/attendance/api/clock-in/history?`;
   public static FETCH_USERS_LOCATION = `${Endpoints.BASE_URL}/users/api/u/`;
+  public static FETCH_TOTAL_EMPLOYEE_COUNT = `${Endpoints.BASE_URL}/users/api/u`;
 }

@@ -23,7 +23,9 @@ export class HomeComponent implements OnInit {
     notifications: Object[] = [];
     orgId:string;
     pageSize = 5;
+    counts:number;
     pageNo = 1;
+    userId:string;
     locations:any[] = [];
     bsModalRef:BsModalRef;
     modalOptions:ModalOptions = new ModalOptions();
@@ -44,7 +46,11 @@ export class HomeComponent implements OnInit {
         if (this.ss.getSelectedOrg()) {
             this.orgId = this.ss.getSelectedOrg().orgId;
             this.callLocationService();
-            this.fetchClockInsHistory();
+            this.userId = this.ss.getUserId();
+           this.fetchClockInsHistory();
+            this.fetchTotalEmployeeCount();
+
+
         }
 
         this.locationsSubscription = this.mService.getSelectedOrg()
@@ -65,6 +71,7 @@ export class HomeComponent implements OnInit {
                     }
                 }
             )
+
 
     }
 
@@ -159,7 +166,6 @@ export class HomeComponent implements OnInit {
     }
 
     fetchClockInsHistory() {
-      debugger;
       this.contentService.clockInsHistory(this.orgId, this.pageSize, this.pageNo)
         .subscribe(
           result => {
@@ -170,6 +176,19 @@ export class HomeComponent implements OnInit {
             }
           },
 
+        )
+    }
+
+    fetchTotalEmployeeCount(){
+      this.contentService.totalEmployeeCount(this.userId,this.orgId)
+        .subscribe(
+          result => {
+            if (result.code == 0) {
+              this.counts = result.admin;
+            } else {
+              this.router.navigate(['/portal']);
+            }
+          },
         )
     }
 

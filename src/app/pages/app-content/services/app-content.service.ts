@@ -82,6 +82,14 @@ export class AppContentService {
             })
     }
 
+    totalEmployeeCount(userId:string,orgId:string): Observable<any> {
+      let url = `${Endpoints.FETCH_TOTAL_EMPLOYEE_COUNT}/${userId}/orgs/${orgId}/attendees`;
+      return this.httpClient.get(url, {
+        headers: new HttpHeaders()
+          .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+      })
+    }
+
     fetchAttendees(org:boolean, id:string):Observable<any> {
         let params;
         if (org) {
@@ -184,7 +192,7 @@ export class AppContentService {
         .set('pageNo', pageNo.toString());
         return this.httpClient.get(Endpoints.FETCH_CLOCKINS_HISTORY + params, {
         headers: new  HttpHeaders()
-          .set('Content-Type', MediaType.APPLICATION_JSON)
+          .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
       })
     }
 
