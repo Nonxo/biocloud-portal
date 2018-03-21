@@ -42,35 +42,52 @@
 
                         <div style="position:absolute; top:0; right:0;">
                             <button mat-icon-button [matMenuTriggerFor]="menu">
-                                <mat-icon>more_vert</mat-icon>
-                            </button>
+                              <mat-icon>more_vert</mat-icon>
+                          </button>
                             <mat-menu #menu="matMenu">
                                 <button mat-menu-item (click)="invite(loc.locId)">
-                                    <mat-icon>dialpad</mat-icon>
-                                    <span>Invite Attendees</span>
-                                </button>
+                                  <mat-icon>dialpad</mat-icon>
+                                  <span>Invite Attendees</span>
+                              </button>
                                 <button mat-menu-item (click)="editLocation(loc)">
-                                    <mat-icon>mode_edit</mat-icon>
-                                    <span>Edit</span>
-                                </button>
+                                  <mat-icon>mode_edit</mat-icon>
+                                  <span>Edit</span>
+                              </button>
                                 <button mat-menu-item (click)="viewAttendees(loc.locId)">
-                                    <mat-icon>group</mat-icon>
-                                    <span>View Attendees</span>
-                                </button>
+                                  <mat-icon>group</mat-icon>
+                                  <span>View Attendees</span>
+                              </button>
                                 <button mat-menu-item>
-                                    <mat-icon>playlist_add_check</mat-icon>
-                                    <span>Report</span>
-                                </button>
+                                  <mat-icon>playlist_add_check</mat-icon>
+                                  <span>Report</span>
+                              </button>
                                 <button mat-menu-item (click)="activateLocation(loc.active, loc.locId)">
-                                    <mat-icon>delete_forever</mat-icon>
-                                    <span>{{loc.active? 'Deactivate':'Activate'}}</span>
-                                </button>
+                                  <mat-icon>delete_forever</mat-icon>
+                                  <span>{{loc.active? 'Deactivate':'Activate'}}</span>
+                              </button>
                             </mat-menu>
                         </div>
                     </mat-card>
                 </div>
 
             </div>
+
+
+            <!--empty state-->
+            <!-- <div class="row pb-md-3 equal-row">
+
+              <div class="col-lg-12 text-center">
+                  <div class="text-center">
+                      <img src="assets/img/welcome.png" alt="">
+                      <h4 class="text-center home-grey">we are pleased you joined the platform</h4>
+                      <h4 class="text-center home-grey">To get started</h4>
+                      <a href="">
+                          <h5 class="pt-3 pb-3">ADD A LOCATION</h5>
+                      </a>
+                  </div>
+              </div>
+
+          </div> -->
         </div>
 
         <div class="col-lg-5 px-md-4 px-lg-4 mt-md-0 mt-3">
@@ -112,6 +129,12 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <!--empty state-->
+                    <!-- <div class="text-center pt-5 pb-5">
+                      <h2 class="home-grey">NO DATA</h2>
+                      <h2 class="home-grey">TO DISPLAY</h2>
+                  </div> -->
                 </mat-card-content>
 
             </mat-card>
@@ -124,6 +147,13 @@
                                 <mat-card-content class="text-center">
                                     <p class="display-3 font-weight-bold text-brand">67</p>
                                     <p>Total Employees</p>
+
+                                    <!--empty state-->
+                                    <!-- <div>
+                                      <h5 class="home-grey">NO DATA</h5>
+                                      <h5 class="home-grey">TO DISPLAY</h5>
+                                      <p class="home-grey">Total Employees</p>
+                                  </div> -->
                                 </mat-card-content>
                             </mat-card>
                         </div>
@@ -132,16 +162,20 @@
                                 <mat-card-content class="text-center">
                                     <p class="display-3 font-weight-bold">20</p>
                                     <p>Total Clock in Today</p>
+
+                                    <!--empty state-->
+                                    <!-- <div>
+                                      <h5 class="home-grey">NO DATA</h5>
+                                      <h5 class="home-grey">TO DISPLAY</h5>
+                                      <p class="home-grey">Total Clock-in Today</p>
+                                  </div> -->
                                 </mat-card-content>
                             </mat-card>
                         </div>
                     </div>
                 </mat-card-content>
             </mat-card>
-
         </div>
-
-
 
     </div>
 </div>
@@ -151,8 +185,8 @@
     <div class="modal-header">
         <h5 class="modal-title pull-left">Pending Attendees</h5>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-            <span aria-hidden="true">&times;</span>
-        </button>
+          <span aria-hidden="true">&times;</span>
+      </button>
     </div>
     <div class="modal-body">
         <div class="col-md-12" *ngFor="let a of pendingAttendees">
