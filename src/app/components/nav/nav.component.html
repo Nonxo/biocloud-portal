@@ -72,6 +72,7 @@
       </div>
     </div>
 
+
         <mat-nav-list>
             <ul class="app-nav">
                 <li routerLinkActive="active">
@@ -106,19 +107,18 @@
 
     <mat-toolbar>
         <button mat-icon-button (click)="sidenav.toggle()" class="d-block d-md-none">
-            <mat-icon>menu</mat-icon>
-        </button>
+      <mat-icon>menu</mat-icon>
+    </button>
 
         <!--<div class="d-none d-md-block" [ngClass]="{'width12em': sidenavWidth >= 15, 'width3em': sidenavWidth < 15}">
-      <img src="assets/img/logo.svg" class="img-fluid logo-icon" *ngIf="sidenavWidth >= 15"
-           style="max-height:26px;"/>
-      <img src="assets/img/logo-icon.svg" class="img-fluid logo-icon" *ngIf="sidenavWidth < 15"/>
-    </div>-->
+  <img src="assets/img/logo.svg" class="img-fluid logo-icon" *ngIf="sidenavWidth >= 15"
+       style="max-height:26px;"/>
+  <img src="assets/img/logo-icon.svg" class="img-fluid logo-icon" *ngIf="sidenavWidth < 15"/>
+</div>-->
 
-        <button mat-icon-button (click)="toggleNavFromHam(false)" class="d-none d-md-block" *ngIf="sidenavWidth >= 15"
-                matTooltip="Minimize navigation">
-            <mat-icon>fullscreen_exit</mat-icon>
-        </button>
+        <button mat-icon-button (click)="toggleNavFromHam(false)" class="d-none d-md-block" *ngIf="sidenavWidth >= 15" matTooltip="Minimize navigation">
+      <mat-icon>fullscreen_exit</mat-icon>
+    </button>
 
         <button mat-icon-button (click)="toggleNavFromHam(true)" class="d-none d-md-block" *ngIf="sidenavWidth < 15"
                 matTooltip="Maximize navigation">
