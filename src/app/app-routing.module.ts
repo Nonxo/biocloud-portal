@@ -4,6 +4,7 @@ import { AuthComponent } from './pages/auth/auth.component';
 import {ChangePasswordComponent} from "./pages/change-password/change-password.component";
 import {SessionGuard} from "./auth/guards/session-guard.service";
 import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-auth.component";
+import {SignUpAsComponent} from "./pages/app-content/sign-up-as/sign-up-as.component";
 
 
 const routes: Routes = [
@@ -11,7 +12,7 @@ const routes: Routes = [
   {path: 'auth', component: AuthComponent, canActivate: [SessionGuard]},
   {path: 'invite', component: AddAdminAuthComponent},
   {path: 'change-password', component: ChangePasswordComponent},
-
+  {path: 'sign-up-as', component:SignUpAsComponent},
   {
     path: 'portal',
     loadChildren: 'app/pages/app-content/app-content.module#AppContentModule'
