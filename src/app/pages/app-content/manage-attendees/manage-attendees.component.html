@@ -19,8 +19,7 @@
 
                 <div class="col-lg-4 col-12 text-md-center text-left">
                     <ng-container *ngIf="isChecked()">
-                        <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')"
-                                class="primary-outline">Reassign
+                        <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')" class="primary-outline">Reassign
                         </button>
                         <button mat-button class="primary-outline" (click)="groupActions('DE_ACTIVATE')">Deactivate
                         </button>
@@ -42,28 +41,26 @@
             <div class="table-responsive">
                 <table class="table table-striped" [mfData]="activeUsers" #mf="mfDataTable" [mfRowsOnPage]="12">
                     <thead>
-                    <tr>
-                        <th scope="col" *ngIf="mf.data.length > 0">
-                            <mat-checkbox name="selAll" [(ngModel)]="selAll"
-                                          (change)="selectAll($event)"></mat-checkbox>
-                        </th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email Address</th>
-                        <th scope="col">Phone Number</th>
-                        <th scope="col">Status</th>
-                    </tr>
+                        <tr>
+                            <th scope="col" *ngIf="mf.data.length > 0">
+                                <mat-checkbox name="selAll" [(ngModel)]="selAll" (change)="selectAll($event)"></mat-checkbox>
+                            </th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email Address</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">Status</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let d of mf.data; let i = index">
-                        <th>
-                            <mat-checkbox name="check{{i}}" [(ngModel)]="d.checked"
-                                          (click)="selectOne($event)"></mat-checkbox>
-                        </th>
-                        <td>{{d.firstName }} {{ d.lastName}}</td>
-                        <td>{{d.email}}</td>
-                        <td>{{d.phone}}</td>
-                        <td>{{d.status? 'Active':'Inactive'}}</td>
-                    </tr>
+                        <tr *ngFor="let d of mf.data; let i = index">
+                            <th>
+                                <mat-checkbox name="check{{i}}" [(ngModel)]="d.checked" (click)="selectOne($event)"></mat-checkbox>
+                            </th>
+                            <td>{{d.firstName }} {{ d.lastName}}</td>
+                            <td>{{d.email}}</td>
+                            <td>{{d.phone}}</td>
+                            <td>{{d.status? 'Active':'Inactive'}}</td>
+                        </tr>
 
                     </tbody>
                 </table>
@@ -93,8 +90,7 @@
 
                 <div class="col-lg-4 col-12 text-md-center text-left">
                     <ng-container *ngIf="isChecked()">
-                        <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')"
-                                class="primary-outline">Reassign
+                        <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')" class="primary-outline">Reassign
                         </button>
                         <button mat-button class="primary-outline" (click)="groupActions('ACTIVATE')">Activate</button>
                     </ng-container>
@@ -116,28 +112,26 @@
             <div class="table-responsive">
                 <table class="table table-striped" [mfData]="inactiveUsers" #mf="mfDataTable" [mfRowsOnPage]="12">
                     <thead>
-                    <tr>
-                        <th scope="col" *ngIf="mf.data.length > 0">
-                            <mat-checkbox name="selAll" [(ngModel)]="selAll"
-                                          (change)="selectAll($event)"></mat-checkbox>
-                        </th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email Address</th>
-                        <th scope="col">Phone Number</th>
-                        <th scope="col">Status</th>
-                    </tr>
+                        <tr>
+                            <th scope="col" *ngIf="mf.data.length > 0">
+                                <mat-checkbox name="selAll" [(ngModel)]="selAll" (change)="selectAll($event)"></mat-checkbox>
+                            </th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email Address</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">Status</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let d of mf.data; let i = index">
-                        <th>
-                            <mat-checkbox name="check{{i}}" [(ngModel)]="d.checked"
-                                          (click)="selectOne($event)"></mat-checkbox>
-                        </th>
-                        <td>{{d.firstName }} {{ d.lastName}}</td>
-                        <td>{{d.email}}</td>
-                        <td>{{d.phone}}</td>
-                        <td>{{d.status? 'Active':'Inactive'}}</td>
-                    </tr>
+                        <tr *ngFor="let d of mf.data; let i = index">
+                            <th>
+                                <mat-checkbox name="check{{i}}" [(ngModel)]="d.checked" (click)="selectOne($event)"></mat-checkbox>
+                            </th>
+                            <td>{{d.firstName }} {{ d.lastName}}</td>
+                            <td>{{d.email}}</td>
+                            <td>{{d.phone}}</td>
+                            <td>{{d.status? 'Active':'Inactive'}}</td>
+                        </tr>
 
                     </tbody>
                 </table>
@@ -208,3 +202,17 @@
         </div>
     </div>
 </ng-template>
+
+
+<!--EMPTY STATE-->
+<!-- <div class="container">
+    <div class="row">
+        <div class="text-center pt-5">
+            <img class="w-50" src="assets/img/em.png" alt="Profile picture">
+            <h1 class="pt-3 fade-msg">NO EMPLOYEE ON BOARD</h1>
+            <a href="">
+                <h4 class="pt-2 pb-5">INVITE NEW EMPLOYEE</h4>
+            </a>
+        </div>
+    </div>
+</div> -->
