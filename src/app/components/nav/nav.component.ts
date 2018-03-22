@@ -94,6 +94,7 @@ export class NavComponent implements OnInit {
         this.selectedOrg = this.ss.getSelectedOrg() ? this.ss.getSelectedOrg() : new Org();
         this.fetchUsersOrg();
         this.onResizeByWindowScreen();
+        this.callNotificationService();
     }
 
     search(searchType:string, searchValue:string) {
