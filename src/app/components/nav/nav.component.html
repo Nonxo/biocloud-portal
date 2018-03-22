@@ -4,7 +4,7 @@
         <div class="nav-header d-md-block d-none">
             <div class="py-4 pb-0 px-3">
                 <img src="assets/img/logo-img.png" class="img-fluid logo-icon" *ngIf="sidenavWidth >= 15" style="max-height:50px;" />
-                <img src="assets/img/logo-icon.svg" class="img-fluid logo-icon" *ngIf="sidenavWidth < 15" />
+                <img src="assets/img/logo-icon.png" class="img-fluid logo-icon" *ngIf="sidenavWidth < 15" />
             </div>
         </div>
 
@@ -23,12 +23,12 @@
         </div>
       </a>
 
-            <div class=" text-center my-3 px-3 pb-3 cursor border-0" (click)="show()" *ngIf="orgs.length > 0 || selectedOrg.orgId">
+            <div class=" text-center my-3 px-3 pb-3 border-0" *ngIf="orgs.length > 0 || selectedOrg.orgId">
                 <div class="mb-2">
                     <img *ngIf="!selectedOrg.logo" src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon" style="max-height:6em;" />
                     <img *ngIf="selectedOrg.logo" src="data:image/jpg;base64,{{selectedOrg.logo}}" class="img-fluid rounded-circle logo-icon" style="max-height:6em;" />
                 </div>
-                <div class="alignment">
+                <div class="alignment pl-4 cursor" (click)="show()">
                     <small class="p-2 text-white" *ngIf="sidenavWidth >= 15"><b>{{selectedOrg.name? (selectedOrg.name |
             ellipsis:15):''}}</b>
           </small>
@@ -234,7 +234,7 @@
                 </mat-form-field>
             </div>
             <div class="col-md-12 text-right">
-                <button mat-raised-button color="accent" class="auth-btn" type="submit">PROCEED</button>
+                <button mat-raised-button color="primary" class="auth-btn" type="submit">PROCEED</button>
             </div>
         </form>
     </div>
