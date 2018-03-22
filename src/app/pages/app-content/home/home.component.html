@@ -105,41 +105,41 @@
                 </mat-card-title>
 
                 <mat-card-content>
-                    <!--<div class="table-responsive">-->
-                    <!--<table class="table">-->
-                    <!--<thead>-->
-                    <!--<tr>-->
-                    <!--<th scope="col">S/N</th>-->
-                    <!--<th scope="col">NAME</th>-->
-                    <!--<th scope="col">LOCATION</th>-->
-                    <!--<th scope="col">TIME IN</th>-->
-                    <!--</tr>-->
-                    <!--</thead>-->
-                    <!--<tbody>-->
-                    <!--<tr>-->
-                    <!--<th scope="row">1</th>-->
-                    <!--<td>Bismark Achodo</td>-->
-                    <!--<td>Lekki</td>-->
-                    <!--<td>08:45</td>-->
-                    <!--</tr>-->
-                    <!--<tr>-->
-                    <!--<th scope="row">2</th>-->
-                    <!--<td>Jacob Samuel</td>-->
-                    <!--<td>Ikeja</td>-->
-                    <!--<td>07:30</td>-->
-                    <!--</tr>-->
-                    <!--<tr>-->
-                    <!--<th scope="row">3</th>-->
-                    <!--<td>Larry the Bird</td>-->
-                    <!--<td>Lekki</td>-->
-                    <!--<td>09:30</td>-->
-                    <!--</tr>-->
-                    <!--</tbody>-->
-                    <!--</table>-->
-                    <!--</div>-->
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">S/N</th>
+                                    <th scope="col">NAME</th>
+                                    <th scope="col">LOCATION</th>
+                                    <th scope="col">TIME IN</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                               <tr *ngFor="let notif of latestClockin; let i=index" >
+                                    <td>{{i+1}}</td>
+                                    <td>{{notif.firstName}} {{notif.lastName}}</td>
+                                    <td>{{notif.locationName}}</td>
+                                    <td>{{notif.time | date:'shortTime'}}</td>
+                                </tr>
+                               <!-- <tr>
+                                    <th scope="row">2</th>
+                                    <td>Jacob Samuel</td>
+                                    <td>Ikeja</td>
+                                    <td>07:30</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>Larry the Bird</td>
+                                    <td>Lekki</td>
+                                    <td>09:30</td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
 
                     <!--empty state-->
-                    <div class="text-center pt-5 pb-5">
+                   <div class="text-center pt-5 pb-5" *ngIf="latestClockin.length == 0">
                         <h2 class="fade-msg">NO DATA</h2>
                         <h2 class="fade-msg">TO DISPLAY</h2>
                     </div>
@@ -153,11 +153,12 @@
                         <div class="col-lg-6 mt-md-0 mt-3">
                             <mat-card>
                                 <mat-card-content class="text-center">
-                                    <!--<p class="display-3 font-weight-bold text-brand">67</p>-->
-                                    <!--<p>Total Employees</p>-->
-
+                                  <div *ngIf="counts || counts != 0">
+                                    <p class="display-3 font-weight-bold text-brand">{{counts}}</p>
+                                    <p>Total Employees</p>
+                                  </div>
                                     <!--empty state-->
-                                    <div>
+                                    <div *ngIf="!counts || counts == 0">
                                         <h5 class="fade-msg">NO DATA</h5>
                                         <h5 class="fade-msg">TO DISPLAY</h5>
                                         <p class="fade-msg">Total Employees</p>
@@ -168,11 +169,12 @@
                         <div class="col-lg-6  mt-md-0 mt-3">
                             <mat-card>
                                 <mat-card-content class="text-center">
-                                    <!--<p class="display-3 font-weight-bold">20</p>-->
-                                    <!--<p>Total Clock in Today</p>-->
-
+                                  <div *ngIf="totalClockin && totalClockin != 0">
+                                    <p class="display-3 font-weight-bold">{{totalClockin}}</p>
+                                    <p>Total Clock in Today</p>
+                                  </div>
                                     <!--empty state-->
-                                    <div>
+                                    <div *ngIf="!totalClockin || totalClockin == 0">
                                         <h5 class="fade-msg">NO DATA</h5>
                                         <h5 class="fade-msg">TO DISPLAY</h5>
                                         <p class="fade-msg">Total Clock-in Today</p>

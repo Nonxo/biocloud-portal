@@ -9,6 +9,8 @@ import {SetupComponent} from "../app-config/setup/setup.component";
 import {AddAttendeesComponent} from "../app-config/add-attendees/add-attendees.component";
 import {Router} from "@angular/router";
 import {DataService} from "../../../service/data.service";
+import * as moment from "moment";
+
 
 @Component({
     selector: 'app-home',
@@ -19,11 +21,20 @@ export class HomeComponent implements OnInit {
 
     locationsSubscription:any;
     editLocationsSubscription:any;
+    latestClockin: Object[] = [];
+    totalClockin:number;
     orgId:string;
+    pageSize = 5;
+    counts:number;
+    pageNo = 1;
+    userId:string;
+    startDate = moment().startOf('day').toDate().getTime();
+    endDate = moment().endOf('day').toDate().getTime();
     locations:any[] = [];
     bsModalRef:BsModalRef;
     modalOptions:ModalOptions = new ModalOptions();
     pendingAttendees:any[] = [];
+    time: Date = new Date();
 
     constructor(private mService:MessageService,
                 private ns:NotifyService,
@@ -39,6 +50,12 @@ export class HomeComponent implements OnInit {
         if (this.ss.getSelectedOrg()) {
             this.orgId = this.ss.getSelectedOrg().orgId;
             this.callLocationService();
+            this.userId = this.ss.getUserId();
+            this.fetchClockInsHistory();
+            this.fetchTotalEmployeeCount();
+            this.fetchTotalClockIns();
+
+
         }
 
         this.locationsSubscription = this.mService.getSelectedOrg()
@@ -59,6 +76,7 @@ export class HomeComponent implements OnInit {
                     }
                 }
             )
+
 
     }
 
@@ -151,6 +169,41 @@ export class HomeComponent implements OnInit {
                 },
                 error => {this.ns.showError("An Error Occurred.");}
             )
+    }
+
+    fetchClockInsHistory() {
+      this.contentService.clockInsHistory(this.orgId, this.pageSize, this.pageNo)
+        .subscribe(
+          result => {
+            if (result.code == 0) {
+              this.latestClockin = result.clockInHistory ? result.clockInHistory : [];
+            }
+          },
+
+        )
+    }
+
+    fetchTotalEmployeeCount(){
+      this.contentService.totalEmployeeCount(this.userId,this.orgId)
+        .subscribe(
+          result => {
+            if (result.code == 0) {
+              this.counts = result.count;
+            }
+          },
+        )
+    }
+
+    fetchTotalClockIns(){
+      this.contentService.totalClockInsDaily(this.orgId, this.startDate, this.endDate)
+        .subscribe(
+          result => {
+            if (result.code == 0) {
+              this.totalClockin = result.clockInsHistory;
+            }
+
+          },
+        )
     }
 
 }

@@ -185,6 +185,7 @@ export class NavComponent implements OnInit {
           }
         },
         error => {
+
         }
       )
   }
@@ -378,6 +379,7 @@ export class NavComponent implements OnInit {
 
         this.fetchAdminUsers();
         this.callLocationService();
+        this.callNotificationService();
         this.router.navigate(['/portal']);
         this.mService.setSelectedOrg(org.orgId);
     }

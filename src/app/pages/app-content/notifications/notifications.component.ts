@@ -118,7 +118,7 @@ export class NotificationsComponent implements OnInit {
   rejectNotifications(email:string, inviteId:string, status:string) {
     this.approveRequest.status = status;
 
-    if (!this.selectedLocIds || this.selectedLocIds.length == 0) {
+    if (this.selectedLocIds || this.selectedLocIds.length > 0) {
       this.callRejectService(inviteId);
 
     } else {
