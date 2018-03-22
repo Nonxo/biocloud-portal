@@ -168,7 +168,7 @@ export class SetupComponent implements OnInit {
         this.locRequest.longitude = null;
         this.locRequest.countryId = 0;
         this.locRequest.stateId = 0;
-        this.locRequest.radiusThreshold = 0;
+        this.locRequest.radiusThreshold = 32;
         this.locRequest.address = null;
         this.showMap = false;
 
@@ -352,6 +352,7 @@ export class SetupComponent implements OnInit {
                     // needs to run inside zone to update the map
                     this.ngZone.run(() => {
                         this.locRequest.address = result;
+                        document.getElementById("autocompleteInput").value = result;
                     });
                 },
                 error => console.log(error),

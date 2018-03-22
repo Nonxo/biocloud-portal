@@ -285,8 +285,10 @@ export class NavComponent implements OnInit {
 
     fetchOrgFromCache() {
         if (!this.ss.getUsersOrg() || this.ss.getUsersOrg().length == 0) {
+            debugger;
             this.callUsersOrgService();
         } else {
+            debugger;
             this.orgs = this.ss.getUsersOrg();
             this.setDefaultSelectedOrg();
         }

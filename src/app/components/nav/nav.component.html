@@ -94,7 +94,7 @@
         </mat-nav-list>
         <mat-nav-list>
             <ul>
-                <li routerLinkActive="active" *hasAuthority="'GENERAL_ADMIN'">
+                <li routerLinkActive="active" *hasAuthority="'GENERAL_ADMIN'" (click)="activeClass = ''">
                     <a routerLink="/portal/manage-admins" mat-list-item class="text-white">
                         <mat-icon mat-list-icon>group</mat-icon>
                         <span mat-line>Admins</span>
