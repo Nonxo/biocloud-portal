@@ -58,6 +58,7 @@ export class NavComponent implements OnInit {
     searchField:string;
     searchOrgTerm$ = new Subject<any>();
     searchType:string;
+    activeClass:string;
 
 
     constructor(private router:Router,
@@ -69,6 +70,10 @@ export class NavComponent implements OnInit {
                 private mService:MessageService,
                 private configService:AppConfigService,
                 private searchService:SearchService) {
+
+        if(this.router.url == "/portal") {
+            this.activeClass = "active";
+        }
 
         this.searchService.search(this.searchOrgTerm$)
             .subscribe(results => {
@@ -542,6 +547,10 @@ export class NavComponent implements OnInit {
                 },
                 error => {this.ns.showError("An Error Occurred.");}
             )
+    }
+
+    toggleClass(home:boolean) {
+        home? this.activeClass = "active": this.activeClass = "";
     }
 
     goToProfile() {

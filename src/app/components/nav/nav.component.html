@@ -35,7 +35,7 @@
                     <i class="material-icons mr-3 text-white" *ngIf="sidenavWidth >= 15">{{openDropdown?
             'arrow_drop_up':'arrow_drop_down'}}</i>
                 </div>
-                <small class="text-white" style="font-size: 0.6em"><span class="cursor">EDIT</span> | <span class="cursor">DELETE</span></small>
+                <!--<small class="text-white" style="font-size: 0.6em"><span class="cursor">EDIT</span> | <span class="cursor">DELETE</span></small>-->
             </div>
 
             <div *ngIf="openDropdown" class="bg-light-grey pt-2 font-12">
@@ -76,14 +76,14 @@
 
         <mat-nav-list>
             <ul class="app-nav">
-                <li routerLinkActive="active">
-                    <a routerLink="/portal/" mat-list-item>
+                <li class="{{activeClass}}" (click)="toggleClass(true)">
+                    <a routerLink="/portal" mat-list-item>
                         <mat-icon mat-list-icon>home</mat-icon>
                         <span mat-line>Home</span>
                     </a>
                 </li>
                 <ng-container *ngFor="let view of views">
-                    <li routerLinkActive="active" *hasAuthority="view.authority">
+                    <li routerLinkActive="active" *hasAuthority="view.authority" (click)="toggleClass(false)">
                         <a routerLink="{{view.url}}" mat-list-item>
                             <mat-icon mat-list-icon>{{view.icon}}</mat-icon>
                             <span mat-line>{{view.route}}</span>
