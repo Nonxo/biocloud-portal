@@ -172,6 +172,11 @@ mat-sidenav {
     font-size: $standard-size;
 }
 
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
+.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background-color: #603484 !important;
+}
+
 .subscribe-plan {
     background: mat-color($candy-app-primary, 400);
     background: -moz-linear-gradient(top, mat-color($candy-app-primary, 400) 17%, mat-color($candy-app-primary, 900) 100%);
