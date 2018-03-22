@@ -23,18 +23,6 @@ export class Org {
     walletId:number;
 }
 
-//export class ClockinsDetails {//
- // email:string;//
- // firstName:string;//
- // surname:string;//
- // orgId:string;//
- // locIds:string[];//
- // locationName:string;//
- // deviceId:string;//
- // longitude:number//
- // clockinAddress:string;//
-//  time:number;//
-//}//
 
 export class AssignUserRequest {
     oldlocId:string;

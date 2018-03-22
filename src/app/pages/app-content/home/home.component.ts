@@ -175,9 +175,7 @@ export class HomeComponent implements OnInit {
         .subscribe(
           result => {
             if (result.code == 0) {
-              this.latestClockin = result.clockInHistory;
-            } else {
-              this.router.navigate(['/portal']);
+              this.latestClockin = result.clockInHistory ? result.clockInHistory : [];
             }
           },
 
@@ -190,8 +188,6 @@ export class HomeComponent implements OnInit {
           result => {
             if (result.code == 0) {
               this.counts = result.count;
-            } else {
-              this.router.navigate(['/portal']);
             }
           },
         )
@@ -203,9 +199,8 @@ export class HomeComponent implements OnInit {
           result => {
             if (result.code == 0) {
               this.totalClockin = result.clockInsHistory;
-            } else {
-              this.router.navigate(['/portal'])
             }
+
           },
         )
     }
