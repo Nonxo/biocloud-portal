@@ -39,7 +39,7 @@ export class NotificationsComponent implements OnInit {
     if (this.ss.getSelectedOrg()) {
       this.orgId = this.ss.getSelectedOrg().orgId;
       this.callNotificationService();
-      this.assignLocation
+
     }
 
   }
