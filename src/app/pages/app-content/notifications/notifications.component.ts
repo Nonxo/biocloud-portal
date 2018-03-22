@@ -116,7 +116,6 @@ export class NotificationsComponent implements OnInit {
   }
 
   rejectNotifications(email:string, inviteId:string, status:string) {
-    debugger;
     this.approveRequest.status = status;
 
     if (this.selectedLocIds || this.selectedLocIds.length > 0) {
