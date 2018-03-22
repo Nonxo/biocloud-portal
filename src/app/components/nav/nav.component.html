@@ -133,7 +133,7 @@
         </button>
         <button mat-icon-button class="pr-5" [matMenuTriggerFor]="notify" *hasAuthority="'GENERAL_ADMIN'" (click)="callNotificationService()">
             <mat-icon class="example-icon">notifications</mat-icon>
-            <span class="badge badge-danger free-flows">{{notifications.length}}</span>
+            <span class="badge badge-danger free-flows" *ngIf="notifications.length > 0">{{notifications.length}}</span>
         </button>
 
         <mat-menu #notify="matMenu" class="p-0">
