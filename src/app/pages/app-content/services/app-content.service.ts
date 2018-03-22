@@ -196,6 +196,18 @@ export class AppContentService {
       })
     }
 
+  totalClockInsDaily(orgId:string, startDate:number, endDate:number):Observable<any> {
+      let params = new HttpParams()
+        .set('orgId', orgId)
+        .set('startDate', String(startDate))
+        .set('endDate', String(endDate));
+      return this.httpClient.get(Endpoints.FETCH_CLOCKINS_HISTORY + params, {
+        headers: new HttpHeaders()
+          .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+      })
+
+  }
+
     fetchOrgUsersLocation():Observable<any> {
         const userId = this.ss.getUserId();
         const orgId = this.ss.getSelectedOrg().orgId;

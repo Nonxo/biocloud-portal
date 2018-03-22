@@ -9,6 +9,7 @@ import {SetupComponent} from "../app-config/setup/setup.component";
 import {AddAttendeesComponent} from "../app-config/add-attendees/add-attendees.component";
 import {Router} from "@angular/router";
 import {DataService} from "../../../service/data.service";
+import * as moment from "moment";
 
 
 @Component({
@@ -20,12 +21,15 @@ export class HomeComponent implements OnInit {
 
     locationsSubscription:any;
     editLocationsSubscription:any;
-    notifications: Object[] = [];
+    latestClockin: Object[] = [];
+    totalClockin:number;
     orgId:string;
     pageSize = 5;
     counts:number;
     pageNo = 1;
     userId:string;
+    startDate = moment().startOf('day').toDate().getTime();
+    endDate = moment().endOf('day').toDate().getTime();
     locations:any[] = [];
     bsModalRef:BsModalRef;
     modalOptions:ModalOptions = new ModalOptions();
@@ -47,8 +51,9 @@ export class HomeComponent implements OnInit {
             this.orgId = this.ss.getSelectedOrg().orgId;
             this.callLocationService();
             this.userId = this.ss.getUserId();
-           this.fetchClockInsHistory();
+            this.fetchClockInsHistory();
             this.fetchTotalEmployeeCount();
+            this.fetchTotalClockIns();
 
 
         }
@@ -170,7 +175,7 @@ export class HomeComponent implements OnInit {
         .subscribe(
           result => {
             if (result.code == 0) {
-              this.notifications = result.admin;
+              this.latestClockin = result.clockInHistory;
             } else {
               this.router.navigate(['/portal']);
             }
@@ -184,9 +189,22 @@ export class HomeComponent implements OnInit {
         .subscribe(
           result => {
             if (result.code == 0) {
-              this.counts = result.admin;
+              this.counts = result.count;
             } else {
               this.router.navigate(['/portal']);
+            }
+          },
+        )
+    }
+
+    fetchTotalClockIns(){
+      this.contentService.totalClockInsDaily(this.orgId, this.startDate, this.endDate)
+        .subscribe(
+          result => {
+            if (result.code == 0) {
+              this.totalClockin = result.clockInsHistory;
+            } else {
+              this.router.navigate(['/portal'])
             }
           },
         )
