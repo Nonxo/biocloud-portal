@@ -21,12 +21,15 @@ import {SearchService} from "../../service/search.service";
 import {ProfileComponent} from "./profile/profile.component";
 import { ManageAdminsComponent } from './manage-admins/manage-admins.component';
 import { SettingComponent } from './setting/setting.component';
+import {ReportService} from "./services/report.service";
+import {PaginationModule} from "ngx-bootstrap";
 
 @NgModule({
     imports: [
         CommonModule,
         SharedModule,
         DataTableModule,
+        PaginationModule.forRoot(),
         AppContentRoutingModule
     ],
     declarations: [
@@ -43,7 +46,7 @@ import { SettingComponent } from './setting/setting.component';
         ManageAdminsComponent,
         SettingComponent
     ],
-    providers: [MessageService, AppConfigService, GeoMapService, SearchService],
+    providers: [MessageService, AppConfigService, GeoMapService, SearchService, ReportService],
     entryComponents: [SetupComponent, AddAttendeesComponent]
 })
 export class AppContentModule { }
