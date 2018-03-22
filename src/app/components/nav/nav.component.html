@@ -20,8 +20,8 @@
               </mat-list-item>
             </mat-list>
           </small>
-                </div>
-            </a>
+        </div>
+      </a>
 
             <div class=" text-center my-3 px-3 pb-3 cursor border-0" (click)="show()" *ngIf="orgs.length > 0 || selectedOrg.orgId">
                 <div class="mb-2">
@@ -35,7 +35,7 @@
                     <i class="material-icons mr-3 text-white" *ngIf="sidenavWidth >= 15">{{openDropdown?
             'arrow_drop_up':'arrow_drop_down'}}</i>
                 </div>
-                <!--<small class="text-white" style="font-size: 0.6em"><span class="cursor">EDIT</span> | <span class="cursor">DELETE</span></small>-->
+                <small class="text-white" style="font-size: 0.6em"><span class="cursor">EDIT</span> | <span class="cursor">DELETE</span></small>
             </div>
 
             <div *ngIf="openDropdown" class="bg-light-grey pt-2 font-12">
@@ -58,9 +58,9 @@
                     </ng-container>
                 </ul>
 
-                <a role="button" (click)="openModal(template)">
-                    <div class="cursor border-top">
-                        <small>
+        <a role="button" (click)="openModal(template)">
+          <div class="cursor border-top">
+            <small>
               <mat-list>
                 <mat-list-item class="p-0 font-12 text-white">
                   <mat-icon mat-list-icon>add_box</mat-icon>
@@ -68,10 +68,10 @@
                 </mat-list-item>
               </mat-list>
             </small>
-                    </div>
-                </a>
-            </div>
-        </div>
+          </div>
+        </a>
+      </div>
+    </div>
 
 
         <mat-nav-list>
@@ -133,7 +133,7 @@
         </button>
         <button mat-icon-button class="pr-5" [matMenuTriggerFor]="notify" *hasAuthority="'GENERAL_ADMIN'" (click)="callNotificationService()">
             <mat-icon class="example-icon">notifications</mat-icon>
-            <span class="badge badge-danger free-flows">20</span>
+            <span class="badge badge-danger free-flows">{{notifications.length}}</span>
         </button>
 
         <mat-menu #notify="matMenu" class="p-0">
@@ -147,11 +147,11 @@
               <div class="mr-auto">{{notif.created | date:'short'}}</div>
               <div class="ml-auto pr-3" (click)="openAttendeesDetailsModal(notificationTemplate, notif.locIds, notif.inviteId)"><span class="badge badge-dark cursor">Details</span></div>
             </small>
-                    </div>
-                </div>
-            </div>
-            <mat-divider></mat-divider>
-            <!-- <div class="media pt-2 pl-2 pb-2">
+         </div>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+  <!-- <div class="media pt-2 pl-2 pb-2">
      <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
      <div class="media-body">
        <small><b>{{details.firstName}} {{details.lastName}}</b> has requested to join {{details.orgName}} as an emplo...</small>
@@ -177,7 +177,7 @@
         </div>
       </div>
       <mat-divider></mat-divider> -->
-            <small class="">
+      <small class="">
         <a routerLink="/portal/notification" class="float-right p-3">See all notifications..</a>
       </small>
         </mat-menu>
@@ -204,9 +204,9 @@
         </mat-menu>
 
 
-    </mat-toolbar>
+  </mat-toolbar>
 
-    <ng-content></ng-content>
+  <ng-content></ng-content>
 
 
 </mat-sidenav-container>
@@ -273,11 +273,11 @@
                             <span *ngIf="inviteRequest.locIds?.length > 1">
                   (+{{inviteRequest.locIds.length - 1}} others)
                 </span>
-                        </mat-select-trigger>
-                        <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+            </mat-select-trigger>
+            <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
             <div class="col-md-12 text-right">
                 <button mat-raised-button color="primary" class="auth-btn" type="submit">PROCEED</button>
@@ -326,17 +326,17 @@
                             <span *ngIf="inviteRequest.locIds?.length > 1">
                   (+{{inviteRequest.locIds.length - 1}} others)
                 </span>
-                        </mat-select-trigger>
-                        <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+            </mat-select-trigger>
+            <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
-            <div class="col-md-12 text-right">
-                <button mat-raised-button color="accent" class="auth-btn" type="submit">PROCEED</button>
-            </div>
-        </form>
-    </div>
+      <div class="col-md-12 text-right">
+        <button mat-raised-button color="accent" class="auth-btn" type="submit">PROCEED</button>
+      </div>
+    </form>
+  </div>
 </ng-template>
 
 
@@ -349,8 +349,8 @@
     </div>
     <div class="modal-body px-5">
 
-
-        <p class="pl-lg-3 pr-lg-3 mt-3 text-center">A request to join your company has been received with the following details.</p>
+        <h4 class="modal-title text-brand pb-3 pt-3 text-center">Request to join {{details.orgName}}</h4>
+        <p class="pl-lg-3 pr-lg-3 text-center">A request to join your company has been received with the following details.</p>
         <p class="pl-lg-3 pr-lg-3 text-center">Approve or Decline Request to proceed...</p>
 
         <div class="pt-3">
