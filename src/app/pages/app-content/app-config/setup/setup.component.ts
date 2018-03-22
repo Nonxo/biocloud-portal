@@ -352,7 +352,7 @@ export class SetupComponent implements OnInit {
                     // needs to run inside zone to update the map
                     this.ngZone.run(() => {
                         this.locRequest.address = result;
-                        document.getElementById("autocompleteInput").value = result;
+                        (<HTMLInputElement>document.getElementById("autocompleteInput")).value = result;
                     });
                 },
                 error => console.log(error),

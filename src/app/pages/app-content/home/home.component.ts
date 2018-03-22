@@ -111,6 +111,7 @@ export class HomeComponent implements OnInit {
 
     viewAttendees(locId:string) {
         this.dataService.setLocId(locId);
+        this.mService.setHomeLinkActive(false);
         this.router.navigate(['/portal/manage-users']);
     }
 

@@ -1,6 +1,24 @@
 <div class="container-fluid">
-    <div class="row pt-4" *ngIf="orgId">
 
+    <!--empty state-->
+    <div class="row pb-md-3 equal-row" *ngIf="!orgId">
+
+        <div class="col-lg-12 text-center">
+            <div class="text-center">
+                <img class="img-fluid" src="assets/img/welcome.png" alt="">
+                <h6 class="text-center home-grey">We are pleased you joined the platform</h6>
+                <h6 class="text-center home-grey">To get started</h6>
+                <a routerLink="/sign-up-as">
+                    <h5 class="pt-3 pb-3">ADD A COMPANY</h5>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="row pt-4" *ngIf="orgId">
 
         <div class="col-lg-7 px-md-4 px-lg-4">
 
