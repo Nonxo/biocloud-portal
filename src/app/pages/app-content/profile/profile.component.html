@@ -128,17 +128,18 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <h4>Biodata</h4>
-                      <div class="container container-lay">
-                        <img class="profile-img w-50 rounded-circle mx-auto d-block" *ngIf="model.img" src="data:image/jpg;base64,{{model.img}}" alt="">
-                        <img class="profile-img w-50 rounded-circle mx-auto d-block" *ngIf="model.img == null || model.img == ''" src="assets/img/1.png" alt="Profile picture">
-                        <div class="middle">
-                          <div><i class="material-icons cursor profileImg-icon" data-toggle="tooltip" data-placement="bottom" title="Edit Profile Picture" (click)="fileChange($event)" accept="image/*" name="upload" type="file">camera_enhance</i></div>
+                        <img class="w-50 rounded-circle mx-auto d-block" *ngIf="model.img" src="data:image/jpg;base64,{{model.img}}" alt="">
+                        <img class="w-50 rounded-circle mx-auto d-block" *ngIf="model.img == null || model.img == ''" src="assets/img/1.png" alt="Profile picture">
+                        <div class="pl-4 pt-3 col-lg-9 col-9 mx-auto d-block text-secondary cursor">
+                            <mat-icon class="float-left pl-lg-2 pl-4" style="font-size: 20px">camera_enhance</mat-icon>
+                            <p class="float-left pl-lg-2 pl-4" style="font-size: 14px">CHANGE PHOTO</p>
+                            <div class="clearfix"></div>
                         </div>
-                      </div>
-                        <h5 class="text-center pt-3">{{model.fName}} {{model.lName}}</h5>
+                        <div class="text-danger small cursor text-center">X REMOVE</div>
+                        <h5 class="text-center pt-3 pb-5">{{model.fName}} {{model.lName}}</h5>
                     </div>
                     <div class="col-lg-6 pt-lg-0 pt-4 pb-4">
-                      <button mat-icon-button (click)="openeditProfileModal(editProfile)" class="float-lg-right">
+                        <button mat-icon-button (click)="openeditProfileModal(editProfile)" class="float-lg-right">
                         <mat-icon class="float-right">edit</mat-icon>
                       </button>
                         <div class="pt-lg-5">
@@ -298,7 +299,7 @@
           </div>
           <div class="row">
 
-          </div>
+                    </div>
 
           <div class="row">
             <div class="col-md-12">
@@ -314,10 +315,10 @@
           </div>
 
 
-        </form>
+                </form>
+            </div>
+        </div>
     </div>
-    </div>
-  </div>
 </ng-template>
 
 
