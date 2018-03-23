@@ -64,6 +64,9 @@ export class HomeComponent implements OnInit {
                     if(this.orgId != result) {
                         this.orgId = result;
                         this.callLocationService();
+                        this.fetchClockInsHistory();
+                        this.fetchTotalEmployeeCount();
+                        this.fetchTotalClockIns();
                     }
                 }
             )
@@ -177,8 +180,11 @@ export class HomeComponent implements OnInit {
           result => {
             if (result.code == 0) {
               this.latestClockin = result.clockInHistory ? result.clockInHistory : [];
+            }else {
+                this.latestClockin = [];
             }
           },
+            error => {this.latestClockin = [];}
 
         )
     }

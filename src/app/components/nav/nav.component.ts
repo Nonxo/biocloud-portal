@@ -181,11 +181,13 @@ export class NavComponent implements OnInit {
       .subscribe(
         result => {
           if (result.code == 0) {
-            this.notifications = result.attendees;
+            this.notifications = result.attendees? result.attendees: [];
+          } else {
+              this.notifications = [];
           }
         },
         error => {
-
+            this.notifications = [];
         }
       )
   }
