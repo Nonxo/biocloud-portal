@@ -183,6 +183,7 @@ export class NavComponent implements OnInit {
         result => {
           if (result.code == 0) {
             this.notifications = result.attendees? result.attendees: [];
+            this.notifications.length;
           } else {
               this.notifications = [];
           }
@@ -243,7 +244,7 @@ export class NavComponent implements OnInit {
   rejectNotifications(email:string, inviteId:string, status:string) {
     this.approveRequest.status = status;
 
-    if (!this.selectedLocIds || this.selectedLocIds.length == 0) {
+    if (this.selectedLocIds || this.selectedLocIds.length == 0) {
       this.callRejectService(inviteId);
 
     } else {
