@@ -201,7 +201,7 @@ export class AppContentService {
         .set('orgId', orgId)
         .set('startDate', String(startDate))
         .set('endDate', String(endDate));
-      return this.httpClient.get(Endpoints.FETCH_CLOCKINS_HISTORY + params, {
+      return this.httpClient.get(Endpoints.FETCH_CLOCKINS_COUNT + params, {
         headers: new HttpHeaders()
           .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
       })
