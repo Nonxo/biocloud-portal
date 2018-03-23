@@ -42,7 +42,7 @@
                                     {{email}}
                                     <mat-icon matChipRemove>cancel</mat-icon>
                                 </mat-chip>
-                                <input placeholder="Enter Email Address (es)" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addEmails($event)" />
+                                <input placeholder="Enter Email Address (es)" (focusout)="addEmails($event)" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addEmails($event)" />
                             </mat-chip-list>
                             <mat-hint>Separate multiple entries with comma. Press Enter key to confirm entry
                             </mat-hint>

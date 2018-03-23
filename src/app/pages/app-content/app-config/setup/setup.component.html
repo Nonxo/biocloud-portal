@@ -174,6 +174,7 @@
                                                     <mat-icon matChipRemove>cancel</mat-icon>
                                                 </mat-chip>
                                                 <input placeholder="Enter Email Address (es)"
+                                                       (focusout)="addEmails($event)"
                                                        [matChipInputFor]="chipList"
                                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                                                        [matChipInputAddOnBlur]="addOnBlur"

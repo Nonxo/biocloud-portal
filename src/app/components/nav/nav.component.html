@@ -10,7 +10,7 @@
 
 
         <div class="container-fluid px-0" (clickOutside)="onClickedOutside($event)">
-            <a role="button" (click)="openModal(template)" *ngIf="orgs.length == 0 && !selectedOrg.orgId">
+            <a role="button" (click)="createOrg(template)" *ngIf="orgs.length == 0 && !selectedOrg.orgId">
                 <div class="cursor border-top">
                     <small>
             <mat-list>
@@ -35,10 +35,25 @@
                     <i class="material-icons mr-3 text-white" *ngIf="sidenavWidth >= 15">{{openDropdown?
             'arrow_drop_up':'arrow_drop_down'}}</i>
                 </div>
-                <!--<small class="text-white" style="font-size: 0.6em"><span class="cursor">EDIT</span> | <span class="cursor">DELETE</span></small>-->
+                <small *hasAuthority="'GENERAL_ADMIN'" class="text-white" style="font-size: 0.6em"><span (click)="editOrg(template)" class="cursor">EDIT</span></small>
             </div>
 
             <div *ngIf="openDropdown" class="bg-light-grey pt-2 font-12">
+
+                <a role="button" (click)="createOrg(template)">
+                    <div class="cursor border-top">
+                        <small>
+                            <mat-list>
+                                <mat-list-item class="p-0 font-12 text-white">
+                                    <mat-icon mat-list-icon>add_box</mat-icon>
+                                    <p mat-line> Add Company</p>
+                                </mat-list-item>
+                            </mat-list>
+                        </small>
+                    </div>
+                </a>
+
+
                 <ul class="list-unstyled px-3">
                     <li class="media">
                         <mat-form-field class="w-100">
@@ -57,19 +72,6 @@
                         </li>
                     </ng-container>
                 </ul>
-
-        <a role="button" (click)="openModal(template)">
-          <div class="cursor border-top">
-            <small>
-              <mat-list>
-                <mat-list-item class="p-0 font-12 text-white">
-                  <mat-icon mat-list-icon>add_box</mat-icon>
-                  <p mat-line> Add Company</p>
-                </mat-list-item>
-              </mat-list>
-            </small>
-          </div>
-        </a>
       </div>
     </div>
 
@@ -213,7 +215,7 @@
 
 <ng-template #template>
     <div class="modal-header">
-        <h5 class="modal-title pull-left text-brand">New Company</h5>
+        <h5 class="modal-title pull-left text-brand">{{editOrgMode? 'Edit':'New'}} Company</h5>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -251,7 +253,7 @@
     </div>
     <div class="modal-body px-5">
 
-        <h4 class="modal-title text-brand pb-3 pt-3 text-center">Request to join {{details.orgName}}</h4>
+        <!--<h4 class="modal-title text-brand pb-3 pt-3 text-center">Request to join {{details.orgName}}</h4>-->
         <p class="pl-lg-3 pr-lg-3 text-center">A request to join your company has been received with the following details.</p>
         <p class="pl-lg-3 pr-lg-3 text-center">Approve or Decline Request to proceed...</p>
 

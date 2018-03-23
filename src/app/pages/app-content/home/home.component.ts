@@ -43,6 +43,7 @@ export class HomeComponent implements OnInit {
                 private modalService:BsModalService,
                 private router:Router,
                 private dataService:DataService) {
+        this.userId = this.ss.getUserId();
     }
 
     ngOnInit() {
@@ -50,7 +51,6 @@ export class HomeComponent implements OnInit {
         if (this.ss.getSelectedOrg()) {
             this.orgId = this.ss.getSelectedOrg().orgId;
             this.callLocationService();
-            this.userId = this.ss.getUserId();
             this.fetchClockInsHistory();
             this.fetchTotalEmployeeCount();
             this.fetchTotalClockIns();
