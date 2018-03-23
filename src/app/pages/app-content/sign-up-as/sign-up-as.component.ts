@@ -54,6 +54,7 @@ export class SignUpAsComponent implements OnInit {
                 result => {
                     if (result.code == 0) {
                         this.ns.showSuccess(result.description);
+                        this.updateOrgRoles(result.organisation);
                         this.router.navigate(['/portal']);
                     } else {
                         this.ns.showError(result.description);
@@ -63,6 +64,12 @@ export class SignUpAsComponent implements OnInit {
                     this.ns.showError("An Error Occurred.");
                 }
             )
+    }
+
+    updateOrgRoles(org:any) {
+        let arr = [{orgId: org.orgId, role: "GENERAL_ADMIN"}];
+
+        this.ss.setOrgRoles(arr);
     }
 
     fileChange(event){

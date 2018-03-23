@@ -3,7 +3,7 @@ import {StorageService} from "../../../service/storage.service";
 import {AppContentService} from "../services/app-content.service";
 import {NotifyService} from "../../../service/notify.service";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/index";
-import {InviteRequest} from "../app-config/model/app-config.model";
+import {AssignAdminRequest, InviteRequest} from "../app-config/model/app-config.model";
 import {AppConfigService} from "../app-config/services/app-config.service";
 import {AdminRemovalRequest} from "../model/app-content.model";
 
@@ -17,6 +17,7 @@ export class ManageAdminsComponent implements OnInit {
     users:any[] = [];
     modalRef:BsModalRef;
     inviteRequest:InviteRequest = new InviteRequest();
+    assignAdminRequest: AssignAdminRequest = new AssignAdminRequest();
     locations:any[] = [];
     selectedUser:any;
     selAll:boolean;
@@ -65,14 +66,26 @@ export class ManageAdminsComponent implements OnInit {
             )
     }
 
-    getSelectedLocationName() {
-        if (this.inviteRequest.locIds.length > 0) {
-            for (let l of this.locations) {
-                if (l.locId == this.inviteRequest.locIds[0]) {
-                    return l.name;
+    getSelectedLocationName(isInviteRequest:boolean) {
+
+        if(isInviteRequest) {
+            if (this.inviteRequest.locIds.length > 0) {
+                for (let l of this.locations) {
+                    if (l.locId == this.inviteRequest.locIds[0]) {
+                        return l.name;
+                    }
+                }
+            }
+        } else {
+            if (this.assignAdminRequest.locIds.length > 0) {
+                for (let l of this.locations) {
+                    if (l.locId == this.assignAdminRequest.locIds[0]) {
+                        return l.name;
+                    }
                 }
             }
         }
+
     }
 
     openModal(template:TemplateRef<any>) {
@@ -88,11 +101,11 @@ export class ManageAdminsComponent implements OnInit {
 
     viewAdminDetails(template:TemplateRef<any>) {
         this.setSelectedUser();
-        this.inviteRequest = new InviteRequest();
+        this.assignAdminRequest = new AssignAdminRequest();
 
-        this.inviteRequest.role = this.selectedUser.role;
-        this.inviteRequest.locIds = this.selectedUser.locIds? this.selectedUser.locIds: [];
-        this.inviteRequest.emails.push(this.selectedUser.email);
+        this.assignAdminRequest.role = this.selectedUser.role;
+        this.assignAdminRequest.locIds = this.selectedUser.locIds? this.selectedUser.locIds: [];
+        this.assignAdminRequest.email = this.selectedUser.email;
 
         this.openModal(template);
     }
@@ -133,6 +146,22 @@ export class ManageAdminsComponent implements OnInit {
 
         if (this.inviteRequest.role == "LOCATION_ADMIN") {
             if (this.inviteRequest.locIds.length == 0) {
+                this.ns.showError("You must select at least one location");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    isAssignFormValid() {
+        if (!this.assignAdminRequest.role) {
+            this.ns.showError("You must select a role.");
+            return false;
+        }
+
+        if (this.assignAdminRequest.role == "LOCATION_ADMIN") {
+            if (this.assignAdminRequest.locIds.length == 0) {
                 this.ns.showError("You must select at least one location");
                 return false;
             }
@@ -195,11 +224,11 @@ export class ManageAdminsComponent implements OnInit {
     }
 
     assignAdmins() {
-        if (!this.isInviteFormValid()) {
+        if (!this.isAssignFormValid()) {
             return;
         }
 
-        this.configService.assignAdmins(this.inviteRequest)
+        this.configService.assignAdmins(this.assignAdminRequest)
             .subscribe(
                 result => {
                     if (result.code == 0) {

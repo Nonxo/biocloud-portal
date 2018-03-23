@@ -1,6 +1,24 @@
 <div class="container-fluid">
-    <div class="row pt-4" *ngIf="orgId">
 
+    <!--empty state-->
+    <div class="row pb-md-3 equal-row" *ngIf="!orgId">
+
+        <div class="col-lg-12 text-center">
+            <div class="text-center">
+                <img class="img-fluid" src="assets/img/welcome.png" alt="">
+                <h6 class="text-center home-grey">We are pleased you joined the platform</h6>
+                <h6 class="text-center home-grey">To get started</h6>
+                <a routerLink="/sign-up-as">
+                    <h5 class="pt-3 pb-3">ADD A COMPANY</h5>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="row pt-4" *ngIf="orgId">
 
         <div class="col-lg-7 px-md-4 px-lg-4">
 
@@ -24,11 +42,11 @@
                             <div class="mr-auto col-auto"><small><a role="button" (click)="viewAttendees(loc.locId)">Employees</a></small></div>
                             <div class="ml-auto col-auto"><small>{{loc.noOfAttendees? loc.noOfAttendees:0}}</small></div>
                         </div>
-                        <mat-divider></mat-divider>
-                        <div class="py-2 row justify-content-between">
-                            <div class="mr-auto col-auto"><small><a (click)="viewPendingAttendees(template, loc.locId)">Pending</a></small></div>
-                            <div class="ml-auto col-auto"><small>{{loc.noOfPendingAttendees? loc.noOfPendingAttendees:0}}</small></div>
-                        </div>
+                        <!--<mat-divider></mat-divider>-->
+                        <!--<div class="py-2 row justify-content-between">-->
+                            <!--<div class="mr-auto col-auto"><small><a (click)="viewPendingAttendees(template, loc.locId)">Pending</a></small></div>-->
+                            <!--<div class="ml-auto col-auto"><small>{{loc.noOfPendingAttendees? loc.noOfPendingAttendees:0}}</small></div>-->
+                        <!--</div>-->
 
                         <div style="position:absolute; top:0; right:0;">
                             <button mat-icon-button [matMenuTriggerFor]="menu">

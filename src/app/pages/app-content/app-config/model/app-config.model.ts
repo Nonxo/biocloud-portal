@@ -21,6 +21,7 @@ export class LocationRequest {
     
     constructor() {
         this.inviteEmails = [];
+        this.radiusThreshold = 32;
     }
 }
 
@@ -32,6 +33,17 @@ export class InviteRequest {
 
     constructor() {
         this.emails = [];
+        this.locIds = [];
+    }
+}
+
+export class AssignAdminRequest {
+    orgId:string;
+    email:string;
+    role:string;
+    locIds:string[];
+
+    constructor() {
         this.locIds = [];
     }
 }

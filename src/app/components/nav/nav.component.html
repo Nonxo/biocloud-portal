@@ -35,7 +35,7 @@
                     <i class="material-icons mr-3 text-white" *ngIf="sidenavWidth >= 15">{{openDropdown?
             'arrow_drop_up':'arrow_drop_down'}}</i>
                 </div>
-                <small class="text-white" style="font-size: 0.6em"><span class="cursor">EDIT</span> | <span class="cursor">DELETE</span></small>
+                <!--<small class="text-white" style="font-size: 0.6em"><span class="cursor">EDIT</span> | <span class="cursor">DELETE</span></small>-->
             </div>
 
             <div *ngIf="openDropdown" class="bg-light-grey pt-2 font-12">
@@ -94,7 +94,7 @@
         </mat-nav-list>
         <mat-nav-list>
             <ul>
-                <li routerLinkActive="active" *hasAuthority="'GENERAL_ADMIN'">
+                <li routerLinkActive="active" *hasAuthority="'GENERAL_ADMIN'" (click)="activeClass = ''">
                     <a routerLink="/portal/manage-admins" mat-list-item class="text-white">
                         <mat-icon mat-list-icon>group</mat-icon>
                         <span mat-line>Admins</span>
@@ -240,104 +240,6 @@
     </div>
 </ng-template>
 
-<ng-template #inviteAdminTemplate>
-    <div class="modal-header">
-        <h5 class="modal-title pull-left text-brand">Invite Admin</h5>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    </div>
-    <div class="modal-body">
-        <form (ngSubmit)="inviteAdmin()" name="inviteAdminForm" #inviteAdminForm="ngForm" ngNativeValidate>
-            <div class="col-md-12">
-                <mat-form-field class="input-field">
-                    <input matInput type="email" placeholder="Email Address" name="email" [(ngModel)]="inviteRequest.email" required>
-                </mat-form-field>
-            </div>
-            <div class="col-md-12">
-                <mat-form-field class="input-field">
-                    <mat-select placeholder="Role" name="role" #role="ngModel" [(ngModel)]="inviteRequest.role" [required]="true">
-                        <mat-option value="GENERAL_ADMIN">GENERAL ADMIN</mat-option>
-                        <mat-option value="LOCATION_ADMIN">LOCATION ADMIN</mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="role.errors?.required">You must make a selection</mat-error>
-                </mat-form-field>
-            </div>
-
-
-            <div class="col-md-12" *ngIf="inviteRequest.role == 'LOCATION_ADMIN'">
-                <mat-form-field class="input-field">
-                    <mat-select placeholder="Select Locations" name="locations" [(ngModel)]="inviteRequest.locIds" multiple>
-                        <mat-select-trigger>
-                            {{locations? getSelectedLocationName() : ''}}
-                            <span *ngIf="inviteRequest.locIds?.length > 1">
-                  (+{{inviteRequest.locIds.length - 1}} others)
-                </span>
-            </mat-select-trigger>
-            <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-            <div class="col-md-12 text-right">
-                <button mat-raised-button color="primary" class="auth-btn" type="submit">PROCEED</button>
-            </div>
-        </form>
-    </div>
-</ng-template>
-
-
-<ng-template #viewAdminTemplate>
-    <div class="modal-header">
-        <h5 class="modal-title pull-left text-brand">View Admin</h5>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    </div>
-    <div class="modal-body">
-        <form (ngSubmit)="assignAdmins()" name="inviteAdminForm" #inviteAdminForm="ngForm" ngNativeValidate>
-            <div class="col-md-12">
-                <mat-form-field class="input-field">
-                    <input matInput placeholder="Name" [value]="selectedUser.firstName + ' ' + selectedUser.lastName" disabled>
-                </mat-form-field>
-            </div>
-
-            <div class="col-md-12">
-                <mat-form-field class="input-field">
-                    <input matInput type="email" placeholder="Email Address" [value]="selectedUser.email" disabled>
-                </mat-form-field>
-            </div>
-            <div class="col-md-12">
-                <mat-form-field class="input-field">
-                    <mat-select placeholder="Role" name="role" #role="ngModel" [(ngModel)]="inviteRequest.role" [required]="true">
-                        <mat-option value="GENERAL_ADMIN">GENERAL ADMIN</mat-option>
-                        <mat-option value="LOCATION_ADMIN">LOCATION ADMIN</mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="role.errors?.required">You must make a selection</mat-error>
-                </mat-form-field>
-            </div>
-
-
-            <div class="col-md-12" *ngIf="inviteRequest.role == 'LOCATION_ADMIN'">
-                <mat-form-field class="input-field">
-                    <mat-select placeholder="Select Locations" name="locations" [(ngModel)]="inviteRequest.locIds" multiple>
-                        <mat-select-trigger>
-                            {{locations? getSelectedLocationName() : ''}}
-                            <span *ngIf="inviteRequest.locIds?.length > 1">
-                  (+{{inviteRequest.locIds.length - 1}} others)
-                </span>
-            </mat-select-trigger>
-            <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <div class="col-md-12 text-right">
-        <button mat-raised-button color="accent" class="auth-btn" type="submit">PROCEED</button>
-      </div>
-    </form>
-  </div>
-</ng-template>
 
 
 <ng-template #notificationTemplate>

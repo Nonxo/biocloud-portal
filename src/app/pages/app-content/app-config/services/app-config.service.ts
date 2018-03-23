@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../../util/endpoints";
-import {LocationRequest, InviteRequest} from "../model/app-config.model";
+import {LocationRequest, InviteRequest, AssignAdminRequest} from "../model/app-config.model";
 import {StorageService} from "../../../../service/storage.service";
 import {MediaType} from "../../../../util/constants";
 
@@ -96,7 +96,7 @@ export class AppConfigService {
             })
     }
 
-    assignAdmins(model:InviteRequest): Observable<any> {
+    assignAdmins(model:AssignAdminRequest): Observable<any> {
         model.orgId = this.ss.getSelectedOrg()? this.ss.getSelectedOrg().orgId: null;
 
         return this.httpClient
