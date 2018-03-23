@@ -10,7 +10,7 @@
 
 
         <div class="container-fluid px-0" (clickOutside)="onClickedOutside($event)">
-            <a role="button" (click)="openModal(template)" *ngIf="orgs.length == 0 && !selectedOrg.orgId">
+            <a role="button" (click)="createOrg(template)" *ngIf="orgs.length == 0 && !selectedOrg.orgId">
                 <div class="cursor border-top">
                     <small>
             <mat-list>
@@ -20,8 +20,8 @@
               </mat-list-item>
             </mat-list>
           </small>
-                </div>
-            </a>
+        </div>
+      </a>
 
             <div class=" text-center my-3 px-3 pb-3 border-0" *ngIf="orgs.length > 0 || selectedOrg.orgId">
                 <div class="mb-2">
@@ -35,11 +35,26 @@
                     <i class="material-icons mr-3 text-white" *ngIf="sidenavWidth >= 15">{{openDropdown?
             'arrow_drop_up':'arrow_drop_down'}}</i>
                 </div>
-                <h6 class="text-white">SXF123</h6>
-                <small class="text-white" style="font-size: 0.6em"><span class="cursor">EDIT</span> | <span class="cursor">DELETE</span></small>
+              <h6 class="text-white">SXF123</h6>
+                <small *hasAuthority="'GENERAL_ADMIN'" class="text-white" style="font-size: 0.6em"><span (click)="editOrg(template)" class="cursor">EDIT</span></small>
             </div>
 
             <div *ngIf="openDropdown" class="bg-light-grey pt-2 font-12">
+
+                <a role="button" (click)="createOrg(template)">
+                    <div class="cursor border-top">
+                        <small>
+                            <mat-list>
+                                <mat-list-item class="p-0 font-12 text-white">
+                                    <mat-icon mat-list-icon>add_box</mat-icon>
+                                    <p mat-line> Add Company</p>
+                                </mat-list-item>
+                            </mat-list>
+                        </small>
+                    </div>
+                </a>
+
+
                 <ul class="list-unstyled px-3">
                     <li class="media">
                         <mat-form-field class="w-100">
@@ -58,21 +73,8 @@
                         </li>
                     </ng-container>
                 </ul>
-
-                <a role="button" (click)="openModal(template)">
-                    <div class="cursor border-top">
-                        <small>
-              <mat-list>
-                <mat-list-item class="p-0 font-12 text-white">
-                  <mat-icon mat-list-icon>add_box</mat-icon>
-                  <p mat-line> Add Company</p>
-                </mat-list-item>
-              </mat-list>
-            </small>
-                    </div>
-                </a>
-            </div>
-        </div>
+      </div>
+    </div>
 
 
         <mat-nav-list>
@@ -95,7 +97,7 @@
         </mat-nav-list>
         <mat-nav-list>
             <ul>
-                <li routerLinkActive="active" *hasAuthority="'GENERAL_ADMIN'">
+                <li routerLinkActive="active" *hasAuthority="'GENERAL_ADMIN'" (click)="activeClass = ''">
                     <a routerLink="/portal/manage-admins" mat-list-item class="text-white">
                         <mat-icon mat-list-icon>group</mat-icon>
                         <span mat-line>Admins</span>
@@ -134,11 +136,11 @@
         </button>
         <button mat-icon-button class="pr-5" [matMenuTriggerFor]="notify" *hasAuthority="'GENERAL_ADMIN'" (click)="callNotificationService()">
             <mat-icon class="example-icon">notifications</mat-icon>
-            <span class="badge badge-danger free-flows">20</span>
+            <span class="badge badge-danger free-flows" *ngIf="notifications.length > 0">{{notifications.length}}</span>
         </button>
 
         <mat-menu #notify="matMenu" class="p-0">
-            <div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications">
+            <div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications | slice:0:5; let i=index">
                 <img *ngIf="!notif.verifiableImg" class="mr-3 rounded-circle" src="assets/img/1.png" style="max-height:3em;">
                 <img *ngIf="notif.verifiableImg" class="mr-3 rounded-circle " src="data:image/jpg;base64,{{notif.verifiableImg}}" style="max-height:3em;">
                 <div class="media-body">
@@ -148,11 +150,11 @@
               <div class="mr-auto">{{notif.created | date:'short'}}</div>
               <div class="ml-auto pr-3" (click)="openAttendeesDetailsModal(notificationTemplate, notif.locIds, notif.inviteId)"><span class="badge badge-dark cursor">Details</span></div>
             </small>
-                    </div>
-                </div>
-            </div>
-            <mat-divider></mat-divider>
-            <!-- <div class="media pt-2 pl-2 pb-2">
+         </div>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+  <!-- <div class="media pt-2 pl-2 pb-2">
      <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
      <div class="media-body">
        <small><b>{{details.firstName}} {{details.lastName}}</b> has requested to join {{details.orgName}} as an emplo...</small>
@@ -178,7 +180,7 @@
         </div>
       </div>
       <mat-divider></mat-divider> -->
-            <small class="">
+      <small class="">
         <a routerLink="/portal/notification" class="float-right p-3">See all notifications..</a>
       </small>
         </mat-menu>
@@ -205,16 +207,16 @@
         </mat-menu>
 
 
-    </mat-toolbar>
+  </mat-toolbar>
 
-    <ng-content></ng-content>
+  <ng-content></ng-content>
 
 
 </mat-sidenav-container>
 
 <ng-template #template>
     <div class="modal-header">
-        <h5 class="modal-title pull-left text-brand">New Company</h5>
+        <h5 class="modal-title pull-left text-brand">{{editOrgMode? 'Edit':'New'}} Company</h5>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -241,104 +243,6 @@
     </div>
 </ng-template>
 
-<ng-template #inviteAdminTemplate>
-    <div class="modal-header">
-        <h5 class="modal-title pull-left text-brand">Invite Admin</h5>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    </div>
-    <div class="modal-body">
-        <form (ngSubmit)="inviteAdmin()" name="inviteAdminForm" #inviteAdminForm="ngForm" ngNativeValidate>
-            <div class="col-md-12">
-                <mat-form-field class="input-field">
-                    <input matInput type="email" placeholder="Email Address" name="email" [(ngModel)]="inviteRequest.email" required>
-                </mat-form-field>
-            </div>
-            <div class="col-md-12">
-                <mat-form-field class="input-field">
-                    <mat-select placeholder="Role" name="role" #role="ngModel" [(ngModel)]="inviteRequest.role" [required]="true">
-                        <mat-option value="GENERAL_ADMIN">GENERAL ADMIN</mat-option>
-                        <mat-option value="LOCATION_ADMIN">LOCATION ADMIN</mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="role.errors?.required">You must make a selection</mat-error>
-                </mat-form-field>
-            </div>
-
-
-            <div class="col-md-12" *ngIf="inviteRequest.role == 'LOCATION_ADMIN'">
-                <mat-form-field class="input-field">
-                    <mat-select placeholder="Select Locations" name="locations" [(ngModel)]="inviteRequest.locIds" multiple>
-                        <mat-select-trigger>
-                            {{locations? getSelectedLocationName() : ''}}
-                            <span *ngIf="inviteRequest.locIds?.length > 1">
-                  (+{{inviteRequest.locIds.length - 1}} others)
-                </span>
-                        </mat-select-trigger>
-                        <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-
-            <div class="col-md-12 text-right">
-                <button mat-raised-button color="primary" class="auth-btn" type="submit">PROCEED</button>
-            </div>
-        </form>
-    </div>
-</ng-template>
-
-
-<ng-template #viewAdminTemplate>
-    <div class="modal-header">
-        <h5 class="modal-title pull-left text-brand">View Admin</h5>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    </div>
-    <div class="modal-body">
-        <form (ngSubmit)="assignAdmins()" name="inviteAdminForm" #inviteAdminForm="ngForm" ngNativeValidate>
-            <div class="col-md-12">
-                <mat-form-field class="input-field">
-                    <input matInput placeholder="Name" [value]="selectedUser.firstName + ' ' + selectedUser.lastName" disabled>
-                </mat-form-field>
-            </div>
-
-            <div class="col-md-12">
-                <mat-form-field class="input-field">
-                    <input matInput type="email" placeholder="Email Address" [value]="selectedUser.email" disabled>
-                </mat-form-field>
-            </div>
-            <div class="col-md-12">
-                <mat-form-field class="input-field">
-                    <mat-select placeholder="Role" name="role" #role="ngModel" [(ngModel)]="inviteRequest.role" [required]="true">
-                        <mat-option value="GENERAL_ADMIN">GENERAL ADMIN</mat-option>
-                        <mat-option value="LOCATION_ADMIN">LOCATION ADMIN</mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="role.errors?.required">You must make a selection</mat-error>
-                </mat-form-field>
-            </div>
-
-
-            <div class="col-md-12" *ngIf="inviteRequest.role == 'LOCATION_ADMIN'">
-                <mat-form-field class="input-field">
-                    <mat-select placeholder="Select Locations" name="locations" [(ngModel)]="inviteRequest.locIds" multiple>
-                        <mat-select-trigger>
-                            {{locations? getSelectedLocationName() : ''}}
-                            <span *ngIf="inviteRequest.locIds?.length > 1">
-                  (+{{inviteRequest.locIds.length - 1}} others)
-                </span>
-                        </mat-select-trigger>
-                        <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-
-            <div class="col-md-12 text-right">
-                <button mat-raised-button color="accent" class="auth-btn" type="submit">PROCEED</button>
-            </div>
-        </form>
-    </div>
-</ng-template>
 
 
 <ng-template #notificationTemplate>
@@ -350,8 +254,8 @@
     </div>
     <div class="modal-body px-5">
 
-
-        <p class="pl-lg-3 pr-lg-3 mt-3 text-center">A request to join your company has been received with the following details.</p>
+        <!--<h4 class="modal-title text-brand pb-3 pt-3 text-center">Request to join {{details.orgName}}</h4>-->
+        <p class="pl-lg-3 pr-lg-3 text-center">A request to join your company has been received with the following details.</p>
         <p class="pl-lg-3 pr-lg-3 text-center">Approve or Decline Request to proceed...</p>
 
         <div class="pt-3">

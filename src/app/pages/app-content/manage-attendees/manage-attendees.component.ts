@@ -204,8 +204,16 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     }
 
     getSelectedUsersId(status:boolean) {
+
+        if(this.selectedLocId) {
+            this.adr.orgId = "";
+            this.adr.locId = this.selectedLocId;
+        } else {
+            this.adr.orgId = this.orgId;
+            this.adr.locId = "";
+        }
+
         this.adr.status = status;
-        this.adr.orgId = this.orgId;
         this.adr.emails = [];
         let arr:any[] = this.data.filter((obj:any) => obj.checked);
 

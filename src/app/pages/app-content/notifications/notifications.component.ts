@@ -39,7 +39,7 @@ export class NotificationsComponent implements OnInit {
     if (this.ss.getSelectedOrg()) {
       this.orgId = this.ss.getSelectedOrg().orgId;
       this.callNotificationService();
-      this.assignLocation
+
     }
 
   }
@@ -70,7 +70,7 @@ export class NotificationsComponent implements OnInit {
       .subscribe(
         result => {
           if (result.code == 0) {
-            this.notifications = result.attendees;
+            this.notifications = result.attendees ? result.attendees : [];
           } else {
             this.ns.showError(result.description)
           }
@@ -118,7 +118,7 @@ export class NotificationsComponent implements OnInit {
   rejectNotifications(email:string, inviteId:string, status:string) {
     this.approveRequest.status = status;
 
-    if (!this.selectedLocIds || this.selectedLocIds.length == 0) {
+    if (this.selectedLocIds || this.selectedLocIds.length > 0) {
       this.callRejectService(inviteId);
 
     } else {
