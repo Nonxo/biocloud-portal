@@ -405,12 +405,18 @@ export class SetupComponent implements OnInit {
         this.zoomSize = 20;
     }
 
-    addEmails(event:MatChipInputEvent) {
-        let input = event.input;
-        let value = event.value;
+    addEmails(event) {
+        let input,value;
+
+        if(event.target.value) {
+            input = event.target;
+            value = event.target.value;
+        }else {
+            input = event.input;
+            value = event.value;
+        }
 
         let arr = value.split(" ");
-
         if(arr.length > 0) {
             for(let a of arr) {
                 // Add email
@@ -424,8 +430,6 @@ export class SetupComponent implements OnInit {
                 this.inviteEmails.push(value.trim());
             }
         }
-
-
 
         // Reset the input value
         if (input) {

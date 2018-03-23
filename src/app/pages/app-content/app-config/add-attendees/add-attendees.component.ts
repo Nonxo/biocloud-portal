@@ -136,12 +136,18 @@ export class AddAttendeesComponent implements OnInit {
             )
     }
 
-    addEmails(event:MatChipInputEvent) {
-        let input = event.input;
-        let value = event.value;
+    addEmails(event) {
+        let input,value;
+
+        if(event.target.value) {
+            input = event.target;
+            value = event.target.value;
+        }else {
+            input = event.input;
+            value = event.value;
+        }
 
         let arr = value.split(" ");
-
         if(arr.length > 0) {
             for(let a of arr) {
                 // Add email

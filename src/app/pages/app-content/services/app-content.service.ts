@@ -23,6 +23,17 @@ export class AppContentService {
 
     }
 
+    updateOrg(model:CreateOrgRequest):Observable<any> {
+        let orgId = this.ss.getSelectedOrg().orgId;
+
+        return this.httpClient
+            .post(Endpoints.CREATE_ORG + "/" + orgId, model, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', 'application/json')
+            })
+
+    }
+
     getOrgDetails():Observable<any> {
 
         const body = "";
