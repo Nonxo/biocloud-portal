@@ -24,6 +24,7 @@ export class ProfileComponent implements OnInit {
   model: UpdateProfile = new UpdateProfile();
   changePasswordForm:FormGroup;
   submitted:boolean;
+  data:Object[] = [];
   base64Img:any = null;
   modalRef:BsModalRef;
   pictureSizeErrorMessage:string;
@@ -37,6 +38,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.userId = this.ss.getUserId();
     this.fetchUser();
+    this.workStatus();
     this.changePasswordForm = this.fb.group({
       oldPw: ['', Validators.required],
       newPw: ['', Validators.required],
@@ -166,6 +168,17 @@ export class ProfileComponent implements OnInit {
             this.modalRef.hide();
           } else {
             this.ns.showError(result.description)
+          }
+        }
+      )
+  }
+
+  workStatus() {
+    this.contentService.fetchWorkStatus(this.userId)
+      .subscribe(
+        result => {
+          if (result.code == 0) {
+            this.data = result.data ? result.data : [];
           }
         }
       )

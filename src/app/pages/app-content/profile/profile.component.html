@@ -216,13 +216,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Seamfix Tech</td>
-                                        <td>1, Itesiwaju Street Just Move Forward Road</td>
-                                        <td>Employee</td>
+                                    <tr *ngFor="let item of data | slice:0:5; let i=index">
+                                        <td>{{i+1}}</td>
+                                        <td>{{item.orgName}}</td>
+                                        <td>{{item.location}}</td>
+                                        <td>{{item.roleType}}</td>
                                     </tr>
-                                    <tr>
+                                <!--    <tr>
                                         <td>2</td>
                                         <td>Jextoban Schools</td>
                                         <td>1, Itesiwaju Street Just Move Forward Road</td>
@@ -233,7 +233,7 @@
                                         <td>Jextoban Schools</td>
                                         <td>1, Itesiwaju Street Just Move Forward Road</td>
                                         <td>Employee</td>
-                                    </tr>
+                                    </tr> -->
                                 </tbody>
                             </table>
                         </div>
