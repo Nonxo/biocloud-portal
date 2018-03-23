@@ -32,8 +32,8 @@ export class NavComponent implements OnInit {
     adminRemovalRequest: AdminRemovalRequest = new AdminRemovalRequest();
     views: Object[] = [
         {icon: "group", route: "Employees", url: "/portal/manage-users", authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']},
-        {icon: "insert_chart", route: "Report", url: "/portal/report-dashboard", authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']},
-        {icon: "payment", route: "Subscribe", url: "/portal/subscribe", authority: "GENERAL_ADMIN"}
+        {icon: "insert_chart", route: "Report", url: "/portal/report-dashboard", authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']}
+        // {icon: "payment", route: "Subscribe", url: "/portal/subscribe", authority: "GENERAL_ADMIN"}
     ];
 
     orgTypes: string[] = ["SCHOOL", "SECURITY", "HOSPITAL"];
@@ -59,6 +59,7 @@ export class NavComponent implements OnInit {
     searchOrgTerm$ = new Subject<any>();
     searchType:string;
     activeClass:string;
+    editOrgMode: boolean;
 
 
     constructor(private router:Router,
@@ -203,7 +204,7 @@ export class NavComponent implements OnInit {
           }
         },
         error => {
-          this.ns.showError("An error Occurred");
+          this.ns.showError("An Error Occurred");
         }
       )
   }
@@ -347,7 +348,7 @@ export class NavComponent implements OnInit {
 
     saveOrg() {
         this.getOrgRequestObject();
-        this.callOrgCreationService();
+        this.editOrgMode? this.callOrgEditService():this.callOrgCreationService();
     }
 
     callOrgCreationService() {
@@ -363,6 +364,28 @@ export class NavComponent implements OnInit {
                         this.selectOrg(result.organisation);
 
                         this.router.navigate(['/portal/config']);
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {
+                    this.ns.showError("An Error Occurred.");
+                }
+            )
+    }
+
+    callOrgEditService() {
+        this.contentService.updateOrg(this.orgRequest)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.ns.showSuccess(result.description);
+                        this.modalRef.hide();
+                        // this.orgs.push(result.organisation);
+                        // this.updateOrgRoles(result.organisation);
+                        // this.selectOrg(result.organisation);
+
+                        // this.router.navigate(['/portal/config']);
                     } else {
                         this.ns.showError(result.description);
                     }
@@ -448,6 +471,19 @@ export class NavComponent implements OnInit {
             )
     }
 
+    createOrg(template: TemplateRef<any>) {
+        this.editOrgMode = false;
+        this.orgRequest = new CreateOrgRequest();
+        this.openModal(template);
+    }
+
+    editOrg(template: TemplateRef<any>) {
+        this.editOrgMode = true;
+        this.orgRequest.type = this.selectedOrg.sector;
+        this.orgRequest.name = this.selectedOrg.name;
+        this.orgRequest.logo = this.selectedOrg.logo;
+        this.openModal(template);
+    }
 
     notificationModal(template: TemplateRef<any>) {
         this.openModal(template);

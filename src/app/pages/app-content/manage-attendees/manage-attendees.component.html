@@ -147,7 +147,7 @@
 
 <ng-template #activateUserTemplate>
     <div class="modal-header">
-        <h4 class="modal-title pull-left">{{adr.status? 'Activate':'Deactivate'}} Attendee(s)</h4>
+        <h4 class="modal-title pull-left">{{adr.status? 'Activate':'Deactivate'}} Employee(s)</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -155,7 +155,7 @@
     <div class="modal-body">
 
         <div class="col-md-12">
-            <p>Are you sure you want to {{adr.status? 'Activate':'Deactivate'}} the selected attendee(s).</p>
+            <p>Are you sure you want to {{adr.status? 'Activate':'Deactivate'}} the selected employee(s).</p>
             <p>This means they will be {{adr.status? 'able':'unable'}} to clock in to your institution {{adr.status? '':'anymore'}}</p>
         </div>
 
@@ -170,7 +170,7 @@
 
 <ng-template #assignuserTemplate>
     <div class="modal-header">
-        <h4 class="modal-title">Reassign Attendee(s)</h4>
+        <h4 class="modal-title">Reassign Employee(s)</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -179,7 +179,7 @@
         <div class="row p-md-3 p-0">
 
             <div class="col-md-12">
-                <p>Reassign the selected attendee(s) to a new location</p>
+                <p>Reassign the selected employee(s) to a new location</p>
             </div>
 
             <div class="col-md-8">
