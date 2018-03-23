@@ -172,12 +172,10 @@ export class NavComponent implements OnInit {
         result => {
           if (result.code == 0) {
             this.notifications = result.attendees;
-          } else {
-            this.ns.showError(result.description)
           }
         },
         error => {
-          this.ns.showError("An error Occurred");
+
         }
       )
   }
