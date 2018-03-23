@@ -20,7 +20,7 @@
 
                                 <div class="col-md-12 mt-3">
                                     <mat-form-field class="input-field">
-                                        <input matInput placeholder="Enter Branch/Business/Location Name" name="locName"
+                                        <input matInput placeholder="Enter Location Name" name="locName"
                                                [(ngModel)]="locRequest.name" required>
                                     </mat-form-field>
                                 </div>
@@ -115,7 +115,7 @@
                                             </agm-circle>
                                         </agm-map>
                                         <mat-form-field class="input-field mt-3">
-                                            <input matInput placeholder="Range" type="number" (focus)="zoomInMap()"
+                                            <input matInput placeholder="Radius" type="number" (focus)="zoomInMap()"
                                                    (focusout)="zoomInMap(false)" name="radius"
                                                    [(ngModel)]="locRequest.radiusThreshold"
                                             >
@@ -174,6 +174,7 @@
                                                     <mat-icon matChipRemove>cancel</mat-icon>
                                                 </mat-chip>
                                                 <input placeholder="Enter Email Address (es)"
+                                                       (focusout)="addEmails($event)"
                                                        [matChipInputFor]="chipList"
                                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                                                        [matChipInputAddOnBlur]="addOnBlur"

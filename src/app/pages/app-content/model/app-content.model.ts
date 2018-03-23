@@ -23,6 +23,7 @@ export class Org {
     walletId:number;
 }
 
+
 export class AssignUserRequest {
     oldlocId:string;
     newlocId:string;

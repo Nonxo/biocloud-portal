@@ -32,8 +32,8 @@ export class NavComponent implements OnInit {
     adminRemovalRequest: AdminRemovalRequest = new AdminRemovalRequest();
     views: Object[] = [
         {icon: "group", route: "Employees", url: "/portal/manage-users", authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']},
-        {icon: "insert_chart", route: "Report", url: "/portal/report-dashboard", authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']},
-        {icon: "payment", route: "Subscribe", url: "/portal/subscribe", authority: "GENERAL_ADMIN"}
+        {icon: "insert_chart", route: "Report", url: "/portal/report-dashboard", authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']}
+        // {icon: "payment", route: "Subscribe", url: "/portal/subscribe", authority: "GENERAL_ADMIN"}
     ];
 
     orgTypes: string[] = ["SCHOOL", "SECURITY", "HOSPITAL"];
@@ -59,6 +59,7 @@ export class NavComponent implements OnInit {
     searchOrgTerm$ = new Subject<any>();
     searchType:string;
     activeClass:string;
+    editOrgMode: boolean;
 
 
     constructor(private router:Router,
@@ -75,6 +76,7 @@ export class NavComponent implements OnInit {
             this.activeClass = "active";
         }
 
+        //subscribe to search observable
         this.searchService.search(this.searchOrgTerm$)
             .subscribe(results => {
                 switch(this.searchType) {
@@ -88,6 +90,15 @@ export class NavComponent implements OnInit {
                     }
                 }
             });
+
+        //subscribe to homeLinkActive Observable
+        this.mService.isHomeLinkActive()
+            .subscribe(
+                result => {
+                    !result? this.activeClass = "":'';
+                }
+            )
+
     }
 
     ngOnInit() {
@@ -171,13 +182,14 @@ export class NavComponent implements OnInit {
       .subscribe(
         result => {
           if (result.code == 0) {
-            this.notifications = result.attendees;
+            this.notifications = result.attendees? result.attendees: [];
+            this.notifications.length;
           } else {
-            this.ns.showError(result.description)
+              this.notifications = [];
           }
         },
         error => {
-          this.ns.showError("An error Occurred");
+            this.notifications = [];
         }
       )
   }
@@ -193,7 +205,7 @@ export class NavComponent implements OnInit {
           }
         },
         error => {
-          this.ns.showError("An error Occurred");
+          this.ns.showError("An Error Occurred");
         }
       )
   }
@@ -232,7 +244,7 @@ export class NavComponent implements OnInit {
   rejectNotifications(email:string, inviteId:string, status:string) {
     this.approveRequest.status = status;
 
-    if (!this.selectedLocIds || this.selectedLocIds.length == 0) {
+    if (this.selectedLocIds || this.selectedLocIds.length == 0) {
       this.callRejectService(inviteId);
 
     } else {
@@ -337,7 +349,7 @@ export class NavComponent implements OnInit {
 
     saveOrg() {
         this.getOrgRequestObject();
-        this.callOrgCreationService();
+        this.editOrgMode? this.callOrgEditService():this.callOrgCreationService();
     }
 
     callOrgCreationService() {
@@ -353,6 +365,28 @@ export class NavComponent implements OnInit {
                         this.selectOrg(result.organisation);
 
                         this.router.navigate(['/portal/config']);
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {
+                    this.ns.showError("An Error Occurred.");
+                }
+            )
+    }
+
+    callOrgEditService() {
+        this.contentService.updateOrg(this.orgRequest)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.ns.showSuccess(result.description);
+                        this.modalRef.hide();
+                        // this.orgs.push(result.organisation);
+                        // this.updateOrgRoles(result.organisation);
+                        // this.selectOrg(result.organisation);
+
+                        // this.router.navigate(['/portal/config']);
                     } else {
                         this.ns.showError(result.description);
                     }
@@ -438,66 +472,17 @@ export class NavComponent implements OnInit {
             )
     }
 
-    getSelectedLocationName() {
-        if (this.inviteRequest.locIds.length > 0) {
-            for (let l of this.locations) {
-                if (l.locId == this.inviteRequest.locIds[0]) {
-                    return l.name;
-                }
-            }
-        }
-    }
-
-    inviteAdmin() {
-        if(!this.isInviteFormValid()) {
-            return;
-        }
-
-        this.configService.inviteAttendees(this.inviteRequest)
-            .subscribe(
-                result => {
-                    if (result.code == 0) {
-                        this.modalRef.hide();
-                        this.ns.showSuccess(result.description);
-                    } else {
-                        this.ns.showError(result.description);
-                    }
-                },
-                error => {
-                    this.ns.showError("An Error Occurred.");
-                }
-            )
-    }
-
-    isInviteFormValid() {
-        if(!this.inviteRequest.role) {
-            this.ns.showError("You must select a role.");
-            return false;
-        }
-
-        if(this.inviteRequest.role == "LOCATION_ADMIN") {
-            if(this.inviteRequest.locIds.length == 0) {
-                this.ns.showError("You must select at least one location");
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    viewAdminDetails(user, template:TemplateRef<any>) {
-        this.inviteRequest = new InviteRequest();
-        this.selectedUser = user;
-        this.inviteRequest.role = user.role;
-        this.inviteRequest.locIds = user.locIds? user.locIds: [];
-        // this.inviteRequest.email = user.email;
-
+    createOrg(template: TemplateRef<any>) {
+        this.editOrgMode = false;
+        this.orgRequest = new CreateOrgRequest();
         this.openModal(template);
     }
 
-    inviteAdminModal(template: TemplateRef<any>) {
-        this.inviteRequest = new InviteRequest();
-
+    editOrg(template: TemplateRef<any>) {
+        this.editOrgMode = true;
+        this.orgRequest.type = this.selectedOrg.sector;
+        this.orgRequest.name = this.selectedOrg.name;
+        this.orgRequest.logo = this.selectedOrg.logo;
         this.openModal(template);
     }
 
@@ -505,51 +490,6 @@ export class NavComponent implements OnInit {
         this.openModal(template);
     }
 
-
-    assignAdmins() {
-        if (!this.isInviteFormValid()) {
-            return;
-        }
-
-        this.configService.assignAdmins(this.inviteRequest)
-            .subscribe(
-                result => {
-                    if (result.code == 0) {
-                        this.fetchAdminUsers();
-                        this.modalRef.hide();
-                        this.ns.showSuccess(result.description);
-                    } else {
-                        this.ns.showError(result.description);
-                    }
-                },
-                error => {
-                    this.ns.showError("An Error Occurred.");
-                }
-            )
-    }
-
-
-
-
-    removeAdmin() {
-        // this.adminRemovalRequest.userId = this.selectedUser.userId;
-        // this.adminRemovalRequest.role = this.selectedUser.role;
-
-        this.contentService.removeAdmin(this.adminRemovalRequest)
-            .subscribe(
-                result => {
-                    let res:any = result;
-                    if (res.code == 0) {
-                        this.fetchAdminUsers();
-                        this.modalRef.hide();
-                        this.ns.showSuccess(res.description);
-                    } else {
-                        this.ns.showError(res.description);
-                    }
-                },
-                error => {this.ns.showError("An Error Occurred.");}
-            )
-    }
 
     toggleClass(home:boolean) {
         home? this.activeClass = "active": this.activeClass = "";
