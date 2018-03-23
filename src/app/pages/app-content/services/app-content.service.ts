@@ -5,6 +5,7 @@ import {Endpoints} from "../../../util/endpoints";
 import {CreateOrgRequest, AssignUserRequest, ApproveRequest, AdminRemovalRequest, UpdateProfile} from "../model/app-content.model";
 import {StorageService} from "../../../service/storage.service";
 import {MediaType} from "../../../util/constants";
+import set = Reflect.set;
 
 @Injectable()
 export class AppContentService {
@@ -73,12 +74,20 @@ export class AppContentService {
             })
     }
 
-    activateLocation(status:boolean, locId:string):Observable<any> {
+    activateLocation(status:boolean, locId:string): Observable<any> {
         return this.httpClient
-            .post(Endpoints.DEACTIVATE_ACTIVATE_LOCATION + locId + "/" + status, null, {
+            .post(Endpoints.DEACTIVATE_ACTIVATE_LOCATION + locId + "/" + status,null, {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
+    }
+
+    totalEmployeeCount(userId:string,orgId:string): Observable<any> {
+      let url = `${Endpoints.FETCH_TOTAL_EMPLOYEE_COUNT}/${userId}/orgs/${orgId}/attendees`;
+      return this.httpClient.get(url, {
+        headers: new HttpHeaders()
+          .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+      })
     }
 
     fetchAttendees(org:boolean, id:string):Observable<any> {
@@ -175,6 +184,29 @@ export class AppContentService {
                     .set('Content-Type', MediaType.APPLICATION_JSON)
             })
     }
+
+    clockInsHistory(orgId:string, pageSize:number, pageNo:number):Observable<any> {
+      let params = new HttpParams()
+        .set('orgId', orgId)
+        .set('pageSize', pageSize.toString())
+        .set('pageNo', pageNo.toString());
+        return this.httpClient.get(Endpoints.FETCH_CLOCKINS_HISTORY + params, {
+        headers: new  HttpHeaders()
+          .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+      })
+    }
+
+  totalClockInsDaily(orgId:string, startDate:number, endDate:number):Observable<any> {
+      let params = new HttpParams()
+        .set('orgId', orgId)
+        .set('startDate', String(startDate))
+        .set('endDate', String(endDate));
+      return this.httpClient.get(Endpoints.FETCH_CLOCKINS_COUNT + params, {
+        headers: new HttpHeaders()
+          .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+      })
+
+  }
 
     fetchOrgUsersLocation():Observable<any> {
         const userId = this.ss.getUserId();

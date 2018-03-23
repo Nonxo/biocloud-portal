@@ -20,7 +20,7 @@
 
                                 <div class="col-md-12 mt-3">
                                     <mat-form-field class="input-field">
-                                        <input matInput placeholder="Enter Branch/Business/Location Name" name="locName"
+                                        <input matInput placeholder="Enter Location Name" name="locName"
                                                [(ngModel)]="locRequest.name" required>
                                     </mat-form-field>
                                 </div>
@@ -95,8 +95,8 @@
                                                 <mat-form-field class="input-field mb-4">
                                                     <input matInput placeholder="Search Address" name="search"
                                                            id="autocompleteInput">
-                                                    <mat-hint class="alignment text-brand  cursor"><i
-                                                            class="material-icons" (click)="getCurrentPosition(true)">place</i>
+                                                    <mat-hint class="alignment text-brand  cursor" (click)="getCurrentPosition(true)"><i
+                                                            class="material-icons">place</i>
                                                         Use
                                                         current location
                                                     </mat-hint>
@@ -115,7 +115,7 @@
                                             </agm-circle>
                                         </agm-map>
                                         <mat-form-field class="input-field mt-3">
-                                            <input matInput placeholder="Range" type="number" (focus)="zoomInMap()"
+                                            <input matInput placeholder="Radius" type="number" (focus)="zoomInMap()"
                                                    (focusout)="zoomInMap(false)" name="radius"
                                                    [(ngModel)]="locRequest.radiusThreshold"
                                             >

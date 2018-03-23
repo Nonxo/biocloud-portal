@@ -23,6 +23,7 @@ export class Org {
     walletId:number;
 }
 
+
 export class AssignUserRequest {
     oldlocId:string;
     newlocId:string;
@@ -82,18 +83,32 @@ export class UpdateProfile {
 
 }
 
-
-
-
-
-
-
 export class AdminRemovalRequest {
     userIds:string[];
     orgId:string;
 
     constructor() {
         this.userIds = [];
+    }
+}
+
+export class ReportModel {
+    orgId:string;
+    locId:string;
+    export:boolean;
+    exportFormat:string;
+    reportType:string;
+    pageSize:number;
+    pageNo:number;
+
+    constructor() {
+        this.orgId = "";
+        this.locId = "";
+        this.export = false;
+        this.exportFormat = "";
+        this.reportType = "";
+        this.pageSize = 0;
+        this.pageNo = 1;
     }
 }
 
