@@ -1,526 +1,539 @@
-<mat-divider></mat-divider>
+<app-loading></app-loading>
 
 <mat-tab-group class="employee" (selectedTabChange)="onTabChange($event)">
-    <mat-tab label="Early">
-        <div class="container-fluid">
-            <div class="row mt-4">
-                <div class="col-lg-4 col-12  d-flex align-items-center">
-                    <mat-form-field>
-                        <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
-                            <mat-option value="">All location</mat-option>
-                            <mat-option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-
-                <div class="col-lg-4 col-12 text-md-center text-left pt-lg-3">
-                    <button mat-button class="primary-outline" *ngIf="data.length > 0" (click)="downloadPdf()">Download</button>
-                    <!--<mat-menu #downloadmenu="matMenu">-->
-                    <!--<button mat-menu-item>PDF</button>-->
-                    <!--<button mat-menu-item>Spreadsheet</button>-->
-                    <!--</mat-menu>-->
-                </div>
-
-                <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
-                    <div class="ml-md-auto mr-auto">
-                        <form class="form-inline">
-                            <input class="form-control mr-sm-2 form-search" type="search" placeholder="" aria-label="Search">
-                            <button class="btn btn-search">
-                                <mat-icon class="mat-search">search</mat-icon>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+  <mat-tab label="Early">
+    <div class="container-fluid">
+      <div class="row mt-4">
+        <div class="col-lg-4 col-12  d-flex align-items-center">
+          <mat-form-field>
+            <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
+              <mat-option value="">All location</mat-option>
+              <mat-option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
 
-        <div class="container-fluid" *ngIf="currentTab == 0">
-
-            <div class="table-responsive">
-                <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
-                    <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Email Address</th>
-                            <th scope="col">Location</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Clock-In Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let d of mf.data">
-                            <td>{{d.name}}</td>
-                            <td>{{d.email}}</td>
-                            <td>{{d.location}}</td>
-                            <td>{{d.date}}</td>
-                            <td>{{d.clock_in_time}}</td>
-                        </tr>
-                </table>
-            </div>
-
-            <pagination *ngIf="data.length > 0 && currentTab == 0" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
-                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
-
-            <div class="pb-lg-0 pb-4">
-                <div class="form-group form-inline">
-                    <p class="pt-3 pr-2">Show</p>
-                    <mat-form-field>
-                        <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
-                            <mat-option [value]="10">10</mat-option>
-                            <mat-option [value]="25">25</mat-option>
-                            <mat-option [value]="50">50</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            </div>
-
-
-        </div>
-    </mat-tab>
-
-    <mat-tab label="Late">
-        <div class="container-fluid">
-            <div class="row mt-4">
-                <div class="col-lg-4 col-12  d-flex align-items-center">
-                    <mat-form-field>
-                        <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
-                            <mat-option value="">All location</mat-option>
-                            <mat-option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-
-                <div class="col-lg-4 col-12 text-md-center text-left pt-lg-3">
-                    <button mat-button class="primary-outline" *ngIf="data.length > 0" (click)="downloadPdf()">Download</button>
-                    <!--<mat-menu #downloadmenu="matMenu">-->
-                    <!--<button mat-menu-item>PDF</button>-->
-                    <!--<button mat-menu-item>Spreadsheet</button>-->
-                    <!--</mat-menu>-->
-                </div>
-
-                <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
-                    <div class="ml-md-auto mr-auto">
-                        <form class="form-inline">
-                            <input class="form-control mr-sm-2 form-search" type="search" placeholder="" aria-label="Search">
-                            <button class="btn btn-search">
-                                <mat-icon class="mat-search">search</mat-icon>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+        <div class="col-lg-4 col-12 text-md-center text-left pt-lg-3">
+          <button mat-button class="primary-outline" *ngIf="data.length > 0" (click)="downloadPdf()">Download</button>
+          <!--<mat-menu #downloadmenu="matMenu">-->
+          <!--<button mat-menu-item>PDF</button>-->
+          <!--<button mat-menu-item>Spreadsheet</button>-->
+          <!--</mat-menu>-->
         </div>
 
-        <div class="container-fluid" *ngIf="currentTab == 1">
+        <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
+          <div class="ml-md-auto mr-auto">
+            <form class="form-inline">
+              <input class="form-control mr-sm-2 form-search" type="search" placeholder="" aria-label="Search">
+              <button class="btn btn-search">
+                <mat-icon class="mat-search">search</mat-icon>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
-            <div class="table-responsive">
-                <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
-                    <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Email Address</th>
-                            <th scope="col">Location</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Clock-In Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let d of mf.data">
-                            <td>{{d.name}}</td>
-                            <td>{{d.email}}</td>
-                            <td>{{d.location}}</td>
-                            <td>{{d.date}}</td>
-                            <td>{{d.clock_in_time}}</td>
-                        </tr>
-                </table>
+    <div class="container-fluid" *ngIf="currentTab == 0">
+
+      <div class="table-responsive">
+        <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
+          <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Email Address</th>
+            <th scope="col">Location</th>
+            <th scope="col">Date</th>
+            <th scope="col">Clock-In Time</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let d of mf.data">
+            <td>{{d.name}}</td>
+            <td>{{d.email}}</td>
+            <td>{{d.location}}</td>
+            <td>{{d.date}}</td>
+            <td>{{d.clock_in_time}}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="row justify-content-between">
+        <div class="col-auto">
+          <div class="pb-lg-0 pb-4">
+            <div class="form-group form-inline">
+              <p class="pt-3 pr-2">Show</p>
+              <mat-form-field class="w-25">
+                <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
+                  <mat-option [value]="10">10</mat-option>
+                  <mat-option [value]="25">25</mat-option>
+                  <mat-option [value]="50">50</mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
-
-            <pagination *ngIf="data.length > 0 && currentTab == 1" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
-                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
-
-            <div class="pb-lg-0 pb-4">
-                <div class="form-group form-inline">
-                    <p class="pt-3 pr-2">Show</p>
-                    <mat-form-field>
-                        <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
-                            <mat-option [value]="10">10</mat-option>
-                            <mat-option [value]="25">25</mat-option>
-                            <mat-option [value]="50">50</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            </div>
+          </div>
+        </div>
+        <div class="col-auto">
+          <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 0" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage"
+                      [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize"
+                      [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
+                      nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+        </div>
+      </div>
 
 
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Late">
+    <div class="container-fluid">
+      <div class="row mt-4">
+        <div class="col-lg-4 col-12  d-flex align-items-center">
+          <mat-form-field>
+            <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
+              <mat-option value="">All location</mat-option>
+              <mat-option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
 
-    </mat-tab>
-    <mat-tab label="Absent">
-
-        <div class="container-fluid">
-            <div class="row mt-4">
-                <div class="col-lg-4 col-12  d-flex align-items-center">
-                    <mat-form-field>
-                        <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
-                            <mat-option value="">All location</mat-option>
-                            <mat-option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-
-                <div class="col-lg-4 col-12 text-md-center text-left pt-lg-3">
-                    <button mat-button class="primary-outline" *ngIf="data.length > 0" (click)="downloadPdf()">Download</button>
-                    <!--<mat-menu #downloadmenu="matMenu">-->
-                    <!--<button mat-menu-item>PDF</button>-->
-                    <!--<button mat-menu-item>Spreadsheet</button>-->
-                    <!--</mat-menu>-->
-                </div>
-
-                <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
-                    <div class="ml-md-auto mr-auto">
-                        <form class="form-inline">
-                            <input class="form-control mr-sm-2 form-search" type="search" placeholder="" aria-label="Search">
-                            <button class="btn btn-search">
-                                <mat-icon class="mat-search">search</mat-icon>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+        <div class="col-lg-4 col-12 text-md-center text-left pt-lg-3">
+          <button mat-button class="primary-outline" *ngIf="data.length > 0" (click)="downloadPdf()">Download</button>
+          <!--<mat-menu #downloadmenu="matMenu">-->
+          <!--<button mat-menu-item>PDF</button>-->
+          <!--<button mat-menu-item>Spreadsheet</button>-->
+          <!--</mat-menu>-->
         </div>
 
-        <div class="container-fluid" *ngIf="currentTab == 2">
+        <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
+          <div class="ml-md-auto mr-auto">
+            <form class="form-inline">
+              <input class="form-control mr-sm-2 form-search" type="search" placeholder="" aria-label="Search">
+              <button class="btn btn-search">
+                <mat-icon class="mat-search">search</mat-icon>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
-            <div class="table-responsive">
-                <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
-                    <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Email Address</th>
-                            <th scope="col">Location</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Clock-In Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let d of mf.data">
-                            <td>{{d.name}}</td>
-                            <td>{{d.email}}</td>
-                            <td>{{d.location}}</td>
-                            <td>{{d.date}}</td>
-                            <td>{{d.clock_in_time}}</td>
-                        </tr>
-                </table>
-            </div>
+    <div class="container-fluid" *ngIf="currentTab == 1">
 
-            <pagination *ngIf="data.length > 0 && currentTab == 2" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
-                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+      <div class="table-responsive">
+        <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
+          <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Email Address</th>
+            <th scope="col">Location</th>
+            <th scope="col">Date</th>
+            <th scope="col">Clock-In Time</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let d of mf.data">
+            <td>{{d.name}}</td>
+            <td>{{d.email}}</td>
+            <td>{{d.location}}</td>
+            <td>{{d.date}}</td>
+            <td>{{d.clock_in_time}}</td>
+          </tr>
+        </table>
+      </div>
 
-            <div class="pb-lg-0 pb-4">
-                <div class="form-group form-inline">
-                    <p class="pt-3 pr-2">Show</p>
-                    <mat-form-field>
-                        <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
-                            <mat-option [value]="10">10</mat-option>
-                            <mat-option [value]="25">25</mat-option>
-                            <mat-option [value]="50">50</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            </div>
+      <pagination *ngIf="data.length > 0 && currentTab == 1" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage"
+                  [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize"
+                  [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
+                  nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+
+      <div class="pb-lg-0 pb-4">
+        <div class="form-group form-inline">
+          <p class="pt-3 pr-2">Show</p>
+          <mat-form-field>
+            <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
+              <mat-option [value]="10">10</mat-option>
+              <mat-option [value]="25">25</mat-option>
+              <mat-option [value]="50">50</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
 
 
+    </div>
+
+  </mat-tab>
+  <mat-tab label="Absent">
+
+    <div class="container-fluid">
+      <div class="row mt-4">
+        <div class="col-lg-4 col-12  d-flex align-items-center">
+          <mat-form-field>
+            <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
+              <mat-option value="">All location</mat-option>
+              <mat-option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
 
-    </mat-tab>
-    <mat-tab label="Wrong location">
-
-        <div class="container-fluid">
-            <div class="row mt-4">
-                <div class="col-lg-4 col-12  d-flex align-items-center">
-                    <mat-form-field>
-                        <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
-                            <mat-option value="">All location</mat-option>
-                            <mat-option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-
-                <div class="col-lg-4 col-12 text-md-center text-left pt-lg-3">
-                    <button mat-button class="primary-outline" *ngIf="data.length > 0" (click)="downloadPdf()">Download</button>
-                    <!--<mat-menu #downloadmenu="matMenu">-->
-                    <!--<button mat-menu-item>PDF</button>-->
-                    <!--<button mat-menu-item>Spreadsheet</button>-->
-                    <!--</mat-menu>-->
-                </div>
-
-                <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
-                    <div class="ml-md-auto mr-auto">
-                        <form class="form-inline">
-                            <input class="form-control mr-sm-2 form-search" type="search" placeholder="" aria-label="Search">
-                            <button class="btn btn-search">
-                                <mat-icon class="mat-search">search</mat-icon>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+        <div class="col-lg-4 col-12 text-md-center text-left pt-lg-3">
+          <button mat-button class="primary-outline" *ngIf="data.length > 0" (click)="downloadPdf()">Download</button>
+          <!--<mat-menu #downloadmenu="matMenu">-->
+          <!--<button mat-menu-item>PDF</button>-->
+          <!--<button mat-menu-item>Spreadsheet</button>-->
+          <!--</mat-menu>-->
         </div>
 
-        <div class="container-fluid" *ngIf="currentTab == 3">
+        <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
+          <div class="ml-md-auto mr-auto">
+            <form class="form-inline">
+              <input class="form-control mr-sm-2 form-search" type="search" placeholder="" aria-label="Search">
+              <button class="btn btn-search">
+                <mat-icon class="mat-search">search</mat-icon>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
-            <div class="table-responsive">
-                <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
-                    <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Email Address</th>
-                            <th scope="col">Location</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Clock-In Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let d of mf.data">
-                            <td>{{d.name}}</td>
-                            <td>{{d.email}}</td>
-                            <td>{{d.location}}</td>
-                            <td>{{d.date}}</td>
-                            <td>{{d.clock_in_time}}</td>
-                        </tr>
-                </table>
-            </div>
+    <div class="container-fluid" *ngIf="currentTab == 2">
 
-            <pagination *ngIf="data.length > 0 && currentTab == 3" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
-                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+      <div class="table-responsive">
+        <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
+          <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Email Address</th>
+            <th scope="col">Location</th>
+            <th scope="col">Date</th>
+            <th scope="col">Clock-In Time</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let d of mf.data">
+            <td>{{d.name}}</td>
+            <td>{{d.email}}</td>
+            <td>{{d.location}}</td>
+            <td>{{d.date}}</td>
+            <td>{{d.clock_in_time}}</td>
+          </tr>
+        </table>
+      </div>
 
-            <div class="pb-lg-0 pb-4">
-                <div class="form-group form-inline w-25">
-                    <p class="pt-3 pr-2">Show</p>
-                    <mat-form-field>
-                        <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
-                            <mat-option [value]="10">10</mat-option>
-                            <mat-option [value]="25">25</mat-option>
-                            <mat-option [value]="50">50</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            </div>
+      <pagination *ngIf="data.length > 0 && currentTab == 2" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage"
+                  [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize"
+                  [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
+                  nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+
+      <div class="pb-lg-0 pb-4">
+        <div class="form-group form-inline">
+          <p class="pt-3 pr-2">Show</p>
+          <mat-form-field>
+            <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
+              <mat-option [value]="10">10</mat-option>
+              <mat-option [value]="25">25</mat-option>
+              <mat-option [value]="50">50</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
 
 
+    </div>
+
+  </mat-tab>
+  <mat-tab label="Wrong location">
+
+    <div class="container-fluid">
+      <div class="row mt-4">
+        <div class="col-lg-4 col-12  d-flex align-items-center">
+          <mat-form-field>
+            <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
+              <mat-option value="">All location</mat-option>
+              <mat-option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
 
-    </mat-tab>
-    <!--<mat-tab label="Custom">-->
-    <!--<div class="container">-->
-    <!--<div class="row pr-lg-5 pl-lg-5">-->
-    <!--<div class="col-lg-12 pr-lg-5 pl-lg-5">-->
-    <!--<div class="text-center pt-4">-->
-    <!--<h5 class="text-brand text-ceter">Generate Custom Report</h5>-->
-    <!--</div>-->
-    <!--<div class="text-lg-center pr-lg-5 pl-lg-5">-->
-    <!--<mat-form-field class="col-lg-10">-->
-    <!--<mat-select placeholder="Location">-->
-    <!--<mat-option value="Option 1">Ikoyi Branch</mat-option>-->
-    <!--<mat-option value="Option 1">Lekki Branch</mat-option>-->
-    <!--<mat-option value="Option 1">Victoria Island Branch</mat-option>-->
-    <!--</mat-select>-->
-    <!--</mat-form-field>-->
+        <div class="col-lg-4 col-12 text-md-center text-left pt-lg-3">
+          <button mat-button class="primary-outline" *ngIf="data.length > 0" (click)="downloadPdf()">Download</button>
+          <!--<mat-menu #downloadmenu="matMenu">-->
+          <!--<button mat-menu-item>PDF</button>-->
+          <!--<button mat-menu-item>Spreadsheet</button>-->
+          <!--</mat-menu>-->
+        </div>
 
-    <!--<mat-form-field class="input-field col-lg-5">-->
-    <!--<input matInput [matDatepicker]="picker" placeholder="Choose a date">-->
-    <!--<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
-    <!--<mat-datepicker #picker></mat-datepicker>-->
-    <!--</mat-form-field>-->
+        <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
+          <div class="ml-md-auto mr-auto">
+            <form class="form-inline">
+              <input class="form-control mr-sm-2 form-search" type="search" placeholder="" aria-label="Search">
+              <button class="btn btn-search">
+                <mat-icon class="mat-search">search</mat-icon>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <!--<mat-form-field class="input-field col-lg-5">-->
-    <!--<input matInput [matDatepicker]="picker2" placeholder="Choose a date">-->
-    <!--<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
-    <!--<mat-datepicker #picker2></mat-datepicker>-->
-    <!--</mat-form-field>-->
+    <div class="container-fluid" *ngIf="currentTab == 3">
 
+      <div class="table-responsive">
+        <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
+          <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Email Address</th>
+            <th scope="col">Location</th>
+            <th scope="col">Date</th>
+            <th scope="col">Clock-In Time</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let d of mf.data">
+            <td>{{d.name}}</td>
+            <td>{{d.email}}</td>
+            <td>{{d.location}}</td>
+            <td>{{d.date}}</td>
+            <td>{{d.clock_in_time}}</td>
+          </tr>
+        </table>
+      </div>
 
-    <!--<mat-form-field class="input-field col-lg-5">-->
-    <!--<input matInput type="time" pattern="[0-9]{2}:[0-9]{2}" placeholder="Clocked in Before" name="rTime">-->
-    <!--<mat-hint>Format (HH:MM AM/PM)</mat-hint>-->
-    <!--</mat-form-field>-->
-    <!--<mat-form-field class="input-field col-lg-5">-->
-    <!--<input matInput type="time" pattern="[0-9]{2}:[0-9]{2}" placeholder="Clocked in After" name="rTime">-->
-    <!--<mat-hint>Format (HH:MM AM/PM)</mat-hint>-->
-    <!--</mat-form-field>-->
+      <pagination *ngIf="data.length > 0 && currentTab == 3" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage"
+                  [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize"
+                  [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
+                  nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
 
-    <!--<div class="form-inline pr-lg-5 pl-lg-5">-->
-    <!--&lt;!&ndash; <p class="location-padding pt-lg-3 pt-5">Correct Location</p> &ndash;&gt;-->
-    <!--<mat-form-field class="location-padding col-lg-6 pt-5 pt-lg-3">-->
-    <!--<mat-select class="" placeholder="Correct Location">-->
-    <!--<mat-option value="Option 1"></mat-option>-->
-    <!--<mat-option value="Option 1">Yes</mat-option>-->
-    <!--<mat-option value="Option 1">No</mat-option>-->
-    <!--</mat-select>-->
-    <!--</mat-form-field>-->
-    <!--</div>-->
-
-    <!--<div class="col-lg-6 pl-lg-5">-->
-    <!--<p class=" text-brand font-weight-bold text-left location-padding">Filter Report Table Result</p>-->
-    <!--<mat-form-field class="text-left col-lg-12 location-padding">-->
-    <!--<mat-select placeholder="Select" multiple>-->
-    <!--<mat-option>Clock in Time</mat-option>-->
-    <!--<mat-option>Clock in Location</mat-option>-->
-    <!--<mat-option>Clock in Result</mat-option>-->
-    <!--<mat-option>Clock in Mode</mat-option>-->
-    <!--<mat-option>Date</mat-option>-->
-    <!--<mat-option>Email Address</mat-option>-->
-    <!--<mat-option>Employee Name</mat-option>-->
-    <!--<mat-option>Expected Location</mat-option>-->
-    <!--<mat-option>Phone Number</mat-option>-->
-    <!--<mat-option>Punctuality</mat-option>-->
-    <!--</mat-select>-->
-    <!--</mat-form-field>-->
-    <!--</div>-->
-
-    <!--<div class="pt-4 pl-lg-0 pl-4"><button mat-raised-button color="primary">Generate</button></div>-->
-
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--<div class="container-fluid">-->
-    <!--<div class="row mt-4">-->
-    <!--<div class="col-lg-4 col-12  d-flex align-items-center">-->
-    <!--<mat-form-field>-->
-    <!--<mat-select placeholder="All Locations">-->
-    <!--<mat-option>-->
-
-    <!--</mat-option>-->
-    <!--</mat-select>-->
-    <!--</mat-form-field>-->
-    <!--</div>-->
-
-    <!--<div class="col-lg-4 col-12 text-md-center text-left pt-lg-3">-->
-    <!--<button mat-button class="primary-outline" [matMenuTriggerFor]="downloadmenu">Download</button>-->
-    <!--<mat-menu #downloadmenu="matMenu">-->
-    <!--<button mat-menu-item>PDF</button>-->
-    <!--<button mat-menu-item>Spreadsheet</button>-->
-    <!--</mat-menu>-->
-    <!--</div>-->
-
-    <!--<div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">-->
-    <!--<div class="ml-md-auto mr-auto">-->
-    <!--<form class="form-inline">-->
-    <!--<input class="form-control mr-sm-2 form-search" type="search" placeholder="" aria-label="Search">-->
-    <!--<button class="btn btn-search"><mat-icon class="mat-search">search</mat-icon></button>-->
-    <!--&lt;!&ndash; <button class="btn btn-search ml-lg-3 pt-lg-0 mt-lg-0 mt-3 ml-1"><mat-icon class="text-white mt-lg-2">filter_list</mat-icon><span class="ml-2 text-white">Filter</span></button> &ndash;&gt;-->
-    <!--<button class="btn btn-search ml-lg-3 pt-lg-0 mt-lg-0 mt-3 ml-1" mat-button [matMenuTriggerFor]="menu"><mat-icon class="text-white mt-lg-2">filter_list</mat-icon><span class="ml-2 text-white">Filter</span></button>-->
-    <!--<mat-menu #menu="matMenu" multiple>-->
-    <!--<button mat-menu-item>Item 1</button>-->
-    <!--<button mat-menu-item>Item 2</button>-->
-    <!--</mat-menu>-->
-
-    <!--</form>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--<div class="container-fluid">-->
-
-    <!--<div class="table-responsive">-->
-    <!--<table class="table table-striped">-->
-    <!--<thead>-->
-    <!--<tr>-->
-    <!--<th scope="col">Name</th>-->
-    <!--<th scope="col">Email Address</th>-->
-    <!--<th scope="col">Location</th>-->
-    <!--<th scope="col">Date</th>-->
-    <!--<th scope="col">Clock-In Time</th>-->
-    <!--<th scope="col">Correct Location</th>-->
-    <!--<th scope="col">Punctuality</th>-->
-    <!--</tr>-->
-    <!--</thead>-->
-    <!--<tbody>-->
-    <!--<tr>-->
-    <!--<td>J Cole</td>-->
-    <!--<td>J_cole@xys.com</td>-->
-    <!--<td>Ikoyi Branch</td>-->
-    <!--<td>12/12/12</td>-->
-    <!--<td>2:30pm</td>-->
-    <!--<td><span class="text-success">Yes</span></td>-->
-    <!--<td><span class="text-success">Early</span></td>-->
-    <!--</tr>-->
-    <!--<tr>-->
-    <!--<td>J Cole</td>-->
-    <!--<td>J_cole@xys.com</td>-->
-    <!--<td>Ikoyi Branch</td>-->
-    <!--<td>12/12/12</td>-->
-    <!--<td>2:30pm</td>-->
-    <!--<td><span class="text-success">Yes</span></td>-->
-    <!--<td><span class="text-danger">Late</span></td>-->
-    <!--</tr>-->
-    <!--<tr>-->
-    <!--<td>J Cole</td>-->
-    <!--<td>J_cole@xys.com</td>-->
-    <!--<td>Ikoyi Branch</td>-->
-    <!--<td>12/12/12</td>-->
-    <!--<td>2:30pm</td>-->
-    <!--<td><span class="text-success">Yes</span></td>-->
-    <!--<td><span class="text-success">Early</span></td>-->
-    <!--</tr>-->
-    <!--<tr>-->
-    <!--<td>J Cole</td>-->
-    <!--<td>J_cole@xys.com</td>-->
-    <!--<td>Ikoyi Branch</td>-->
-    <!--<td>12/12/12</td>-->
-    <!--<td>2:30pm</td>-->
-    <!--<td><span class="text-success">Yes</span></td>-->
-    <!--<td><span class="text-success">Early</span></td>-->
-    <!--</tr>-->
-    <!--<tr>-->
-    <!--<td>J Cole</td>-->
-    <!--<td>J_cole@xys.com</td>-->
-    <!--<td>Ikoyi Branch</td>-->
-    <!--<td>12/12/12</td>-->
-    <!--<td>2:30pm</td>-->
-    <!--<td><span class="text-success">Yes</span></td>-->
-    <!--<td><span class="text-danger">Late</span></td>-->
-    <!--</tr>-->
-    <!--<tr>-->
-    <!--<td>J Cole</td>-->
-    <!--<td>J_cole@xys.com</td>-->
-    <!--<td>Ikoyi Branch</td>-->
-    <!--<td>12/12/12</td>-->
-    <!--<td>2:30pm</td>-->
-    <!--<td><span class="text-success">Yes</span></td>-->
-    <!--<td><span class="text-danger">Late</span></td>-->
-    <!--</tr>-->
-    <!--<tr>-->
-    <!--<td>J Cole</td>-->
-    <!--<td>J_cole@xys.com</td>-->
-    <!--<td>Ikoyi Branch</td>-->
-    <!--<td>12/12/12</td>-->
-    <!--<td>2:30pm</td>-->
-    <!--<td><span class="text-success">Yes</span></td>-->
-    <!--<td><span class="text-success">Early</span></td>-->
-    <!--</tr>-->
-    <!--</tbody>-->
-    <!--</table>-->
-    <!--</div>-->
-
-    <!--<div class="pb-lg-0 pb-4">-->
-    <!--<div class="form-group form-inline">-->
-    <!--<p class="pt-3 pr-2">Show</p>-->
-    <!--<input type="number" name="" id="" class="report-input">-->
-    <!--</div>-->
-    <!--</div>-->
+      <div class="pb-lg-0 pb-4">
+        <div class="form-group form-inline w-25">
+          <p class="pt-3 pr-2">Show</p>
+          <mat-form-field>
+            <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
+              <mat-option [value]="10">10</mat-option>
+              <mat-option [value]="25">25</mat-option>
+              <mat-option [value]="50">50</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
 
 
-    <!--</div>-->
+    </div>
 
-    <!--</mat-tab>-->
+  </mat-tab>
+  <!--<mat-tab label="Custom">-->
+  <!--<div class="container">-->
+  <!--<div class="row pr-lg-5 pl-lg-5">-->
+  <!--<div class="col-lg-12 pr-lg-5 pl-lg-5">-->
+  <!--<div class="text-center pt-4">-->
+  <!--<h5 class="text-brand text-ceter">Generate Custom Report</h5>-->
+  <!--</div>-->
+  <!--<div class="text-lg-center pr-lg-5 pl-lg-5">-->
+  <!--<mat-form-field class="col-lg-10">-->
+  <!--<mat-select placeholder="Location">-->
+  <!--<mat-option value="Option 1">Ikoyi Branch</mat-option>-->
+  <!--<mat-option value="Option 1">Lekki Branch</mat-option>-->
+  <!--<mat-option value="Option 1">Victoria Island Branch</mat-option>-->
+  <!--</mat-select>-->
+  <!--</mat-form-field>-->
+
+  <!--<mat-form-field class="input-field col-lg-5">-->
+  <!--<input matInput [matDatepicker]="picker" placeholder="Choose a date">-->
+  <!--<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
+  <!--<mat-datepicker #picker></mat-datepicker>-->
+  <!--</mat-form-field>-->
+
+  <!--<mat-form-field class="input-field col-lg-5">-->
+  <!--<input matInput [matDatepicker]="picker2" placeholder="Choose a date">-->
+  <!--<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
+  <!--<mat-datepicker #picker2></mat-datepicker>-->
+  <!--</mat-form-field>-->
+
+
+  <!--<mat-form-field class="input-field col-lg-5">-->
+  <!--<input matInput type="time" pattern="[0-9]{2}:[0-9]{2}" placeholder="Clocked in Before" name="rTime">-->
+  <!--<mat-hint>Format (HH:MM AM/PM)</mat-hint>-->
+  <!--</mat-form-field>-->
+  <!--<mat-form-field class="input-field col-lg-5">-->
+  <!--<input matInput type="time" pattern="[0-9]{2}:[0-9]{2}" placeholder="Clocked in After" name="rTime">-->
+  <!--<mat-hint>Format (HH:MM AM/PM)</mat-hint>-->
+  <!--</mat-form-field>-->
+
+  <!--<div class="form-inline pr-lg-5 pl-lg-5">-->
+  <!--&lt;!&ndash; <p class="location-padding pt-lg-3 pt-5">Correct Location</p> &ndash;&gt;-->
+  <!--<mat-form-field class="location-padding col-lg-6 pt-5 pt-lg-3">-->
+  <!--<mat-select class="" placeholder="Correct Location">-->
+  <!--<mat-option value="Option 1"></mat-option>-->
+  <!--<mat-option value="Option 1">Yes</mat-option>-->
+  <!--<mat-option value="Option 1">No</mat-option>-->
+  <!--</mat-select>-->
+  <!--</mat-form-field>-->
+  <!--</div>-->
+
+  <!--<div class="col-lg-6 pl-lg-5">-->
+  <!--<p class=" text-brand font-weight-bold text-left location-padding">Filter Report Table Result</p>-->
+  <!--<mat-form-field class="text-left col-lg-12 location-padding">-->
+  <!--<mat-select placeholder="Select" multiple>-->
+  <!--<mat-option>Clock in Time</mat-option>-->
+  <!--<mat-option>Clock in Location</mat-option>-->
+  <!--<mat-option>Clock in Result</mat-option>-->
+  <!--<mat-option>Clock in Mode</mat-option>-->
+  <!--<mat-option>Date</mat-option>-->
+  <!--<mat-option>Email Address</mat-option>-->
+  <!--<mat-option>Employee Name</mat-option>-->
+  <!--<mat-option>Expected Location</mat-option>-->
+  <!--<mat-option>Phone Number</mat-option>-->
+  <!--<mat-option>Punctuality</mat-option>-->
+  <!--</mat-select>-->
+  <!--</mat-form-field>-->
+  <!--</div>-->
+
+  <!--<div class="pt-4 pl-lg-0 pl-4"><button mat-raised-button color="primary">Generate</button></div>-->
+
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+
+  <!--<div class="container-fluid">-->
+  <!--<div class="row mt-4">-->
+  <!--<div class="col-lg-4 col-12  d-flex align-items-center">-->
+  <!--<mat-form-field>-->
+  <!--<mat-select placeholder="All Locations">-->
+  <!--<mat-option>-->
+
+  <!--</mat-option>-->
+  <!--</mat-select>-->
+  <!--</mat-form-field>-->
+  <!--</div>-->
+
+  <!--<div class="col-lg-4 col-12 text-md-center text-left pt-lg-3">-->
+  <!--<button mat-button class="primary-outline" [matMenuTriggerFor]="downloadmenu">Download</button>-->
+  <!--<mat-menu #downloadmenu="matMenu">-->
+  <!--<button mat-menu-item>PDF</button>-->
+  <!--<button mat-menu-item>Spreadsheet</button>-->
+  <!--</mat-menu>-->
+  <!--</div>-->
+
+  <!--<div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">-->
+  <!--<div class="ml-md-auto mr-auto">-->
+  <!--<form class="form-inline">-->
+  <!--<input class="form-control mr-sm-2 form-search" type="search" placeholder="" aria-label="Search">-->
+  <!--<button class="btn btn-search"><mat-icon class="mat-search">search</mat-icon></button>-->
+  <!--&lt;!&ndash; <button class="btn btn-search ml-lg-3 pt-lg-0 mt-lg-0 mt-3 ml-1"><mat-icon class="text-white mt-lg-2">filter_list</mat-icon><span class="ml-2 text-white">Filter</span></button> &ndash;&gt;-->
+  <!--<button class="btn btn-search ml-lg-3 pt-lg-0 mt-lg-0 mt-3 ml-1" mat-button [matMenuTriggerFor]="menu"><mat-icon class="text-white mt-lg-2">filter_list</mat-icon><span class="ml-2 text-white">Filter</span></button>-->
+  <!--<mat-menu #menu="matMenu" multiple>-->
+  <!--<button mat-menu-item>Item 1</button>-->
+  <!--<button mat-menu-item>Item 2</button>-->
+  <!--</mat-menu>-->
+
+  <!--</form>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+
+  <!--<div class="container-fluid">-->
+
+  <!--<div class="table-responsive">-->
+  <!--<table class="table table-striped">-->
+  <!--<thead>-->
+  <!--<tr>-->
+  <!--<th scope="col">Name</th>-->
+  <!--<th scope="col">Email Address</th>-->
+  <!--<th scope="col">Location</th>-->
+  <!--<th scope="col">Date</th>-->
+  <!--<th scope="col">Clock-In Time</th>-->
+  <!--<th scope="col">Correct Location</th>-->
+  <!--<th scope="col">Punctuality</th>-->
+  <!--</tr>-->
+  <!--</thead>-->
+  <!--<tbody>-->
+  <!--<tr>-->
+  <!--<td>J Cole</td>-->
+  <!--<td>J_cole@xys.com</td>-->
+  <!--<td>Ikoyi Branch</td>-->
+  <!--<td>12/12/12</td>-->
+  <!--<td>2:30pm</td>-->
+  <!--<td><span class="text-success">Yes</span></td>-->
+  <!--<td><span class="text-success">Early</span></td>-->
+  <!--</tr>-->
+  <!--<tr>-->
+  <!--<td>J Cole</td>-->
+  <!--<td>J_cole@xys.com</td>-->
+  <!--<td>Ikoyi Branch</td>-->
+  <!--<td>12/12/12</td>-->
+  <!--<td>2:30pm</td>-->
+  <!--<td><span class="text-success">Yes</span></td>-->
+  <!--<td><span class="text-danger">Late</span></td>-->
+  <!--</tr>-->
+  <!--<tr>-->
+  <!--<td>J Cole</td>-->
+  <!--<td>J_cole@xys.com</td>-->
+  <!--<td>Ikoyi Branch</td>-->
+  <!--<td>12/12/12</td>-->
+  <!--<td>2:30pm</td>-->
+  <!--<td><span class="text-success">Yes</span></td>-->
+  <!--<td><span class="text-success">Early</span></td>-->
+  <!--</tr>-->
+  <!--<tr>-->
+  <!--<td>J Cole</td>-->
+  <!--<td>J_cole@xys.com</td>-->
+  <!--<td>Ikoyi Branch</td>-->
+  <!--<td>12/12/12</td>-->
+  <!--<td>2:30pm</td>-->
+  <!--<td><span class="text-success">Yes</span></td>-->
+  <!--<td><span class="text-success">Early</span></td>-->
+  <!--</tr>-->
+  <!--<tr>-->
+  <!--<td>J Cole</td>-->
+  <!--<td>J_cole@xys.com</td>-->
+  <!--<td>Ikoyi Branch</td>-->
+  <!--<td>12/12/12</td>-->
+  <!--<td>2:30pm</td>-->
+  <!--<td><span class="text-success">Yes</span></td>-->
+  <!--<td><span class="text-danger">Late</span></td>-->
+  <!--</tr>-->
+  <!--<tr>-->
+  <!--<td>J Cole</td>-->
+  <!--<td>J_cole@xys.com</td>-->
+  <!--<td>Ikoyi Branch</td>-->
+  <!--<td>12/12/12</td>-->
+  <!--<td>2:30pm</td>-->
+  <!--<td><span class="text-success">Yes</span></td>-->
+  <!--<td><span class="text-danger">Late</span></td>-->
+  <!--</tr>-->
+  <!--<tr>-->
+  <!--<td>J Cole</td>-->
+  <!--<td>J_cole@xys.com</td>-->
+  <!--<td>Ikoyi Branch</td>-->
+  <!--<td>12/12/12</td>-->
+  <!--<td>2:30pm</td>-->
+  <!--<td><span class="text-success">Yes</span></td>-->
+  <!--<td><span class="text-success">Early</span></td>-->
+  <!--</tr>-->
+  <!--</tbody>-->
+  <!--</table>-->
+  <!--</div>-->
+
+  <!--<div class="pb-lg-0 pb-4">-->
+  <!--<div class="form-group form-inline">-->
+  <!--<p class="pt-3 pr-2">Show</p>-->
+  <!--<input type="number" name="" id="" class="report-input">-->
+  <!--</div>-->
+  <!--</div>-->
+
+
+  <!--</div>-->
+
+  <!--</mat-tab>-->
 </mat-tab-group>
 
 <!--EMPTY STATE-->

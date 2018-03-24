@@ -201,6 +201,16 @@ mat-sidenav {
     opacity: .7 !important;
 }
 
+.main-loading {
+  height: calc(100vh - 67px);
+  overflow: hidden;
+  margin-top: 1px;
+  background:mat-color($candy-app-primary, 500) !important;
+  opacity: 0.7;
+  position:absolute;
+  z-index:99;
+}
+
 thead {
     background: mat-color($candy-app-primary, 500) !important;
     color: $white;
@@ -210,6 +220,16 @@ thead {
     background: linear-gradient(to right, mat-color($candy-app-primary, 400) 0%, rgba(0, 0, 0, 0) 100%);
 }
 
+.page-item.active .page-link {
+  background-color: mat-color($candy-app-primary, 500) !important;
+  border-color: mat-color($candy-app-primary, 500) !important;
+}
+
+.mat-raised-button.mat-primary[disabled]{
+  background-color: mat-color($candy-app-primary, 500) !important;
+  opacity:.6;
+  color:$white;
+}
 
 /*
 #cdk-overlay-0, #cdk-overlay-1, #cdk-overlay-2{
