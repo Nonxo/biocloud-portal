@@ -35,25 +35,13 @@
                     <i class="material-icons mr-3 text-white" *ngIf="sidenavWidth >= 15">{{openDropdown?
             'arrow_drop_up':'arrow_drop_down'}}</i>
                 </div>
-              <h6 class="text-white">SXF123</h6>
+              <h6 class="text-white">{{selectedOrg.orgCode}}</h6>
+                <ng-container *ngIf="openDropdown">
                 <small *hasAuthority="'GENERAL_ADMIN'" class="text-white" style="font-size: 0.6em"><span (click)="editOrg(template)" class="cursor">EDIT</span></small>
+                </ng-container>
             </div>
 
             <div *ngIf="openDropdown" class="bg-light-grey pt-2 font-12">
-
-                <a role="button" (click)="createOrg(template)">
-                    <div class="cursor border-top">
-                        <small>
-                            <mat-list>
-                                <mat-list-item class="p-0 font-12 text-white">
-                                    <mat-icon mat-list-icon>add_box</mat-icon>
-                                    <p mat-line> Add Company</p>
-                                </mat-list-item>
-                            </mat-list>
-                        </small>
-                    </div>
-                </a>
-
 
                 <ul class="list-unstyled px-3">
                     <li class="media">
@@ -62,6 +50,20 @@
                             <mat-icon matSuffix class="text-white">search</mat-icon>
                         </mat-form-field>
                     </li>
+
+                    <a role="button" (click)="createOrg(template)">
+                        <div class="cursor border-top">
+                            <small>
+                                <mat-list>
+                                    <mat-list-item class="p-0 font-12 text-white">
+                                        <mat-icon mat-list-icon>add_box</mat-icon>
+                                        <p mat-line> Add Company</p>
+                                    </mat-list-item>
+                                </mat-list>
+                            </small>
+                        </div>
+                    </a>
+
                     <ng-container *ngFor="let org of orgs">
                         <li *ngIf="org.orgId != selectedOrg.orgId" class="media my-3 cursor d-flex align-items-center" (click)="selectOrg(org)">
                             <img *ngIf="!org.logo" class="mr-3 rounded-circle" src="assets/img/2.jpg" style="max-height:2.5em;">
