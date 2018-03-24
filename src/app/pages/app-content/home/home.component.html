@@ -42,11 +42,11 @@
                             <div class="mr-auto col-auto"><small><a role="button" (click)="viewAttendees(loc.locId)">Employees</a></small></div>
                             <div class="ml-auto col-auto"><small>{{loc.noOfAttendees? loc.noOfAttendees:0}}</small></div>
                         </div>
-                        <!--<mat-divider></mat-divider>-->
-                        <!--<div class="py-2 row justify-content-between">-->
-                            <!--<div class="mr-auto col-auto"><small><a (click)="viewPendingAttendees(template, loc.locId)">Pending</a></small></div>-->
-                            <!--<div class="ml-auto col-auto"><small>{{loc.noOfPendingAttendees? loc.noOfPendingAttendees:0}}</small></div>-->
-                        <!--</div>-->
+                        <mat-divider></mat-divider>
+                        <div class="py-2 row justify-content-between">
+                            <div class="mr-auto col-auto"><small><a (click)="viewPendingAttendees(template, loc.locId)">Total Clock-in (Today)</a></small></div>
+                            <div class="ml-auto col-auto"><small>{{loc.noOfClockInForToday? loc.noOfClockInForToday:0}}</small></div>
+                        </div>
 
                         <div style="position:absolute; top:0; right:0;">
                             <button mat-icon-button [matMenuTriggerFor]="menu">
