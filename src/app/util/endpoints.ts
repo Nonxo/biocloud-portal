@@ -35,7 +35,7 @@ export class Endpoints {
   public static EDIT_USER_PROFILE = `${Endpoints.BASE_URL}/users/api/u/`;
   public static REMOVE_ADMIN = `${Endpoints.BASE_URL}/users/api/locations/admins/remove`;
   public static FETCH_CLOCKINS_HISTORY = `${Endpoints.BASE_URL}/attendance/api/clock-in/history?`;
-  public static FETCH_CLOCKINS_COUNT = `${Endpoints.BASE_URL}/attendance/api/clock-in/history?/count`;
+  public static FETCH_CLOCKINS_COUNT = `${Endpoints.BASE_URL}/attendance/api/clock-in/history/count?`;
   public static FETCH_USERS_LOCATION = `${Endpoints.BASE_URL}/users/api/u/`;
   public static FETCH_DAILY_REPORT = `${Endpoints.BASE_URL}/reports/api/alog/gen?`;
   public static FETCH_TOTAL_EMPLOYEE_COUNT = `${Endpoints.BASE_URL}/users/api/u`;

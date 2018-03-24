@@ -205,7 +205,7 @@ export class HomeComponent implements OnInit {
         .subscribe(
           result => {
             if (result.code == 0) {
-              this.totalClockin = result.clockInsHistory;
+              this.totalClockin = result.total;
             }
 
           },
