@@ -20,8 +20,8 @@
               </mat-list-item>
             </mat-list>
           </small>
-                </div>
-            </a>
+        </div>
+      </a>
 
             <div class=" text-center my-3 px-3 pb-3 border-0" *ngIf="orgs.length > 0 || selectedOrg.orgId">
                 <div class="mb-2">
@@ -35,25 +35,13 @@
                     <i class="material-icons mr-3 text-white" *ngIf="sidenavWidth >= 15">{{openDropdown?
             'arrow_drop_up':'arrow_drop_down'}}</i>
                 </div>
-                <h6 class="text-white">SXF123</h6>
+              <h6 class="text-white">{{selectedOrg.orgCode}}</h6>
+                <ng-container *ngIf="openDropdown">
                 <small *hasAuthority="'GENERAL_ADMIN'" class="text-white" style="font-size: 0.6em"><span (click)="editOrg(template)" class="cursor">EDIT</span></small>
+                </ng-container>
             </div>
 
             <div *ngIf="openDropdown" class="bg-light-grey pt-2 font-12">
-
-                <a role="button" (click)="createOrg(template)">
-                    <div class="cursor border-top">
-                        <small>
-                            <mat-list>
-                                <mat-list-item class="p-0 font-12 text-white">
-                                    <mat-icon mat-list-icon>add_box</mat-icon>
-                                    <p mat-line> Add Company</p>
-                                </mat-list-item>
-                            </mat-list>
-                        </small>
-                    </div>
-                </a>
-
 
                 <ul class="list-unstyled px-3">
                     <li class="media">
@@ -62,6 +50,20 @@
                             <mat-icon matSuffix class="text-white">search</mat-icon>
                         </mat-form-field>
                     </li>
+
+                    <a role="button" (click)="createOrg(template)">
+                        <div class="cursor border-top">
+                            <small>
+                                <mat-list>
+                                    <mat-list-item class="p-0 font-12 text-white">
+                                        <mat-icon mat-list-icon>add_box</mat-icon>
+                                        <p mat-line> Add Company</p>
+                                    </mat-list-item>
+                                </mat-list>
+                            </small>
+                        </div>
+                    </a>
+
                     <ng-container *ngFor="let org of orgs">
                         <li *ngIf="org.orgId != selectedOrg.orgId" class="media my-3 cursor d-flex align-items-center" (click)="selectOrg(org)">
                             <img *ngIf="!org.logo" class="mr-3 rounded-circle" src="assets/img/2.jpg" style="max-height:2.5em;">
@@ -73,8 +75,8 @@
                         </li>
                     </ng-container>
                 </ul>
-            </div>
-        </div>
+      </div>
+    </div>
 
 
         <mat-nav-list>
@@ -150,11 +152,11 @@
               <div class="mr-auto">{{notif.created | date:'short'}}</div>
               <div class="ml-auto pr-3" (click)="openAttendeesDetailsModal(notificationTemplate, notif.locIds, notif.inviteId)"><span class="badge badge-dark cursor">Details</span></div>
             </small>
-                    </div>
-                </div>
-            </div>
-            <mat-divider></mat-divider>
-            <!-- <div class="media pt-2 pl-2 pb-2">
+         </div>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+  <!-- <div class="media pt-2 pl-2 pb-2">
      <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
      <div class="media-body">
        <small><b>{{details.firstName}} {{details.lastName}}</b> has requested to join {{details.orgName}} as an emplo...</small>
@@ -180,7 +182,7 @@
         </div>
       </div>
       <mat-divider></mat-divider> -->
-            <small class="">
+      <small class="">
         <a routerLink="/portal/notification" class="float-right p-3">See all notifications..</a>
       </small>
         </mat-menu>
@@ -207,9 +209,9 @@
         </mat-menu>
 
 
-    </mat-toolbar>
+  </mat-toolbar>
 
-    <ng-content></ng-content>
+  <ng-content></ng-content>
 
 
 </mat-sidenav-container>
@@ -255,7 +257,7 @@
     <div class="modal-body px-5">
 
         <!--<h4 class="modal-title text-brand pb-3 pt-3 text-center">Request to join {{details.orgName}}</h4>-->
-        <p class="pl-lg-3 pr-lg-3 text-center">A request to join your company has been received with the following details.</p>
+        <p class="pl-lg-3 pr-lg-3 text-center">You have received a request from {{details.firstName}} {{details.lastName}} to join your company with the following details.</p>
         <p class="pl-lg-3 pr-lg-3 text-center">Approve or Decline Request to proceed...</p>
 
         <div class="pt-3">
@@ -276,4 +278,36 @@
             <button mat-raised-button class="primary-outline" (click)="rejectNotifications(details.email, details.inviteId,  'REJECTED')" data-dismiss="modal">Decline</button>
         </div>
     </div>
+</ng-template>
+
+<ng-template #assignLocation>
+  <div class=" modal-header">
+    <h4 class="modal-title pull-center">Assign To Location</h4>-->
+    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">-->
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h5 class="modal-title text-center pb-3 pt-4 text-brand">Assign To Location</h5>
+    <p class="text-center">Assign <span class="font-weight-bold">{{details.firstName}} {{details.lastName}}</span> to a location</p>
+    <div class="container pl-lg-4 pl-2 pt-4">
+      <div class="text-left pl-lg-5 pl-4">
+        <mat-form-field class="form-width-70">
+          <mat-select placeholder="Select Locations" name="locs" [(ngModel)]="approveRequest.locIds" multiple>
+            <mat-select-trigger>
+              {{locations? getSelectedLocationName() : ''}}
+              <span *ngIf="approveRequest.locIds?.length > 1">
+        (+{{approveRequest.locIds.length - 1}} others)
+      </span>
+            </mat-select-trigger>
+            <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="text-center pt-4 pb-5">
+      <button mat-raised-button color="primary" class="mr-2" (click)="confirmAssignment(details.inviteId)">Approve</button>
+    </div>
+  </div>
 </ng-template>

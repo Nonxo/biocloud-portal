@@ -39,7 +39,7 @@
         <div class="container-fluid" *ngIf="currentTab == 0">
 
             <div class="table-responsive">
-                <table class="table table-striped" [mfData]="activeUsers" #mf="mfDataTable" [mfRowsOnPage]="12">
+                <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="12">
                     <thead>
                         <tr>
                             <th scope="col" *ngIf="mf.data.length > 0">
@@ -64,6 +64,22 @@
 
                     </tbody>
                 </table>
+            </div>
+
+            <pagination *ngIf="data.length > 0 && currentTab == 0" [totalItems]="totalItems" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
+                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+
+            <div class="pb-lg-0 pb-4">
+                <div class="form-group form-inline w-25">
+                    <p class="pt-3 pr-2">Show</p>
+                    <mat-form-field>
+                        <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
+                            <mat-option [value]="10">10</mat-option>
+                            <mat-option [value]="25">25</mat-option>
+                            <mat-option [value]="50">50</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
             </div>
 
 
@@ -110,7 +126,7 @@
         <div class="container-fluid" *ngIf="currentTab == 1">
 
             <div class="table-responsive">
-                <table class="table table-striped" [mfData]="inactiveUsers" #mf="mfDataTable" [mfRowsOnPage]="12">
+                <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="12">
                     <thead>
                         <tr>
                             <th scope="col" *ngIf="mf.data.length > 0">
@@ -135,6 +151,22 @@
 
                     </tbody>
                 </table>
+            </div>
+
+            <pagination *ngIf="data.length > 0 && currentTab == 1" [totalItems]="totalItems" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
+                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+
+            <div class="pb-lg-0 pb-4">
+                <div class="form-group form-inline w-25">
+                    <p class="pt-3 pr-2">Show</p>
+                    <mat-form-field>
+                        <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
+                            <mat-option [value]="10">10</mat-option>
+                            <mat-option [value]="25">25</mat-option>
+                            <mat-option [value]="50">50</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
             </div>
 
 

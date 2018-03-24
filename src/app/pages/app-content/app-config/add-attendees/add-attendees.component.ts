@@ -17,12 +17,12 @@ import {MatChipInputEvent} from "@angular/material";
 })
 export class AddAttendeesComponent implements OnInit {
 
-    invites:boolean = true;
-    bulk:boolean;
-    location:string;
-    editMode:boolean;
-    locations:any[] = [];
-    inviteRequest:InviteRequest = new InviteRequest();
+    invites: boolean = true;
+    bulk: boolean;
+    location: string;
+    editMode: boolean;
+    locations: any[] = [];
+    inviteRequest: InviteRequest = new InviteRequest();
     separatorKeysCodes = [ENTER, COMMA];
 
     addBy = [
@@ -30,12 +30,12 @@ export class AddAttendeesComponent implements OnInit {
         {name: "BULK", checked: false}
     ];
 
-    constructor(private contentService:AppContentService,
-                private configService:AppConfigService,
-                private ss:StorageService,
-                private ns:NotifyService,
-                private translate:TranslateService,
-                public modalRef:BsModalRef) {
+    constructor(private contentService: AppContentService,
+                private configService: AppConfigService,
+                private ss: StorageService,
+                private ns: NotifyService,
+                private translate: TranslateService,
+                public modalRef: BsModalRef) {
         translate.setDefaultLang('en/add-attendees');
         translate.use('en/add-attendees');
     }
@@ -68,7 +68,7 @@ export class AddAttendeesComponent implements OnInit {
             if (!this.validateEmails()) {
                 return false
             }
-        }else {
+        } else {
             this.ns.showError("You must provide atleast one Email");
             return;
         }
@@ -103,7 +103,7 @@ export class AddAttendeesComponent implements OnInit {
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.locations = result.locations? result.locations:[];
+                        this.locations = result.locations ? result.locations : [];
                     }
                 },
                 error => {
@@ -115,10 +115,12 @@ export class AddAttendeesComponent implements OnInit {
         this.configService.downloadTemplate()
             .subscribe(
                 result => {
-                        var blob = new Blob([result], {type: 'application/vnd.ms-excel'});
-                        FileSaver.saveAs(blob, "template.xls");
+                    var blob = new Blob([result], {type: 'application/vnd.ms-excel'});
+                    FileSaver.saveAs(blob, "template.xls");
                 },
-                error => {this.ns.showError("An Error Occurred.");}
+                error => {
+                    this.ns.showError("An Error Occurred.");
+                }
             )
     }
 
@@ -126,20 +128,22 @@ export class AddAttendeesComponent implements OnInit {
         this.configService.uploadTemplate(event.target.files[0])
             .subscribe(
                 result => {
-                    if(result.code == 0) {
+                    if (result.code == 0) {
                         this.ns.showSuccess("Invites successfully sent");
-                    }else {
+                    } else {
                         this.ns.showError(result.description);
                     }
                 },
-                error => {this.ns.showError("An Error Occurred.")}
+                error => {
+                    this.ns.showError("An Error Occurred.")
+                }
             )
     }
 
     addEmails(event) {
-        let input,value;
+        let input, value;
 
-        if(event.target.value) {
+        if (event && event.target) {
             input = event.target;
             value = event.target.value;
         }else {
@@ -148,14 +152,14 @@ export class AddAttendeesComponent implements OnInit {
         }
 
         let arr = value.split(" ");
-        if(arr.length > 0) {
-            for(let a of arr) {
+        if (arr.length > 0) {
+            for (let a of arr) {
                 // Add email
                 if ((a || '').trim()) {
                     this.inviteRequest.emails.push(a.trim());
                 }
             }
-        }else {
+        } else {
             // Add email
             if ((value || '').trim()) {
                 this.inviteRequest.emails.push(value.trim());
@@ -168,7 +172,7 @@ export class AddAttendeesComponent implements OnInit {
         }
     }
 
-    removeEmail(email:any):void {
+    removeEmail(email: any): void {
         let index = this.inviteRequest.emails.indexOf(email);
 
         if (index >= 0) {
@@ -176,7 +180,7 @@ export class AddAttendeesComponent implements OnInit {
         }
     }
 
-    validateEmails():boolean {
+    validateEmails(): boolean {
         let regex = /[^@\s]+@[^@\s]+\.[^@\s]+/;
 
         for (let a of this.inviteRequest.emails) {
@@ -192,7 +196,7 @@ export class AddAttendeesComponent implements OnInit {
     }
 
     cancel() {
-        this.editMode? this.modalRef.hide():'';
+        this.editMode ? this.modalRef.hide() : '';
     }
 
 }

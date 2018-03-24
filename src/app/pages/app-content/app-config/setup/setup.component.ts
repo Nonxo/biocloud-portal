@@ -408,7 +408,7 @@ export class SetupComponent implements OnInit {
     addEmails(event) {
         let input,value;
 
-        if(event.target.value) {
+        if(event && event.target) {
             input = event.target;
             value = event.target.value;
         }else {

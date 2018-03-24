@@ -2,7 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../util/endpoints";
-import {CreateOrgRequest, AssignUserRequest, ApproveRequest, AdminRemovalRequest, UpdateProfile} from "../model/app-content.model";
+import {
+    CreateOrgRequest, AssignUserRequest, ApproveRequest, AdminRemovalRequest, UpdateProfile,
+    AttendeesPOJO
+} from "../model/app-content.model";
 import {StorageService} from "../../../service/storage.service";
 import {MediaType} from "../../../util/constants";
 import set = Reflect.set;
@@ -101,14 +104,20 @@ export class AppContentService {
       })
     }
 
-    fetchAttendees(org:boolean, id:string):Observable<any> {
+    fetchAttendees(model: AttendeesPOJO):Observable<any> {
         let params;
-        if (org) {
+        if (model.orgId) {
             params = new HttpParams()
-                .set("orgId", id);
+                .set("orgId", model.orgId)
+                .set("active", String(model.active))
+                .set("pageNo", String(model.pageNo))
+                .set("pageSize", String(model.pageSize));
         } else {
             params = new HttpParams()
-                .set("locId", id);
+                .set("locId", model.locId)
+                .set("active", String(model.active))
+                .set("pageNo", String(model.pageNo))
+                .set("pageSize", String(model.pageSize));
         }
 
         return this.httpClient
@@ -117,6 +126,27 @@ export class AppContentService {
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
     }
+
+    fetchAttendeesCount(model: AttendeesPOJO) {
+        let params;
+        if (model.orgId) {
+            params = new HttpParams()
+                .set("orgId", model.orgId)
+                .set("active", String(model.active));
+        } else {
+            params = new HttpParams()
+                .set("locId", model.locId)
+                .set("active", String(model.active));
+        }
+
+        return this.httpClient
+            .get(Endpoints.FETCH_COUNT_ATTENDEES + params, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+    }
+
+
 
     assignUsersToLocation(model:AssignUserRequest):Observable<any> {
         return this.httpClient
