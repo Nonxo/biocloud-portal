@@ -20,8 +20,8 @@
               </mat-list-item>
             </mat-list>
           </small>
-        </div>
-      </a>
+                </div>
+            </a>
 
             <div class=" text-center my-3 px-3 pb-3 border-0" *ngIf="orgs.length > 0 || selectedOrg.orgId">
                 <div class="mb-2">
@@ -35,7 +35,7 @@
                     <i class="material-icons mr-3 text-white" *ngIf="sidenavWidth >= 15">{{openDropdown?
             'arrow_drop_up':'arrow_drop_down'}}</i>
                 </div>
-              <h6 class="text-white">SXF123</h6>
+                <h6 class="text-white">SXF123</h6>
                 <small *hasAuthority="'GENERAL_ADMIN'" class="text-white" style="font-size: 0.6em"><span (click)="editOrg(template)" class="cursor">EDIT</span></small>
             </div>
 
@@ -73,8 +73,8 @@
                         </li>
                     </ng-container>
                 </ul>
-      </div>
-    </div>
+            </div>
+        </div>
 
 
         <mat-nav-list>
@@ -150,11 +150,11 @@
               <div class="mr-auto">{{notif.created | date:'short'}}</div>
               <div class="ml-auto pr-3" (click)="openAttendeesDetailsModal(notificationTemplate, notif.locIds, notif.inviteId)"><span class="badge badge-dark cursor">Details</span></div>
             </small>
-         </div>
-        </div>
-      </div>
-      <mat-divider></mat-divider>
-  <!-- <div class="media pt-2 pl-2 pb-2">
+                    </div>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+            <!-- <div class="media pt-2 pl-2 pb-2">
      <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
      <div class="media-body">
        <small><b>{{details.firstName}} {{details.lastName}}</b> has requested to join {{details.orgName}} as an emplo...</small>
@@ -180,7 +180,7 @@
         </div>
       </div>
       <mat-divider></mat-divider> -->
-      <small class="">
+            <small class="">
         <a routerLink="/portal/notification" class="float-right p-3">See all notifications..</a>
       </small>
         </mat-menu>
@@ -200,16 +200,16 @@
           </div>
         </div>
       </button>
-            <mat-divider></mat-divider>
-            <button mat-menu-item routerLink="/portal/setting">Setting</button>
+            <!-- <mat-divider></mat-divider>
+            <button mat-menu-item routerLink="/portal/setting">Setting</button> -->
             <mat-divider></mat-divider>
             <button (click)="logout()" mat-menu-item>Log Out</button>
         </mat-menu>
 
 
-  </mat-toolbar>
+    </mat-toolbar>
 
-  <ng-content></ng-content>
+    <ng-content></ng-content>
 
 
 </mat-sidenav-container>
