@@ -132,10 +132,15 @@
                         <img class="w-50 rounded-circle mx-auto d-block" *ngIf="model.img == null || model.img == ''" src="assets/img/1.png" alt="Profile picture">
                         <div class="pl-4 pt-3 col-lg-9 col-9 mx-auto d-block text-secondary cursor">
                             <mat-icon class="float-left pl-lg-2 pl-4" style="font-size: 20px">camera_enhance</mat-icon>
-                            <p class="float-left pl-lg-2 pl-4" style="font-size: 14px">CHANGE PHOTO</p>
+                          <span>  <p class="float-left pl-lg-2 pl-4" style="font-size: 14px">{{model.img? 'CHANGE PHOTO' :'ADD PHOTO'}}</p></span>
+                        <input type="hidden"><input type="hidden" value="" name="...">
+                         <input type="file" (change)="fileChange($event)" accept="image/*" name="upload">
                             <div class="clearfix"></div>
                         </div>
-                        <div class="text-danger small cursor text-center">X REMOVE</div>
+                      <div><a *ngIf="model.img" class="btn btn-simple margin-remove text-remove" data-dismiss="fileinput" (click)="remove()">X REMOVE</a>
+                        <p class="text-profile">*Not More than 100KB</p>
+                        <p *ngIf="pictureSizeErrorMessage" class="text-danger">{{pictureSizeErrorMessage}}</p>
+                        </div>
                         <h5 class="text-center pt-3 pb-5">{{model.fName}} {{model.lName}}</h5>
                     </div>
                     <div class="col-lg-6 pt-lg-0 pt-4 pb-4">
@@ -251,7 +256,7 @@
   <div class="mat-card">
     <div class="mat-card-content">
       <div class="modal-header">
-       <h4 class="modal-title pull-left">{{'PROFILE_COMPONENT.TITLE' | translate}} -
+       <h4 class="modal-title pull-left text-brand">{{'PROFILE_COMPONENT.TITLE' | translate}} -
           <small class="category">{{'PROFILE_COMPONENT.SUB_TITLE' | translate}}</small>
        </h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
@@ -309,7 +314,7 @@
             </div>
           </div>
 
-          <div class="col-md-12 mt-3">
+          <div class="col-md-12 text-md-center text-center pt-5">
             <button mat-raised-button color="primary" class="px-4 primary-outline py-1 mr-2" (click)="onSubmit()">SAVE</button>
             <button mat-raised-button class="px-4 primary-outline py-1" type="button" (click)="modalRef.hide()">CANCEL</button>
           </div>
@@ -334,7 +339,7 @@
     <textarea matInput placeholder="Leave a comment" [(ngModel)]="model.bio"></textarea>
   </mat-form-field>
 
-  <div class="col-md-12 mt-3">
+  <div class="col-md-12 text-md-center text-center pt-5">
     <button mat-raised-button color="primary" class="px-4 primary-outline py-1 mr-2" (click)="onSubmit()">SAVE</button>
     <button mat-raised-button class="px-4 primary-outline py-1" type="button" (click)="modalRef.hide()">CANCEL</button>
   </div>
