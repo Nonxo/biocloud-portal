@@ -1,53 +1,62 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class DataService {
 
-  private _logoutMessage: string;
-  private locId: string;
-  private userPhoto = new BehaviorSubject<any>({image:null});
-  private username = new BehaviorSubject<any>({username: null});
+    private _logoutMessage: string;
+    private locId: string;
+    private userObj: any;
+    private userPhoto = new BehaviorSubject<any>({image: null});
+    private username = new BehaviorSubject<any>({username: null});
 
-  getLogoutMessage(): any {
-    return this._logoutMessage;
-  }
+    getLogoutMessage(): any {
+        return this._logoutMessage;
+    }
 
-  setLogoutMessage(value: any) {
-    this._logoutMessage = value;
-  }
+    setLogoutMessage(value: any) {
+        this._logoutMessage = value;
+    }
 
-  setLocId(value: string) {
-    this.locId = value;
-  }
+    getUserObj(): string {
+        return this.userObj;
+    }
 
-  getLocId() {
-    return this.locId;
-  }
+    setUserObj(value: any) {
+        this.userObj = value;
+    }
 
-  setUserPhoto(img:string){
-    this.userPhoto.next({image: null});
-  }
+    setLocId(value: string) {
+        this.locId = value;
+    }
 
-  clearUserPhoto() {
-    this.userPhoto.next({image: null});
-  }
+    getLocId() {
+        return this.locId;
+    }
 
-  getUserPhoto():Observable<any> {
-    return this.userPhoto;
-  }
+    setUserPhoto(img: string) {
+        this.userPhoto.next({image: null});
+    }
 
-  setUsername(name:string) {
-    this.username.next({username: name})
-  }
+    clearUserPhoto() {
+        this.userPhoto.next({image: null});
+    }
 
-  clearUsername() {
-    this.username.next(null);
-  }
+    getUserPhoto(): Observable<any> {
+        return this.userPhoto;
+    }
 
-  getUsername() {
-    return this.username;
-  }
+    setUsername(name: string) {
+        this.username.next({username: name})
+    }
+
+    clearUsername() {
+        this.username.next(null);
+    }
+
+    getUsername() {
+        return this.username;
+    }
 
 }

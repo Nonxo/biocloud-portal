@@ -48,7 +48,7 @@ export class NavComponent implements OnInit {
     selectedLocIds:string[] = [];
     hamburgerClicked:boolean = true;
     details: Invitation = new Invitation();
-    title:string = "Home";
+    title:string = "Dashboard";
     selectedEmail:string;
     inviteRequest:InviteRequest = new InviteRequest();
     currentUserEmail:string = this.ss.getLoggedInUserEmail();
@@ -96,6 +96,14 @@ export class NavComponent implements OnInit {
             .subscribe(
                 result => {
                     !result? this.activeClass = "":'';
+                }
+            )
+
+        //subscribe to title Observable
+        this.mService.getTitle()
+            .subscribe(
+                result => {
+                    result? this.title = result:'';
                 }
             )
 

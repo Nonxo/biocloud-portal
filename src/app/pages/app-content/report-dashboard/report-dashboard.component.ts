@@ -6,6 +6,7 @@ import {AppContentService} from "../services/app-content.service";
 import * as FileSaver from 'file-saver';
 import {PictureUtil} from "../../../util/PictureUtil";
 import {NotifyService} from "../../../service/notify.service";
+import {MessageService} from "../../../service/message.service";
 
 @Component({
     selector: 'app-report-dashboard',
@@ -27,13 +28,16 @@ export class ReportDashboardComponent implements OnInit {
                 private ss: StorageService,
                 private contentService: AppContentService,
                 private picUtil: PictureUtil,
-                private ns: NotifyService) {
+                private ns: NotifyService,
+                private mService: MessageService) {
         this.reportModel.reportType = "early";
         this.reportModel.pageSize = this.rowsOnPage;
         this.reportModel.orgId = this.ss.getSelectedOrg().orgId;
     }
 
     ngOnInit() {
+        this.mService.setTitle("Reports");
+
         this.fetchDailyReport();
         this.callLocationService();
     }
