@@ -18,7 +18,7 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
     userObj: any;
     model: UpdateProfile = new UpdateProfile();
     history: HistoryPojo = new HistoryPojo();
-    clockInHistorys:any;
+    clockInHistorys:any = [];
 
     constructor(private mService: MessageService,
                 private contentService: AppContentService,
