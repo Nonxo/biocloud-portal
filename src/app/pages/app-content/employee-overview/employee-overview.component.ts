@@ -4,6 +4,8 @@ import {Router} from "@angular/router";
 import {AppContentService} from "../services/app-content.service";
 import {NotifyService} from "../../../service/notify.service";
 import {DataService} from "../../../service/data.service";
+import {HistoryPojo, UpdateProfile} from "../model/app-content.model";
+import {isNullOrUndefined} from "util";
 
 @Component({
     selector: 'app-employee-overview',
@@ -13,8 +15,10 @@ import {DataService} from "../../../service/data.service";
 export class EmployeeOverviewComponent implements OnInit, OnDestroy {
 
     sub$: any;
-    email: string;
-    model:any;
+    userObj: any;
+    model: UpdateProfile = new UpdateProfile();
+    history: HistoryPojo = new HistoryPojo();
+    clockInHistorys:any;
 
     constructor(private mService: MessageService,
                 private contentService: AppContentService,
@@ -25,17 +29,41 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.email = this.dataService.getEmail();
-        if(!this.email) {
+        this.userObj = this.dataService.getUserObj();
+        if(isNullOrUndefined(this.userObj)) {
             this.router.navigate(['/portal/manage-users']);
+        } else {
+            this.getHistoryRequestObj();
+
+            this.fetchUserDetail();
+            this.fetchClockinHistory();
         }
 
-        this.fetchUserDetail();
     }
 
+    getHistoryRequestObj() {
+        this.history.orgId = this.userObj.orgId;
+        this.history.locId = this.userObj.locId;
+        this.history.email = this.userObj.email;
+    }
+
+    fetchClockinHistory() {
+        this.contentService.retrieveClockinHistory(this.history)
+            .subscribe (
+                result => {
+                    let res:any = result;
+                    if(res.code == 0) {
+                        this.clockInHistorys = res.clockInHistory? res.clockInHistory: [];
+                    }else {
+                        this.clockInHistorys = []
+                    }
+                },
+                error => {this.clockInHistorys = []}
+            )
+    }
 
     fetchUserDetail() {
-        this.contentService.retrieveUser(this.email)
+        this.contentService.retrieveUser(this.userObj.email)
             .subscribe(
                 result => {
                     let res:any = result;
@@ -52,7 +80,7 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.dataService.setEmail(null);
+        this.dataService.setUserObj(null);
     }
 
 }

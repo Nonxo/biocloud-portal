@@ -351,7 +351,7 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     }
 
     gotoOverview(email:string) {
-        this.dataService.setEmail(email);
+        this.dataService.setUserObj({email, orgId: this.orgWideSearch? this.orgId:'', locId: !this.orgWideSearch? this.selectedLocId:''});
         this.router.navigate(['/portal/overview']);
     }
 
