@@ -126,28 +126,41 @@
         <div class="col-lg-6">
             <mat-card>
                 <div class="row">
-                    <div class="col-lg-6">
-                        <h4>Biodata</h4>
-                        <img class="w-50 rounded-circle mx-auto d-block" *ngIf="model.img" src="data:image/jpg;base64,{{model.img}}" alt="">
-                        <img class="w-50 rounded-circle mx-auto d-block" *ngIf="model.img == null || model.img == ''" src="assets/img/1.png" alt="Profile picture">
-                        <div class="pl-4 pt-3 col-lg-9 col-9 mx-auto d-block text-secondary cursor">
-                            <mat-icon class="float-left pl-lg-2 pl-4" style="font-size: 20px">camera_enhance</mat-icon>
-                          <span>  <p class="float-left pl-lg-2 pl-4" style="font-size: 14px">{{model.img? 'CHANGE PHOTO' :'ADD PHOTO'}}</p></span>
-                        <input type="hidden"><input type="hidden" value="" name="...">
-                         <input type="file" (change)="fileChange($event)" accept="image/*" name="upload">
-                            <div class="clearfix"></div>
-                        </div>
-                      <div><a *ngIf="model.img" class="btn btn-simple margin-remove text-remove" data-dismiss="fileinput" (click)="remove()">X REMOVE</a>
-                        <p class="text-profile">*Not More than 100KB</p>
-                        <p *ngIf="pictureSizeErrorMessage" class="text-danger">{{pictureSizeErrorMessage}}</p>
-                        </div>
-                        <h5 class="text-center pt-3 pb-5">{{model.fName}} {{model.lName}}</h5>
+                    <div class="col-lg-12 pb-lg-0 pb-2">
+                        <button mat-icon-button (click)="openeditProfileModal(editProfile)" class="float-lg-right float-right">
+                            <mat-icon class="float-right">edit</mat-icon>
+                          </button>
+
+                        <h4 class="">Biodata</h4>
                     </div>
-                    <div class="col-lg-6 pt-lg-0 pt-4 pb-4">
-                        <button mat-icon-button (click)="openeditProfileModal(editProfile)" class="float-lg-right">
+                    <div class="col-lg-6 pt-lg-5">
+                        <!-- <h4>Biodata</h4> -->
+                        <img class="w-50 rounded-circle mx-auto d-block pt-lg-0 pt-4" *ngIf="model.img" src="data:image/jpg;base64,{{model.img}}" alt="">
+                        <img class="w-50 rounded-circle mx-auto d-block pt-lg-0 pt-4" *ngIf="model.img == null || model.img == ''" src="assets/img/1.png" alt="Profile picture">
+                        <!-- <div class="pl-4 pt-3 col-lg-9 col-9 mx-auto d-block text-secondary cursor">
+                            <mat-icon class="float-left pl-lg-2 pl-4" style="font-size: 20px">camera_enhance</mat-icon>
+                            <p class="float-left pl-lg-2 pl-4" style="font-size: 14px">CHANGE PHOTO</p>
+                            <div class="clearfix"></div>
+                        </div> -->
+                        <div class="pl-4 pt-3 col-lg-12 col-12 mx-auto d-block text-secondary cursor" style="height: 70px">
+                            <span class="fileUpload btn">
+                              <span><mat-icon class="float-left pl-lg-3 pl-5" style="font-size: 20px">camera_enhance</mat-icon><p class="float-left pl-lg-3 pl-4" style="font-size: 14px">CHANGE PHOTO</p></span>
+                            <input type="file" class="upload" accept="image/*" #input (change)="fileChange($event)">
+                            </span>
+                        </div>
+                        <p class="text-danger small cursor text-center">X REMOVE</p>
+                        <p class="text-brand small text-center">Not More tham 100KB</p>
+                        <!-- <h5 class="text-center pt-3 pb-5">{{model.fName}} {{model.lName}}</h5> -->
+                    </div>
+                    <div class="col-lg-6 pt-lg-3 pt-4 pb-5">
+                        <!-- <button mat-icon-button (click)="openeditProfileModal(editProfile)" class="float-lg-right">
                         <mat-icon class="float-right">edit</mat-icon>
-                      </button>
-                        <div class="pt-lg-5">
+                      </button> -->
+                        <div class="pt-4 pb-lg-0 pb-3">
+                            <p>Full Name</p>
+                            <h6 class="">{{model.fName}} {{model.lName}}</h6>
+                        </div>
+                        <div class="pt-lg-3">
                             <p>Email Address</p>
                             <h6>{{model.email}}</h6>
                         </div>
@@ -168,7 +181,16 @@
             <mat-card class="h-100">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h5>Dashboard</h5>
+                        <div class="col-lg-12">
+                            <div>
+                                <div class="pb-lg-o pb-3">
+                                    <mat-icon class="float-right">edit</mat-icon>
+                                    <h5 class="pb-2">About me</h5>
+                                </div>
+                                <p class="pt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti et nemo aut odio eligendi sunt suscipit provident, facere, sint culpa, ut veniam corporis fuga hic nam error? Aut rem ipsa amet eveniet quae, laboriosam
+                                    quasi, veniam earum repellendus officia suscipit a optio neque laudantium officiis vero, ducimus tempore quia eius?</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </mat-card>
@@ -189,6 +211,28 @@
                           </button>
                             <h5 class="pb-2">About me</h5>
                             <p class="pt-3">{{model.bio}}</p>
+                        <div class="col-lg-12">
+                            <div class="">
+                                <a href="#" class="float-right">Change</a>
+                                <h5 class="pb-2">Change Password</h5>
+                                <div class="col-lg-12 d-line pt-lg-3 pt-2">
+                                    <form class="example-form">
+                                        <mat-form-field class="w-75">
+                                            <input matInput placeholder="Old Password" value="">
+                                        </mat-form-field> <br>
+                                        <mat-form-field class="w-75">
+                                            <input matInput placeholder="New Password" value="">
+                                        </mat-form-field> <br>
+                                        <mat-form-field class="w-75">
+                                            <input matInput placeholder="Confirm Password" value="">
+                                        </mat-form-field>
+                                    </form>
+                                </div>
+                                <div class="col-lg-12 pt-3 pb-4">
+                                    <button mat-button class="primary-outline mr-3">Cancel</button>
+                                    <button mat-raised-button color="primary" class="primary-outline mt-lg-0 mt-3">Change Password</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -211,7 +255,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h5>Work Status</h5>
-                        <div class="table-responsive">
+                        <div class="table-responsive pt-lg-0 pt-3">
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -253,13 +297,13 @@
 
 
 <ng-template #editProfile>
-  <div class="mat-card">
-    <div class="mat-card-content">
-      <div class="modal-header">
-       <h4 class="modal-title pull-left text-brand">{{'PROFILE_COMPONENT.TITLE' | translate}} -
-          <small class="category">{{'PROFILE_COMPONENT.SUB_TITLE' | translate}}</small>
-       </h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <div class="mat-card">
+        <div class="mat-card-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left text-brand">{{'PROFILE_COMPONENT.TITLE' | translate}} -
+                    <small class="category">{{'PROFILE_COMPONENT.SUB_TITLE' | translate}}</small>
+                </h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
   </div>
