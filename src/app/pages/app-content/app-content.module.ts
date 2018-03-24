@@ -23,6 +23,7 @@ import { ManageAdminsComponent } from './manage-admins/manage-admins.component';
 import { SettingComponent } from './setting/setting.component';
 import {ReportService} from "./services/report.service";
 import {PaginationModule} from "ngx-bootstrap";
+import { EmployeeOverviewComponent } from './employee-overview/employee-overview.component';
 
 @NgModule({
     imports: [
@@ -44,7 +45,8 @@ import {PaginationModule} from "ngx-bootstrap";
         NotificationsComponent,
         ProfileComponent,
         ManageAdminsComponent,
-        SettingComponent
+        SettingComponent,
+        EmployeeOverviewComponent
     ],
     providers: [MessageService, AppConfigService, GeoMapService, SearchService, ReportService],
     entryComponents: [SetupComponent, AddAttendeesComponent]

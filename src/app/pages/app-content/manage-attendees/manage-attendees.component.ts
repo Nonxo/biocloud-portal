@@ -6,6 +6,8 @@ import {BsModalRef, BsModalService, ModalOptions} from "ngx-bootstrap/index";
 import {DataService} from "../../../service/data.service";
 import {AssignUserRequest, ActivateDeactivateUserRequest, AttendeesPOJO} from "../model/app-content.model";
 import {AddAttendeesComponent} from "../app-config/add-attendees/add-attendees.component";
+import {MessageService} from "../../../service/message.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-manage-attendees',
@@ -41,7 +43,9 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
                 private ss:StorageService,
                 private ns:NotifyService,
                 private modalService:BsModalService,
-                private dataService:DataService) {
+                private dataService:DataService,
+                private mService: MessageService,
+                private router: Router) {
         this.orgId = this.ss.getSelectedOrg().orgId;
 
         if (this.dataService.getLocId()) {
@@ -54,6 +58,8 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.mService.setTitle("Employees");
+
         if (this.ss.getSelectedOrg()) {
             this.orgId = this.ss.getSelectedOrg().orgId;
             this.callLocationService();
@@ -342,6 +348,11 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
         this.aPojo.pageSize = this.rowsOnPage;
         this.resetValues();
         this.fetchUsers();
+    }
+
+    gotoOverview(email:string) {
+        this.dataService.setUserObj({email, orgId: this.orgWideSearch? this.orgId:'', locId: !this.orgWideSearch? this.selectedLocId:''});
+        this.router.navigate(['/portal/overview']);
     }
 
     /**

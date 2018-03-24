@@ -58,6 +58,8 @@ export class SetupComponent implements OnInit {
                 private translate:TranslateService) {
         translate.setDefaultLang('en/add-location');
         translate.use('en/add-location');
+
+        this.mService.setTitle("Add Location");
     }
 
     ngOnInit() {

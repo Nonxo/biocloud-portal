@@ -127,6 +127,27 @@ export class AttendeesPOJO {
 
 }
 
+export class HistoryPojo {
+    email:string;
+    late:string;
+    locId:string;
+    orgId:string;
+    startDate:string;
+    endDate:string;
+    pageNo:number;
+    pageSize:number;
+
+    constructor() {
+        this.late = "";
+        this.locId = "";
+        this.orgId = "";
+        this.startDate = "";
+        this.endDate = "";
+        this.pageNo = 1;
+        this.pageSize = 10;
+    }
+}
+
 
 
 

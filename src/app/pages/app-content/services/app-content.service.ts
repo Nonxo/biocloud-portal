@@ -4,7 +4,7 @@ import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../util/endpoints";
 import {
     CreateOrgRequest, AssignUserRequest, ApproveRequest, AdminRemovalRequest, UpdateProfile,
-    AttendeesPOJO
+    AttendeesPOJO, HistoryPojo
 } from "../model/app-content.model";
 import {StorageService} from "../../../service/storage.service";
 import {MediaType} from "../../../util/constants";
@@ -267,6 +267,22 @@ export class AppContentService {
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
 
+    }
+
+    retrieveClockinHistory(model: HistoryPojo):Observable<any> {
+        const param = new HttpParams()
+            .set("orgId", model.orgId)
+            .set("locId", model.locId)
+            .set("pageNo", String(model.pageNo))
+            .set("pageSize", String(model.pageSize))
+            .set("late", model.late)
+            .set("email", model.email);
+
+        return this.httpClient
+            .get(Endpoints.FETCH_CLOCKIN_HISTORY + param, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
     }
 
 

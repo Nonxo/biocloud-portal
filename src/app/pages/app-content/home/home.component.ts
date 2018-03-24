@@ -47,6 +47,7 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.mService.setTitle("Dashboard");
 
         if (this.ss.getSelectedOrg()) {
             this.orgId = this.ss.getSelectedOrg().orgId;

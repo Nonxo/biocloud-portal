@@ -6,6 +6,7 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap/index";
 import {AssignAdminRequest, InviteRequest} from "../app-config/model/app-config.model";
 import {AppConfigService} from "../app-config/services/app-config.service";
 import {AdminRemovalRequest} from "../model/app-content.model";
+import {MessageService} from "../../../service/message.service";
 
 @Component({
     selector: 'app-manage-admins',
@@ -29,10 +30,13 @@ export class ManageAdminsComponent implements OnInit {
                 private contentService:AppContentService,
                 private ns:NotifyService,
                 private modalService:BsModalService,
-                private configService:AppConfigService) {
+                private configService:AppConfigService,
+                private mService: MessageService) {
     }
 
     ngOnInit() {
+        this.mService.setTitle("Admins");
+
         this.fetchAdminUsers();
         this.callLocationService();
     }

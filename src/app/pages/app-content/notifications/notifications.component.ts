@@ -5,6 +5,7 @@ import {NotifyService} from "../../../service/notify.service";
 import {AppContentService} from "../services/app-content.service";
 import {StorageService} from "../../../service/storage.service";
 import {ApproveRequest, Invitation} from "../model/app-content.model";
+import {MessageService} from "../../../service/message.service";
 
 
 
@@ -31,10 +32,12 @@ export class NotificationsComponent implements OnInit {
   constructor(private modalService: BsModalService,
               private ns: NotifyService,
               private contentService: AppContentService,
-              private ss: StorageService) {
+              private ss: StorageService,
+              private mService: MessageService) {
   }
 
   ngOnInit() {
+      this.mService.setTitle("Notifications");
 
     if (this.ss.getSelectedOrg()) {
       this.orgId = this.ss.getSelectedOrg().orgId;
