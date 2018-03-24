@@ -109,18 +109,16 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">S/N</th>
                                     <th scope="col">NAME</th>
                                     <th scope="col">LOCATION</th>
                                     <th scope="col">TIME IN</th>
                                 </tr>
                             </thead>
                             <tbody>
-                               <tr *ngFor="let notif of latestClockin; let i=index" >
-                                    <td>{{i+1}}</td>
-                                    <td>{{notif.firstName}} {{notif.lastName}}</td>
+                               <tr *ngFor="let notif of latestClockin">
+                                    <td>{{notif.firstName}} {{notif.surname}}</td>
                                     <td>{{notif.locationName}}</td>
-                                    <td>{{notif.time | date:'shortTime'}}</td>
+                                    <td>{{notif.time | date:'short'}}</td>
                                 </tr>
                                <!-- <tr>
                                     <th scope="row">2</th>
@@ -170,14 +168,14 @@
                             <mat-card>
                                 <mat-card-content class="text-center">
                                   <div *ngIf="totalClockin && totalClockin != 0">
-                                    <p class="display-3 font-weight-bold">{{totalClockin}}</p>
-                                    <p>Total Clock in Today</p>
+                                    <p class="display-3 font-weight-bold text-success">{{totalClockin}}</p>
+                                    <p>Clock-in Today</p>
                                   </div>
                                     <!--empty state-->
                                     <div *ngIf="!totalClockin || totalClockin == 0">
                                         <h5 class="fade-msg">NO DATA</h5>
                                         <h5 class="fade-msg">TO DISPLAY</h5>
-                                        <p class="fade-msg">Total Clock-in Today</p>
+                                        <p class="fade-msg">Clock-in Today</p>
                                     </div>
                                 </mat-card-content>
                             </mat-card>
