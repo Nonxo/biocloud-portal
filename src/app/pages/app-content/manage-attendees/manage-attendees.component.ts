@@ -4,7 +4,7 @@ import {StorageService} from "../../../service/storage.service";
 import {NotifyService} from "../../../service/notify.service";
 import {BsModalRef, BsModalService, ModalOptions} from "ngx-bootstrap/index";
 import {DataService} from "../../../service/data.service";
-import {AssignUserRequest, ActivateDeactivateUserRequest} from "../model/app-content.model";
+import {AssignUserRequest, ActivateDeactivateUserRequest, AttendeesPOJO} from "../model/app-content.model";
 import {AddAttendeesComponent} from "../app-config/add-attendees/add-attendees.component";
 
 @Component({
@@ -30,12 +30,12 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     adr:ActivateDeactivateUserRequest = new ActivateDeactivateUserRequest();
     @ViewChild("activateUserTemplate") public activateUserTemplate:TemplateRef<any>;
     @ViewChild("assignuserTemplate") public assignuserTemplate:TemplateRef<any>;
-    actions = [
-        {name: "Re-assign", enum: "ASSIGN", displayFor: "LOC", template: "assignuserTemplate"},
-        {name: "Deactivate", enum: "DE_ACTIVATE", displayFor: "ALL", template: "activateUserTemplate"},
-        {name: "Activate", enum: "ACTIVATE", displayFor: "ALL", template: "activateUserTemplate"}
-    ];
     userRole = this.ss.getSelectedOrgRole();
+    aPojo: AttendeesPOJO = new AttendeesPOJO();
+    totalItems:number;
+    maxSize:number = 5;
+    currentPage:number;
+    rowsOnPage = 10;
 
     constructor(private contentService:AppContentService,
                 private ss:StorageService,
@@ -58,8 +58,6 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
             this.orgId = this.ss.getSelectedOrg().orgId;
             this.callLocationService();
         }
-
-        // this.fetchUsers();
     }
 
     callLocationService() {
@@ -91,25 +89,24 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
 
     fetchUsers() {
         this.selAll = false;
-        let id;
         if (!this.selectedLocId) {
             this.orgWideSearch = true;
-
-            id = this.userRole == 'GENERAL_ADMIN'? this.orgId: "";
+            this.aPojo.locId = null;
+            this.aPojo.orgId = this.userRole == 'GENERAL_ADMIN'? this.orgId: "";
         } else {
             this.orgWideSearch = false;
-            id = this.selectedLocId;
+            this.aPojo.orgId = null;
+            this.aPojo.locId = this.selectedLocId;
         }
-        this.fetchAttendeesList(id);
+        this.fetchAttendeesCount();
     }
 
-    fetchAttendeesList(id:string) {
-        this.contentService.fetchAttendees(this.orgWideSearch, id)
+    fetchAttendeesList() {
+        this.contentService.fetchAttendees(this.aPojo)
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.getUsers(result.attendees);
-                        this.data = [];
+                        this.data = result.attendees;
                     } else {
                         this.ns.showError(result.description);
                     }
@@ -120,20 +117,23 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
             )
     }
 
-    getUsers(users:any) {
-        let u = users ? users : [];
-
-        if (u.length > 0) {
-            this.activeUsers = u.filter(obj => obj.status);
-            this.inactiveUsers = u.filter(obj => !obj.status);
-        }else {
-            this.activeUsers = [];
-            this.inactiveUsers = [];
-        }
+    fetchAttendeesCount() {
+        this.contentService.fetchAttendeesCount(this.aPojo)
+            .subscribe(
+                result => {
+                    let res:any = result;
+                    if(res.code == 0) {
+                        this.totalItems = res.total;
+                        this.fetchAttendeesList();
+                    }else {
+                        this.totalItems = 0;
+                    }
+                },
+                error => {this.totalItems = 0}
+            )
     }
 
     selectAll(event) {
-        this.getData();
 
         if (event.checked) {
             this.data.map((x:any) => {
@@ -145,25 +145,6 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
                 x.checked = false;
                 return x
             });
-        }
-    }
-
-    getData() {
-        switch (this.currentTab) {
-            case 0:
-            {
-                this.data = this.activeUsers;
-                break;
-            }
-            case 1:
-            {
-                this.data = this.inactiveUsers;
-                break;
-            }
-            case 2:
-            {
-
-            }
         }
     }
 
@@ -306,17 +287,40 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
         return false;
     }
 
+    resetValues() {
+        this.data = [];
+        this.currentPage = 1;
+        this.aPojo.pageNo = 1;
+    }
+
     /**
      * This method is trigged when tabs change
      * @param event
      */
     onTabChange(event) {
+        this.resetValues();
         this.selAll = false;
         this.data.map((x:any) => {
             x.checked = false;
             return x
         });
         this.currentTab = event.index;
+
+        switch(this.currentTab) {
+            case 0: {
+                this.aPojo.active = true;
+                this.fetchUsers();
+                break;
+            }
+            case 1: {
+                this.aPojo.active = false;
+                this.fetchUsers();
+                break;
+            }
+            case 2: {
+                break;
+            }
+        }
     }
 
     /**
@@ -327,8 +331,17 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
         if (!event.checked) {
             this.selAll = false;
         }
+    }
 
-        this.getData();
+    pageChanged(event) {
+        this.aPojo.pageNo = event.page;
+        this.fetchUsers();
+    }
+
+    updateSize() {
+        this.aPojo.pageSize = this.rowsOnPage;
+        this.resetValues();
+        this.fetchUsers();
     }
 
     /**

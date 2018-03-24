@@ -111,6 +111,21 @@ export class ReportModel {
     }
 }
 
+export class AttendeesPOJO {
+    orgId:string;
+    locId:string;
+    active:boolean;
+    pageSize:number;
+    pageNo:number;
+
+    constructor() {
+        this.active = true;
+        this.pageSize = 10;
+        this.pageNo = 1;
+    }
+
+}
+
 
 
 
