@@ -143,6 +143,9 @@ export class HomeComponent implements OnInit {
             .subscribe(
                 result => {
                     if(result.code == 0) {
+
+                        this.setStatus(active, locId);
+
                         this.ns.showSuccess(result.description);
                     }else {
                         this.ns.showError(result.description);
@@ -150,6 +153,17 @@ export class HomeComponent implements OnInit {
                 },
                 error => {this.ns.showError("An Error Occurred.");}
             )
+    }
+
+    setStatus(status:boolean, locId:string) {
+        debugger;
+        for(let f of this.locations) {
+            if(locId == f.locId) {
+                debugger;
+                f.active = status;
+                return;
+            }
+        }
     }
 
     openModal(template:TemplateRef<any>) {
