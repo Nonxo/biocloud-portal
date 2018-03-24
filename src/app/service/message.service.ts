@@ -11,6 +11,7 @@ export class MessageService {
     private selectedOrg = new Subject<string>();
     private editLocation = new Subject<boolean>();
     private homeLinkActive = new Subject<boolean>();
+    private title = new Subject<string>();
 
     constructor() {}
 
@@ -36,6 +37,14 @@ export class MessageService {
 
     isHomeLinkActive(): Observable<boolean> {
         return this.homeLinkActive.asObservable();
+    }
+
+    setTitle(value:string):void {
+        this.title.next(value);
+    }
+
+    getTitle(): Observable<string> {
+        return this.title.asObservable();
     }
 
 }

@@ -57,7 +57,7 @@
                                 <mat-checkbox name="check{{i}}" [(ngModel)]="d.checked" (click)="selectOne($event)"></mat-checkbox>
                             </th>
                             <td>{{d.firstName }} {{ d.lastName}}</td>
-                            <td>{{d.email}}</td>
+                            <td><p class="cursor text-brand" (click)="gotoOverview(d.email)">{{d.email}}</p></td>
                             <td>{{d.phone}}</td>
                             <td>{{d.status? 'Active':'Inactive'}}</td>
                         </tr>
@@ -66,19 +66,26 @@
                 </table>
             </div>
 
-            <pagination *ngIf="data.length > 0 && currentTab == 0" [totalItems]="totalItems" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
-                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
-
-            <div class="pb-lg-0 pb-4">
-                <div class="form-group form-inline w-25">
-                    <p class="pt-3 pr-2">Show</p>
-                    <mat-form-field>
-                        <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
-                            <mat-option [value]="10">10</mat-option>
-                            <mat-option [value]="25">25</mat-option>
-                            <mat-option [value]="50">50</mat-option>
-                        </mat-select>
-                    </mat-form-field>
+            <div class="row justify-content-between">
+                <div class="col-auto">
+                    <div class="pb-lg-0 pb-4">
+                        <div class="form-group form-inline">
+                            <p class="pt-3 pr-2">Show</p>
+                            <mat-form-field class="w-25">
+                                <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
+                                    <mat-option [value]="10">10</mat-option>
+                                    <mat-option [value]="25">25</mat-option>
+                                    <mat-option [value]="50">50</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 0" [totalItems]="totalItems" [itemsPerPage]="rowsOnPage"
+                                [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize"
+                                [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
+                                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
                 </div>
             </div>
 
@@ -115,7 +122,7 @@
                 <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
                     <div class="ml-md-auto mr-auto">
                         <a class="text-right" role="button" (click)="openInviteModal()">
-                            <p>INVITE NEW EMPLOYEE</p>
+                            <p class="cursor text-brand">INVITE NEW EMPLOYEE</p>
                         </a>
                     </div>
                 </div>
@@ -144,7 +151,7 @@
                                 <mat-checkbox name="check{{i}}" [(ngModel)]="d.checked" (click)="selectOne($event)"></mat-checkbox>
                             </th>
                             <td>{{d.firstName }} {{ d.lastName}}</td>
-                            <td>{{d.email}}</td>
+                            <td><p class="cursor text-brand" (click)="gotoOverview(d.email)">{{d.email}}</p></td>
                             <td>{{d.phone}}</td>
                             <td>{{d.status? 'Active':'Inactive'}}</td>
                         </tr>
@@ -153,19 +160,26 @@
                 </table>
             </div>
 
-            <pagination *ngIf="data.length > 0 && currentTab == 1" [totalItems]="totalItems" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
-                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
-
-            <div class="pb-lg-0 pb-4">
-                <div class="form-group form-inline w-25">
-                    <p class="pt-3 pr-2">Show</p>
-                    <mat-form-field>
-                        <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
-                            <mat-option [value]="10">10</mat-option>
-                            <mat-option [value]="25">25</mat-option>
-                            <mat-option [value]="50">50</mat-option>
-                        </mat-select>
-                    </mat-form-field>
+            <div class="row justify-content-between">
+                <div class="col-auto">
+                    <div class="pb-lg-0 pb-4">
+                        <div class="form-group form-inline">
+                            <p class="pt-3 pr-2">Show</p>
+                            <mat-form-field class="w-25">
+                                <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
+                                    <mat-option [value]="10">10</mat-option>
+                                    <mat-option [value]="25">25</mat-option>
+                                    <mat-option [value]="50">50</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 1" [totalItems]="totalItems" [itemsPerPage]="rowsOnPage"
+                                [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize"
+                                [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
+                                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
                 </div>
             </div>
 

@@ -17,6 +17,7 @@ import {AuthGuard} from "../../auth/guards/auth-guard.service";
 import {ProfileComponent} from "./profile/profile.component";
 import {ManageAdminsComponent} from "./manage-admins/manage-admins.component";
 import { SettingComponent } from './setting/setting.component';
+import {EmployeeOverviewComponent} from "./employee-overview/employee-overview.component";
 
 const routes: Routes = [
   {
@@ -71,7 +72,11 @@ const routes: Routes = [
       {
         path: 'setting',
         component: SettingComponent
-      }
+      },
+        {
+            path: 'overview',
+            component: EmployeeOverviewComponent
+        }
 
     ]
   }

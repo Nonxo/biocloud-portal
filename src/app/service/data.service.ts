@@ -7,6 +7,7 @@ export class DataService {
 
   private _logoutMessage: string;
   private locId: string;
+  private email: string;
   private userPhoto = new BehaviorSubject<any>({image:null});
   private username = new BehaviorSubject<any>({username: null});
 
@@ -17,6 +18,14 @@ export class DataService {
   setLogoutMessage(value: any) {
     this._logoutMessage = value;
   }
+
+    getEmail(): string {
+        return this.email;
+    }
+
+    setEmail(value: string) {
+        this.email = value;
+    }
 
   setLocId(value: string) {
     this.locId = value;
