@@ -112,6 +112,13 @@ export class NavComponent implements OnInit {
 
     ngOnInit() {
         this.selectedOrg = this.ss.getSelectedOrg() ? this.ss.getSelectedOrg() : new Org();
+
+        //if an org is already selected, update role
+        if(this.selectedOrg.orgId) {
+            this.setOrgRole();
+            this.mService.setSelectedOrg(this.selectedOrg.orgId);
+        }
+
         this.fetchUsersOrg();
         this.onResizeByWindowScreen();
         this.callNotificationService();

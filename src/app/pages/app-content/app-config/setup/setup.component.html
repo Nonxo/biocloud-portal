@@ -135,7 +135,7 @@
                                             <mat-hint>Format (HH:MM AM/PM)</mat-hint>
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-md-12 mt-4">
+                                    <div class="col-md-12 mt-4" *ngIf="resumption">
                                         <mat-form-field class="input-field">
                                             <mat-select placeholder="Select Timezone" name="timezone"
                                                         [(ngModel)]="locRequest.resumptionTimezoneId">
@@ -151,7 +151,7 @@
                                 </ng-container>
 
                                 <!--grace period-->
-                                <div class="col-md-12" *ngIf="locRequest.locationType">
+                                <div class="col-md-12" *ngIf="locRequest.locationType && resumption">
                                     <mat-form-field class="input-field">
                                         <input matInput type="number" min="0"
                                                placeholder="Enter a grace period in minutes"
