@@ -153,4 +153,13 @@ export class StorageService {
         return obj? obj: [];
     }
 
+    setLatestNotifTime(value:number) {
+        localStorage.setItem("notifTime", JSON.stringify(value));
+    }
+
+    getLatesNotifTime() {
+        let obj:any = JSON.parse(localStorage.getItem('notifTime'));
+        return obj? obj: null;
+    }
+
 }
