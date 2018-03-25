@@ -56,7 +56,9 @@
                             <th>
                                 <mat-checkbox name="check{{i}}" [(ngModel)]="d.checked" (click)="selectOne($event)"></mat-checkbox>
                             </th>
-                            <td><p class="cursor text-brand" (click)="gotoOverview(d.email)">{{d.firstName }} {{ d.lastName}}</p></td>
+                            <td>
+                                <p class="cursor text-brand" (click)="gotoOverview(d.email)">{{d.firstName }} {{ d.lastName}}</p>
+                            </td>
                             <td>{{d.email}}</td>
                             <td>{{d.phone}}</td>
                             <!--<td>{{d.status? 'Active':'Inactive'}}</td>-->
@@ -82,10 +84,8 @@
                     </div>
                 </div>
                 <div class="col-auto">
-                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 0" [totalItems]="totalItems" [itemsPerPage]="rowsOnPage"
-                                [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize"
-                                [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
-                                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 0" [totalItems]="totalItems" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
+                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
                 </div>
             </div>
 
@@ -150,7 +150,9 @@
                             <th>
                                 <mat-checkbox name="check{{i}}" [(ngModel)]="d.checked" (click)="selectOne($event)"></mat-checkbox>
                             </th>
-                            <td><p class="cursor text-brand" (click)="gotoOverview(d.email)">{{d.firstName }} {{ d.lastName}}</p></td>
+                            <td>
+                                <p class="cursor text-brand" (click)="gotoOverview(d.email)">{{d.firstName }} {{ d.lastName}}</p>
+                            </td>
                             <td>{{d.email}}</td>
                             <td>{{d.phone}}</td>
                         </tr>
@@ -175,10 +177,8 @@
                     </div>
                 </div>
                 <div class="col-auto">
-                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 1" [totalItems]="totalItems" [itemsPerPage]="rowsOnPage"
-                                [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize"
-                                [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
-                                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 1" [totalItems]="totalItems" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
+                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
                 </div>
             </div>
 
@@ -240,8 +240,9 @@
             </div>
 
             <div class="col-md-12 text-right">
-                <button mat-raised-button color="danger" type="button" (click)="modalRef.hide()">CANCEL</button>
+
                 <button mat-raised-button color="primary" type="button" (click)="assignUser()">Reassign</button>
+                <button mat-raised-button color="danger" type="button" (click)="modalRef.hide()">CANCEL</button>
             </div>
 
         </div>
