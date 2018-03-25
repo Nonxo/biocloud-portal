@@ -65,7 +65,7 @@ export class ProfileComponent implements OnInit {
     translate.setDefaultLang('en/profile');
     translate.use('en/profile');
 
-
+  }
 
 
 
