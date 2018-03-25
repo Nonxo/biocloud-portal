@@ -297,5 +297,18 @@ export class AppContentService {
             })
     }
 
+    fetchPuncScore(model: HistoryPojo):Observable<any> {
+        const params = new HttpParams()
+            .set("email", model.email)
+            .set("orgId", model.orgId)
+            .set("locId", model.locId);
+
+        return this.httpClient
+            .get(Endpoints.FETCH_PUNCTUALITY_SCORE + params, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+    }
+
 
 }
