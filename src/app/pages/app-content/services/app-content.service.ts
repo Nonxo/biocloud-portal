@@ -4,7 +4,7 @@ import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../util/endpoints";
 import {
     CreateOrgRequest, AssignUserRequest, ApproveRequest, AdminRemovalRequest, UpdateProfile,
-    AttendeesPOJO, HistoryPojo
+    AttendeesPOJO, HistoryPojo, UserPaginationPojo
 } from "../model/app-content.model";
 import {StorageService} from "../../../service/storage.service";
 import {MediaType} from "../../../util/constants";
@@ -80,9 +80,21 @@ export class AppContentService {
             })
     }
 
-    fetchUsersInAnOrg(orgId:string):Observable<any> {
+    fetchUsersInAnOrg(orgId:string, model:UserPaginationPojo):Observable<any> {
+        const params = new HttpParams()
+            .set("pageNo", String(model.pageNo))
+            .set("pageSize", String(model.pageSize));
+
         return this.httpClient
-            .get(Endpoints.FETCH_USERS_IN_AN_ORG + orgId + "/users", {
+            .get(Endpoints.FETCH_USERS_IN_AN_ORG + orgId + "/users?" + params, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+    }
+
+    fetchUsersInAnOrgCount(orgId:string):Observable<any> {
+        return this.httpClient
+            .get(Endpoints.FETCH_USERS_IN_AN_ORG + orgId + "/users/count", {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })

@@ -55,6 +55,13 @@ export class SignUpAsComponent implements OnInit {
                     if (result.code == 0) {
                         this.ns.showSuccess(result.description);
                         this.updateOrgRoles(result.organisation);
+                        this.ss.setSelectedOrg(result.organisation);
+
+                        //if orgs exist already in cache, update cache
+                        if(this.ss.getUsersOrg()) {
+                            this.ss.updateUsersOrg(result.organisation);
+                        }
+
                         this.router.navigate(['/portal']);
                     } else {
                         this.ns.showError(result.description);

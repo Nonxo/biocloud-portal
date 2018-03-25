@@ -20,8 +20,8 @@
               </mat-list-item>
             </mat-list>
           </small>
-        </div>
-      </a>
+                </div>
+            </a>
 
             <div class=" text-center my-3 px-3 pb-3 border-0" *ngIf="orgs.length > 0 || selectedOrg.orgId">
                 <div class="mb-2">
@@ -35,9 +35,9 @@
                     <i class="material-icons mr-3 text-white" *ngIf="sidenavWidth >= 15">{{openDropdown?
             'arrow_drop_up':'arrow_drop_down'}}</i>
                 </div>
-              <h6 class="text-white">{{selectedOrg.orgCode}}</h6>
+                <h6 class="text-white">{{selectedOrg.orgCode}}</h6>
                 <ng-container *ngIf="openDropdown">
-                <small *hasAuthority="'GENERAL_ADMIN'" class="text-white" style="font-size: 0.6em"><span (click)="editOrg(template)" class="cursor">EDIT</span></small>
+                    <small *hasAuthority="'GENERAL_ADMIN'" class="text-white" style="font-size: 0.6em"><span (click)="editOrg(template)" class="cursor">EDIT</span></small>
                 </ng-container>
             </div>
 
@@ -46,8 +46,8 @@
                 <ul class="list-unstyled px-3">
                     <li class="media">
                         <mat-form-field class="w-100">
-                            <input matInput placeholder="Search Company" class="text-white" type="text" name="searchField" [(ngModel)]="searchField" (keyup)="search('ORG',$event.target.value)">
-                            <mat-icon matSuffix class="text-white">search</mat-icon>
+                            <input matInput placeholder="Search Company" class="text-white company-search" type="text" name="searchField" [(ngModel)]="searchField" (keyup)="search('ORG',$event.target.value)">
+                            <mat-icon matSuffix class="text-white cursor">search</mat-icon>
                         </mat-form-field>
                     </li>
 
@@ -75,8 +75,8 @@
                         </li>
                     </ng-container>
                 </ul>
-      </div>
-    </div>
+            </div>
+        </div>
 
 
         <mat-nav-list>
@@ -237,8 +237,24 @@
                     </mat-select>
                     <mat-error *ngIf="orgType.errors?.required">You must make a selection</mat-error>
                 </mat-form-field>
+
+                <div class="mb-3 text-center">
+                    <span class="fileUpload btn btn-accent">
+                                   <span><mat-icon>attachment</mat-icon></span>
+                                   <input type="file" class="upload" accept="image/*" #input (change)="fileChange($event)">
+                               </span>
+                    <p>{{uploadedFileName}}</p>
+
+                    <div>
+                        <small>
+                            {{editOrgMode? 'Update':'Upload'}} company's logo
+                        </small>
+                    </div>
+                </div>
+
+
             </div>
-            <div class="col-md-12 text-right">
+            <div class="col-md-12 text-center pt-3 pb-3">
                 <button mat-raised-button color="primary" class="auth-btn" type="submit">PROCEED</button>
             </div>
         </form>
@@ -261,8 +277,8 @@
         <p class="pl-lg-3 pr-lg-3 text-center">Approve or Decline Request to proceed...</p>
 
         <div class="pt-3">
-            <img *ngIf="!details.verifiableImg" src="assets/img/1.png" class="w-25 rounded-circle mx-auto d-block" alt="Profile picture">
-            <img *ngIf="details.verifiableImg" src="data:image/jpg;base64,{{details.verifiableImg}}" class=" w-25 rounded-circle mx-auto d-block" alt="Profile pciture">
+            <img *ngIf="!details.verifiableImg" src="assets/img/1.png" class="w-25 rounded-circle mx-auto d-block" alt="Profile picture" style="height: 100px;">
+            <img *ngIf="details.verifiableImg" src="data:image/jpg;base64,{{details.verifiableImg}}" class=" w-25 rounded-circle mx-auto d-block" alt="Profile pciture" style="height: 100px;">
 
         </div>
 
@@ -281,33 +297,33 @@
 </ng-template>
 
 <ng-template #assignLocation>
-  <div class=" modal-header">
-    <h4 class="modal-title pull-center">Assign To Location</h4>-->
-    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">-->
+    <div class=" modal-header">
+        <h4 class="modal-title pull-center">Assign To Location</h4>-->
+        <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">-->
       <span aria-hidden="true">&times;</span>
     </button>
-  </div>
-  <div class="modal-body">
-    <h5 class="modal-title text-center pb-3 pt-4 text-brand">Assign To Location</h5>
-    <p class="text-center">Assign <span class="font-weight-bold">{{details.firstName}} {{details.lastName}}</span> to a location</p>
-    <div class="container pl-lg-4 pl-2 pt-4">
-      <div class="text-left pl-lg-5 pl-4">
-        <mat-form-field class="form-width-70">
-          <mat-select placeholder="Select Locations" name="locs" [(ngModel)]="approveRequest.locIds" multiple>
-            <mat-select-trigger>
-              {{locations? getSelectedLocationName() : ''}}
-              <span *ngIf="approveRequest.locIds?.length > 1">
+    </div>
+    <div class="modal-body">
+        <h5 class="modal-title text-center pb-3 pt-4 text-brand">Assign To Location</h5>
+        <p class="text-center">Assign <span class="font-weight-bold">{{details.firstName}} {{details.lastName}}</span> to a location</p>
+        <div class="container pl-lg-4 pl-2 pt-4">
+            <div class="text-left pl-lg-5 pl-4">
+                <mat-form-field class="form-width-70">
+                    <mat-select placeholder="Select Locations" name="locs" [(ngModel)]="approveRequest.locIds" multiple>
+                        <mat-select-trigger>
+                            {{locations? getSelectedLocationName() : ''}}
+                            <span *ngIf="approveRequest.locIds?.length > 1">
         (+{{approveRequest.locIds.length - 1}} others)
       </span>
-            </mat-select-trigger>
-            <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </div>
+                        </mat-select-trigger>
+                        <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
 
-    <div class="text-center pt-4 pb-5">
-      <button mat-raised-button color="primary" class="mr-2" (click)="confirmAssignment(details.inviteId)">Approve</button>
+        <div class="text-center pt-4 pb-5">
+            <button mat-raised-button color="primary" class="mr-2" (click)="confirmAssignment(details.inviteId)">Approve</button>
+        </div>
     </div>
-  </div>
 </ng-template>

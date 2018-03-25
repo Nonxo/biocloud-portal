@@ -192,8 +192,8 @@
         <p class="pl-lg-3 pr-lg-3 text-center">Approve or Decline Request to proceed...</p>
 
         <div class="pt-3">
-            <img *ngIf="!details.verifiableImg" src="assets/img/1.png" class="w-25 rounded-circle mx-auto d-block" alt="Profile picture">
-            <img *ngIf="details.verifiableImg" src="data:image/jpg;base64,{{details.verifiableImg}}" class=" w-25 rounded-circle mx-auto d-block" alt="Profile pciture">
+            <img *ngIf="!details.verifiableImg" src="assets/img/1.png" class="w-25 rounded-circle mx-auto d-block" alt="Profile picture" style="height: 100px;">
+            <img *ngIf="details.verifiableImg" src="data:image/jpg;base64,{{details.verifiableImg}}" class=" w-25 rounded-circle mx-auto d-block" alt="Profile pciture" style="height: 100px;">
 
         </div>
 
@@ -213,8 +213,8 @@
 
 <ng-template #assignLocation>
     <div class=" modal-header">
-    <h4 class="modal-title pull-center">Assign To Location</h4>-->
-    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">-->
+        <h4 class="modal-title pull-center">Assign To Location</h4>-->
+        <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">-->
     <span aria-hidden="true">&times;</span>
     </button>
     </div>

@@ -148,6 +148,17 @@ export class HistoryPojo {
     }
 }
 
+export class UserPaginationPojo {
+    orgId:string;
+    pageSize:number;
+    pageNo:number;
+
+    constructor() {
+        this.pageSize = 10;
+        this.pageNo = 1;
+    }
+}
+
 
 
 

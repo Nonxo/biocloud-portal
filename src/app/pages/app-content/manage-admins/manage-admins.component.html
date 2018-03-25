@@ -53,6 +53,27 @@
     </table>
 </div>
 
+<div class="row justify-content-between">
+    <div class="col-auto">
+        <div class="pb-lg-0 pb-4">
+            <div class="form-group form-inline">
+                <p class="pt-3 pr-2">Show</p>
+                <mat-form-field class="w-25">
+                    <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
+                        <mat-option [value]="10">10</mat-option>
+                        <mat-option [value]="25">25</mat-option>
+                        <mat-option [value]="50">50</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="col-auto">
+        <pagination class="pt-2" *ngIf="users.length > 0" [totalItems]="totalItems" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
+                    nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+    </div>
+</div>
+
 
 <ng-template #inviteAdminTemplate>
     <div class="modal-header">
@@ -93,11 +114,11 @@
                 </mat-form-field>
             </div>
 
-            <div class="col-md-12 text-md-center text-center pt-5">
+            <div class="col-md-12 text-md-center text-center pt-4 pb-4">
                 <ng-container>
-                    <button mat-button class="primary-outline" type="button" (click)="modalRef.hide()">Cancel</button>
                     <button mat-raised-button color="primary" type="submit" class="primary-outline">Add Admin
-                    </button>
+                      </button>
+                    <button mat-button class="primary-outline" type="button" (click)="modalRef.hide()">Cancel</button>
                 </ng-container>
             </div>
 

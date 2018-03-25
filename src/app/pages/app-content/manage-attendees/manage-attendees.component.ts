@@ -132,10 +132,13 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
                         this.totalItems = res.total;
                         this.fetchAttendeesList();
                     }else {
+                        this.ns.showError(res.description);
                         this.totalItems = 0;
                     }
                 },
-                error => {this.totalItems = 0}
+                error => {
+                    this.ns.showError("An Error Occurred");
+                    this.totalItems = 0;}
             )
     }
 

@@ -68,6 +68,15 @@ export class StorageService {
         return obj ? obj : null;
     }
 
+    updateUsersOrg(org:any) {
+        let orgs = this.getUsersOrg();
+
+        if(orgs) {
+            orgs.push(org);
+            this.cacheUsersOrg(orgs);
+        }
+    }
+
     setSelectedOrg(value) {
         let _st = JSON.parse(localStorage.getItem('_st'));
 

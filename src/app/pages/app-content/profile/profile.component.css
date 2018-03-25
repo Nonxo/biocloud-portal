@@ -1,19 +1,41 @@
 .fileUpload {
-    position: relative;
-    overflow: hidden;
-    margin: 10px;
-}
-.example-full-width {
-  width: 100%;
+  position: relative;
+  overflow: hidden;
+  margin: 10px;
 }
 
-.profile-img {
+.fileUpload input.upload {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+.container-img-hover {
+  position: relative;
+  width: 50%;
+}
+
+.image-hover {
   opacity: 1;
   display: block;
   width: 100%;
   height: auto;
   transition: .5s ease;
   backface-visibility: hidden;
+}
+
+.h-120 {
+  height: 120px !important;
+}
+
+.upload-icon {
+  font-size: 35px;
 }
 
 .middle {
@@ -27,29 +49,30 @@
   text-align: center;
 }
 
-.container-lay:hover .profile-img {
+.container-img-hover:hover .image-hover {
   opacity: 0.3;
 }
 
-.container-lay:hover .middle {
+.container-img-hover:hover .middle {
   opacity: 1;
 }
 
-.profileImg-icon {
-  padding-bottom: 86px;
-  font-size: 30px;
+.text {
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+  padding: 16px 32px;
 }
 
+.input-div-height {
+  height: 70px !important;
+}
 
-
-.fileUpload input.upload {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
-    cursor: pointer;
-    opacity: 0;
-    filter: alpha(opacity=0);
+@media only screen and (min-device-width: 360px) and (max-device-width: 731px) {
+  .input-div-height {
+    height: 40px !important;
+  }
+  .image-hover {
+    height: 190px !important;
+  }
 }
