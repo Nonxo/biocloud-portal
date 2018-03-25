@@ -17,7 +17,6 @@
     </div>
 
 
-
     <div class="row pt-4" *ngIf="orgId">
 
         <div class="col-lg-7 px-md-4 px-lg-4">
@@ -35,7 +34,7 @@
 
                 <div class="col-lg-4 col-md-6 mt-3" *ngFor="let loc of locations">
                     <mat-card class="py-md-3 h-100">
-                        <img src="assets/img/loc.svg" style="max-width:32px" />
+                        <img src="assets/img/loc.svg" style="max-width:32px"/>
                         <h6 class="my-3">{{loc.name}}</h6>
                         <mat-divider></mat-divider>
                         <div class="py-2 row justify-content-between">
@@ -44,8 +43,12 @@
                         </div>
                         <mat-divider></mat-divider>
                         <div class="py-2 row justify-content-between">
-                            <div class="mr-auto col-auto"><small><a>Clock-in (Today)</a></small></div>
-                            <div class="ml-auto col-auto"><small>{{loc.noOfClockInForToday? loc.noOfClockInForToday:0}}</small></div>
+                            <div class="mr-auto col-auto">
+                                <small><a>Clock-in (Today)</a></small>
+                            </div>
+                            <div class="ml-auto col-auto">
+                                <small>{{loc.noOfClockInForToday? loc.noOfClockInForToday:0}}</small>
+                            </div>
                         </div>
 
                         <div style="position:absolute; top:0; right:0;">
@@ -70,9 +73,9 @@
                                   <span>Report</span>
                               </button>
                                 <button mat-menu-item (click)="activateLocation(loc.active, loc.locId)">
-                                  <mat-icon>delete_forever</mat-icon>
-                                  <span>{{loc.active? 'Deactivate':'Activate'}}</span>
-                              </button>
+                                    <mat-icon>delete_forever</mat-icon>
+                                    <span>{{loc.active? 'Deactivate':'Activate'}}</span>
+                                </button>
                             </mat-menu>
                         </div>
                     </mat-card>
@@ -87,18 +90,31 @@
                 <div class="col-lg-12 text-center">
                     <div class="text-center">
                         <img class="img-fluid" src="assets/img/welcome.png" alt="">
-                        <h6 class="text-center home-grey">We are pleased you joined the platform</h6>
-                        <h6 class="text-center home-grey">To get started</h6>
-                        <a routerLink="/portal/config">
-                            <h5 class="pt-3 pb-3">ADD A LOCATION</h5>
-                        </a>
+                        <ng-container *hasAuthority="'GENERAL_ADMIN'">
+                            <h6 class="text-center home-grey">We are pleased you joined the platform</h6>
+                            <h6 class="text-center home-grey">To get started</h6>
+                            <a routerLink="/portal/config">
+                                <h5 class="pt-3 pb-3">ADD A LOCATION</h5>
+                            </a>
+                        </ng-container>
+
+                        <ng-container *ngIf="!orgRole">
+                            <h6 class="text-center home-grey">We are pleased you joined the platform</h6>
+                            <h6 class="text-center home-grey">Your clock in history in this company will appear here</h6>
+                            <h6 class="text-center home-grey">Create your own Company instead</h6>
+                            <a routerLink="/sign-up-as">
+                                <h5 class="pt-3 pb-3">ADD A COMPANY</h5>
+                            </a>
+                        </ng-container>
+
+
                     </div>
                 </div>
 
             </div>
         </div>
 
-        <div class="col-lg-5 px-md-4 px-lg-4 mt-md-0 mt-3">
+        <div *hasAuthority="['GENERAL_ADMIN','LOCATION_ADMIN']" class="col-lg-5 px-md-4 px-lg-4 mt-md-0 mt-3">
             <mat-card class="col-lg-12 py-md-4">
                 <mat-card-title>
                     <h5 class="text-brand">Latest Clock-Ins</h5>
@@ -108,30 +124,30 @@
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
-                                <tr>
-                                    <th scope="col">NAME</th>
-                                    <th scope="col">LOCATION</th>
-                                    <th scope="col">TIME IN</th>
-                                </tr>
+                            <tr>
+                                <th scope="col">NAME</th>
+                                <th scope="col">LOCATION</th>
+                                <th scope="col">TIME IN</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let notif of latestClockin">
-                                    <td>{{notif.firstName}} {{notif.surname}}</td>
-                                    <td>{{notif.locationName}}</td>
-                                    <td>{{notif.time | date:'short'}}</td>
-                                </tr>
-                                <!-- <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob Samuel</td>
-                                    <td>Ikeja</td>
-                                    <td>07:30</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Larry the Bird</td>
-                                    <td>Lekki</td>
-                                    <td>09:30</td>
-                                </tr> -->
+                            <tr *ngFor="let notif of latestClockin">
+                                <td>{{notif.firstName}} {{notif.surname}}</td>
+                                <td>{{notif.locationName}}</td>
+                                <td>{{notif.time | date:'short'}}</td>
+                            </tr>
+                            <!-- <tr>
+                                 <th scope="row">2</th>
+                                 <td>Jacob Samuel</td>
+                                 <td>Ikeja</td>
+                                 <td>07:30</td>
+                             </tr>
+                             <tr>
+                                 <th scope="row">3</th>
+                                 <td>Larry the Bird</td>
+                                 <td>Lekki</td>
+                                 <td>09:30</td>
+                             </tr> -->
                             </tbody>
                         </table>
                     </div>
@@ -193,8 +209,8 @@
     <div class="modal-header">
         <h5 class="modal-title pull-left text-brand">Pending Employees</h5>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-          <span aria-hidden="true">&times;</span>
-      </button>
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="modal-body">
         <div class="col-md-12" *ngFor="let a of pendingAttendees">

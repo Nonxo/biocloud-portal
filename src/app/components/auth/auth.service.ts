@@ -83,11 +83,12 @@ export class AuthService {
         if (!role) {
             return Promise.resolve(false);
         }
-        
-        for (let i = 0; i < roles.length; i++) {
-            if (role == roles[i]) {
-                return Promise.resolve(true);
 
+        if(roles) {
+            for (let i = 0; i < roles.length; i++) {
+                if (role == roles[i]) {
+                    return Promise.resolve(true);
+                }
             }
         }
 

@@ -237,6 +237,22 @@
                     </mat-select>
                     <mat-error *ngIf="orgType.errors?.required">You must make a selection</mat-error>
                 </mat-form-field>
+
+                <div class="mb-3 text-center">
+                    <span class="fileUpload btn btn-accent">
+                                   <span><mat-icon>attachment</mat-icon></span>
+                                   <input type="file" class="upload" accept="image/*" #input (change)="fileChange($event)">
+                               </span>
+                    <p>{{uploadedFileName}}</p>
+
+                    <div>
+                        <small>
+                            {{editOrgMode? 'Update':'Upload'}} company's logo
+                        </small>
+                    </div>
+                </div>
+
+
             </div>
             <div class="col-md-12 text-center pt-3 pb-3">
                 <button mat-raised-button color="primary" class="auth-btn" type="submit">PROCEED</button>

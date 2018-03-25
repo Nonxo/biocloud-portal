@@ -35,6 +35,7 @@ export class HomeComponent implements OnInit {
     modalOptions:ModalOptions = new ModalOptions();
     pendingAttendees:any[] = [];
     time: Date = new Date();
+    orgRole:string;
 
     constructor(private mService:MessageService,
                 private ns:NotifyService,
@@ -48,6 +49,7 @@ export class HomeComponent implements OnInit {
 
     ngOnInit() {
         this.mService.setTitle("Dashboard");
+        this.orgRole = this.ss.getSelectedOrgRole();
 
         if (this.ss.getSelectedOrg()) {
             this.orgId = this.ss.getSelectedOrg().orgId;
@@ -69,6 +71,8 @@ export class HomeComponent implements OnInit {
                         this.fetchTotalEmployeeCount();
                         this.fetchTotalClockIns();
                     }
+
+                    this.orgRole = this.ss.getSelectedOrgRole();
                 }
             )
 
@@ -143,6 +147,9 @@ export class HomeComponent implements OnInit {
             .subscribe(
                 result => {
                     if(result.code == 0) {
+
+                        this.setStatus(active, locId);
+
                         this.ns.showSuccess(result.description);
                     }else {
                         this.ns.showError(result.description);
@@ -150,6 +157,15 @@ export class HomeComponent implements OnInit {
                 },
                 error => {this.ns.showError("An Error Occurred.");}
             )
+    }
+
+    setStatus(status:boolean, locId:string) {
+        for(let f of this.locations) {
+            if(locId == f.locId) {
+                f.active = status;
+                return;
+            }
+        }
     }
 
     openModal(template:TemplateRef<any>) {

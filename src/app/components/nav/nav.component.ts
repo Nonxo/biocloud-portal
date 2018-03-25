@@ -10,10 +10,10 @@ import {
 } from "../../pages/app-content/model/app-content.model";
 import {MessageService} from "../../service/message.service";
 import {InviteRequest} from "../../pages/app-content/app-config/model/app-config.model";
-import {AppConfigService} from "../../pages/app-content/app-config/services/app-config.service";
 import {SearchService} from "../../service/search.service";
 import {Subject} from "rxjs/Subject";
 import {AuthService} from "../auth/auth.service";
+import {PictureUtil} from "../../util/PictureUtil";
 
 @Component({
     selector: 'app-nav',
@@ -29,6 +29,7 @@ export class NavComponent implements OnInit {
     manageAdmin: boolean;
     locations: any[] = [];
     users: any[] = [];
+    uploadedFileName:string;
     adminRemovalRequest: AdminRemovalRequest = new AdminRemovalRequest();
     views: Object[] = [
         {icon: "group", route: "Employees", url: "/portal/manage-users", authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']},
@@ -69,7 +70,7 @@ export class NavComponent implements OnInit {
                 private contentService:AppContentService,
                 private ns:NotifyService,
                 private mService:MessageService,
-                private configService:AppConfigService,
+                private pictureUtil:PictureUtil,
                 private searchService:SearchService) {
 
         if(this.router.url == "/portal") {
@@ -111,6 +112,13 @@ export class NavComponent implements OnInit {
 
     ngOnInit() {
         this.selectedOrg = this.ss.getSelectedOrg() ? this.ss.getSelectedOrg() : new Org();
+
+        //if an org is already selected, update role
+        if(this.selectedOrg.orgId) {
+            this.setOrgRole();
+            this.mService.setSelectedOrg(this.selectedOrg.orgId);
+        }
+
         this.fetchUsersOrg();
         this.onResizeByWindowScreen();
         this.callNotificationService();
@@ -390,11 +398,9 @@ export class NavComponent implements OnInit {
                     if (result.code == 0) {
                         this.ns.showSuccess(result.description);
                         this.modalRef.hide();
-                        // this.orgs.push(result.organisation);
-                        // this.updateOrgRoles(result.organisation);
-                        // this.selectOrg(result.organisation);
-
-                        // this.router.navigate(['/portal/config']);
+                        this.updateOrg(result.organisation);
+                        this.cacheOrg();
+                        this.selectOrg(result.organisation);
                     } else {
                         this.ns.showError(result.description);
                     }
@@ -403,6 +409,17 @@ export class NavComponent implements OnInit {
                     this.ns.showError("An Error Occurred.");
                 }
             )
+    }
+
+    updateOrg(org:Org) {
+        for(let o of this.orgs) {
+            if(o.orgId == org.orgId) {
+                o.logo = org.logo;
+                o.name = org.name;
+                o.sector = org.sector;
+                return;
+            }
+        }
     }
 
     selectOrg(org:Org) {
@@ -482,12 +499,14 @@ export class NavComponent implements OnInit {
 
     createOrg(template: TemplateRef<any>) {
         this.editOrgMode = false;
+        this.uploadedFileName = "";
         this.orgRequest = new CreateOrgRequest();
         this.openModal(template);
     }
 
     editOrg(template: TemplateRef<any>) {
         this.editOrgMode = true;
+        this.uploadedFileName = "";
         this.orgRequest.type = this.selectedOrg.sector;
         this.orgRequest.name = this.selectedOrg.name;
         this.orgRequest.logo = this.selectedOrg.logo;
@@ -505,5 +524,41 @@ export class NavComponent implements OnInit {
 
     goToProfile() {
       this.router.navigate(['/portal/profile']);
+    }
+
+    fileChange(event){
+        if (this.pictureUtil.restrictFilesSize(event.target.files[0].size)) {
+            this.uploadedFileName = event.target.files[0].name;
+            this.readFiles(event.target.files);
+        } else {
+            this.ns.showError('Picture size is more than 100kb. Select another');
+            this.uploadedFileName = "";
+            this.orgRequest.logo = "";
+        }
+    }
+
+    readFile(file, reader, callback) {
+        reader.onload = () => {
+            callback(reader.result);
+        }
+        reader.readAsDataURL(file);
+    }
+
+    readFiles(files, index = 0){
+        let reader = new FileReader();
+
+        if (index in files) {
+            this.readFile(files[index], reader,(result) => {
+                var img = document.createElement("img");
+                img.src = result;
+
+                this.pictureUtil.resize(img, 250, 250, (resized_jpeg, before, after)=> {
+                    this.orgRequest.logo = resized_jpeg;
+                    this.readFiles(files, index + 1);
+
+                });
+            });
+        } else {
+        }
     }
 }
