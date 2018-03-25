@@ -291,7 +291,7 @@ export class AppContentService {
             .set("email", model.email);
 
         return this.httpClient
-            .get(Endpoints.FETCH_CLOCKIN_HISTORY + param, {
+            .get(Endpoints.FETCH_CLOCKINS_HISTORY + param, {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
