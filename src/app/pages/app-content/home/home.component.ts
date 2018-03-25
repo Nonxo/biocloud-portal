@@ -89,19 +89,23 @@ export class HomeComponent implements OnInit {
     }
 
     callLocationService() {
+        this.mService.setDisplay(true);
         this.contentService.fetchOrgUsersLocation()
             .subscribe(
                 result => {
                     if (result.code == 0) {
                         this.locations = result.locations ? result.locations : [];
+                        this.mService.setDisplay(false);
                     } else {
                         this.ns.showError(result.description);
                         this.locations = [];
+                        this.mService.setDisplay(false);
                     }
                 },
                 error => {
                     this.ns.showError("An Error Occurred");
                     this.locations = [];
+                    this.mService.setDisplay(false);
                 }
             )
     }

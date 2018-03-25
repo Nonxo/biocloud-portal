@@ -1,4 +1,3 @@
-<!--<app-loading></app-loading>-->
 
 <mat-tab-group class="employee" (selectedTabChange)="onTabChange($event)">
     <mat-tab label="Early">
@@ -15,11 +14,11 @@
                 </div>
 
                 <div class="col-lg-4 col-12 text-md-center text-left pt-lg-3">
-                    <button mat-button class="primary-outline" *ngIf="data.length > 0" (click)="downloadPdf()">Download</button>
-                    <!--<mat-menu #downloadmenu="matMenu">-->
-                    <!--<button mat-menu-item>PDF</button>-->
-                    <!--<button mat-menu-item>Spreadsheet</button>-->
-                    <!--</mat-menu>-->
+                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline" *ngIf="data.length > 0">Download</button>
+                    <mat-menu #downloadmenu="matMenu">
+                        <button mat-menu-item (click)="downloadPdf()">PDF</button>
+                        <button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>
+                    </mat-menu>
                 </div>
 
                 <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
@@ -98,11 +97,11 @@
                 </div>
 
                 <div class="col-lg-4 col-12 text-md-center text-left pt-lg-3">
-                    <button mat-button class="primary-outline" *ngIf="data.length > 0" (click)="downloadPdf()">Download</button>
-                    <!--<mat-menu #downloadmenu="matMenu">-->
-                    <!--<button mat-menu-item>PDF</button>-->
-                    <!--<button mat-menu-item>Spreadsheet</button>-->
-                    <!--</mat-menu>-->
+                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline" *ngIf="data.length > 0">Download</button>
+                    <mat-menu #downloadmenu="matMenu">
+                        <button mat-menu-item (click)="downloadPdf()">PDF</button>
+                        <button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>
+                    </mat-menu>
                 </div>
 
                 <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
@@ -182,11 +181,11 @@
                 </div>
 
                 <div class="col-lg-4 col-12 text-md-center text-left pt-lg-3">
-                    <button mat-button class="primary-outline" *ngIf="data.length > 0" (click)="downloadPdf()">Download</button>
-                    <!--<mat-menu #downloadmenu="matMenu">-->
-                    <!--<button mat-menu-item>PDF</button>-->
-                    <!--<button mat-menu-item>Spreadsheet</button>-->
-                    <!--</mat-menu>-->
+                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline" *ngIf="data.length > 0">Download</button>
+                    <mat-menu #downloadmenu="matMenu">
+                        <button mat-menu-item (click)="downloadPdf()">PDF</button>
+                        <button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>
+                    </mat-menu>
                 </div>
 
                 <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
@@ -265,11 +264,11 @@
                 </div>
 
                 <div class="col-lg-4 col-12 text-md-center text-left pt-lg-3">
-                    <button mat-button class="primary-outline" *ngIf="data.length > 0" (click)="downloadPdf()">Download</button>
-                    <!--<mat-menu #downloadmenu="matMenu">-->
-                    <!--<button mat-menu-item>PDF</button>-->
-                    <!--<button mat-menu-item>Spreadsheet</button>-->
-                    <!--</mat-menu>-->
+                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline" *ngIf="data.length > 0">Download</button>
+                    <mat-menu #downloadmenu="matMenu">
+                        <button mat-menu-item (click)="downloadPdf()">PDF</button>
+                        <button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>
+                    </mat-menu>
                 </div>
 
                 <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">

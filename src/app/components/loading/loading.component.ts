@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {MessageService} from "../../service/message.service";
 
 @Component({
   selector: 'app-loading',
@@ -7,7 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoadingComponent implements OnInit {
 
-  constructor() { }
+  display:boolean;
+
+  constructor(private mService: MessageService) {
+
+    this.mService.getDisplayStatus()
+        .subscribe(
+            result => {
+              this.display = result;
+            }
+        )
+  }
 
   ngOnInit() {
   }

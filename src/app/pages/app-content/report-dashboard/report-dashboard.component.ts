@@ -17,12 +17,12 @@ export class ReportDashboardComponent implements OnInit {
 
     reportModel: ReportModel = new ReportModel();
     rowsOnPage: number = 10;
-    data:any[] = [];
-    totalSize:number;
-    currentPage:number;
-    maxSize:number = 5;
-    currentTab:number = 0;
-    locations:any[] =[];
+    data: any[] = [];
+    totalSize: number;
+    currentPage: number;
+    maxSize: number = 5;
+    currentTab: number = 0;
+    locations: any[] = [];
 
     constructor(private reportService: ReportService,
                 private ss: StorageService,
@@ -32,6 +32,7 @@ export class ReportDashboardComponent implements OnInit {
                 private mService: MessageService) {
         this.reportModel.reportType = "early";
         this.reportModel.pageSize = this.rowsOnPage;
+        this.reportModel.user = this.ss.getUserName();
         this.reportModel.orgId = this.ss.getSelectedOrg().orgId;
     }
 
@@ -43,16 +44,20 @@ export class ReportDashboardComponent implements OnInit {
     }
 
     fetchDailyReport() {
+        this.mService.setDisplay(true);
         this.reportService.fetchDailyReport(this.reportModel)
-            .finally(() => {this.reportModel.export = false;})
+            .finally(() => {
+                this.reportModel.export = false;
+                this.mService.setDisplay(false);
+            })
             .subscribe(
                 result => {
-                    if(result.code == 0) {
+                    if (result.code == 0) {
 
-                        if(this.reportModel.export) {
-                            this.generateExcel(result.exportedData);
-                        }else {
-                            this.data = result.results? result.results: [];
+                        if (this.reportModel.export) {
+                            this.generateReport(result.exportedData);
+                        } else {
+                            this.data = result.results ? result.results : [];
                             this.totalSize = result.total;
                         }
 
@@ -60,13 +65,21 @@ export class ReportDashboardComponent implements OnInit {
                         // this.ns.showError(result.description);
                     }
                 },
-                error => {this.ns.showError("An Error Occurred.");}
+                error => {
+                    this.ns.showError("An Error Occurred.");
+                }
             )
     }
 
-    generateExcel(data:any) {
-        let blob = this.picUtil.base64toBlob(data, 'application/pdf');
-        FileSaver.saveAs(blob, this.reportModel.reportType.toUpperCase() + "-REPORT" + ".pdf");
+    generateReport(data: any) {
+
+        if (this.reportModel.exportFormat == 'pdf') {
+            let blob = this.picUtil.base64toBlob(data, 'application/pdf');
+            FileSaver.saveAs(blob, this.reportModel.reportType.toUpperCase() + "-REPORT" + ".pdf");
+        } else {
+            let blob = this.picUtil.base64toBlob(data, 'application/vnd.ms-excel');
+            FileSaver.saveAs(blob, this.reportModel.reportType.toUpperCase() + "-REPORT" + ".xlsx");
+        }
     }
 
     pageChanged(event) {
@@ -92,7 +105,7 @@ export class ReportDashboardComponent implements OnInit {
     onTabChange(event) {
         this.resetValues();
 
-        switch(event.index) {
+        switch (event.index) {
             case 0: {
                 this.reportModel.reportType = "early";
                 this.currentTab = 0;
@@ -123,7 +136,7 @@ export class ReportDashboardComponent implements OnInit {
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.locations = result.locations? result.locations: [];
+                        this.locations = result.locations ? result.locations : [];
 
                     } else {
                         this.locations = [];
@@ -143,6 +156,14 @@ export class ReportDashboardComponent implements OnInit {
 
     downloadPdf() {
         this.reportModel.exportFormat = "pdf";
+        this.reportModel.title = this.reportModel.reportType.toUpperCase() + "-REPORT";
+        this.reportModel.export = true;
+        this.fetchDailyReport();
+    }
+
+    downloadExcel() {
+        this.reportModel.exportFormat = "sheet";
+        this.reportModel.title = this.reportModel.reportType.toUpperCase() + "-REPORT";
         this.reportModel.export = true;
         this.fetchDailyReport();
     }
