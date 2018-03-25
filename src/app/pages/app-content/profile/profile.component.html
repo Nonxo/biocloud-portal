@@ -135,28 +135,46 @@
                     </div>
                     <div class="col-lg-6 pt-lg-5">
                         <!-- <h4>Biodata</h4> -->
-                        <img class="w-50 rounded-circle mx-auto d-block pt-lg-0 pt-4" *ngIf="model.img" src="data:image/jpg;base64,{{model.img}}" alt="">
-                        <img class="w-50 rounded-circle mx-auto d-block pt-lg-0 pt-4" *ngIf="model.img == null || model.img == ''" src="assets/img/1.png" alt="Profile picture">
-                        <!-- <div class="pl-4 pt-3 col-lg-9 col-9 mx-auto d-block text-secondary cursor">
-                            <mat-icon class="float-left pl-lg-2 pl-4" style="font-size: 20px">camera_enhance</mat-icon>
-                            <p class="float-left pl-lg-2 pl-4" style="font-size: 14px">CHANGE PHOTO</p>
+                        <div class="container-img-hover mx-auto">
+                            <img class="w-100 rounded-circle h-120 mx-auto d-block pt-lg-0 pt-4 image-hover" *ngIf="model.img" src="data:image/jpg;base64,{{model.img}}" alt="Profile picture">
+                            <img class="w-100 rounded-circle h-120 mx-auto d-block pt-lg-0 pt-4 image-hover" *ngIf="model.img == null || model.img == ''" src="assets/img/1.png" alt="Profile picture">
+                            <div class="middle">
+                                <span class="fileUpload btn">
+                                    <span><mat-icon class="float-left upload-icon">camera_enhance</mat-icon></span>
+                                <input type="file" class="upload" accept="image/*" #input (change)="fileChange($event)">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="pl-4 pt-3 col-lg-10 col-10 mx-auto d-block text-secondary">
+                            <p class="float-left small cursor pl-lg-0 pl-5">CHANGE PHOTO | </p>
+                            <p class="text-danger small cursor">&nbsp; REMOVE</p>
+                            <p class="text-success small text-center">Not More than 100KB</p>
                             <div class="clearfix"></div>
-                        </div> -->
-                        <div class="pl-4 pt-3 col-lg-12 col-12 mx-auto d-block text-secondary cursor" style="height: 70px">
+                        </div>
+                        <div class="pl-4 pt-3 col-lg-12 col-12 mx-auto d-block text-secondary cursor input-div-height">
                             <span class="fileUpload btn">
-                              <span><mat-icon class="float-left pl-lg-3 pl-5" style="font-size: 20px">camera_enhance</mat-icon><p class="float-left pl-lg-3 pl-4" style="font-size: 14px">CHANGE PHOTO</p></span>
                             <input type="file" class="upload" accept="image/*" #input (change)="fileChange($event)">
                             </span>
                         </div>
-                        <p class="text-danger small cursor text-center">X REMOVE</p>
-                        <p class="text-brand small text-center">Not More tham 100KB</p>
+                        <!-- <p class="text-danger small cursor text-center">X REMOVE</p>
+                        <p class="text-success small text-center">Not More tham 100KB</p> -->
                         <!-- <h5 class="text-center pt-3 pb-5">{{model.fName}} {{model.lName}}</h5> -->
+                        <!-- <div class="container-img-hover mx-auto">
+                            <img class="w-100 rounded-circle h-120 mx-auto d-block pt-lg-0 pt-4 image-hover" *ngIf="model.img" src="data:image/jpg;base64,{{model.img}}" alt="Profile picture">
+                            <img class="w-100 rounded-circle h-120 mx-auto d-block pt-lg-0 pt-4 image-hover" *ngIf="model.img == null || model.img == ''" src="assets/img/1.png" alt="Profile picture">
+                            <div class="middle">
+                                <span class="fileUpload btn">
+                                    <span><mat-icon class="float-left upload-icon">camera_enhance</mat-icon></span>
+                                <input type="file" class="upload" accept="image/*" #input (change)="fileChange($event)">
+                                </span>
+                            </div>
+                        </div> -->
                     </div>
-                    <div class="col-lg-6 pt-lg-3 pt-4 pb-5">
+                    <div class="col-lg-6 pt-lg-3 pt-0 pb-5">
                         <!-- <button mat-icon-button (click)="openeditProfileModal(editProfile)" class="float-lg-right">
                         <mat-icon class="float-right">edit</mat-icon>
                       </button> -->
-                        <div class="pt-4 pb-lg-0 pb-3">
+                        <div class="pt-lg-4 pb-lg-0 pb-3">
                             <p>Full Name</p>
                             <h6 class="">{{model.fName}} {{model.lName}}</h6>
                         </div>
