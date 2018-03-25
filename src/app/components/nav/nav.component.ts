@@ -291,23 +291,6 @@ export class NavComponent implements OnInit {
         this.users = this.ss.getAdminUsers();
     }
 
-
-    fetchAdminUsers() {
-        this.contentService.fetchUsersInAnOrg(this.selectedOrg.orgId)
-            .subscribe(
-                result => {
-                    if (result.code == 0) {
-                        this.users = result.users? result.users: [];
-                        this.ss.setAdminUsers(this.users);
-                    } else {
-
-                    }
-                },
-                error => {
-                }
-            )
-    }
-
     fetchUsersOrg() {
         this.fetchOrgFromCache();
     }
@@ -331,7 +314,6 @@ export class NavComponent implements OnInit {
                 this.mService.setSelectedOrg(this.orgs[0].orgId);
             }
         }
-        this.fetchAdminUsers();
         this.callLocationService();
     }
 
@@ -428,7 +410,6 @@ export class NavComponent implements OnInit {
         this.ss.setSelectedOrg(org);
         this.setOrgRole();
 
-        this.fetchAdminUsers();
         this.callLocationService();
         this.callNotificationService();
         this.router.navigate(['/portal']);

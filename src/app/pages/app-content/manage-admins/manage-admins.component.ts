@@ -5,7 +5,7 @@ import {NotifyService} from "../../../service/notify.service";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/index";
 import {AssignAdminRequest, InviteRequest} from "../app-config/model/app-config.model";
 import {AppConfigService} from "../app-config/services/app-config.service";
-import {AdminRemovalRequest} from "../model/app-content.model";
+import {AdminRemovalRequest, UserPaginationPojo} from "../model/app-content.model";
 import {MessageService} from "../../../service/message.service";
 
 @Component({
@@ -15,34 +15,39 @@ import {MessageService} from "../../../service/message.service";
 })
 export class ManageAdminsComponent implements OnInit {
 
-    users:any[] = [];
-    modalRef:BsModalRef;
-    inviteRequest:InviteRequest = new InviteRequest();
+    users: any[] = [];
+    modalRef: BsModalRef;
+    inviteRequest: InviteRequest = new InviteRequest();
     assignAdminRequest: AssignAdminRequest = new AssignAdminRequest();
-    locations:any[] = [];
-    selectedUser:any;
-    selAll:boolean;
+    locations: any[] = [];
+    selectedUser: any;
+    selAll: boolean;
     adminRemovalRequest: AdminRemovalRequest = new AdminRemovalRequest();
     currentUserEmail: string = this.ss.getLoggedInUserEmail();
-    inviteEmail:string;
+    inviteEmail: string;
+    pagObj: UserPaginationPojo = new UserPaginationPojo();
+    totalItems: number;
+    rowsOnPage: number = 10;
+    currentPage: number;
+    maxSize: number = 5;
 
-    constructor(private ss:StorageService,
-                private contentService:AppContentService,
-                private ns:NotifyService,
-                private modalService:BsModalService,
-                private configService:AppConfigService,
+    constructor(private ss: StorageService,
+                private contentService: AppContentService,
+                private ns: NotifyService,
+                private modalService: BsModalService,
+                private configService: AppConfigService,
                 private mService: MessageService) {
     }
 
     ngOnInit() {
         this.mService.setTitle("Admins");
 
-        this.fetchAdminUsers();
+        this.fetchAdminUsersCount();
         this.callLocationService();
     }
 
     fetchAdminUsers() {
-        this.contentService.fetchUsersInAnOrg(this.ss.getSelectedOrg().orgId)
+        this.contentService.fetchUsersInAnOrg(this.ss.getSelectedOrg().orgId, this.pagObj)
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -58,6 +63,26 @@ export class ManageAdminsComponent implements OnInit {
             )
     }
 
+
+    fetchAdminUsersCount() {
+        this.contentService.fetchUsersInAnOrgCount(this.ss.getSelectedOrg().orgId)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.totalItems = result.total;
+                        this.fetchAdminUsers();
+                    } else {
+                        this.ns.showError(result.description);
+                        this.totalItems = 0;
+                    }
+                },
+                error => {
+                    this.ns.showError("An Error Occurred.");
+                    this.totalItems = 0;
+                }
+            )
+    }
+
     callLocationService() {
         this.contentService.fetchOrgLocations(this.ss.getSelectedOrg().orgId)
             .subscribe(
@@ -66,13 +91,14 @@ export class ManageAdminsComponent implements OnInit {
                         this.locations = result.locations ? result.locations : [];
                     }
                 },
-                error => {}
+                error => {
+                }
             )
     }
 
-    getSelectedLocationName(isInviteRequest:boolean) {
+    getSelectedLocationName(isInviteRequest: boolean) {
 
-        if(isInviteRequest) {
+        if (isInviteRequest) {
             if (this.inviteRequest.locIds.length > 0) {
                 for (let l of this.locations) {
                     if (l.locId == this.inviteRequest.locIds[0]) {
@@ -92,23 +118,23 @@ export class ManageAdminsComponent implements OnInit {
 
     }
 
-    openModal(template:TemplateRef<any>) {
+    openModal(template: TemplateRef<any>) {
         // this.inviteRequest = new InviteRequest();
         this.modalRef = this.modalService.show(template);
     }
 
-    inviteAdminModal(template:TemplateRef<any>) {
+    inviteAdminModal(template: TemplateRef<any>) {
         this.inviteRequest = new InviteRequest();
         this.inviteEmail = "";
         this.openModal(template);
     }
 
-    viewAdminDetails(template:TemplateRef<any>) {
+    viewAdminDetails(template: TemplateRef<any>) {
         this.setSelectedUser();
         this.assignAdminRequest = new AssignAdminRequest();
 
         this.assignAdminRequest.role = this.selectedUser.role;
-        this.assignAdminRequest.locIds = this.selectedUser.locIds? this.selectedUser.locIds: [];
+        this.assignAdminRequest.locIds = this.selectedUser.locIds ? this.selectedUser.locIds : [];
         this.assignAdminRequest.email = this.selectedUser.email;
 
         this.openModal(template);
@@ -176,14 +202,14 @@ export class ManageAdminsComponent implements OnInit {
 
     selectAll(event) {
         if (event.checked) {
-            this.users.map((x:any) => {
-                if(x.email != this.currentUserEmail) {
+            this.users.map((x: any) => {
+                if (x.email != this.currentUserEmail) {
                     x.checked = true;
                     return x
                 }
             });
         } else {
-            this.users.map((x:any) => {
+            this.users.map((x: any) => {
                 x.checked = false;
                 return x
             });
@@ -193,8 +219,8 @@ export class ManageAdminsComponent implements OnInit {
     /**
      * This method is fired when a single record is selected
      */
-    selectOne(user:any, event) {
-        if(!event.checked) {
+    selectOne(user: any, event) {
+        if (!event.checked) {
             this.selAll = false;
         }
     }
@@ -206,7 +232,7 @@ export class ManageAdminsComponent implements OnInit {
         this.adminRemovalRequest = new AdminRemovalRequest();
         let selectedUsers = this.users.filter(obj => obj.checked);
 
-        for(let u of selectedUsers) {
+        for (let u of selectedUsers) {
             this.adminRemovalRequest.userIds.push(u.userId);
         }
 
@@ -215,7 +241,7 @@ export class ManageAdminsComponent implements OnInit {
                 result => {
                     let res: any = result;
                     if (res.code == 0) {
-                        this.fetchAdminUsers();
+                        this.fetchAdminUsersCount();
                         this.ns.showSuccess(res.description);
                     } else {
                         this.ns.showError(res.description);
@@ -236,7 +262,7 @@ export class ManageAdminsComponent implements OnInit {
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.fetchAdminUsers();
+                        this.fetchAdminUsersCount();
                         this.modalRef.hide();
                         this.ns.showSuccess(result.description);
                     } else {
@@ -254,7 +280,7 @@ export class ManageAdminsComponent implements OnInit {
      * condition: when only one record is selected
      */
     canEdit() {
-        return this.users.filter(obj => obj.checked).length == 1? true:false;
+        return this.users.filter(obj => obj.checked).length == 1 ? true : false;
     }
 
     /**
@@ -262,7 +288,25 @@ export class ManageAdminsComponent implements OnInit {
      * condition: when only one or more record is selected
      */
     canRemove() {
-        return this.users.filter(obj => obj.checked).length > 0? true:false;
+        return this.users.filter(obj => obj.checked).length > 0 ? true : false;
+    }
+
+    resetValues() {
+        this.users = [];
+        this.currentPage = 1;
+        this.pagObj.pageNo = 1;
+    }
+
+    updateSize() {
+        this.pagObj.pageSize = this.rowsOnPage;
+        this.resetValues();
+        this.fetchAdminUsersCount();
+    }
+
+    pageChanged(event) {
+        this.users = []
+        this.pagObj.pageNo = event.page;
+        this.fetchAdminUsersCount();
     }
 
 }
