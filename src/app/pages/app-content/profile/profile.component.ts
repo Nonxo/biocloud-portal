@@ -15,49 +15,61 @@ import {MessageService} from "../../../service/message.service";
 
 
 @Component({
-    selector: 'app-profile',
-    templateUrl: './profile.component.html',
-    styleUrls: ['./profile.component.css']
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-    userId: string;
-    model: UpdateProfile = new UpdateProfile();
-    changePasswordForm: FormGroup;
-    submitted: boolean;
-    base64Img: any = null;
-    modalRef: BsModalRef;
-    pictureSizeErrorMessage: string;
-    retrieveStatus: boolean = true;
-    loading: false;
-    @ViewChild('changePassword') changePassword;
+  userId:string;
+  model: UpdateProfile = new UpdateProfile();
+  changePasswordForm:FormGroup;
+  submitted:boolean;
+  data:Object[] = [];
+  base64Img:any = null;
+  modalRef:BsModalRef;
+  pictureSizeErrorMessage:string;
+  retrieveStatus:boolean = true;
+  loading:false;
+  @ViewChild('changePassword') changePassword;
 
 
-    constructor(private contentService: AppContentService,
-                private ns: NotifyService,
-                private modalService: BsModalService,
-                private fb: FormBuilder,
-                private pictureUtil: PictureUtil,
-                private ss: StorageService,
-                private translate: TranslateService,
-                private mService: MessageService) {
-        translate.setDefaultLang('en/profile');
-        translate.use('en/profile');
-
-    }
 
 
-    ngOnInit() {
-        this.mService.setTitle("Profile");
+  ngOnInit() {
+    this.mService.setTitle("Profile");
+    this.userId = this.ss.getUserId();
+    this.fetchUser();
+    this.workStatus();
+    this.changePasswordForm = this.fb.group({
+      oldPw: ['', Validators.required],
+      newPw: ['', Validators.required],
+    });
 
-        this.userId = this.ss.getUserId();
-        this.fetchUser();
-        this.changePasswordForm = this.fb.group({
-            oldPw: ['', Validators.required],
-            newPw: ['', Validators.required],
-        });
 
 
-    }
+  }
+
+
+
+  constructor(private authService:AuthService,
+              private contentService:AppContentService,
+              private router:Router,
+              private dataService:DataService,
+              private ns:NotifyService,
+              private modalService:BsModalService,
+              private fb:FormBuilder,
+              private pictureUtil:PictureUtil,
+              private ss:StorageService,
+              private translate:TranslateService,
+              private mService: MessageService) {
+    translate.setDefaultLang('en/profile');
+    translate.use('en/profile');
+
+  }
+
+
+
+
 
 
     fileChange(event) {
@@ -135,9 +147,14 @@ export class ProfileComponent implements OnInit {
         this.openModal(template);
     }
 
-    openModal(editProfile: TemplateRef<any>) {
-        this.modalRef = this.modalService.show(editProfile);
-    }
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  openaboutProfileModal(template: TemplateRef<any>) {
+    this.fetchUser()
+    this.openModal(template);
+  }
 
 
     onSubmit() {
@@ -155,6 +172,17 @@ export class ProfileComponent implements OnInit {
                 }
             )
     }
+
+  workStatus() {
+    this.contentService.fetchWorkStatus(this.userId)
+      .subscribe(
+        result => {
+          if (result.code == 0) {
+            this.data = result.data ? result.data : [];
+          }
+        }
+      )
+  }
 
 
 }
