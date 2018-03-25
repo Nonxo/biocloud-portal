@@ -12,6 +12,7 @@ export class MessageService {
     private editLocation = new Subject<boolean>();
     private homeLinkActive = new Subject<boolean>();
     private title = new Subject<string>();
+    private display = new Subject<boolean>();
 
     constructor() {}
 
@@ -45,6 +46,14 @@ export class MessageService {
 
     getTitle(): Observable<string> {
         return this.title.asObservable();
+    }
+
+    setDisplay(value:boolean):void {
+        this.display.next(value);
+    }
+
+    getDisplayStatus(): Observable<boolean> {
+        return this.display.asObservable();
     }
 
 }

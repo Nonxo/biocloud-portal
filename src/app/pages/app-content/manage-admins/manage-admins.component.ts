@@ -47,7 +47,9 @@ export class ManageAdminsComponent implements OnInit {
     }
 
     fetchAdminUsers() {
+        this.mService.setDisplay(true);
         this.contentService.fetchUsersInAnOrg(this.ss.getSelectedOrg().orgId, this.pagObj)
+            .finally(() => {this.mService.setDisplay(false)})
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -65,6 +67,7 @@ export class ManageAdminsComponent implements OnInit {
 
 
     fetchAdminUsersCount() {
+        this.mService.setDisplay(true);
         this.contentService.fetchUsersInAnOrgCount(this.ss.getSelectedOrg().orgId)
             .subscribe(
                 result => {
@@ -74,11 +77,13 @@ export class ManageAdminsComponent implements OnInit {
                     } else {
                         this.ns.showError(result.description);
                         this.totalItems = 0;
+                        this.mService.setDisplay(false)
                     }
                 },
                 error => {
                     this.ns.showError("An Error Occurred.");
                     this.totalItems = 0;
+                    this.mService.setDisplay(false)
                 }
             )
     }

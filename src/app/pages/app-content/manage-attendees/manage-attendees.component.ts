@@ -67,6 +67,7 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     }
 
     callLocationService() {
+        this.mService.setDisplay(true);
         this.contentService.fetchOrgUsersLocation()
             .finally(() => {this.fetchUsers()})
             .subscribe(
@@ -108,7 +109,9 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     }
 
     fetchAttendeesList() {
+        this.mService.setDisplay(true);
         this.contentService.fetchAttendees(this.aPojo)
+            .finally(() => {this.mService.setDisplay(false)})
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -124,6 +127,7 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     }
 
     fetchAttendeesCount() {
+        this.mService.setDisplay(true);
         this.contentService.fetchAttendeesCount(this.aPojo)
             .subscribe(
                 result => {
@@ -134,11 +138,14 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
                     }else {
                         this.ns.showError(res.description);
                         this.totalItems = 0;
+                        this.mService.setDisplay(false)
                     }
                 },
                 error => {
                     this.ns.showError("An Error Occurred");
-                    this.totalItems = 0;}
+                    this.totalItems = 0;
+                    this.mService.setDisplay(false)
+                }
             )
     }
 

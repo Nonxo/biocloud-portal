@@ -24,6 +24,8 @@ export class ReportService {
             .set("reportType", model.reportType)
             .set("pageSize", String(model.pageSize))
             .set("pageNo", String(model.pageNo))
+            .set("title", model.title)
+            .set("user", model.user);
 
         return this.httpClient
             .get(Endpoints.FETCH_DAILY_REPORT + params, {

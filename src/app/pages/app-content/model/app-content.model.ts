@@ -100,6 +100,8 @@ export class ReportModel {
     reportType:string;
     pageSize:number;
     pageNo:number;
+    title:string;
+    user:string;
 
     constructor() {
         this.orgId = "";
@@ -109,6 +111,8 @@ export class ReportModel {
         this.reportType = "";
         this.pageSize = 0;
         this.pageNo = 1;
+        this.title = "";
+        this.user = "";
     }
 }
 
