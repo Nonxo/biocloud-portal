@@ -23,7 +23,7 @@
 
             <div class="row" *ngIf="locations.length > 0">
                 <div class=" col-lg-12 px-md-4 px-lg-4">
-                    <h5 class="float-left">Locations</h5>
+                    <h5 class="float-left text-brand">Locations</h5>
                     <a routerLink="/portal/config" role="button" *hasAuthority="'GENERAL_ADMIN'">
                         <h6 class="float-right">ADD NEW LOCATION</h6>
                     </a>
@@ -38,12 +38,8 @@
                         <h6 class="my-3">{{loc.name}}</h6>
                         <mat-divider></mat-divider>
                         <div class="py-2 row justify-content-between">
-                            <div class="mr-auto col-auto">
-                                <small><a role="button" (click)="viewAttendees(loc.locId)">Employees</a></small>
-                            </div>
-                            <div class="ml-auto col-auto">
-                                <small>{{loc.noOfAttendees? loc.noOfAttendees:0}}</small>
-                            </div>
+                            <div class="mr-auto col-auto cursor"><small><a role="button" (click)="viewAttendees(loc.locId)">Employees</a></small></div>
+                            <div class="ml-auto col-auto"><small>{{loc.noOfAttendees? loc.noOfAttendees:0}}</small></div>
                         </div>
                         <mat-divider></mat-divider>
                         <div class="py-2 row justify-content-between">
@@ -57,25 +53,25 @@
 
                         <div style="position:absolute; top:0; right:0;">
                             <button mat-icon-button [matMenuTriggerFor]="menu">
-                                <mat-icon>more_vert</mat-icon>
-                            </button>
+                              <mat-icon>more_vert</mat-icon>
+                          </button>
                             <mat-menu #menu="matMenu">
                                 <button mat-menu-item (click)="invite(loc.locId)">
-                                    <mat-icon>dialpad</mat-icon>
-                                    <span>Invite Employees</span>
-                                </button>
+                                  <mat-icon>dialpad</mat-icon>
+                                  <span>Invite Employees</span>
+                              </button>
                                 <button mat-menu-item (click)="editLocation(loc)">
-                                    <mat-icon>mode_edit</mat-icon>
-                                    <span>Edit</span>
-                                </button>
+                                  <mat-icon>mode_edit</mat-icon>
+                                  <span>Edit</span>
+                              </button>
                                 <button mat-menu-item (click)="viewAttendees(loc.locId)">
-                                    <mat-icon>group</mat-icon>
-                                    <span>View Employees</span>
-                                </button>
+                                  <mat-icon>group</mat-icon>
+                                  <span>View Employees</span>
+                              </button>
                                 <button mat-menu-item>
-                                    <mat-icon>playlist_add_check</mat-icon>
-                                    <span>Report</span>
-                                </button>
+                                  <mat-icon>playlist_add_check</mat-icon>
+                                  <span>Report</span>
+                              </button>
                                 <button mat-menu-item (click)="activateLocation(loc.active, loc.locId)">
                                     <mat-icon>delete_forever</mat-icon>
                                     <span>{{loc.active? 'Deactivate':'Activate'}}</span>
@@ -121,7 +117,7 @@
         <div *hasAuthority="['GENERAL_ADMIN','LOCATION_ADMIN']" class="col-lg-5 px-md-4 px-lg-4 mt-md-0 mt-3">
             <mat-card class="col-lg-12 py-md-4">
                 <mat-card-title>
-                    <h6>Latest Clock-Ins</h6>
+                    <h5 class="text-brand">Latest Clock-Ins</h5>
                 </mat-card-title>
 
                 <mat-card-content>
