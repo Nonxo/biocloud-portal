@@ -5,8 +5,8 @@ import {StorageService} from "../../service/storage.service";
 import {AppContentService} from "../../pages/app-content/services/app-content.service";
 import {NotifyService} from "../../service/notify.service";
 import {
-  CreateOrgRequest, Org, AdminRemovalRequest, Invitation,
-  ApproveRequest
+    CreateOrgRequest, Org, AdminRemovalRequest, Invitation,
+    ApproveRequest
 } from "../../pages/app-content/model/app-content.model";
 import {MessageService} from "../../service/message.service";
 import {InviteRequest} from "../../pages/app-content/app-config/model/app-config.model";
@@ -29,58 +29,70 @@ export class NavComponent implements OnInit {
     manageAdmin: boolean;
     locations: any[] = [];
     users: any[] = [];
-    uploadedFileName:string;
+    uploadedFileName: string;
     adminRemovalRequest: AdminRemovalRequest = new AdminRemovalRequest();
     views: Object[] = [
-        {icon: "group", route: "Employees", url: "/portal/manage-users", authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']},
-        {icon: "insert_chart", route: "Report", url: "/portal/report-dashboard", authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']}
+        {
+            icon: "group",
+            route: "Employees",
+            url: "/portal/manage-users",
+            authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']
+        },
+        {
+            icon: "insert_chart",
+            route: "Report",
+            url: "/portal/report-dashboard",
+            authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']
+        }
         // {icon: "payment", route: "Subscribe", url: "/portal/subscribe", authority: "GENERAL_ADMIN"}
     ];
 
     orgTypes: string[] = ["SCHOOL", "SECURITY", "HOSPITAL"];
-    orgs:Org[] = [];
+    orgs: Org[] = [];
     orgId: string;
-    orgRequest:CreateOrgRequest = new CreateOrgRequest();
-    selectedOrg:Org = new Org();
+    orgRequest: CreateOrgRequest = new CreateOrgRequest();
+    selectedOrg: Org = new Org();
     sidenavWidth = 16;
-    openDropdown:boolean;
+    openDropdown: boolean;
     approveRequest: ApproveRequest = new ApproveRequest();
-    notifications: Object[] = [];
-    selectedLocIds:string[] = [];
-    hamburgerClicked:boolean = true;
+    notifications: any[] = [];
+    selectedLocIds: string[] = [];
+    hamburgerClicked: boolean = true;
     details: Invitation = new Invitation();
-    title:string = "Dashboard";
-    selectedEmail:string;
-    inviteRequest:InviteRequest = new InviteRequest();
-    currentUserEmail:string = this.ss.getLoggedInUserEmail();
+    title: string = "Dashboard";
+    selectedEmail: string;
+    inviteRequest: InviteRequest = new InviteRequest();
+    currentUserEmail: string = this.ss.getLoggedInUserEmail();
     username = this.ss.getUserName();
     @ViewChild("assignLocation") public assignLocation: TemplateRef<any>;
-
-    searchField:string;
+    searchField: string;
     searchOrgTerm$ = new Subject<any>();
-    searchType:string;
-    activeClass:string;
+    searchType: string;
+    activeClass: string;
     editOrgMode: boolean;
+    notificationLength: number;
+    notifAlert: boolean;
+    timer:any;
 
 
-    constructor(private router:Router,
+    constructor(private router: Router,
                 private authService: AuthService,
-                private modalService:BsModalService,
-                private ss:StorageService,
-                private contentService:AppContentService,
-                private ns:NotifyService,
-                private mService:MessageService,
-                private pictureUtil:PictureUtil,
-                private searchService:SearchService) {
+                private modalService: BsModalService,
+                private ss: StorageService,
+                private contentService: AppContentService,
+                private ns: NotifyService,
+                private mService: MessageService,
+                private pictureUtil: PictureUtil,
+                private searchService: SearchService) {
 
-        if(this.router.url == "/portal") {
+        if (this.router.url == "/portal") {
             this.activeClass = "active";
         }
 
         //subscribe to search observable
         this.searchService.search(this.searchOrgTerm$)
             .subscribe(results => {
-                switch(this.searchType) {
+                switch (this.searchType) {
                     case 'ADMIN': {
                         this.users = results;
                         break;
@@ -96,7 +108,7 @@ export class NavComponent implements OnInit {
         this.mService.isHomeLinkActive()
             .subscribe(
                 result => {
-                    !result? this.activeClass = "":'';
+                    !result ? this.activeClass = "" : '';
                 }
             )
 
@@ -104,9 +116,14 @@ export class NavComponent implements OnInit {
         this.mService.getTitle()
             .subscribe(
                 result => {
-                    result? this.title = result:'';
+                    result ? this.title = result : '';
                 }
             )
+
+        //set interval to fetch notifications
+        this.timer = setInterval(() => {
+            this.callNotificationService();
+        }, 30000);
 
     }
 
@@ -114,7 +131,7 @@ export class NavComponent implements OnInit {
         this.selectedOrg = this.ss.getSelectedOrg() ? this.ss.getSelectedOrg() : new Org();
 
         //if an org is already selected, update role
-        if(this.selectedOrg.orgId) {
+        if (this.selectedOrg.orgId) {
             this.setOrgRole();
             this.mService.setSelectedOrg(this.selectedOrg.orgId);
         }
@@ -124,12 +141,12 @@ export class NavComponent implements OnInit {
         this.callNotificationService();
     }
 
-    search(searchType:string, searchValue:string) {
+    search(searchType: string, searchValue: string) {
         this.searchType = searchType;
-        this.searchOrgTerm$.next({searchValue: searchValue,searchType: searchType});
+        this.searchOrgTerm$.next({searchValue: searchValue, searchType: searchType});
     }
 
-    openModal(template:TemplateRef<any>) {
+    openModal(template: TemplateRef<any>) {
         // this.inviteRequest = new InviteRequest();
         this.modalRef = this.modalService.show(template);
     }
@@ -138,24 +155,24 @@ export class NavComponent implements OnInit {
         !this.openDropdown ? this.openDropdown = true : this.openDropdown = false;
     }
 
-  openAttendeesDetailsModal(template: TemplateRef<any>, locIds:string[], inviteId: string) {
-    this.selectedLocIds = [];
-    this.selectedLocIds = locIds;
-    this.callNotificationServiceDetails(inviteId);
-    this.openModal(template);
-  }
+    openAttendeesDetailsModal(template: TemplateRef<any>, locIds: string[], inviteId: string) {
+        this.selectedLocIds = [];
+        this.selectedLocIds = locIds;
+        this.callNotificationServiceDetails(inviteId);
+        this.openModal(template);
+    }
 
-  openLocationModal() {
-    this.openModal(this.assignLocation);
-    this.callLocationService();
+    openLocationModal() {
+        this.openModal(this.assignLocation);
+        this.callLocationService();
 
 
-  }
+    }
 
-    onClickedOutside(e:Event) {
+    onClickedOutside(e: Event) {
         this.openDropdown = false;
 
-        if(this.searchField) {
+        if (this.searchField) {
             this.searchField = "";
             this.orgs = this.ss.getUsersOrg();
         }
@@ -169,7 +186,7 @@ export class NavComponent implements OnInit {
         this.sidenavWidth = 4;
     }
 
-    toggleNavFromHam(increase:boolean) {
+    toggleNavFromHam(increase: boolean) {
         if (increase) {
             this.hamburgerClicked = true;
             this.increase();
@@ -179,12 +196,12 @@ export class NavComponent implements OnInit {
         }
     }
 
-    toggleNavFromMouseEvent(increase:boolean) {
+    toggleNavFromMouseEvent(increase: boolean) {
         if (increase) {
             !this.hamburgerClicked ? this.increase() : '';
         } else {
             //when closing side nav, check if a search operation was made and return the initial state of the searched items
-            if(this.searchField) {
+            if (this.searchField) {
                 this.searchField = "";
                 this.orgs = this.ss.getUsersOrg();
             }
@@ -193,99 +210,124 @@ export class NavComponent implements OnInit {
             !this.hamburgerClicked ? this.decrease() : '';
         }
     }
-  callNotificationService() {
-    this.contentService.fetchNotification(this.selectedOrg.orgId)
-      .subscribe(
-        result => {
-          if (result.code == 0) {
-            this.notifications = result.attendees? result.attendees: [];
-            this.notifications.length;
-          } else {
-              this.notifications = [];
-          }
-        },
-        error => {
-            this.notifications = [];
-        }
-      )
-  }
 
-  callNotificationServiceDetails(inviteId: string) {
-    this.contentService.fetchNotificationDetails(inviteId)
-      .subscribe(
-        result => {
-          if (result.code == 0) {
-            this.details = result.invitation;
-          } else {
-            this.ns.showError(result.description);
-          }
-        },
-        error => {
-          this.ns.showError("An Error Occurred");
-        }
-      )
-  }
-  callApproveService(inviteId:string) {
-    this.contentService.approveRejectNotification(inviteId, this.approveRequest)
-      .subscribe(
-        result => {
-          if (result.code == 0) {
-            this.ns.showSuccess("Notification Approved");
-            this.modalRef.hide();
-            this.callNotificationService();
-
-          } else {
-            this.ns.showError(result.description);
-          }
-        },
-        error => {this.ns.showError("An Error Occurred");}
-      )
-  }
-
-  approveNotifications(email:string, inviteId:string, status:string) {
-
-    this.approveRequest.status = status;
-
-    if (this.selectedLocIds && this.selectedLocIds.length > 0) {
-      this.callApproveService(inviteId);
-    } else {
-
-      this.modalRef.hide();
-      this.selectedEmail = email;
-      this.openLocationModal()
+    callNotificationService() {
+        this.contentService.fetchNotification(this.selectedOrg.orgId)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.notifications = result.attendees ? result.attendees : [];
+                        this.showNotifBadge();
+                    } else {
+                        // this.notifications = [];
+                    }
+                },
+                error => {
+                    // this.notifications = [];
+                }
+            )
     }
 
-  }
+    showNotifBadge() {
+        let arr = [];
+        let notif = this.ss.getLatesNotifTime();
 
-  rejectNotifications(email:string, inviteId:string, status:string) {
-    this.approveRequest.status = status;
+        if (notif) {
+            arr = this.notifications.filter(obj => obj.created > notif);
+            if (arr.length > 0) {
+                this.notifAlert = true;
+                this.notificationLength = arr.length;
+            }
+        } else {
+            let n: any = this.notifications.length > 0 ? this.notifications[0] : null;
+            if (n) {
+                this.ss.setLatestNotifTime(n.created);
+            }
+            this.notifAlert = false;
+        }
+    }
 
-    if (this.selectedLocIds || this.selectedLocIds.length == 0) {
-      this.callRejectService(inviteId);
+    callNotificationServiceDetails(inviteId: string) {
+        this.contentService.fetchNotificationDetails(inviteId)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.details = result.invitation;
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {
+                    this.ns.showError("An Error Occurred");
+                }
+            )
+    }
 
-    } else {
-      this.modalRef.hide();
-      this.selectedEmail = email;
+    callApproveService(inviteId: string) {
+        this.contentService.approveRejectNotification(inviteId, this.approveRequest)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.ns.showSuccess("Notification Approved");
+                        this.modalRef.hide();
+                        this.callNotificationService();
+
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {
+                    this.ns.showError("An Error Occurred");
+                }
+            )
+    }
+
+    approveNotifications(email: string, inviteId: string, status: string) {
+
+        this.approveRequest.status = status;
+
+        if (this.selectedLocIds && this.selectedLocIds.length > 0) {
+            this.callApproveService(inviteId);
+        } else {
+
+            this.modalRef.hide();
+            this.selectedEmail = email;
+            this.openLocationModal()
+        }
 
     }
-  }
 
-  callRejectService(inviteId:string) {
-    this.contentService.approveRejectNotification(inviteId, this.approveRequest)
-      .subscribe(
-        result => {
-          if (result.code == 0) {
-            this.ns.showSuccess("Notification Rejected");
+    rejectNotifications(email: string, inviteId: string, status: string) {
+        this.approveRequest.status = status;
+
+        if (this.selectedLocIds || this.selectedLocIds.length == 0) {
+            this.callRejectService(inviteId);
+
+        } else {
             this.modalRef.hide();
-            this.callNotificationService();
+            this.selectedEmail = email;
 
-          } else {
-            this.ns.showError(result.description);
-          }
-        },
-        error => {this.ns.showError("An Error Occurred");}
-      )
-  }
+        }
+    }
+
+    callRejectService(inviteId: string) {
+        this.contentService.approveRejectNotification(inviteId, this.approveRequest)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.ns.showSuccess("Notification Rejected");
+                        this.modalRef.hide();
+                        this.callNotificationService();
+
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {
+                    this.ns.showError("An Error Occurred");
+                }
+            )
+    }
 
     toggleManageAdmin() {
         this.users = this.ss.getAdminUsers();
@@ -347,7 +389,7 @@ export class NavComponent implements OnInit {
 
     saveOrg() {
         this.getOrgRequestObject();
-        this.editOrgMode? this.callOrgEditService():this.callOrgCreationService();
+        this.editOrgMode ? this.callOrgEditService() : this.callOrgCreationService();
     }
 
     callOrgCreationService() {
@@ -393,9 +435,9 @@ export class NavComponent implements OnInit {
             )
     }
 
-    updateOrg(org:Org) {
-        for(let o of this.orgs) {
-            if(o.orgId == org.orgId) {
+    updateOrg(org: Org) {
+        for (let o of this.orgs) {
+            if (o.orgId == org.orgId) {
                 o.logo = org.logo;
                 o.name = org.name;
                 o.sector = org.sector;
@@ -404,7 +446,7 @@ export class NavComponent implements OnInit {
         }
     }
 
-    selectOrg(org:Org) {
+    selectOrg(org: Org) {
         //change selected state
         this.selectedOrg = org;
         this.ss.setSelectedOrg(org);
@@ -413,10 +455,11 @@ export class NavComponent implements OnInit {
         this.callLocationService();
         this.callNotificationService();
         this.router.navigate(['/portal']);
+        this.ss.setLatestNotifTime(null);
         this.mService.setSelectedOrg(org.orgId);
     }
 
-    updateOrgRoles(org:any) {
+    updateOrgRoles(org: any) {
         let arr = [{orgId: org.orgId, role: "GENERAL_ADMIN"}];
 
         this.ss.setOrgRoles(arr);
@@ -424,11 +467,11 @@ export class NavComponent implements OnInit {
 
     setOrgRole() {
         this.ss.setSelectedOrgRole(null);
-        let orgRoles:any[] = this.ss.getOrgRoles();
+        let orgRoles: any[] = this.ss.getOrgRoles();
 
-        if(orgRoles.length > 0) {
-            for(let obj of orgRoles) {
-                if(obj.orgId == this.selectedOrg.orgId) {
+        if (orgRoles.length > 0) {
+            for (let obj of orgRoles) {
+                if (obj.orgId == this.selectedOrg.orgId) {
                     this.ss.setSelectedOrgRole(obj.role);
                 }
             }
@@ -465,12 +508,11 @@ export class NavComponent implements OnInit {
     }
 
     callLocationService() {
-        // this.contentService.fetchOrgLocations(this.selectedOrg.orgId)
         this.contentService.fetchOrgUsersLocation()
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.locations = result.locations? result.locations:[];
+                        this.locations = result.locations ? result.locations : [];
                     }
                 },
                 error => {
@@ -499,15 +541,15 @@ export class NavComponent implements OnInit {
     }
 
 
-    toggleClass(home:boolean) {
-        home? this.activeClass = "active": this.activeClass = "";
+    toggleClass(home: boolean) {
+        home ? this.activeClass = "active" : this.activeClass = "";
     }
 
     goToProfile() {
-      this.router.navigate(['/portal/profile']);
+        this.router.navigate(['/portal/profile']);
     }
 
-    fileChange(event){
+    fileChange(event) {
         if (this.pictureUtil.restrictFilesSize(event.target.files[0].size)) {
             this.uploadedFileName = event.target.files[0].name;
             this.readFiles(event.target.files);
@@ -525,15 +567,15 @@ export class NavComponent implements OnInit {
         reader.readAsDataURL(file);
     }
 
-    readFiles(files, index = 0){
+    readFiles(files, index = 0) {
         let reader = new FileReader();
 
         if (index in files) {
-            this.readFile(files[index], reader,(result) => {
+            this.readFile(files[index], reader, (result) => {
                 var img = document.createElement("img");
                 img.src = result;
 
-                this.pictureUtil.resize(img, 250, 250, (resized_jpeg, before, after)=> {
+                this.pictureUtil.resize(img, 250, 250, (resized_jpeg, before, after) => {
                     this.orgRequest.logo = resized_jpeg;
                     this.readFiles(files, index + 1);
 
@@ -541,5 +583,18 @@ export class NavComponent implements OnInit {
             });
         } else {
         }
+    }
+
+    notifService() {
+        let n: any = this.notifications.length > 0 ? this.notifications[0] : null;
+
+        if (n) {
+            this.ss.setLatestNotifTime(n.created);
+        }
+        this.notifAlert = false;
+    }
+
+    ngOnDestroy() {
+        clearInterval(this.timer);
     }
 }
