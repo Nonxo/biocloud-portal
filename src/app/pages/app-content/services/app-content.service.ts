@@ -310,5 +310,42 @@ export class AppContentService {
             })
     }
 
+    fetchInvitedUsers(model:AttendeesPOJO):Observable<any> {
+        const params = new HttpParams()
+            .set("orgId", model.orgId)
+            .set("locId", model.locId)
+            .set("pageSize", String(model.pageSize))
+            .set("pageNo", String(model.pageNo))
+            .set("status", "SENT");
+
+        return this.httpClient
+            .get(Endpoints.FETCH_INVITED_USERS + params, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+    }
+
+    fetchInvitedUsersCount(model:AttendeesPOJO):Observable<any> {
+        const params = new HttpParams()
+            .set("orgId", model.orgId)
+            .set("locId", model.locId)
+            .set("status", "SENT");
+
+        return this.httpClient
+            .get(Endpoints.FETCH_INVITED_USERS_COUNT + params, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+    }
+
+    assignLocusers(model: AssignUserRequest):Observable<any> {
+        return this.httpClient
+            .post(Endpoints.REASSIGN_LOC_USERS + model.oldlocId + "/" + model.newlocId,null, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+    }
+
+
 
 }

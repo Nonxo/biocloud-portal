@@ -72,7 +72,7 @@
                                   <mat-icon>playlist_add_check</mat-icon>
                                   <span>Report</span>
                               </button>
-                                <button mat-menu-item (click)="activateLocation(loc.active, loc.locId)">
+                                <button mat-menu-item (click)="activateLocation(loc.active, loc.locId, loc.noOfAttendees)">
                                     <mat-icon>delete_forever</mat-icon>
                                     <span>{{loc.active? 'Deactivate':'Activate'}}</span>
                                 </button>
@@ -205,16 +205,40 @@
 </div>
 
 
-<ng-template #template>
+<ng-template #deactivateLocation>
     <div class="modal-header">
-        <h5 class="modal-title pull-left text-brand">Pending Employees</h5>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <h5 class="modal-title pull-left text-brand">Deactivate Location</h5>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">
-        <div class="col-md-12" *ngFor="let a of pendingAttendees">
-            <p>{{a.email}}</p>
+        <div class="row p-md-3 p-0">
+
+            <div class="col-md-12">
+                <p>Are you sure you want to Deactivate this location?</p>
+                <p>If you proceed with this action, all Employees currently assigned to the location will be unassigned.</p>
+            </div>
+
+            <div class="col-md-8" *ngIf="noOfAttendees > 0">
+                <span>Reassign Employees to a new Location</span>
+                <mat-form-field class="input-field">
+                    <mat-select placeholder="Select Location" name="locId" [(ngModel)]="assignRequestObj.newlocId">
+                        <mat-option [value]="''">NONE</mat-option>
+                        <ng-container *ngFor="let loc of locations">
+                            <mat-option *ngIf="selectedLocId !== loc.locId" value="{{loc.locId}}">{{loc.name}}
+                            </mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-12 text-right">
+                <button mat-raised-button color="danger" type="button" (click)="bsModalRef.hide()">CANCEL</button>
+                <button mat-raised-button color="primary" type="button" (click)="deactivateUser()">Deactivate</button>
+
+            </div>
+
         </div>
     </div>
 </ng-template>

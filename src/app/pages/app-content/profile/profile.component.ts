@@ -30,6 +30,7 @@ export class ProfileComponent implements OnInit {
   pictureSizeErrorMessage:string;
   retrieveStatus:boolean = true;
   loading:false;
+  hide:boolean;
   @ViewChild('changePassword') changePassword;
 
 
@@ -182,6 +183,10 @@ export class ProfileComponent implements OnInit {
           }
         }
       )
+  }
+
+  passwordChange() {
+
   }
 
 
