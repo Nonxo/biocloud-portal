@@ -5,8 +5,10 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <h5 class="text-brand pb">Biodata</h5>
-                        <img class="w-50 rounded-circle mx-auto d-block pt-3" *ngIf="model.img" src="data:image/jpg;base64,{{model.img}}" alt="">
-                        <img class="w-50 rounded-circle mx-auto d-block pt-3" *ngIf="!model.img" src="assets/img/1.png" alt="Profile picture">
+                        <img class="w-50 rounded-circle mx-auto d-block pt-3" *ngIf="model.img"
+                             src="data:image/jpg;base64,{{model.img}}" alt="">
+                        <img class="w-50 rounded-circle mx-auto d-block pt-3" *ngIf="!model.img" src="assets/img/1.png"
+                             alt="Profile picture">
                         <div class="pl-4 pt-3 col-lg-9 col-9 mx-auto d-block text-secondary cursor">
                             <!--<mat-icon class="float-left pl-lg-2 pl-4" style="font-size: 20px">camera_enhance</mat-icon>-->
                             <!--<p class="float-left pl-lg-2 pl-4" style="font-size: 14px">CHANGE PHOTO</p>-->
@@ -47,12 +49,21 @@
                 <div class="row">
                     <div class="col-lg-12 pb-lg-0 pb-2">
                         <h5 class="text-brand">Punctuality Report</h5>
+
+                            <mwl-gauge
+                                    class="two"
+                                    [max]="100"
+                                    [dialStartAngle]="0"
+                                    [dialEndAngle]="180"
+                                    [value]="punctualityScore"
+                                    [animated]="true"
+                                    [animationDuration]="5">
+                            </mwl-gauge>
                     </div>
                 </div>
             </mat-card>
 
         </div>
-
 
 
         <div class="col-lg-6 pt-lg-0 pt-4">
@@ -63,18 +74,18 @@
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Location</th>
-                                        <th>Time in</th>
-                                    </tr>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Location</th>
+                                    <th>Time in</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let c of clockInHistorys">
-                                        <td>{{c.time | date:'fullDate'}}</td>
-                                        <td>{{c.locationName}}</td>
-                                        <td>{{c.time | date:'shortTime'}}</td>
-                                    </tr>
+                                <tr *ngFor="let c of clockInHistorys">
+                                    <td>{{c.time | date:'fullDate'}}</td>
+                                    <td>{{c.locationName}}</td>
+                                    <td>{{c.time | date:'shortTime'}}</td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>

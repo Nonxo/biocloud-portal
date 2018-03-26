@@ -40,7 +40,8 @@ export class Endpoints {
     public static FETCH_DAILY_REPORT = `${Endpoints.BASE_URL}/reports/api/alog/gen?`;
     public static FETCH_TOTAL_EMPLOYEE_COUNT = `${Endpoints.BASE_URL}/users/api/u`;
     public static FETCH_WORK_STATUS = `${Endpoints.BASE_URL}/users/api/u/`;
+    public static FETCH_PUNCTUALITY_SCORE = `${Endpoints.BASE_URL}/attendance/api/clock-in/punctuality-score?`;
     public static FETCH_INVITED_USERS = `${Endpoints.BASE_URL}/users/api/org/invites?`;
     public static FETCH_INVITED_USERS_COUNT = `${Endpoints.BASE_URL}/users/api/org/invites/count?`;
-    public static REASSIGN_LOC_USERS= `${Endpoints.BASE_URL}/users/api/attendees/location/`;
+    public static REASSIGN_LOC_USERS = `${Endpoints.BASE_URL}/users/api/attendees/location/`;
 }

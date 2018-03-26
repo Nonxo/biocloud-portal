@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {MessageService} from "../../../service/message.service";
 import {Router} from "@angular/router";
 import {AppContentService} from "../services/app-content.service";
@@ -10,6 +10,7 @@ import {isNullOrUndefined} from "util";
 @Component({
     selector: 'app-employee-overview',
     templateUrl: './employee-overview.component.html',
+    encapsulation: ViewEncapsulation.None,
     styleUrls: ['./employee-overview.component.css']
 })
 export class EmployeeOverviewComponent implements OnInit, OnDestroy {
@@ -19,6 +20,7 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
     model: UpdateProfile = new UpdateProfile();
     history: HistoryPojo = new HistoryPojo();
     clockInHistorys:any = [];
+    punctualityScore:number = 0;
 
     constructor(private mService: MessageService,
                 private contentService: AppContentService,
@@ -37,6 +39,7 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
 
             this.fetchUserDetail();
             this.fetchClockinHistory();
+            this.fetchPuncScore();
         }
 
     }
@@ -76,6 +79,18 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
                 error => {
                     this.ns.showError("An Error Occurred");
                 }
+            )
+    }
+
+    fetchPuncScore() {
+        this.contentService.fetchPuncScore(this.history)
+            .subscribe(
+                result => {
+                    if(result.code == 0) {
+                        this.punctualityScore = result.punctualityScore;
+                    }
+                },
+                error => {}
             )
     }
 
