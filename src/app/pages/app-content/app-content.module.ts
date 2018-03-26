@@ -24,6 +24,7 @@ import { SettingComponent } from './setting/setting.component';
 import {ReportService} from "./services/report.service";
 import {PaginationModule} from "ngx-bootstrap";
 import { EmployeeOverviewComponent } from './employee-overview/employee-overview.component';
+import {GaugeModule} from "angular-gauge";
 
 @NgModule({
     imports: [
@@ -31,6 +32,7 @@ import { EmployeeOverviewComponent } from './employee-overview/employee-overview
         SharedModule,
         DataTableModule,
         PaginationModule.forRoot(),
+        GaugeModule.forRoot(),
         AppContentRoutingModule
     ],
     declarations: [
