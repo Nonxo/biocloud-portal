@@ -31,7 +31,7 @@ export class AssignUserRequest {
 
     constructor() {
         this.newlocId = "";
-        this.oldLocId = "";
+        this.oldlocId = "";
         this.emails = [];
     }
 }
