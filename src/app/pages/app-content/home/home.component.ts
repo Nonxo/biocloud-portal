@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {MessageService} from "../../../service/message.service";
 import {AppContentService} from "../services/app-content.service";
 import {NotifyService} from "../../../service/notify.service";
@@ -10,6 +10,7 @@ import {AddAttendeesComponent} from "../app-config/add-attendees/add-attendees.c
 import {Router} from "@angular/router";
 import {DataService} from "../../../service/data.service";
 import * as moment from "moment";
+import {AssignUserRequest} from "../model/app-content.model";
 
 
 @Component({
@@ -36,6 +37,10 @@ export class HomeComponent implements OnInit {
     pendingAttendees:any[] = [];
     time: Date = new Date();
     orgRole:string;
+    selectedLocId:string;
+    noOfAttendees:number;
+    assignRequestObj:AssignUserRequest = new AssignUserRequest();
+    @ViewChild("deactivateLocation")public deactivateLocation: TemplateRef<any>;
 
     constructor(private mService:MessageService,
                 private ns:NotifyService,
@@ -145,14 +150,37 @@ export class HomeComponent implements OnInit {
         this.router.navigate(['/portal/manage-users']);
     }
 
-    activateLocation(status:boolean, locId:string) {
+    deactivateUser() {
+        this.assignRequestObj.oldlocId = this.selectedLocId;
+        this.callActivateLocationService(false, this.selectedLocId);
+
+    }
+
+    activateLocation(status:boolean, locId:string, noOfAttendees:number) {
+        this.selectedLocId = locId;
+        this.noOfAttendees = noOfAttendees;
         let active = status? false:true;
+
+        if(active) {
+            this.callActivateLocationService(active, locId);
+        } else {
+            this.openModal(this.deactivateLocation);
+        }
+
+    }
+
+    callActivateLocationService(active:boolean, locId:string) {
         this.contentService.activateLocation(active, locId)
+            .finally(() => {!active? this.bsModalRef.hide():''})
             .subscribe(
                 result => {
                     if(result.code == 0) {
 
                         this.setStatus(active, locId);
+
+                        if(!active && this.assignRequestObj.newlocId) {
+                            this.assignUsers();
+                        }
 
                         this.ns.showSuccess(result.description);
                     }else {
@@ -160,6 +188,20 @@ export class HomeComponent implements OnInit {
                     }
                 },
                 error => {this.ns.showError("An Error Occurred.");}
+            )
+    }
+
+    assignUsers() {
+        this.contentService.assignLocusers(this.assignRequestObj)
+            .subscribe(
+                result => {
+                    if(result.code == 0) {
+                        this.ns.showSuccess(result.description);
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {this.ns.showError("An Error Occurred");}
             )
     }
 

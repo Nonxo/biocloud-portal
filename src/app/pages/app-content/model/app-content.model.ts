@@ -30,6 +30,8 @@ export class AssignUserRequest {
     emails:string[];
 
     constructor() {
+        this.newlocId = "";
+        this.oldlocId = "";
         this.emails = [];
     }
 }

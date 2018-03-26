@@ -24,7 +24,7 @@ export class ProfileComponent implements OnInit {
   model: UpdateProfile = new UpdateProfile();
   changePasswordForm:FormGroup;
   submitted:boolean;
-  hide = true;
+  hide:boolean;
   data:Object[] = [];
   base64Img:any = null;
   modalRef:BsModalRef;
@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
   response:any;
   pictureSizeErrorMessage:string;
   retrieveStatus:boolean = true;
-  loading:true;
+  loading:boolean;
   @ViewChild('changePassword') changePassword;
 
 
