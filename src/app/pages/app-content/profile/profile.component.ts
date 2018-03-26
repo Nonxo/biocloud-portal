@@ -141,7 +141,7 @@ export class ProfileComponent implements OnInit {
         this.model.fName = userObj.fName;
         this.model.lName = userObj.lName;
         this.model.companyName = userObj.companyName;
-        this.model.phone = userObj.phoneNumber;
+        this.model.phone = userObj.phone;
         this.model.email = userObj.email;
         this.model.address = userObj.address;
         this.model.img = userObj.img;
