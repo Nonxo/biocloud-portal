@@ -28,7 +28,7 @@ export class ChangePasswordComponent implements OnInit {
   profilePage:boolean;
 
   @Output()
-  changePasswordResponse: EventEmitter<any>;
+  changePasswordResponse = new EventEmitter<any>();
 
 
 

@@ -19,6 +19,7 @@ import {MessageService} from "../../../service/message.service";
 export class NotificationsComponent implements OnInit {
   modalRef: BsModalRef;
   orgId: string;
+  inviteId:string;
   locations: any[] = [];
   approveRequest: ApproveRequest = new ApproveRequest();
   selectedLocIds:string[] = [];
@@ -43,6 +44,7 @@ export class NotificationsComponent implements OnInit {
       this.orgId = this.ss.getSelectedOrg().orgId;
       this.callNotificationService();
 
+
     }
 
   }
@@ -50,10 +52,12 @@ export class NotificationsComponent implements OnInit {
 
 
   openAttendeesDetailsModal(template: TemplateRef<any>, locIds:string[], inviteId: string) {
+    this.details = new Invitation();
+    this.callNotificationServiceDetails(inviteId);
     this.selectedLocIds = [];
     this.selectedLocIds = locIds;
-    this.callNotificationServiceDetails(inviteId);
     this.openModal(template);
+
   }
 
   openLocationModal() {
@@ -121,7 +125,7 @@ export class NotificationsComponent implements OnInit {
   rejectNotifications(email:string, inviteId:string, status:string) {
     this.approveRequest.status = status;
 
-    if (this.selectedLocIds || this.selectedLocIds.length > 0) {
+    if (!this.selectedLocIds || this.selectedLocIds.length > 0) {
       this.callRejectService(inviteId);
 
     } else {
@@ -203,6 +207,11 @@ export class NotificationsComponent implements OnInit {
       }
     }
   }
+
+
+
+
+
 
 
 

@@ -156,6 +156,7 @@ export class NavComponent implements OnInit {
     }
 
     openAttendeesDetailsModal(template: TemplateRef<any>, locIds: string[], inviteId: string) {
+        this.details = new Invitation();
         this.selectedLocIds = [];
         this.selectedLocIds = locIds;
         this.callNotificationServiceDetails(inviteId);
@@ -300,7 +301,7 @@ export class NavComponent implements OnInit {
     rejectNotifications(email: string, inviteId: string, status: string) {
         this.approveRequest.status = status;
 
-        if (this.selectedLocIds || this.selectedLocIds.length == 0) {
+        if (!this.selectedLocIds || this.selectedLocIds.length == 0) {
             this.callRejectService(inviteId);
 
         } else {
@@ -597,4 +598,14 @@ export class NavComponent implements OnInit {
     ngOnDestroy() {
         clearInterval(this.timer);
     }
+
+  getSelectedLocationName() {
+    if (this.approveRequest.locIds.length > 0) {
+      for(let l of this.locations) {
+        if (l.locId == this.approveRequest.locIds[0]) {
+          return l.name;
+        }
+      }
+    }
+  }
 }
