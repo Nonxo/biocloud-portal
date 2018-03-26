@@ -24,12 +24,15 @@ export class ProfileComponent implements OnInit {
   model: UpdateProfile = new UpdateProfile();
   changePasswordForm:FormGroup;
   submitted:boolean;
+  hide = true;
   data:Object[] = [];
   base64Img:any = null;
   modalRef:BsModalRef;
+  email: string;
+  response:any;
   pictureSizeErrorMessage:string;
   retrieveStatus:boolean = true;
-  loading:false;
+  loading:true;
   @ViewChild('changePassword') changePassword;
 
 
@@ -84,7 +87,9 @@ export class ProfileComponent implements OnInit {
     }
 
     remove() {
-        this.model.img = "";
+      this.model.img = "";
+      this.onSubmit();
+
     }
 
 
@@ -182,6 +187,39 @@ export class ProfileComponent implements OnInit {
           }
         }
       )
+  }
+
+  // passwordChange() {
+  //   this.loading = true;
+  //   const payload = this.changePasswordForm.value;
+  //   this.authService.changePassword(this.email, payload.oldPw, payload.newPw)
+  //     .finally(() => this.loading = false)
+  //     .subscribe(
+  //       res => {
+  //         console.log(res);
+  //         if (res.code == 0) {
+  //           this.ss.authToken = this.response.token;
+  //           this.ss.loggedInUser = this.response.bioUser;
+  //           this.router.navigate(['/profile']);
+  //         } else {
+  //           this.ns.showError(res.description);
+  //         }
+  //       },
+  //       error => {}
+  //     );
+  //
+  // }
+
+  changePasswordResponse(event) {
+    if (event.code == 0) {
+      this.ns.showSuccess(event.description);
+    } else{
+      if (event.code == 600) {
+        this.ns.showError('An error has occurred')
+      } else {
+        this.ns.showError(event.description);
+      }
+    }
   }
 
 

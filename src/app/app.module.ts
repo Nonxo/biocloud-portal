@@ -31,7 +31,6 @@ import {AppContentService} from "./pages/app-content/services/app-content.servic
         AppComponent,
         AuthComponent,
         RegisterComponent,
-        ChangePasswordComponent,
         AddAdminAuthComponent,
         SignUpAsComponent,
         LoginComponent
