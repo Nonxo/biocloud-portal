@@ -608,4 +608,11 @@ export class NavComponent implements OnInit {
       }
     }
   }
+
+  confirmAssignment(inviteId:string) {
+    //do logic to ensure that user selects at least one location in the dropdown
+
+
+    this.callApproveService(inviteId);
+  }
 }
