@@ -325,6 +325,14 @@ export class AppContentService {
             })
     }
 
+    assignLocusers(model: AssignUserRequest):Observable<any> {
+        return this.httpClient
+            .post(Endpoints.REASSIGN_LOC_USERS + model.oldlocId + "/" + model.newlocId,null, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+    }
+
 
 
 }
