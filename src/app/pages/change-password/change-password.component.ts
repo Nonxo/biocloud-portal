@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AuthService} from "../../components/auth/auth.service";
 import {StorageService} from "../../service/storage.service";
 import {Router} from "@angular/router";
@@ -24,6 +24,12 @@ export class ChangePasswordComponent implements OnInit {
   email: string;
   response:any;
 
+  @Input()
+  profilePage:boolean;
+
+  @Output()
+  changePasswordResponse = new EventEmitter<any>();
+
 
 
   constructor(private authService:AuthService,
@@ -48,17 +54,28 @@ export class ChangePasswordComponent implements OnInit {
       .finally(() => this.loading = false)
       .subscribe(
         res => {
-          console.log(res);
-          if (res.code == 0) {
-            this.ss.authToken = this.response.token;
-            this.ss.loggedInUser = this.response.bioUser;
-            this.modalRef.hide();
-            this.router.navigate(['/portal']);
+          if(this.profilePage) {
+            this.changePasswordResponse.emit(res)
           } else {
-            this.ns.showError(res.description);
+            if (res.code == 0) {
+
+              this.ss.authToken = this.response.token;
+              this.ss.loggedInUser = this.response.bioUser;
+              this.modalRef.hide();
+              this.router.navigate(['/portal']);
+
+
+            } else {
+              this.ns.showError(res.description);
+            }
           }
         },
-        error => {}
+        error => {
+          if(this.profilePage) {
+            this.changePasswordResponse.emit({code: 600})
+          }
+
+        }
       );
 
   }

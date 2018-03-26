@@ -165,33 +165,33 @@
                 <mat-card-content>
                     <div class="row">
                         <div class="col-lg-6 mt-md-0 mt-3">
-                            <mat-card>
+                            <mat-card class="equal-row h-100">
                                 <mat-card-content class="text-center">
                                     <div *ngIf="counts && counts != 0">
                                         <p class="display-3 font-weight-bold text-brand">{{counts}}</p>
                                         <p>Total Employees</p>
                                     </div>
                                     <!--empty state-->
-                                    <div *ngIf="!counts || counts == 0">
+                                    <div class="pt-4" *ngIf="!counts || counts == 0">
                                         <h5 class="fade-msg">NO DATA</h5>
                                         <h5 class="fade-msg">TO DISPLAY</h5>
-                                        <p class="fade-msg">Total Employees</p>
+                                        <p class="fade-msg pt-3">Total Employees</p>
                                     </div>
                                 </mat-card-content>
                             </mat-card>
                         </div>
                         <div class="col-lg-6  mt-md-0 mt-3">
-                            <mat-card>
+                            <mat-card class="equal-row h-100">
                                 <mat-card-content class="text-center">
                                     <div *ngIf="totalClockin && totalClockin != 0">
                                         <p class="display-3 font-weight-bold text-success">{{totalClockin}}</p>
                                         <p>Clock-in Today</p>
                                     </div>
                                     <!--empty state-->
-                                    <div *ngIf="!totalClockin || totalClockin == 0">
+                                    <div class="pt-4" *ngIf="!totalClockin || totalClockin == 0">
                                         <h5 class="fade-msg">NO DATA</h5>
                                         <h5 class="fade-msg">TO DISPLAY</h5>
-                                        <p class="fade-msg">Clock-in Today</p>
+                                        <p class="fade-msg pt-3">Clock-in Today</p>
                                     </div>
                                 </mat-card-content>
                             </mat-card>

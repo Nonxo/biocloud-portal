@@ -22,7 +22,7 @@ import {ProfileComponent} from "./profile/profile.component";
 import { ManageAdminsComponent } from './manage-admins/manage-admins.component';
 import { SettingComponent } from './setting/setting.component';
 import {ReportService} from "./services/report.service";
-import {PaginationModule} from "ngx-bootstrap";
+import {BsModalRef, PaginationModule} from "ngx-bootstrap";
 import { EmployeeOverviewComponent } from './employee-overview/employee-overview.component';
 import {GaugeModule} from "angular-gauge";
 
@@ -50,7 +50,7 @@ import {GaugeModule} from "angular-gauge";
         SettingComponent,
         EmployeeOverviewComponent
     ],
-    providers: [MessageService, AppConfigService, GeoMapService, SearchService, ReportService],
+    providers: [MessageService, AppConfigService, GeoMapService, SearchService, ReportService, BsModalRef],
     entryComponents: [SetupComponent, AddAttendeesComponent]
 })
 export class AppContentModule { }
