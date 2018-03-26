@@ -40,7 +40,7 @@
         <tbody>
             <tr *ngFor="let d of mf.data; let i = index">
                 <th>
-                    <mat-checkbox name="check{{i}}" [(ngModel)]="d.checked" (click)="selectOne(d,$event)" [disabled]="currentUserEmail == d.email"></mat-checkbox>
+                    <mat-checkbox name="check{{i}}" [(ngModel)]="d.checked" (click)="selectOne(d,$event)" [disabled]="currentUserEmail == d.email || d.email == orgCreator || (userRole =='LOCATION_ADMIN' && d.role == 'GENERAL_ADMIN')"></mat-checkbox>
                 </th>
                 <td>{{d.firstName }} {{ d.lastName}}</td>
                 <td>{{d.email}}</td>
@@ -91,7 +91,7 @@
             <div class="col-md-12">
                 <mat-form-field class="input-field">
                     <mat-select placeholder="Role" name="role" #role="ngModel" [(ngModel)]="inviteRequest.role" [required]="true">
-                        <mat-option value="GENERAL_ADMIN">GENERAL ADMIN</mat-option>
+                        <mat-option *ngIf="userRole != 'LOCATION_ADMIN'" value="GENERAL_ADMIN">GENERAL ADMIN</mat-option>
                         <mat-option value="LOCATION_ADMIN">LOCATION ADMIN</mat-option>
                     </mat-select>
                     <mat-error *ngIf="role.errors?.required">You must make a selection</mat-error>
@@ -115,9 +115,9 @@
 
             <div class="col-md-12 text-md-center text-center pt-4 pb-4">
                 <ng-container>
-                    <button mat-raised-button color="primary" type="submit" class="primary-outline">Add Admin
-                      </button>
                     <button mat-button class="primary-outline" type="button" (click)="modalRef.hide()">Cancel</button>
+                    <button mat-raised-button color="primary" type="submit" class="primary-outline">Add Admin
+                    </button>
                 </ng-container>
             </div>
 
@@ -148,7 +148,7 @@
             <div class="col-md-12">
                 <mat-form-field class="input-field">
                     <mat-select placeholder="Role" name="role" #role="ngModel" [(ngModel)]="assignAdminRequest.role" [required]="true">
-                        <mat-option value="GENERAL_ADMIN">GENERAL ADMIN</mat-option>
+                        <mat-option *ngIf="userRole != 'LOCATION_ADMIN'" value="GENERAL_ADMIN">GENERAL ADMIN</mat-option>
                         <mat-option value="LOCATION_ADMIN">LOCATION ADMIN</mat-option>
                     </mat-select>
                     <mat-error *ngIf="role.errors?.required">You must make a selection</mat-error>
@@ -171,7 +171,7 @@
             </div>
 
             <div class="col-md-12 text-right">
-                <button mat-raised-button color="accent" class="auth-btn" type="submit">PROCEED</button>
+                <button mat-raised-button color="primary" class="primary-outline" class="auth-btn" type="submit">PROCEED</button>
             </div>
         </form>
     </div>

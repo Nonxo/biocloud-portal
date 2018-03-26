@@ -153,7 +153,7 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.data = result.attendees;
+                        this.data = result.attendees? result.attendees: [];
                     } else {
                         this.ns.showError(result.description);
                     }
