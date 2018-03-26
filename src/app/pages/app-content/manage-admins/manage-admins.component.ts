@@ -30,6 +30,8 @@ export class ManageAdminsComponent implements OnInit {
     rowsOnPage: number = 10;
     currentPage: number;
     maxSize: number = 5;
+    userRole:string = this.ss.getSelectedOrgRole();
+    orgCreator:string = this.ss.getSelectedOrg().createdBy;
 
     constructor(private ss: StorageService,
                 private contentService: AppContentService,
@@ -89,7 +91,7 @@ export class ManageAdminsComponent implements OnInit {
     }
 
     callLocationService() {
-        this.contentService.fetchOrgLocations(this.ss.getSelectedOrg().orgId)
+        this.contentService.fetchOrgUsersLocation()
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -207,12 +209,23 @@ export class ManageAdminsComponent implements OnInit {
 
     selectAll(event) {
         if (event.checked) {
-            this.users.map((x: any) => {
-                if (x.email != this.currentUserEmail) {
-                    x.checked = true;
-                    return x
-                }
-            });
+            //if user is a location admin, dont select users that are general admins
+            if (this.userRole == 'LOCATION_ADMIN') {
+                this.users.map((x: any) => {
+                    if ((x.email != this.currentUserEmail) && (x.role !== 'GENERAL_ADMIN')) {
+                        x.checked = true;
+                        return x
+                    }
+                });
+            }else {
+                this.users.map((x: any) => {
+                    if (x.email != this.currentUserEmail && x.email != this.orgCreator) {
+                        x.checked = true;
+                        return x
+                    }
+                });
+            }
+
         } else {
             this.users.map((x: any) => {
                 x.checked = false;
@@ -242,6 +255,7 @@ export class ManageAdminsComponent implements OnInit {
         }
 
         this.contentService.removeAdmin(this.adminRemovalRequest)
+            .finally(() => {this.selAll = false;})
             .subscribe(
                 result => {
                     let res: any = result;

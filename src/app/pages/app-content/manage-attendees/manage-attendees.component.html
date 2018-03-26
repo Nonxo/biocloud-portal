@@ -193,7 +193,7 @@
                 <div class="col-lg-4 col-12  d-flex align-items-center">
                     <mat-form-field>
                         <mat-select placeholder="" name="location" [(ngModel)]="selectedLocId" (change)="fetchUsers()">
-                            <mat-option value="">All Locations</mat-option>
+                            <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All Locations</mat-option>
                             <ng-container *ngFor="let loc of locations">
                                 <mat-option [value]="loc.locId">
                                     {{ loc.name }}
