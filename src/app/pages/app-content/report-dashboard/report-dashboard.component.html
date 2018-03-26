@@ -292,6 +292,7 @@
                         <tr>
                             <th scope="col">Name</th>
                             <th scope="col">Email Address</th>
+                            <th scope="col">Clock in Location</th>
                             <th scope="col">Expected Location</th>
                             <th scope="col">Mode of Clockin</th>
                             <th scope="col">Clock-In Time</th>
@@ -301,6 +302,7 @@
                         <tr *ngFor="let d of mf.data">
                             <td>{{d.name}}</td>
                             <td>{{d.email}}</td>
+                            <td>{{d.clock_in_address}}</td>
                             <td>{{d.location}}</td>
                             <td>{{d.mode}}</td>
                             <td>{{d.clock_in_time}}</td>
