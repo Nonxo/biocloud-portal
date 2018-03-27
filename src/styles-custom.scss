@@ -114,7 +114,8 @@ a {
 }
 
 .bg-light-grey {
-    background-color: mat-color($candy-app-primary, 900) !important;
+    // background-color: mat-color($candy-app-primary, 900) !important;
+    background-color: #322333;
 }
 
 a:hover {
@@ -155,7 +156,8 @@ a:hover {
 }
 
 .modal-backdrop {
-    background-color: mat-color($candy-app-primary) !important;
+    // background-color: mat-color($candy-app-primary) !important;
+    background-color: #636262 !important;
 }
 
 .mat-drawer-container {
@@ -202,10 +204,12 @@ mat-sidenav {
 }
 
 .main-loading {
-    height: calc(100vh - 67px);
+    // height: calc(100vh - 67px);
+    height: 100%;
     overflow: hidden;
     margin-top: 1px;
-    background: mat-color($candy-app-primary, 500) !important;
+    // background: mat-color($candy-app-primary, 500) !important;
+    background-color: #636262 !important;
     opacity: 0.7;
     position: absolute;
     z-index: 99;
