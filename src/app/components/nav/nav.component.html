@@ -26,11 +26,17 @@
             </a>
 
             <div class=" text-center my-3 px-3 pb-3 border-0" *ngIf="orgs.length > 0 || selectedOrg.orgId">
-                <div class="mb-2">
-                    <img *ngIf="!selectedOrg.logo" src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon"
+                <div class="mx-auto mb-2 container-img-hover">
+                    <img *ngIf="!selectedOrg.logo" src=" assets/img/1.png" class="image-hover mx-auto img-fluid rounded-circle logo-icon"
                          style="max-height:6em;"/>
                     <img *ngIf="selectedOrg.logo" src="data:image/jpg;base64,{{selectedOrg.logo}}"
-                         class="img-fluid rounded-circle logo-icon" style="max-height:6em;"/>
+                         class="image-hover mx-auto img-fluid rounded-circle logo-icon" style="max-height:6em;"/>
+                    <div class="middle">
+                        <span class="fileUpload btn">
+                            <span><mat-icon class="float-left text-white upload-icon">camera_enhance</mat-icon></span>
+                            <input type="file" class="upload" accept="image/*" #input (change)="fileChange($event, true)">
+                        </span>
+                    </div>
                 </div>
                 <div class="alignment pl-4 cursor" (click)="show()">
                     <small class="p-2 text-white" *ngIf="sidenavWidth >= 15"><b>{{selectedOrg.name? (selectedOrg.name |
@@ -49,27 +55,14 @@
             <div *ngIf="openDropdown" class="bg-light-grey pt-2 font-12">
 
                 <ul class="list-unstyled px-3">
-                    <li class="media">
-                        <mat-form-field class="w-100">
-                            <input matInput placeholder="Search Company" class="text-white company-search" type="text"
-                                   name="searchField" [(ngModel)]="searchField"
-                                   (keyup)="search('ORG',$event.target.value)">
-                            <mat-icon matSuffix class="text-white cursor">search</mat-icon>
-                        </mat-form-field>
-                    </li>
-
-                    <a role="button" (click)="createOrg(template)">
-                        <div class="cursor border-top">
-                            <small>
-                                <mat-list>
-                                    <mat-list-item class="p-0 font-12 text-white">
-                                        <mat-icon mat-list-icon>add_box</mat-icon>
-                                        <p mat-line> Add Company</p>
-                                    </mat-list-item>
-                                </mat-list>
-                            </small>
-                        </div>
-                    </a>
+                    <!--<li class="media">-->
+                        <!--<mat-form-field class="w-100">-->
+                            <!--<input matInput placeholder="Search Company" class="text-white company-search" type="text"-->
+                                   <!--name="searchField" [(ngModel)]="searchField"-->
+                                   <!--(keyup)="search('ORG',$event.target.value)">-->
+                            <!--<mat-icon matSuffix class="text-white cursor">search</mat-icon>-->
+                        <!--</mat-form-field>-->
+                    <!--</li>-->
 
                     <ng-container *ngFor="let org of orgs">
                         <li *ngIf="org.orgId != selectedOrg.orgId" class="media my-3 cursor d-flex align-items-center"
@@ -84,6 +77,20 @@
                             </div>
                         </li>
                     </ng-container>
+
+                    <a role="button" (click)="createOrg(template)">
+                        <div class="cursor border-top">
+                            <small>
+                                <mat-list>
+                                    <mat-list-item class="p-0 font-12 text-white">
+                                        <mat-icon mat-list-icon>add_box</mat-icon>
+                                        <p mat-line> Add Company</p>
+                                    </mat-list-item>
+                                </mat-list>
+                            </small>
+                        </div>
+                    </a>
+
                 </ul>
             </div>
         </div>
@@ -264,7 +271,7 @@
                     <span class="fileUpload btn btn-accent">
                                    <span><mat-icon>attachment</mat-icon></span>
                                    <input type="file" class="upload" accept="image/*" #input
-                                          (change)="fileChange($event)">
+                                          (change)="fileChange($event, false)">
                                </span>
                     <p>{{uploadedFileName}}</p>
 

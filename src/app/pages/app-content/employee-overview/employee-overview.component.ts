@@ -21,6 +21,8 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
     history: HistoryPojo = new HistoryPojo();
     clockInHistorys:any = [];
     punctualityScore:number = 0;
+    active:string = "poor";
+    locations:any[] = [];
 
     constructor(private mService: MessageService,
                 private contentService: AppContentService,
@@ -72,6 +74,7 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
                     let res:any = result;
                     if(res.code == 0) {
                         this.model = res.user;
+                        this.getUsersLocation();
                     } else {
                         this.ns.showError(result.description);
                     }
@@ -88,6 +91,30 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
                 result => {
                     if(result.code == 0) {
                         this.punctualityScore = result.punctualityScore;
+
+                        this.calculatePuncScore();
+                    }
+                },
+                error => {}
+            )
+    }
+
+    calculatePuncScore() {
+        if(this.punctualityScore < 26) {
+            this.active = "poor";
+        }else if (this.punctualityScore < 75) {
+            this.active = "average";
+        }else if (this.punctualityScore <= 100) {
+            this.active = "excellent";
+        }
+    }
+
+    getUsersLocation() {
+        this.contentService.fetchAttendeesLocation(this.model.userId)
+            .subscribe(
+                result => {
+                    if(result.code == 0) {
+                        this.locations = result.data;
                     }
                 },
                 error => {}

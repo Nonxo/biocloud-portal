@@ -5,8 +5,10 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <h5 class="text-brand pb">Biodata</h5>
-                        <img class="w-50 rounded-circle mx-auto d-block pt-3" *ngIf="model.img" src="data:image/jpg;base64,{{model.img}}" alt="">
-                        <img class="w-50 rounded-circle mx-auto d-block pt-3" *ngIf="!model.img" src="assets/img/1.png" alt="Profile picture">
+                        <img class="w-50 rounded-circle mx-auto d-block pt-3" *ngIf="model.img"
+                             src="data:image/jpg;base64,{{model.img}}" alt="">
+                        <img class="w-50 rounded-circle mx-auto d-block pt-3" *ngIf="!model.img" src="assets/img/1.png"
+                             alt="Profile picture">
                         <div class="pl-4 pt-3 col-lg-9 col-9 mx-auto d-block text-secondary cursor">
                             <!--<mat-icon class="float-left pl-lg-2 pl-4" style="font-size: 20px">camera_enhance</mat-icon>-->
                             <!--<p class="float-left pl-lg-2 pl-4" style="font-size: 14px">CHANGE PHOTO</p>-->
@@ -38,7 +40,10 @@
             <mat-card class="mt-lg-3 mt-4">
                 <div class="row">
                     <div class="col-lg-12 pb-lg-0 pb-2">
-                        <h5 class="text-brand">Location</h5>
+                        <h5 class="text-brand">Location(s)</h5>
+                        <ng-container *ngFor="let loc of locations; let i = index">
+                            <span> {{ loc.name}} {{i + 1 == locations.length? '':' , '}} </span>
+                        </ng-container>
                     </div>
                 </div>
             </mat-card>
@@ -49,13 +54,21 @@
                         <h5 class="text-brand pb-lg-5">Punctuality Report</h5>
 
                         <div class="col-lg-6 float-left w-50 pt-3">
-                            <mwl-gauge class="two" [max]="100" [dialStartAngle]="0" [dialEndAngle]="180" [value]="punctualityScore" [animated]="true" [animationDuration]="5">
+                            <mwl-gauge
+                                    class="two {{active}}"
+                                    [max]="100"
+                                    [dialStartAngle]="0"
+                                    [dialEndAngle]="180"
+                                    [value]="punctualityScore"
+                                    [animated]="true"
+                                    [animationDuration]="5">
                             </mwl-gauge>
+
                         </div>
 
                         <div class="col-lg-6 pt-lg-5 float-right pl-lg-5">
                             <p>
-                                0 - Never early
+                                0% - Never early
                             </p>
                             <p>
                                 50% - Averagely early

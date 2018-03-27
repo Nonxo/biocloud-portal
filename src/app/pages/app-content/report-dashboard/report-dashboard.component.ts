@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ReportModel} from "../model/app-content.model";
 import {ReportService} from "../services/report.service";
 import {StorageService} from "../../../service/storage.service";
@@ -7,13 +7,14 @@ import * as FileSaver from 'file-saver';
 import {PictureUtil} from "../../../util/PictureUtil";
 import {NotifyService} from "../../../service/notify.service";
 import {MessageService} from "../../../service/message.service";
+import {DataService} from "../../../service/data.service";
 
 @Component({
     selector: 'app-report-dashboard',
     templateUrl: './report-dashboard.component.html',
     styleUrls: ['./report-dashboard.component.css']
 })
-export class ReportDashboardComponent implements OnInit {
+export class ReportDashboardComponent implements OnInit, OnDestroy {
 
     reportModel: ReportModel = new ReportModel();
     rowsOnPage: number = 10;
@@ -29,11 +30,19 @@ export class ReportDashboardComponent implements OnInit {
                 private contentService: AppContentService,
                 private picUtil: PictureUtil,
                 private ns: NotifyService,
+                private dataService: DataService,
                 private mService: MessageService) {
         this.reportModel.reportType = "early";
         this.reportModel.pageSize = this.rowsOnPage;
         this.reportModel.user = this.ss.getUserName();
         this.reportModel.orgId = this.ss.getSelectedOrg().orgId;
+
+        if (this.dataService.getLocId()) {
+            this.reportModel.locId = this.dataService.getLocId();
+        } else {
+            this.reportModel.locId = "";
+        }
+
     }
 
     ngOnInit() {
@@ -166,6 +175,13 @@ export class ReportDashboardComponent implements OnInit {
         this.reportModel.title = this.reportModel.reportType.toUpperCase() + "-REPORT";
         this.reportModel.export = true;
         this.fetchDailyReport();
+    }
+
+    /**
+     * Events that should happen when this component is destroyed
+     */
+    ngOnDestroy() {
+        this.dataService.setLocId(null);
     }
 
 }

@@ -30,6 +30,7 @@ export class NavComponent implements OnInit {
     locations: any[] = [];
     users: any[] = [];
     uploadedFileName: string;
+    hoverState:boolean;
     adminRemovalRequest: AdminRemovalRequest = new AdminRemovalRequest();
     views: Object[] = [
         {
@@ -418,11 +419,12 @@ export class NavComponent implements OnInit {
 
     callOrgEditService() {
         this.contentService.updateOrg(this.orgRequest)
+            .finally(() => {this.hoverState = false})
             .subscribe(
                 result => {
                     if (result.code == 0) {
                         this.ns.showSuccess(result.description);
-                        this.modalRef.hide();
+                        this.modalRef? this.modalRef.hide():'';
                         this.updateOrg(result.organisation);
                         this.cacheOrg();
                         this.selectOrg(result.organisation);
@@ -550,7 +552,9 @@ export class NavComponent implements OnInit {
         this.router.navigate(['/portal/profile']);
     }
 
-    fileChange(event) {
+    fileChange(event:any, hoverState:boolean) {
+        this.hoverState = hoverState;
+
         if (this.pictureUtil.restrictFilesSize(event.target.files[0].size)) {
             this.uploadedFileName = event.target.files[0].name;
             this.readFiles(event.target.files);
@@ -577,7 +581,15 @@ export class NavComponent implements OnInit {
                 img.src = result;
 
                 this.pictureUtil.resize(img, 250, 250, (resized_jpeg, before, after) => {
+
                     this.orgRequest.logo = resized_jpeg;
+                    //perform this action if image upload was done when hovering over the
+                    if(this.hoverState) {
+                        this.orgRequest.type = this.selectedOrg.sector;
+                        this.orgRequest.name = this.selectedOrg.name;
+                        this.callOrgEditService();
+                    }
+
                     this.readFiles(files, index + 1);
 
                 });

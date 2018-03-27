@@ -150,6 +150,12 @@ export class HomeComponent implements OnInit {
         this.router.navigate(['/portal/manage-users']);
     }
 
+    viewReport(locId:string) {
+        this.dataService.setLocId(locId);
+        this.mService.setHomeLinkActive(false);
+        this.router.navigate(['/portal/report-dashboard']);
+    }
+
     deactivateUser() {
         this.assignRequestObj.oldlocId = this.selectedLocId;
         this.callActivateLocationService(false, this.selectedLocId);

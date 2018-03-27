@@ -78,6 +78,7 @@ export class UpdateProfile {
   companyName:string;
   customerType: string;
   bio:string;
+  userId:string;
 
 
   promoNotif: boolean;

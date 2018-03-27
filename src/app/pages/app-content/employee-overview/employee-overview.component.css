@@ -32,13 +32,39 @@ mwl-gauge.two > .gauge > .dial {
     stroke-width: 10;
 }
 mwl-gauge.two > .gauge > .value {
-    stroke: orange;
+    /*stroke: red;*/
     stroke-dasharray: none;
     stroke-width: 13;
 }
 mwl-gauge.two > .gauge > .value-text {
+    /*fill: orange;*/
+}
+
+mwl-gauge.poor > .gauge > .value {
+    fill: red;
+    stroke: red;
+}
+
+mwl-gauge.average > .gauge > .value {
+    stroke: orange;
+}
+
+mwl-gauge.excellent > .gauge > .value {
+    stroke: green;
+}
+
+mwl-gauge.poor > .gauge > .value-text {
+    fill: red;
+}
+
+mwl-gauge.average > .gauge > .value-text {
     fill: orange;
 }
+
+mwl-gauge.excellent > .gauge > .value-text {
+    fill: green;
+}
+
 /* ------- Alternate Style ------- */
 mwl-gauge.three {
 }
