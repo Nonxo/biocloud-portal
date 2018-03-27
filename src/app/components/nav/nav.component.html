@@ -55,14 +55,14 @@
             <div *ngIf="openDropdown" class="bg-light-grey pt-2 font-12">
 
                 <ul class="list-unstyled px-3">
-                    <li class="media">
-                        <mat-form-field class="w-100">
-                            <input matInput placeholder="Search Company" class="text-white company-search" type="text"
-                                   name="searchField" [(ngModel)]="searchField"
-                                   (keyup)="search('ORG',$event.target.value)">
-                            <mat-icon matSuffix class="text-white cursor">search</mat-icon>
-                        </mat-form-field>
-                    </li>
+                    <!--<li class="media">-->
+                        <!--<mat-form-field class="w-100">-->
+                            <!--<input matInput placeholder="Search Company" class="text-white company-search" type="text"-->
+                                   <!--name="searchField" [(ngModel)]="searchField"-->
+                                   <!--(keyup)="search('ORG',$event.target.value)">-->
+                            <!--<mat-icon matSuffix class="text-white cursor">search</mat-icon>-->
+                        <!--</mat-form-field>-->
+                    <!--</li>-->
 
                     <ng-container *ngFor="let org of orgs">
                         <li *ngIf="org.orgId != selectedOrg.orgId" class="media my-3 cursor d-flex align-items-center"
