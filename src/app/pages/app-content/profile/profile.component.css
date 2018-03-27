@@ -108,3 +108,7 @@ fileUpload {
   padding: 16px 32px;
 }
 
+.text-wrap {
+  word-wrap: break-word;
+}
+

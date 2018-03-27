@@ -5,8 +5,8 @@ import {StorageService} from "../../service/storage.service";
 import {AppContentService} from "../../pages/app-content/services/app-content.service";
 import {NotifyService} from "../../service/notify.service";
 import {
-    CreateOrgRequest, Org, AdminRemovalRequest, Invitation,
-    ApproveRequest
+  CreateOrgRequest, Org, AdminRemovalRequest, Invitation,
+  ApproveRequest, UpdateProfile
 } from "../../pages/app-content/model/app-content.model";
 import {MessageService} from "../../service/message.service";
 import {InviteRequest} from "../../pages/app-content/app-config/model/app-config.model";
@@ -55,6 +55,7 @@ export class NavComponent implements OnInit {
     selectedOrg: Org = new Org();
     sidenavWidth = 16;
     openDropdown: boolean;
+    retrieveStatus:boolean = true;
     approveRequest: ApproveRequest = new ApproveRequest();
     notifications: any[] = [];
     selectedLocIds: string[] = [];
@@ -62,11 +63,13 @@ export class NavComponent implements OnInit {
     details: Invitation = new Invitation();
     title: string = "Dashboard";
     selectedEmail: string;
+    model: UpdateProfile = new UpdateProfile();
     inviteRequest: InviteRequest = new InviteRequest();
     currentUserEmail: string = this.ss.getLoggedInUserEmail();
     username = this.ss.getUserName();
     @ViewChild("assignLocation") public assignLocation: TemplateRef<any>;
     searchField: string;
+    userId:string;
     searchOrgTerm$ = new Subject<any>();
     searchType: string;
     activeClass: string;
@@ -140,6 +143,7 @@ export class NavComponent implements OnInit {
         this.fetchUsersOrg();
         this.onResizeByWindowScreen();
         this.callNotificationService();
+        this.fetchUser();
     }
 
     search(searchType: string, searchValue: string) {
@@ -626,5 +630,34 @@ export class NavComponent implements OnInit {
 
 
     this.callApproveService(inviteId);
+  }
+
+  fetchUser() {
+      this.contentService.retrieveUser(this.userId)
+      .subscribe(
+        result => {
+          if (result.code == 0) {
+            this.retrieveStatus = true;
+            this.transformUserObj(result.user);
+
+            if (this.model.img) {
+              let str = this.model.img.replace(/ /g, "+");
+              this.model.img = str
+            }
+          } else {
+            // this.ns.showError(result.description);
+          }
+        },
+      )
+  }
+
+  transformUserObj(userObj: any) {
+    this.model.fName = userObj.fName;
+    this.model.lName = userObj.lName;
+    this.model.companyName = userObj.companyName;
+    this.model.phone = userObj.phone;
+    this.model.email = userObj.email;
+    this.model.address = userObj.address;
+    this.model.img = userObj.img;
   }
 }

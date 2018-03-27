@@ -221,8 +221,10 @@
             <button mat-menu-item class="m-0" style="height: auto;">
                 <div class="row align-items-center" (click)="goToProfile()">
                     <div class="col-auto">
-                        <img src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon"
+                        <img *ngIf="model.img == null || model.img == ''" src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon"
                              style="max-height:3em;"/>
+                      <img *ngIf="model.img" src="data:image/jpg;base64,{{model.img}}" class="img-fluid rounded-circle logo-icon"
+                           style="max-height:3em;"/>
                     </div>
                     <div class="col-auto  pt-3 pl-0">
                         <p>{{username}}</p>

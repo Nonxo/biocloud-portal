@@ -41,6 +41,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.mService.setTitle("Profile");
     this.userId = this.ss.getUserId();
+    this.email = this.ss.getLoggedInUserEmail();
     this.fetchUser();
     this.workStatus();
     this.changePasswordForm = this.fb.group({
@@ -111,6 +112,7 @@ export class ProfileComponent implements OnInit {
                 this.pictureUtil.resize(img, 250, 250, (resized_jpeg, before, after) => {
                     this.model.img = resized_jpeg;
                     this.readFiles(files, index + 1);
+                    this.onSubmit();
 
                 });
             });
@@ -119,19 +121,21 @@ export class ProfileComponent implements OnInit {
     }
 
     fetchUser() {
+      this.mService.setDisplay(true);
         this.contentService.retrieveUser(this.userId)
             .subscribe(
                 result => {
                     if (result.code == 0) {
                         this.retrieveStatus = true;
                         this.transformUserObj(result.user);
+                        this.mService.setDisplay(false);
 
                         if (this.model.img) {
                             let str = this.model.img.replace(/ /g, "+");
                             this.model.img = str
                         }
                     } else {
-                        this.ns.showError(result.description);
+                        // this.ns.showError(result.description);
                     }
                 },
             )
@@ -145,6 +149,7 @@ export class ProfileComponent implements OnInit {
         this.model.email = userObj.email;
         this.model.address = userObj.address;
         this.model.img = userObj.img;
+        this.model.bio = userObj.bio;
     }
 
     openeditProfileModal(template: TemplateRef<any>) {
@@ -157,7 +162,7 @@ export class ProfileComponent implements OnInit {
   }
 
   openaboutProfileModal(template: TemplateRef<any>) {
-    this.fetchUser()
+    this.fetchUser();
     this.openModal(template);
   }
 
@@ -165,6 +170,7 @@ export class ProfileComponent implements OnInit {
     onSubmit() {
         this.userId = this.ss.getUserId();
         this.submitted = true;
+        this.loading = true;
         this.contentService.updateProfile(this.userId, this.model)
             .subscribe(
                 result => {
@@ -184,36 +190,20 @@ export class ProfileComponent implements OnInit {
         result => {
           if (result.code == 0) {
             this.data = result.data ? result.data : [];
+
+
           }
         }
       )
   }
 
-  // passwordChange() {
-  //   this.loading = true;
-  //   const payload = this.changePasswordForm.value;
-  //   this.authService.changePassword(this.email, payload.oldPw, payload.newPw)
-  //     .finally(() => this.loading = false)
-  //     .subscribe(
-  //       res => {
-  //         console.log(res);
-  //         if (res.code == 0) {
-  //           this.ss.authToken = this.response.token;
-  //           this.ss.loggedInUser = this.response.bioUser;
-  //           this.router.navigate(['/profile']);
-  //         } else {
-  //           this.ns.showError(res.description);
-  //         }
-  //       },
-  //       error => {}
-  //     );
-  //
-  // }
 
   changePasswordResponse(event) {
     if (event.code == 0) {
+      this.ss.authToken = this.response.token;
+      this.ss.loggedInUser = this.response.bioUser;
       this.ns.showSuccess(event.description);
-    } else{
+    } else {
       if (event.code == 600) {
         this.ns.showError('An error has occurred')
       } else {
