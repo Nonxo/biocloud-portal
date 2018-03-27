@@ -346,6 +346,15 @@ export class AppContentService {
             })
     }
 
+    fetchAttendeesLocation(userId:string):Observable<any> {
+        let orgId = this.ss.getSelectedOrg().orgId;
+
+        return this.httpClient
+            .get(Endpoints.FETCH_ATTENDEES_LOCATION + userId + "/orgs/" + orgId + "/locations", {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+    }
 
 
 }
