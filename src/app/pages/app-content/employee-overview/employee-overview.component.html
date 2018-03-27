@@ -48,12 +48,12 @@
                 </div>
             </mat-card>
 
-            <mat-card class="mt-lg-3 mt-4">
+            <mat-card class="mt-lg-3 mt-4" style="height: 360px;">
                 <div class="row">
                     <div class="col-lg-12 pb-lg-0 pb-2">
-                        <h5 class="text-brand">Punctuality Report</h5>
+                        <h5 class="text-brand pb-lg-5">Punctuality Report</h5>
 
-                        <div class="w-50 pt-3">
+                        <div class="col-lg-6 float-left w-50 pt-3">
                             <mwl-gauge
                                     class="two {{active}}"
                                     [max]="100"
@@ -65,6 +65,19 @@
                             </mwl-gauge>
 
                         </div>
+
+                        <div class="col-lg-6 pt-lg-5 float-right pl-lg-5">
+                            <p>
+                                0 - Never early
+                            </p>
+                            <p>
+                                50% - Averagely early
+                            </p>
+                            <p>
+                                100% - Always early
+                            </p>
+                        </div>
+
                     </div>
                 </div>
             </mat-card>
@@ -73,25 +86,25 @@
 
 
         <div class="col-lg-6 pt-lg-0 pt-4">
-            <mat-card class="h-100">
+            <mat-card class="">
                 <div class="row">
                     <div class="col-lg-12">
                         <h5>Recent Time in</h5>
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Location</th>
-                                    <th>Time in</th>
-                                </tr>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Location</th>
+                                        <th>Time in</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr *ngFor="let c of clockInHistorys">
-                                    <td>{{c.time | date:'fullDate'}}</td>
-                                    <td>{{c.locationName}}</td>
-                                    <td>{{c.time | date:'shortTime'}}</td>
-                                </tr>
+                                    <tr *ngFor="let c of clockInHistorys">
+                                        <td>{{c.time | date:'fullDate'}}</td>
+                                        <td>{{c.locationName}}</td>
+                                        <td>{{c.time | date:'shortTime'}}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
