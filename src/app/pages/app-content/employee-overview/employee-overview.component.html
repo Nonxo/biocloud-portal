@@ -43,16 +43,28 @@
                 </div>
             </mat-card>
 
-            <mat-card class="mt-lg-3 mt-4">
+            <mat-card class="mt-lg-3 mt-4" style="height: 360px;">
                 <div class="row">
                     <div class="col-lg-12 pb-lg-0 pb-2">
-                        <h5 class="text-brand">Punctuality Report</h5>
+                        <h5 class="text-brand pb-lg-5">Punctuality Report</h5>
 
-                        <div class="w-50 pt-3">
+                        <div class="col-lg-6 float-left w-50 pt-3">
                             <mwl-gauge class="two" [max]="100" [dialStartAngle]="0" [dialEndAngle]="180" [value]="punctualityScore" [animated]="true" [animationDuration]="5">
                             </mwl-gauge>
-
                         </div>
+
+                        <div class="col-lg-6 pt-lg-5 float-right pl-lg-5">
+                            <p>
+                                0 - Never early
+                            </p>
+                            <p>
+                                50% - Averagely early
+                            </p>
+                            <p>
+                                100% - Always early
+                            </p>
+                        </div>
+
                     </div>
                 </div>
             </mat-card>
