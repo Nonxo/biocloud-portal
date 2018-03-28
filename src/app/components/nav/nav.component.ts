@@ -124,6 +124,13 @@ export class NavComponent implements OnInit {
                     result ? this.title = result : '';
                 }
             )
+        //subscribe to userImage Observable
+        this.mService.getUserImage()
+          .subscribe(
+            result => {
+               this.userImage = result ? result : '';
+            }
+          )
 
         //set interval to fetch notifications
         this.timer = setInterval(() => {
@@ -134,6 +141,7 @@ export class NavComponent implements OnInit {
 
     ngOnInit() {
         this.selectedOrg = this.ss.getSelectedOrg() ? this.ss.getSelectedOrg() : new Org();
+
 
         //if an org is already selected, update role
         if (this.selectedOrg.orgId) {
@@ -306,7 +314,7 @@ export class NavComponent implements OnInit {
     rejectNotifications(email: string, inviteId: string, status: string) {
         this.approveRequest.status = status;
 
-        if (!this.selectedLocIds || this.selectedLocIds.length == 0) {
+        if (!this.selectedLocIds || this.selectedLocIds.length > 0) {
             this.callRejectService(inviteId);
 
         } else {

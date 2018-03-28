@@ -13,6 +13,7 @@ export class MessageService {
     private homeLinkActive = new Subject<boolean>();
     private title = new Subject<string>();
     private display = new Subject<boolean>();
+    private userImage = new Subject<string>();
 
     constructor() {}
 
@@ -22,6 +23,14 @@ export class MessageService {
 
     getSelectedOrg(): Observable<string> {
         return this.selectedOrg.asObservable();
+    }
+
+    setUserImage(value:string):void {
+      this.userImage.next(value);
+    }
+
+    getUserImage(): Observable<string> {
+      return this.userImage.asObservable();
     }
 
     setEditLocation(value:boolean):void {

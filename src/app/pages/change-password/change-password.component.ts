@@ -21,7 +21,7 @@ export class ChangePasswordComponent implements OnInit {
   hide = true;
   changePasswordForm:FormGroup;
   loading = false;
-  email:string;
+  email:string = this.ss.getLoggedInUserEmail();
   response:any;
 
   @Input()
@@ -44,13 +44,14 @@ export class ChangePasswordComponent implements OnInit {
       oldPw: ['', Validators.required],
       newPw: ['', Validators.required],
     });
-    this.email = this.ss.getLoggedInUserEmail();
+
 
   }
 
   passwordChange() {
     this.loading = true;
     const payload = this.changePasswordForm.value;
+    this.changePasswordForm.reset();
     this.authService.changePassword(this.email, payload.oldPw, payload.newPw)
       .finally(() => this.loading = false)
       .subscribe(
@@ -59,7 +60,6 @@ export class ChangePasswordComponent implements OnInit {
             this.changePasswordResponse.emit(res)
           } else {
             if (res.code == 0) {
-
               this.ss.authToken = this.response.token;
               this.ss.loggedInUser = this.response.bioUser;
               this.modalRef.hide();
