@@ -154,7 +154,6 @@ export class ProfileComponent implements OnInit {
     }
 
     openeditProfileModal(template: TemplateRef<any>) {
-        this.fetchUser()
         this.openModal(template);
     }
 
@@ -163,7 +162,6 @@ export class ProfileComponent implements OnInit {
   }
 
   openaboutProfileModal(template: TemplateRef<any>) {
-    this.fetchUser();
     this.openModal(template);
   }
 
