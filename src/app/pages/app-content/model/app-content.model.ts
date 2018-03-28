@@ -79,6 +79,7 @@ export class UpdateProfile {
   customerType: string;
   bio:string;
   userId:string;
+  verifiableImg:string;
 
 
   promoNotif: boolean;
