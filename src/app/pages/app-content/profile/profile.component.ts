@@ -121,15 +121,16 @@ export class ProfileComponent implements OnInit {
     }
 
     fetchUser() {
-      this.mService.setDisplay(true);
+      this.mService.setDisplay(true)
         this.contentService.retrieveUser(this.userId)
+          .finally(() => {
+            this.mService.setDisplay(false)
+          })
             .subscribe(
                 result => {
                     if (result.code == 0) {
                         this.retrieveStatus = true;
                         this.transformUserObj(result.user);
-                        this.mService.setDisplay(false);
-
                         if (this.model.img) {
                             let str = this.model.img.replace(/ /g, "+");
                             this.model.img = str
@@ -172,6 +173,9 @@ export class ProfileComponent implements OnInit {
         this.submitted = true;
         this.loading = true;
         this.contentService.updateProfile(this.userId, this.model)
+          .finally(() => {
+            this.loading = false
+          })
             .subscribe(
                 result => {
                     if (result.code == 0) {

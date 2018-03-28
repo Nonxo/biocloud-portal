@@ -143,7 +143,6 @@ export class NavComponent implements OnInit {
         this.fetchUsersOrg();
         this.onResizeByWindowScreen();
         this.callNotificationService();
-        this.fetchUser();
     }
 
     search(searchType: string, searchValue: string) {
@@ -632,32 +631,5 @@ export class NavComponent implements OnInit {
     this.callApproveService(inviteId);
   }
 
-  fetchUser() {
-      this.contentService.retrieveUser(this.userId)
-      .subscribe(
-        result => {
-          if (result.code == 0) {
-            this.retrieveStatus = true;
-            this.transformUserObj(result.user);
 
-            if (this.model.img) {
-              let str = this.model.img.replace(/ /g, "+");
-              this.model.img = str
-            }
-          } else {
-            // this.ns.showError(result.description);
-          }
-        },
-      )
-  }
-
-  transformUserObj(userObj: any) {
-    this.model.fName = userObj.fName;
-    this.model.lName = userObj.lName;
-    this.model.companyName = userObj.companyName;
-    this.model.phone = userObj.phone;
-    this.model.email = userObj.email;
-    this.model.address = userObj.address;
-    this.model.img = userObj.img;
-  }
 }

@@ -73,13 +73,16 @@ export class NotificationsComponent implements OnInit {
 
 
   callNotificationService() {
-    this.mService.setDisplay(true);
-    this.contentService.fetchNotification(this.orgId)
+    this.mService.setDisplay(true)
+
+      this.contentService.fetchNotification(this.orgId)
+        .finally(() => {
+          this.mService.setDisplay(false)
+        })
       .subscribe(
         result => {
           if (result.code == 0) {
             this.notifications = result.attendees ? result.attendees : [];
-            this.mService.setDisplay(false);
           } else {
             this.ns.showError(result.description)
           }
