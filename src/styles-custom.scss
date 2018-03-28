@@ -15,8 +15,13 @@ $white: #ffffff;
 $off-white: #F4F4F4;
 $grey: #72797A;
 $light-grey:#e2e6e9;
+$dark-grey:#a9a9a9;
+$slate-grey:slategrey;
 $dark: #271F1F;
 $dark-purple: #3C1C4C;
+$darker-purple: #322333;
+$loader-background: #636262;
+$check-box: #603484;
 $standard-size: 14px;
 @include angular-material-theme($candy-app-theme);
 html,
@@ -115,7 +120,7 @@ a {
 
 .bg-light-grey {
     // background-color: mat-color($candy-app-primary, 900) !important;
-    background-color: #322333;
+    background-color: $darker-purple;
 }
 
 a:hover {
@@ -157,14 +162,14 @@ a:hover {
 
 .modal-backdrop {
     // background-color: mat-color($candy-app-primary) !important;
-    background-color: #636262 !important;
+    background-color: $loader-background !important;
 }
 
 .mat-drawer-container {
     background-color: transparent !important;
 }
 
-mat-sidenav {
+.mat-sidenav {
     background-color: $dark !important;
 }
 
@@ -176,7 +181,7 @@ mat-sidenav {
 
 .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
 .mat-checkbox-checked.mat-accent .mat-checkbox-background {
-    background-color: #603484 !important;
+    background-color: $check-box !important;
 }
 
 .subscribe-plan {
@@ -209,7 +214,7 @@ mat-sidenav {
     overflow: hidden;
     margin-top: 1px;
     // background: mat-color($candy-app-primary, 500) !important;
-    background-color: #636262 !important;
+    background-color: $loader-background !important;
     opacity: 0.7;
     position: absolute;
     z-index: 99;
@@ -238,6 +243,19 @@ thead {
     background-color: mat-color($candy-app-primary, 500) !important;
     opacity: .6;
     color: $white;
+}
+
+::-webkit-scrollbar {
+    width: 0.5em;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: $dark-grey;
+    outline: 1px solid $slate-grey;
 }
 
 

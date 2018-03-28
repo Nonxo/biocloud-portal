@@ -21,7 +21,7 @@ export class ChangePasswordComponent implements OnInit {
   hide = true;
   changePasswordForm:FormGroup;
   loading = false;
-  email: string;
+  email:string;
   response:any;
 
   @Input()
@@ -44,6 +44,7 @@ export class ChangePasswordComponent implements OnInit {
       oldPw: ['', Validators.required],
       newPw: ['', Validators.required],
     });
+    this.email = this.ss.getLoggedInUserEmail();
 
   }
 
@@ -63,8 +64,6 @@ export class ChangePasswordComponent implements OnInit {
               this.ss.loggedInUser = this.response.bioUser;
               this.modalRef.hide();
               this.router.navigate(['/portal']);
-
-
             } else {
               this.ns.showError(res.description);
             }

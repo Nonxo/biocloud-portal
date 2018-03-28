@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit {
         this.modalRef = this.modalService.show(ChangePasswordComponent, this.modalOptions);
     }
 
-    y
+
 
     login() {
         this.loading = true;
