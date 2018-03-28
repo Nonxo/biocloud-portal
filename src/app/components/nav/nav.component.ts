@@ -450,6 +450,8 @@ export class NavComponent implements OnInit {
     }
 
     selectOrg(org: Org) {
+        this.activeClass = "active";
+
         //change selected state
         this.selectedOrg = org;
         this.ss.setSelectedOrg(org);

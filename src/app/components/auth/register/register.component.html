@@ -64,7 +64,10 @@
 
 
       <div class="col-md-12 mt-3">
-        <button mat-raised-button color="primary" class="px-4 py-1" [disabled]="form.invalid || loading" type="submit">REGISTER</button>
+        <button mat-raised-button color="primary" class="px-4 py-1" [disabled]="form.invalid || loading" type="submit">
+          REGISTER
+          <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
+        </button>
       </div>
     </div>
   </div>

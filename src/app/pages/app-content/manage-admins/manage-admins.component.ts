@@ -30,8 +30,9 @@ export class ManageAdminsComponent implements OnInit {
     rowsOnPage: number = 10;
     currentPage: number;
     maxSize: number = 5;
-    userRole:string = this.ss.getSelectedOrgRole();
-    orgCreator:string = this.ss.getSelectedOrg().createdBy;
+    userRole: string = this.ss.getSelectedOrgRole();
+    orgCreator: string = this.ss.getSelectedOrg().createdBy;
+    loading: boolean;
 
     constructor(private ss: StorageService,
                 private contentService: AppContentService,
@@ -51,7 +52,9 @@ export class ManageAdminsComponent implements OnInit {
     fetchAdminUsers() {
         this.mService.setDisplay(true);
         this.contentService.fetchUsersInAnOrg(this.ss.getSelectedOrg().orgId, this.pagObj)
-            .finally(() => {this.mService.setDisplay(false)})
+            .finally(() => {
+                this.mService.setDisplay(false)
+            })
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -159,7 +162,11 @@ export class ManageAdminsComponent implements OnInit {
             return;
         }
 
+        this.loading = true;
         this.configService.inviteAttendees(this.inviteRequest)
+            .finally(() => {
+                this.loading = false;
+            })
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -217,7 +224,7 @@ export class ManageAdminsComponent implements OnInit {
                         return x
                     }
                 });
-            }else {
+            } else {
                 this.users.map((x: any) => {
                     if (x.email != this.currentUserEmail && x.email != this.orgCreator) {
                         x.checked = true;
@@ -254,12 +261,17 @@ export class ManageAdminsComponent implements OnInit {
             this.adminRemovalRequest.userIds.push(u.userId);
         }
 
+        this.loading = true;
         this.contentService.removeAdmin(this.adminRemovalRequest)
-            .finally(() => {this.selAll = false;})
+            .finally(() => {
+                this.selAll = false;
+                this.loading = false;
+            })
             .subscribe(
                 result => {
                     let res: any = result;
                     if (res.code == 0) {
+                        this.modalRef? this.modalRef.hide():'';
                         this.fetchAdminUsersCount();
                         this.ns.showSuccess(res.description);
                     } else {
@@ -277,7 +289,11 @@ export class ManageAdminsComponent implements OnInit {
             return;
         }
 
+        this.loading = true;
         this.configService.assignAdmins(this.assignAdminRequest)
+            .finally(() => {
+                this.loading = false;
+            })
             .subscribe(
                 result => {
                     if (result.code == 0) {

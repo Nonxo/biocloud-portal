@@ -38,6 +38,7 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     maxSize: number = 5;
     currentPage: number;
     rowsOnPage = 10;
+    loading:boolean;
 
     constructor(private contentService: AppContentService,
                 private ss: StorageService,
@@ -288,10 +289,12 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     }
 
     activateDeactivateUser() {
+        this.loading = true;
         //noinspection TypeScriptValidateTypes
         this.contentService.activateDeactivateAttendees(this.adr)
             .finally(() => {
-                this.selAll = false
+                this.selAll = false;
+                this.loading = false;
             })
             .subscribe(
                 result => {
@@ -327,11 +330,13 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
      * call service that assigns users to a location
      */
     assignUser() {
+        this.loading = true;
         this.assignRequestObj.oldlocId = this.selectedLocId;
         //noinspection TypeScriptValidateTypes
         this.contentService.assignUsersToLocation(this.assignRequestObj)
             .finally(() => {
-                this.selAll = false
+                this.selAll = false;
+                this.loading = false;
             })
             .subscribe(
                 result => {
