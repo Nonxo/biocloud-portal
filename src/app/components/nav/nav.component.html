@@ -196,7 +196,10 @@
         </div>
       </div>
       <mat-divider></mat-divider> -->
-            <small class="">
+          <small class="cursor" *ngIf="notifications.length == 0">
+            <a class="float-right p-3 text-danger">No New Notifications..</a>
+          </small>
+            <small class="" *ngIf="notifications.length > 0">
                 <a routerLink="/portal/notification" class="float-right p-3">See all notifications..</a>
             </small>
         </mat-menu>
@@ -209,9 +212,9 @@
             <button mat-menu-item class="m-0" style="height: auto;">
                 <div class="row align-items-center" (click)="goToProfile()">
                     <div class="col-auto">
-                        <img *ngIf="model.img == null || model.img == ''" src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon"
+                        <img *ngIf="bioUser.img == null || bioUser.img == ''" src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon"
                              style="max-height:3em;"/>
-                      <img *ngIf="model.img" src="data:image/jpg;base64,{{model.img}}" class="img-fluid rounded-circle logo-icon"
+                      <img *ngIf="bioUser.img" src="data:image/jpg;base64,{{model.img}}" class="img-fluid rounded-circle logo-icon"
                            style="max-height:3em;"/>
                     </div>
                     <div class="col-auto  pt-3 pl-0">

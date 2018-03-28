@@ -28,6 +28,7 @@ export class NavComponent implements OnInit {
     selectedUser: any;
     manageAdmin: boolean;
     locations: any[] = [];
+    bioUser: any[] = [];
     users: any[] = [];
     uploadedFileName: string;
     hoverState:boolean;
