@@ -24,6 +24,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     maxSize: number = 5;
     currentTab: number = 0;
     locations: any[] = [];
+    reportDate: number;
 
     constructor(private reportService: ReportService,
                 private ss: StorageService,
@@ -68,6 +69,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
                         } else {
                             this.data = result.results ? result.results : [];
                             this.totalSize = result.total;
+                            this.reportDate = new Date().getTime();
                         }
 
                     } else {

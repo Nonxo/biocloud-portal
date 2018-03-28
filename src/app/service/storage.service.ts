@@ -50,6 +50,15 @@ export class StorageService {
 
         return '';
     }
+    getUserImg():string {
+      let obj:any = JSON.parse(localStorage.getItem('_u'));
+
+      if(obj) {
+        return obj.img;
+      }
+
+      return '';
+    }
 
     getUserId():string {
         let obj:any = JSON.parse(localStorage.getItem('_u'));

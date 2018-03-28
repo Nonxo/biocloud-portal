@@ -28,7 +28,6 @@ export class NavComponent implements OnInit {
     selectedUser: any;
     manageAdmin: boolean;
     locations: any[] = [];
-    bioUser: any[] = [];
     users: any[] = [];
     uploadedFileName: string;
     hoverState:boolean;
@@ -68,6 +67,7 @@ export class NavComponent implements OnInit {
     inviteRequest: InviteRequest = new InviteRequest();
     currentUserEmail: string = this.ss.getLoggedInUserEmail();
     username = this.ss.getUserName();
+    userImage = this.ss.getUserImg();
     @ViewChild("assignLocation") public assignLocation: TemplateRef<any>;
     searchField: string;
     userId:string;

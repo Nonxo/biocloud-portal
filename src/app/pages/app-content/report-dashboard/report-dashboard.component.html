@@ -3,6 +3,9 @@
     <mat-tab label="Early">
         <div class="container-fluid">
             <div class="row mt-4">
+
+                <div class="col-md-12"><p>Report for today, {{reportDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>
+
                 <div class="col-lg-4 col-12  d-flex align-items-center">
                     <mat-form-field>
                         <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
@@ -86,6 +89,9 @@
     <mat-tab label="Late">
         <div class="container-fluid">
             <div class="row mt-4">
+
+                <div class="col-md-12"><p>Report for today, {{reportDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>
+
                 <div class="col-lg-4 col-12  d-flex align-items-center">
                     <mat-form-field>
                         <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
@@ -170,6 +176,9 @@
 
         <div class="container-fluid">
             <div class="row mt-4">
+
+                <div class="col-md-12"><p>Report for today, {{reportDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>
+
                 <div class="col-lg-4 col-12  d-flex align-items-center">
                     <mat-form-field>
                         <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
@@ -253,6 +262,9 @@
 
         <div class="container-fluid">
             <div class="row mt-4">
+
+                <div class="col-md-12"><p>Report for today, {{reportDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>
+
                 <div class="col-lg-4 col-12  d-flex align-items-center">
                     <mat-form-field>
                         <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
