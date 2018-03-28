@@ -1,5 +1,5 @@
-
 /* ------ Default Style ---------- */
+
 mwl-gauge {
     flex: 1;
     /*display: block;*/
@@ -8,126 +8,226 @@ mwl-gauge {
     margin: 7px;
     border-radius: 3px;
 }
-mwl-gauge > .gauge > .dial {
+
+mwl-gauge>.gauge>.dial {
     stroke: #334455;
     stroke-width: 2;
-    fill: rgba(0,0,0,0);
+    fill: rgba(0, 0, 0, 0);
 }
-mwl-gauge > .gauge > .value {
+
+mwl-gauge>.gauge>.value {
     stroke: rgb(47, 227, 255);
     stroke-width: 2;
-    fill: rgba(0,0,0,0);
+    fill: rgba(0, 0, 0, 0);
 }
-mwl-gauge > .gauge > .value-text {
+
+mwl-gauge>.gauge>.value-text {
     fill: rgb(47, 227, 255);
     font-family: sans-serif;
     font-weight: bold;
     font-size: 0.8em;
 }
+
+
 /* ------- Alternate Style ------- */
-mwl-gauge.two {
-}
-mwl-gauge.two > .gauge > .dial {
+
+mwl-gauge.two {}
+
+mwl-gauge.two>.gauge>.dial {
     stroke: #334455;
     stroke-width: 10;
 }
-mwl-gauge.two > .gauge > .value {
+
+mwl-gauge.two>.gauge>.value {
     /*stroke: red;*/
     stroke-dasharray: none;
     stroke-width: 13;
 }
-mwl-gauge.two > .gauge > .value-text {
+
+mwl-gauge.two>.gauge>.value-text {
     /*fill: orange;*/
 }
 
-mwl-gauge.poor > .gauge > .value {
+mwl-gauge.poor>.gauge>.value {
     fill: red;
     stroke: red;
 }
 
-mwl-gauge.average > .gauge > .value {
+mwl-gauge.average>.gauge>.value {
     stroke: orange;
 }
 
-mwl-gauge.excellent > .gauge > .value {
+mwl-gauge.excellent>.gauge>.value {
     stroke: green;
 }
 
-mwl-gauge.poor > .gauge > .value-text {
+mwl-gauge.poor>.gauge>.value-text {
     fill: red;
 }
 
-mwl-gauge.average > .gauge > .value-text {
+mwl-gauge.average>.gauge>.value-text {
     fill: orange;
 }
 
-mwl-gauge.excellent > .gauge > .value-text {
+mwl-gauge.excellent>.gauge>.value-text {
     fill: green;
 }
 
+
 /* ------- Alternate Style ------- */
-mwl-gauge.three {
-}
-mwl-gauge.three > .gauge > .dial {
+
+mwl-gauge.three {}
+
+mwl-gauge.three>.gauge>.dial {
     stroke: #334455;
     stroke-width: 2;
 }
-mwl-gauge.three > .gauge > .value {
+
+mwl-gauge.three>.gauge>.value {
     stroke: #C9DE3C;
     stroke-width: 5;
 }
-mwl-gauge.three > .gauge > .value-text {
+
+mwl-gauge.three>.gauge>.value-text {
     fill: #C9DE3C;
 }
+
+
 /* ----- Alternate Style ----- */
-mwl-gauge.four > .gauge > .dial {
+
+mwl-gauge.four>.gauge>.dial {
     stroke: #334455;
     stroke-width: 5;
 }
-mwl-gauge.four > .gauge > .value {
+
+mwl-gauge.four>.gauge>.value {
     stroke: #BE80FF;
     stroke-dasharray: none;
     stroke-width: 5;
 }
-mwl-gauge.four > .gauge > .value-text {
+
+mwl-gauge.four>.gauge>.value-text {
     fill: #BE80FF;
 }
+
+
 /* ----- Alternate Style ----- */
-mwl-gauge.five > .gauge > .dial {
+
+mwl-gauge.five>.gauge>.dial {
     stroke: #334455;
     stroke-width: 5;
 }
-mwl-gauge.five > .gauge > .value {
+
+mwl-gauge.five>.gauge>.value {
     stroke: #F8774B;
     stroke-dasharray: 25 1;
     stroke-width: 5;
 }
-mwl-gauge.five > .gauge > .value-text {
+
+mwl-gauge.five>.gauge>.value-text {
     fill: #F8774B;
     font-size: 0.7em;
 }
+
+
 /* ----- Alternate Style ----- */
-mwl-gauge.six > .gauge > .dial {
+
+mwl-gauge.six>.gauge>.dial {
     stroke: #334455;
     fill: #334455;
     stroke-width: 20;
 }
-mwl-gauge.six > .gauge > .value {
+
+mwl-gauge.six>.gauge>.value {
     stroke: #FF6DAF;
     stroke-width: 20;
 }
-mwl-gauge.six > .gauge > .value-text {
+
+mwl-gauge.six>.gauge>.value-text {
     fill: #FF6DAF;
     font-size: 0.7em;
 }
-mwl-gauge.seven > .gauge > .dial {
+
+mwl-gauge.seven>.gauge>.dial {
     stroke: transparent;
     stroke-width: 5;
-    transform: scale(0.9,0.9) translate3d(5.5px, 5.5px, 0);
+    transform: scale(0.9, 0.9) translate3d(5.5px, 5.5px, 0);
     fill: rgba(148, 112, 57, 0.42);
 }
-mwl-gauge.seven > .gauge > .value {
+
+mwl-gauge.seven>.gauge>.value {
     stroke: #F8774B;
     stroke-dasharray: none;
     stroke-width: 5;
+}
+
+.punctuality-height {
+    height: 360px;
+}
+
+@media only screen and (min-device-width: 360px) and (max-device-width: 812px) {
+    .gauge-width {
+        padding-top: 30px !important;
+        width: 90% !important;
+    }
+    .punctuality-height {
+        height: 550px;
+        padding-top: 0px !important;
+        text-align: center;
+    }
+    .punctuality-padding {
+        padding-top: 30px !important;
+    }
+}
+
+
+/*ipad*/
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    .gauge-width {
+        padding-top: 30px !important;
+        width: 80% !important;
+        margin-left: 50px;
+    }
+    .punctuality-height {
+        height: 800px;
+        padding-top: 0px !important;
+        text-align: center;
+    }
+    .punctuality-padding {
+        padding-top: 30px !important;
+        font-size: 25px;
+        text-align: left;
+    }
+    .punctuality-text {
+        margin-top: -90px;
+        font-size: 25px;
+        text-align: center;
+    }
+}
+
+
+/*ipad pro*/
+
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) {
+    .gauge-width {
+        padding-top: 0px !important;
+        width: 100% !important;
+        margin-left: 5px !important;
+    }
+    .punctuality-height {
+        height: 420px;
+        padding-top: 0px !important;
+        text-align: center;
+    }
+    .punctuality-padding {
+        padding-top: 30px !important;
+        font-size: 25px;
+        text-align: left;
+    }
+    .punctuality-text {
+        text-align: left;
+        font-size: 14px;
+        padding-top: 0px !important;
+    }
 }
