@@ -42,7 +42,8 @@ export class SetupComponent implements OnInit {
         {value: "COUNTRY", name: "Country"},
         {value: "STATE", name: "State"},
         {value: "SPECIFIC_ADDRESS", name: "Specific Address"}
-    ]
+    ];
+    loading:boolean;
 
     constructor(private aService:AppConfigService,
                 private modalService:BsModalService,
@@ -199,6 +200,7 @@ export class SetupComponent implements OnInit {
             return;
         }
 
+        this.loading = true;
         this.editMode ? this.editLocation() : this.saveLocation();
     }
 
@@ -261,6 +263,7 @@ export class SetupComponent implements OnInit {
 
     editLocation() {
         this.aService.editLocation(this.locRequest)
+            .finally(() => {this.loading = false;})
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -280,6 +283,7 @@ export class SetupComponent implements OnInit {
     saveLocation() {
         //noinspection TypeScriptValidateTypes,TypeScriptUnresolvedFunction
         this.aService.saveLocation(this.locRequest)
+            .finally(() => {this.loading = false;})
             .subscribe(
                 result => {
                     if (result.code == 0) {

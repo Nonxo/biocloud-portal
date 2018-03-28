@@ -24,6 +24,7 @@ export class AddAttendeesComponent implements OnInit {
     locations: any[] = [];
     inviteRequest: InviteRequest = new InviteRequest();
     separatorKeysCodes = [ENTER, COMMA];
+    loading:boolean;
 
     addBy = [
         {name: "INVITE", checked: true},
@@ -59,6 +60,7 @@ export class AddAttendeesComponent implements OnInit {
     }
 
     onSubmit() {
+
         if (!this.location) {
             this.ns.showError("You must select a location");
             return;
@@ -73,6 +75,7 @@ export class AddAttendeesComponent implements OnInit {
             return;
         }
 
+        this.loading = true;
         this.inviteRequest.locIds.push(this.location);
         this.inviteRequest.role = 'ATTENDEE';
         this.invite();
@@ -80,6 +83,7 @@ export class AddAttendeesComponent implements OnInit {
 
     invite() {
         this.configService.inviteAttendees(this.inviteRequest)
+            .finally(() => {this.loading = false;})
             .subscribe(
                 result => {
                     if (result.code == 0) {

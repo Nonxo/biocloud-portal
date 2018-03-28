@@ -10,7 +10,7 @@
             <ng-container>
                 <button mat-raised-button color="primary" *ngIf="canEdit()" (click)="viewAdminDetails(viewAdminTemplate)" class="primary-outline">Edit
                 </button>
-                <button mat-button class="primary-outline" *ngIf="canRemove()" (click)="removeAdmin()">Remove</button>
+                <button mat-button class="primary-outline" *ngIf="canRemove()" (click)="openModal(removeAdminTemplate)">Remove</button>
             </ng-container>
         </div>
 
@@ -118,7 +118,9 @@
             <div class="col-md-12 text-md-center text-center pt-4 pb-4">
                 <ng-container>
                     <button mat-button class="primary-outline" type="button" (click)="modalRef.hide()">Cancel</button>
-                    <button mat-raised-button color="primary" type="submit" class="primary-outline">Add Admin
+                    <button mat-raised-button color="primary" type="submit" class="primary-outline">
+                        Add Admin
+                        <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
                     </button>
                 </ng-container>
             </div>
@@ -173,9 +175,38 @@
             </div>
 
             <div class="col-md-12 text-right">
-                <button mat-raised-button color="primary" class="primary-outline" class="auth-btn" type="submit">PROCEED</button>
+                <button mat-raised-button color="primary" class="primary-outline" class="auth-btn" type="submit">
+                    PROCEED
+                    <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
+                </button>
             </div>
         </form>
+    </div>
+</ng-template>
+
+<ng-template #removeAdminTemplate>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left text-brand">Remove Employee(s)</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="col-md-12">
+            <p>Are you sure you want to Remove the selected Admin(s).</p>
+            <p>This means they will be unable to manage your Company/Locations anymore</p>
+        </div>
+
+        <div class="col-md-12 text-right">
+            <button mat-raised-button color="danger" type="button" (click)="modalRef.hide()">CANCEL</button>
+            <button mat-raised-button color="primary" type="button" (click)="removeAdmin()">
+                OK
+                <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
+            </button>
+        </div>
+
+
     </div>
 </ng-template>
 
