@@ -202,8 +202,6 @@ export class ProfileComponent implements OnInit {
 
   changePasswordResponse(event) {
     if (event.code == 0) {
-      this.ss.authToken = this.response.token;
-      this.ss.loggedInUser = this.response.bioUser;
       this.ns.showSuccess(event.description);
     } else {
       if (event.code == 600) {
