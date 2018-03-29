@@ -125,7 +125,7 @@ export class ProfileComponent implements OnInit {
     }
 
     fetchUser() {
-      this.mService.setDisplay(true)
+      this.mService.setDisplay(true);
         this.contentService.retrieveUser(this.userId)
           .finally(() => {
             this.mService.setDisplay(false)
@@ -134,7 +134,7 @@ export class ProfileComponent implements OnInit {
                 result => {
                     if (result.code == 0) {
                         this.retrieveStatus = true;
-                        this.transformUserObj(result.user);
+                        this.transformUserObj(result.data);
                         if (this.model.img) {
                             let str = this.model.img.replace(/ /g, "+");
                             this.model.img = str
@@ -154,7 +154,7 @@ export class ProfileComponent implements OnInit {
         this.model.email = userObj.email;
         this.model.address = userObj.address;
         this.model.img = userObj.img;
-        this.model. bio = userObj.bio;
+        this.model.bio = userObj.bio;
     }
 
     openeditProfileModal(template: TemplateRef<any>) {
