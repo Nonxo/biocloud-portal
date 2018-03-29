@@ -54,10 +54,19 @@ export class StorageService {
       let obj:any = JSON.parse(localStorage.getItem('_u'));
 
       if(obj) {
-        return obj.img;
+        return obj.img ? obj.img : '';
       }
 
       return '';
+    }
+
+    setUserImage(value) {
+      let _u:any = JSON.parse(localStorage.getItem('_u'))
+
+      if(_u) {
+        _u['img'] = value;
+      }
+      localStorage.setItem("_u", JSON.stringify(_u));
     }
 
     getUserId():string {
