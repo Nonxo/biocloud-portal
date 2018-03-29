@@ -44,6 +44,7 @@ export class ProfileComponent implements OnInit {
     this.email = this.ss.getLoggedInUserEmail();
     this.fetchUser();
     this.workStatus();
+    this.fetchBio();
     this.changePasswordForm = this.fb.group({
       oldPw: ['', Validators.required],
       newPw: ['', Validators.required],
@@ -125,7 +126,7 @@ export class ProfileComponent implements OnInit {
     }
 
     fetchUser() {
-      this.mService.setDisplay(true);
+      this.mService.setDisplay(true)
         this.contentService.retrieveUser(this.userId)
           .finally(() => {
             this.mService.setDisplay(false)
@@ -134,7 +135,7 @@ export class ProfileComponent implements OnInit {
                 result => {
                     if (result.code == 0) {
                         this.retrieveStatus = true;
-                        this.transformUserObj(result.data);
+                        this.transformUserObj(result.user);
                         if (this.model.img) {
                             let str = this.model.img.replace(/ /g, "+");
                             this.model.img = str
@@ -146,6 +147,20 @@ export class ProfileComponent implements OnInit {
             )
     }
 
+    fetchBio(){
+    this.contentService.retrieveUser(this.userId)
+      .subscribe(
+        result => {
+          if (result.code == 0) {
+            this.retrieveStatus = true;
+            this.transformUserObj(result.bio);
+          } else {
+
+          }
+        },
+      )
+    }
+
     transformUserObj(userObj: any) {
         this.model.fName = userObj.fName;
         this.model.lName = userObj.lName;
@@ -154,7 +169,7 @@ export class ProfileComponent implements OnInit {
         this.model.email = userObj.email;
         this.model.address = userObj.address;
         this.model.img = userObj.img;
-        this.model.bio = userObj.bio;
+        this.model. bio = userObj.bio;
     }
 
     openeditProfileModal(template: TemplateRef<any>) {
@@ -208,7 +223,6 @@ export class ProfileComponent implements OnInit {
 
     if (event.code == 0) {
       this.ns.showSuccess(event.description);
-      this.changePasswordForm.reset();
     } else {
       if (event.code == 600) {
         this.ns.showError('An error has occurred')
