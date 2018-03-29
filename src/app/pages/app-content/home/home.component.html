@@ -26,7 +26,7 @@
                 <div class=" col-lg-12 px-md-4 px-lg-4">
                     <h5 class="float-left text-brand">Locations</h5>
                     <a routerLink="/portal/config" role="button" *hasAuthority="'GENERAL_ADMIN'">
-                        <h6 class="float-right">ADD NEW LOCATION</h6>
+                        <h6 class="float-right pt-lg-0 pt-1">ADD NEW LOCATION</h6>
                     </a>
                 </div>
             </div>
@@ -35,7 +35,7 @@
 
                 <div class="col-lg-4 col-md-6 mt-3" *ngFor="let loc of locations">
                     <mat-card class="py-md-3 h-100">
-                        <img src="assets/img/loc.svg" style="max-width:32px"/>
+                        <img src="assets/img/loc.svg" style="max-width:32px" />
                         <h6 class="my-3">{{loc.name}}</h6>
                         <mat-divider></mat-divider>
                         <div class="py-2 row justify-content-between">
@@ -125,19 +125,19 @@
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
-                            <tr>
-                                <th scope="col">NAME</th>
-                                <th scope="col">LOCATION</th>
-                                <th scope="col">TIME IN</th>
-                            </tr>
+                                <tr>
+                                    <th scope="col">NAME</th>
+                                    <th scope="col">LOCATION</th>
+                                    <th scope="col">TIME IN</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <tr *ngFor="let notif of latestClockin">
-                                <td>{{notif.firstName}} {{notif.surname}}</td>
-                                <td>{{notif.locationName}}</td>
-                                <td>{{notif.time | date:'short'}}</td>
-                            </tr>
-                            <!-- <tr>
+                                <tr *ngFor="let notif of latestClockin">
+                                    <td>{{notif.firstName}} {{notif.surname}}</td>
+                                    <td>{{notif.locationName}}</td>
+                                    <td>{{notif.time | date:'short'}}</td>
+                                </tr>
+                                <!-- <tr>
                                  <th scope="row">2</th>
                                  <td>Jacob Samuel</td>
                                  <td>Ikeja</td>
