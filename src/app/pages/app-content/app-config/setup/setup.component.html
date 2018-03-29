@@ -155,11 +155,12 @@
                                 </ng-container>
 
                                 <div class="col-md-12 mt-3">
+                                    <button mat-raised-button class="px-4 primary-outline py-1" type="button" (click)="cancel()">CANCEL</button>
+
                                     <button mat-raised-button color="primary" class="px-4 primary-outline py-1 mr-2">
                                             SAVE
                                         <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
                                         </button>
-                                    <button mat-raised-button class="px-4 primary-outline py-1" type="button" (click)="cancel()">CANCEL</button>
                                 </div>
                             </div>
                         </div>
