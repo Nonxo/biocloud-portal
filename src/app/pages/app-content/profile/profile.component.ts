@@ -42,9 +42,9 @@ export class ProfileComponent implements OnInit {
     this.mService.setTitle("Profile");
     this.userId = this.ss.getUserId();
     this.email = this.ss.getLoggedInUserEmail();
+    this.fetchBio();
     this.fetchUser();
     this.workStatus();
-    this.fetchBio();
     this.changePasswordForm = this.fb.group({
       oldPw: ['', Validators.required],
       newPw: ['', Validators.required],
