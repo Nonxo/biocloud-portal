@@ -238,6 +238,15 @@ export class NavComponent implements OnInit {
         let arr = [];
         let notif = this.ss.getLatesNotifTime();
 
+        if(!notif) {
+            let n: any = this.notifications.length > 0 ? this.notifications[0] : null;
+            if (n) {
+                this.ss.setLatestNotifTime(n.created);
+            } else {
+                this.ss.setLatestNotifTime(new Date().getTime());
+            }
+        }
+
         if (notif) {
             arr = this.notifications.filter(obj => obj.created > notif);
             if (arr.length > 0) {

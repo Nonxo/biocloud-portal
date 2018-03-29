@@ -203,6 +203,7 @@ export class HomeComponent implements OnInit {
                 result => {
                     if(result.code == 0) {
                         this.ns.showSuccess(result.description);
+                        this.callLocationService();
                     } else {
                         this.ns.showError(result.description);
                     }

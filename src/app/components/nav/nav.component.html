@@ -90,15 +90,15 @@
 
 
         <mat-nav-list>
-            <ul class="app-nav">
-                <li class="{{activeClass}}" (click)="toggleClass(true)">
+            <ul class="app-nav" id="nav">
+                <li class="{{activeClass}}" id="dashboard" (click)="toggleClass(true)">
                     <a routerLink="/portal" mat-list-item>
                         <mat-icon mat-list-icon>home</mat-icon>
                         <span mat-line>Dashboard</span>
                     </a>
                 </li>
                 <ng-container *ngFor="let view of views">
-                    <li routerLinkActive="active" *hasAuthority="view.authority" (click)="toggleClass(false)">
+                    <li routerLinkActive="active" id="view.route" *hasAuthority="view.authority" (click)="toggleClass(false)">
                         <a routerLink="{{view.url}}" mat-list-item>
                             <mat-icon mat-list-icon>{{view.icon}}</mat-icon>
                             <span mat-line>{{view.route}}</span>
@@ -109,7 +109,7 @@
         </mat-nav-list>
         <mat-nav-list>
             <ul>
-                <li routerLinkActive="active" *hasAuthority="['GENERAL_ADMIN','LOCATION_ADMIN']" (click)="activeClass = ''">
+                <li routerLinkActive="active" id="admin" *hasAuthority="['GENERAL_ADMIN','LOCATION_ADMIN']" (click)="activeClass = ''">
                     <a routerLink="/portal/manage-admins" mat-list-item class="text-white">
                         <mat-icon mat-list-icon>group</mat-icon>
                         <span mat-line>Admins</span>
