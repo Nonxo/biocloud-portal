@@ -51,7 +51,6 @@ export class ChangePasswordComponent implements OnInit {
   passwordChange() {
     this.loading = true;
     const payload = this.changePasswordForm.value;
-    this.changePasswordForm.reset();
     this.authService.changePassword(this.email, payload.oldPw, payload.newPw)
       .finally(() => this.loading = false)
       .subscribe(
@@ -60,8 +59,10 @@ export class ChangePasswordComponent implements OnInit {
             this.changePasswordResponse.emit(res)
           } else {
             if (res.code == 0) {
+
               this.ss.authToken = this.response.token;
               this.ss.loggedInUser = this.response.bioUser;
+              this.changePasswordForm.reset();
               this.modalRef.hide();
               this.router.navigate(['/portal']);
             } else {

@@ -208,6 +208,7 @@ export class ProfileComponent implements OnInit {
 
     if (event.code == 0) {
       this.ns.showSuccess(event.description);
+      this.changePasswordForm.reset();
     } else {
       if (event.code == 600) {
         this.ns.showError('An error has occurred')
