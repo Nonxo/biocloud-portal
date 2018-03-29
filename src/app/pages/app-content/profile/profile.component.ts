@@ -42,6 +42,7 @@ export class ProfileComponent implements OnInit {
     this.mService.setTitle("Profile");
     this.userId = this.ss.getUserId();
     this.email = this.ss.getLoggedInUserEmail();
+    this.fetchBio();
     this.fetchUser();
     this.workStatus();
     this.changePasswordForm = this.fb.group({
@@ -89,7 +90,9 @@ export class ProfileComponent implements OnInit {
 
     remove() {
       this.model.img = "";
+      this.mService.setUserImage("");
       this.onSubmit();
+      this.ss.setUserImage("")
 
     }
 
@@ -111,6 +114,8 @@ export class ProfileComponent implements OnInit {
 
                 this.pictureUtil.resize(img, 250, 250, (resized_jpeg, before, after) => {
                     this.model.img = resized_jpeg;
+                    this.mService.setUserImage(this.model.img);
+                    this.ss.setUserImage(this.model.img);
                     this.readFiles(files, index + 1);
                     this.onSubmit();
 
@@ -142,6 +147,20 @@ export class ProfileComponent implements OnInit {
             )
     }
 
+    fetchBio(){
+    this.contentService.retrieveUser(this.userId)
+      .subscribe(
+        result => {
+          if (result.code == 0) {
+            this.retrieveStatus = true;
+            this.transformUserObj(result.bio);
+          } else {
+
+          }
+        },
+      )
+    }
+
     transformUserObj(userObj: any) {
         this.model.fName = userObj.fName;
         this.model.lName = userObj.lName;
@@ -150,7 +169,7 @@ export class ProfileComponent implements OnInit {
         this.model.email = userObj.email;
         this.model.address = userObj.address;
         this.model.img = userObj.img;
-        this.model.bio = userObj.bio;
+        this.model. bio = userObj.bio;
     }
 
     openeditProfileModal(template: TemplateRef<any>) {
@@ -201,6 +220,7 @@ export class ProfileComponent implements OnInit {
 
 
   changePasswordResponse(event) {
+
     if (event.code == 0) {
       this.ns.showSuccess(event.description);
     } else {
