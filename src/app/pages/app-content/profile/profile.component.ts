@@ -21,6 +21,7 @@ import {MessageService} from "../../../service/message.service";
 })
 export class ProfileComponent implements OnInit {
   userId:string;
+  bio:string;
   model: UpdateProfile = new UpdateProfile();
   changePasswordForm:FormGroup;
   submitted:boolean;
@@ -153,7 +154,8 @@ export class ProfileComponent implements OnInit {
         result => {
           if (result.code == 0) {
             this.retrieveStatus = true;
-            this.transformUserObj(result.bio);
+            debugger;
+            this.bio = result.bio;
           } else {
 
           }
@@ -169,7 +171,7 @@ export class ProfileComponent implements OnInit {
         this.model.email = userObj.email;
         this.model.address = userObj.address;
         this.model.img = userObj.img;
-        this.model. bio = userObj.bio;
+        this.model.bio = userObj.bio;
     }
 
     openeditProfileModal(template: TemplateRef<any>) {
