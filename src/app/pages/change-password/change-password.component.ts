@@ -20,6 +20,7 @@ import {TranslateService} from "@ngx-translate/core";
 export class ChangePasswordComponent implements OnInit {
 
   hide = true;
+  visible = true;
   changePasswordForm:FormGroup;
   loading = false;
   email:string = this.ss.getLoggedInUserEmail();
