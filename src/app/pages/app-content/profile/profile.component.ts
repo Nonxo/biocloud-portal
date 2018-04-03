@@ -154,7 +154,6 @@ export class ProfileComponent implements OnInit {
         result => {
           if (result.code == 0) {
             this.retrieveStatus = true;
-            debugger;
             this.bio = result.bio;
           } else {
 
