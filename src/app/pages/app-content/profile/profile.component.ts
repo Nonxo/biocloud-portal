@@ -43,7 +43,7 @@ export class ProfileComponent implements OnInit {
     this.mService.setTitle("Profile");
     this.userId = this.ss.getUserId();
     this.email = this.ss.getLoggedInUserEmail();
-    this.fetchBio();
+    // this.fetchBio();
     this.fetchUser();
     this.workStatus();
     this.changePasswordForm = this.fb.group({
@@ -136,7 +136,7 @@ export class ProfileComponent implements OnInit {
                 result => {
                     if (result.code == 0) {
                         this.retrieveStatus = true;
-                        this.transformUserObj(result.user);
+                        this.transformUserObj(result.user, result.bio);
                         if (this.model.img) {
                             let str = this.model.img.replace(/ /g, "+");
                             this.model.img = str
@@ -148,21 +148,21 @@ export class ProfileComponent implements OnInit {
             )
     }
 
-    fetchBio(){
-    this.contentService.retrieveUser(this.userId)
-      .subscribe(
-        result => {
-          if (result.code == 0) {
-            this.retrieveStatus = true;
-            this.bio = result.bio;
-          } else {
+    // fetchBio(){
+    // this.contentService.retrieveUser(this.userId)
+    //   .subscribe(
+    //     result => {
+    //       if (result.code == 0) {
+    //         this.retrieveStatus = true;
+    //         this.bio = result.bio;
+    //       } else {
+    //
+    //       }
+    //     },
+    //   )
+    // }
 
-          }
-        },
-      )
-    }
-
-    transformUserObj(userObj: any) {
+    transformUserObj(userObj: any, bio:string) {
         this.model.fName = userObj.fName;
         this.model.lName = userObj.lName;
         this.model.companyName = userObj.companyName;
@@ -170,7 +170,7 @@ export class ProfileComponent implements OnInit {
         this.model.email = userObj.email;
         this.model.address = userObj.address;
         this.model.img = userObj.img;
-        this.model.bio = userObj.bio;
+        this.model.bio = bio;
     }
 
     openeditProfileModal(template: TemplateRef<any>) {
