@@ -24,7 +24,8 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     maxSize: number = 5;
     currentTab: number = 0;
     locations: any[] = [];
-    reportDate: number;
+    reportDate: number = new Date().getTime();
+    userRole = this.ss.getSelectedOrgRole();
 
     constructor(private reportService: ReportService,
                 private ss: StorageService,
@@ -148,6 +149,13 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
                 result => {
                     if (result.code == 0) {
                         this.locations = result.locations ? result.locations : [];
+
+                        if (this.userRole == 'LOCATION_ADMIN') {
+                            if (this.locations.length > 0) {
+                                //if user is a location admin select the first location by default
+                                this.reportModel.locId = this.locations[0].locId;
+                            }
+                        }
 
                     } else {
                         this.locations = [];

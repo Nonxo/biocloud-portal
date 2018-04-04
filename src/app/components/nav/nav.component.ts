@@ -135,7 +135,7 @@ export class NavComponent implements OnInit {
         //set interval to fetch notifications
         this.timer = setInterval(() => {
             this.callNotificationService();
-        }, 30000);
+        }, 60000);
 
     }
 
@@ -149,9 +149,27 @@ export class NavComponent implements OnInit {
             this.mService.setSelectedOrg(this.selectedOrg.orgId);
         }
 
+        this.fetchCompanyType();
         this.fetchUsersOrg();
         this.onResizeByWindowScreen();
         this.callNotificationService();
+    }
+
+    fetchCompanyType() {
+        if(this.ss.getCompanyType() && this.ss.getCompanyType().length > 0) {
+            this.orgTypes = this.ss.getCompanyType();
+        } else {
+            this.contentService.fetchCompanyType()
+                .subscribe(
+                    result => {
+                        if(result.code == 0) {
+                            this.orgTypes = result.orgTypes;
+                            this.ss.setCompanyType(this.orgTypes);
+                        }
+                    },
+                    error => {}
+                )
+        }
     }
 
     search(searchType: string, searchValue: string) {
@@ -245,6 +263,15 @@ export class NavComponent implements OnInit {
     showNotifBadge() {
         let arr = [];
         let notif = this.ss.getLatesNotifTime();
+
+        if(!notif) {
+            let n: any = this.notifications.length > 0 ? this.notifications[0] : null;
+            if (n) {
+                this.ss.setLatestNotifTime(n.created);
+            } else {
+                this.ss.setLatestNotifTime(new Date().getTime());
+            }
+        }
 
         if (notif) {
             arr = this.notifications.filter(obj => obj.created > notif);

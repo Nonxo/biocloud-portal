@@ -356,5 +356,12 @@ export class AppContentService {
             })
     }
 
+    fetchCompanyType():Observable<any> {
+        return this.httpClient
+            .get(Endpoints.FETCH_COMPANY_TYPE, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+    }
 
 }

@@ -9,7 +9,7 @@
                 <div class="col-lg-4 col-12  d-flex align-items-center">
                     <mat-form-field>
                         <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
-                            <mat-option value="">All location</mat-option>
+                            <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</mat-option>
                             <mat-option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}
                             </mat-option>
                         </mat-select>
@@ -95,7 +95,7 @@
                 <div class="col-lg-4 col-12  d-flex align-items-center">
                     <mat-form-field>
                         <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
-                            <mat-option value="">All location</mat-option>
+                            <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</mat-option>
                             <mat-option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}
                             </mat-option>
                         </mat-select>
@@ -182,7 +182,7 @@
                 <div class="col-lg-4 col-12  d-flex align-items-center">
                     <mat-form-field>
                         <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
-                            <mat-option value="">All location</mat-option>
+                            <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</mat-option>
                             <mat-option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}
                             </mat-option>
                         </mat-select>
@@ -268,7 +268,7 @@
                 <div class="col-lg-4 col-12  d-flex align-items-center">
                     <mat-form-field>
                         <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
-                            <mat-option value="">All location</mat-option>
+                            <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</mat-option>
                             <mat-option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}
                             </mat-option>
                         </mat-select>

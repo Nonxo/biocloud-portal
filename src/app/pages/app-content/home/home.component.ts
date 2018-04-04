@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
     locationsSubscription:any;
     editLocationsSubscription:any;
     latestClockin: Object[] = [];
-    totalClockin:number;
+    totalClockin:number = 0;
     orgId:string;
     pageSize = 5;
     counts:number;
@@ -61,8 +61,6 @@ export class HomeComponent implements OnInit {
             this.callLocationService();
             this.fetchClockInsHistory();
             this.fetchTotalEmployeeCount();
-            this.fetchTotalClockIns();
-
 
         }
 
@@ -74,7 +72,6 @@ export class HomeComponent implements OnInit {
                         this.callLocationService();
                         this.fetchClockInsHistory();
                         this.fetchTotalEmployeeCount();
-                        this.fetchTotalClockIns();
                     }
 
                     this.orgRole = this.ss.getSelectedOrgRole();
@@ -101,6 +98,7 @@ export class HomeComponent implements OnInit {
                     if (result.code == 0) {
                         this.locations = result.locations ? result.locations : [];
                         this.mService.setDisplay(false);
+                        this.fetchTotalClockIns();
                     } else {
                         this.ns.showError(result.description);
                         this.locations = [];
@@ -203,6 +201,7 @@ export class HomeComponent implements OnInit {
                 result => {
                     if(result.code == 0) {
                         this.ns.showSuccess(result.description);
+                        this.callLocationService();
                     } else {
                         this.ns.showError(result.description);
                     }
@@ -270,15 +269,19 @@ export class HomeComponent implements OnInit {
     }
 
     fetchTotalClockIns(){
-      this.contentService.totalClockInsDaily(this.orgId, this.startDate, this.endDate)
-        .subscribe(
-          result => {
-            if (result.code == 0) {
-              this.totalClockin = result.total;
-            }
-
-          },
-        )
+        this.totalClockin = 0;
+      // this.contentService.totalClockInsDaily(this.orgId, this.startDate, this.endDate)
+      //   .subscribe(
+      //     result => {
+      //       if (result.code == 0) {
+      //         this.totalClockin = result.total;
+      //       }
+      //
+      //     },
+      //   )
+        this.locations.forEach((obj) => {
+            this.totalClockin = this.totalClockin + obj.noOfClockInForToday;
+        })
     }
 
 }

@@ -28,7 +28,7 @@
                                 <mat-select placeholder="Company type" name="orgType" #orgType="ngModel"
                                             [(ngModel)]="orgRequest.type"
                                             [required]="true">
-                                    <mat-option *ngFor="let type of orgTypes" value="{{type}}">{{type}}</mat-option>
+                                    <mat-option *ngFor="let type of orgTypes" value="{{type.name}}">{{type.name}}</mat-option>
                                 </mat-select>
                                 <mat-error *ngIf="orgType.errors?.required">You must make a selection</mat-error>
                             </mat-form-field>

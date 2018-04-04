@@ -13,7 +13,7 @@ import {PictureUtil} from "../../../util/PictureUtil";
 })
 export class SignUpAsComponent implements OnInit {
 
-    orgTypes: string[] = ["SCHOOL", "SECURITY", "HOSPITAL"];
+    orgTypes: string[] = [];
     orgRequest:CreateOrgRequest = new CreateOrgRequest();
     uploadedFileName:string;
 
@@ -24,7 +24,25 @@ export class SignUpAsComponent implements OnInit {
               private pictureUtil: PictureUtil) { }
 
   ngOnInit() {
+      this.fetchCompanyType();
   }
+
+    fetchCompanyType() {
+        if(this.ss.getCompanyType() && this.ss.getCompanyType().length > 0) {
+            this.orgTypes = this.ss.getCompanyType();
+        } else {
+            this.contentService.fetchCompanyType()
+                .subscribe(
+                    result => {
+                        if(result.code == 0) {
+                            this.orgTypes = result.orgTypes;
+                            this.ss.setCompanyType(this.orgTypes);
+                        }
+                    },
+                    error => {}
+                )
+        }
+    }
 
     getOrgRequestObject() {
         this.orgRequest.createdBy = this.ss.getLoggedInUserEmail();
