@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NotifyService} from "../../service/notify.service";
 import {BsModalRef} from "ngx-bootstrap";
+import {TranslateService} from "@ngx-translate/core";
 
 
 
@@ -19,6 +20,7 @@ import {BsModalRef} from "ngx-bootstrap";
 export class ChangePasswordComponent implements OnInit {
 
   hide = true;
+  visible = true;
   changePasswordForm:FormGroup;
   loading = false;
   email:string = this.ss.getLoggedInUserEmail();
@@ -37,7 +39,12 @@ export class ChangePasswordComponent implements OnInit {
               private router:Router,
               private fb:FormBuilder,
               private modalRef:BsModalRef,
-              private ns:NotifyService) {}
+              private translate:TranslateService,
+              private ns:NotifyService) {
+    translate.setDefaultLang('en/change-password');
+    translate.use('en/change-password');
+
+  }
 
   ngOnInit() {
     this.changePasswordForm = this.fb.group({
