@@ -45,4 +45,5 @@ export class Endpoints {
     public static FETCH_INVITED_USERS_COUNT = `${Endpoints.BASE_URL}/users/api/org/invites/count?`;
     public static REASSIGN_LOC_USERS = `${Endpoints.BASE_URL}/users/api/attendees/location/`;
     public static FETCH_ATTENDEES_LOCATION = `${Endpoints.BASE_URL}/users/api/attendees/`;
+    public static FETCH_COMPANY_TYPE = `${Endpoints.BASE_URL}/users/api/org/orgType`;
 }

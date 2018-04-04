@@ -79,7 +79,7 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
                         this.locations = result.locations;
 
                         if (this.userRole == 'LOCATION_ADMIN') {
-                            if (this.locations.length > 1) {
+                            if (this.locations.length > 0) {
                                 //if user is a location admin select the first location by default
                                 this.selectedLocId = this.locations[0].locId;
                             }

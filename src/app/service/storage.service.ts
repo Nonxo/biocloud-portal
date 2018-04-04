@@ -180,4 +180,14 @@ export class StorageService {
         return obj? obj: null;
     }
 
+    setCompanyType(value:any[]) {
+        localStorage.setItem('orgTypes', JSON.stringify(value));
+    }
+
+    getCompanyType() {
+        let obj:any = JSON.parse(localStorage.getItem('orgTypes'));
+
+        return obj? obj:null;
+    }
+
 }

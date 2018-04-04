@@ -38,7 +38,7 @@
                                     <mat-form-field class="input-field">
                                         <mat-select placeholder="Select Country" name="country" [(ngModel)]="locRequest.countryId" (change)="fetchStates(locRequest.countryId)" [required]="locRequest.locationType == 'COUNTRY' || locRequest.locationType == 'STATE'">
                                             <mat-option value="0">--</mat-option>
-                                            <mat-option *ngFor="let country of countries" value="{{country.id}}">
+                                            <mat-option *ngFor="let country of countries" value="{{country.countryId}}">
                                                 {{country.name}}
                                             </mat-option>
                                         </mat-select>
@@ -48,7 +48,7 @@
                                     <mat-form-field class="input-field">
                                         <mat-select placeholder="Select State" name="states" [(ngModel)]="locRequest.stateId" [required]="locRequest.locationType == 'STATE'">
                                             <mat-option value="0">--</mat-option>
-                                            <mat-option *ngFor="let state of states" value="{{state.id}}">{{state.name}}
+                                            <mat-option *ngFor="let state of states" value="{{state.stateId}}">{{state.name}}
                                             </mat-option>
                                         </mat-select>
                                     </mat-form-field>

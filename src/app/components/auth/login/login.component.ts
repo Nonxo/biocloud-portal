@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, ViewChildren} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChildren} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {BsModalRef, BsModalService, ModalOptions} from 'ngx-bootstrap';
@@ -8,6 +8,7 @@ import {StorageService} from '../../../service/storage.service';
 import {AuthService} from '../auth.service';
 import {TranslateService} from '@ngx-translate/core';
 import {ChangePasswordComponent} from "../../../pages/change-password/change-password.component";
+import {DataService} from "../../../service/data.service";
 
 
 @Component({
@@ -15,7 +16,7 @@ import {ChangePasswordComponent} from "../../../pages/change-password/change-pas
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
     hide = true;
     loginForm: FormGroup;
@@ -27,6 +28,7 @@ export class LoginComponent implements OnInit {
 
     constructor(private authService: AuthService,
                 private ss: StorageService,
+                private ds: DataService,
                 private router: Router,
                 private fb: FormBuilder,
                 private ns: NotifyService,
@@ -42,6 +44,10 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
+        if(this.ds.getLogoutMessage()) {
+            this.ns.showError(this.ds.getLogoutMessage());
+        }
+
         this.loginForm = this.fb.group({
             email: ['', Validators.email],
             pw: ['', Validators.required],
@@ -129,6 +135,10 @@ export class LoginComponent implements OnInit {
 
                 }
             );
+    }
+
+    ngOnDestroy() {
+        this.ds.setLogoutMessage(null);
     }
 
 }

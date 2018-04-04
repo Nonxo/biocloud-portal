@@ -41,9 +41,16 @@ export class ApiInterceptor implements HttpInterceptor {
         }
 
         const body = (value as HttpResponse<any>).body;
-        this.checkUnauthorized(body.description);
 
-        return value;
+        if (this.checkUnauthorized(body.description)) {
+            console.log("Token hasn't expired");
+            return value;
+        }else {
+          console.log("Token expired");
+            this.router.navigate(['/auth']);
+        }
+
+
       })
       .catch((err, caught) => {
         console.log(`Error occurred ${err}`);
@@ -51,28 +58,34 @@ export class ApiInterceptor implements HttpInterceptor {
       });
   }
 
-  checkUnauthorized(message): void {
+  checkUnauthorized(message): boolean {
     if (message == 401) {
       this.authService.logout();
-      this.router.navigate(['/auth']);
+      // this.router.navigate(['/auth']);
+        return false;
     } else if (message == 'Token provided is invalid') {
       this.ds.setLogoutMessage('Your session has expired. Please login again');
       this.authService.logout();
-      this.router.navigate(['/auth']);
+      // this.router.navigate(['/auth']);
+        return false;
     } else if (message == 'Your session has expired, please login again') {
       this.ds.setLogoutMessage('Your session has expired. Please login again');
       this.authService.logout();
-      this.router.navigate(['/auth']);
+      // this.router.navigate(['/auth']);
+        return false;
     } else if (message == 'Not Authorized') {
       this.ds.setLogoutMessage('Your session has expired. Please login again');
       this.authService.logout();
-      this.router.navigate(['/auth']);
+      // this.router.navigate(['/auth']);
+        return false;
     } else if (message == 'Correct your device time and try again') {
       this.ds.setLogoutMessage('Correct your device time and try again');
       this.authService.logout();
-      this.router.navigate(['/auth']);
+      // this.router.navigate(['/auth']);
+        return false;
     }
 
+    return true;
   }
 
 
