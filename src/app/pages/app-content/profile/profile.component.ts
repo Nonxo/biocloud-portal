@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../../components/auth/auth.service";
 import {Router} from "@angular/router";
@@ -19,7 +19,7 @@ import {MessageService} from "../../../service/message.service";
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
   userId:string;
   bio:string;
   model: UpdateProfile = new UpdateProfile();
@@ -231,6 +231,10 @@ export class ProfileComponent implements OnInit {
         this.ns.showError(event.description);
       }
     }
+  }
+
+  ngOnDestroy() {
+      this.modalRef? this.modalRef.hide():'';
   }
 
 

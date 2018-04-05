@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, HostListener, ViewChild} from '@angular/core';
+import {Component, OnInit, TemplateRef, HostListener, ViewChild, OnDestroy} from '@angular/core';
 import {Router} from "@angular/router";
 import {BsModalService, BsModalRef} from "ngx-bootstrap/index";
 import {StorageService} from "../../service/storage.service";
@@ -20,7 +20,7 @@ import {PictureUtil} from "../../util/PictureUtil";
     templateUrl: './nav.component.html',
     styleUrls: ['./nav.component.css']
 })
-export class NavComponent implements OnInit {
+export class NavComponent implements OnInit, OnDestroy {
 
     sideNavMode = "side";
     opener: boolean = true;
@@ -650,6 +650,7 @@ export class NavComponent implements OnInit {
 
     ngOnDestroy() {
         clearInterval(this.timer);
+        this.modalRef? this.modalRef.hide():'';
     }
 
   getSelectedLocationName() {
@@ -668,6 +669,5 @@ export class NavComponent implements OnInit {
 
     this.callApproveService(inviteId);
   }
-
 
 }

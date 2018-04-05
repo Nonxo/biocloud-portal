@@ -9,24 +9,33 @@ import {
 import {StorageService} from "../../../service/storage.service";
 import {MediaType} from "../../../util/constants";
 import set = Reflect.set;
+import {timeout, map} from "rxjs/operators";
+import {AuthService} from "../../../components/auth/auth.service";
 
 @Injectable()
 export class AppContentService {
 
-    constructor(private httpClient:HttpClient, private ss:StorageService) {
+    constructor(private httpClient: HttpClient, private ss: StorageService, private as: AuthService) {
     }
 
-    createOrg(model:CreateOrgRequest):Observable<any> {
+    createOrg(model: CreateOrgRequest): Observable<any> {
 
         return this.httpClient
             .post(Endpoints.CREATE_ORG, JSON.stringify(model), {
                 headers: new HttpHeaders()
                     .set('Content-Type', 'application/json')
             })
-
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
-    updateOrg(model:CreateOrgRequest):Observable<any> {
+    updateOrg(model: CreateOrgRequest): Observable<any> {
         let orgId = this.ss.getSelectedOrg().orgId;
 
         return this.httpClient
@@ -34,10 +43,18 @@ export class AppContentService {
                 headers: new HttpHeaders()
                     .set('Content-Type', 'application/json')
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
 
     }
 
-    getOrgDetails():Observable<any> {
+    getOrgDetails(): Observable<any> {
 
         const body = "";
 
@@ -46,10 +63,18 @@ export class AppContentService {
                 headers: new HttpHeaders()
                     .set('Content-Type', 'application/x-www-form-urlencoded')
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
 
     }
 
-    fetchUsersOrg():Observable<any> {
+    fetchUsersOrg(): Observable<any> {
         const body = this.ss.getUserId();
 
         return this.httpClient
@@ -57,10 +82,18 @@ export class AppContentService {
                 headers: new HttpHeaders()
                     .set('Content-Type', 'application/x-www-form-urlencoded')
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
 
     }
 
-    fetchOrgLocations(orgId:string):Observable<any> {
+    fetchOrgLocations(orgId: string): Observable<any> {
         let params = new HttpParams()
             .set('orgId', orgId)
 
@@ -69,18 +102,34 @@ export class AppContentService {
                 headers: new HttpHeaders()
                     .set('Content-Type', 'application/x-www-form-urlencoded')
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
 
     }
 
-    fetchUsersInALocation(locId:string):Observable<any> {
+    fetchUsersInALocation(locId: string): Observable<any> {
         return this.httpClient
             .get(Endpoints.FETCH_USERS + locId + "/users", {
                 headers: new HttpHeaders()
                     .set('Content-Type', 'application/x-www-form-urlencoded')
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
-    fetchUsersInAnOrg(orgId:string, model:UserPaginationPojo):Observable<any> {
+    fetchUsersInAnOrg(orgId: string, model: UserPaginationPojo): Observable<any> {
         const params = new HttpParams()
             .set("pageNo", String(model.pageNo))
             .set("pageSize", String(model.pageSize));
@@ -90,41 +139,81 @@ export class AppContentService {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
-    fetchUsersInAnOrgCount(orgId:string):Observable<any> {
+    fetchUsersInAnOrgCount(orgId: string): Observable<any> {
         return this.httpClient
             .get(Endpoints.FETCH_USERS_IN_AN_ORG + orgId + "/users/count", {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
-  fetchWorkStatus(userId:string): Observable<any> {
-      return this.httpClient
-        .get(Endpoints.FETCH_WORK_STATUS + userId + "/workstatus", {
-          headers: new HttpHeaders()
-            .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
-        })
-  }
-
-    activateLocation(status:boolean, locId:string): Observable<any> {
+    fetchWorkStatus(userId: string): Observable<any> {
         return this.httpClient
-            .post(Endpoints.DEACTIVATE_ACTIVATE_LOCATION + locId + "/" + status,null, {
+            .get(Endpoints.FETCH_WORK_STATUS + userId + "/workstatus", {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
-    totalEmployeeCount(userId:string,orgId:string): Observable<any> {
-      let url = `${Endpoints.FETCH_TOTAL_EMPLOYEE_COUNT}/${userId}/orgs/${orgId}/attendees`;
-      return this.httpClient.get(url, {
-        headers: new HttpHeaders()
-          .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
-      })
+    activateLocation(status: boolean, locId: string): Observable<any> {
+        return this.httpClient
+            .post(Endpoints.DEACTIVATE_ACTIVATE_LOCATION + locId + "/" + status, null, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
-    fetchAttendees(model: AttendeesPOJO):Observable<any> {
+    totalEmployeeCount(userId: string, orgId: string): Observable<any> {
+        let url = `${Endpoints.FETCH_TOTAL_EMPLOYEE_COUNT}/${userId}/orgs/${orgId}/attendees`;
+        return this.httpClient.get(url, {
+            headers: new HttpHeaders()
+                .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+        })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
+    fetchAttendees(model: AttendeesPOJO): Observable<any> {
         let params;
         if (model.orgId) {
             params = new HttpParams()
@@ -145,6 +234,14 @@ export class AppContentService {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
     fetchAttendeesCount(model: AttendeesPOJO) {
@@ -164,56 +261,110 @@ export class AppContentService {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
 
-
-    assignUsersToLocation(model:AssignUserRequest):Observable<any> {
+    assignUsersToLocation(model: AssignUserRequest): Observable<any> {
         return this.httpClient
             .post(Endpoints.ASSIGN_USERS, JSON.stringify(model), {
                 headers: new HttpHeaders()
                     .set('Content-Type', 'application/json')
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
-    fetchNotification(orgId:string):Observable<any> {
+    fetchNotification(orgId: string): Observable<any> {
         let params = new HttpParams().set('orgId', orgId);
         return this.httpClient.get(Endpoints.FETCH_NOTIFICATION + params, {
             headers: new HttpHeaders()
 
         })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
 
     }
 
 
-  fetchNotificationDetails(invitesId: string): Observable<any> {
-    return this.httpClient.get(Endpoints.FETCH_NOTIFICATION_DETAILS + invitesId, {
-      headers: new HttpHeaders()
-        .set('Content-Type', 'application/json')
-    })
-  }
+    fetchNotificationDetails(invitesId: string): Observable<any> {
+        return this.httpClient.get(Endpoints.FETCH_NOTIFICATION_DETAILS + invitesId, {
+            headers: new HttpHeaders()
+                .set('Content-Type', 'application/json')
+        })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
 
-    approveRejectNotification(inviteId:string, model:ApproveRequest):Observable<any> {
+    approveRejectNotification(inviteId: string, model: ApproveRequest): Observable<any> {
         return this.httpClient.post(Endpoints.APPROVE_REJECT_NOTIFICATION + inviteId + "/status", JSON.stringify(model), {
             headers: new HttpHeaders()
                 .set('Content-Type', MediaType.APPLICATION_JSON)
         })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
-  updateProfile(userId:string, model:UpdateProfile): Observable<any> {
-      return this.httpClient.post(Endpoints.EDIT_USER_PROFILE + userId, JSON.stringify(model), {
-        headers: new HttpHeaders()
-          .set('Content-Type', MediaType.APPLICATION_JSON)
-      })
-  }
+    updateProfile(userId: string, model: UpdateProfile): Observable<any> {
+        return this.httpClient.post(Endpoints.EDIT_USER_PROFILE + userId, JSON.stringify(model), {
+            headers: new HttpHeaders()
+                .set('Content-Type', MediaType.APPLICATION_JSON)
+        })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
 
-  retrieveUser(userId:string): Observable<any> {
-            return this.httpClient.get(Endpoints.EDIT_USER_PROFILE + userId, {
-        headers: new HttpHeaders()
-          .set('Content-Type', MediaType.APPLICATION_JSON)
-      })
-  }
-
+    retrieveUser(userId: string): Observable<any> {
+        return this.httpClient.get(Endpoints.EDIT_USER_PROFILE + userId, {
+            headers: new HttpHeaders()
+                .set('Content-Type', MediaType.APPLICATION_JSON)
+        })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
 
 
     activateDeactivateAttendees(model) {
@@ -222,9 +373,17 @@ export class AppContentService {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_JSON)
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
-    fetchPendingAttendees(orgId:string, locId:string):Observable<any> {
+    fetchPendingAttendees(orgId: string, locId: string): Observable<any> {
         const params = new HttpParams()
             .set("orgId", orgId)
             .set("locId", locId);
@@ -234,9 +393,17 @@ export class AppContentService {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
-    removeAdmin(model:AdminRemovalRequest) {
+    removeAdmin(model: AdminRemovalRequest) {
         model.orgId = this.ss.getSelectedOrg().orgId;
 
         return this.httpClient
@@ -244,32 +411,56 @@ export class AppContentService {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_JSON)
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
-    clockInsHistory(orgId:string, pageSize:number, pageNo:number):Observable<any> {
-      let params = new HttpParams()
-        .set('orgId', orgId)
-        .set('pageSize', pageSize.toString())
-        .set('pageNo', pageNo.toString());
+    clockInsHistory(orgId: string, pageSize: number, pageNo: number): Observable<any> {
+        let params = new HttpParams()
+            .set('orgId', orgId)
+            .set('pageSize', pageSize.toString())
+            .set('pageNo', pageNo.toString());
         return this.httpClient.get(Endpoints.FETCH_CLOCKINS_HISTORY + params, {
-        headers: new  HttpHeaders()
-          .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
-      })
+            headers: new HttpHeaders()
+                .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+        })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
-  totalClockInsDaily(orgId:string, startDate:number, endDate:number):Observable<any> {
-      let params = new HttpParams()
-        .set('orgId', orgId)
-        .set('startDate', String(startDate))
-        .set('endDate', String(endDate));
-      return this.httpClient.get(Endpoints.FETCH_CLOCKINS_COUNT + params, {
-        headers: new HttpHeaders()
-          .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
-      })
+    totalClockInsDaily(orgId: string, startDate: number, endDate: number): Observable<any> {
+        let params = new HttpParams()
+            .set('orgId', orgId)
+            .set('startDate', String(startDate))
+            .set('endDate', String(endDate));
+        return this.httpClient.get(Endpoints.FETCH_CLOCKINS_COUNT + params, {
+            headers: new HttpHeaders()
+                .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+        })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
 
-  }
+    }
 
-    fetchOrgUsersLocation():Observable<any> {
+    fetchOrgUsersLocation(): Observable<any> {
         const userId = this.ss.getUserId();
         const orgId = this.ss.getSelectedOrg().orgId;
 
@@ -278,10 +469,18 @@ export class AppContentService {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
 
     }
 
-    retrieveClockinHistory(model: HistoryPojo):Observable<any> {
+    retrieveClockinHistory(model: HistoryPojo): Observable<any> {
         const param = new HttpParams()
             .set("orgId", model.orgId)
             .set("locId", model.locId)
@@ -295,9 +494,17 @@ export class AppContentService {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
-    fetchPuncScore(model: HistoryPojo):Observable<any> {
+    fetchPuncScore(model: HistoryPojo): Observable<any> {
         const params = new HttpParams()
             .set("email", model.email)
             .set("orgId", model.orgId)
@@ -308,9 +515,17 @@ export class AppContentService {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
-    fetchInvitedUsers(model:AttendeesPOJO):Observable<any> {
+    fetchInvitedUsers(model: AttendeesPOJO): Observable<any> {
         const params = new HttpParams()
             .set("orgId", model.orgId)
             .set("locId", model.locId)
@@ -323,9 +538,17 @@ export class AppContentService {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
-    fetchInvitedUsersCount(model:AttendeesPOJO):Observable<any> {
+    fetchInvitedUsersCount(model: AttendeesPOJO): Observable<any> {
         const params = new HttpParams()
             .set("orgId", model.orgId)
             .set("locId", model.locId)
@@ -336,17 +559,33 @@ export class AppContentService {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
-    assignLocusers(model: AssignUserRequest):Observable<any> {
+    assignLocusers(model: AssignUserRequest): Observable<any> {
         return this.httpClient
-            .post(Endpoints.REASSIGN_LOC_USERS + model.oldlocId + "/" + model.newlocId,null, {
+            .post(Endpoints.REASSIGN_LOC_USERS + model.oldlocId + "/" + model.newlocId, null, {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_JSON)
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
-    fetchAttendeesLocation(userId:string):Observable<any> {
+    fetchAttendeesLocation(userId: string): Observable<any> {
         let orgId = this.ss.getSelectedOrg().orgId;
 
         return this.httpClient
@@ -354,14 +593,30 @@ export class AppContentService {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_JSON)
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
-    fetchCompanyType():Observable<any> {
+    fetchCompanyType(): Observable<any> {
         return this.httpClient
             .get(Endpoints.FETCH_COMPANY_TYPE, {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
 }

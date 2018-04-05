@@ -5,6 +5,8 @@ import {Endpoints} from '../../util/endpoints';
 import {ApproveRequest} from "../../pages/app-content/model/app-content.model";
 import {MediaType} from "../../util/constants";
 import {StorageService} from "../../service/storage.service";
+import {DataService} from "../../service/data.service";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class AuthService {
@@ -15,10 +17,13 @@ export class AuthService {
         'Content-Type': 'application/x-www-form-urlencoded'
     };
 
-    constructor(private httpClient:HttpClient, private ss: StorageService) {
+    constructor(private httpClient: HttpClient,
+                private ss: StorageService,
+                private ds: DataService,
+                private router: Router) {
     }
 
-    login(email, pw):Observable<any> {
+    login(email, pw): Observable<any> {
         let params = new HttpParams()
             .set('email', email)
             .set('pw', pw)
@@ -27,24 +32,24 @@ export class AuthService {
         });
     }
 
-    changePassword(email, oldPw, newPw):Observable<any> {
-      let params = new HttpParams()
-        .set('email', email)
-        .set('oldPw', oldPw)
-        .set('newPw', newPw)
-      return this.httpClient.post(Endpoints.CHANGE_PASSWORD, params.toString(), {
-        headers: this.urlEncodeHeader
-      });
+    changePassword(email, oldPw, newPw): Observable<any> {
+        let params = new HttpParams()
+            .set('email', email)
+            .set('oldPw', oldPw)
+            .set('newPw', newPw)
+        return this.httpClient.post(Endpoints.CHANGE_PASSWORD, params.toString(), {
+            headers: this.urlEncodeHeader
+        });
     }
 
-    register(registerPayload):Observable<any> {
+    register(registerPayload): Observable<any> {
         return this.httpClient.post(Endpoints.REGISTER, registerPayload, {
                 headers: {'sc-auth-key': this.staticAuthKey}
             }
         );
     }
 
-    forgotPassword(email):Observable<any> {
+    forgotPassword(email): Observable<any> {
         let params = new HttpParams()
             .set('email', email)
 
@@ -53,7 +58,7 @@ export class AuthService {
         });
     }
 
-    validateCaptcha(token):Observable<any> {
+    validateCaptcha(token): Observable<any> {
         let params = new HttpParams()
             .set('resp', token)
 
@@ -70,7 +75,7 @@ export class AuthService {
             );
     }
 
-    approveAdminNotification(inviteId:string): Observable<any> {
+    approveAdminNotification(inviteId: string): Observable<any> {
         return this.httpClient.post(Endpoints.APPROVE_ADMIN_NOTIFICATION + inviteId + "/status", null, {
             headers: new HttpHeaders()
                 .set('Content-Type', MediaType.APPLICATION_JSON)
@@ -84,7 +89,7 @@ export class AuthService {
             return Promise.resolve(false);
         }
 
-        if(roles) {
+        if (roles) {
             for (let i = 0; i < roles.length; i++) {
                 if (role == roles[i]) {
                     return Promise.resolve(true);
@@ -103,5 +108,28 @@ export class AuthService {
         localStorage.removeItem('_orgs');
         localStorage.removeItem('_st');
         localStorage.removeItem('orgRoles');
+    }
+
+    checkUnauthorized(message): void {
+        if (message == 401) {
+            this.logout();
+            this.router.navigate(['/auth']);
+        } else if (message == 'Token provided is invalid') {
+            this.ds.setLogoutMessage('Your session has expired. Please login again');
+            this.logout();
+            this.router.navigate(['/auth']);
+        } else if (message == 'Your session has expired, please login again') {
+            this.ds.setLogoutMessage('Your session has expired. Please login again');
+            this.logout();
+            this.router.navigate(['/auth']);
+        } else if (message == 'Not Authorized') {
+            this.ds.setLogoutMessage('Your session has expired. Please login again');
+            this.logout();
+            this.router.navigate(['/auth']);
+        } else if (message == 'Correct your device time and try again') {
+            this.ds.setLogoutMessage('Correct your device time and try again');
+            this.logout();
+            this.router.navigate(['/auth']);
+        }
     }
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import {StorageService} from "../../../service/storage.service";
 import {AppContentService} from "../services/app-content.service";
 import {NotifyService} from "../../../service/notify.service";
@@ -13,7 +13,7 @@ import {MessageService} from "../../../service/message.service";
     templateUrl: './manage-admins.component.html',
     styleUrls: ['./manage-admins.component.css']
 })
-export class ManageAdminsComponent implements OnInit {
+export class ManageAdminsComponent implements OnInit, OnDestroy {
 
     users: any[] = [];
     modalRef: BsModalRef;
@@ -342,6 +342,10 @@ export class ManageAdminsComponent implements OnInit {
         this.users = []
         this.pagObj.pageNo = event.page;
         this.fetchAdminUsersCount();
+    }
+
+    ngOnDestroy() {
+        this.modalRef? this.modalRef.hide():'';
     }
 
 }
