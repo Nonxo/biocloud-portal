@@ -137,8 +137,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
 
     confirmAssignment(inviteId: string) {
-        //do logic to ensure that user selects at least one location in the dropdown
-
+        if (this.approveRequest.locIds.length == 0) {
+            this.ns.showError("You must select at least one location");
+            return;
+        }
 
         this.callApproveService(inviteId);
     }

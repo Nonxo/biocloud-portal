@@ -214,16 +214,15 @@
 
 <ng-template #assignLocation>
     <div class=" modal-header">
-        <h4 class="modal-title pull-center">Assign To Location</h4>
+        <h4 class="modal-title pull-center text-brand">Assign To Location</h4>
         <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
     <span aria-hidden="true">&times;</span>
     </button>
     </div>
     <div class="modal-body">
-        <h5 class="modal-title text-center pb-3 pt-4 text-brand">Assign To Location</h5>
         <p class="text-center">Assign <span class="font-weight-bold">{{details.firstName}} {{details.lastName}}</span> to a location</p>
         <div class="container pl-lg-4 pl-2 pt-4">
-            <div class="text-left pl-lg-5 pl-4">
+            <div class="text-center pl-lg-5 pl-4">
                 <mat-form-field class="form-width-70">
                     <mat-select placeholder="Select Locations" name="locs" [(ngModel)]="approveRequest.locIds" multiple>
                         <mat-select-trigger>

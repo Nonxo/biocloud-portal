@@ -118,6 +118,7 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
 
     fetchInvitedUsers() {
         this.getRequestObj();
+        this.aPojo.orgId = this.orgId;
 
         this.callInvitedUsersCountService();
     }

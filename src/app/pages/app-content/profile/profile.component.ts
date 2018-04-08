@@ -82,10 +82,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         if (this.pictureUtil.restrictFilesSize(event.target.files[0].size)) {
             this.readFiles(event.target.files);
         } else {
-            this.pictureSizeErrorMessage = '*Picture size is more than 100kb. Select another'
-            setTimeout(() => {
-                this.pictureSizeErrorMessage = ''
-            },);
+            this.ns.showError('Picture size is more than 100kb. Select another');
         }
     }
 

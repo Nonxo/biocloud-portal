@@ -20,6 +20,7 @@ export class Org {
     orgId:string;
     productName:string;
     sector:string;
+    orgType:string;
     walletId:number;
 }
 

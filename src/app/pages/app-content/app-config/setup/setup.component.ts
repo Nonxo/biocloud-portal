@@ -67,10 +67,8 @@ export class SetupComponent implements OnInit {
 
         if (this.editMode) {
             this.setEditMode();
-        } else {
-            this.fetchCountries();
         }
-
+        this.fetchCountries();
         this.fetchTimezones();
 
         //noinspection TypeScriptUnresolvedFunction
@@ -82,13 +80,7 @@ export class SetupComponent implements OnInit {
         if (this.locRequest.resumption) {
             this.resumption = this.renderResumptionTime(this.locRequest.resumption);
         }
-
-        if (this.locRequest.locationType == 'COUNTRY') {
-            this.fetchCountries();
-        }
-
         if (this.locRequest.locationType == 'STATE') {
-            this.fetchCountries();
             this.fetchStates(this.locRequest.countryId);
         }
     }
@@ -294,6 +286,7 @@ export class SetupComponent implements OnInit {
                             this.inviteEmails = [];
                             this.showMap = false;
                             this.resumption = "";
+                            this.countryCode = "";
                         } else {
                             this.router.navigate(['/portal']);
                         }

@@ -25,6 +25,7 @@ import {PictureUtil} from "./util/PictureUtil";
 import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-auth.component";
 import {SignUpAsComponent} from "./pages/app-content/sign-up-as/sign-up-as.component";
 import {AppContentService} from "./pages/app-content/services/app-content.service";
+import {InviteUserComponent} from "./components/auth/invite-user/invite-user.component";
 
 @NgModule({
     declarations: [
@@ -33,6 +34,7 @@ import {AppContentService} from "./pages/app-content/services/app-content.servic
         RegisterComponent,
         AddAdminAuthComponent,
         SignUpAsComponent,
+        InviteUserComponent,
         LoginComponent
     ],
     imports: [
