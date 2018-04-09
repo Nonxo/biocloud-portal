@@ -9,11 +9,13 @@ import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Endpoints} from "../../../util/endpoints";
 import {ReportModel} from "../model/app-content.model";
 import {MediaType} from "../../../util/constants";
+import {map, timeout} from "rxjs/operators";
+import {AuthService} from "../../../components/auth/auth.service";
 
 @Injectable()
 export class ReportService {
 
-    constructor(private httpClient: HttpClient) {}
+    constructor(private httpClient: HttpClient,private as: AuthService) {}
 
     fetchDailyReport(model: ReportModel):Observable<any> {
         const params = new HttpParams()
@@ -32,5 +34,13 @@ export class ReportService {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 }

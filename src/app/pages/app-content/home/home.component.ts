@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {MessageService} from "../../../service/message.service";
 import {AppContentService} from "../services/app-content.service";
 import {NotifyService} from "../../../service/notify.service";
@@ -18,7 +18,7 @@ import {AssignUserRequest} from "../model/app-content.model";
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
     locationsSubscription:any;
     editLocationsSubscription:any;
@@ -282,6 +282,10 @@ export class HomeComponent implements OnInit {
         this.locations.forEach((obj) => {
             this.totalClockin = this.totalClockin + obj.noOfClockInForToday;
         })
+    }
+
+    ngOnDestroy(): void {
+        this.bsModalRef? this.bsModalRef.hide():'';
     }
 
 }

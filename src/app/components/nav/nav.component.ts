@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, HostListener, ViewChild} from '@angular/core';
+import {Component, OnInit, TemplateRef, HostListener, ViewChild, OnDestroy} from '@angular/core';
 import {Router} from "@angular/router";
 import {BsModalService, BsModalRef} from "ngx-bootstrap/index";
 import {StorageService} from "../../service/storage.service";
@@ -20,7 +20,7 @@ import {PictureUtil} from "../../util/PictureUtil";
     templateUrl: './nav.component.html',
     styleUrls: ['./nav.component.css']
 })
-export class NavComponent implements OnInit {
+export class NavComponent implements OnInit, OnDestroy {
 
     sideNavMode = "side";
     opener: boolean = true;
@@ -78,6 +78,7 @@ export class NavComponent implements OnInit {
     notificationLength: number;
     notifAlert: boolean;
     timer:any;
+    loading:boolean;
 
 
     constructor(private router: Router,
@@ -429,12 +430,27 @@ export class NavComponent implements OnInit {
     }
 
     saveOrg() {
+        if(!this.isFormValid()) {
+            return;
+        }
+
+        this.loading = true;
         this.getOrgRequestObject();
         this.editOrgMode ? this.callOrgEditService() : this.callOrgCreationService();
     }
 
+    isFormValid(): boolean {
+        if(!this.orgRequest.type) {
+            this.ns.showError('Company Type is required');
+            return false;
+        }
+
+        return true;
+    }
+
     callOrgCreationService() {
         this.contentService.createOrg(this.orgRequest)
+            .finally(() => {this.loading = false;})
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -458,13 +474,14 @@ export class NavComponent implements OnInit {
 
     callOrgEditService() {
         this.contentService.updateOrg(this.orgRequest)
-            .finally(() => {this.hoverState = false})
+            .finally(() => {this.hoverState = false; this.loading = false;})
             .subscribe(
                 result => {
                     if (result.code == 0) {
                         this.ns.showSuccess(result.description);
                         this.modalRef? this.modalRef.hide():'';
                         this.updateOrg(result.organisation);
+                        debugger;
                         this.cacheOrg();
                         this.selectOrg(result.organisation);
                     } else {
@@ -482,7 +499,7 @@ export class NavComponent implements OnInit {
             if (o.orgId == org.orgId) {
                 o.logo = org.logo;
                 o.name = org.name;
-                o.sector = org.sector;
+                o.sector = org.orgType;
                 return;
             }
         }
@@ -493,6 +510,9 @@ export class NavComponent implements OnInit {
 
         //change selected state
         this.selectedOrg = org;
+
+        org.orgType? this.selectedOrg.sector = org.orgType:'';
+
         this.ss.setSelectedOrg(org);
         this.setOrgRole();
 
@@ -575,6 +595,7 @@ export class NavComponent implements OnInit {
         this.editOrgMode = true;
         this.uploadedFileName = "";
         this.orgRequest.type = this.selectedOrg.sector;
+        debugger;
         this.orgRequest.name = this.selectedOrg.name;
         this.orgRequest.logo = this.selectedOrg.logo;
         this.openModal(template);
@@ -650,6 +671,7 @@ export class NavComponent implements OnInit {
 
     ngOnDestroy() {
         clearInterval(this.timer);
+        this.modalRef? this.modalRef.hide():'';
     }
 
   getSelectedLocationName() {
@@ -663,11 +685,12 @@ export class NavComponent implements OnInit {
   }
 
   confirmAssignment(inviteId:string) {
-    //do logic to ensure that user selects at least one location in the dropdown
-
+      if (this.approveRequest.locIds.length == 0) {
+          this.ns.showError("You must select at least one location");
+          return;
+      }
 
     this.callApproveService(inviteId);
   }
-
 
 }

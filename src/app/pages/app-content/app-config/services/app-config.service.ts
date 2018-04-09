@@ -5,11 +5,13 @@ import {Endpoints} from "../../../../util/endpoints";
 import {LocationRequest, InviteRequest, AssignAdminRequest} from "../model/app-config.model";
 import {StorageService} from "../../../../service/storage.service";
 import {MediaType} from "../../../../util/constants";
+import {map, timeout} from "rxjs/operators";
+import {AuthService} from "../../../../components/auth/auth.service";
 
 @Injectable()
 export class AppConfigService {
 
-  constructor(private httpClient: HttpClient, private ss: StorageService) { }
+  constructor(private httpClient: HttpClient, private ss: StorageService, private as: AuthService) { }
 
 
   fetchCountries(): Observable<any> {
@@ -18,6 +20,14 @@ export class AppConfigService {
           headers: new HttpHeaders()
               .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
         })
+        .pipe(
+            timeout(50000),
+            map(response => {
+                let res:any = response;
+                this.as.checkUnauthorized(res.description);
+                return res
+            })
+        )
   }
 
 
@@ -27,6 +37,14 @@ export class AppConfigService {
           headers: new HttpHeaders()
               .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
         })
+        .pipe(
+            timeout(50000),
+            map(response => {
+                let res:any = response;
+                this.as.checkUnauthorized(res.description);
+                return res
+            })
+        )
   }
 
     saveLocation(model:LocationRequest): Observable<any> {
@@ -38,6 +56,14 @@ export class AppConfigService {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_JSON)
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
     inviteAttendees(model:InviteRequest): Observable<any> {
@@ -48,6 +74,14 @@ export class AppConfigService {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_JSON)
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
     downloadTemplate(): Observable<any> {
@@ -86,6 +120,14 @@ export class AppConfigService {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_JSON)
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
     fetchTimezones(): Observable<any> {        
@@ -94,6 +136,14 @@ export class AppConfigService {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
     assignAdmins(model:AssignAdminRequest): Observable<any> {
@@ -104,6 +154,14 @@ export class AppConfigService {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_JSON)
             })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 
 }
