@@ -1,0 +1,12 @@
+{
+  "PROFILE_COMPONENT": {
+    "TITLE": "Edit Your Profile",
+    "SUB_TITLE": "Basic Information",
+    "IMAGE_DESCRIPTION": "*Not More than 100KB",
+    "WORKSTATUS_ROW1": "Company",
+    "WORKSTATUS_ROW2": "Location",
+    "WORKSTATUS_ROW3": "Role"
+
+
+  }
+}

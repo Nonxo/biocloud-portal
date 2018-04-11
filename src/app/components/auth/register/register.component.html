@@ -1,0 +1,75 @@
+<form class="pt-4" [formGroup]="form" (submit)="register()">
+
+  <div class="container-fluid">
+    <div class="row">
+
+      <!--<div class="col-md-12">
+        <div>
+          <small>Register As:</small>
+        </div>
+        <div class="btn-group curve mb-3">
+          <label class="btn btn-md" *ngFor="let userType of userTypes; let idx=index"
+                 [ngClass]="{'btn-primary': userType.checked}">
+            <input type="radio" autocomplete="off" name="whoToggle" [checked]="userType.checked" [value]="userType.name" (click)="changeUserType(idx)">
+            {{userType.name}}
+          </label>
+        </div>
+      </div>-->
+
+      <div class="col-12" *ngIf="company">
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Company Name" formControlName="companyName">
+        </mat-form-field>
+      </div>
+
+      <div class="col-12">
+        <mat-form-field class="input-field">
+          <input matInput placeholder="First Name" pattern="[A-Za-z0-9\-]*" formControlName="fName">
+          <mat-error *ngIf="form.get('fName')?.errors"><small>No special characters allowed</small></mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-12">
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Last Name" pattern="[A-Za-z0-9\-]*" formControlName="lName">
+          <mat-error *ngIf="form.get('lName')?.errors"><small>No special characters allowed</small></mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-12">
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Phone" pattern="[0-9]{8,11}" formControlName="phone">
+          <mat-error *ngIf="form.get('phone')?.errors"><small>Must be between 8-11 digits</small></mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-12">
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" formControlName="email">
+        </mat-form-field>
+      </div>
+
+      <div class="col-12">
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Password" pattern="^([a-zA-Z0-9 @*#]{6,20})" [type]="show ? 'text' : 'password'" formControlName="password">
+          <mat-icon matSuffix (click)="show = !show">{{show ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <mat-error *ngIf="form.get('password')?.errors"><small>Password must be at least 6 characters</small></mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6 col-12">
+        <re-captcha #cap (resolved)="resolved($event)"
+                    siteKey="{{recaptchaSiteKey}}"></re-captcha>
+      </div>
+
+
+
+      <div class="col-md-12 mt-3">
+        <button mat-raised-button color="primary" class="px-4 py-1" [disabled]="form.invalid || loading" type="submit">
+          REGISTER
+          <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</form>

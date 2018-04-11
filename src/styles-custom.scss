@@ -1,0 +1,279 @@
+@import '~@angular/material/theming';
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin,latin-ext,vietnamese);
+$font-stack: 'Open Sans',
+sans-serif;
+$custom-typography: mat-typography-config( $font-family: $font-stack);
+@include mat-core($custom-typography);
+$mat-mcprimary: ( 50: #ece7f0, 100: #cfc2da, 200: #b09ac2, 300: #9071a9, 400: #785296, 500: #603484, 600: #582f7c, 700: #4e2771, 800: #442167, 900: #331554, A100: #c18fff, A200: #a55cff, A400: #8929ff, A700: #7b0fff, contrast: ( 50: #000000, 100: #000000, 200: #000000, 300: #000000, 400: #ffffff, 500: #ffffff, 600: #ffffff, 700: #ffffff, 800: #ffffff, 900: #ffffff, A100: #000000, A200: #000000, A400: #ffffff, A700: #ffffff, ));
+$mat-mcaccent: ( 50: #e2f6ec, 100: #b8e8d0, 200: #88d8b0, 300: #58c890, 400: #35bd79, 500: #11b161, 600: #0faa59, 700: #0ca14f, 800: #0a9845, 900: #058833, A100: #b5ffca, A200: #82ffa6, A400: #4fff82, A700: #36ff70, contrast: ( 50: #000000, 100: #000000, 200: #000000, 300: #000000, 400: #000000, 500: #ffffff, 600: #ffffff, 700: #ffffff, 800: #ffffff, 900: #ffffff, A100: #000000, A200: #000000, A400: #000000, A700: #000000, ));
+$candy-app-primary: mat-palette($mat-mcprimary);
+$candy-app-accent: mat-palette($mat-mcaccent);
+$candy-app-warn: mat-palette($mat-red);
+$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
+$red: #B21E3D;
+$white: #ffffff;
+$off-white: #F4F4F4;
+$grey: #72797A;
+$light-grey:#e2e6e9;
+$dark-grey:#a9a9a9;
+$slate-grey:slategrey;
+$dark: #271F1F;
+$dark-purple: #3C1C4C;
+$darker-purple: #322333;
+$loader-background: #636262;
+$check-box: #603484;
+$standard-size: 14px;
+@include angular-material-theme($candy-app-theme);
+html,
+body {
+    font-family: $font-stack !important;
+    background: $off-white !important;
+}
+
+mat-card.logo-carousel {
+    min-height: 600px;
+    background-color: mat-color($candy-app-primary) !important;
+    color: $grey !important;
+    border-radius: 12px 0 0 12px !important;
+    z-index: 1;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 600 !important;
+}
+
+mat-card.auth {
+    min-height: 600px;
+    border-radius: 0 12px 12px 0 !important;
+}
+
+.mat-nav-list .mat-list-item {
+    color: $white;
+    opacity: 0.7;
+}
+
+mat-card {
+    border-radius: 5px !important;
+    box-shadow: 0 3px 1px -2px rgba(183, 183, 183, 0.2), 0 2px 2px 0 rgba(222, 222, 222, 0.14), 0 1px 5px 0 rgba(0, 0, 0, .12) !important;
+    background-color: $white !important;
+}
+
+.employee .mat-tab-header {
+    background: $white;
+    top: -1px;
+    box-shadow: 0 4px 2px -2px rgba(183, 183, 183, 0.2) !important;
+    position: sticky;
+    z-index: 999 !important;
+}
+
+.mat-tab-group.mat-primary .mat-ink-bar {
+    height: 3px;
+    background-color: mat-color($candy-app-primary) !important;
+}
+
+.mat-tab-header {
+    border-bottom: 0 !important;
+}
+
+.mat-tab-label {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.mat-tab-label-active,
+.accent-text {
+    color: mat-color($candy-app-primary, 500) !important;
+}
+
+.btn-primary {
+    background-color: mat-color($candy-app-primary) !important;
+    border: 1px solid mat-color($candy-app-primary);
+}
+
+.btn-accent {
+    background-color: mat-color($candy-app-accent, 500) !important;
+    border: 1px solid mat-color($candy-app-accent, 500) !important;
+    color: $white !important;
+}
+
+.bg-brand {
+    background-color: mat-color($candy-app-primary) !important;
+    color: mat-color($candy-app-primary, A400) !important;
+}
+
+.primary-outline {
+    border: 2px solid mat-color($candy-app-primary) !important;
+}
+
+.mat-raised-button:not([class*=mat-elevation-z]) {
+    box-shadow: none !important;
+}
+
+.text-brand,
+a {
+    color: mat-color($candy-app-primary);
+}
+
+.bg-light-grey {
+    // background-color: mat-color($candy-app-primary, 900) !important;
+    background-color: $darker-purple;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.btn-danger {
+    background: $red;
+    border: 0;
+}
+
+.list-group-item.active {
+    background-color: mat-color($candy-app-accent, 500) !important;
+    border-color: mat-color($candy-app-accent, 500) !important;
+    color: mat-color($candy-app-primary, A400) !important;
+}
+
+.badge-accent {
+    color: mat-color($candy-app-primary, A400) !important;
+    background-color: mat-color($candy-app-primary) !important;
+}
+
+.add-loc {
+    color: mat-color($candy-app-primary, 300) !important;
+}
+
+.big-font {
+    font-size: 115px;
+}
+
+.mat-toolbar {
+    background: $white !important;
+    box-shadow: 0 3px 1px -2px rgba(183, 183, 183, 0.2), 0 2px 2px 0 rgba(222, 222, 222, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12) !important;
+}
+
+.designed-loc {
+    color: #e6e9ea;
+}
+
+.modal-backdrop {
+    // background-color: mat-color($candy-app-primary) !important;
+    background-color: $loader-background !important;
+}
+
+.mat-drawer-container {
+    background-color: transparent !important;
+}
+
+.mat-sidenav {
+    background-color: $dark !important;
+}
+
+.mat-list .mat-list-item,
+.mat-nav-list .mat-list-item,
+.mat-selection-list .mat-list-item {
+    font-size: $standard-size;
+}
+
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
+.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background-color: $check-box !important;
+}
+
+.subscribe-plan {
+    background: mat-color($candy-app-primary, 400);
+    background: -moz-linear-gradient(top, mat-color($candy-app-primary, 400) 17%, mat-color($candy-app-primary, 900) 100%);
+    background: -webkit-linear-gradient(top, mat-color($candy-app-primary, 400) 17%, mat-color($candy-app-primary, 900) 100%);
+    background: linear-gradient(to bottom, mat-color($candy-app-primary, 400) 17%, mat-color($candy-app-primary, 900) 100%);
+    /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#785296', endColorstr='#331554',GradientType=0 );*/
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: $light-grey !important;
+}
+
+.mat-menu-content {
+    padding-top: 0px !important;
+}
+
+.fade-msg {
+    color: mat-color($candy-app-primary, 100) !important;
+}
+
+.modal-backdrop.show {
+    opacity: .7 !important;
+}
+
+.main-loading {
+    // height: calc(100vh - 67px);
+    height: 100%;
+    overflow: hidden;
+    margin-top: 1px;
+    // background: mat-color($candy-app-primary, 500) !important;
+    background-color: $loader-background !important;
+    opacity: 0.7;
+    position: absolute;
+    z-index: 99;
+}
+
+thead {
+    background: mat-color($candy-app-primary, 500) !important;
+    color: $white;
+}
+
+.active {
+    background: linear-gradient(to right, mat-color($candy-app-primary, 400) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.page-item.active .page-link {
+    background-color: mat-color($candy-app-primary, 500) !important;
+    border-color: mat-color($candy-app-primary, 500) !important;
+    color: $white !important;
+}
+
+.page-link {
+    color: mat-color($candy-app-primary, 500) !important;
+}
+
+.mat-raised-button.mat-primary[disabled] {
+    background-color: mat-color($candy-app-primary, 500) !important;
+    opacity: .6;
+    color: $white;
+}
+
+::-webkit-scrollbar {
+    width: 0.5em;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: $dark-grey;
+    outline: 1px solid $slate-grey;
+}
+
+
+/*
+#cdk-overlay-0, #cdk-overlay-1, #cdk-overlay-2{
+  top:66px !important;
+}
+*/
+
+@media (max-width: 575.98px) {
+    mat-card.auth {
+        min-height: auto;
+        border-radius: 12px !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    mat-sidenav {
+        border-right: 0;
+    }
+}

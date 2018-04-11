@@ -1,0 +1,351 @@
+<mat-sidenav-container autosize>
+
+    <mat-sidenav #sidenav mode="{{sideNavMode}}" [opened]="opener" [ngStyle]="{ 'width.em': sidenavWidth }" (mouseenter)="toggleNavFromMouseEvent(true)" (mouseleave)="toggleNavFromMouseEvent(false)">
+        <div class="nav-header d-md-block d-none">
+            <div class="py-4 pb-0 px-3">
+                <img src="assets/img/logo-img.png" class="img-fluid logo-icon" *ngIf="sidenavWidth >= 15" style="max-height:50px;" />
+                <img src="assets/img/logo-icon.png" class="img-fluid logo-icon" *ngIf="sidenavWidth < 15" />
+            </div>
+        </div>
+
+
+        <div class="container-fluid px-0" (clickOutside)="onClickedOutside($event)">
+            <a role="button" (click)="createOrg(template)" *ngIf="orgs.length == 0 && !selectedOrg.orgId">
+                <div class="cursor border-top">
+                    <small>
+                        <mat-list>
+                            <mat-list-item class="p-0 font-12 text-white">
+                                <mat-icon mat-list-icon>add_box</mat-icon>
+                                <p mat-line> Add Company</p>
+                            </mat-list-item>
+                        </mat-list>
+                    </small>
+                </div>
+            </a>
+
+            <div class=" text-center my-3 px-3 pb-3 border-0" *ngIf="orgs.length > 0 || selectedOrg.orgId">
+                <div class="mx-auto mb-2 container-img-hover">
+                    <img *ngIf="!selectedOrg.logo" src=" assets/img/1.png" class="image-hover mx-auto img-fluid rounded-circle logo-icon" />
+                    <img *ngIf="selectedOrg.logo" src="data:image/jpg;base64,{{selectedOrg.logo}}" class="image-hover mx-auto img-fluid rounded-circle logo-icon" />
+                    <div class="middle">
+                        <span class="fileUpload btn">
+                            <span><mat-icon class="float-left text-white upload-icon">camera_enhance</mat-icon></span>
+                        <input type="file" class="upload" accept="image/*" #input (change)="fileChange($event, true)">
+                        </span>
+                    </div>
+                </div>
+                <div class="alignment pl-4 cursor" (click)="show()">
+                    <small class="p-2 text-white" *ngIf="sidenavWidth >= 15"><b>{{selectedOrg.name? (selectedOrg.name |
+                        ellipsis:15):''}}</b>
+                    </small>
+                    <i class="material-icons mr-3 text-white" *ngIf="sidenavWidth >= 15">{{openDropdown?
+                        'arrow_drop_up':'arrow_drop_down'}}</i>
+                </div>
+                <h6 class="text-white">{{selectedOrg.orgCode}}</h6>
+                <ng-container *ngIf="openDropdown">
+                    <small *hasAuthority="'GENERAL_ADMIN'" class="text-white" style="font-size: 0.6em"><span
+                            (click)="editOrg(template)" class="cursor">EDIT</span></small>
+                </ng-container>
+            </div>
+
+            <div *ngIf="openDropdown" class="bg-light-grey pt-2 font-12">
+
+                <ul class="list-unstyled px-3">
+                    <!--<li class="media">-->
+                    <!--<mat-form-field class="w-100">-->
+                    <!--<input matInput placeholder="Search Company" class="text-white company-search" type="text"-->
+                    <!--name="searchField" [(ngModel)]="searchField"-->
+                    <!--(keyup)="search('ORG',$event.target.value)">-->
+                    <!--<mat-icon matSuffix class="text-white cursor">search</mat-icon>-->
+                    <!--</mat-form-field>-->
+                    <!--</li>-->
+
+                    <ng-container *ngFor="let org of orgs">
+                        <li *ngIf="org.orgId != selectedOrg.orgId" class="media my-3 cursor d-flex align-items-center" (click)="selectOrg(org)">
+                            <img *ngIf="!org.logo" class="mr-3 rounded-circle" src="assets/img/2.jpg" style="max-height:2.5em;">
+                            <img *ngIf="org.logo" class="mr-3 rounded-circle" src="data:image/jpg;base64,{{org.logo}}" style="max-height:2.5em;">
+                            <div class="media-body text-white">
+                                <b class="mt-0 mb-1 text-capitalize">{{org.name}}</b>
+                                <!--<small>123 Attendees</small>-->
+                            </div>
+                        </li>
+                    </ng-container>
+
+                    <a role="button" (click)="createOrg(template)">
+                        <div class="cursor border-top">
+                            <small>
+                                <mat-list>
+                                    <mat-list-item class="p-0 font-12 text-white">
+                                        <mat-icon mat-list-icon>add_box</mat-icon>
+                                        <p mat-line> Add Company</p>
+                                    </mat-list-item>
+                                </mat-list>
+                            </small>
+                        </div>
+                    </a>
+
+                </ul>
+            </div>
+        </div>
+
+
+        <mat-nav-list>
+            <ul class="app-nav" id="nav">
+                <li class="{{activeClass}}" id="dashboard" (click)="toggleClass(true)">
+                    <a routerLink="/portal" mat-list-item>
+                        <mat-icon mat-list-icon>home</mat-icon>
+                        <span mat-line>Dashboard</span>
+                    </a>
+                </li>
+                <ng-container *ngFor="let view of views">
+                    <li routerLinkActive="active" id="view.route" *hasAuthority="view.authority" (click)="toggleClass(false)">
+                        <a routerLink="{{view.url}}" mat-list-item>
+                            <mat-icon mat-list-icon>{{view.icon}}</mat-icon>
+                            <span mat-line>{{view.route}}</span>
+                        </a>
+                    </li>
+                </ng-container>
+            </ul>
+        </mat-nav-list>
+        <mat-nav-list>
+            <ul>
+                <li routerLinkActive="active" id="admin" *hasAuthority="['GENERAL_ADMIN','LOCATION_ADMIN']" (click)="activeClass = ''">
+                    <a routerLink="/portal/manage-admins" mat-list-item class="text-white">
+                        <mat-icon mat-list-icon>group</mat-icon>
+                        <span mat-line>Admins</span>
+                    </a>
+                </li>
+            </ul>
+        </mat-nav-list>
+    </mat-sidenav>
+
+
+    <mat-toolbar>
+        <button mat-icon-button (click)="sidenav.toggle()" class="d-block d-md-none">
+            <mat-icon>menu</mat-icon>
+        </button>
+
+        <!--<div class="d-none d-md-block" [ngClass]="{'width12em': sidenavWidth >= 15, 'width3em': sidenavWidth < 15}">
+  <img src="assets/img/logo.svg" class="img-fluid logo-icon" *ngIf="sidenavWidth >= 15"
+       style="max-height:26px;"/>
+  <img src="assets/img/logo-icon.svg" class="img-fluid logo-icon" *ngIf="sidenavWidth < 15"/>
+</div>-->
+
+        <button mat-icon-button (click)="toggleNavFromHam(false)" class="d-none d-md-block" *ngIf="sidenavWidth >= 15" matTooltip="Minimize navigation">
+            <mat-icon>fullscreen_exit</mat-icon>
+        </button>
+
+        <button mat-icon-button (click)="toggleNavFromHam(true)" class="d-none d-md-block" *ngIf="sidenavWidth < 15" matTooltip="Maximize navigation">
+            <mat-icon>fullscreen</mat-icon>
+        </button>
+
+
+        <span>{{title}}</span>
+        <span class="example-spacer"></span>
+
+        <!--<button mat-icon-button class="pr-5" matTooltip="Switch to bioregistra">-->
+        <!--<mat-icon class="example-icon">apps</mat-icon>-->
+        <!--</button>-->
+        <button mat-icon-button class="pr-5" [matMenuTriggerFor]="notify" *hasAuthority="'GENERAL_ADMIN'" (click)="notifService()">
+            <mat-icon class="example-icon">notifications</mat-icon>
+            <span class="badge badge-danger free-flows" *ngIf="notifAlert">{{notificationLength}}</span>
+        </button>
+
+        <mat-menu #notify="matMenu" class="p-0">
+            <div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications | slice:0:5; let i=index">
+                <img *ngIf="!notif.verifiableImg" class="mr-3 rounded-circle" src="assets/img/1.png" style="max-height:3em;">
+                <img *ngIf="notif.verifiableImg" class="mr-3 rounded-circle " src="data:image/jpg;base64,{{notif.verifiableImg}}" style="max-height:3em;">
+                <div class="media-body">
+                    <small><b>{{notif.firstName}} {{notif.lastName}}</b> has requested to join {{notif.orgName}} as an
+                        emplo...
+                    </small>
+                    <div class="container-fluid">
+                        <small class="row">
+                            <div class="mr-auto">{{notif.created | date:'short'}}</div>
+                            <div class="ml-auto pr-3"
+                                 (click)="openAttendeesDetailsModal(notificationTemplate, notif.locIds, notif.inviteId)">
+                                <span class="badge badge-dark cursor">Details</span></div>
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+            <!-- <div class="media pt-2 pl-2 pb-2">
+     <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
+     <div class="media-body">
+       <small><b>{{details.firstName}} {{details.lastName}}</b> has requested to join {{details.orgName}} as an emplo...</small>
+       <div class="container-fluid">
+         <small class="row">
+           <div class="mr-auto">3 Hours</div>
+              <div class="ml-auto pr-3"><span class="badge badge-dark cursor" (click)="notificationModal(notificationTemplate)">Details</span></div>
+            </small>
+          </div>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="media pt-2 pl-2 pb-2">
+        <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
+        <div class="media-body">
+          <small><b>{{details.firstName}} {{details.lastName}}</b> has requested to join {{details.orgName}} as an emplo...</small>
+          <div class="container-fluid">
+            <small class="row">
+              <div class="mr-auto">3 Hours</div>
+              <div class="ml-auto pr-3"><span class="badge badge-dark cursor">Details</span></div>
+            </small>
+          </div>
+        </div>
+      </div>
+      <mat-divider></mat-divider> -->
+          <small class="cursor" *ngIf="notifications.length == 0">
+            <a class="float-right p-3 text-danger">No New Notifications..</a>
+          </small>
+            <small class="" *ngIf="notifications.length > 0">
+                <a routerLink="/portal/notification" class="float-right p-3">See all notifications..</a>
+            </small>
+        </mat-menu>
+
+        <button mat-icon-button class="pr-5" [matMenuTriggerFor]="menu">
+            <mat-icon class="example-icon">person</mat-icon>
+        </button>
+
+        <mat-menu #menu="matMenu" class="p-0">
+            <button mat-menu-item class="m-0" (click)="goToProfile()" style="height: auto;">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <img *ngIf="!userImage" src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon"
+                             style="max-height:3em;"/>
+                      <img *ngIf="userImage" src="data:image/jpg;base64,{{userImage}}" class="img-fluid rounded-circle logo-icon"
+                           style="max-height:3em;"/>
+                    </div>
+                    <div class="col-auto  pt-3 pl-0">
+                        <p>{{username}}</p>
+                    </div>
+                </div>
+            </button>
+            <!-- <mat-divider></mat-divider>
+            <button mat-menu-item routerLink="/portal/setting">Setting</button> -->
+            <mat-divider></mat-divider>
+            <button (click)="logout()" mat-menu-item>Log Out</button>
+        </mat-menu>
+
+
+    </mat-toolbar>
+
+    <ng-content></ng-content>
+
+
+</mat-sidenav-container>
+
+<ng-template #template>
+    <div class="modal-header">
+        <h5 class="modal-title pull-left text-brand">{{editOrgMode? 'Edit':'New'}} Company</h5>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form (ngSubmit)="saveOrg()" name="orgCreationForm" #orgCreationForm="ngForm" ngNativeValidate>
+            <div class="col-md-12">
+                <mat-form-field class="input-field">
+                    <input matInput placeholder="Company Name" name="orgName" #orgName="ngModel" [(ngModel)]="orgRequest.name" required>
+                </mat-form-field>
+            </div>
+            <div class="col-md-12">
+                <mat-form-field class="input-field">
+                    <mat-select placeholder="Company Type" name="orgType" #orgType="ngModel" [(ngModel)]="orgRequest.type" [required]="true">
+                        <mat-option *ngFor="let type of orgTypes" value="{{type.name}}">{{type.name}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="orgType.errors?.required">You must make a selection</mat-error>
+                </mat-form-field>
+
+                <div class="mb-3 text-center">
+                    <span class="fileUpload btn btn-accent">
+                                   <span><mat-icon>attachment</mat-icon></span>
+                    <input type="file" class="upload" accept="image/*" #input (change)="fileChange($event, false)">
+                    </span>
+                    <p>{{uploadedFileName}}</p>
+
+                    <div>
+                        <small>
+                            {{editOrgMode? 'Update':'Upload'}} company's logo
+                        </small>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-md-12 text-center pt-3 pb-3">
+                <button mat-raised-button color="primary" class="auth-btn" type="submit" [disabled]="loading">PROCEED</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+
+<ng-template #notificationTemplate>
+    <div class="modal-header">
+        <h5 class="modal-title text-brand pb-3 pt-3 text-center">Request to join {{details.orgName}}</h5>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body px-5">
+
+        <!--<h4 class="modal-title text-brand pb-3 pt-3 text-center">Request to join {{details.orgName}}</h4>-->
+        <p class="pl-lg-3 pr-lg-3 text-center">You have received a request from <strong>{{details.firstName}}
+            {{details.lastName}}</strong> to join your company with the following details.</p>
+        <p class="pl-lg-3 pr-lg-3 text-center">Approve or Decline Request to proceed...</p>
+
+        <div class="pt-3">
+            <img *ngIf="!details.verifiableImg" src="assets/img/1.png" class="w-25 rounded-circle mx-auto d-block" alt="Profile picture" style="height: 100px;">
+            <img *ngIf="details.verifiableImg" src="data:image/jpg;base64,{{details.verifiableImg}}" class=" w-25 rounded-circle mx-auto d-block" alt="Profile pciture" style="height: 100px;">
+
+        </div>
+
+        <div class="py-4 pl-lg-3 pr-lg-3 text-center">
+            <span class="text-brand">NAME</span>
+            <h6 class="pb-2">{{details.firstName}} {{details.lastName}}</h6>
+            <span class="text-brand">EMAIL</span>
+            <h6>{{details.email}}</h6>
+        </div>
+
+        <div class="text-center pt-4 pb-5">
+            <button mat-raised-button color="primary" class="primary-outline mr-2" (click)="approveNotifications(details.email, details.inviteId, 'APPROVED')">Approve
+            </button>
+            <button mat-raised-button class="primary-outline" (click)="rejectNotifications(details.email, details.inviteId,  'REJECTED')" data-dismiss="modal">
+                Decline
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #assignLocation>
+    <div class=" modal-header">
+        <h4 class="modal-title pull-center text-brand">Assign To Location</h4>
+        <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <p class="text-center">Assign <span class="font-weight-bold">{{details.firstName}} {{details.lastName}}</span> to a location</p>
+        <div class="container pl-lg-4 pl-2 pt-4">
+            <div class="text-center pl-lg-5 pl-4">
+                <mat-form-field class="form-width-70">
+                    <mat-select placeholder="Select Locations" name="locs" [(ngModel)]="approveRequest.locIds" multiple>
+                        <mat-select-trigger>
+                            {{locations? getSelectedLocationName() : ''}}
+                            <span *ngIf="approveRequest.locIds?.length > 1">
+        (+{{approveRequest.locIds.length - 1}} others)
+      </span>
+                        </mat-select-trigger>
+                        <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="text-center pt-4 pb-5">
+            <button mat-raised-button color="primary" class="mr-2" (click)="confirmAssignment(details.inviteId)">Approve</button>
+        </div>
+    </div>
+</ng-template>

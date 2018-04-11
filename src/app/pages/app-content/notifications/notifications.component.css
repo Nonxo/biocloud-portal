@@ -1,0 +1,19 @@
+.sidebar{
+  height: calc(100vh - 76px);
+
+}
+.display-2-0{
+  font-size: 2rem;
+  font-weight: 300;
+}
+
+.list-group{
+  font-size: 14px;
+}
+
+
+.form-width-70{
+  width: 70%;
+}
+
+

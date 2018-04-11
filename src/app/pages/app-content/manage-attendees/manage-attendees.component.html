@@ -1,0 +1,364 @@
+<app-loading></app-loading>
+<mat-divider></mat-divider>
+
+<mat-tab-group class="employee" (selectedTabChange)="onTabChange($event)">
+    <mat-tab label="Active">
+        <div class="container-fluid pr-lg-3 pl-lg-3">
+            <div class="row mt-4">
+                <div class="col-lg-4 col-12  d-flex align-items-center">
+                    <mat-form-field>
+                        <mat-select placeholder="" name="location" [(ngModel)]="selectedLocId" (change)="fetchUsers()">
+                            <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All Locations</mat-option>
+                            <ng-container *ngFor="let loc of locations">
+                                <mat-option [value]="loc.locId">
+                                    {{ loc.name }}
+                                </mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-4 col-12 text-md-center text-left">
+                    <ng-container *ngIf="isChecked()">
+                        <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')" class="primary-outline">Reassign
+                        </button>
+                        <button mat-button class="primary-outline" (click)="groupActions('DE_ACTIVATE')">Deactivate
+                        </button>
+                    </ng-container>
+                </div>
+
+                <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
+                    <div class="ml-md-auto mr-auto">
+                        <a class="text-right" role="button" (click)="openInviteModal()">
+                            <p class="cursor text-brand">INVITE NEW EMPLOYEE</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid" *ngIf="currentTab == 0">
+
+            <div class="table-responsive" *ngIf="totalItems > 0">
+                <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="12">
+                    <thead>
+                        <tr>
+                            <th scope="col" *ngIf="mf.data.length > 0">
+                                <mat-checkbox name="selAll" [(ngModel)]="selAll" (change)="selectAll($event)"></mat-checkbox>
+                            </th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email Address</th>
+                            <th scope="col">Phone Number</th>
+                            <!--<th scope="col">Status</th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let d of mf.data; let i = index">
+                            <th>
+                                <mat-checkbox name="check{{i}}" [(ngModel)]="d.checked" (click)="selectOne($event)"></mat-checkbox>
+                            </th>
+                            <td>
+                                <p class="cursor text-brand" (click)="gotoOverview(d.email)">{{d.firstName }} {{ d.lastName}}</p>
+                            </td>
+                            <td>{{d.email}}</td>
+                            <td>{{d.phone}}</td>
+                            <!--<td>{{d.status? 'Active':'Inactive'}}</td>-->
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row justify-content-between" *ngIf="totalItems > 0">
+                <div class="col-auto">
+                    <div class="pb-lg-0 pb-4">
+                        <div class="form-group form-inline">
+                            <p class="pt-3 pr-2">Show</p>
+                            <mat-form-field class="w-25">
+                                <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
+                                    <mat-option [value]="10">10</mat-option>
+                                    <mat-option [value]="25">25</mat-option>
+                                    <mat-option [value]="50">50</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 0" [totalItems]="totalItems" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
+                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                </div>
+            </div>
+
+
+        </div>
+    </mat-tab>
+
+    <mat-tab label="Deactivated">
+
+
+        <div class="container-fluid pr-lg-3 pl-lg-3">
+            <div class="row mt-4">
+                <div class="col-lg-4 col-12  d-flex align-items-center">
+                    <mat-form-field>
+                        <mat-select placeholder="" name="location" [(ngModel)]="selectedLocId" (change)="fetchUsers()">
+                            <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All Locations</mat-option>
+                            <ng-container *ngFor="let loc of locations">
+                                <mat-option [value]="loc.locId">
+                                    {{ loc.name }}
+                                </mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-4 col-12 text-md-center text-left">
+                    <ng-container *ngIf="isChecked()">
+                        <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')" class="primary-outline">Reassign
+                        </button>
+                        <button mat-button class="primary-outline" (click)="groupActions('ACTIVATE')">Activate</button>
+                    </ng-container>
+                </div>
+
+                <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
+                    <div class="ml-md-auto mr-auto">
+                        <a class="text-right" role="button" (click)="openInviteModal()">
+                            <p class="cursor text-brand">INVITE NEW EMPLOYEE</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container-fluid" *ngIf="currentTab == 1">
+
+            <div class="table-responsive" *ngIf="totalItems > 0">
+                <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="12">
+                    <thead>
+                        <tr>
+                            <th scope="col" *ngIf="mf.data.length > 0">
+                                <mat-checkbox name="selAll" [(ngModel)]="selAll" (change)="selectAll($event)"></mat-checkbox>
+                            </th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email Address</th>
+                            <th scope="col">Phone Number</th>
+                            <!--<th scope="col">Status</th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let d of mf.data; let i = index">
+                            <th>
+                                <mat-checkbox name="check{{i}}" [(ngModel)]="d.checked" (click)="selectOne($event)"></mat-checkbox>
+                            </th>
+                            <td>
+                                <p class="cursor text-brand" (click)="gotoOverview(d.email)">{{d.firstName }} {{ d.lastName}}</p>
+                            </td>
+                            <td>{{d.email}}</td>
+                            <td>{{d.phone}}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row justify-content-between" *ngIf="totalItems > 0">
+                <div class="col-auto">
+                    <div class="pb-lg-0 pb-4">
+                        <div class="form-group form-inline">
+                            <p class="pt-3 pr-2">Show</p>
+                            <mat-form-field class="w-25">
+                                <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
+                                    <mat-option [value]="10">10</mat-option>
+                                    <mat-option [value]="25">25</mat-option>
+                                    <mat-option [value]="50">50</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 1" [totalItems]="totalItems" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
+                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                </div>
+            </div>
+
+
+        </div>
+
+    </mat-tab>
+    <mat-tab label="Invited">
+
+        <div class="container-fluid pr-lg-3 pl-lg-3">
+            <div class="row mt-4">
+                <div class="col-lg-4 col-12  d-flex align-items-center">
+                    <mat-form-field>
+                        <mat-select placeholder="" name="location" [(ngModel)]="selectedLocId" (change)="fetchInvitedUsers()">
+                            <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All Locations</mat-option>
+                            <ng-container *ngFor="let loc of locations">
+                                <mat-option [value]="loc.locId">
+                                    {{ loc.name }}
+                                </mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-4 col-12 text-md-center text-left">
+                    <ng-container *ngIf="isChecked()">
+                        <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')" class="primary-outline">Reassign
+                        </button>
+                        <button mat-button class="primary-outline" (click)="groupActions('ACTIVATE')">Activate</button>
+                    </ng-container>
+                </div>
+
+                <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
+                    <div class="ml-md-auto mr-auto">
+                        <a class="text-right" role="button" (click)="openInviteModal()">
+                            <p class="cursor text-brand">INVITE NEW EMPLOYEE</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container-fluid" *ngIf="currentTab == 2">
+
+            <div class="table-responsive" *ngIf="totalItems > 0">
+                <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="12">
+                    <thead>
+                        <tr>
+                            <!--<th scope="col" *ngIf="mf.data.length > 0">-->
+                            <!--<mat-checkbox name="selAll" [(ngModel)]="selAll" (change)="selectAll($event)"></mat-checkbox>-->
+                            <!--</th>-->
+                            <!--<th scope="col">Name</th>-->
+                            <th scope="col">Email Address</th>
+                            <!--<th scope="col">Phone Number</th>-->
+                            <!--<th scope="col">Status</th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let d of mf.data; let i = index">
+                            <!--<th>-->
+                            <!--<mat-checkbox name="check{{i}}" [(ngModel)]="d.checked" (click)="selectOne($event)"></mat-checkbox>-->
+                            <!--</th>-->
+                            <!--<td>-->
+                            <!--<p class="cursor text-brand" (click)="gotoOverview(d.email)">{{d.firstName }} {{ d.lastName}}</p>-->
+                            <!--</td>-->
+                            <td>{{d.email}}</td>
+                            <!--<td>{{d.phone}}</td>-->
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row justify-content-between" *ngIf="totalItems > 0">
+                <div class="col-auto">
+                    <div class="pb-lg-0 pb-4">
+                        <div class="form-group form-inline">
+                            <p class="pt-3 pr-2">Show</p>
+                            <mat-form-field class="w-25">
+                                <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
+                                    <mat-option [value]="10">10</mat-option>
+                                    <mat-option [value]="25">25</mat-option>
+                                    <mat-option [value]="50">50</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 2" [totalItems]="totalItems" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
+                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                </div>
+            </div>
+
+
+        </div>
+
+    </mat-tab>
+</mat-tab-group>
+
+
+<ng-template #activateUserTemplate>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left text-brand">{{adr.status? 'Activate':'Deactivate'}} Employee(s)</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="col-md-12">
+            <p>Are you sure you want to {{adr.status? 'Activate':'Deactivate'}} the selected employee(s).</p>
+            <p>This means they will be {{adr.status? 'able':'unable'}} to clock in to your Company {{adr.status? '':'anymore'}}</p>
+        </div>
+
+        <div class="col-md-12 text-right">
+            <button mat-raised-button color="danger" type="button" (click)="modalRef.hide()">CANCEL</button>
+            <button mat-raised-button color="primary" type="button" (click)="activateDeactivateUser()">
+                OK
+                <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
+            </button>
+        </div>
+
+
+    </div>
+</ng-template>
+
+<ng-template #assignuserTemplate>
+    <div class="modal-header">
+        <h4 class="modal-title text-brand">Reassign Employee(s)</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row p-md-3 p-0">
+
+            <div class="col-md-12">
+                <p>Reassign the selected employee(s) to a new location</p>
+            </div>
+
+            <div class="col-md-8">
+                <mat-form-field class="input-field">
+                    <mat-select placeholder="Select Location" name="locId" [(ngModel)]="assignRequestObj.newlocId">
+                        <mat-option value="0">--</mat-option>
+                        <ng-container *ngFor="let loc of locations">
+                            <mat-option *ngIf="selectedLocId !== loc.locId" value="{{loc.locId}}">{{loc.name}}
+                            </mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-12 text-right">
+
+                <button mat-raised-button color="danger" type="button" (click)="modalRef.hide()">CANCEL</button>
+                <button mat-raised-button color="primary" type="button" (click)="assignUser()">
+                    Reassign
+                    <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</ng-template>
+
+
+<!--EMPTY STATE-->
+<div class="container" *ngIf="totalItems == 0">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="text-center pt-5">
+                <img class="w-75" src="assets/img/em.png" alt="Profile picture">
+                <h1 class="pt-3 fade-msg">NO {{currentTab == 0? 'ACTIVE': currentTab == 1? 'DEACTIVATED':'INVITED'}} EMPLOYEE</h1>
+                <a href="">
+                    <!--<h4 class="pt-2 pb-5">INVITE NEW EMPLOYEE</h4>-->
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

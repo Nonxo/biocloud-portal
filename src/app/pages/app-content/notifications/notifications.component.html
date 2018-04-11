@@ -1,0 +1,244 @@
+<app-loading></app-loading>
+<!--
+<h3>Notifications</h3>
+<div class="card text-center" style="width: 60rem;" *ngFor="let notif of notifications">
+  <div class="card-block">
+    <p class="card-text">You have a {{notif.status}} attendee request from {{notif.email}}</p>
+    <button type="button" class="btn btn-primary float-right" (click)="openAttendeesDetailsModal(viewDetailsTemplate, notif.locIds, notif.inviteId)">View
+      Details
+    </button>
+  </div>
+</div>
+
+
+<ng-template #viewDetailsTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Attendee Information Capture</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ul>
+      <li>First Name: {{details.firstName}}</li>
+      <li>Surname: {{details.lastName}}</li>
+      <li>Email Address: {{details.email}}</li>
+      <li>Phone Number: {{details.phoneNumber}}</li>
+      <li>Request Time: {{details.created | date:'fullDate'}}</li>
+    </ul>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="rejectNotifications(details.email, details.inviteId,  'REJECTED')" data-dismiss="modal">Reject
+    </button>
+    <button type="button" class="btn btn-primary" (click)="approveNotifications(details.email, details.inviteId, 'APPROVED')">
+      Accept
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #assignLocation>
+  <div class=" modal-header">
+    <h4 class="modal-title pull-center">Assign Attendee to a Location</h4>
+    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Assign {{selectedEmail}} to a location</p>
+    <mat-form-field>
+      <mat-select placeholder="Select Locations" name="locs" [(ngModel)] = "approveRequest.locIds" multiple>
+        <mat-select-trigger>
+          {{locations? getSelectedLocationName() : ''}}
+    <span *ngIf="approveRequest.locIds?.length > 1">
+      (+{{approveRequest.locIds.length - 1}} others)
+    </span>
+        </mat-select-trigger>
+        <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Assign Later</button>
+    <button type="button" [disabled]="approveRequest.locIds.length == 0" class="btn btn-primary" (click)="confirmAssignment(details.inviteId)">Assign</button>
+  </div>
+</ng-template>
+
+
+
+-->
+
+
+
+<div class="container px-lg-4 px-md-3 ">
+    <div class="row ">
+
+        <div class="col-md-12 py-md-4 py-md-3 pt-3">
+            <mat-card class="p-0">
+                <!--<h6 class="pt-4 pb-2 align-middle text-uppercase px-3">Subscription History</h6>-->
+                <div class="list-group">
+                    <div *ngFor="let notif of notifications" class="list-group-item list-group-item-action d-flex flex-row align-items-start">
+                        <div class="w-100 pl-3">
+                            <div class="d-flex w-100 justify-content-between">
+                                <p class=" mb-1"><span class="weight-600">{{notif.firstName}} {{notif.lastName}}</span> has requested to join {{details.orgName}} as an employee </p>
+                                <small class="d-md-none d-block">
+                  <mat-icon [matMenuTriggerFor]="request" class="cursor">more_horiz</mat-icon>
+                  <mat-menu #request="matMenu">
+                  <!--  <button mat-menu-item (click)="approveNotifications(details.email, details.inviteId, 'APPROVED')">
+                      <mat-icon>view_list</mat-icon>
+                      <span>Accept</span>
+                    </button> -->
+                    <button mat-menu-item >
+                      <mat-icon>file_download</mat-icon>
+                      <span>Respond</span>
+                    </button>
+                  </mat-menu>
+                </small>
+                                <span class="d-none d-md-block">
+                  <div class="ml-auto pr-3">
+                  <!--  <span class="badge badge-dark cursor px-3 py-2 mr-2" >Approve</span> -->
+                                <span class="badge badge-dark cursor px-3 py-2" (click)="openAttendeesDetailsModal(notificationTemplate, notif.locIds, notif.inviteId)">Respond</span>
+                            </div>
+                            </span>
+                        </div>
+                        <p class="mb-1 d-flex justify-content-between">
+                            <span class="text-success">{{notif.created | date:'fullDate'}}  {{notif.created | date:'shortTime'}}</span>
+                        </p>
+                    </div>
+
+                </div>
+                <!-- <div class="list-group-item list-group-item-action d-flex flex-row align-items-start">
+            <div class="col-auto px-0">
+              <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
+            </div>
+            <div class="w-100 pl-3">
+              <div class="d-flex w-100 justify-content-between">
+                <p class=" mb-1"><span class="weight-600">BASIC PLAN</span> (TRANS-246789)</p>
+                <small class="d-md-none d-block">
+                  <mat-icon [matMenuTriggerFor]="request" class="cursor">more_horiz</mat-icon>
+                  <mat-menu #request="matMenu">
+                    <button mat-menu-item>
+                      <mat-icon>view_list</mat-icon>
+                      <span>Accept</span>
+                    </button>
+                    <button mat-menu-item>
+                      <mat-icon>file_download</mat-icon>
+                      <span>Decliine</span>
+                    </button>
+                  </mat-menu>
+                </small>
+                <span class="d-none d-md-block">
+                  <div class="ml-auto pr-3">
+                    <span class="badge badge-dark cursor px-3 py-2 mr-2" >Approve</span>
+                    <span class="badge badge-dark cursor px-3 py-2" >Decline</span>
+                  </div>
+                </span>
+              </div>
+              <p class="mb-1 d-flex justify-content-between">
+                <span class="text-danger">Expired</span>
+              </p>
+            </div>
+
+          </div>
+          <div class="list-group-item list-group-item-action d-flex flex-row align-items-start">
+            <div class="col-auto px-0">
+              <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
+            </div>
+            <div class="w-100 pl-3">
+              <div class="d-flex w-100 justify-content-between">
+                <p class=" mb-1"><span class="weight-600">BASIC PLAN</span> (TRANS-246789)</p>
+                <small class="d-md-none d-block">
+                  <mat-icon [matMenuTriggerFor]="request" class="cursor">more_horiz</mat-icon>
+                  <mat-menu #request="matMenu">
+                    <button mat-menu-item>
+                      <mat-icon>view_list</mat-icon>
+                      <span>Accept</span>
+                    </button>
+                    <button mat-menu-item>
+                      <mat-icon>file_download</mat-icon>
+                      <span>Decliine</span>
+                    </button>
+                  </mat-menu>
+                </small>
+                <span class="d-none d-md-block">
+                  <div class="ml-auto pr-3">
+                    <span class="badge badge-dark cursor px-3 py-2 mr-2" >Approve</span>
+                    <span class="badge badge-dark cursor px-3 py-2" >Decline</span>
+                  </div>
+                </span>
+              </div>
+              <p class="mb-1 d-flex justify-content-between">
+                <span class="text-danger">Expired</span>
+              </p>
+            </div>
+
+          </div> -->
+        </div>
+        </mat-card>
+    </div>
+</div>
+</div>
+
+<ng-template #notificationTemplate>
+    <div class="modal-header">
+        <h5 class="modal-title text-brand text-center">Request to join {{details.orgName}}</h5>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body px-5">
+
+
+      <p class="pl-lg-3 pr-lg-3 mt-3 text-center">You have received a request from <strong>{{details.firstName}} {{details.lastName}}</strong> to join your company with the following details.</p>
+        <p class="pl-lg-3 pr-lg-3 text-center">Approve or Decline Request to proceed...</p>
+
+        <div class="pt-3">
+            <img *ngIf="!details.verifiableImg" src="assets/img/1.png" class="w-25 rounded-circle mx-auto d-block" alt="Profile picture" style="height: 100px;">
+            <img *ngIf="details.verifiableImg" src="data:image/jpg;base64,{{details.verifiableImg}}" class=" w-25 rounded-circle mx-auto d-block" alt="Profile pciture" style="height: 100px;">
+
+        </div>
+
+        <div class="py-4 pl-lg-3 pr-lg-3 text-center">
+            <span class="text-brand">NAME</span>
+            <h6 class="pb-2">{{details.firstName}} {{details.lastName}}</h6>
+            <span class="text-brand">EMAIL</span>
+            <h6>{{details.email}}</h6>
+        </div>
+
+        <div class="text-center pt-4 pb-5">
+            <button mat-raised-button color="primary" class="primary-outline mr-2" (click)="approveNotifications(details.email, details.inviteId, 'APPROVED')">Approve</button>
+            <button mat-raised-button class="primary-outline" (click)="rejectNotifications(details.email, details.inviteId,  'REJECTED')" data-dismiss="modal">Decline</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #assignLocation>
+    <div class=" modal-header">
+        <h4 class="modal-title pull-center text-brand">Assign To Location</h4>
+        <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <p class="text-center">Assign <span class="font-weight-bold">{{details.firstName}} {{details.lastName}}</span> to a location</p>
+        <div class="container pl-lg-4 pl-2 pt-4">
+            <div class="text-center pl-lg-5 pl-4">
+                <mat-form-field class="form-width-70">
+                    <mat-select placeholder="Select Locations" name="locs" [(ngModel)]="approveRequest.locIds" multiple>
+                        <mat-select-trigger>
+                            {{locations? getSelectedLocationName() : ''}}
+                            <span *ngIf="approveRequest.locIds?.length > 1">
+        (+{{approveRequest.locIds.length - 1}} others)
+      </span>
+                        </mat-select-trigger>
+                        <mat-option *ngFor="let loc of locations" [value]="loc.locId">{{loc.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="text-center pt-4 pb-5">
+            <button mat-raised-button color="primary" class="mr-2" (click)="confirmAssignment(details.inviteId)">Approve</button>
+        </div>
+    </div>
+</ng-template>
