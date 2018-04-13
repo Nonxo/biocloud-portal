@@ -14,6 +14,9 @@ export class SubscribeComponent implements OnInit {
       {name: "BASIC", pricePerMonth: 30000, maxAttendeeThreshold: 900, description: null, pricePerAnnum: 90000, priceperDay: 400, enabled:true},
       {name: "PREMIUM", pricePerMonth: 50000, maxAttendeeThreshold: 900, description: null, pricePerAnnum: 90000, priceperDay: 400, enabled:true}
       ];
+  public monthlyPlan:boolean = true;
+  public selectedCurrency:string = 'NGN';
+  public exchangeRate:number = 360;
 
   constructor(private subService: SubscriptionService, private ns: NotifyService) { }
 
@@ -33,6 +36,22 @@ export class SubscribeComponent implements OnInit {
             },
             error => {this.ns.showError("An Error Occurred")}
         )
+  }
+
+  getPrice(plan:SubscriptionPlan) {
+      if(this.selectedCurrency == 'NGN') {
+          if(this.monthlyPlan) {
+              return plan.pricePerMonth;
+          } else {
+              return plan.pricePerAnnum;
+          }
+      }else {
+          if(this.monthlyPlan) {
+              return plan.pricePerMonth/this.exchangeRate;
+          } else {
+              return plan.pricePerAnnum/this.exchangeRate;
+          }
+      }
   }
 
 }
