@@ -168,6 +168,18 @@ export class UserPaginationPojo {
     }
 }
 
+export class SubscriptionPlan {
+
+    name:string;
+    description:string;
+    pricePerMonth:number;
+    pricePerAnnum:number;
+    priceperDay:number;
+    enabled:boolean;
+    maxAttendeeThreshold;
+
+}
+
 
 
 
