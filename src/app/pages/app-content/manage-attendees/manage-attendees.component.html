@@ -40,7 +40,7 @@
         <div class="container-fluid" *ngIf="currentTab == 0">
 
             <div class="table-responsive" *ngIf="totalItems > 0">
-                <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="12">
+                <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                     <thead>
                         <tr>
                             <th scope="col" *ngIf="mf.data.length > 0">
@@ -134,7 +134,7 @@
         <div class="container-fluid" *ngIf="currentTab == 1">
 
             <div class="table-responsive" *ngIf="totalItems > 0">
-                <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="12">
+                <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                     <thead>
                         <tr>
                             <th scope="col" *ngIf="mf.data.length > 0">
@@ -226,7 +226,7 @@
         <div class="container-fluid" *ngIf="currentTab == 2">
 
             <div class="table-responsive" *ngIf="totalItems > 0">
-                <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="12">
+                <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                     <thead>
                         <tr>
                             <!--<th scope="col" *ngIf="mf.data.length > 0">-->
