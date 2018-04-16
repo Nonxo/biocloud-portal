@@ -13,11 +13,8 @@
                             <mat-slide-toggle> Yearly (20% OFF)</mat-slide-toggle> -->
                             <mat-form-field>
                                 <mat-select placeholder="Select Currency" name="selectedCurrency" [(ngModel)]="selectedCurrency">
-                                    <mat-option select value="NGN">NGN(₦)</mat-option>
-                                    <mat-option select value="USD">USD($)</mat-option>
-                                    <mat-option select value="EUR">EUR(€)</mat-option>
-                                    <mat-option select value="GBP">GBP()</mat-option>
-                                    <mat-option select value="GHS">GHS()</mat-option>
+                                    <mat-option select value="NGN">NGN</mat-option>
+                                    <mat-option select *ngFor="let e of exchangeRates" value="{{e.target}}">{{e.target}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
@@ -58,7 +55,7 @@
                             Monthly
                             <mat-slide-toggle> Yearly (20% OFF)</mat-slide-toggle>
                         </div> -->
-                        <button mat-raised-button color="primary" class="px-4 py-2 mt-4">SUBSCRIBE</button>
+                        <button mat-raised-button color="primary" class="px-4 py-2 mt-4" (click)="subscribe(plan)">SUBSCRIBE</button>
                     </mat-card>
                 </div>
 

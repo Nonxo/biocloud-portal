@@ -33,4 +33,39 @@ export class SubscriptionService {
             )
     }
 
+    fetchAllExchangeRates(): Observable<any> {
+        return this.httpClient
+            .get(Endpoints.FETCH_ALL_EXCHANGE_RATE, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
+    generateTransactionRef(amount:number): Observable<any> {
+
+        const body = `amount=${amount}`;
+
+        return this.httpClient
+            .post(Endpoints.GEENERATE_TRANSACTION_REF, body, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
 }
