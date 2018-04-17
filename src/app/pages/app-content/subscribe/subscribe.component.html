@@ -12,12 +12,9 @@
                             <!-- Monthly
                             <mat-slide-toggle> Yearly (20% OFF)</mat-slide-toggle> -->
                             <mat-form-field>
-                                <mat-select placeholder="Select Currency" name="selectedCurrency" [(ngModel)]="selectedCurrency">
-                                    <mat-option select value="NGN">NGN(₦)</mat-option>
-                                    <mat-option select value="USD">USD($)</mat-option>
-                                    <mat-option select value="EUR">EUR(€)</mat-option>
-                                    <mat-option select value="GBP">GBP()</mat-option>
-                                    <mat-option select value="GHS">GHS()</mat-option>
+                                <mat-select placeholder="Select Currency" name="selectedCurrency" [(ngModel)]="selectedCurrency"(change)="onChange()">
+                                    <mat-option select value="NGN">NGN</mat-option>
+                                    <mat-option select *ngFor="let e of exchangeRates" value="{{e.target}}">{{e.target}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
@@ -51,49 +48,14 @@
               <li class="list-group-item  border-0">Visual Composer Included</li>
               <li class="list-group-item  border-0">24/7 Support System</li>
             </ul>
-
                         <!-- <div class="mt-5">
-
                             <mat-checkbox>Go Yearly(10% Off)</mat-checkbox>
                             Monthly
                             <mat-slide-toggle> Yearly (20% OFF)</mat-slide-toggle>
                         </div> -->
-                        <button mat-raised-button color="primary" class="px-4 py-2 mt-4">SUBSCRIBE</button>
+                        <button mat-raised-button color="primary" class="px-4 py-2 mt-4" (click)="openModal(confirmPaymentTemplate)">SUBSCRIBE</button>
                     </mat-card>
                 </div>
-
-        <!--<div class="col-lg-4 col-md-12 col-12  pt-3 p-0 p-md-3 text-center">-->
-          <!--<mat-card class="py-lg-5 p-md-2 p-3 subscribe-plan text-white">-->
-            <!--<h1>PRO</h1>-->
-            <!--<h4 class="py-3">₦120,000/month</h4>-->
-
-            <!--<ul class="list-group">-->
-              <!--<li class="list-group-item  border-0">Ultimate Features</li>-->
-              <!--<li class="list-group-item  border-0">Responsive Ready</li>-->
-              <!--<li class="list-group-item  border-0">Visual Composer Included</li>-->
-              <!--<li class="list-group-item  border-0">24/7 Support System</li>-->
-            <!--</ul>-->
-
-            <!--<button mat-raised-button color="primary" class="px-4 py-2 mt-5">SUBSCRIBE</button>-->
-
-          <!--</mat-card>-->
-        <!--</div>-->
-
-        <!--<div class="col-lg-4 col-md-12 col-12  pt-3 p-0 p-md-3 text-center">-->
-          <!--<mat-card class="py-lg-5 p-md-2 p-3 subscribe-plan  text-white">-->
-            <!--<h1>PRO+</h1>-->
-            <!--<h4 class="py-3">₦150,000/month</h4>-->
-
-            <!--<ul class="list-group">-->
-              <!--<li class="list-group-item  border-0">Ultimate Features</li>-->
-              <!--<li class="list-group-item  border-0">Responsive Ready</li>-->
-              <!--<li class="list-group-item  border-0">Visual Composer Included</li>-->
-              <!--<li class="list-group-item  border-0">24/7 Support System</li>-->
-            <!--</ul>-->
-
-            <!--<button mat-raised-button color="primary" class="px-4 py-2 mt-5">SUBSCRIBE</button>-->
-          <!--</mat-card>-->
-        <!--</div>-->
 
       </div>
     </div>
@@ -117,3 +79,15 @@
     </div>
   </div>
 </div>
+
+<ng-template #confirmPaymentTemplate>
+    <div class="modal-header">
+        <h4 class="modal-title text-brand">Subscription Details</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+    </div>
+</ng-template>
