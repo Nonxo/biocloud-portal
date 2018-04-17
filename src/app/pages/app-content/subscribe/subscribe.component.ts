@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import {SubscriptionPlan} from "../model/app-content.model";
 import {SubscriptionService} from "../services/subscription.service";
 import {NotifyService} from "../../../service/notify.service";
+import {StorageService} from "../../../service/storage.service";
+import {BsModalRef, BsModalService} from "ngx-bootstrap";
 
 declare function getpaidSetup(data): void;
 
@@ -34,16 +36,31 @@ export class SubscribeComponent implements OnInit {
     ];
     public monthlyPlan: boolean = true;
     public selectedCurrency: string = 'NGN';
-    public exchangeRate: number = 360;
+    public exchangeRate: number;
     private amount: number;
     public exchangeRates: any[] = [];
+    private transactionRef: string;
+    private PUBKey: string;
+    private cipher: string;
+    private amountToPay: number;
+    private userEmail: string;
+    public modalRef:BsModalRef;
 
-    constructor(private subService: SubscriptionService, private ns: NotifyService) {
+    constructor(private subService: SubscriptionService, private modalService: BsModalService, private ns: NotifyService, private ss: StorageService) {
+        this.userEmail = this.ss.getLoggedInUserEmail()
     }
 
     ngOnInit() {
         this.fetchPlans();
         this.fetchAllExchangeRates();
+    }
+
+    onChange() {
+        this.fetchSpecificExchangeRate();
+    }
+
+    openModal(template: TemplateRef<any>) {
+        this.modalRef = this.modalService.show(template);
     }
 
     fetchPlans() {
@@ -65,47 +82,50 @@ export class SubscribeComponent implements OnInit {
     getPrice(plan: SubscriptionPlan) {
         if (this.selectedCurrency == 'NGN') {
             if (this.monthlyPlan) {
-                return plan.pricePerMonth;
+                return Math.ceil(plan.pricePerMonth);
             } else {
-                return plan.pricePerAnnum;
+                return Math.ceil(plan.pricePerAnnum);
             }
         } else {
             if (this.monthlyPlan) {
-                return plan.pricePerMonth / this.exchangeRate;
+                return Math.ceil(plan.pricePerMonth / this.exchangeRate);
             } else {
-                return plan.pricePerAnnum / this.exchangeRate;
+                return Math.ceil(plan.pricePerAnnum / this.exchangeRate);
             }
         }
     }
 
-    generateTransactionRef(amount:number) {
-        this.subService.generateTransactionRef(amount)
+    generateTransactionRef() {
+        this.subService.generateTransactionRef(this.amountToPay, this.selectedCurrency)
             .subscribe(
-                result => {debugger;},
-                error => {debugger;}
+                result => {
+                    if (result.code == 0) {
+                        this.cipher = result.cipher;
+                        this.PUBKey = result.ravePayPublicKey;
+                        this.transactionRef = result.transactionRef;
+
+                        this.callRave();
+                    }
+                },
+                error => {
+                    this.ns.showError("An Error Occurred");
+                }
             )
     }
 
-    subscribe(plan) {
-
-        const amount = this.getPrice(plan)
-        const API_publicKey = "FLWPUBK-d5445503ec4feba528363691104e7408-X";
-
-        this.generateTransactionRef(amount);
-
+    callRave() {
         getpaidSetup({
-            PBFPubKey: API_publicKey,
-            customer_email: "user@example.com",
-            amount: amount,
+            PBFPubKey: this.PUBKey,
+            customer_email: this.userEmail,
+            amount: this.amountToPay,
             customer_phone: "234099940409",
             currency: this.selectedCurrency,
             payment_method: "both",
-            txref: "rave-123456",
+            txref: this.transactionRef,
             meta: [{metaname: "flightID", metavalue: "AP1234"}],
             onclose: function () {
             },
             callback: function (response) {
-                debugger;
                 var flw_ref = response.tx.flwRef; // collect flwRef returned and pass to a 					server page to complete status check.
                 console.log("This is the response returned after a charge", response);
                 if (
@@ -120,6 +140,11 @@ export class SubscribeComponent implements OnInit {
         });
     }
 
+    subscribe(plan) {
+        this.amountToPay = this.getPrice(plan);
+        this.generateTransactionRef();
+    }
+
     fetchAllExchangeRates() {
         this.subService.fetchAllExchangeRates()
             .subscribe(
@@ -129,8 +154,20 @@ export class SubscribeComponent implements OnInit {
                     }
                 },
                 error => {
-                    debugger;
+                    this.ns.showError("An Error Occurred");
                 }
+            )
+    }
+
+    fetchSpecificExchangeRate() {
+        this.subService.fetchSpecificExchangeRate(this.selectedCurrency)
+            .subscribe(
+                result => {
+                    if(result.code == 0) {
+                        this.exchangeRate = result.rate.rate;
+                    }
+                },
+                error => {this.ns.showError("An Error Occurred");}
             )
     }
 

@@ -3,7 +3,7 @@
  */
 
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../util/endpoints";
 import {MediaType} from "../../../util/constants";
@@ -49,14 +49,35 @@ export class SubscriptionService {
             )
     }
 
-    generateTransactionRef(amount:number): Observable<any> {
-
-        const body = `amount=${amount}`;
+    fetchSpecificExchangeRate(target:string) {
+        const body = new HttpParams()
+            .set('base', "NGN")
+            .set('target', target);
 
         return this.httpClient
-            .post(Endpoints.GEENERATE_TRANSACTION_REF, body, {
+            .get(Endpoints.FETCH_SPECIFIC_EXCHANGE_RATE + body, {
                 headers: new HttpHeaders()
-                    .set('Content-Type', MediaType.APPLICATION_JSON)
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
+    generateTransactionRef(amount:number, currency:string): Observable<any> {
+        const params = new HttpParams()
+            .set('amount', amount.toString())
+            .set('currency', currency)
+
+        return this.httpClient
+            .post(Endpoints.GEENERATE_TRANSACTION_REF, params.toString(), {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
             .pipe(
                 timeout(50000),
