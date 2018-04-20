@@ -100,7 +100,6 @@ export class LoginComponent implements OnInit, OnDestroy {
             .finally(() => this.loading = false)
             .subscribe(
                 res => {
-                    console.log(res);
                     if (res.code == 0) {
 
                         this.resetPasswordCheck(res);
@@ -123,7 +122,6 @@ export class LoginComponent implements OnInit, OnDestroy {
             .finally(() => this.loading = false)
             .subscribe(
                 res => {
-                    console.log(res);
                     if (res.code == 0) {
                         this.ns.showSuccess(res.description);
                         this.modalRef.hide();

@@ -44,7 +44,7 @@ import {InviteUserComponent} from "./components/auth/invite-user/invite-user.com
         BrowserAnimationsModule,
         RecaptchaModule.forRoot(),
         AgmCoreModule.forRoot({
-            apiKey: 'AIzaSyDX0uywgARFKu6Tsr6qC4v6acFdtrCxfAI',
+            apiKey: 'AIzaSyC7hZTZ41Qwx4XT70L8FaGico6H6w8buaU',
             libraries: ['places']
         }),
         AppRoutingModule

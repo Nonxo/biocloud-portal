@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://app.bioregistra.com'
+  baseUrl: 'https://iclocker.seamfix.com'
 };

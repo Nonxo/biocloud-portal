@@ -32,7 +32,7 @@ export class GeoMapService {
                     observer.next(results[0].formatted_address);
                     observer.complete();
                 } else {
-                    console.log('Error - ', results, ' & Status - ', status);
+                    // console.log('Error - ', results, ' & Status - ', status);
                     observer.next({});
                     observer.complete();
                 }
