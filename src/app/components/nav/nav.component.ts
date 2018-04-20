@@ -44,8 +44,12 @@ export class NavComponent implements OnInit, OnDestroy {
             route: "Report",
             url: "/portal/report-dashboard",
             authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']
-        }
-        // {icon: "payment", route: "Subscribe", url: "/portal/subscribe", authority: "GENERAL_ADMIN"}
+        },
+        {
+            icon: "payment",
+            route: "Subscribe",
+            url: "/portal/subscribe",
+            authority: "GENERAL_ADMIN"}
     ];
 
     orgTypes: string[] = ["SCHOOL", "SECURITY", "HOSPITAL"];
@@ -481,7 +485,6 @@ export class NavComponent implements OnInit, OnDestroy {
                         this.ns.showSuccess(result.description);
                         this.modalRef? this.modalRef.hide():'';
                         this.updateOrg(result.organisation);
-                        debugger;
                         this.cacheOrg();
                         this.selectOrg(result.organisation);
                     } else {
@@ -595,7 +598,6 @@ export class NavComponent implements OnInit, OnDestroy {
         this.editOrgMode = true;
         this.uploadedFileName = "";
         this.orgRequest.type = this.selectedOrg.sector;
-        debugger;
         this.orgRequest.name = this.selectedOrg.name;
         this.orgRequest.logo = this.selectedOrg.logo;
         this.openModal(template);

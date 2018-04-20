@@ -46,4 +46,9 @@ export class Endpoints {
     public static REASSIGN_LOC_USERS = `${Endpoints.BASE_URL}/users/api/attendees/location/`;
     public static FETCH_ATTENDEES_LOCATION = `${Endpoints.BASE_URL}/users/api/attendees/`;
     public static FETCH_COMPANY_TYPE = `${Endpoints.BASE_URL}/users/api/org/orgType`;
+    public static FETCH_SUBSCRIPTION_PLANS = `${Endpoints.BASE_URL}/users/api/subscriptions/plans`;
+    public static FETCH_ALL_EXCHANGE_RATE = `${Endpoints.BASE_URL}/users/api/subscriptions/rates/all`;
+    public static FETCH_SPECIFIC_EXCHANGE_RATE = `${Endpoints.BASE_URL}/users/api/subscriptions/rate?`;
+    public static GEENERATE_TRANSACTION_REF = `${Endpoints.BASE_URL}/users/api/subscriptions/gtr`;
+    public static VERIFY_PAYMENT = `${Endpoints.BASE_URL}/users/api/subscriptions/payment/verify`;
 }

@@ -38,6 +38,14 @@ mat-card.logo-carousel {
     z-index: 1;
 }
 
+.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+    background-color: $dark-purple;
+}
+
+.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+    background-color: $grey;
+}
+
 h1,
 h2,
 h3,
