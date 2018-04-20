@@ -25,6 +25,7 @@ import {ReportService} from "./services/report.service";
 import {BsModalRef, PaginationModule} from "ngx-bootstrap";
 import { EmployeeOverviewComponent } from './employee-overview/employee-overview.component';
 import {GaugeModule} from "angular-gauge";
+import {SubscriptionService} from "./services/subscription.service";
 
 @NgModule({
     imports: [
@@ -50,7 +51,7 @@ import {GaugeModule} from "angular-gauge";
         SettingComponent,
         EmployeeOverviewComponent
     ],
-    providers: [MessageService, AppConfigService, GeoMapService, SearchService, ReportService, BsModalRef],
+    providers: [MessageService, AppConfigService, GeoMapService, SearchService, ReportService, SubscriptionService, BsModalRef],
     entryComponents: [SetupComponent, AddAttendeesComponent]
 })
 export class AppContentModule { }
