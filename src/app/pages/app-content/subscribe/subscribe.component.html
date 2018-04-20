@@ -23,7 +23,7 @@
                     <!-- <h5 class="text-capitalize text-brand">Choose a plan that works for you</h5> -->
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed elit vitae magna ornare ornare. Curabitur lacus magna, ultricies ultrices ultricies venenatis, dapibus ut libero.</p>
                     <div>
-                        Yearly (20% OFF)
+                        Yearly ({{discountRate}}% OFF)
                         <mat-slide-toggle name="durationToggle" [(ngModel)]="monthlyPlan"> Monthly </mat-slide-toggle>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                         <h1>{{plan.name}}</h1>
                         <h4 class="py-3">
                             <!--{{monthlyPlan? (plan.pricePerMonth | currency:'NGN':'symbol-narrow':'4.0'):(plan.pricePerAnnum | currency:'NGN':'symbol-narrow':'4.0')}}-->
-                            {{getPrice(plan) | currency:selectedCurrency:'symbol-narrow':'2.0'}}
+                            {{getPrice(plan) | currency:selectedCurrency:'symbol-narrow':'1.0'}}
                         </h4>
 
                         <ul class="list-group">
@@ -53,7 +53,7 @@
                             Monthly
                             <mat-slide-toggle> Yearly (20% OFF)</mat-slide-toggle>
                         </div> -->
-                        <button mat-raised-button color="primary" class="px-4 py-2 mt-4" (click)="openModal(confirmPaymentTemplate)">SUBSCRIBE</button>
+                        <button mat-raised-button color="primary" class="px-4 py-2 mt-4" (click)="confirmPayment(plan, confirmPaymentTemplate)">SUBSCRIBE</button>
                     </mat-card>
                 </div>
 
@@ -92,9 +92,9 @@
         <p class="text-center pl-lg-5 pr-lg-5">Thank you for deciding to subscribe to iClocker. Please find below details of your plan.</p>
 
         <div class="pl-lg-5 pr-lg-5">
-            <p class=""><span class="text-brand font-weight-bold">Plan</span><br>Basic</p>
-            <p class=""><span class="text-brand font-weight-bold">Subscription Type</span><br>Yearly</p>
-            <p class=""><span class="text-brand font-weight-bold">Amount</span><br>₦320,000</p>
+            <p class=""><span class="text-brand font-weight-bold">Plan</span><br>{{selectedPlan.name}}</p>
+            <p class=""><span class="text-brand font-weight-bold">Subscription Type</span><br>{{monthlyPlan? 'Monthly':'Yearly'}}</p>
+            <p class=""><span class="text-brand font-weight-bold">Amount</span><br>{{getPrice(selectedPlan) | currency:selectedCurrency:'symbol-narrow':'2.0'}}</p>
 
             <hr>
 
@@ -103,13 +103,13 @@
                     <p class="text-brand font-weight-bold">Sub Total</p>
                 </div>
                 <div class="col-md-5">
-                    <p>₦320,000</p>
+                    <p>{{getPrice(selectedPlan) | currency:selectedCurrency:'symbol-narrow':'2.0'}}</p>
                 </div>
                 <div class="col-md-7">
-                    <p class="text-brand font-weight-bold">Special Offer(10% off)</p>
+                    <p class="text-brand font-weight-bold">Special Offer({{monthlyPlan? 0:discountRate}}% off)</p>
                 </div>
                 <div class="col-md-5">
-                    <p>₦320,000</p>
+                    <p>{{discountPrice | currency:selectedCurrency:'symbol-narrow':'1.0'}}</p>
                 </div>
             </div>
 
@@ -118,18 +118,18 @@
                 <div class="col-md-7">
                     <p class="text-brand font-weight-bold">Total</p>
                 </div>
-                <div class="col-md-5">
-                    <p>₦300,000</p>
+                    <div class="col-md-5">
+                    <p>{{amountToPay | currency:selectedCurrency:'symbol-narrow':'1.0'}}</p>
                 </div>
             </div>
 
             <div class="text-center pt-3 pb-2">
-                <mat-checkbox class="text-secondary">Always auto renew my subscription</mat-checkbox>
+                <mat-checkbox class="text-secondary" name="renew" [(ngModel)]="renewSub">Always auto renew my subscription</mat-checkbox>
             </div>
 
             <div class="col-md-12 mt-3 text-center mb-4">
                 <button mat-raised-button class="px-4 primary-outline py-1" type="button" (click)="modalRef.hide()">CANCEL</button>
-                <button mat-raised-button color="primary" class="px-4 primary-outline py-1 mr-2">Continue to Payment</button>
+                <button mat-raised-button color="primary" class="px-4 primary-outline py-1 mr-2" (click)="subscribe(selectedPlan)">Continue to Payment</button>
             </div>
 
         </div>

@@ -1,5 +1,5 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-import {SubscriptionPlan} from "../model/app-content.model";
+import {SubscriptionPlan, VerifyPaymentRequest} from "../model/app-content.model";
 import {SubscriptionService} from "../services/subscription.service";
 import {NotifyService} from "../../../service/notify.service";
 import {StorageService} from "../../../service/storage.service";
@@ -17,8 +17,10 @@ export class SubscribeComponent implements OnInit {
     public subscriptionPlans: SubscriptionPlan[] = [
         {
             name: "BASIC",
+            planId: "BAS-123",
             pricePerMonth: 30000,
             maxAttendeeThreshold: 900,
+            discount: 20,
             description: null,
             pricePerAnnum: 90000,
             priceperDay: 400,
@@ -26,8 +28,10 @@ export class SubscribeComponent implements OnInit {
         },
         {
             name: "PREMIUM",
+            planId: "PREM-112",
             pricePerMonth: 50000,
             maxAttendeeThreshold: 900,
+            discount: 20,
             description: null,
             pricePerAnnum: 90000,
             priceperDay: 400,
@@ -36,18 +40,29 @@ export class SubscribeComponent implements OnInit {
     ];
     public monthlyPlan: boolean = true;
     public selectedCurrency: string = 'NGN';
+    public selectedPlan: SubscriptionPlan;
     public exchangeRate: number;
     private amount: number;
     public exchangeRates: any[] = [];
     private transactionRef: string;
     private PUBKey: string;
     private cipher: string;
-    private amountToPay: number;
+    public amountToPay: number;
+    public totalAmount: number;
+    private planId: string;
     private userEmail: string;
-    public modalRef:BsModalRef;
+    public modalRef: BsModalRef;
+    public renewSub: boolean;
+    public discountRate:number;
+    public discountPrice:number;
+    private orgId:string;
 
-    constructor(private subService: SubscriptionService, private modalService: BsModalService, private ns: NotifyService, private ss: StorageService) {
-        this.userEmail = this.ss.getLoggedInUserEmail()
+    constructor(private subService: SubscriptionService,
+                private modalService: BsModalService,
+                private ns: NotifyService,
+                private ss: StorageService) {
+        this.userEmail = this.ss.getLoggedInUserEmail();
+        this.orgId = this.ss.getSelectedOrg().orgId;
     }
 
     ngOnInit() {
@@ -69,6 +84,7 @@ export class SubscribeComponent implements OnInit {
                 result => {
                     if (result.code == 0) {
                         this.subscriptionPlans = result.plans ? result.plans : [];
+                        this.setDiscountRate();
                     } else {
                         this.ns.showError(result.description);
                     }
@@ -79,7 +95,21 @@ export class SubscribeComponent implements OnInit {
             )
     }
 
-    getPrice(plan: SubscriptionPlan) {
+    setDiscountRate() {
+        this.discountRate = this.subscriptionPlans[0].discount;
+    }
+
+    setDiscountPrice() {
+        if(this.discountRate > 0 && !this.monthlyPlan) {
+            this.discountPrice =  Math.ceil((this.discountRate/100) * this.totalAmount);
+            return;
+        }
+
+        this.discountPrice = 0;
+
+    }
+
+    getPrice(plan: SubscriptionPlan):number {
         if (this.selectedCurrency == 'NGN') {
             if (this.monthlyPlan) {
                 return Math.ceil(plan.pricePerMonth);
@@ -96,7 +126,7 @@ export class SubscribeComponent implements OnInit {
     }
 
     generateTransactionRef() {
-        this.subService.generateTransactionRef(this.amountToPay, this.selectedCurrency)
+        this.subService.generateTransactionRef(this.amountToPay, this.selectedCurrency, this.planId)
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -105,6 +135,8 @@ export class SubscribeComponent implements OnInit {
                         this.transactionRef = result.transactionRef;
 
                         this.callRave();
+                    } else {
+                        this.ns.showError(result.description);
                     }
                 },
                 error => {
@@ -122,17 +154,25 @@ export class SubscribeComponent implements OnInit {
             currency: this.selectedCurrency,
             payment_method: "both",
             txref: this.transactionRef,
-            meta: [{metaname: "flightID", metavalue: "AP1234"}],
+            meta: [{metaname: 'brcrypt', metavalue: this.cipher}],
             onclose: function () {
             },
-            callback: function (response) {
-                var flw_ref = response.tx.flwRef; // collect flwRef returned and pass to a 					server page to complete status check.
+            callback: (response) => {
+                let txRef = response.tx.txRef; // collect flwRef returned and pass to a 					server page to complete status check.
+                let authToken = response.tx.chargeToken.embed_token;
+
                 console.log("This is the response returned after a charge", response);
                 if (
                     response.tx.chargeResponseCode == "00" ||
                     response.tx.chargeResponseCode == "0"
                 ) {
-                    // redirect to a sucess page
+
+                    if (this.renewSub) {
+                        this.verifyPayment(txRef, authToken);
+                    }
+
+                    // redirect to a success page
+                    this.verifyPayment(txRef, null);
                 } else {
                     // verify transaction status
                 }
@@ -140,8 +180,19 @@ export class SubscribeComponent implements OnInit {
         });
     }
 
+    confirmPayment(plan: SubscriptionPlan, template: TemplateRef<any>) {
+        this.selectedPlan = plan;
+        this.renewSub = false;
+        this.totalAmount = this.getPrice(plan);
+
+        this.setDiscountPrice();
+        this.amountToPay = this.totalAmount - this.discountPrice;
+        this.openModal(template);
+    }
+
     subscribe(plan) {
-        this.amountToPay = this.getPrice(plan);
+        this.modalRef.hide();
+        this.planId = plan.planId;
         this.generateTransactionRef();
     }
 
@@ -163,11 +214,30 @@ export class SubscribeComponent implements OnInit {
         this.subService.fetchSpecificExchangeRate(this.selectedCurrency)
             .subscribe(
                 result => {
-                    if(result.code == 0) {
+                    if (result.code == 0) {
                         this.exchangeRate = result.rate.rate;
                     }
                 },
-                error => {this.ns.showError("An Error Occurred");}
+                error => {
+                    this.ns.showError("An Error Occurred");
+                }
+            )
+    }
+
+    verifyPayment(txRef, authToken:string) {
+
+        this.subService.verifyPayment(new VerifyPaymentRequest(txRef, this.monthlyPlan? 'MONTHLY':'ANNUAL', authToken, this.orgId, this.exchangeRate))
+            .subscribe(
+                result => {
+                    if(result.code) {
+
+                    }else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {
+                    this.ns.showError("An Error Occurred");
+                }
             )
     }
 
