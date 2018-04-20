@@ -171,13 +171,31 @@ export class UserPaginationPojo {
 export class SubscriptionPlan {
 
     name:string;
+    planId:string;
     description:string;
     pricePerMonth:number;
     pricePerAnnum:number;
     priceperDay:number;
+    discount:number;
     enabled:boolean;
     maxAttendeeThreshold;
 
+}
+
+export class VerifyPaymentRequest {
+    billingCycle:string;
+    txRef:string;
+    embedToken:string;
+    orgId:string;
+    conversionRate:number;
+
+    constructor(txRef:string, billingCycle:string, embedToken:string, orgId:string, conversionRate:number) {
+        this.billingCycle = billingCycle || null;
+        this.txRef = txRef || null;
+        this.embedToken = embedToken || null;
+        this.orgId = orgId || null;
+        this.conversionRate = conversionRate || null;
+    }
 }
 
 

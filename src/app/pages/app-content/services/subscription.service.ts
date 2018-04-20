@@ -9,6 +9,7 @@ import {Endpoints} from "../../../util/endpoints";
 import {MediaType} from "../../../util/constants";
 import {map, timeout} from "rxjs/operators";
 import {AuthService} from "../../../components/auth/auth.service";
+import {VerifyPaymentRequest} from "../model/app-content.model";
 
 @Injectable()
 export class SubscriptionService {
@@ -69,15 +70,32 @@ export class SubscriptionService {
             )
     }
 
-    generateTransactionRef(amount:number, currency:string): Observable<any> {
+    generateTransactionRef(amount:number, currency:string, planId): Observable<any> {
         const params = new HttpParams()
             .set('amount', amount.toString())
             .set('currency', currency)
+            .set('planId', planId)
 
         return this.httpClient
             .post(Endpoints.GEENERATE_TRANSACTION_REF, params.toString(), {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
+    verifyPayment(model: VerifyPaymentRequest): Observable<any> {
+        return this.httpClient
+            .post(Endpoints.VERIFY_PAYMENT, JSON.stringify(model), {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
             })
             .pipe(
                 timeout(50000),
