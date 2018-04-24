@@ -17,11 +17,25 @@
                                     <mat-option select *ngFor="let e of exchangeRates" value="{{e.target}}">{{e.target}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
+                            <div class="text-center pl-5 mt-0 pt-0">
+                                <!-- <mat-checkbox>Check me!</mat-checkbox> -->
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                      <input type="checkbox" class="form-check-input">
+                                      Auto Renewal
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <!-- <h5 class="text-capitalize text-brand">Choose a plan that works for you</h5> -->
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed elit vitae magna ornare ornare. Curabitur lacus magna, ultricies ultrices ultricies venenatis, dapibus ut libero.</p>
+                    <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sed elit vitae magna ornare ornare. Curabitur lacus magna, ultricies ultrices ultricies venenatis, dapibus ut libero.</p> -->
+
+                    <!-- <div class="text-right">
+                        <mat-checkbox>Check me!</mat-checkbox>
+                    </div> -->
+
                     <div>
                         Yearly ({{discountRate}}% OFF)
                         <mat-slide-toggle name="durationToggle" [(ngModel)]="monthlyPlan"> Monthly </mat-slide-toggle>
@@ -34,7 +48,7 @@
                 </div> -->
 
                 <div class="col-lg-4 col-md-12  col-12 pt-5 p-0 p-md-3 text-center" *ngFor="let plan of subscriptionPlans">
-                    <mat-card class="py-lg-5 p-md-2 p-3 subscribe-plan  text-white">
+                    <mat-card class="py-lg-5 p-md-2 p-3 subscribe-plan  text-white active-subscription">
 
                         <h1>{{plan.name}}</h1>
                         <h4 class="py-3">
@@ -42,19 +56,26 @@
                             {{getPrice(plan) | currency:selectedCurrency:'symbol-narrow':'1.0'}}
                         </h4>
 
-                        <ul class="list-group">
+                        <ul class="list-group mb-4">
                             <li class="list-group-item  border-0">Ultimate Features</li>
                             <li class="list-group-item  border-0">Responsive Ready</li>
                             <li class="list-group-item  border-0">Visual Composer Included</li>
                             <li class="list-group-item  border-0">24/7 Support System</li>
+                        </ul>
+                        <ul class="list-group pt-3">
+                            <li class="list-group-item border-0">
+                                <p>Renewal Date: <span class="pl-1 text-brand font-weight-bold">30:08:2018</span></p>
+                                <p>Auto Renewal: <span class="pl-1 text-brand font-weight-bold">On</span></p>
+                            </li>
+                            <li class="list-group-item border-0"></li>
                         </ul>
                         <!-- <div class="mt-5">
                             <mat-checkbox>Go Yearly(10% Off)</mat-checkbox>
                             Monthly
                             <mat-slide-toggle> Yearly (20% OFF)</mat-slide-toggle>
                         </div> -->
-                        <button *ngIf="plan.planId != subscription?.subscriptionPlanId" mat-raised-button color="primary" class="px-4 py-2 mt-4" (click)="confirmPayment(plan, confirmPaymentTemplate)">SUBSCRIBE</button>
-                        <button *ngIf="plan.planId == subscription?.subscriptionPlanId" mat-raised-button color="primary" class="px-4 py-2 mt-4">CHANGE PLAN</button>
+                        <button *ngIf="plan.planId != subscription?.subscriptionPlanId" mat-raised-button color="primary" class="px-4 py-2" (click)="confirmPayment(plan, confirmPaymentTemplate)">SUBSCRIBE</button>
+                        <button *ngIf="plan.planId == subscription?.subscriptionPlanId" mat-raised-button color="primary" class="px-4 py-2">CHANGE PLAN</button>
                     </mat-card>
                 </div>
 
@@ -121,7 +142,7 @@
                 <div class="col-md-7">
                     <p class="text-brand font-weight-bold">Total</p>
                 </div>
-                    <div class="col-md-5">
+                <div class="col-md-5">
                     <p>{{amountToPay | currency:selectedCurrency:'symbol-narrow':'1.0'}}</p>
                 </div>
             </div>
