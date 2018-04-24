@@ -70,11 +70,12 @@ export class SubscriptionService {
             )
     }
 
-    generateTransactionRef(amount:number, currency:string, planId): Observable<any> {
+    generateTransactionRef(orgId:string, amount:number, currency:string, planId): Observable<any> {
         const params = new HttpParams()
             .set('amount', amount.toString())
             .set('currency', currency)
             .set('planId', planId)
+            .set('orgId', orgId);
 
         return this.httpClient
             .post(Endpoints.GEENERATE_TRANSACTION_REF, params.toString(), {
@@ -96,6 +97,43 @@ export class SubscriptionService {
             .post(Endpoints.VERIFY_PAYMENT, JSON.stringify(model), {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
+    fetchSubscriptionDetails(orgId:string):Observable<any> {
+        return this.httpClient
+            .get(Endpoints.FETCH_SUBSCRIPTION + "/" + orgId, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
+    fetchSubscriptionHistory(orgId:string, pageSize:number, pageNo:number):Observable<any> {
+        const body = new HttpParams()
+            .set('pageSize', String(pageSize))
+            .set('pageNo', String(pageNo));
+
+
+        return this.httpClient
+            .get(Endpoints.FETCH_SUBSCRIPTION + "/" + orgId + "/history?" + body, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
             .pipe(
                 timeout(50000),

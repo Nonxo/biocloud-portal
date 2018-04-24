@@ -53,12 +53,15 @@
                             Monthly
                             <mat-slide-toggle> Yearly (20% OFF)</mat-slide-toggle>
                         </div> -->
-                        <button mat-raised-button color="primary" class="px-4 py-2 mt-4" (click)="confirmPayment(plan, confirmPaymentTemplate)">SUBSCRIBE</button>
+                        <button *ngIf="plan.planId != subscription?.subscriptionPlanId" mat-raised-button color="primary" class="px-4 py-2 mt-4" (click)="confirmPayment(plan, confirmPaymentTemplate)">SUBSCRIBE</button>
+                        <button *ngIf="plan.planId == subscription?.subscriptionPlanId" mat-raised-button color="primary" class="px-4 py-2 mt-4">CHANGE PLAN</button>
                     </mat-card>
                 </div>
 
             </div>
+            <p class="text-brand text-right font-weight-bold cursor" *ngIf="subscription"><a routerLink="/portal/subscription-history">View subscription history</a></p>
         </div>
+
         <div class="col-lg-2 ml-auto col-md-5 p-0 d-none d-md-block sidebar sticky-right bg-brand">
             <carousel class="h-100">
                 <slide class="h-100">
@@ -99,8 +102,8 @@
             <hr>
 
             <div class="p-0 row col-md-12">
-                <div class="col-md-7">
-                    <p class="text-brand font-weight-bold">Sub Total</p>
+                <div class="col-md-7">Total
+                    <p class="text-brand font-weight-bold">Sub </p>
                 </div>
                 <div class="col-md-5">
                     <p>{{getPrice(selectedPlan) | currency:selectedCurrency:'symbol-narrow':'2.0'}}</p>

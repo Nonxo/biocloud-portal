@@ -56,6 +56,7 @@ export class SubscribeComponent implements OnInit {
     public discountRate:number;
     public discountPrice:number;
     private orgId:string;
+    public subscription:any;
 
     constructor(private subService: SubscriptionService,
                 private modalService: BsModalService,
@@ -66,7 +67,7 @@ export class SubscribeComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.fetchPlans();
+        this.fetchSubscriptionDetails();
         this.fetchAllExchangeRates();
     }
 
@@ -76,6 +77,21 @@ export class SubscribeComponent implements OnInit {
 
     openModal(template: TemplateRef<any>) {
         this.modalRef = this.modalService.show(template);
+    }
+
+    fetchSubscriptionDetails() {
+        this.subService.fetchSubscriptionDetails(this.orgId)
+            .finally(() => {this.fetchPlans()})
+            .subscribe(
+                result => {
+                    if(result.code == 0) {
+                        this.subscription = result.subscription;
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {this.ns.showError("An Error Occurred");}
+            )
     }
 
     fetchPlans() {
@@ -126,7 +142,7 @@ export class SubscribeComponent implements OnInit {
     }
 
     generateTransactionRef() {
-        this.subService.generateTransactionRef(this.amountToPay, this.selectedCurrency, this.planId)
+        this.subService.generateTransactionRef(this.orgId, this.amountToPay, this.selectedCurrency, this.planId)
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -152,7 +168,7 @@ export class SubscribeComponent implements OnInit {
             amount: this.amountToPay,
             customer_phone: "234099940409",
             currency: this.selectedCurrency,
-            payment_method: "both",
+            payment_method: this.renewSub? "card":"both",
             txref: this.transactionRef,
             meta: [{metaname: 'brcrypt', metavalue: this.cipher}],
             onclose: function () {
@@ -229,8 +245,8 @@ export class SubscribeComponent implements OnInit {
         this.subService.verifyPayment(new VerifyPaymentRequest(txRef, this.monthlyPlan? 'MONTHLY':'ANNUAL', authToken, this.orgId, this.exchangeRate))
             .subscribe(
                 result => {
-                    if(result.code) {
-
+                    if(result.code == 0) {
+                        this.ns.showSuccess(result.description);
                     }else {
                         this.ns.showError(result.description);
                     }
