@@ -1,3 +1,4 @@
+
 /**
  * Created by Kingsley Ezeokeke on 1/26/2018.
  */
@@ -18,6 +19,7 @@ import {ProfileComponent} from "./profile/profile.component";
 import {ManageAdminsComponent} from "./manage-admins/manage-admins.component";
 import { SettingComponent } from './setting/setting.component';
 import {EmployeeOverviewComponent} from "./employee-overview/employee-overview.component";
+import { SubscriptionCardDetailsComponent } from './subscribe/subscription-card-details/subscription-card-details.component';
 
 const routes: Routes = [
   {
@@ -76,6 +78,11 @@ const routes: Routes = [
         {
             path: 'overview',
             component: EmployeeOverviewComponent
+        },
+
+        {
+          path: 'card-details',
+          component: SubscriptionCardDetailsComponent
         }
 
     ]
