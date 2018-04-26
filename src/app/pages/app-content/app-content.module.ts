@@ -26,6 +26,7 @@ import {BsModalRef, PaginationModule} from "ngx-bootstrap";
 import { EmployeeOverviewComponent } from './employee-overview/employee-overview.component';
 import {GaugeModule} from "angular-gauge";
 import {SubscriptionService} from "./services/subscription.service";
+import { SubscriptionCardDetailsComponent } from './subscribe/subscription-card-details/subscription-card-details.component';
 
 @NgModule({
     imports: [
@@ -49,7 +50,8 @@ import {SubscriptionService} from "./services/subscription.service";
         ProfileComponent,
         ManageAdminsComponent,
         SettingComponent,
-        EmployeeOverviewComponent
+        EmployeeOverviewComponent,
+        SubscriptionCardDetailsComponent
     ],
     providers: [MessageService, AppConfigService, GeoMapService, SearchService, ReportService, SubscriptionService, BsModalRef],
     entryComponents: [SetupComponent, AddAttendeesComponent]
