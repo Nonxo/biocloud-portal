@@ -29,10 +29,10 @@
                         <tbody>
                             <tr *ngFor="let d of mf.data; let i = index">
                                 <td>{{d.startDate | date:'mediumDate'}}</td>
-                                <td>{{d.planId}}</td>
+                                <td>{{d.planName}}</td>
                                 <td>{{d.currency}}</td>
                                 <td>{{d.amountPaid}}</td>
-                                <td>{{d.phone}}</td>
+                                <td><p class="cursor text-brand" (click)="viewReceipt(d)">{{d.reference}}</p></td>
                                 <!--<td>{{d.status? 'Active':'Inactive'}}</td>-->
                             </tr>
 

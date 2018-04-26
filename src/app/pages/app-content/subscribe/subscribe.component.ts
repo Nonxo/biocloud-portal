@@ -1,9 +1,10 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import {SubscriptionPlan, VerifyPaymentRequest} from "../model/app-content.model";
 import {SubscriptionService} from "../services/subscription.service";
 import {NotifyService} from "../../../service/notify.service";
 import {StorageService} from "../../../service/storage.service";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
+import {MessageService} from "../../../service/message.service";
 
 declare function getpaidSetup(data): void;
 
@@ -12,32 +13,9 @@ declare function getpaidSetup(data): void;
     templateUrl: './subscribe.component.html',
     styleUrls: ['./subscribe.component.css']
 })
-export class SubscribeComponent implements OnInit {
+export class SubscribeComponent implements OnInit, OnDestroy {
 
-    public subscriptionPlans: SubscriptionPlan[] = [
-        {
-            name: "BASIC",
-            planId: "BAS-123",
-            pricePerMonth: 30000,
-            maxAttendeeThreshold: 900,
-            discount: 20,
-            description: null,
-            pricePerAnnum: 90000,
-            priceperDay: 400,
-            enabled: true
-        },
-        {
-            name: "PREMIUM",
-            planId: "PREM-112",
-            pricePerMonth: 50000,
-            maxAttendeeThreshold: 900,
-            discount: 20,
-            description: null,
-            pricePerAnnum: 90000,
-            priceperDay: 400,
-            enabled: true
-        }
-    ];
+    public subscriptionPlans: SubscriptionPlan[] = [];
     public monthlyPlan: boolean = true;
     public selectedCurrency: string = 'NGN';
     public selectedPlan: SubscriptionPlan;
@@ -61,7 +39,8 @@ export class SubscribeComponent implements OnInit {
     constructor(private subService: SubscriptionService,
                 private modalService: BsModalService,
                 private ns: NotifyService,
-                private ss: StorageService) {
+                private ss: StorageService,
+                private mService: MessageService) {
         this.userEmail = this.ss.getLoggedInUserEmail();
         this.orgId = this.ss.getSelectedOrg().orgId;
     }
@@ -95,7 +74,9 @@ export class SubscribeComponent implements OnInit {
     }
 
     fetchPlans() {
+        this.mService.setDisplay(true);
         this.subService.fetchPlans()
+            .finally(() => {this.mService.setDisplay(false);})
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -241,12 +222,14 @@ export class SubscribeComponent implements OnInit {
     }
 
     verifyPayment(txRef, authToken:string) {
-
+        this.mService.setDisplay(true);
         this.subService.verifyPayment(new VerifyPaymentRequest(txRef, this.monthlyPlan? 'MONTHLY':'ANNUAL', authToken, this.orgId, this.exchangeRate))
+            .finally(() => {this.mService.setDisplay(false);})
             .subscribe(
                 result => {
                     if(result.code == 0) {
                         this.ns.showSuccess(result.description);
+                        this.fetchSubscriptionDetails();
                     }else {
                         this.ns.showError(result.description);
                     }
@@ -255,6 +238,16 @@ export class SubscribeComponent implements OnInit {
                     this.ns.showError("An Error Occurred");
                 }
             )
+    }
+
+    getRenewalDate() {
+        let date = new Date(this.subscription.endDate);
+        date.setDate(date.getDate() + 1);
+        return date.getTime();
+    }
+
+    ngOnDestroy() {
+        this.modalRef? this.modalRef.hide():'';
     }
 
 }

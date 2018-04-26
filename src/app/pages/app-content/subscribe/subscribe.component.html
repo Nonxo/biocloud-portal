@@ -1,3 +1,4 @@
+<app-loading></app-loading>
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-9 col-md-7 p-0 mt-3">
@@ -48,7 +49,7 @@
                 </div> -->
 
                 <div class="col-lg-4 col-md-12  col-12 pt-5 p-0 p-md-3 text-center" *ngFor="let plan of subscriptionPlans">
-                    <mat-card class="py-lg-5 p-md-2 p-3 subscribe-plan  text-white active-subscription">
+                    <mat-card  [ngClass]="{'py-lg-5 p-md-2 p-3 subscribe-plan text-white': true, 'active-subscription': plan.planId == subscription?.subscriptionPlanId}">
 
                         <h1>{{plan.name}}</h1>
                         <h4 class="py-3">
@@ -56,16 +57,16 @@
                             {{getPrice(plan) | currency:selectedCurrency:'symbol-narrow':'1.0'}}
                         </h4>
 
-                        <ul class="list-group mb-4">
+                        <ul class="list-group mb-4" *ngIf="plan.planId != subscription?.subscriptionPlanId">
                             <li class="list-group-item  border-0">Ultimate Features</li>
                             <li class="list-group-item  border-0">Responsive Ready</li>
                             <li class="list-group-item  border-0">Visual Composer Included</li>
                             <li class="list-group-item  border-0">24/7 Support System</li>
                         </ul>
-                        <ul class="list-group pt-3">
+                        <ul class="list-group pt-3" *ngIf="plan.planId == subscription?.subscriptionPlanId">
                             <li class="list-group-item border-0">
-                                <p>Renewal Date: <span class="pl-1 text-brand font-weight-bold">30:08:2018</span></p>
-                                <p>Auto Renewal: <span class="pl-1 text-brand font-weight-bold">On</span></p>
+                                <p>Renewal Date: <span class="pl-1 text-brand font-weight-bold">{{getRenewalDate() | date:'longDate'}}</span></p>
+                                <p>Auto Renewal: <span class="pl-1 text-brand font-weight-bold">{{plan.autoRenew? 'ON':'OFF'}}</span></p>
                             </li>
                             <li class="list-group-item border-0"></li>
                         </ul>

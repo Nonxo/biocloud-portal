@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {StorageService} from "../../../service/storage.service";
 import {SubscriptionService} from "../services/subscription.service";
 import {NotifyService} from "../../../service/notify.service";
+import {Router} from "@angular/router";
+import {DataService} from "../../../service/data.service";
 
 @Component({
   selector: 'app-subscription-history',
@@ -20,7 +22,9 @@ export class SubscriptionHistoryComponent implements OnInit {
 
   constructor(private ss: StorageService,
               private subService: SubscriptionService,
-              private ns: NotifyService) {
+              private ns: NotifyService,
+              private router: Router,
+              private ds: DataService) {
     this.orgId = this.ss.getSelectedOrg().orgId;
   }
 
@@ -58,7 +62,8 @@ export class SubscriptionHistoryComponent implements OnInit {
             )
     }
 
-    pageChanged($event) {
+    pageChanged(event) {
+      this.currentPage = event.page;
         this.fetchSubscriptionHistory();
     }
 
@@ -69,6 +74,11 @@ export class SubscriptionHistoryComponent implements OnInit {
     updateSize() {
         this.resetValues();
         this.fetchSubscriptionHistory();
+    }
+
+    viewReceipt(history) {
+      this.ds.setSubHistory(history);
+      this.router.navigate(["/receipt"]);
     }
 
 }
