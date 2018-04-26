@@ -178,7 +178,8 @@ export class SubscriptionPlan {
     priceperDay:number;
     discount:number;
     enabled:boolean;
-    maxAttendeeThreshold;
+    maxAttendeeThreshold:number;
+    autoRenew:boolean;
 
 }
 

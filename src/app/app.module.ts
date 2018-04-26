@@ -26,6 +26,7 @@ import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-
 import {SignUpAsComponent} from "./pages/app-content/sign-up-as/sign-up-as.component";
 import {AppContentService} from "./pages/app-content/services/app-content.service";
 import {InviteUserComponent} from "./components/auth/invite-user/invite-user.component";
+import {ReceiptComponent} from "./pages/app-content/subscription-history/receipt/receipt.component";
 
 @NgModule({
     declarations: [
@@ -35,7 +36,8 @@ import {InviteUserComponent} from "./components/auth/invite-user/invite-user.com
         AddAdminAuthComponent,
         SignUpAsComponent,
         InviteUserComponent,
-        LoginComponent
+        LoginComponent,
+        ReceiptComponent
     ],
     imports: [
         HttpClientModule,
