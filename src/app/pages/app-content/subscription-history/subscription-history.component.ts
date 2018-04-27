@@ -81,4 +81,12 @@ export class SubscriptionHistoryComponent implements OnInit {
       this.router.navigate(["/receipt"]);
     }
 
+    viewCardDetails() {
+        this.router.navigate(["/portal/card-details"]);
+    }
+
+    goBack() {
+        this.router.navigate(["/portal/subscribe"]);
+    }
+
 }

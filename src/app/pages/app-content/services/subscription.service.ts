@@ -145,4 +145,42 @@ export class SubscriptionService {
             )
     }
 
+    fetchCards(orgId:string):Observable<any> {
+        const body = new HttpParams()
+            .set("orgId", orgId);
+
+        return this.httpClient
+            .get(Endpoints.FETCH_CARD + body, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
+    deleteCard(orgId:string):Observable<any> {
+        const body = new HttpParams()
+            .set("orgId", orgId);
+
+        return this.httpClient
+            .get(Endpoints.DELETE_CARD + body, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
 }

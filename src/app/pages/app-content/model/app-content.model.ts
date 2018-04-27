@@ -186,14 +186,14 @@ export class SubscriptionPlan {
 export class VerifyPaymentRequest {
     billingCycle:string;
     txRef:string;
-    embedToken:string;
+    autoRenewal:boolean;
     orgId:string;
     conversionRate:number;
 
-    constructor(txRef:string, billingCycle:string, embedToken:string, orgId:string, conversionRate:number) {
+    constructor(txRef:string, billingCycle:string, autoRenewal:boolean, orgId:string, conversionRate:number) {
         this.billingCycle = billingCycle || null;
         this.txRef = txRef || null;
-        this.embedToken = embedToken || null;
+        this.autoRenewal = autoRenewal;
         this.orgId = orgId || null;
         this.conversionRate = conversionRate || null;
     }
