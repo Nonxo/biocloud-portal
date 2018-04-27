@@ -52,4 +52,6 @@ export class Endpoints {
     public static GEENERATE_TRANSACTION_REF = `${Endpoints.BASE_URL}/users/api/subscriptions/gtr`;
     public static VERIFY_PAYMENT = `${Endpoints.BASE_URL}/users/api/subscriptions/payment/verify`;
     public static FETCH_SUBSCRIPTION = `${Endpoints.BASE_URL}/users/api/subscriptions/org`;
+    public static DELETE_CARD = `${Endpoints.BASE_URL}/users/api/subscriptions/card/delete?`;
+    public static FETCH_CARD = `${Endpoints.BASE_URL}/users/api/subscriptions/card?`;
 }

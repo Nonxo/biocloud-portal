@@ -165,11 +165,12 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                 ) {
 
                     if (this.renewSub) {
-                        this.verifyPayment(txRef, authToken);
+                        this.verifyPayment(txRef, true);
+                    } else {
+                        // redirect to a success page
+                        this.verifyPayment(txRef, false);
                     }
 
-                    // redirect to a success page
-                    this.verifyPayment(txRef, null);
                 } else {
                     // verify transaction status
                 }
@@ -221,9 +222,9 @@ export class SubscribeComponent implements OnInit, OnDestroy {
             )
     }
 
-    verifyPayment(txRef, authToken:string) {
+    verifyPayment(txRef, autoRenew:boolean) {
         this.mService.setDisplay(true);
-        this.subService.verifyPayment(new VerifyPaymentRequest(txRef, this.monthlyPlan? 'MONTHLY':'ANNUAL', authToken, this.orgId, this.exchangeRate))
+        this.subService.verifyPayment(new VerifyPaymentRequest(txRef, this.monthlyPlan? 'MONTHLY':'ANNUAL', autoRenew, this.orgId, this.exchangeRate))
             .finally(() => {this.mService.setDisplay(false);})
             .subscribe(
                 result => {

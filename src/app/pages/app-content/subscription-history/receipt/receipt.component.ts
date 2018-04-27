@@ -7,19 +7,21 @@ import {DataService} from "../../../../service/data.service";
 import {Router} from "@angular/router";
 import {StorageService} from "../../../../service/storage.service";
 import {PictureUtil} from "../../../../util/PictureUtil";
-declare var jsPDF:any;
+
+declare var jsPDF: any;
 
 @Component({
-    selector:'',
-    templateUrl:'./receipt.component.html'
+    selector: '',
+    templateUrl: './receipt.component.html'
 })
 
 export class ReceiptComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    public history:any;
-    public companyName:string;
-    public date:number;
-    public base64Img:string;
+    public history: any;
+    public companyName: string;
+    public date: number;
+    public base64Img: string;
+    public description:string;
 
     constructor(private ds: DataService,
                 private router: Router,
@@ -30,11 +32,12 @@ export class ReceiptComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngOnInit() {
-        if(!this.ds.getSubHistory()) {
+        if (!this.ds.getSubHistory()) {
             this.router.navigate(["/portal/subscription-history"]);
         }
 
         this.history = this.ds.getSubHistory();
+        this.description = (this.history.billingCycle == 'MONTHLY' ? 'Monthly Subscription, ' : 'Annual Subscription, ') + this.history.planName + ' Plan';
 
         this.pictureUtil.imageToBase64('../../../../../assets/img/logos-bc.png', (img) => {
             this.base64Img = img;
@@ -42,7 +45,7 @@ export class ReceiptComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit() {
-
+        this.download();
     }
 
     download() {
@@ -51,9 +54,14 @@ export class ReceiptComponent implements OnInit, OnDestroy, AfterViewInit {
             {title: "Description", dataKey: "desc"},
             {title: "Currency", dataKey: "currency"},
             {title: "Amount", dataKey: "amount"}
-            ]
+        ]
         let rows = [
-            {"qty": 1, "desc": this.history.billingCycle == 'MONTHLY'? 'Monthly Subscription, ':'Annual Subscription, ' + this.history.planName + ' Plan', "currency": this.history.currency, "amount": this.history.amountPaid}
+            {
+                "qty": 1,
+                "desc": this.description,
+                "currency": this.history.currency,
+                "amount": this.history.amountPaid
+            }
         ];
 
         let base64Img = this.base64Img;
