@@ -123,7 +123,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     }
 
     generateTransactionRef() {
-        this.subService.generateTransactionRef(this.orgId, this.amountToPay, this.selectedCurrency, this.planId)
+        this.subService.generateTransactionRef(this.orgId, this.amountToPay, this.selectedCurrency, this.planId, "SUBSCRIPTION")
             .subscribe(
                 result => {
                     if (result.code == 0) {
