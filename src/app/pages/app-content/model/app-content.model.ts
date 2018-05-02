@@ -191,11 +191,11 @@ export class VerifyPaymentRequest {
     conversionRate:number;
 
     constructor(txRef:string, billingCycle:string, autoRenewal:boolean, orgId:string, conversionRate:number) {
-        this.billingCycle = billingCycle || null;
-        this.txRef = txRef || null;
+        this.billingCycle = billingCycle;
+        this.txRef = txRef;
         this.autoRenewal = autoRenewal;
-        this.orgId = orgId || null;
-        this.conversionRate = conversionRate || null;
+        this.orgId = orgId;
+        this.conversionRate = conversionRate;
     }
 }
 

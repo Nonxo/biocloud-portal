@@ -70,11 +70,12 @@ export class SubscriptionService {
             )
     }
 
-    generateTransactionRef(orgId:string, amount:number, currency:string, planId): Observable<any> {
+    generateTransactionRef(orgId:string, amount:number, currency:string, planId:string, txMode:string): Observable<any> {
         const params = new HttpParams()
             .set('amount', amount.toString())
             .set('currency', currency)
             .set('planId', planId)
+            .set('txMode', txMode)
             .set('orgId', orgId);
 
         return this.httpClient
