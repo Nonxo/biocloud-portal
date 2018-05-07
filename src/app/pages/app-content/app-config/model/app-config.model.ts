@@ -14,6 +14,7 @@ export class LocationRequest {
     address:string;
     gracePeriodInMinutes:number;
     resumption:number;
+    clockoutTime:number;
     resumptionTimezoneId:string;
     orgId:string;
     createdBy:string;
