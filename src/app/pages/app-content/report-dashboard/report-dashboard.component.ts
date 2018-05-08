@@ -8,6 +8,7 @@ import {PictureUtil} from "../../../util/PictureUtil";
 import {NotifyService} from "../../../service/notify.service";
 import {MessageService} from "../../../service/message.service";
 import {DataService} from "../../../service/data.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-report-dashboard',
@@ -33,6 +34,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
                 private picUtil: PictureUtil,
                 private ns: NotifyService,
                 private dataService: DataService,
+                private router: Router,
                 private mService: MessageService) {
         this.reportModel.reportType = "early";
         this.reportModel.pageSize = this.rowsOnPage;
@@ -186,6 +188,16 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
         this.reportModel.export = true;
         this.fetchDailyReport();
     }
+
+  viewDetails(user: any) {
+      let obj = {};
+
+      obj['email'] = user.email;
+      obj['locId'] = this.reportModel.locId;
+
+        this.dataService.setUserObj(obj);
+        this.router.navigate(["/portal/report-dashboard/employee"]);
+  }
 
     /**
      * Events that should happen when this component is destroyed

@@ -43,4 +43,25 @@ export class ReportService {
                 })
             )
     }
+
+    fetchUserDailyReport(orgId: string, email: string, locId: string) {
+      const params = new HttpParams()
+        .set("orgId", orgId)
+        .set("email", email)
+        .set("locId", locId)
+
+      return this.httpClient
+        .get(Endpoints.FETCH_USER_DAILY_REPORT + params, {
+          headers: new HttpHeaders()
+            .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+        })
+        .pipe(
+          timeout(50000),
+          map(response => {
+            let res:any = response;
+            this.as.checkUnauthorized(res.description);
+            return res
+          })
+        )
+    }
 }

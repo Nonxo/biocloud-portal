@@ -25,6 +25,7 @@ import {ReportService} from "./services/report.service";
 import {BsModalRef, PaginationModule} from "ngx-bootstrap";
 import { EmployeeOverviewComponent } from './employee-overview/employee-overview.component';
 import {GaugeModule} from "angular-gauge";
+import { EmployeesReportComponent } from './report-dashboard/employees-report/employees-report.component';
 
 @NgModule({
     imports: [
@@ -48,7 +49,8 @@ import {GaugeModule} from "angular-gauge";
         ProfileComponent,
         ManageAdminsComponent,
         SettingComponent,
-        EmployeeOverviewComponent
+        EmployeeOverviewComponent,
+        EmployeesReportComponent
     ],
     providers: [MessageService, AppConfigService, GeoMapService, SearchService, ReportService, BsModalRef],
     entryComponents: [SetupComponent, AddAttendeesComponent]
