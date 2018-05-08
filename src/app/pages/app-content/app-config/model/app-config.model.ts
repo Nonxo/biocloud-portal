@@ -14,12 +14,12 @@ export class LocationRequest {
     address:string;
     gracePeriodInMinutes:number;
     resumption:number;
-    clockoutTime:number;
+    clockOutTime:number;
     resumptionTimezoneId:string;
     orgId:string;
     createdBy:string;
     inviteEmails:string[];
-    
+
     constructor() {
         this.inviteEmails = [];
         this.radiusThreshold = 32;

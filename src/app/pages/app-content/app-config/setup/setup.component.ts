@@ -81,7 +81,12 @@ export class SetupComponent implements OnInit {
 
     setEditMode() {
         if (this.locRequest.resumption) {
-            this.resumption = this.renderResumptionTime(this.locRequest.resumption);
+            this.resumptionTime = this.renderTime(this.locRequest.resumption);
+
+            if (this.locRequest.clockOutTime) {
+                this.clockoutTime = this.renderTime(this.locRequest.clockOutTime);
+            }
+
         }
         if (this.locRequest.locationType == 'STATE') {
             this.fetchStates(this.locRequest.countryId);
@@ -189,38 +194,48 @@ export class SetupComponent implements OnInit {
                 this.ns.showError("You must select a timezone.");
                 return;
             }
+
+            //validate that timezone entered is valid
+            if (!this.isValidTimezone()) {
+                this.ns.showError("Invalid timezone selected. Please make sure you select any of the timezones suggested in the Auto-Complete dropdown");
+                return;
+            }
+
             this.locRequest.resumption = this.getTimeStamp(this.resumptionTime);
 
             //check if closing time is selected
             if (this.clockoutTime) {
-                this.locRequest.clockoutTime = this.getTimeStamp(this.clockoutTime);
+
+                //check if closing time is less than resumption time
+                if (this.clockoutTime < this.resumptionTime) {
+                    this.ns.showError("Closing time should be greater than resumption time");
+                    return;
+                }
+
+                this.locRequest.clockOutTime = this.getTimeStamp(this.clockoutTime);
             }
 
         } else {
             this.locRequest.resumption = null;
-            this.locRequest.clockoutTime = null;
+            this.locRequest.clockOutTime = null;
         }
 
         if (!this.isFormValid()) {
             return;
         }
 
-        // if (this.resumption) {
-        //     if (!this.locRequest.resumptionTimezoneId) {
-        //         this.ns.showError("You must select a timezone.");
-        //         return;
-        //     }
-        //     this.locRequest.resumption = this.formatResumptionTime();
-        // } else {
-        //     this.locRequest.resumption = null;
-        // }
-        //
-        // if (!this.isFormValid()) {
-        //     return;
-        // }
-
-        // this.loading = true;
+        this.loading = true;
         this.editMode ? this.editLocation() : this.saveLocation();
+    }
+
+    isValidTimezone(): boolean {
+        let filter: any[] = this.timezones.filter((obj) => obj.zoneId.toLowerCase() == (this.locRequest.resumptionTimezoneId.toLowerCase()));
+
+        if(filter.length == 0) {
+            return false;
+        }
+
+        return true;
     }
 
     isFormValid() {
@@ -302,34 +317,34 @@ export class SetupComponent implements OnInit {
     }
 
     saveLocation() {
-        //noinspection TypeScriptValidateTypes,TypeScriptUnresolvedFunction
-        // this.aService.saveLocation(this.locRequest)
-        //     .finally(() => {
-        //         this.loading = false;
-        //     })
-        //     .subscribe(
-        //         result => {
-        //             if (result.code == 0) {
-        //                 this.ns.showSuccess("Location was successfully added");
-        //
-        //                 if (this.addNewLoc) {
-        //                     this.locRequest = new LocationRequest();
-        //                     this.inviteEmails = [];
-        //                     this.showMap = false;
-        //                     this.resumption = "";
-        //                     this.countryCode = "";
-        //                 } else {
-        //                     this.router.navigate(['/portal']);
-        //                 }
-        //
-        //             } else {
-        //                 this.ns.showError(result.description);
-        //             }
-        //         },
-        //         error => {
-        //             this.ns.showError("An Error Occurred");
-        //         }
-        //     )
+        // noinspection TypeScriptValidateTypes,TypeScriptUnresolvedFunction
+        this.aService.saveLocation(this.locRequest)
+            .finally(() => {
+                this.loading = false;
+            })
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.ns.showSuccess("Location was successfully added");
+
+                        if (this.addNewLoc) {
+                            this.locRequest = new LocationRequest();
+                            this.inviteEmails = [];
+                            this.showMap = false;
+                            this.resumptionTime = void 0;
+                            this.countryCode = "";
+                        } else {
+                            this.router.navigate(['/portal']);
+                        }
+
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {
+                    this.ns.showError("An Error Occurred");
+                }
+            )
     }
 
     /**
@@ -432,9 +447,10 @@ export class SetupComponent implements OnInit {
         this.modalRef.hide();
     }
 
-    renderResumptionTime(resumptionTime: number) {
-        let date = new Date(resumptionTime);
-        return this.dateUtil.addZero(date.getHours()) + ":" + this.dateUtil.addZero(date.getMinutes());
+    renderTime(timestamp: number) {
+        let date = new Date(timestamp);
+        return date;
+        // return this.dateUtil.addZero(date.getHours()) + ":" + this.dateUtil.addZero(date.getMinutes());
     }
 
     show() {
@@ -486,8 +502,11 @@ export class SetupComponent implements OnInit {
         }
     }
 
-    clearTime() {
+    clearResumptionTime() {
         this.resumptionTime = void 0;
+    }
+
+    clearClosingTime() {
         this.clockoutTime = void 0;
     }
 

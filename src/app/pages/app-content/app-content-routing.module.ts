@@ -18,6 +18,7 @@ import {ProfileComponent} from "./profile/profile.component";
 import {ManageAdminsComponent} from "./manage-admins/manage-admins.component";
 import { SettingComponent } from './setting/setting.component';
 import {EmployeeOverviewComponent} from "./employee-overview/employee-overview.component";
+import {EmployeesReportComponent} from "./report-dashboard/employees-report/employees-report.component";
 
 const routes: Routes = [
   {
@@ -48,6 +49,10 @@ const routes: Routes = [
       {
         path: 'report-dashboard',
         component: ReportDashboardComponent
+      },
+      {
+        path: 'report-dashboard/employee',
+        component: EmployeesReportComponent
       },
       {
         path: 'lateness-report',
