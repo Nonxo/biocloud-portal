@@ -202,12 +202,10 @@ export class SetupComponent implements OnInit {
             }
 
             this.locRequest.resumption = this.getTimeStamp(this.resumptionTime);
-
             //check if closing time is selected
             if (this.clockoutTime) {
-
                 //check if closing time is less than resumption time
-                if (this.clockoutTime < this.resumptionTime) {
+                if (this.clockoutTime.getTime() < this.resumptionTime.getTime()) {
                     this.ns.showError("Closing time should be greater than resumption time");
                     return;
                 }
@@ -504,6 +502,7 @@ export class SetupComponent implements OnInit {
 
     clearResumptionTime() {
         this.resumptionTime = void 0;
+        this.clockoutTime = void 0;
     }
 
     clearClosingTime() {
