@@ -80,20 +80,22 @@
             <mat-card class="">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h5>Recent Time in</h5>
+                        <h5>Recent Activities</h5>
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
                                     <tr>
                                         <th>Date</th>
                                         <th>Location</th>
-                                        <th>Time in</th>
+                                        <th>Activity</th>
+                                        <th>Time</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let c of clockInHistorys">
                                         <td>{{c.time | date:'fullDate'}}</td>
                                         <td>{{c.locationName}}</td>
+                                        <td>{{c.actionType?.toLowerCase() == 'CLOCK_OUT'.toLowerCase()? 'CLOCK OUT':'CLOCK IN'}}</td>
                                         <td>{{c.time | date:'shortTime'}}</td>
                                     </tr>
                                 </tbody>

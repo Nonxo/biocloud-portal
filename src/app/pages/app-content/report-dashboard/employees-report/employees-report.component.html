@@ -3,7 +3,7 @@
 
 <div class="container-fluid">
     <h5 class="text-brand pt-3">Employee Activity Log</h5>
-    <div class="d-inline-flex pt-3">
+    <div class="d-inline-flex pt-3 cursor" (click)="goBack()">
         <i class="material-icons text-muted"> keyboard_backspace</i>
         <p class="text-muted">Back</p>
     </div>
@@ -12,11 +12,12 @@
         <div class="row">
             <div class="col-md-3 d-inline-flex">
                 <div class="">
-                    <img src="assets/img/1.png" alt="" class="img-fluid w-75 rounded-circle">
+                    <img *ngIf="!model?.verifiableImg" src="assets/img/1.png" alt="" class="img-fluid w-75 rounded-circle">
+                    <img *ngIf="model?.verifiableImg" src="data:image/jpg;base64,{{model.verifiableImg}}" alt="" class="img-fluid w-75 rounded-circle">
                 </div>
                 <div class="my-auto pt-lg-0 pt-2">
-                    <p>J Cole</p>
-                    <p>J.cole@seamfix.com</p>
+                    <p>{{model?.lName }} {{ model?.fName}}</p>
+                    <p>{{model?.email}}</p>
                 </div>
             </div>
             <!-- <div class="col-md-4">
@@ -24,7 +25,7 @@
                 <p>J.cole@seamfix.com</p>
             </div> -->
             <div class="col-md-9 my-auto pt-lg-1 pt-4">
-                <p>Date:</p>
+                <p class="position-absolute" style="top: 0">Date: <span>{{date | date:'fullDate'}}</span></p>
             </div>
         </div>
     </div>
