@@ -30,14 +30,14 @@ export class EmployeesReportComponent implements OnInit {
 
   ngOnInit() {
 
-    if(this.dataService.getUserObj()) {
-      let userObj: any = this.dataService.getUserObj();
+    // if(this.dataService.getUserObj()) {
+    //   let userObj: any = this.dataService.getUserObj();
 
-      this.userEmail = userObj.email;
-      this.locId = userObj.locId? userObj.locId: "";
-    } else { this.router.navigate(["/portal/report-dashboard"]); }
+    //   this.userEmail = userObj.email;
+    //   this.locId = userObj.locId? userObj.locId: "";
+    // } else { this.router.navigate(["/portal/report-dashboard"]); }
 
-    this.fetchUserReport();
+    // this.fetchUserReport();
   }
 
   fetchUserReport() {
