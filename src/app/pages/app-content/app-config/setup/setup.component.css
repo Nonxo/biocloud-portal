@@ -1,10 +1,21 @@
-.loc-icon{
-    font-size:36px !important;
-    color:#808080;
+.loc-icon {
+    font-size: 36px !important;
+    color: #808080;
     line-height: 1.5;
     cursor: pointer;
 }
 
 agm-map {
     height: 400px;
+}
+
+.btn-clear {
+    background: transparent !important;
+    color: red;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.btn-clear i {
+    margin-top: -20px;
 }

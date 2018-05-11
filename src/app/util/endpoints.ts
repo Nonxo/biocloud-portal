@@ -46,4 +46,5 @@ export class Endpoints {
     public static REASSIGN_LOC_USERS = `${Endpoints.BASE_URL}/users/api/attendees/location/`;
     public static FETCH_ATTENDEES_LOCATION = `${Endpoints.BASE_URL}/users/api/attendees/`;
     public static FETCH_COMPANY_TYPE = `${Endpoints.BASE_URL}/users/api/org/orgType`;
+    public static FETCH_USER_DAILY_REPORT = `${Endpoints.BASE_URL}/reports/api/alog/user?`;
 }

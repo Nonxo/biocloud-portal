@@ -21,42 +21,45 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class SetupComponent implements OnInit {
 
-    locRequest:LocationRequest = new LocationRequest();
-    editMode:boolean;
-    countries:any[] = [];
-    states:any[] = [];
-    modalOptions:ModalOptions = new ModalOptions();
-    lat:number = 9.0820;
-    lng:number = 8.6753;
-    zoomSize:number = 15;
-    draggable:boolean = true;
-    showMap:boolean;
-    addRange:boolean;
-    resumption:string;
-    countryCode:string;
-    timezones:TimezonePOJO[] = [];
-    addNewLoc:boolean;
-    inviteEmails:string[] = [];
+    locRequest: LocationRequest = new LocationRequest();
+    editMode: boolean;
+    countries: any[] = [];
+    states: any[] = [];
+    modalOptions: ModalOptions = new ModalOptions();
+    lat: number = 9.0820;
+    lng: number = 8.6753;
+    zoomSize: number = 15;
+    draggable: boolean = true;
+    showMap: boolean;
+    addRange: boolean;
+    resumption: string;
+    countryCode: string;
+    timezones: TimezonePOJO[] = [];
+    filteredTimezones: TimezonePOJO[] = [];
+    addNewLoc: boolean;
+    inviteEmails: string[] = [];
     separatorKeysCodes = [ENTER, COMMA];
     locationTypes = [
         {value: "COUNTRY", name: "Country"},
         {value: "STATE", name: "State"},
         {value: "SPECIFIC_ADDRESS", name: "Specific Address"}
     ];
-    loading:boolean;
+    loading: boolean;
+    resumptionTime: Date;
+    clockoutTime: Date;
 
-    constructor(private aService:AppConfigService,
-                private modalService:BsModalService,
-                private loader:MapsAPILoader,
-                private ngZone:NgZone,
-                private mapService:GeoMapService,
-                private ns:NotifyService,
-                private router:Router,
-                public modalRef:BsModalRef,
-                private ss:StorageService,
-                private dateUtil:DateUtil,
-                private mService:MessageService,
-                private translate:TranslateService) {
+    constructor(private aService: AppConfigService,
+                private modalService: BsModalService,
+                private loader: MapsAPILoader,
+                private ngZone: NgZone,
+                private mapService: GeoMapService,
+                private ns: NotifyService,
+                private router: Router,
+                public modalRef: BsModalRef,
+                private ss: StorageService,
+                private dateUtil: DateUtil,
+                private mService: MessageService,
+                private translate: TranslateService) {
         translate.setDefaultLang('en/add-location');
         translate.use('en/add-location');
 
@@ -78,14 +81,19 @@ export class SetupComponent implements OnInit {
 
     setEditMode() {
         if (this.locRequest.resumption) {
-            this.resumption = this.renderResumptionTime(this.locRequest.resumption);
+            this.resumptionTime = this.renderTime(this.locRequest.resumption);
+
+            if (this.locRequest.clockOutTime) {
+                this.clockoutTime = this.renderTime(this.locRequest.clockOutTime);
+            }
+
         }
         if (this.locRequest.locationType == 'STATE') {
             this.fetchStates(this.locRequest.countryId);
         }
     }
 
-    openModal(template:TemplateRef<any>, addRange) {
+    openModal(template: TemplateRef<any>, addRange) {
         !this.locRequest.address ? this.getCurrentPosition(false) : '';
         this.addRange = addRange;
 
@@ -97,7 +105,7 @@ export class SetupComponent implements OnInit {
     }
 
     setMapRestriction() {
-        setTimeout(()=> {
+        setTimeout(() => {
             this.autocomplete();
         }, 200);
     }
@@ -127,6 +135,8 @@ export class SetupComponent implements OnInit {
                 )
         }
 
+        this.filteredTimezones = this.timezones;
+
     }
 
     fetchCountries() {
@@ -142,7 +152,7 @@ export class SetupComponent implements OnInit {
             )
     }
 
-    fetchStates(id:number) {
+    fetchStates(id: number) {
         if (this.locRequest.locationType == 'STATE') {
             this.states = [];
             this.aService.fetchStates(id)
@@ -178,14 +188,34 @@ export class SetupComponent implements OnInit {
     }
 
     submit() {
-        if (this.resumption) {
+
+        if (this.resumptionTime) {
             if (!this.locRequest.resumptionTimezoneId) {
                 this.ns.showError("You must select a timezone.");
                 return;
             }
-            this.locRequest.resumption = this.formatResumptionTime();
+
+            //validate that timezone entered is valid
+            if (!this.isValidTimezone()) {
+                this.ns.showError("Invalid timezone selected. Please make sure you select any of the timezones suggested in the Auto-Complete dropdown");
+                return;
+            }
+
+            this.locRequest.resumption = this.getTimeStamp(this.resumptionTime);
+            //check if closing time is selected
+            if (this.clockoutTime) {
+                //check if closing time is less than resumption time
+                if (this.clockoutTime.getTime() < this.resumptionTime.getTime()) {
+                    this.ns.showError("Closing time should be greater than resumption time");
+                    return;
+                }
+
+                this.locRequest.clockOutTime = this.getTimeStamp(this.clockoutTime);
+            }
+
         } else {
             this.locRequest.resumption = null;
+            this.locRequest.clockOutTime = null;
         }
 
         if (!this.isFormValid()) {
@@ -194,6 +224,16 @@ export class SetupComponent implements OnInit {
 
         this.loading = true;
         this.editMode ? this.editLocation() : this.saveLocation();
+    }
+
+    isValidTimezone(): boolean {
+        let filter: any[] = this.timezones.filter((obj) => obj.zoneId.toLowerCase() == (this.locRequest.resumptionTimezoneId.toLowerCase()));
+
+        if(filter.length == 0) {
+            return false;
+        }
+
+        return true;
     }
 
     isFormValid() {
@@ -236,7 +276,7 @@ export class SetupComponent implements OnInit {
         return true;
     }
 
-    validateEmails():boolean {
+    validateEmails(): boolean {
         let regex = /[^@\s]+@[^@\s]+\.[^@\s]+/;
 
         for (let a of this.inviteEmails) {
@@ -255,7 +295,9 @@ export class SetupComponent implements OnInit {
 
     editLocation() {
         this.aService.editLocation(this.locRequest)
-            .finally(() => {this.loading = false;})
+            .finally(() => {
+                this.loading = false;
+            })
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -273,9 +315,11 @@ export class SetupComponent implements OnInit {
     }
 
     saveLocation() {
-        //noinspection TypeScriptValidateTypes,TypeScriptUnresolvedFunction
+        // noinspection TypeScriptValidateTypes,TypeScriptUnresolvedFunction
         this.aService.saveLocation(this.locRequest)
-            .finally(() => {this.loading = false;})
+            .finally(() => {
+                this.loading = false;
+            })
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -285,7 +329,7 @@ export class SetupComponent implements OnInit {
                             this.locRequest = new LocationRequest();
                             this.inviteEmails = [];
                             this.showMap = false;
-                            this.resumption = "";
+                            this.resumptionTime = void 0;
                             this.countryCode = "";
                         } else {
                             this.router.navigate(['/portal']);
@@ -301,12 +345,23 @@ export class SetupComponent implements OnInit {
             )
     }
 
-    formatResumptionTime() {
+    /**
+     * deprecated
+     * @returns {number}
+     */
+    formatResumptionTime(): number {
         return this.dateUtil.getTime(this.resumption);
     }
 
+    /**
+     * returns timeStamp
+     */
+    getTimeStamp(date: Date): number {
+        return date.getTime();
+    }
+
     autocomplete() {
-        let country = this.countryCode? this.countryCode:"";
+        let country = this.countryCode ? this.countryCode : "";
 
         //noinspection TypeScriptUnresolvedVariable
         let autocomplete = new google.maps.places.Autocomplete(<HTMLInputElement>document.getElementById('autocompleteInput'), {});
@@ -323,7 +378,7 @@ export class SetupComponent implements OnInit {
             this.ngZone.run(() => {
                 //get the place result
                 //noinspection TypeScriptUnresolvedVariable
-                let place:google.maps.places.PlaceResult = autocomplete.getPlace();
+                let place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
 
                 //noinspection TypeScriptUnresolvedVariable
@@ -344,7 +399,7 @@ export class SetupComponent implements OnInit {
     }
 
 
-    getSearchAddress(lat:number, lng:number) {
+    getSearchAddress(lat: number, lng: number) {
         this.mapService.getAddress(lat, lng)
             .subscribe(
                 result => {
@@ -359,7 +414,7 @@ export class SetupComponent implements OnInit {
             );
     }
 
-    getCurrentPosition(withAddress:boolean) {
+    getCurrentPosition(withAddress: boolean) {
         this.mapService.getLocation().subscribe((result) => {
                 this.lat = result.coords.latitude;
                 this.lng = result.coords.longitude;
@@ -371,14 +426,14 @@ export class SetupComponent implements OnInit {
             })
     }
 
-    markerDragEnd($event:any) {
+    markerDragEnd($event: any) {
         this.lat = $event.coords.lat;
         this.lng = $event.coords.lng;
 
         this.getSearchAddress(this.lat, this.lng);
     }
 
-    mapClicked($event:any) {
+    mapClicked($event: any) {
         this.lat = $event.coords.lat;
         this.lng = $event.coords.lng;
 
@@ -390,9 +445,10 @@ export class SetupComponent implements OnInit {
         this.modalRef.hide();
     }
 
-    renderResumptionTime(resumptionTime:number) {
-        let date = new Date(resumptionTime);
-        return this.dateUtil.addZero(date.getHours()) + ":" + this.dateUtil.addZero(date.getMinutes());
+    renderTime(timestamp: number) {
+        let date = new Date(timestamp);
+        return date;
+        // return this.dateUtil.addZero(date.getHours()) + ":" + this.dateUtil.addZero(date.getMinutes());
     }
 
     show() {
@@ -405,25 +461,25 @@ export class SetupComponent implements OnInit {
     }
 
     addEmails(event) {
-        let input,value;
+        let input, value;
 
-        if(event && event.target) {
+        if (event && event.target) {
             input = event.target;
             value = event.target.value;
-        }else {
+        } else {
             input = event.input;
             value = event.value;
         }
 
         let arr = value.split(" ");
-        if(arr.length > 0) {
-            for(let a of arr) {
+        if (arr.length > 0) {
+            for (let a of arr) {
                 // Add email
                 if ((a || '').trim()) {
                     this.inviteEmails.push(a.trim());
                 }
             }
-        }else {
+        } else {
             // Add email
             if ((value || '').trim()) {
                 this.inviteEmails.push(value.trim());
@@ -436,7 +492,7 @@ export class SetupComponent implements OnInit {
         }
     }
 
-    removeEmail(email:any):void {
+    removeEmail(email: any): void {
         let index = this.inviteEmails.indexOf(email);
 
         if (index >= 0) {
@@ -444,8 +500,25 @@ export class SetupComponent implements OnInit {
         }
     }
 
+    clearResumptionTime() {
+        this.resumptionTime = void 0;
+        this.clockoutTime = void 0;
+    }
+
+    clearClosingTime() {
+        this.clockoutTime = void 0;
+    }
+
+    filter() {
+        if (this.locRequest.resumptionTimezoneId == "") {
+            this.filteredTimezones = this.timezones;
+            return;
+        }
+        this.filteredTimezones = this.timezones.filter((obj) => obj.zoneId.toLowerCase().includes(this.locRequest.resumptionTimezoneId.toLowerCase()))
+    }
+
     cancel() {
-        this.editMode? this.modalRef.hide(): this.router.navigate(['/portal']);
+        this.editMode ? this.modalRef.hide() : this.router.navigate(['/portal']);
     }
 
 }
