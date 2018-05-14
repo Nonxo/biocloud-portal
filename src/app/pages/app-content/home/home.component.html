@@ -136,7 +136,7 @@
                                 <tr *ngFor="let notif of latestClockin">
                                     <td>{{notif.firstName}} {{notif.surname}}</td>
                                     <td>{{notif.locationName}}</td>
-                                    <td>{{notif.actionType == "CLOCK_IN"? "CLOCK IN":"CLOCK OUT"}}</td>
+                                    <td>{{notif.actionType?.toLowerCase() == 'CLOCK_OUT'.toLowerCase()? 'CLOCK OUT':'CLOCK IN'}}</td>
                                     <td>{{notif.time | date:'short'}}</td>
                                 </tr>
                                 <!-- <tr>

@@ -150,7 +150,7 @@
                                     <div class="col-md-12 mt-4" *ngIf="resumptionTime">
                                         <mat-form-field class="input-field">
                                             <input type="text" matInput placeholder="Select Timezone" (keydown)="filter()" [matAutocomplete]="auto" name="timezone" [(ngModel)]="locRequest.resumptionTimezoneId">
-                                            <mat-hint *ngIf="resumption">Required</mat-hint>
+                                            <mat-hint *ngIf="resumptionTime">Required</mat-hint>
                                         </mat-form-field>
 
 
@@ -179,7 +179,7 @@
                                 </ng-container>
 
                                 <!--grace period-->
-                                <div class="col-md-12" *ngIf="locRequest.locationType && resumption">
+                                <div class="col-md-12" *ngIf="locRequest.locationType && resumptionTime">
                                     <mat-form-field class="input-field">
                                         <input matInput type="number" min="0" placeholder="Enter a grace period in minutes" name="gracePeriod" [(ngModel)]="locRequest.gracePeriodInMinutes">
                                     </mat-form-field>
