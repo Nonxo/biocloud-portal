@@ -56,6 +56,11 @@
         </mat-form-field>
       </div>
 
+        <div class="col-md-12">
+            <mat-checkbox formControlName="gdprCompliance">I agree to the Terms os Service and Privacy Policy
+            </mat-checkbox>
+        </div>
+
       <div class="col-md-6 col-12">
         <re-captcha #cap (resolved)="resolved($event)"
                     siteKey="{{recaptchaSiteKey}}"></re-captcha>
