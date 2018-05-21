@@ -100,6 +100,18 @@ export class AuthService {
         return Promise.resolve(false);
     }
 
+    acceptCompliance(email): Observable<any> {
+        let body = {};
+        body['email'] = email;
+        body['deviceType'] = "WEB";
+
+        return this.httpClient.post(Endpoints.ACCEPT_GDPR_COMPLIANCE, JSON.stringify(body), {
+            headers: new HttpHeaders()
+                .set('Content-Type', MediaType.APPLICATION_JSON)
+                .set('sc-auth-key', this.staticAuthKey)
+        });
+    }
+
     logout(): void {
         // clear token remove user from local storage to log user out
 

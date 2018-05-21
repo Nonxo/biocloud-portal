@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, TemplateRef, ViewChildren} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewChildren} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {BsModalRef, BsModalService, ModalOptions} from 'ngx-bootstrap';
@@ -23,8 +23,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     resetForm: FormGroup;
     loading = false;
     modalRef: BsModalRef;
+    loginResponse: any;
     modalOptions: ModalOptions = new ModalOptions();
     @ViewChildren('loginEmail') loginEmail;
+    @ViewChild
+    ("complianceTemplate") private complianceTemplate: TemplateRef<any>;
 
     constructor(private authService: AuthService,
                 private ss: StorageService,
@@ -102,7 +105,10 @@ export class LoginComponent implements OnInit, OnDestroy {
                 res => {
                     if (res.code == 0) {
 
-                        this.resetPasswordCheck(res);
+                        //For Existing users, check gdpr compliance flag
+                        this.checkGdprComplianceStatus(res);
+
+                        // this.resetPasswordCheck(res);
 
                     } else {
                         this.ns.showError(res.description);
@@ -130,9 +136,35 @@ export class LoginComponent implements OnInit, OnDestroy {
                     }
                 },
                 error => {
-
+                    this.ns.showError("An Error Occurred");
                 }
             );
+    }
+
+    checkGdprComplianceStatus(res: any) {
+        if(res.bioUser) {
+            if(!res.bioUser.complianceStatus) {
+                this.loginResponse = res;
+                this.openModal(this.complianceTemplate);
+            }else {
+                this.resetPasswordCheck(res);
+            }
+        }
+    }
+
+    accept() {
+        this.authService.acceptCompliance(this.loginForm.get('email').value)
+            .subscribe(
+                result => {
+                    if(result.code == 0) {
+                        this.modalRef.hide();
+                        this.resetPasswordCheck(this.loginResponse);
+                    }else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {this.ns.showError("An Error Occurred");}
+            )
     }
 
     ngOnDestroy() {
