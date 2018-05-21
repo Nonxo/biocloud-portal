@@ -43,7 +43,8 @@ export class RegisterComponent implements OnInit {
             lName: ['', Validators.required],
             phone: ['', Validators.required],
             email: ['', Validators.email],
-            password: ['', Validators.required]
+            password: ['', Validators.required],
+            gdprCompliance: ['',Validators.requiredTrue]
         });
 
         // disable validation for company name when it is invisible initially
@@ -65,6 +66,9 @@ export class RegisterComponent implements OnInit {
     register() {
         this.loading = true;
         this.payload = this.form.value;
+
+        //set Device Type
+        this.payload['deviceType'] = 'WEB';
 
         if(this.company) {
             this.payload.customerType = "C"
