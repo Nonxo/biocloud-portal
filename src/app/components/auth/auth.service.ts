@@ -7,6 +7,7 @@ import {MediaType} from "../../util/constants";
 import {StorageService} from "../../service/storage.service";
 import {DataService} from "../../service/data.service";
 import {Router} from "@angular/router";
+import {map, timeout} from "rxjs/operators";
 
 @Injectable()
 export class AuthService {
@@ -110,6 +111,21 @@ export class AuthService {
                 .set('Content-Type', MediaType.APPLICATION_JSON)
                 .set('sc-auth-key', this.staticAuthKey)
         });
+    }
+
+    fetchCountries(): Observable<any> {
+        return this.httpClient
+            .get(Endpoints.FETCH_COUNTRIES, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    return res
+                })
+            )
     }
 
     logout(): void {
