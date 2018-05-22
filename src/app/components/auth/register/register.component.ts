@@ -23,6 +23,8 @@ export class RegisterComponent implements OnInit {
     captchaResponse:string;
     payload:any;
     @ViewChild('cap') public recaptchaInstance;
+    countries: any[];
+    selectedPhoneCode: string;
 
     userTypes:Array<{ name, checked }> = [
         {name: 'INDIVIDUAL', checked: true},
@@ -37,10 +39,14 @@ export class RegisterComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.fetchCountries();
+
+
         this.form = this.fb.group({
             companyName: ['', Validators.required],
             fName: ['', Validators.required],
             lName: ['', Validators.required],
+            phoneCode: ['', Validators.required],
             phone: ['', Validators.required],
             email: ['', Validators.email],
             password: ['', Validators.required],
@@ -138,6 +144,23 @@ export class RegisterComponent implements OnInit {
                     this.resetCaptcha();
                 }
             );
+    }
+
+    fetchCountries() {
+        this.authService.fetchCountries()
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.countries = result.countries? result.countries: [];
+                    }
+                },
+                error => {
+                }
+            )
+    }
+
+    selectPhoneCode() {
+        this.selectedPhoneCode = this.form.get('phoneCode').value;
     }
 
     resetCaptcha() {
