@@ -25,6 +25,7 @@ export class RegisterComponent implements OnInit {
     @ViewChild('cap') public recaptchaInstance;
     countries: any[];
     selectedPhoneCode: string;
+    selectedCountryCode: string;
 
     userTypes:Array<{ name, checked }> = [
         {name: 'INDIVIDUAL', checked: true},
@@ -46,7 +47,7 @@ export class RegisterComponent implements OnInit {
             companyName: ['', Validators.required],
             fName: ['', Validators.required],
             lName: ['', Validators.required],
-            phoneCode: ['', Validators.required],
+            phoneCode: [''],
             phone: ['', Validators.required],
             email: ['', Validators.email],
             password: ['', Validators.required],
@@ -70,6 +71,10 @@ export class RegisterComponent implements OnInit {
     }
 
     register() {
+
+
+        //TODO: validate phone code field
+
         this.loading = true;
         this.payload = this.form.value;
 
@@ -159,8 +164,22 @@ export class RegisterComponent implements OnInit {
             )
     }
 
+    onSelectChange() {
+        this.selectPhoneCode();
+        this.selectCountryCode();
+    }
+
     selectPhoneCode() {
         this.selectedPhoneCode = this.form.get('phoneCode').value;
+        this.form.get('phoneCode').setValue('');
+    }
+
+    selectCountryCode() {
+        let obj = this.countries.filter((obj) => obj.phoneCode == this.selectedPhoneCode)[0];
+
+        if(obj) {
+            this.selectedCountryCode = obj.code;
+        }
     }
 
     resetCaptcha() {

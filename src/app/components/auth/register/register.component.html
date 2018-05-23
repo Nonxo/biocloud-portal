@@ -39,11 +39,12 @@
         <div class="col-12">
             <div class="row">
                 <div class="col-md-3">
+                    <i *ngIf="selectedCountryCode"><img  src="https://bcstaging.bioregistra.com/as/flags/{{selectedCountryCode.toLowerCase()}}.png" alt="selectedIcon"></i>
                     <mat-form-field class="input-field">
-                        <mat-select placeholder="" name="phoneCode" formControlName="phoneCode" (change)="selectPhoneCode()">
-                            <mat-option>--</mat-option>
+                        <mat-select placeholder="" name="phoneCode" formControlName="phoneCode" (change)="onSelectChange()">
+                            <mat-option value=""></mat-option>
                             <mat-option *ngFor="let country of countries" value="{{country.phoneCode}}">
-                                <!--<img src="http://www.countryflags.io/{{country.code}}/flat/16.png">-->
+                                <img src="https://bcstaging.bioregistra.com/as/flags/{{country.code.toLowerCase()}}.png">
                                 {{country.name}}
                             </mat-option>
                         </mat-select>
