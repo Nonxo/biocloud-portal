@@ -38,8 +38,8 @@
 
             <div class="col-12">
                 <div class="row">
-                    <div class="col-md-3 flag-col">
-                        <i *ngIf="selectedCountryCode"><img class="flag-img"  src="https://bcstaging.bioregistra.com/as/flags/{{selectedCountryCode.toLowerCase()}}.png" alt="selectedIcon"></i>
+                    <div class="{{selectedCountryCode? 'col-md-3 flag-col':'col-md-3'}}">
+                        <i *ngIf="selectedCountryCode"><img class="flag-img"  src="https://bcstaging.bioregistra.com/as/flags/{{selectedCountryCode.toLowerCase()}}.png"></i>
                         <mat-form-field class="input-field">
                             <mat-select placeholder="" name="phoneCode" formControlName="phoneCode" (change)="onSelectChange()">
                                 <mat-option value=""></mat-option>
@@ -56,10 +56,10 @@
 
                     <div class="col-md-7">
                         <mat-form-field class="input-field">
-                            <input matInput placeholder="Phone" pattern="[0-9]{8,11}" formControlName="phone">
-                            <mat-error *ngIf="form.get('phone')?.errors">
-                                <small>Must be between 8-11 digits</small>
-                            </mat-error>
+                            <input matInput placeholder="Phone number" formControlName="phone">
+                            <!--<mat-error *ngIf="form.get('phone')?.errors">-->
+                                <!--<small>Must be between 8-11 digits</small>-->
+                            <!--</mat-error>-->
                         </mat-form-field>
                     </div>
                 </div>

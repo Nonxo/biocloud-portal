@@ -74,6 +74,7 @@ export class UpdateProfile {
   lName:string;
   email:string;
   img:string;
+  phoneCode:string;
   phone:number;
   address:string;
   companyName:string;
