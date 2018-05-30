@@ -40,6 +40,8 @@ export class EmployeesReportComponent implements OnInit {
             this.userEmail = userObj.email;
             this.locId = userObj.locId ? userObj.locId : "";
 
+            this.date = this.dataService.getReportDate().getTime();
+
             this.fetchUserDetail();
         } else {
             this.router.navigate(["/portal/report-dashboard"]);
@@ -50,7 +52,7 @@ export class EmployeesReportComponent implements OnInit {
 
     fetchUserReport() {
         this.mService.setDisplay(true);
-        this.reportService.fetchUserDailyReport(this.orgId, this.userEmail, this.locId)
+        this.reportService.fetchUserDailyReport(this.orgId, this.userEmail, this.locId, this.date)
             .finally(() => {
                 this.mService.setDisplay(false);
             })

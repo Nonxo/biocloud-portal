@@ -10,6 +10,7 @@ export class DataService {
     private userObj: any;
     private userPhoto = new BehaviorSubject<any>({image: null});
     private username = new BehaviorSubject<any>({username: null});
+    private reportDate: Date;
 
     getLogoutMessage(): any {
         return this._logoutMessage;
@@ -57,6 +58,14 @@ export class DataService {
 
     getUsername() {
         return this.username;
+    }
+
+    getReportDate() {
+        return this.reportDate;
+    }
+
+    setReportDate(date: Date) {
+        this.reportDate = date;
     }
 
 }

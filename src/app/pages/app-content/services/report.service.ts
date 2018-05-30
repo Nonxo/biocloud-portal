@@ -27,6 +27,7 @@ export class ReportService {
             .set("pageSize", String(model.pageSize))
             .set("pageNo", String(model.pageNo))
             .set("title", model.title)
+            .set("date", model.date.toString())
             .set("user", model.user);
 
         return this.httpClient
@@ -44,11 +45,12 @@ export class ReportService {
             )
     }
 
-    fetchUserDailyReport(orgId: string, email: string, locId: string) {
+    fetchUserDailyReport(orgId: string, email: string, locId: string, date: number) {
       const params = new HttpParams()
         .set("orgId", orgId)
         .set("email", email)
         .set("locId", locId)
+        .set("timeStamp", date.toString());
 
       return this.httpClient
         .get(Endpoints.FETCH_USER_DAILY_REPORT + params, {

@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <div class="row mt-4">
 
-                <div class="col-md-12"><p>Report for today, {{reportDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>
+                <div class="col-md-12"><p>Report for {{selectedDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>
 
                 <div class="col-lg-4 col-12  d-flex align-items-center">
                     <mat-form-field>
@@ -22,6 +22,14 @@
                         <button mat-menu-item (click)="downloadPdf()">PDF</button>
                         <button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>
                     </mat-menu>
+                </div>
+
+                <div class="col-lg-4 col-12 text-left">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker" placeholder="Choose a date" [max]="dateObj" name="date" [(ngModel)]="selectedDate" (dateChange)="fetchDailyReport()" disabled>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker  disabled="false"></mat-datepicker>
+                    </mat-form-field>
                 </div>
 
                 <!--<div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">-->
@@ -94,7 +102,7 @@
         <div class="container-fluid">
             <div class="row mt-4">
 
-                <div class="col-md-12"><p>Report for today, {{reportDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>
+                <div class="col-md-12"><p>Report for {{selectedDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>
 
                 <div class="col-lg-4 col-12  d-flex align-items-center">
                     <mat-form-field>
@@ -112,6 +120,14 @@
                         <button mat-menu-item (click)="downloadPdf()">PDF</button>
                         <button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>
                     </mat-menu>
+                </div>
+
+                <div class="col-lg-4 col-12 text-left">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker1" placeholder="Choose a date" [max]="dateObj" [(ngModel)]="selectedDate" (dateChange)="fetchDailyReport()" disabled>
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1  disabled="false"></mat-datepicker>
+                    </mat-form-field>
                 </div>
 
                 <!--<div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">-->
@@ -185,7 +201,7 @@
         <div class="container-fluid">
             <div class="row mt-4">
 
-                <div class="col-md-12"><p>Report for today, {{reportDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>
+                <div class="col-md-12"><p>Report for {{selectedDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>
 
                 <div class="col-lg-4 col-12  d-flex align-items-center">
                     <mat-form-field>
@@ -203,6 +219,14 @@
                         <button mat-menu-item (click)="downloadPdf()">PDF</button>
                         <button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>
                     </mat-menu>
+                </div>
+
+                <div class="col-lg-4 col-12 text-left">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker2" placeholder="Choose a date" [max]="dateObj" name="date" [(ngModel)]="selectedDate" (dateChange)="fetchDailyReport()" disabled>
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2  disabled="false"></mat-datepicker>
+                    </mat-form-field>
                 </div>
 
                 <!--<div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">-->
@@ -271,7 +295,7 @@
         <div class="container-fluid">
             <div class="row mt-4">
 
-                <div class="col-md-12"><p>Report for today, {{reportDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>
+                <div class="col-md-12"><p>Report for {{selectedDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>
 
                 <div class="col-lg-4 col-12  d-flex align-items-center">
                     <mat-form-field>
@@ -289,6 +313,14 @@
                         <button mat-menu-item (click)="downloadPdf()">PDF</button>
                         <button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>
                     </mat-menu>
+                </div>
+
+                <div class="col-lg-4 col-12 text-left">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker3" placeholder="Choose a date" [max]="dateObj" name="date" [(ngModel)]="selectedDate" (dateChange)="fetchDailyReport()" disabled>
+                        <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                        <mat-datepicker #picker3  disabled="false"></mat-datepicker>
+                    </mat-form-field>
                 </div>
 
                 <!--<div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">-->
