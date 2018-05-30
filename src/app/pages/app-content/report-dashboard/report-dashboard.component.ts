@@ -26,7 +26,9 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     currentTab: number = 0;
     locations: any[] = [];
     reportDate: number = new Date().getTime();
+    dateObj: Date = new Date();
     userRole = this.ss.getSelectedOrgRole();
+    selectedDate: Date = new Date();
 
     constructor(private reportService: ReportService,
                 private ss: StorageService,
@@ -52,11 +54,17 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.mService.setTitle("Reports");
 
+        if(this.dataService.getReportDate()) {
+            this.selectedDate = this.dataService.getReportDate();
+        }
+
         this.fetchDailyReport();
         this.callLocationService();
     }
 
     fetchDailyReport() {
+        this.reportModel.date = this.selectedDate.getTime();
+
         this.mService.setDisplay(true);
         this.reportService.fetchDailyReport(this.reportModel)
             .finally(() => {
@@ -76,10 +84,12 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
                         }
 
                     } else {
-                        // this.ns.showError(result.description);
+                        this.data = [];
+                        this.ns.showError(result.description);
                     }
                 },
                 error => {
+                    this.data = [];
                     this.ns.showError("An Error Occurred.");
                 }
             )
@@ -194,6 +204,8 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
 
       obj['email'] = user.email;
       obj['locId'] = this.reportModel.locId;
+
+      this.dataService.setReportDate(this.selectedDate);
 
         this.dataService.setUserObj(obj);
         this.router.navigate(["/portal/report-dashboard/employee"]);
