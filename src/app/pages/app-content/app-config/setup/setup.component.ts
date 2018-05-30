@@ -211,6 +211,8 @@ export class SetupComponent implements OnInit {
                 }
 
                 this.locRequest.clockOutTime = this.getTimeStamp(this.clockoutTime);
+            } else {
+                this.locRequest.clockOutTime = null;
             }
 
         } else {

@@ -77,7 +77,12 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.ss.loggedInUser = res.bioUser;
             this.ss.setOrgRoles(res.bioUser.orgRoles);
 
-            this.router.navigate(['/portal']);
+            //check support role
+            if(res.bioUser.role == "BASE_ADMIN") {
+                this.router.navigate([''])
+            }else {
+                this.router.navigate(['/portal']);
+            }
         }
 
     }
