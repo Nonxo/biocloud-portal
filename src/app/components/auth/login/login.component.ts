@@ -172,6 +172,10 @@ export class LoginComponent implements OnInit, OnDestroy {
             )
     }
 
+    goToTerms() {
+        window.open("https://seamfix.com/privacy/privacy-policy-iclocker/");
+    }
+
     ngOnDestroy() {
         this.ds.setLogoutMessage(null);
     }
