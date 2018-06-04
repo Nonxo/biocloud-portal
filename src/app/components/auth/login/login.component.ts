@@ -158,7 +158,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     accept() {
+        this.loading = true;
         this.authService.acceptCompliance(this.loginForm.get('email').value)
+            .finally(() => {this.loading = false})
             .subscribe(
                 result => {
                     if(result.code == 0) {
