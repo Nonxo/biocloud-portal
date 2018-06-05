@@ -357,12 +357,12 @@
                         </div>
 
                         <div class="{{selectedCountryCode? 'col-md-3 flag-col':'col-md-3'}}">
-                            <i *ngIf="selectedCountryCode"><img class="flag-img"  src="https://bcstaging.bioregistra.com/as/flags/{{selectedCountryCode.toLowerCase()}}.png"></i>
+                            <i *ngIf="selectedCountryCode"><img class="flag-img"  src="{{baseUrl}}/as/flags/{{selectedCountryCode.toLowerCase()}}.png"></i>
                             <mat-form-field class="w-100">
-                                <mat-select placeholder="Select Country" name="phoneCode" [(ngModel)]="model.phoneCode" (change)="onSelectChange()">
+                                <mat-select placeholder="" name="phoneCode" [(ngModel)]="model.phoneCode" (change)="onSelectChange()">
                                     <mat-option value=""></mat-option>
                                     <mat-option *ngFor="let country of countries" value="{{country.phoneCode}}">
-                                        <img src="https://bcstaging.bioregistra.com/as/flags/{{country.code.toLowerCase()}}.png"> {{country.name}}
+                                        <img src="{{baseUrl}}/as/flags/{{country.code.toLowerCase()}}.png"> {{country.name}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -374,7 +374,7 @@
 
                         <div class="col-md-6">
                             <mat-form-field class="input-field">
-                                <input matInput type="text" pattern="[0-9]{8,11}" [(ngModel)]="model.phone" name="phoneNumber" placeholder="Phone Number" required>
+                                <input matInput type="text" pattern="[0-9]{5,20}" [(ngModel)]="model.phone" name="phoneNumber" placeholder="Phone Number" required>
                             </mat-form-field>
                         </div>
                     </div>

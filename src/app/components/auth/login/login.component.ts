@@ -158,7 +158,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     accept() {
+        this.loading = true;
         this.authService.acceptCompliance(this.loginForm.get('email').value)
+            .finally(() => {this.loading = false})
             .subscribe(
                 result => {
                     if(result.code == 0) {
@@ -170,6 +172,10 @@ export class LoginComponent implements OnInit, OnDestroy {
                 },
                 error => {this.ns.showError("An Error Occurred");}
             )
+    }
+
+    goToTerms() {
+        window.open("https://seamfix.com/privacy/privacy-policy-iclocker/");
     }
 
     ngOnDestroy() {
