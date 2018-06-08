@@ -34,6 +34,7 @@
             <thead>
                 <tr>
                     <th scope="col">Location</th>
+                    <th scope="col">Mode of Clockin</th>
                     <th scope="col">Clock-In Time</th>
                     <th scope="col">Clock-Out Time</th>
                     <th scope="col">Clock-Out Reason</th>
@@ -42,6 +43,7 @@
             <tbody>
                 <tr *ngFor="let d of mf.data; let i = index">
                     <td>{{d.location}}</td>
+                    <td>{{d.mode}}</td>
                     <td>{{d.clock_in_time}}</td>
                     <td>{{d.clock_out_time}}</td>
                     <td>{{d.description}}</td>

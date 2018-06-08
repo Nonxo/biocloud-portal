@@ -11,6 +11,7 @@ import {DataService} from "../../../service/data.service";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {TranslateService} from "@ngx-translate/core";
 import {MessageService} from "../../../service/message.service";
+import {environment} from "../../../../environments/environment";
 
 
 @Component({
@@ -38,6 +39,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     loading: boolean;
     @ViewChild('changePassword') changePassword;
     countries: any[];
+    baseUrl: string = environment.baseUrl;
 
 
     ngOnInit() {
@@ -46,7 +48,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.email = this.ss.getLoggedInUserEmail();
         // this.fetchBio();
         this.fetchUser();
-        this.fetchCountries();
         this.workStatus();
         this.changePasswordForm = this.fb.group({
             oldPw: ['', Validators.required],
@@ -70,6 +71,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
                 private mService: MessageService) {
         translate.setDefaultLang('en/profile');
         translate.use('en/profile');
+
+        this.fetchCountries();
 
     }
 
@@ -168,6 +171,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
         if(this.model.phoneCode) {
             this.selectPhoneCode();
+            this.selectCountryCode();
+        }else {
+            //legacy
+            this.selectedPhoneCode = "234";
             this.selectCountryCode();
         }
     }
