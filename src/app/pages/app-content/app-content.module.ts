@@ -27,6 +27,7 @@ import { EmployeeOverviewComponent } from './employee-overview/employee-overview
 import {GaugeModule} from "angular-gauge";
 import {SubscriptionService} from "./services/subscription.service";
 import { SubscriptionCardDetailsComponent } from './subscribe/subscription-card-details/subscription-card-details.component';
+import { EmployeesReportComponent } from './report-dashboard/employees-report/employees-report.component';
 
 @NgModule({
     imports: [
@@ -51,7 +52,8 @@ import { SubscriptionCardDetailsComponent } from './subscribe/subscription-card-
         ManageAdminsComponent,
         SettingComponent,
         EmployeeOverviewComponent,
-        SubscriptionCardDetailsComponent
+        SubscriptionCardDetailsComponent,
+        EmployeesReportComponent
     ],
     providers: [MessageService, AppConfigService, GeoMapService, SearchService, ReportService, SubscriptionService, BsModalRef],
     entryComponents: [SetupComponent, AddAttendeesComponent]

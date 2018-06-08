@@ -1,0 +1,74 @@
+<app-loading></app-loading>
+<mat-divider></mat-divider>
+
+<div class="container-fluid">
+    <h5 class="text-brand pt-3">Employee Activity Log</h5>
+    <div class="d-inline-flex pt-3 cursor" (click)="goBack()">
+        <i class="material-icons text-muted"> keyboard_backspace</i>
+        <p class="text-muted">Back</p>
+    </div>
+
+    <div class="col-md-12 pb-4 pt-4">
+        <div class="row">
+            <div class="col-md-3 d-inline-flex">
+                <div class="">
+                    <img *ngIf="!model?.verifiableImg" src="assets/img/1.png" alt="" class="img-fluid w-75 rounded-circle">
+                    <img *ngIf="model?.verifiableImg" src="data:image/jpg;base64,{{model.verifiableImg}}" alt="" class="img-fluid w-75 rounded-circle">
+                </div>
+                <div class="my-auto pt-lg-0 pt-2">
+                    <p>{{model?.lName }} {{ model?.fName}}</p>
+                    <p>{{model?.email}}</p>
+                </div>
+            </div>
+            <!-- <div class="col-md-4">
+                <p>J Cole</p>
+                <p>J.cole@seamfix.com</p>
+            </div> -->
+            <div class="col-md-9 my-auto pt-lg-1 pt-4">
+                <p class="position-absolute" style="top: 0">Date: <span>{{date | date:'fullDate'}}</span></p>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped" [mfData]="userReport" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
+            <thead>
+                <tr>
+                    <th scope="col">Location</th>
+                    <th scope="col">Clock-In Time</th>
+                    <th scope="col">Clock-Out Time</th>
+                    <th scope="col">Clock-Out Reason</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let d of mf.data; let i = index">
+                    <td>{{d.location}}</td>
+                    <td>{{d.clock_in_time}}</td>
+                    <td>{{d.clock_out_time}}</td>
+                    <td>{{d.description}}</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <!--<div class="row justify-content-between">-->
+    <!--<div class="col-auto">-->
+    <!--<div class="pb-lg-0 pb-4">-->
+    <!--<div class="form-group form-inline">-->
+    <!--<p class="pt-3 pr-2">Show</p>-->
+    <!--<mat-form-field class="w-25">-->
+    <!--<mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">-->
+    <!--<mat-option [value]="10">10</mat-option>-->
+    <!--<mat-option [value]="25">25</mat-option>-->
+    <!--<mat-option [value]="50">50</mat-option>-->
+    <!--</mat-select>-->
+    <!--</mat-form-field>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col-auto">-->
+    <!--<pagination class="pt-2" *ngIf="user.length > 0" [totalItems]="totalItems" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;" nextText="&rsaquo;"-->
+    <!--firstText="&laquo;" lastText="&raquo;"></pagination>-->
+    <!--</div>-->
+    <!--</div>-->
+</div>

@@ -27,6 +27,7 @@ export class ReportService {
             .set("pageSize", String(model.pageSize))
             .set("pageNo", String(model.pageNo))
             .set("title", model.title)
+            .set("date", model.date.toString())
             .set("user", model.user);
 
         return this.httpClient
@@ -42,5 +43,27 @@ export class ReportService {
                     return res
                 })
             )
+    }
+
+    fetchUserDailyReport(orgId: string, email: string, locId: string, date: number) {
+      const params = new HttpParams()
+        .set("orgId", orgId)
+        .set("email", email)
+        .set("locId", locId)
+        .set("timeStamp", date.toString());
+
+      return this.httpClient
+        .get(Endpoints.FETCH_USER_DAILY_REPORT + params, {
+          headers: new HttpHeaders()
+            .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+        })
+        .pipe(
+          timeout(50000),
+          map(response => {
+            let res:any = response;
+            this.as.checkUnauthorized(res.description);
+            return res
+          })
+        )
     }
 }
