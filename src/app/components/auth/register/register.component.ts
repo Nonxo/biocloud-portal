@@ -6,6 +6,7 @@ import {AuthService} from '../auth.service';
 import {Constants} from "../../../util/constants";
 import {Router} from "@angular/router";
 import {StorageService} from "../../../service/storage.service";
+import {environment} from "../../../../environments/environment";
 
 @Component({
     selector: 'app-register',
@@ -14,36 +15,45 @@ import {StorageService} from "../../../service/storage.service";
 })
 export class RegisterComponent implements OnInit {
 
-    form:FormGroup;
+    form: FormGroup;
     company = false;
     loading = false;
-    hide:boolean;
-    show:boolean;
-    recaptchaSiteKey:string = Constants.SITE_KEY;
-    captchaResponse:string;
-    payload:any;
+    hide: boolean;
+    show: boolean;
+    recaptchaSiteKey: string = Constants.SITE_KEY;
+    captchaResponse: string;
+    payload: any;
     @ViewChild('cap') public recaptchaInstance;
+    countries: any[];
+    selectedPhoneCode: string = "234";
+    selectedCountryCode: string = "NG";
+    baseUrl: string = environment.baseUrl;
 
-    userTypes:Array<{ name, checked }> = [
+    userTypes: Array<{ name, checked }> = [
         {name: 'INDIVIDUAL', checked: true},
         {name: 'CORPORATE', checked: false}
     ];
 
-    constructor(private authService:AuthService,
-                private router:Router,
-                private ns:NotifyService,
-                private fb:FormBuilder,
-                private ss:StorageService) {
+    constructor(private authService: AuthService,
+                private router: Router,
+                private ns: NotifyService,
+                private fb: FormBuilder,
+                private ss: StorageService) {
     }
 
     ngOnInit() {
+        this.fetchCountries();
+
+
         this.form = this.fb.group({
             companyName: ['', Validators.required],
             fName: ['', Validators.required],
             lName: ['', Validators.required],
+            phoneCode: [''],
             phone: ['', Validators.required],
             email: ['', Validators.email],
-            password: ['', Validators.required]
+            password: ['', Validators.required],
+            gdprCompliance: ['', Validators.requiredTrue]
         });
 
         // disable validation for company name when it is invisible initially
@@ -63,12 +73,22 @@ export class RegisterComponent implements OnInit {
     }
 
     register() {
+        if (!this.selectedPhoneCode) {
+            this.ns.showError("Please select a Country dialling code");
+            return;
+        }
+
         this.loading = true;
         this.payload = this.form.value;
 
-        if(this.company) {
+        this.payload['phoneCode'] = this.selectedPhoneCode;
+
+        //set Device Type
+        this.payload['deviceType'] = 'WEB';
+
+        if (this.company) {
             this.payload.customerType = "C"
-        }else {
+        } else {
             this.payload.customerType = "I";
             this.payload.companyName = "";
         }
@@ -90,7 +110,7 @@ export class RegisterComponent implements OnInit {
         this.payload.password = this.payload.password.trim();
     }
 
-    resolved(captchaResponse:string) {
+    resolved(captchaResponse: string) {
         this.captchaResponse = captchaResponse;
     }
 
@@ -134,6 +154,41 @@ export class RegisterComponent implements OnInit {
                     this.resetCaptcha();
                 }
             );
+    }
+
+    fetchCountries() {
+        this.authService.fetchCountries()
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.countries = result.countries ? result.countries : [];
+                    }
+                },
+                error => {
+                }
+            )
+    }
+
+    onSelectChange() {
+        this.selectPhoneCode();
+        this.selectCountryCode();
+    }
+
+    selectPhoneCode() {
+        this.selectedPhoneCode = this.form.get('phoneCode').value;
+        this.form.get('phoneCode').setValue('');
+    }
+
+    selectCountryCode() {
+        let obj = this.countries.filter((obj) => obj.phoneCode == this.selectedPhoneCode)[0];
+
+        if (obj) {
+            this.selectedCountryCode = obj.code;
+        }
+    }
+
+    goToTerms() {
+        window.open("https://seamfix.com/privacy/privacy-policy-iclocker/");
     }
 
     resetCaptcha() {

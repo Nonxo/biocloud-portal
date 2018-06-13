@@ -118,7 +118,7 @@
         <div *hasAuthority="['GENERAL_ADMIN','LOCATION_ADMIN']" class="col-lg-5 px-md-4 px-lg-4 mt-md-0 mt-3">
             <mat-card class="col-lg-12 py-md-4">
                 <mat-card-title>
-                    <h5 class="text-brand">Latest Clock-Ins</h5>
+                    <h5 class="text-brand">Latest Activities</h5>
                 </mat-card-title>
 
                 <mat-card-content>
@@ -128,13 +128,15 @@
                                 <tr>
                                     <th scope="col">NAME</th>
                                     <th scope="col">LOCATION</th>
-                                    <th scope="col">TIME IN</th>
+                                    <th scope="col">ACTIVITY</th>
+                                    <th scope="col">TIME</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let notif of latestClockin">
                                     <td>{{notif.firstName}} {{notif.surname}}</td>
                                     <td>{{notif.locationName}}</td>
+                                    <td>{{notif.actionType?.toLowerCase() == 'CLOCK_OUT'.toLowerCase()? 'CLOCK OUT':'CLOCK IN'}}</td>
                                     <td>{{notif.time | date:'short'}}</td>
                                 </tr>
                                 <!-- <tr>

@@ -1,4 +1,3 @@
-
 /**
  * Created by Kingsley Ezeokeke on 1/26/2018.
  */
@@ -20,6 +19,7 @@ import {ManageAdminsComponent} from "./manage-admins/manage-admins.component";
 import { SettingComponent } from './setting/setting.component';
 import {EmployeeOverviewComponent} from "./employee-overview/employee-overview.component";
 import { SubscriptionCardDetailsComponent } from './subscribe/subscription-card-details/subscription-card-details.component';
+import {EmployeesReportComponent} from "./report-dashboard/employees-report/employees-report.component";
 
 const routes: Routes = [
   {
@@ -50,6 +50,10 @@ const routes: Routes = [
       {
         path: 'report-dashboard',
         component: ReportDashboardComponent
+      },
+      {
+        path: 'report-dashboard/employee',
+        component: EmployeesReportComponent
       },
       {
         path: 'lateness-report',
