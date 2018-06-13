@@ -1,6 +1,6 @@
 {
   "name": "biocloudapp",
-  "version": "1.0.1-FINAL",
+  "version": "1.2.0-SNAPSHOT",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -40,6 +40,7 @@
     "jspdf-autotable": "^2.3.2",
     "moment": "^2.20.1",
     "ng-click-outside": "^3.2.0",
+    "ng-pick-datetime": "^5.2.6",
     "ng-recaptcha": "^3.0.3",
     "ngx-alerts": "^2.2.2",
     "ngx-bootstrap": "^2.0.2",
