@@ -21,7 +21,7 @@
         </div>
         <div class="col-md-6 my-auto">
             <div class="text-right">
-                <p class="text-brand"><span class="cursor">Edit</span> | <span class="cursor" (click)="deleteCard()">Delete</span></p>
+                <p class="text-brand"><span class="cursor" (click)="openModal(addCardTemplate)">Edit</span> | <span class="cursor" (click)="openModal(deleteCardTemplate)">Delete</span></p>
             </div>
         </div>
     </div>
@@ -32,3 +32,42 @@
     <p>This page and all data is securely transmitted and encrypted. PCI Compliance, 3-D Secure, HTTPS, SSL encryption.</p>
     <p>payments are processed securely by Flutterwave</p>
 </div>
+
+<ng-template #deleteCardTemplate>
+    <div class="modal-header">
+        <h5 class="modal-title text-brand pull-left">Are you sure you want to delete your card?</h5>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <p>
+                Deleting your card means we won't be able to do an auto-renewal on your subscription
+            </p>
+        </div>
+
+        <div class="row">
+            <button (click)="deleteCard()">PROCEED</button>
+        </div>
+
+    </div>
+</ng-template>
+
+<ng-template #addCardTemplate>
+  <div class="modal-header">
+    <h5 class="modal-title text-brand pull-left">Details</h5>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <button (click)="proceed()">
+        PROCEED
+      </button>
+    </div>
+
+  </div>
+</ng-template>
+
