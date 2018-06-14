@@ -1,6 +1,6 @@
 <mat-sidenav-container autosize>
 
-    <mat-sidenav #sidenav mode="{{sideNavMode}}" [opened]="opener" [ngStyle]="{ 'width.em': sidenavWidth }" (mouseenter)="toggleNavFromMouseEvent(true)" (mouseleave)="toggleNavFromMouseEvent(false)">
+    <mat-sidenav #sidenav mode="{{sideNavMode}}" [opened]="opener" [ngStyle]="{ 'width.em': sidenavWidth }">
         <div class="nav-header d-md-block d-none">
             <div class="py-4 pb-0 px-3">
                 <img src="assets/img/logo-img.png" class="img-fluid logo-icon" *ngIf="sidenavWidth >= 15" style="max-height:50px;" />
