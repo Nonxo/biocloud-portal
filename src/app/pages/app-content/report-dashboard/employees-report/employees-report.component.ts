@@ -20,7 +20,8 @@ export class EmployeesReportComponent implements OnInit {
     public locId: string = "";
     public userEmail: string = "";
     public model: any;
-    public date: number = new Date().getTime();
+    public startDateTimestamp: number = new Date().getTime();
+    public endDateTimestamp: number = new Date().getTime();
 
     constructor(private ss: StorageService,
                 private reportService: ReportService,
@@ -40,7 +41,8 @@ export class EmployeesReportComponent implements OnInit {
             this.userEmail = userObj.email;
             this.locId = userObj.locId ? userObj.locId : "";
 
-            this.date = this.dataService.getReportDate().getTime();
+            this.startDateTimestamp = this.dataService.getReportStartDate().getTime();
+            this.endDateTimestamp = this.dataService.getReportEndDate().getTime();
 
             this.fetchUserDetail();
         } else {
@@ -52,7 +54,7 @@ export class EmployeesReportComponent implements OnInit {
 
     fetchUserReport() {
         this.mService.setDisplay(true);
-        this.reportService.fetchUserDailyReport(this.orgId, this.userEmail, this.locId, this.date)
+        this.reportService.fetchUserDailyReport(this.orgId, this.userEmail, this.locId, this.startDateTimestamp, this.endDateTimestamp)
             .finally(() => {
                 this.mService.setDisplay(false);
             })

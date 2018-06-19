@@ -108,7 +108,8 @@ export class ReportModel {
     pageNo:number;
     title:string;
     user:string;
-    date:number;
+    startDate:number;
+    endDate:number;
 
     constructor() {
         this.orgId = "";
@@ -120,7 +121,8 @@ export class ReportModel {
         this.pageNo = 1;
         this.title = "";
         this.user = "";
-        this.date = null;
+        this.startDate = null;
+        this.endDate = null;
     }
 }
 

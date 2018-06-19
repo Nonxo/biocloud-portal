@@ -9,6 +9,7 @@ import {NotifyService} from "../../../service/notify.service";
 import {MessageService} from "../../../service/message.service";
 import {DataService} from "../../../service/data.service";
 import {Router} from "@angular/router";
+import {DateUtil} from "../../../util/DateUtil";
 
 @Component({
     selector: 'app-report-dashboard',
@@ -28,7 +29,9 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     reportDate: number = new Date().getTime();
     dateObj: Date = new Date();
     userRole = this.ss.getSelectedOrgRole();
-    selectedDate: Date = new Date();
+    selectedStartDate: Date = new Date();
+    selectedEndDate: Date = new Date();
+    reportPeriod: string = "DATE_RANGE";
 
     constructor(private reportService: ReportService,
                 private ss: StorageService,
@@ -37,7 +40,8 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
                 private ns: NotifyService,
                 private dataService: DataService,
                 private router: Router,
-                private mService: MessageService) {
+                private mService: MessageService,
+                private dateUtil: DateUtil) {
         this.reportModel.reportType = "early";
         this.reportModel.pageSize = this.rowsOnPage;
         this.reportModel.user = this.ss.getUserName();
@@ -54,8 +58,9 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.mService.setTitle("Reports");
 
-        if(this.dataService.getReportDate()) {
-            this.selectedDate = this.dataService.getReportDate();
+        if(this.dataService.getReportStartDate() && this.dataService.getReportEndDate()) {
+            this.selectedStartDate = this.dataService.getReportStartDate();
+            this.selectedEndDate = this.dataService.getReportEndDate();
         }
 
         this.fetchDailyReport();
@@ -63,7 +68,8 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     }
 
     fetchDailyReport() {
-        this.reportModel.date = this.selectedDate.getTime();
+        this.reportModel.startDate = this.selectedStartDate.getTime();
+        this.reportModel.endDate = this.selectedEndDate.getTime();
 
         this.mService.setDisplay(true);
         this.reportService.fetchDailyReport(this.reportModel)
@@ -205,11 +211,37 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
       obj['email'] = user.email;
       obj['locId'] = this.reportModel.locId;
 
-      this.dataService.setReportDate(this.selectedDate);
+      this.dataService.setReportStartDate(this.selectedStartDate);
+      this.dataService.setReportEndDate(this.selectedEndDate);
 
         this.dataService.setUserObj(obj);
         this.router.navigate(["/portal/report-dashboard/employee"]);
   }
+
+    filterReport() {
+        this.selectedStartDate = new Date();
+        this.selectedEndDate = new Date();
+
+        switch(this.reportPeriod) {
+            case "DATE_RANGE": {
+                break;
+            }
+            case "WEEKLY": {
+                this.selectedStartDate = this.dateUtil.getFirstDayOfCurrentWeek(new Date());
+                this.selectedEndDate = this.dateUtil.getLastDayOfCurrentWeek(new Date());
+
+                this.fetchDailyReport();
+                break;
+            }
+            case "MONTHLY": {
+                this.selectedStartDate = this.dateUtil.getFirstDayOfCurrentMonth(new Date());
+                this.selectedEndDate = this.dateUtil.getLastDayOfCurrentMonth(new Date());
+
+                this.fetchDailyReport();
+                break;
+            }
+        }
+    }
 
     /**
      * Events that should happen when this component is destroyed
