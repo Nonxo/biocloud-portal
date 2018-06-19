@@ -4,32 +4,60 @@
         <div class="container-fluid">
             <div class="row mt-4">
 
-                <div class="col-md-12"><p>Report for {{selectedDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>
+                <!--<div class="col-md-12"><p>Report for {{selectedDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>-->
 
-                <div class="col-lg-4 col-12  d-flex align-items-center">
-                    <mat-form-field>
-                        <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
-                            <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</mat-option>
-                            <mat-option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                <div class="col-lg-8 col-12  d-lg-flex align-items-center">
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
+                                <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</mat-option>
+                                <mat-option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-select name="reportPeriod" [(ngModel)]="reportPeriod" (change)="filterReport()">
+                                <mat-option value="DATE_RANGE">DATE RANGE</mat-option>
+                                <mat-option value="WEEKLY">WEEKLY</mat-option>
+                                <mat-option value="MONTHLY">MONTHLY</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <ng-container *ngIf="reportPeriod == 'DATE_RANGE'">
+                        <div class="col">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="earlyStart" placeholder="Start date" [max]="dateObj"
+                                       name="date" [(ngModel)]="selectedStartDate" (dateChange)="fetchDailyReport()"
+                                       disabled>
+                                <mat-datepicker-toggle matSuffix [for]="earlyStart"></mat-datepicker-toggle>
+                                <mat-datepicker #earlyStart disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="earlyEnd" placeholder="End date" [max]="dateObj"
+                                       name="date" [(ngModel)]="selectedEndDate" (dateChange)="fetchDailyReport()"
+                                       disabled>
+                                <mat-datepicker-toggle matSuffix [for]="earlyEnd"></mat-datepicker-toggle>
+                                <mat-datepicker #earlyEnd disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </ng-container>
+
                 </div>
 
-                <div class="col-lg-4 col-12 text-md-center text-left pt-lg-3">
-                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline" *ngIf="data.length > 0">Download<i class="material-icons">arrow_drop_down</i></button>
+                <div class="col-lg-4 col-12 text-left">
+                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline"
+                            *ngIf="data.length > 0">Download<i class="material-icons">arrow_drop_down</i></button>
                     <mat-menu #downloadmenu="matMenu">
                         <button mat-menu-item (click)="downloadPdf()">PDF</button>
                         <button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>
                     </mat-menu>
-                </div>
-
-                <div class="col-lg-4 col-12 text-left">
-                    <mat-form-field>
-                        <input matInput [matDatepicker]="picker" placeholder="Choose a date" [max]="dateObj" name="date" [(ngModel)]="selectedDate" (dateChange)="fetchDailyReport()" disabled>
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker  disabled="false"></mat-datepicker>
-                    </mat-form-field>
                 </div>
 
                 <!--<div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">-->
@@ -50,26 +78,29 @@
             <div class="table-responsive">
                 <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                     <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Email Address</th>
-                            <th scope="col">Location</th>
-                            <th scope="col">Mode of Clockin</th>
-                            <th scope="col">Clock-In Time</th>
-                            <th scope="col">Clock-Out Time</th>
-                            <th scope="col"></th>
-                        </tr>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email Address</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">Mode of Clockin</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Clock-In Time</th>
+                        <th scope="col">Clock-Out Time</th>
+                        <th scope="col"></th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let d of mf.data">
-                            <td>{{d.name}}</td>
-                            <td>{{d.email}}</td>
-                            <td>{{d.location}}</td>
-                            <td>{{d.mode}}</td>
-                            <td>{{d.clock_in_time}}</td>
-                            <td>{{d.clock_out_time}}</td>
-                            <td><i (click)="viewDetails(d)" matTooltip="View More" class="material-icons cursor">list</i></td>
-                        </tr>
+                    <tr *ngFor="let d of mf.data">
+                        <td>{{d.name}}</td>
+                        <td>{{d.email}}</td>
+                        <td>{{d.location}}</td>
+                        <td>{{d.mode}}</td>
+                        <td>{{d.date}}</td>
+                        <td>{{d.clock_in_time}}</td>
+                        <td>{{d.clock_out_time}}</td>
+                        <td><i (click)="viewDetails(d)" matTooltip="View More" class="material-icons cursor">list</i>
+                        </td>
+                    </tr>
                 </table>
             </div>
 
@@ -89,8 +120,11 @@
                     </div>
                 </div>
                 <div class="col-auto">
-                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 0" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
-                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 0" [totalItems]="totalSize"
+                                [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage"
+                                (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true"
+                                [rotate]="false" previousText="&lsaquo;"
+                                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
                 </div>
             </div>
 
@@ -102,32 +136,57 @@
         <div class="container-fluid">
             <div class="row mt-4">
 
-                <div class="col-md-12"><p>Report for {{selectedDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>
+                <!--<div class="col-md-12"><p>Report for {{selectedDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>-->
 
-                <div class="col-lg-4 col-12  d-flex align-items-center">
-                    <mat-form-field>
-                        <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
-                            <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</mat-option>
-                            <mat-option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                <div class="col-lg-8 col-12  d-lg-flex align-items-center">
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
+                                <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</mat-option>
+                                <mat-option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-select name="reportPeriod" [(ngModel)]="reportPeriod" (change)="filterReport()">
+                                <mat-option value="DATE_RANGE">DATE RANGE</mat-option>
+                                <mat-option value="WEEKLY">WEEKLY</mat-option>
+                                <mat-option value="MONTHLY">MONTHLY</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col">
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="lateStart" placeholder="Start date" [max]="dateObj"
+                                   name="date" [(ngModel)]="selectedStartDate" (dateChange)="fetchDailyReport()"
+                                   disabled>
+                            <mat-datepicker-toggle matSuffix [for]="lateStart"></mat-datepicker-toggle>
+                            <mat-datepicker #lateStart disabled="false"></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col">
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="lateEnd" placeholder="End date" [max]="dateObj" name="date"
+                                   [(ngModel)]="selectedEndDate" (dateChange)="fetchDailyReport()" disabled>
+                            <mat-datepicker-toggle matSuffix [for]="lateEnd"></mat-datepicker-toggle>
+                            <mat-datepicker #lateEnd disabled="false"></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
                 </div>
 
                 <div class="col-lg-4 col-12 text-md-center text-left pt-lg-3">
-                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline" *ngIf="data.length > 0">Download<i class="material-icons">arrow_drop_down</i></button>
+                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline"
+                            *ngIf="data.length > 0">Download<i class="material-icons">arrow_drop_down</i></button>
                     <mat-menu #downloadmenu="matMenu">
                         <button mat-menu-item (click)="downloadPdf()">PDF</button>
                         <button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>
                     </mat-menu>
-                </div>
-
-                <div class="col-lg-4 col-12 text-left">
-                    <mat-form-field>
-                        <input matInput [matDatepicker]="picker1" placeholder="Choose a date" [max]="dateObj" [(ngModel)]="selectedDate" (dateChange)="fetchDailyReport()" disabled>
-                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                        <mat-datepicker #picker1  disabled="false"></mat-datepicker>
-                    </mat-form-field>
                 </div>
 
                 <!--<div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">-->
@@ -148,26 +207,29 @@
             <div class="table-responsive">
                 <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                     <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Email Address</th>
-                            <th scope="col">Location</th>
-                            <th scope="col">Mode of Clockin</th>
-                            <th scope="col">Clock-In Time</th>
-                            <th scope="col">Clock-Out Time</th>
-                            <th scope="col"></th>
-                        </tr>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email Address</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">Mode of Clockin</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Clock-In Time</th>
+                        <th scope="col">Clock-Out Time</th>
+                        <th scope="col"></th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let d of mf.data">
-                            <td>{{d.name}}</td>
-                            <td>{{d.email}}</td>
-                            <td>{{d.location}}</td>
-                            <td>{{d.mode}}</td>
-                            <td>{{d.clock_in_time}}</td>
-                            <td>{{d.clock_out_time}}</td>
-                            <td><i (click)="viewDetails(d)" matTooltip="View More" class="material-icons cursor">list</i></td>
-                        </tr>
+                    <tr *ngFor="let d of mf.data">
+                        <td>{{d.name}}</td>
+                        <td>{{d.email}}</td>
+                        <td>{{d.location}}</td>
+                        <td>{{d.mode}}</td>
+                        <td>{{d.date}}</td>
+                        <td>{{d.clock_in_time}}</td>
+                        <td>{{d.clock_out_time}}</td>
+                        <td><i (click)="viewDetails(d)" matTooltip="View More" class="material-icons cursor">list</i>
+                        </td>
+                    </tr>
                 </table>
             </div>
 
@@ -187,8 +249,11 @@
                     </div>
                 </div>
                 <div class="col-auto">
-                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 1" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
-                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 1" [totalItems]="totalSize"
+                                [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage"
+                                (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true"
+                                [rotate]="false" previousText="&lsaquo;"
+                                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
                 </div>
             </div>
 
@@ -201,32 +266,57 @@
         <div class="container-fluid">
             <div class="row mt-4">
 
-                <div class="col-md-12"><p>Report for {{selectedDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>
+                <!--<div class="col-md-12"><p>Report for {{selectedDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>-->
 
-                <div class="col-lg-4 col-12  d-flex align-items-center">
-                    <mat-form-field>
-                        <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
-                            <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</mat-option>
-                            <mat-option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                <div class="col-lg-8 col-12  d-lg-flex align-items-center">
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
+                                <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</mat-option>
+                                <mat-option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-select name="reportPeriod" [(ngModel)]="reportPeriod" (change)="filterReport()">
+                                <mat-option value="DATE_RANGE">DATE RANGE</mat-option>
+                                <mat-option value="WEEKLY">WEEKLY</mat-option>
+                                <mat-option value="MONTHLY">MONTHLY</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col">
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="absentStart" placeholder="Start date" [max]="dateObj"
+                                   name="date" [(ngModel)]="selectedStartDate" (dateChange)="fetchDailyReport()"
+                                   disabled>
+                            <mat-datepicker-toggle matSuffix [for]="absentStart"></mat-datepicker-toggle>
+                            <mat-datepicker #absentStart disabled="false"></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col">
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="absentEnd" placeholder="End date" [max]="dateObj"
+                                   name="date" [(ngModel)]="selectedEndDate" (dateChange)="fetchDailyReport()" disabled>
+                            <mat-datepicker-toggle matSuffix [for]="absentEnd"></mat-datepicker-toggle>
+                            <mat-datepicker #absentEnd disabled="false"></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
                 </div>
 
                 <div class="col-lg-4 col-12 text-md-center text-left pt-lg-3">
-                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline" *ngIf="data.length > 0">Download <i class="material-icons">arrow_drop_down</i></button>
+                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline"
+                            *ngIf="data.length > 0">Download <i class="material-icons">arrow_drop_down</i></button>
                     <mat-menu #downloadmenu="matMenu">
                         <button mat-menu-item (click)="downloadPdf()">PDF</button>
                         <button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>
                     </mat-menu>
-                </div>
-
-                <div class="col-lg-4 col-12 text-left">
-                    <mat-form-field>
-                        <input matInput [matDatepicker]="picker2" placeholder="Choose a date" [max]="dateObj" name="date" [(ngModel)]="selectedDate" (dateChange)="fetchDailyReport()" disabled>
-                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                        <mat-datepicker #picker2  disabled="false"></mat-datepicker>
-                    </mat-form-field>
                 </div>
 
                 <!--<div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">-->
@@ -247,22 +337,22 @@
             <div class="table-responsive">
                 <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                     <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Email Address</th>
-                            <th scope="col">Location</th>
-                            <!--<th scope="col">Date</th>-->
-                            <!--<th scope="col">Clock-In Time</th>-->
-                        </tr>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email Address</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">Date</th>
+                        <!--<th scope="col">Clock-In Time</th>-->
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let d of mf.data">
-                            <td>{{d.name}}</td>
-                            <td>{{d.email}}</td>
-                            <td>{{d.location}}</td>
-                            <!--<td>{{d.date}}</td>-->
-                            <!--<td>{{d.clock_in_time}}</td>-->
-                        </tr>
+                    <tr *ngFor="let d of mf.data">
+                        <td>{{d.name}}</td>
+                        <td>{{d.email}}</td>
+                        <td>{{d.location}}</td>
+                        <td>{{d.date}}</td>
+                        <!--<td>{{d.clock_in_time}}</td>-->
+                    </tr>
                 </table>
             </div>
 
@@ -282,8 +372,11 @@
                     </div>
                 </div>
                 <div class="col-auto">
-                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 2" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
-                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 2" [totalItems]="totalSize"
+                                [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage"
+                                (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true"
+                                [rotate]="false" previousText="&lsaquo;"
+                                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
                 </div>
             </div>
 
@@ -295,32 +388,57 @@
         <div class="container-fluid">
             <div class="row mt-4">
 
-                <div class="col-md-12"><p>Report for {{selectedDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>
+                <!--<div class="col-md-12"><p>Report for {{selectedDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>-->
 
-                <div class="col-lg-4 col-12  d-flex align-items-center">
-                    <mat-form-field>
-                        <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
-                            <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</mat-option>
-                            <mat-option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                <div class="col-lg-8 col-12  d-lg-flex align-items-center">
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
+                                <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</mat-option>
+                                <mat-option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-select name="reportPeriod" [(ngModel)]="reportPeriod" (change)="filterReport()">
+                                <mat-option value="DATE_RANGE">DATE RANGE</mat-option>
+                                <mat-option value="WEEKLY">WEEKLY</mat-option>
+                                <mat-option value="MONTHLY">MONTHLY</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col">
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="wrongLocStart" placeholder="Start date" [max]="dateObj"
+                                   name="date" [(ngModel)]="selectedStartDate" (dateChange)="fetchDailyReport()"
+                                   disabled>
+                            <mat-datepicker-toggle matSuffix [for]="wrongLocStart"></mat-datepicker-toggle>
+                            <mat-datepicker #wrongLocStart disabled="false"></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col">
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="wrongLocEnd" placeholder="End date" [max]="dateObj"
+                                   name="date" [(ngModel)]="selectedEndDate" (dateChange)="fetchDailyReport()" disabled>
+                            <mat-datepicker-toggle matSuffix [for]="wrongLocEnd"></mat-datepicker-toggle>
+                            <mat-datepicker #wrongLocEnd disabled="false"></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
                 </div>
 
                 <div class="col-lg-4 col-12 text-md-center text-left pt-lg-3">
-                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline" *ngIf="data.length > 0">Download <i class="material-icons">arrow_drop_down</i></button>
+                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline"
+                            *ngIf="data.length > 0">Download <i class="material-icons">arrow_drop_down</i></button>
                     <mat-menu #downloadmenu="matMenu">
                         <button mat-menu-item (click)="downloadPdf()">PDF</button>
                         <button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>
                     </mat-menu>
-                </div>
-
-                <div class="col-lg-4 col-12 text-left">
-                    <mat-form-field>
-                        <input matInput [matDatepicker]="picker3" placeholder="Choose a date" [max]="dateObj" name="date" [(ngModel)]="selectedDate" (dateChange)="fetchDailyReport()" disabled>
-                        <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
-                        <mat-datepicker #picker3  disabled="false"></mat-datepicker>
-                    </mat-form-field>
                 </div>
 
                 <!--<div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">-->
@@ -341,24 +459,24 @@
             <div class="table-responsive">
                 <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                     <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Email Address</th>
-                            <th scope="col">Clock in Location</th>
-                            <th scope="col">Expected Location</th>
-                            <th scope="col">Mode of Clockin</th>
-                            <th scope="col">Clock-In Time</th>
-                        </tr>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email Address</th>
+                        <th scope="col">Clock in Location</th>
+                        <th scope="col">Expected Location</th>
+                        <th scope="col">Mode of Clockin</th>
+                        <th scope="col">Clock-In Time</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let d of mf.data">
-                            <td>{{d.name}}</td>
-                            <td>{{d.email}}</td>
-                            <td>{{d.clock_in_address}}</td>
-                            <td>{{d.location}}</td>
-                            <td>{{d.mode}}</td>
-                            <td>{{d.clock_in_time}}</td>
-                        </tr>
+                    <tr *ngFor="let d of mf.data">
+                        <td>{{d.name}}</td>
+                        <td>{{d.email}}</td>
+                        <td>{{d.clock_in_address}}</td>
+                        <td>{{d.location}}</td>
+                        <td>{{d.mode}}</td>
+                        <td>{{d.clock_in_time}}</td>
+                    </tr>
                 </table>
             </div>
 
@@ -378,8 +496,11 @@
                     </div>
                 </div>
                 <div class="col-auto">
-                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 3" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
-                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 3" [totalItems]="totalSize"
+                                [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage"
+                                (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true"
+                                [rotate]="false" previousText="&lsaquo;"
+                                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
                 </div>
             </div>
 
