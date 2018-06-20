@@ -108,7 +108,8 @@ export class ReportModel {
     pageNo:number;
     title:string;
     user:string;
-    date:number;
+    startDate:number;
+    endDate:number;
 
     constructor() {
         this.orgId = "";
@@ -120,7 +121,8 @@ export class ReportModel {
         this.pageNo = 1;
         this.title = "";
         this.user = "";
-        this.date = null;
+        this.startDate = null;
+        this.endDate = null;
     }
 }
 
@@ -192,13 +194,15 @@ export class VerifyPaymentRequest {
     autoRenewal:boolean;
     orgId:string;
     conversionRate:number;
+    transactionMode:string;
 
-    constructor(txRef:string, billingCycle:string, autoRenewal:boolean, orgId:string, conversionRate:number) {
+    constructor(txRef:string, billingCycle:string, autoRenewal:boolean, orgId:string, conversionRate:number, transactionMode:string) {
         this.billingCycle = billingCycle;
         this.txRef = txRef;
         this.autoRenewal = autoRenewal;
         this.orgId = orgId;
         this.conversionRate = conversionRate;
+        this.transactionMode = transactionMode;
     }
 }
 

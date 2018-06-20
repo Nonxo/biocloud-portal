@@ -224,7 +224,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
 
     verifyPayment(txRef, autoRenew:boolean) {
         this.mService.setDisplay(true);
-        this.subService.verifyPayment(new VerifyPaymentRequest(txRef, this.monthlyPlan? 'MONTHLY':'ANNUAL', autoRenew, this.orgId, this.exchangeRate))
+        this.subService.verifyPayment(new VerifyPaymentRequest(txRef, this.monthlyPlan? 'MONTHLY':'ANNUAL', autoRenew, this.orgId, this.exchangeRate, "SUBSCRIPTION"))
             .finally(() => {this.mService.setDisplay(false);})
             .subscribe(
                 result => {
