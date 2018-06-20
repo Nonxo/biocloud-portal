@@ -88,6 +88,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             )
 
 
+
     }
 
     callLocationService() {
@@ -112,6 +113,8 @@ export class HomeComponent implements OnInit, OnDestroy {
                 }
             )
     }
+
+
 
     editLocation(loc:LocationRequest) {
         this.openLocationModal(loc);
