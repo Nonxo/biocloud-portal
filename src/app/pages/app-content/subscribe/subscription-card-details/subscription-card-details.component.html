@@ -34,40 +34,64 @@
 </div>
 
 <ng-template #deleteCardTemplate>
-    <div class="modal-header">
-        <h5 class="modal-title text-brand pull-left">Are you sure you want to delete your card?</h5>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-            <span aria-hidden="true">&times;</span>
-        </button>
+    <div class="modal-header" style="border-bottom: none">
+        <h5 class="modal-title text-brand mx-auto">Delete Card</h5>
+        <!-- <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button> -->
     </div>
     <div class="modal-body">
-        <div class="row">
-            <p>
-                Deleting your card means we won't be able to do an auto-renewal on your subscription
-            </p>
+        <div class="text-center">
+            <img src="assets/img/caution.png" alt="" class="img-fluid" style="max-width: 78px;">
         </div>
+        <p class="text-center pt-2">You are about to delete your card.</p>
 
-        <div class="row">
-            <button (click)="deleteCard()">PROCEED</button>
+
+        <div class="col-md-12 text-md-center text-center pt-3 pb-4">
+
+            <button mat-button class="primary-outline" type="button">Cancel</button>
+
+            <button mat-raised-button color="primary" type="submit" class="primary-outline">
+                                Delete
+                            </button>
+
         </div>
 
     </div>
 </ng-template>
 
 <ng-template #addCardTemplate>
-  <div class="modal-header">
-    <h5 class="modal-title text-brand pull-left">Details</h5>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <div class="modal-header" style="border-bottom: none">
+        <h5 class="modal-title text-brand mx-auto">Edit Card Details</h5>
+        <!-- <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="row">
-      <button (click)="proceed()">
-        PROCEED
-      </button>
+    </button> -->
     </div>
+    <div class="modal-body">
+        <div class="text-center">
+            <img src="assets/img/caution.png" alt="" class="img-fluid" style="max-width: 78px;">
+        </div>
+        <p class="text-center pt-2">You are about to edit your card details a fee might be deducted from your card to verify the card.</p>
 
-  </div>
+        <div class="text-center">
+            <mat-form-field>
+                <mat-select placeholder="Currency type">
+                    <mat-option select value="NGN">NGN</mat-option>
+                    <mat-option select>USD</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+
+        <div class="col-md-12 text-md-center text-center pt-3 pb-4">
+
+            <button mat-button class="primary-outline" type="button">Cancel</button>
+
+            <button mat-raised-button color="primary" type="submit" class="primary-outline">
+                        Continue
+                    </button>
+
+        </div>
+
+    </div>
 </ng-template>
-
