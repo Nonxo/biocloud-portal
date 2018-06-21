@@ -3,10 +3,12 @@
 <div class="container-fluid">
     <h5 class="text-brand pt-3">Card Details</h5>
     <a routerLink="/portal/subscription-history">
-        <p class="text-muted cursor pt-lg-3"><i class="material-icons pr-2 position-absolute">keyboard_backspace</i><span class="pl-4">Back</span></p>
+        <p class="text-muted cursor pt-lg-3"><i
+            class="material-icons pr-2 position-absolute">keyboard_backspace</i><span class="pl-4">Back</span></p>
     </a>
     <p class="text-muted">Subscription Payment Method</p>
-    <p>These are the payment methods for your subscriptions. If you are on auto renew, payments will be automatically made through this payment method. This payment method MUST belong to you</p>
+    <p>These are the payment methods for your subscriptions. If you are on auto renew, payments will be automatically
+        made through this payment method. This payment method MUST belong to you</p>
     <hr>
     <div class="row col-md-12" *ngFor="let detail of cardDetails">
         <div class="col-md-6">
@@ -21,7 +23,8 @@
         </div>
         <div class="col-md-6 my-auto">
             <div class="text-right">
-                <p class="text-brand"><span class="cursor" (click)="openModal(addCardTemplate)">Edit</span> | <span class="cursor" (click)="openModal(deleteCardTemplate)">Delete</span></p>
+                <p class="text-brand"><span class="cursor" (click)="openModal(addCardTemplate)">Edit</span> | <span
+                    class="cursor" (click)="openModal(deleteCardTemplate)">Delete</span></p>
             </div>
         </div>
     </div>
@@ -29,7 +32,8 @@
     <div class="pb-3">
         <img src="assets/img/cardslogo.png" alt="" class="">
     </div>
-    <p>This page and all data is securely transmitted and encrypted. PCI Compliance, 3-D Secure, HTTPS, SSL encryption.</p>
+    <p>This page and all data is securely transmitted and encrypted. PCI Compliance, 3-D Secure, HTTPS, SSL
+        encryption.</p>
     <p>payments are processed securely by Flutterwave</p>
 </div>
 
@@ -49,11 +53,11 @@
 
         <div class="col-md-12 text-md-center text-center pt-3 pb-4">
 
-            <button mat-button class="primary-outline" type="button">Cancel</button>
+            <button mat-button class="primary-outline" type="button" (click)="modalRef.hide()">Cancel</button>
 
-            <button mat-raised-button color="primary" type="submit" class="primary-outline">
-                                Delete
-                            </button>
+            <button mat-raised-button color="primary" type="submit" class="primary-outline" (click)="deleteCard()">
+                Delete
+            </button>
 
         </div>
 
@@ -71,7 +75,8 @@
         <div class="text-center">
             <img src="assets/img/caution.png" alt="" class="img-fluid" style="max-width: 78px;">
         </div>
-        <p class="text-center pt-2">You are about to edit your card details a fee might be deducted from your card to verify the card.</p>
+        <p class="text-center pt-2">You are about to edit your card details a fee might be deducted from your card to
+            verify the card.</p>
 
         <div class="text-center">
             <mat-form-field>
@@ -88,8 +93,8 @@
             <button mat-button class="primary-outline" type="button">Cancel</button>
 
             <button mat-raised-button color="primary" type="submit" class="primary-outline">
-                        Continue
-                    </button>
+                Continue
+            </button>
 
         </div>
 

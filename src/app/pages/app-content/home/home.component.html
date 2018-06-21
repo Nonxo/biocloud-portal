@@ -35,7 +35,7 @@
 
                 <div class="col-lg-4 col-md-6 mt-3" *ngFor="let loc of locations">
                     <mat-card class="py-md-3 h-100">
-                        <img src="assets/img/loc.svg" style="max-width:32px" (click)="openModal(companyDescTemplate)" />
+                        <img src="assets/img/loc.svg" style="max-width:32px" (click)="viewLocDetails(loc, companyDescTemplate)" />
                         <h6 class="my-3">{{loc.name}}</h6>
                         <mat-divider></mat-divider>
                         <div class="py-2 row justify-content-between">
@@ -248,19 +248,19 @@
 
 <ng-template #companyDescTemplate>
     <div class="modal-header" style="border-bottom: none">
-        <h5 class="modal-title pull-left text-secondary">SeamFix Headquaters</h5>
+        <h5 class="modal-title pull-left text-secondary">{{selectedLocObj.name}}</h5>
         <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
                 <span aria-hidden="true">&times;</span>
             </button>
     </div>
     <div class="modal-body">
-        <p class="text-brand" style="font-weight: 600">Resumption Time <br><span class="text-secondary font-weight-normal">09:21 am</span></p>
+        <p class="text-brand" style="font-weight: 600">Resumption Time <br><span class="text-secondary font-weight-normal">{{selectedLocObj.resumption? (selectedLocObj.resumption | date:'shortTime'): 'N/A'}}</span></p>
 
-        <p class="text-brand" style="font-weight: 600">Closing Time <br><span class="text-secondary font-weight-normal">5:21 pm</span></p>
+        <p class="text-brand" style="font-weight: 600">Closing Time <br><span class="text-secondary font-weight-normal">{{selectedLocObj.clockOutTime? (selectedLocObj.clockOutTime | date:'shortTime'):'N/A'}}</span></p>
 
-        <p class="text-brand" style="font-weight: 600">Total No of Employees <br><span class="text-secondary font-weight-normal">100</span></p>
+        <p class="text-brand" style="font-weight: 600">Total No of Employees <br><span class="text-secondary font-weight-normal">{{selectedLocObj.noOfAttendees}}</span></p>
 
-        <p class="text-brand" style="font-weight: 600">Location Address <br><span class="text-secondary font-weight-normal">1st Floor, Leasing House, C&I Leasing Drive, Off Bisola Durosinmi Etti Drive, Off Admiralty Way, Lekki Phase 1, Lagos, Nigeria</span></p>
+        <p *ngIf="selectedLocObj.locationType == 'SPECIFIC_ADDRESS'" class="text-brand" style="font-weight: 600">Location Address <br><span class="text-secondary font-weight-normal">{{getLocAddress()}}</span></p>
 
     </div>
 </ng-template>
