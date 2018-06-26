@@ -1,10 +1,11 @@
-import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
-import {SubscriptionPlan, VerifyPaymentRequest} from "../model/app-content.model";
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {SubscriptionChangeRequest, SubscriptionPlan, VerifyPaymentRequest} from "../model/app-content.model";
 import {SubscriptionService} from "../services/subscription.service";
 import {NotifyService} from "../../../service/notify.service";
 import {StorageService} from "../../../service/storage.service";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {MessageService} from "../../../service/message.service";
+import {BillingCycle, SubscriptionMode} from "../enums/enums";
 
 declare function getpaidSetup(data): void;
 
@@ -35,6 +36,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     public discountPrice:number;
     private orgId:string;
     public subscription:any;
+    @ViewChild("confirmPaymentTemplate")private confirmPaymentTemplate: TemplateRef<any>;
 
     constructor(private subService: SubscriptionService,
                 private modalService: BsModalService,
@@ -65,6 +67,12 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                 result => {
                     if(result.code == 0) {
                         this.subscription = result.subscription;
+
+                        //set billing cycle flag
+                        if(this.subscription && this.subscription.billingCycle) {
+                            this.subscription.billingCycle.toLowerCase() == BillingCycle.MONTHLY.toLowerCase()? this.monthlyPlan = true: this.monthlyPlan = false;
+                        }
+
                     } else {
                         this.ns.showError(result.description);
                     }
@@ -179,19 +187,30 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     }
 
     confirmPayment(plan: SubscriptionPlan, template: TemplateRef<any>) {
-        this.selectedPlan = plan;
-        this.renewSub = false;
-        this.totalAmount = this.getPrice(plan);
+        if(!this.subscription || this.subscription.subscriptionMode.toLowerCase() == SubscriptionMode.TRIAL.toLowerCase()) {
+            this.selectedPlan = plan;
+            this.renewSub = false;
+            this.totalAmount = this.getPrice(plan);
 
-        this.setDiscountPrice();
-        this.amountToPay = this.totalAmount - this.discountPrice;
-        this.openModal(template);
+            this.setDiscountPrice();
+            this.amountToPay = this.totalAmount - this.discountPrice;
+            this.openModal(template);
+        }else {
+            this.selectedPlan = plan;
+            this.changePlan();
+        }
     }
 
     subscribe(plan) {
         this.modalRef.hide();
         this.planId = plan.planId;
-        this.generateTransactionRef();
+
+        if(!this.subscription || this.subscription.subscriptionMode.toLowerCase() == SubscriptionMode.TRIAL.toLowerCase()) {
+            this.generateTransactionRef();
+        }else {
+            this.callRave();
+        }
+
     }
 
     fetchAllExchangeRates() {
@@ -238,6 +257,32 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                 error => {
                     this.ns.showError("An Error Occurred");
                 }
+            )
+    }
+
+    changePlan() {
+        this.subService.changePlan(new SubscriptionChangeRequest(this.monthlyPlan? 'MONTHLY':'ANNUAL',this.orgId, this.selectedPlan.planId))
+            .subscribe(
+                result => {
+                    if(result.code == 0) {
+                        //successfully debited card
+                        this.ns.showSuccess(result.description);
+                        this.fetchSubscriptionDetails();
+
+                    } else if (result.code == -10) {
+                        //no card saved for the org
+                        this.cipher = result.cipher;
+                        this.PUBKey = result.ravePayPublicKey;
+                        this.transactionRef = result.transactionRef;
+
+                        this.amountToPay = result.amount;
+
+                        this.openModal(this.confirmPaymentTemplate);
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => { this.ns.showError("An Error Occurred");}
             )
     }
 

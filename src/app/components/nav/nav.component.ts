@@ -14,6 +14,9 @@ import {SearchService} from "../../service/search.service";
 import {Subject} from "rxjs/Subject";
 import {AuthService} from "../auth/auth.service";
 import {PictureUtil} from "../../util/PictureUtil";
+import {SubscriptionService} from "../../pages/app-content/services/subscription.service";
+import {DateUtil} from "../../util/DateUtil";
+import {SubscriptionMode} from "../../pages/app-content/enums/enums";
 
 @Component({
     selector: 'app-nav',
@@ -83,7 +86,8 @@ export class NavComponent implements OnInit, OnDestroy {
     notifAlert: boolean;
     timer:any;
     loading:boolean;
-
+    subscription:any;
+    daysLeft: number;
 
     constructor(private router: Router,
                 private authService: AuthService,
@@ -93,7 +97,9 @@ export class NavComponent implements OnInit, OnDestroy {
                 private ns: NotifyService,
                 private mService: MessageService,
                 private pictureUtil: PictureUtil,
-                private searchService: SearchService) {
+                private searchService: SearchService,
+                private subService: SubscriptionService,
+                private dateUtil: DateUtil) {
 
         if (this.router.url == "/portal") {
             this.activeClass = "active";
@@ -393,6 +399,9 @@ export class NavComponent implements OnInit, OnDestroy {
     }
 
     setDefaultSelectedOrg() {
+        //fetch org subscription details
+        this.fetchSubscriptionDetails();
+
         if (!this.selectedOrg.orgId) {
             if (this.orgs.length > 0) {
                 this.selectedOrg = this.orgs[0];
@@ -519,6 +528,7 @@ export class NavComponent implements OnInit, OnDestroy {
         this.ss.setSelectedOrg(org);
         this.setOrgRole();
 
+        this.fetchSubscriptionDetails();
         this.callLocationService();
         this.callNotificationService();
         this.router.navigate(['/portal']);
@@ -694,5 +704,24 @@ export class NavComponent implements OnInit, OnDestroy {
 
     this.callApproveService(inviteId);
   }
+
+    fetchSubscriptionDetails() {
+        this.subService.fetchSubscriptionDetails(this.selectedOrg.orgId)
+            .subscribe(
+                result => {
+                    if(result.code == 0) {
+                        this.subscription = result.subscription;
+                        this.checkTrialPeriodStatus();
+                    }
+                },
+                error => {}
+            )
+    }
+
+    checkTrialPeriodStatus() {
+        if (this.subscription.subscriptionMode.toLowerCase() == SubscriptionMode.TRIAL.toLowerCase()) {
+            this.daysLeft = this.dateUtil.getDaysLeft(new Date().getTime(), this.subscription.endDate);
+        }
+    }
 
 }
