@@ -16,6 +16,7 @@ export class SignUpAsComponent implements OnInit {
     orgTypes: string[] = [];
     orgRequest:CreateOrgRequest = new CreateOrgRequest();
     uploadedFileName:string;
+    loading: boolean;
 
   constructor(private contentService: AppContentService,
               private ns: NotifyService,
@@ -53,6 +54,7 @@ export class SignUpAsComponent implements OnInit {
           return;
       }
 
+        this.loading = true;
         this.getOrgRequestObject();
         this.callOrgCreationService();
     }
@@ -68,6 +70,7 @@ export class SignUpAsComponent implements OnInit {
 
     callOrgCreationService() {
         this.contentService.createOrg(this.orgRequest)
+            .finally(() => {this.loading = false;})
             .subscribe(
                 result => {
                     if (result.code == 0) {

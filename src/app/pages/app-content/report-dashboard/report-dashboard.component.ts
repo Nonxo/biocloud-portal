@@ -9,6 +9,7 @@ import {NotifyService} from "../../../service/notify.service";
 import {MessageService} from "../../../service/message.service";
 import {DataService} from "../../../service/data.service";
 import {Router} from "@angular/router";
+import {DateUtil} from "../../../util/DateUtil";
 
 @Component({
     selector: 'app-report-dashboard',
@@ -26,7 +27,11 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     currentTab: number = 0;
     locations: any[] = [];
     reportDate: number = new Date().getTime();
+    dateObj: Date = new Date();
     userRole = this.ss.getSelectedOrgRole();
+    selectedStartDate: Date = new Date();
+    selectedEndDate: Date = new Date();
+    reportPeriod: string = "DATE_RANGE";
 
     constructor(private reportService: ReportService,
                 private ss: StorageService,
@@ -35,7 +40,8 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
                 private ns: NotifyService,
                 private dataService: DataService,
                 private router: Router,
-                private mService: MessageService) {
+                private mService: MessageService,
+                private dateUtil: DateUtil) {
         this.reportModel.reportType = "early";
         this.reportModel.pageSize = this.rowsOnPage;
         this.reportModel.user = this.ss.getUserName();
@@ -52,11 +58,24 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.mService.setTitle("Reports");
 
+        if(this.dataService.getReportStartDate() && this.dataService.getReportEndDate()) {
+            this.selectedStartDate = this.dataService.getReportStartDate();
+            this.selectedEndDate = this.dataService.getReportEndDate();
+        }
+
         this.fetchDailyReport();
         this.callLocationService();
     }
 
     fetchDailyReport() {
+        this.reportModel.startDate = this.selectedStartDate.getTime();
+        this.reportModel.endDate = this.selectedEndDate.getTime();
+
+        //if report type is absent report
+        if(this.currentTab == 2) {
+            this.reportModel.endDate = this.selectedStartDate.getTime();
+        }
+
         this.mService.setDisplay(true);
         this.reportService.fetchDailyReport(this.reportModel)
             .finally(() => {
@@ -76,10 +95,12 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
                         }
 
                     } else {
-                        // this.ns.showError(result.description);
+                        this.data = [];
+                        this.ns.showError(result.description);
                     }
                 },
                 error => {
+                    this.data = [];
                     this.ns.showError("An Error Occurred.");
                 }
             )
@@ -133,6 +154,9 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
             case 2: {
                 this.reportModel.reportType = "absent";
                 this.currentTab = 2;
+
+                this.reportPeriod = "DATE_RANGE";
+
                 break;
             }
             case 3: {
@@ -189,15 +213,43 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
         this.fetchDailyReport();
     }
 
-  viewDetails(user: any) {
-      let obj = {};
+    viewDetails(user: any) {
+        let obj = {};
 
-      obj['email'] = user.email;
-      obj['locId'] = this.reportModel.locId;
+        obj['email'] = user.email;
+        obj['locId'] = this.reportModel.locId;
+
+        this.dataService.setReportStartDate(this.selectedStartDate);
+        this.dataService.setReportEndDate(this.selectedEndDate);
 
         this.dataService.setUserObj(obj);
         this.router.navigate(["/portal/report-dashboard/employee"]);
-  }
+    }
+
+    filterReport() {
+        this.selectedStartDate = new Date();
+        this.selectedEndDate = new Date();
+
+        switch(this.reportPeriod) {
+            case "DATE_RANGE": {
+                break;
+            }
+            case "WEEKLY": {
+                this.selectedStartDate = this.dateUtil.getFirstDayOfCurrentWeek(new Date());
+                this.selectedEndDate = this.dateUtil.getLastDayOfCurrentWeek(new Date());
+
+                this.fetchDailyReport();
+                break;
+            }
+            case "MONTHLY": {
+                this.selectedStartDate = this.dateUtil.getFirstDayOfCurrentMonth(new Date());
+                this.selectedEndDate = this.dateUtil.getLastDayOfCurrentMonth(new Date());
+
+                this.fetchDailyReport();
+                break;
+            }
+        }
+    }
 
     /**
      * Events that should happen when this component is destroyed

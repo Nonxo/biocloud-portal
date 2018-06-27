@@ -329,7 +329,7 @@ export class SetupComponent implements OnInit {
                             this.locRequest = new LocationRequest();
                             this.inviteEmails = [];
                             this.showMap = false;
-                            this.resumptionTime = void 0;
+                            this.clearResumptionTime();
                             this.countryCode = "";
                         } else {
                             this.router.navigate(['/portal']);

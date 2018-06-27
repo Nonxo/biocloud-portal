@@ -27,6 +27,8 @@ export class ReportService {
             .set("pageSize", String(model.pageSize))
             .set("pageNo", String(model.pageNo))
             .set("title", model.title)
+            .set("startDate", model.startDate.toString())
+            .set("endDate", model.endDate.toString())
             .set("user", model.user);
 
         return this.httpClient
@@ -44,24 +46,27 @@ export class ReportService {
             )
     }
 
-    fetchUserDailyReport(orgId: string, email: string, locId: string) {
-      const params = new HttpParams()
-        .set("orgId", orgId)
-        .set("email", email)
-        .set("locId", locId)
+    fetchUserDailyReport(orgId: string, email: string, locId: string, startDate: number, endDate: number) {
+        const params = new HttpParams()
+            .set("orgId", orgId)
+            .set("email", email)
+            .set("locId", locId)
+            .set("startDate", startDate.toString())
+            .set("endDate", endDate.toString());
 
-      return this.httpClient
-        .get(Endpoints.FETCH_USER_DAILY_REPORT + params, {
-          headers: new HttpHeaders()
-            .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
-        })
-        .pipe(
-          timeout(50000),
-          map(response => {
-            let res:any = response;
-            this.as.checkUnauthorized(res.description);
-            return res
-          })
-        )
+        return this.httpClient
+            .get(Endpoints.FETCH_USER_DAILY_REPORT + params, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
     }
 }
+
