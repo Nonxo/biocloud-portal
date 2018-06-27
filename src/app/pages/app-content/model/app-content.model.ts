@@ -38,19 +38,19 @@ export class AssignUserRequest {
 }
 
 export class Invitation {
-  firstName:string;
-  lastName:string;
-  email:string;
-  phoneNumber:number;
-  created:number;
-  locId:string;
-  verifiableImg:string;
-  orgName:string;
+    firstName:string;
+    lastName:string;
+    email:string;
+    phoneNumber:number;
+    created:number;
+    locId:string;
+    verifiableImg:string;
+    orgName:string;
 }
 
 export class ApproveRequest {
-  status: string;
-  locIds: string[];
+    status: string;
+    locIds: string[];
 
     constructor(status?:string) {
         this.status = status || null;
@@ -70,21 +70,22 @@ export class ActivateDeactivateUserRequest {
 }
 
 export class UpdateProfile {
-  fName:string;
-  lName:string;
-  email:string;
-  img:string;
-  phone:number;
-  address:string;
-  companyName:string;
-  customerType: string;
-  bio:string;
-  userId:string;
-  verifiableImg:string;
+    fName:string;
+    lName:string;
+    email:string;
+    img:string;
+    phoneCode:string;
+    phone:number;
+    address:string;
+    companyName:string;
+    customerType: string;
+    bio:string;
+    userId:string;
+    verifiableImg:string;
 
 
-  promoNotif: boolean;
-  appNotif: boolean;
+    promoNotif: boolean;
+    appNotif: boolean;
 
 }
 
@@ -107,6 +108,8 @@ export class ReportModel {
     pageNo:number;
     title:string;
     user:string;
+    startDate:number;
+    endDate:number;
 
     constructor() {
         this.orgId = "";
@@ -118,6 +121,8 @@ export class ReportModel {
         this.pageNo = 1;
         this.title = "";
         this.user = "";
+        this.startDate = null;
+        this.endDate = null;
     }
 }
 
@@ -167,6 +172,40 @@ export class UserPaginationPojo {
         this.pageNo = 1;
     }
 }
+
+export class SubscriptionPlan {
+
+    name:string;
+    planId:string;
+    description:string;
+    pricePerMonth:number;
+    pricePerAnnum:number;
+    priceperDay:number;
+    discount:number;
+    enabled:boolean;
+    maxAttendeeThreshold:number;
+    autoRenew:boolean;
+
+}
+
+export class VerifyPaymentRequest {
+    billingCycle:string;
+    txRef:string;
+    autoRenewal:boolean;
+    orgId:string;
+    conversionRate:number;
+    transactionMode:string;
+
+    constructor(txRef:string, billingCycle:string, autoRenewal:boolean, orgId:string, conversionRate:number, transactionMode:string) {
+        this.billingCycle = billingCycle;
+        this.txRef = txRef;
+        this.autoRenewal = autoRenewal;
+        this.orgId = orgId;
+        this.conversionRate = conversionRate;
+        this.transactionMode = transactionMode;
+    }
+}
+
 
 
 

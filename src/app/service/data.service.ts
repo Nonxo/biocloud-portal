@@ -10,6 +10,10 @@ export class DataService {
     private userObj: any;
     private userPhoto = new BehaviorSubject<any>({image: null});
     private username = new BehaviorSubject<any>({username: null});
+    private subHistory:any;
+    private reportDate: Date;
+    private reportStartDate: Date;
+    private reportEndDate: Date;
 
     getLogoutMessage(): any {
         return this._logoutMessage;
@@ -58,5 +62,38 @@ export class DataService {
     getUsername() {
         return this.username;
     }
+
+    getSubHistory() {
+        return this.subHistory;
+    }
+
+    setSubHistory(subHistory:any) {
+        this.subHistory = subHistory;
+    }
+
+    getReportDate() {
+        return this.reportDate;
+    }
+
+    setReportDate(date: Date) {
+        this.reportDate = date;
+    }
+
+    getReportStartDate() {
+        return this.reportStartDate;
+    }
+
+    setReportStartDate(date: Date) {
+        this.reportStartDate = date;
+    }
+
+    getReportEndDate() {
+        return this.reportEndDate;
+    }
+
+    setReportEndDate(date: Date) {
+        this.reportEndDate = date;
+    }
+
 
 }

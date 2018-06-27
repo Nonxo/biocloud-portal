@@ -4,9 +4,9 @@
 import {Injectable} from "@angular/core";
 
 
-@Injectable() 
+@Injectable()
 export class DateUtil {
-    
+
     public getTime(timeString:string) {
         return new Date("Thursday, January 1, 1972 " + this.formatTime(timeString)).getTime();
     }
@@ -33,5 +33,34 @@ export class DateUtil {
             i = "0" + i;
         }
         return i;
+    }
+
+    /**
+     * monday
+     * @param d
+     * @returns {Date}
+     */
+    public getFirstDayOfCurrentWeek(d)
+    {
+        let day = d.getDay();
+        return new Date(d.getFullYear(), d.getMonth(), d.getDate() + (day == 0?-6:1)-day );
+    }
+
+    /**
+     * sunday
+     * @param d
+     * @returns {Date}
+     */
+    public getLastDayOfCurrentWeek(d)
+    {
+        let day = d.getDay();
+        return new Date(d.getFullYear(), d.getMonth(), d.getDate() + (day == 0?0:7)-day );
+    }
+
+    public getFirstDayOfCurrentMonth(d){
+        return new Date(d.getFullYear(), d.getMonth(), 1);
+    }
+    public getLastDayOfCurrentMonth(d){
+        return new Date(d.getFullYear(), d.getMonth()+1, 0);
     }
 }
