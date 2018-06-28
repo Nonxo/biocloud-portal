@@ -63,4 +63,10 @@ export class DateUtil {
     public getLastDayOfCurrentMonth(d){
         return new Date(d.getFullYear(), d.getMonth()+1, 0);
     }
+
+    public getDaysLeft(startTimestamp: number, endTimestamp: number): number {
+        let timeDiff = Math.abs(endTimestamp - startTimestamp);
+
+        return Math.ceil(timeDiff / (1000 * 3600 * 24));
+    }
 }

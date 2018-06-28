@@ -75,14 +75,14 @@
         <div class="text-center">
             <img src="assets/img/caution.png" alt="" class="img-fluid" style="max-width: 78px;">
         </div>
-        <p class="text-center pt-2">You are about to edit your card details a fee might be deducted from your card to
+        <p class="text-center pt-2">You are about to edit your card details a fee of {{getPrice() | currency:selectedCurrency:'symbol-narrow':'1.0'}} will be deducted from your card to
             verify the card.</p>
 
         <div class="text-center">
             <mat-form-field>
-                <mat-select placeholder="Currency type">
+                <mat-select placeholder="Select Currency" name="selectedCurrency" [(ngModel)]="selectedCurrency" (change)="onChange()">
                     <mat-option select value="NGN">NGN</mat-option>
-                    <mat-option select>USD</mat-option>
+                    <mat-option select *ngFor="let e of exchangeRates" value="{{e.target}}">{{e.target}}</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
@@ -90,10 +90,11 @@
 
         <div class="col-md-12 text-md-center text-center pt-3 pb-4">
 
-            <button mat-button class="primary-outline" type="button">Cancel</button>
+            <button mat-button class="primary-outline" type="button" (click)="modalRef.hide()">Cancel</button>
 
-            <button mat-raised-button color="primary" type="submit" class="primary-outline">
+            <button mat-raised-button color="primary" type="submit" class="primary-outline" (click)="generateTransactionRef()">
                 Continue
+                <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
             </button>
 
         </div>
