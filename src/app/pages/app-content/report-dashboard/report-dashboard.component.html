@@ -6,7 +6,7 @@
 
                 <!--<div class="col-md-12"><p>Report for {{selectedDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>-->
 
-                <div class="col-lg-8 col-12  d-lg-flex align-items-center">
+                <div class="col-lg d-lg-flex align-items-center">
                     <div class="col">
                         <mat-form-field>
                             <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
@@ -17,7 +17,7 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="col">
+                    <div class="col-lg">
                         <mat-form-field>
                             <mat-select name="reportPeriod" [(ngModel)]="reportPeriod" (change)="filterReport()">
                                 <mat-option value="DATE_RANGE">DATE RANGE</mat-option>
@@ -27,37 +27,33 @@
                         </mat-form-field>
                     </div>
 
-                    <ng-container *ngIf="reportPeriod == 'DATE_RANGE'">
-                        <div class="col d-inline-flex">
+                    <ng-container>
+                        <div class="col-lg d-inline-flex">
                             <mat-form-field>
                                 <input matInput [matDatepicker]="earlyStart" placeholder="Start date" [max]="dateObj"
-                                       name="date" [(ngModel)]="selectedStartDate" (dateChange)="fetchDailyReport()"
+                                       name="date" [(ngModel)]="selectedStartDate" (dateChange)="onDatePickerToggle()"
                                        disabled>
-                                <!--<mat-datepicker-toggle matSuffix [for]="earlyStart">-->
-                                    <!--<mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>-->
-                                <!--</mat-datepicker-toggle>-->
+                                <mat-datepicker-toggle matSuffix [for]="earlyStart" *ngIf="reportPeriod == 'DATE_RANGE'"></mat-datepicker-toggle>
                                 <mat-datepicker #earlyStart disabled="false"></mat-datepicker>
                             </mat-form-field>
-                            <mat-icon class="cursor date-style" (click)="earlyStart.open()">date_range</mat-icon>
+                            <!--<mat-icon class="cursor date-style" (click)="earlyStart.open()">date_range</mat-icon>-->
                         </div>
 
-                        <div class="col d-inline-flex">
+                        <div class="col-lg d-inline-flex">
                             <mat-form-field>
                                 <input matInput [matDatepicker]="earlyEnd" placeholder="End date" [max]="dateObj"
-                                       name="date" [(ngModel)]="selectedEndDate" (dateChange)="fetchDailyReport()"
+                                       name="date" [(ngModel)]="selectedEndDate" (dateChange)="onDatePickerToggle()"
                                        disabled>
-                                <!--<mat-datepicker-toggle matSuffix [for]="earlyEnd">-->
-                                <!--<mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>-->
-                            <!--</mat-datepicker-toggle>-->
+                                <mat-datepicker-toggle matSuffix [for]="earlyEnd" *ngIf="reportPeriod == 'DATE_RANGE'"></mat-datepicker-toggle>
                                 <mat-datepicker #earlyEnd disabled="false"></mat-datepicker>
                             </mat-form-field>
-                            <mat-icon class="cursor date-style" (click)="earlyEnd.open()">date_range</mat-icon>
+                            <!--<mat-icon class="cursor date-style" (click)="earlyEnd.open()">date_range</mat-icon>-->
                         </div>
                     </ng-container>
 
                 </div>
 
-                <div class="col-lg col-md-12 text-md-center text-left pt-lg-3 pl-lg-0 pl-4 pb-lg-0 pb-4">
+                <div class="col-lg col-md-12  text-left pt-lg-2 pl-lg-4 pl-4 pb-lg-0 pb-4 mb-lg-3">
                     <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline"
                             *ngIf="data.length > 0">Download<i class="material-icons">arrow_drop_down</i></button>
                     <mat-menu #downloadmenu="matMenu">
@@ -144,8 +140,8 @@
 
                 <!--<div class="col-md-12"><p>Report for {{selectedDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>-->
 
-                <div class="col-lg-8 col-12  d-lg-flex align-items-center">
-                    <div class="col">
+                <div class="col-lg d-lg-flex align-items-center">
+                    <div class="col-lg">
                         <mat-form-field>
                             <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
                                 <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</mat-option>
@@ -155,7 +151,7 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="col">
+                    <div class="col-lg">
                         <mat-form-field>
                             <mat-select name="reportPeriod" [(ngModel)]="reportPeriod" (change)="filterReport()">
                                 <mat-option value="DATE_RANGE">DATE RANGE</mat-option>
@@ -165,30 +161,33 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="col d-inline-flex">
-                        <mat-form-field>
-                            <input matInput [matDatepicker]="lateStart" placeholder="Start date" [max]="dateObj"
-                                   name="date" [(ngModel)]="selectedStartDate" (dateChange)="fetchDailyReport()"
-                                   disabled>
-                            <!--<mat-datepicker-toggle matSuffix [for]="lateStart"></mat-datepicker-toggle>-->
-                            <mat-datepicker #lateStart disabled="false"></mat-datepicker>
-                        </mat-form-field>
-                        <mat-icon class="cursor date-style" (click)="lateStart.open()">date_range</mat-icon>
-                    </div>
+                    <ng-container>
+                        <div class="col-lg d-inline-flex">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="lateStart" placeholder="Start date" [max]="dateObj"
+                                       name="ls" [(ngModel)]="selectedStartDate" (dateChange)="onDatePickerToggle()"
+                                       disabled>
+                                <mat-datepicker-toggle matSuffix [for]="lateStart" *ngIf="reportPeriod == 'DATE_RANGE'"></mat-datepicker-toggle>
+                                <mat-datepicker #lateStart disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                            <!--<mat-icon class="cursor date-style" (click)="lateStart.open()">date_range</mat-icon>-->
+                        </div>
 
-                    <div class="col d-inline-flex">
-                        <mat-form-field>
-                            <input matInput [matDatepicker]="lateEnd" placeholder="End date" [max]="dateObj" name="date"
-                                   [(ngModel)]="selectedEndDate" (dateChange)="fetchDailyReport()" disabled>
-                            <!--<mat-datepicker-toggle matSuffix [for]="lateEnd"></mat-datepicker-toggle>-->
-                            <mat-datepicker #lateEnd disabled="false"></mat-datepicker>
-                        </mat-form-field>
-                        <mat-icon class="cursor date-style" (click)="lateEnd.open()">date_range</mat-icon>
-                    </div>
+                        <div class="col-lg d-inline-flex">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="lateEnd" placeholder="End date" [max]="dateObj"
+                                       name="le"
+                                       [(ngModel)]="selectedEndDate" (dateChange)="onDatePickerToggle()" disabled>
+                                <mat-datepicker-toggle matSuffix [for]="lateEnd" *ngIf="reportPeriod == 'DATE_RANGE'"></mat-datepicker-toggle>
+                                <mat-datepicker #lateEnd disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                            <!--<mat-icon class="cursor date-style" (click)="lateEnd.open()">date_range</mat-icon>-->
+                        </div>
+                    </ng-container>
 
                 </div>
 
-                <div class="col-lg-4 col-12 text-md-center text-left pt-lg-3">
+                <div class="col-lg col-md-12 text-md-center text-left pt-lg-2 pl-lg-4 pl-4 pb-lg-0 pb-4 mb-lg-3">
                     <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline"
                             *ngIf="data.length > 0">Download<i class="material-icons">arrow_drop_down</i></button>
                     <mat-menu #downloadmenu="matMenu">
@@ -276,8 +275,8 @@
 
                 <!--<div class="col-md-12"><p>Report for {{selectedDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>-->
 
-                <div class="col-lg-8 col-12  d-lg-flex align-items-center">
-                    <div class="col">
+                <div class="col-lg d-lg-flex align-items-center">
+                    <div class="col-lg">
                         <mat-form-field>
                             <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
                                 <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</mat-option>
@@ -288,37 +287,38 @@
                     </div>
 
                     <!--<div class="col">-->
-                        <!--<mat-form-field>-->
-                            <!--<mat-select name="reportPeriod" [(ngModel)]="reportPeriod" (change)="filterReport()">-->
-                                <!--<mat-option value="DATE_RANGE">DATE RANGE</mat-option>-->
-                                <!--&lt;!&ndash;<mat-option value="WEEKLY">WEEKLY</mat-option>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<mat-option value="MONTHLY">MONTHLY</mat-option>&ndash;&gt;-->
-                            <!--</mat-select>-->
-                        <!--</mat-form-field>-->
+                    <!--<mat-form-field>-->
+                    <!--<mat-select name="reportPeriod" [(ngModel)]="reportPeriod" (change)="filterReport()">-->
+                    <!--<mat-option value="DATE_RANGE">DATE RANGE</mat-option>-->
+                    <!--&lt;!&ndash;<mat-option value="WEEKLY">WEEKLY</mat-option>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<mat-option value="MONTHLY">MONTHLY</mat-option>&ndash;&gt;-->
+                    <!--</mat-select>-->
+                    <!--</mat-form-field>-->
                     <!--</div>-->
 
-                    <div class="col">
+                    <div class="col-lg d-inline-flex">
                         <mat-form-field>
                             <input matInput [matDatepicker]="absentStart" placeholder="Date" [max]="dateObj"
-                                   name="date" [(ngModel)]="selectedStartDate" (dateChange)="fetchDailyReport()"
+                                   name="date" [(ngModel)]="absentDate" (dateChange)="onDatePickerToggle()"
                                    disabled>
                             <mat-datepicker-toggle matSuffix [for]="absentStart"></mat-datepicker-toggle>
                             <mat-datepicker #absentStart disabled="false"></mat-datepicker>
+                            <!--<mat-icon class="cursor date-style" (click)="absentStart.open()">date_range</mat-icon>-->
                         </mat-form-field>
                     </div>
 
                     <!--<div class="col">-->
-                        <!--<mat-form-field>-->
-                            <!--<input matInput [matDatepicker]="absentEnd" placeholder="End date" [max]="dateObj"-->
-                                   <!--name="date" [(ngModel)]="selectedEndDate" (dateChange)="fetchDailyReport()" disabled>-->
-                            <!--<mat-datepicker-toggle matSuffix [for]="absentEnd"></mat-datepicker-toggle>-->
-                            <!--<mat-datepicker #absentEnd disabled="false"></mat-datepicker>-->
-                        <!--</mat-form-field>-->
+                    <!--<mat-form-field>-->
+                    <!--<input matInput [matDatepicker]="absentEnd" placeholder="End date" [max]="dateObj"-->
+                    <!--name="date" [(ngModel)]="selectedEndDate" (dateChange)="fetchDailyReport()" disabled>-->
+                    <!--<mat-datepicker-toggle matSuffix [for]="absentEnd"></mat-datepicker-toggle>-->
+                    <!--<mat-datepicker #absentEnd disabled="false"></mat-datepicker>-->
+                    <!--</mat-form-field>-->
                     <!--</div>-->
 
                 </div>
 
-                <div class="col-lg col-md-12 text-md-center text-left pt-lg-3 pl-lg-0 pl-4 pb-lg-0 pb-4">
+                <div class="col-lg text-left pt-lg-2 pl-lg-4 pl-4 pb-lg-0 pb-4 mb-lg-3">
                     <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline"
                             *ngIf="data.length > 0">Download <i class="material-icons">arrow_drop_down</i></button>
                     <mat-menu #downloadmenu="matMenu">
@@ -394,8 +394,8 @@
 
                 <!--<div class="col-md-12"><p>Report for {{selectedDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>-->
 
-                <div class="col-lg-8 col-12  d-lg-flex align-items-center">
-                    <div class="col">
+                <div class="col-lg d-lg-flex align-items-center">
+                    <div class="col-lg">
                         <mat-form-field>
                             <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
                                 <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</mat-option>
@@ -405,7 +405,7 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="col">
+                    <div class="col-lg">
                         <mat-form-field>
                             <mat-select name="reportPeriod" [(ngModel)]="reportPeriod" (change)="filterReport()">
                                 <mat-option value="DATE_RANGE">DATE RANGE</mat-option>
@@ -415,30 +415,33 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="col d-inline-flex">
-                        <mat-form-field>
-                            <input matInput [matDatepicker]="wrongLocStart" placeholder="Start date" [max]="dateObj"
-                                   name="date" [(ngModel)]="selectedStartDate" (dateChange)="fetchDailyReport()"
-                                   disabled>
-                            <!--<mat-datepicker-toggle matSuffix [for]="wrongLocStart"></mat-datepicker-toggle>-->
-                            <mat-datepicker #wrongLocStart disabled="false"></mat-datepicker>
-                        </mat-form-field>
-                        <mat-icon class="cursor date-style" (click)="wrongLocStart.open()">date_range</mat-icon>
-                    </div>
+                    <ng-container>
+                        <div class="col-lg d-inline-flex">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="wrongLocStart" placeholder="Start date" [max]="dateObj"
+                                       name="date" [(ngModel)]="selectedStartDate" (dateChange)="onDatePickerToggle()"
+                                       disabled>
+                                <mat-datepicker-toggle matSuffix [for]="wrongLocStart" *ngIf="reportPeriod == 'DATE_RANGE'"></mat-datepicker-toggle>
+                                <mat-datepicker #wrongLocStart disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                            <!--<mat-icon class="cursor date-style" (click)="wrongLocStart.open()">date_range</mat-icon>-->
+                        </div>
 
-                    <div class="col d-inline-flex">
-                        <mat-form-field>
-                            <input matInput [matDatepicker]="wrongLocEnd" placeholder="End date" [max]="dateObj"
-                                   name="date" [(ngModel)]="selectedEndDate" (dateChange)="fetchDailyReport()" disabled>
-                            <!--<mat-datepicker-toggle matSuffix [for]="wrongLocEnd"></mat-datepicker-toggle>-->
-                            <mat-datepicker #wrongLocEnd disabled="false"></mat-datepicker>
-                        </mat-form-field>
-                        <mat-icon class="cursor date-style" (click)="wrongLocEnd.open()">date_range</mat-icon>
-                    </div>
+                        <div class="col-lg d-inline-flex">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="wrongLocEnd" placeholder="End date" [max]="dateObj"
+                                       name="date" [(ngModel)]="selectedEndDate" (dateChange)="onDatePickerToggle()"
+                                       disabled>
+                                <mat-datepicker-toggle matSuffix [for]="wrongLocEnd" *ngIf="reportPeriod == 'DATE_RANGE'"></mat-datepicker-toggle>
+                                <mat-datepicker #wrongLocEnd disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                            <!--<mat-icon class="cursor date-style" (click)="wrongLocEnd.open()">date_range</mat-icon>-->
+                        </div>
+                    </ng-container>
 
                 </div>
 
-                <div class="col-lg col-md-12 text-md-center text-left pt-lg-3 pl-lg-0 pl-4 pb-lg-0 pb-4">
+                <div class="col-lg text-left pt-lg-2 pl-lg-4 pl-4 pb-lg-0 pb-4 mb-lg-3">
                     <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline"
                             *ngIf="data.length > 0">Download <i class="material-icons">arrow_drop_down</i></button>
                     <mat-menu #downloadmenu="matMenu">
@@ -472,6 +475,7 @@
                         <th scope="col">Expected Location</th>
                         <th scope="col">Mode of Clock-In</th>
                         <th scope="col">Clock-In Time</th>
+                        <th scope="col">Date</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -482,6 +486,7 @@
                         <td>{{d.location}}</td>
                         <td>{{d.mode}}</td>
                         <td>{{d.clock_in_time}}</td>
+                        <td>{{d.date}}</td>
                     </tr>
                 </table>
             </div>

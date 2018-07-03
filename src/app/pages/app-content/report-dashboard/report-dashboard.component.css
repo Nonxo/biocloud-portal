@@ -44,3 +44,21 @@
         height: 38px;
     }
 }
+
+@media (min-width: 992px) {
+    .col-lg {
+        -ms-flex-preferred-size: 0;
+        flex-basis: 0;
+        -ms-flex-positive: 0 !important;
+        flex-grow: 0 !important;
+        max-width: 100%;
+    }
+}
+
+@media (min-width: 992px) {
+    .col-lg-4 {
+        -ms-flex: 0 0 39.333333% !important;
+        flex: 0 0 39.333333% !important;
+        max-width: 39.333333% !important;
+    }
+}
