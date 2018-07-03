@@ -59,7 +59,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         if (this.ss.getSelectedOrg()) {
             this.orgId = this.ss.getSelectedOrg().orgId;
             this.callLocationService();
-            this.fetchClockInsHistory();
             this.fetchTotalEmployeeCount();
 
         }
@@ -70,7 +69,6 @@ export class HomeComponent implements OnInit, OnDestroy {
                     if(this.orgId != result) {
                         this.orgId = result;
                         this.callLocationService();
-                        this.fetchClockInsHistory();
                         this.fetchTotalEmployeeCount();
                     }
 
@@ -99,6 +97,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                         this.locations = result.locations ? result.locations : [];
                         this.mService.setDisplay(false);
                         this.fetchTotalClockIns();
+                        this.fetchClockInsHistory();
                     } else {
                         this.ns.showError(result.description);
                         this.locations = [];
@@ -243,7 +242,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     fetchClockInsHistory() {
-      this.contentService.clockInsHistory(this.orgId, this.pageSize, this.pageNo)
+      this.contentService.clockInsHistory(this.orgId, this.pageSize, this.pageNo, this.locations)
         .subscribe(
           result => {
             if (result.code == 0) {

@@ -63,4 +63,16 @@ export class DateUtil {
     public getLastDayOfCurrentMonth(d){
         return new Date(d.getFullYear(), d.getMonth()+1, 0);
     }
+
+    public getStartOfDay(date: Date): number {
+        date.setHours(0,0,0,0);
+
+        return date.getTime();
+    }
+
+    public getEndOfDay(date: Date): number {
+        date.setHours(23,59,59,999);
+
+        return date.getTime();
+    }
 }
