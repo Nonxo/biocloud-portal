@@ -25,6 +25,8 @@ import {ReportService} from "./services/report.service";
 import {BsModalRef, PaginationModule} from "ngx-bootstrap";
 import { EmployeeOverviewComponent } from './employee-overview/employee-overview.component';
 import {GaugeModule} from "angular-gauge";
+import {SubscriptionService} from "./services/subscription.service";
+import { SubscriptionCardDetailsComponent } from './subscribe/subscription-card-details/subscription-card-details.component';
 import { EmployeesReportComponent } from './report-dashboard/employees-report/employees-report.component';
 
 @NgModule({
@@ -50,9 +52,10 @@ import { EmployeesReportComponent } from './report-dashboard/employees-report/em
         ManageAdminsComponent,
         SettingComponent,
         EmployeeOverviewComponent,
+        SubscriptionCardDetailsComponent,
         EmployeesReportComponent
     ],
-    providers: [MessageService, AppConfigService, GeoMapService, SearchService, ReportService, BsModalRef],
+    providers: [MessageService, AppConfigService, GeoMapService, SearchService, ReportService, SubscriptionService, BsModalRef],
     entryComponents: [SetupComponent, AddAttendeesComponent]
 })
 export class AppContentModule { }

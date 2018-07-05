@@ -1,6 +1,6 @@
 <mat-sidenav-container autosize>
 
-    <mat-sidenav #sidenav mode="{{sideNavMode}}" [opened]="opener" [ngStyle]="{ 'width.em': sidenavWidth }" (mouseenter)="toggleNavFromMouseEvent(true)" (mouseleave)="toggleNavFromMouseEvent(false)">
+    <mat-sidenav #sidenav mode="{{sideNavMode}}" [opened]="opener" [ngStyle]="{ 'width.em': sidenavWidth }">
         <div class="nav-header d-md-block d-none">
             <div class="py-4 pb-0 px-3">
                 <img src="assets/img/logo-img.png" class="img-fluid logo-icon" *ngIf="sidenavWidth >= 15" style="max-height:50px;" />
@@ -143,6 +143,10 @@
         <span>{{title}}</span>
         <span class="example-spacer"></span>
 
+        <!--<div class="trial-div d-xl-block d-none">-->
+            <!--<p class="small trial-p">Trial Expires in: 2 days</p>-->
+        <!--</div>-->
+
         <!--<button mat-icon-button class="pr-5" matTooltip="Switch to bioregistra">-->
         <!--<mat-icon class="example-icon">apps</mat-icon>-->
         <!--</button>-->
@@ -196,7 +200,7 @@
         </div>
       </div>
       <mat-divider></mat-divider> -->
-          <small class="cursor" *ngIf="notifications.length == 0">
+            <small class="cursor" *ngIf="notifications.length == 0">
             <a class="float-right p-3 text-danger">No New Notifications..</a>
           </small>
             <small class="" *ngIf="notifications.length > 0">

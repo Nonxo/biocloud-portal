@@ -1,0 +1,132 @@
+<div id="receipt" style="width: 100%; background: #f4f4f4; text-align: left;">
+    <div style="display:none;font-size:1px;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;mso-hide:all;font-family: sans-serif;">(Optional) This text will appear in the inbox preview, but not the email body.</div>
+    <div style="max-width: 600px; margin: auto; background: #fff;" class="email-container">
+
+        <table role="presentation" aria-hidden="true" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px;">
+            <tr>
+                <td bgcolor="#ffffff"></td>
+            </tr>
+        </table>
+
+        <table role="presentation" aria-hidden="true" cellspacing="0" cellpadding="8" border="0" align="center" width="100%" style="max-width: 600px; margin-top: -30px !important;">
+            <tbody bgcolor="#ffffff">
+            <tr>
+                <th></th>
+                <th style="padding-right:  0;width: 200px;">
+                    <div style="background: #633584">
+                        <h2 style="color: #fff;text-align: center;padding-top: 40px;padding-bottom: 40px;">INVOICE</h2>
+                    </div>
+                    <p>Invoice no: <span>{{history?.reference}}</span></p>
+                </th>
+            </tr>
+            </tbody>
+        </table>
+
+        <table role="presentation" aria-hidden="true" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px;">
+            <tr style="background: transparent">
+                <td bgcolor="#ffffff">
+                    <div class="row">
+                        <div class="logo-div" style="padding: 10px;">
+                            <img src="https://seamfix.com/wp-content/uploads/2018/04/iClocker2-e1523144398554.png" width="135px" style=" padding-left: 16px; padding-top: 5px;">
+                            <hr style="margin-left: 20px;margin-right: 20px;border-bottom: 1px solid #d5d5d5; border-top: none;">
+                            <h2 style="color: #373435; margin-left: 20px">Bill To</h2>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <table role="presentation" aria-hidden="true" cellspacing="0" cellpadding="8" border="0" align="center" width="100%" style="max-width: 600px; margin-top: -30px !important;">
+            <tbody bgcolor="#ffffff">
+            <tr>
+                <th>
+                    <div style="border:1px solid #d5d5d570; margin-top: 22px;">
+                        <h3 style="font-weight: 500;padding-left: 10px;">{{companyName}}</h3>
+                    </div>
+                </th>
+                <th>
+                    <h3 style="margin-bottom: 2px; text-align: center; font-weight: bold">Date</h3>
+                    <div style="border:1px solid #d5d5d570">
+                        <h4 style="text-align: center; font-weight: 500;">{{date | date:'mediumDate'}}</h4>
+                    </div>
+                </th>
+                <th>
+                    <h3 style="margin-bottom: 2px; text-align: center; font-weight: bold">Terms</h3>
+                    <div style="border:1px solid #d5d5d570">
+                        <h4 style="text-align: center; font-weight: 500;">Paid</h4>
+                    </div>
+                </th>
+            </tr>
+            </tbody>
+        </table>
+
+        <table id="ret" role="presentation" aria-hidden="true" cellspacing="0" cellpadding="8" border="0" align="center" width="100%" style="max-width: 600px; border: 1px solid #d5d5d5; margin-top: 25px !IMPORTANT;">
+            <tbody bgcolor="#ffffff">
+            <tr style="background: #D2D3D5">
+                <th>QTY</th>
+                <th>Description</th>
+                <th>Amount</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>{{history?.billingCycle == 'MONTHLY'? 'Monthly Subscription':'Annual Subscription'}}, {{history?.planName}} Plan</td>
+                <td>{{history?.amountPaid | currency:history?.currency:'symbol-narrow':'1.0'}}</td>
+            </tr>
+            <tr style="border-top: 1px solid #d5d5d5">
+                <td></td>
+                <td style="text-align: right;"><b>Total</b></td>
+                <td>{{history?.amountPaid | currency:history?.currency:'symbol-narrow':'1.0'}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table role="presentation" aria-hidden="true" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px;">
+
+            <!-- <tr style=" ">
+                <td style="background: url( 'https://seamfix.com/wp-content/uploads/2018/03/Email-Image.jpg') ">
+                    <div class="row ">
+                        <div class="heading-border " align="center " style="height: 130px;font-family: 'montserrat', sans-serif; color: #ffffff; font-size: 30px; padding-top: 80px; line-height: 20px "></div>
+                    </div>
+                </td>
+            </tr> -->
+            <tr>
+                <td bgcolor="#ffffff ">
+                    <table role="presentation " aria-hidden="true " cellspacing="0 " cellpadding="0 " border="0 " width="100% ">
+                        <tr>
+                            <td style="padding: 40px;font-family: 'Montserrat', sans-serif;font-size: 1rem;line-height: 1.5rem;text-align:  center;">
+                                <p style="color: #373435;">Thank you for subscribing<br><a href="support@iclocker.com">support@iclocker.com</a><br>09027816732</p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <!-- <tr>
+                <td bgcolor="#5F3484 ">
+                    <table role="presentation " aria-hidden="true " cellspacing="0 " cellpadding="0 " border="0 " width="100% ">
+                        <tr>
+                            <td style="padding: 25px; padding-top: 10px; padding-bottom: 20px; padding-right: 10px; font-family: 'Questrial', sans-serif; font-size: 0.7rem; line-height: 1.3rem; color: #fff; ">
+                                <h3 style="font-weight: normal; ">2018 SelfieClock</h3>
+                                <span>For more info visit our &nbsp; <a href="" style="color: #fff">support center</a> &nbsp;or</span>
+                                <br>
+                                <span>Email us at &nbsp;<a href="" style="color: #fff">support@selfieclock.seamfix.com</a></span>
+                            </td>
+                            <td style="padding: 40px; padding-top:0; padding-bottom: 0px; text-align: right; font-family: 'Questrial', sans-serif; font-size: 0.7rem; line-height: 1.3rem; color: #fff; ">
+                                <a href="https://www.facebook.com/selfieclock " style="margin-right: 7px; " target="_blank ">
+                                    <img src="https://seamfix.com/wp-content/uploads/2018/03/face.png " alt="facebook " width="20px " height="20px " />
+                                </a>
+                                <a href="https://www.instagram.com/selfieclock/ " style="margin-right: 7px; " target="_blank ">
+                                    <img src="https://seamfix.com/wp-content/uploads/2018/03/ig.png " alt="instagram " width="20px " height="20px " />
+                                </a>
+                                <a href="https://twitter.com/selfieclock/ ">
+                                    <img src="https://seamfix.com/wp-content/uploads/2018/03/twit.png " target="_blank " alt="twitter " width="20px " height="20px " />
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr> -->
+        </table>
+
+    </div>
+</div>

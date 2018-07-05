@@ -18,6 +18,7 @@ import {ProfileComponent} from "./profile/profile.component";
 import {ManageAdminsComponent} from "./manage-admins/manage-admins.component";
 import { SettingComponent } from './setting/setting.component';
 import {EmployeeOverviewComponent} from "./employee-overview/employee-overview.component";
+import { SubscriptionCardDetailsComponent } from './subscribe/subscription-card-details/subscription-card-details.component';
 import {EmployeesReportComponent} from "./report-dashboard/employees-report/employees-report.component";
 
 const routes: Routes = [
@@ -81,6 +82,11 @@ const routes: Routes = [
         {
             path: 'overview',
             component: EmployeeOverviewComponent
+        },
+
+        {
+          path: 'card-details',
+          component: SubscriptionCardDetailsComponent
         }
 
     ]

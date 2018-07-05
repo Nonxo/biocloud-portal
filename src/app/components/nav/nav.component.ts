@@ -44,8 +44,12 @@ export class NavComponent implements OnInit, OnDestroy {
             route: "Report",
             url: "/portal/report-dashboard",
             authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']
-        }
-        // {icon: "payment", route: "Subscribe", url: "/portal/subscribe", authority: "GENERAL_ADMIN"}
+        },
+        {
+            icon: "payment",
+            route: "Subscribe",
+            url: "/portal/subscribe",
+            authority: "GENERAL_ADMIN"}
     ];
 
     orgTypes: string[] = ["SCHOOL", "SECURITY", "HOSPITAL"];
