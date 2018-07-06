@@ -64,6 +64,12 @@ export class DateUtil {
         return new Date(d.getFullYear(), d.getMonth()+1, 0);
     }
 
+    public getDaysLeft(startTimestamp: number, endTimestamp: number): number {
+        let timeDiff = Math.abs(endTimestamp - startTimestamp);
+
+        return Math.ceil(timeDiff / (1000 * 3600 * 24));
+    }
+
     public getStartOfDay(date: Date): number {
         date.setHours(0,0,0,0);
 

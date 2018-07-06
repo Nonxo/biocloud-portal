@@ -206,6 +206,18 @@ export class VerifyPaymentRequest {
     }
 }
 
+export class SubscriptionChangeRequest {
+    billingCycle:string;
+    orgId: string;
+    planId: string;
+
+    constructor(billingCycle: string, orgId: string, planId: string) {
+        this.billingCycle = billingCycle;
+        this.orgId = orgId;
+        this.planId = planId;
+    }
+}
+
 
 
 
