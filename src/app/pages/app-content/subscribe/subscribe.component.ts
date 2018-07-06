@@ -68,6 +68,8 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                     if(result.code == 0) {
                         this.subscription = result.subscription;
 
+                        this.mService.setUpdateSub(this.subscription);
+
                         //set billing cycle flag
                         if(this.subscription && this.subscription.billingCycle) {
                             this.subscription.billingCycle.toLowerCase() == BillingCycle.MONTHLY.toLowerCase()? this.monthlyPlan = true: this.monthlyPlan = false;
