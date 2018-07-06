@@ -291,3 +291,9 @@ thead {
         border-right: 0;
     }
 }
+
+.mat-calendar-table-header th {
+    text-align: center;
+    padding: 5px 0 5px 0 !important;
+    color: $white !important;
+}

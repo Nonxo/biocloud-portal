@@ -421,11 +421,18 @@ export class AppContentService {
             )
     }
 
-    clockInsHistory(orgId: string, pageSize: number, pageNo: number): Observable<any> {
+    clockInsHistory(orgId: string, pageSize: number, pageNo: number, locations:any[]): Observable<any> {
         let params = new HttpParams()
             .set('orgId', orgId)
             .set('pageSize', pageSize.toString())
             .set('pageNo', pageNo.toString());
+
+        if(locations.length > 0) {
+            for(let loc of locations) {
+                params = params.append('locId', loc.locId);
+            }
+        }
+
         return this.httpClient.get(Endpoints.FETCH_CLOCKINS_HISTORY + params, {
             headers: new HttpHeaders()
                 .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)

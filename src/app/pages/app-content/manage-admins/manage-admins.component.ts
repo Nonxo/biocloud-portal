@@ -144,7 +144,7 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
         this.assignAdminRequest = new AssignAdminRequest();
 
         this.assignAdminRequest.role = this.selectedUser.role;
-        this.assignAdminRequest.locIds = this.selectedUser.locIds ? this.selectedUser.locIds : [];
+        this.assignAdminRequest.locIds = this.selectedUser.locIds.length > 0 ? this.selectedUser.locIds : [];
         this.assignAdminRequest.email = this.selectedUser.email;
 
         this.openModal(template);
@@ -285,6 +285,10 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
     }
 
     assignAdmins() {
+        if (this.assignAdminRequest.role == "GENERAL_ADMIN") {
+            this.assignAdminRequest.locIds = [];
+        }
+
         if (!this.isAssignFormValid()) {
             return;
         }

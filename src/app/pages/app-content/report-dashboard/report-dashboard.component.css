@@ -30,11 +30,35 @@
     padding-left: 34px;
 }
 
+.date-style {
+    position: absolute;
+    padding-top: 18px;
+    padding-left: 156px;
+}
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 736px) {
     .btn-search {
         background: #603484;
         border: none;
         margin-left: -48px;
         height: 38px;
+    }
+}
+
+@media (min-width: 992px) {
+    .col-lg {
+        -ms-flex-preferred-size: 0;
+        flex-basis: 0;
+        -ms-flex-positive: 0 !important;
+        flex-grow: 0 !important;
+        max-width: 100%;
+    }
+}
+
+@media (min-width: 992px) {
+    .col-lg-4 {
+        -ms-flex: 0 0 39.333333% !important;
+        flex: 0 0 39.333333% !important;
+        max-width: 39.333333% !important;
     }
 }
