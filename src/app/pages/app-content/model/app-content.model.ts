@@ -38,19 +38,19 @@ export class AssignUserRequest {
 }
 
 export class Invitation {
-  firstName:string;
-  lastName:string;
-  email:string;
-  phoneNumber:number;
-  created:number;
-  locId:string;
-  verifiableImg:string;
-  orgName:string;
+    firstName:string;
+    lastName:string;
+    email:string;
+    phoneNumber:number;
+    created:number;
+    locId:string;
+    verifiableImg:string;
+    orgName:string;
 }
 
 export class ApproveRequest {
-  status: string;
-  locIds: string[];
+    status: string;
+    locIds: string[];
 
     constructor(status?:string) {
         this.status = status || null;
@@ -70,22 +70,22 @@ export class ActivateDeactivateUserRequest {
 }
 
 export class UpdateProfile {
-  fName:string;
-  lName:string;
-  email:string;
-  img:string;
-  phoneCode:string;
-  phone:number;
-  address:string;
-  companyName:string;
-  customerType: string;
-  bio:string;
-  userId:string;
-  verifiableImg:string;
+    fName:string;
+    lName:string;
+    email:string;
+    img:string;
+    phoneCode:string;
+    phone:number;
+    address:string;
+    companyName:string;
+    customerType: string;
+    bio:string;
+    userId:string;
+    verifiableImg:string;
 
 
-  promoNotif: boolean;
-  appNotif: boolean;
+    promoNotif: boolean;
+    appNotif: boolean;
 
 }
 
@@ -217,6 +217,7 @@ export class SubscriptionChangeRequest {
         this.planId = planId;
     }
 }
+
 
 
 

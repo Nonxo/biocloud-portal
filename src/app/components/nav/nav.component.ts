@@ -616,7 +616,7 @@ export class NavComponent implements OnInit, OnDestroy {
     editOrg(template: TemplateRef<any>) {
         this.editOrgMode = true;
         this.uploadedFileName = "";
-        this.orgRequest.type = this.selectedOrg.sector;
+        this.orgRequest.type = this.selectedOrg.sector? this.selectedOrg.sector:this.selectedOrg.orgType;
         this.orgRequest.name = this.selectedOrg.name;
         this.orgRequest.logo = this.selectedOrg.logo;
         this.openModal(template);

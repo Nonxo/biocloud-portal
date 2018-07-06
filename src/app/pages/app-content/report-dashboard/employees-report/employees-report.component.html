@@ -32,14 +32,14 @@
     <div class="table-responsive">
         <table class="table table-striped" [mfData]="userReport" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
             <thead>
-                <tr>
-                    <th scope="col">Location</th>
-                    <th scope="col">Mode of Clockin</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Clock-In Time</th>
-                    <th scope="col">Clock-Out Time</th>
-                    <th scope="col">Clock-Out Reason</th>
-                </tr>
+            <tr>
+                <th scope="col">Location</th>
+                <th scope="col">Mode of Clock-In</th>
+                <th scope="col">Date</th>
+                <th scope="col">Clock-In Time</th>
+                <th scope="col">Clock-Out Time</th>
+                <th scope="col">Clock-Out Reason</th>
+            </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let d of mf.data; let i = index">

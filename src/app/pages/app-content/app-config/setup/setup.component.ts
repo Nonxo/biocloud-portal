@@ -325,13 +325,13 @@ export class SetupComponent implements OnInit {
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.ns.showSuccess("Location was successfully added");
+                        this.ns.showSuccess(result.description);
 
                         if (this.addNewLoc) {
                             this.locRequest = new LocationRequest();
                             this.inviteEmails = [];
                             this.showMap = false;
-                            this.resumptionTime = void 0;
+                            this.clearResumptionTime();
                             this.countryCode = "";
                         } else {
                             this.router.navigate(['/portal']);
@@ -505,6 +505,9 @@ export class SetupComponent implements OnInit {
     clearResumptionTime() {
         this.resumptionTime = void 0;
         this.clockoutTime = void 0;
+
+        this.locRequest.resumptionTimezoneId = null;
+        this.locRequest.gracePeriodInMinutes = null;
     }
 
     clearClosingTime() {

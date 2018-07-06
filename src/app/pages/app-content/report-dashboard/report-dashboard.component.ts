@@ -10,11 +10,16 @@ import {MessageService} from "../../../service/message.service";
 import {DataService} from "../../../service/data.service";
 import {Router} from "@angular/router";
 import {DateUtil} from "../../../util/DateUtil";
+import {MyDateAdapter} from "../../../util/adapters/date-adapter";
+import {DateAdapter} from "@angular/material";
 
 @Component({
     selector: 'app-report-dashboard',
     templateUrl: './report-dashboard.component.html',
-    styleUrls: ['./report-dashboard.component.css']
+    styleUrls: ['./report-dashboard.component.css'],
+    providers: [
+        {provide: DateAdapter, useClass: MyDateAdapter},
+    ]
 })
 export class ReportDashboardComponent implements OnInit, OnDestroy {
 
@@ -31,6 +36,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     userRole = this.ss.getSelectedOrgRole();
     selectedStartDate: Date = new Date();
     selectedEndDate: Date = new Date();
+    absentDate: Date = new Date();
     reportPeriod: string = "DATE_RANGE";
 
     constructor(private reportService: ReportService,
@@ -71,6 +77,12 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
         this.reportModel.startDate = this.selectedStartDate.getTime();
         this.reportModel.endDate = this.selectedEndDate.getTime();
 
+        //if report type is absent report
+        if(this.currentTab == 2) {
+            this.reportModel.startDate = this.absentDate.getTime();
+            this.reportModel.endDate = this.absentDate.getTime();
+        }
+
         this.mService.setDisplay(true);
         this.reportService.fetchDailyReport(this.reportModel)
             .finally(() => {
@@ -99,6 +111,17 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
                     this.ns.showError("An Error Occurred.");
                 }
             )
+    }
+
+    isFormValid() {
+
+        if(this.selectedEndDate.getTime() < this.selectedStartDate.getTime()) {
+            return false;
+        }
+
+        if(this.selectedStartDate.getTime() > this.dateUtil.getStartOfDay(new Date())) {
+
+        }
     }
 
     generateReport(data: any) {
@@ -193,30 +216,40 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
 
     downloadPdf() {
         this.reportModel.exportFormat = "pdf";
-        this.reportModel.title = this.reportModel.reportType.toUpperCase() + "-REPORT";
+        this.reportModel.title = this.capitalizeFirstLetter(this.reportModel.reportType) + " Report";
         this.reportModel.export = true;
         this.fetchDailyReport();
     }
 
     downloadExcel() {
         this.reportModel.exportFormat = "sheet";
-        this.reportModel.title = this.reportModel.reportType.toUpperCase() + "-REPORT";
+        this.reportModel.title = this.capitalizeFirstLetter(this.reportModel.reportType) + " Report";
         this.reportModel.export = true;
         this.fetchDailyReport();
     }
 
-  viewDetails(user: any) {
-      let obj = {};
+    viewDetails(user: any) {
+        let obj = {};
 
-      obj['email'] = user.email;
-      obj['locId'] = this.reportModel.locId;
+        obj['email'] = user.email;
+        obj['locId'] = this.reportModel.locId;
 
-      this.dataService.setReportStartDate(this.selectedStartDate);
-      this.dataService.setReportEndDate(this.selectedEndDate);
+        this.dataService.setReportStartDate(this.selectedStartDate);
+        this.dataService.setReportEndDate(this.selectedEndDate);
 
         this.dataService.setUserObj(obj);
         this.router.navigate(["/portal/report-dashboard/employee"]);
-  }
+    }
+
+    onDatePickerToggle() {
+
+        if((this.selectedStartDate.getTime() > this.selectedEndDate.getTime()) && this.reportModel.reportType != "ABSENT") {
+            this.ns.showError("End date should be greater than Start date.");
+            return;
+        }
+
+        this.fetchDailyReport();
+    }
 
     filterReport() {
         this.selectedStartDate = new Date();
@@ -241,6 +274,10 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
                 break;
             }
         }
+    }
+
+    capitalizeFirstLetter(str: string) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
     /**
