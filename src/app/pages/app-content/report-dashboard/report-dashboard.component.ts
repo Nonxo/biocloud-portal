@@ -392,7 +392,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
 
             for(let j = 0; j < weeks; i++) {
                 this.employees[i].weeks? '':this.employees[i].weeks = [];
-                this.employees[i].weeks.push({id: j, tdp: 0, tda: 0, startTime: this.dateUtil.getStartOfDay(new Date(this.startRange)), endTime: this.dateUtil.getEndOfDay(new Date(this.endRange))});
+                this.employees[i].weeks.push({id: j, tde: 0, tdl: 0, tda: 0, startTime: this.dateUtil.getStartOfDay(new Date(this.startRange)), endTime: this.dateUtil.getEndOfDay(new Date(this.endRange))});
 
                 this.daysPresentRequest.id = i;
                 this.daysPresentRequest.weekId = j;
@@ -407,7 +407,8 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
                 this.reportService.getDaysPresent(this.daysPresentRequest)
                     .subscribe(
                         result => {
-                            this.employees[result.id].weeks[result.weekId].tdp = result.daysPresent;
+                            this.employees[result.id].weeks[result.weekId].tde = result.daysEarly;
+                            this.employees[result.id].weeks[result.weekId].tdl = result.daysLate;
                             this.employees[result.id].weeks[result.weekId].tda = days - result.daysPresent;
                         },
                         error => {debugger}
