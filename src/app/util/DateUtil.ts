@@ -81,4 +81,12 @@ export class DateUtil {
 
         return date.getTime();
     }
+
+    public convertDaysToMS(days: number) {
+        return days * 86400000;
+    }
+
+    getPreviousWeekTimeStamp(currentTimeStamp: number) {
+        return this.getStartOfDay(new Date(currentTimeStamp - this.convertDaysToMS(7)));
+    }
 }

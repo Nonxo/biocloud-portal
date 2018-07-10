@@ -1,5 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AttendanceStatusRequest, AttendeesPOJO, DateColumn, ReportModel} from "../model/app-content.model";
+import {
+    AttendanceStatusRequest, AttendeesPOJO, DateColumn, DaysPresentRequest,
+    ReportModel
+} from "../model/app-content.model";
 import {ReportService} from "../services/report.service";
 import {StorageService} from "../../../service/storage.service";
 import {AppContentService} from "../services/app-content.service";
@@ -47,6 +50,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     endRange: number = 1525699118000;
     currentDayMarker: number = this.startRange;
     weeksArray: any[] = [];
+    daysPresentRequest: DaysPresentRequest = new DaysPresentRequest();
 
     constructor(private reportService: ReportService,
                 private ss: StorageService,
@@ -159,6 +163,12 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
         this.data = [];
         this.currentPage = 1;
         this.reportModel.pageNo = 1;
+
+        this.employees = [];
+        this.weeksArray = [];
+        this.dateColumn = [];
+        this.attendeePOJO = new AttendeesPOJO();
+        this.daysPresentRequest = new DaysPresentRequest();
     }
 
     /**
@@ -192,7 +202,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
 
             case 4: {
                 this.currentTab = 4;
-                this.reportModel.locId = this.locations[0]? this.locations[0].locId:'';
+                this.reportModel.locId = this.reportModel.locId? this.reportModel.locId:this.locations[0]? this.locations[0].locId:'';
 
                 this.attendeePOJO = new AttendeesPOJO();
                 this.attendeePOJO.locId = this.reportModel.locId;
@@ -381,17 +391,24 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
         for(let i = 0; i < this.employees.length; i++) {
 
             for(let j = 0; j < weeks; i++) {
-
-                debugger;
-
                 this.employees[i].weeks? '':this.employees[i].weeks = [];
                 this.employees[i].weeks.push({id: j, tdp: 0, tda: 0, startTime: this.dateUtil.getStartOfDay(new Date(this.startRange)), endTime: this.dateUtil.getEndOfDay(new Date(this.endRange))});
 
-                this.reportService.getDaysPresent(i, this.employees[i].email, this.reportModel.orgId, this.reportModel.locId, this.dateUtil.getStartOfDay(new Date(this.startRange)), this.dateUtil.getEndOfDay(new Date(this.endRange)))
+                this.daysPresentRequest.id = i;
+                this.daysPresentRequest.weekId = j;
+                this.daysPresentRequest.email = this.employees[i].email;
+                this.daysPresentRequest.orgId = this.reportModel.orgId;
+                this.daysPresentRequest.locId = this.reportModel.locId;
+                this.daysPresentRequest.currentStartTime = this.dateUtil.getStartOfDay(new Date(this.startRange));
+                this.daysPresentRequest.currentEndTime = this.dateUtil.getEndOfDay(new Date(this.endRange));
+                this.daysPresentRequest.prevStartTime = this.dateUtil.getPreviousWeekTimeStamp(this.dateUtil.getStartOfDay(new Date(this.startRange)) - 1)
+                this.daysPresentRequest.prevEndTime = this.dateUtil.getStartOfDay(new Date(this.startRange)) - 1;
+
+                this.reportService.getDaysPresent(this.daysPresentRequest)
                     .subscribe(
                         result => {
-                            this.employees[result.id].weeks[0].tdp = result.daysPresent;
-                            this.employees[result.id].weeks[0].tda = days - result.daysPresent;
+                            this.employees[result.id].weeks[result.weekId].tdp = result.daysPresent;
+                            this.employees[result.id].weeks[result.weekId].tda = days - result.daysPresent;
                         },
                         error => {debugger}
                     )
