@@ -252,6 +252,18 @@ export class AttendanceStatusRequest {
     }
 }
 
+export class DaysPresentRequest {
+    id: number;
+    weekId: number;
+    email: string;
+    currentStartTime: number;
+    currentEndTime: number;
+    locId: string;
+    orgId: string;
+    prevStartTime: number;
+    prevEndTime: number;
+}
+
 
 
 

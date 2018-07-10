@@ -7,7 +7,7 @@ import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Endpoints} from "../../../util/endpoints";
-import {ReportModel} from "../model/app-content.model";
+import {DaysPresentRequest, ReportModel} from "../model/app-content.model";
 import {MediaType} from "../../../util/constants";
 import {map, timeout} from "rxjs/operators";
 import {AuthService} from "../../../components/auth/auth.service";
@@ -84,14 +84,17 @@ export class ReportService {
             )
     }
 
-    getDaysPresent(id: number, email: string, orgId: string, locId: string, startTime: number, endTime: number): Observable<any> {
+    getDaysPresent(model: DaysPresentRequest): Observable<any> {
         const params = new HttpParams()
-            .set("id", id.toString())
-            .set("orgId", orgId)
-            .set("email", email)
-            .set("locId", locId)
-            .set("startTime", startTime.toString())
-            .set("endTime", endTime.toString());
+            .set("id", model.id.toString())
+            .set("weekId", model.weekId.toString())
+            .set("orgId", model.orgId)
+            .set("email", model.email)
+            .set("locId", model.locId)
+            .set("currentStartTime", model.currentStartTime.toString())
+            .set("currentEndTime", model.currentEndTime.toString())
+            .set("prevStartTime", model.prevStartTime.toString())
+            .set("prevEndTime", model.prevEndTime.toString());
 
         return this.httpClient
             .get(Endpoints.GET_DAYS_PRESENT + params, {

@@ -544,29 +544,34 @@
                             <td>{{d.email}}</td>
                         </tr>
                 </table>
-
                 <table class="d-inline-block table table-striped" [mfData]="employees" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                     <thead>
                         <tr>
-                            <th scope="col" *ngFor="let date of dateColumn">{{date.title}}</th>
+                            <th scope="col" *ngFor="let date of dateColumn">{{date.title}}
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let d of mf.data">
-                            <td *ngFor="let a of d.attendance" class="{{a.status == 'EARLY'? 'early-color': a.status == 'ABSENT'? 'absent-color':'late-color'}}">{{a.status}}</td>
+                            <td *ngFor="let a of d.attendance" class="">
+                                <span *ngIf="a.status == 'LATE'" class="red-dot"></span>
+                                <span *ngIf="a.status == 'EARLY'" class="green-dot"></span>
+                                <span *ngIf="a.status == 'ABSENT'" class="grey-dot">ABS</span>
+                            </td>
                         </tr>
                 </table>
 
-                <table class="d-inline-block table table-striped" [mfData]="employees" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
+                <table class="d-inline-block table table-striped" [mfData]="employees" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" *ngFor="let week of weeksArray; let i = index">
                     <thead>
                         <tr>
-                            <th scope="col">TDP</th>
-                            <th scope="col">TDA</th>
+                            <th scope="col">Total Days Early</th>
+                            <th scope="col">Total Days Late</th>
+                            <th scope="col">Total Days Absent</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let d of mf.data">
-                            <td>{{d.weeks[i]?.tdp}}</td>
+                            <td>{{d.weeks[i]?.tde}}<mat-icon class="text-success">arrow_upward</mat-icon></td>
+                            <td>{{d.weeks[i]?.tdl}}</td>
                             <td>{{d.weeks[i]?.tda}}</td>
 
                         </tr>
