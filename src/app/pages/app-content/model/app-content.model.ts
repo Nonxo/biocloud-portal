@@ -218,6 +218,40 @@ export class SubscriptionChangeRequest {
     }
 }
 
+export class DateColumn {
+    id: number;
+    title: string;
+    startTime: number;
+    endTime: number;
+    status: string;
+
+    constructor (id: number, title: string, startTime?: number, endTime?: number, status?: string) {
+        this.id = id;
+        this.title = title;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.status = status;
+    }
+}
+
+export class AttendanceStatusRequest {
+    id: number;
+    email: string;
+    startTime: number;
+    endTime: number;
+    locId: string;
+    orgId: string;
+
+    constructor(id: number, email: string, startTime: number, endTime: number, locId: string, orgId: string) {
+        this.id = id;
+        this.email = email;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.locId = locId;
+        this.orgId = orgId;
+    }
+}
+
 
 
 
