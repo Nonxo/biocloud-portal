@@ -71,7 +71,9 @@
     border-bottom-left-radius: 20px;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
+    margin-bottom: 6px;
 }
+
 .green-dot {
     height: 18px;
     width: 25px;
@@ -80,7 +82,9 @@
     border-bottom-left-radius: 20px;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
+    margin-bottom: 6px;
 }
+
 .grey-dot {
     height: 18px;
     width: 25px;
@@ -89,4 +93,5 @@
     border-bottom-left-radius: 20px;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
+    margin-bottom: 6px;
 }
