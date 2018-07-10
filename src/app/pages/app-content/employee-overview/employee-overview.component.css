@@ -231,3 +231,7 @@ mwl-gauge.seven>.gauge>.value {
         padding-top: 0px !important;
     }
 }
+
+.font-size {
+    font-size: 2rem;
+}
