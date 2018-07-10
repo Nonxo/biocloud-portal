@@ -192,3 +192,13 @@
 
     </div>
 </ng-template>
+
+
+
+<iframe
+    [src]="sanitizer.bypassSecurityTrustResourceUrl(iframeUrl)"
+    frameborder="0"
+    width="800"
+    height="600"
+    allowtransparency
+></iframe>

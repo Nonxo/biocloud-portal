@@ -6,6 +6,7 @@ import {StorageService} from "../../../service/storage.service";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {MessageService} from "../../../service/message.service";
 import {BillingCycle, SubscriptionMode} from "../enums/enums";
+import {DomSanitizer} from "@angular/platform-browser";
 
 declare function getpaidSetup(data): void;
 
@@ -37,14 +38,18 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     private orgId:string;
     public subscription:any;
     @ViewChild("confirmPaymentTemplate")private confirmPaymentTemplate: TemplateRef<any>;
+    iframeUrl:string;
 
     constructor(private subService: SubscriptionService,
                 private modalService: BsModalService,
                 private ns: NotifyService,
                 private ss: StorageService,
-                private mService: MessageService) {
+                private mService: MessageService,
+                public sanitizer: DomSanitizer) {
         this.userEmail = this.ss.getLoggedInUserEmail();
         this.orgId = this.ss.getSelectedOrg().orgId;
+
+        this.iframeUrl = "http://reports.seamfix.com:3000" + "/embed/dashboard/" + "eyJhbGciOiJIUzI1NiJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjE2MX0sInBhcmFtcyI6e319.U9E7vYy6-W69LjVlSUpQBKeGD1d0jW6BjqYweRNt3Jk" + "#bordered=true&titled=true";
     }
 
     ngOnInit() {

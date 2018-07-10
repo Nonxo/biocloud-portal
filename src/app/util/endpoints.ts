@@ -57,4 +57,6 @@ export class Endpoints {
     public static DELETE_CARD = `${Endpoints.BASE_URL}/users/api/subscriptions/card/delete?`;
     public static FETCH_CARD = `${Endpoints.BASE_URL}/users/api/subscriptions/card?`;
     public static CHANGE_PLAN = `${Endpoints.BASE_URL}/users/api/subscriptions/change-plan`;
+    public static GET_ATTENDANCE_STATUS = `${Endpoints.BASE_URL}/reports/api/alog/attendance-status`;
+    public static GET_DAYS_PRESENT = `${Endpoints.BASE_URL}/reports/api/alog/total-days-present?`;
 }

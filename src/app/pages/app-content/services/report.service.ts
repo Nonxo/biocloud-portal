@@ -68,5 +68,43 @@ export class ReportService {
                 })
             )
     }
+
+    fetchAttendanceStatus(model): Observable<any> {
+        return this.httpClient
+            .post(Endpoints.GET_ATTENDANCE_STATUS, JSON.stringify(model), {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            }).pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
+    getDaysPresent(id: number, email: string, orgId: string, locId: string, startTime: number, endTime: number): Observable<any> {
+        const params = new HttpParams()
+            .set("id", id.toString())
+            .set("orgId", orgId)
+            .set("email", email)
+            .set("locId", locId)
+            .set("startTime", startTime.toString())
+            .set("endTime", endTime.toString());
+
+        return this.httpClient
+            .get(Endpoints.GET_DAYS_PRESENT + params, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            }).pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
 }
 
