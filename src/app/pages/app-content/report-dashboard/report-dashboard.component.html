@@ -30,9 +30,7 @@
                     <ng-container>
                         <div class="col-lg d-inline-flex">
                             <mat-form-field>
-                                <input matInput [matDatepicker]="earlyStart" placeholder="Start date" [max]="dateObj"
-                                       name="date" [(ngModel)]="selectedStartDate" (dateChange)="onDatePickerToggle()"
-                                       disabled>
+                                <input matInput [matDatepicker]="earlyStart" placeholder="Start date" [max]="dateObj" name="date" [(ngModel)]="selectedStartDate" (dateChange)="onDatePickerToggle()" disabled>
                                 <mat-datepicker-toggle matSuffix [for]="earlyStart" *ngIf="reportPeriod == 'DATE_RANGE'"></mat-datepicker-toggle>
                                 <mat-datepicker #earlyStart disabled="false"></mat-datepicker>
                             </mat-form-field>
@@ -41,9 +39,7 @@
 
                         <div class="col-lg d-inline-flex">
                             <mat-form-field>
-                                <input matInput [matDatepicker]="earlyEnd" placeholder="End date" [max]="dateObj"
-                                       name="date" [(ngModel)]="selectedEndDate" (dateChange)="onDatePickerToggle()"
-                                       disabled>
+                                <input matInput [matDatepicker]="earlyEnd" placeholder="End date" [max]="dateObj" name="date" [(ngModel)]="selectedEndDate" (dateChange)="onDatePickerToggle()" disabled>
                                 <mat-datepicker-toggle matSuffix [for]="earlyEnd" *ngIf="reportPeriod == 'DATE_RANGE'"></mat-datepicker-toggle>
                                 <mat-datepicker #earlyEnd disabled="false"></mat-datepicker>
                             </mat-form-field>
@@ -54,8 +50,7 @@
                 </div>
 
                 <div class="col-lg col-md-12  text-left pt-lg-2 pl-lg-4 pl-4 pb-lg-0 pb-4 mb-lg-3">
-                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline"
-                            *ngIf="data.length > 0">Download<i class="material-icons">arrow_drop_down</i></button>
+                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline" *ngIf="data.length > 0">Download<i class="material-icons">arrow_drop_down</i></button>
                     <mat-menu #downloadmenu="matMenu">
                         <button mat-menu-item (click)="downloadPdf()">PDF</button>
                         <button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>
@@ -80,29 +75,29 @@
             <div class="table-responsive">
                 <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                     <thead>
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email Address</th>
-                        <th scope="col">Location</th>
-                        <th scope="col">Mode of Clock-In</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Clock-In Time</th>
-                        <th scope="col">Clock-Out Time</th>
-                        <th scope="col"></th>
-                    </tr>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email Address</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Mode of Clock-In</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Clock-In Time</th>
+                            <th scope="col">Clock-Out Time</th>
+                            <th scope="col"></th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let d of mf.data">
-                        <td>{{d.name}}</td>
-                        <td>{{d.email}}</td>
-                        <td>{{d.location}}</td>
-                        <td>{{d.mode}}</td>
-                        <td>{{d.date}}</td>
-                        <td>{{d.clock_in_time}}</td>
-                        <td>{{d.clock_out_time}}</td>
-                        <td><i (click)="viewDetails(d)" matTooltip="View More" class="material-icons cursor">list</i>
-                        </td>
-                    </tr>
+                        <tr *ngFor="let d of mf.data">
+                            <td>{{d.name}}</td>
+                            <td>{{d.email}}</td>
+                            <td>{{d.location}}</td>
+                            <td>{{d.mode}}</td>
+                            <td>{{d.date}}</td>
+                            <td>{{d.clock_in_time}}</td>
+                            <td>{{d.clock_out_time}}</td>
+                            <td><i (click)="viewDetails(d)" matTooltip="View More" class="material-icons cursor">list</i>
+                            </td>
+                        </tr>
                 </table>
             </div>
 
@@ -122,11 +117,8 @@
                     </div>
                 </div>
                 <div class="col-auto">
-                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 0" [totalItems]="totalSize"
-                                [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage"
-                                (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true"
-                                [rotate]="false" previousText="&lsaquo;"
-                                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 0" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
+                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
                 </div>
             </div>
 
@@ -164,9 +156,7 @@
                     <ng-container>
                         <div class="col-lg d-inline-flex">
                             <mat-form-field>
-                                <input matInput [matDatepicker]="lateStart" placeholder="Start date" [max]="dateObj"
-                                       name="ls" [(ngModel)]="selectedStartDate" (dateChange)="onDatePickerToggle()"
-                                       disabled>
+                                <input matInput [matDatepicker]="lateStart" placeholder="Start date" [max]="dateObj" name="ls" [(ngModel)]="selectedStartDate" (dateChange)="onDatePickerToggle()" disabled>
                                 <mat-datepicker-toggle matSuffix [for]="lateStart" *ngIf="reportPeriod == 'DATE_RANGE'"></mat-datepicker-toggle>
                                 <mat-datepicker #lateStart disabled="false"></mat-datepicker>
                             </mat-form-field>
@@ -175,9 +165,7 @@
 
                         <div class="col-lg d-inline-flex">
                             <mat-form-field>
-                                <input matInput [matDatepicker]="lateEnd" placeholder="End date" [max]="dateObj"
-                                       name="le"
-                                       [(ngModel)]="selectedEndDate" (dateChange)="onDatePickerToggle()" disabled>
+                                <input matInput [matDatepicker]="lateEnd" placeholder="End date" [max]="dateObj" name="le" [(ngModel)]="selectedEndDate" (dateChange)="onDatePickerToggle()" disabled>
                                 <mat-datepicker-toggle matSuffix [for]="lateEnd" *ngIf="reportPeriod == 'DATE_RANGE'"></mat-datepicker-toggle>
                                 <mat-datepicker #lateEnd disabled="false"></mat-datepicker>
                             </mat-form-field>
@@ -188,8 +176,7 @@
                 </div>
 
                 <div class="col-lg col-md-12 text-md-center text-left pt-lg-2 pl-lg-4 pl-4 pb-lg-0 pb-4 mb-lg-3">
-                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline"
-                            *ngIf="data.length > 0">Download<i class="material-icons">arrow_drop_down</i></button>
+                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline" *ngIf="data.length > 0">Download<i class="material-icons">arrow_drop_down</i></button>
                     <mat-menu #downloadmenu="matMenu">
                         <button mat-menu-item (click)="downloadPdf()">PDF</button>
                         <button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>
@@ -214,29 +201,29 @@
             <div class="table-responsive">
                 <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                     <thead>
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email Address</th>
-                        <th scope="col">Location</th>
-                        <th scope="col">Mode of Clock-In</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Clock-In Time</th>
-                        <th scope="col">Clock-Out Time</th>
-                        <th scope="col"></th>
-                    </tr>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email Address</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Mode of Clock-In</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Clock-In Time</th>
+                            <th scope="col">Clock-Out Time</th>
+                            <th scope="col"></th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let d of mf.data">
-                        <td>{{d.name}}</td>
-                        <td>{{d.email}}</td>
-                        <td>{{d.location}}</td>
-                        <td>{{d.mode}}</td>
-                        <td>{{d.date}}</td>
-                        <td>{{d.clock_in_time}}</td>
-                        <td>{{d.clock_out_time}}</td>
-                        <td><i (click)="viewDetails(d)" matTooltip="View More" class="material-icons cursor">list</i>
-                        </td>
-                    </tr>
+                        <tr *ngFor="let d of mf.data">
+                            <td>{{d.name}}</td>
+                            <td>{{d.email}}</td>
+                            <td>{{d.location}}</td>
+                            <td>{{d.mode}}</td>
+                            <td>{{d.date}}</td>
+                            <td>{{d.clock_in_time}}</td>
+                            <td>{{d.clock_out_time}}</td>
+                            <td><i (click)="viewDetails(d)" matTooltip="View More" class="material-icons cursor">list</i>
+                            </td>
+                        </tr>
                 </table>
             </div>
 
@@ -256,11 +243,8 @@
                     </div>
                 </div>
                 <div class="col-auto">
-                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 1" [totalItems]="totalSize"
-                                [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage"
-                                (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true"
-                                [rotate]="false" previousText="&lsaquo;"
-                                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 1" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
+                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
                 </div>
             </div>
 
@@ -298,9 +282,7 @@
 
                     <div class="col-lg d-inline-flex">
                         <mat-form-field>
-                            <input matInput [matDatepicker]="absentStart" placeholder="Date" [max]="dateObj"
-                                   name="date" [(ngModel)]="absentDate" (dateChange)="onDatePickerToggle()"
-                                   disabled>
+                            <input matInput [matDatepicker]="absentStart" placeholder="Date" [max]="dateObj" name="date" [(ngModel)]="absentDate" (dateChange)="onDatePickerToggle()" disabled>
                             <mat-datepicker-toggle matSuffix [for]="absentStart"></mat-datepicker-toggle>
                             <mat-datepicker #absentStart disabled="false"></mat-datepicker>
                             <!--<mat-icon class="cursor date-style" (click)="absentStart.open()">date_range</mat-icon>-->
@@ -319,8 +301,7 @@
                 </div>
 
                 <div class="col-lg text-left pt-lg-2 pl-lg-4 pl-4 pb-lg-0 pb-4 mb-lg-3">
-                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline"
-                            *ngIf="data.length > 0">Download <i class="material-icons">arrow_drop_down</i></button>
+                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline" *ngIf="data.length > 0">Download <i class="material-icons">arrow_drop_down</i></button>
                     <mat-menu #downloadmenu="matMenu">
                         <button mat-menu-item (click)="downloadPdf()">PDF</button>
                         <button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>
@@ -345,18 +326,18 @@
             <div class="table-responsive">
                 <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                     <thead>
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email Address</th>
-                        <th scope="col">Location</th>
-                    </tr>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email Address</th>
+                            <th scope="col">Location</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let d of mf.data">
-                        <td>{{d.name}}</td>
-                        <td>{{d.email}}</td>
-                        <td>{{d.location}}</td>
-                    </tr>
+                        <tr *ngFor="let d of mf.data">
+                            <td>{{d.name}}</td>
+                            <td>{{d.email}}</td>
+                            <td>{{d.location}}</td>
+                        </tr>
                 </table>
             </div>
 
@@ -376,11 +357,8 @@
                     </div>
                 </div>
                 <div class="col-auto">
-                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 2" [totalItems]="totalSize"
-                                [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage"
-                                (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true"
-                                [rotate]="false" previousText="&lsaquo;"
-                                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 2" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
+                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
                 </div>
             </div>
 
@@ -418,9 +396,7 @@
                     <ng-container>
                         <div class="col-lg d-inline-flex">
                             <mat-form-field>
-                                <input matInput [matDatepicker]="wrongLocStart" placeholder="Start date" [max]="dateObj"
-                                       name="date" [(ngModel)]="selectedStartDate" (dateChange)="onDatePickerToggle()"
-                                       disabled>
+                                <input matInput [matDatepicker]="wrongLocStart" placeholder="Start date" [max]="dateObj" name="date" [(ngModel)]="selectedStartDate" (dateChange)="onDatePickerToggle()" disabled>
                                 <mat-datepicker-toggle matSuffix [for]="wrongLocStart" *ngIf="reportPeriod == 'DATE_RANGE'"></mat-datepicker-toggle>
                                 <mat-datepicker #wrongLocStart disabled="false"></mat-datepicker>
                             </mat-form-field>
@@ -429,9 +405,7 @@
 
                         <div class="col-lg d-inline-flex">
                             <mat-form-field>
-                                <input matInput [matDatepicker]="wrongLocEnd" placeholder="End date" [max]="dateObj"
-                                       name="date" [(ngModel)]="selectedEndDate" (dateChange)="onDatePickerToggle()"
-                                       disabled>
+                                <input matInput [matDatepicker]="wrongLocEnd" placeholder="End date" [max]="dateObj" name="date" [(ngModel)]="selectedEndDate" (dateChange)="onDatePickerToggle()" disabled>
                                 <mat-datepicker-toggle matSuffix [for]="wrongLocEnd" *ngIf="reportPeriod == 'DATE_RANGE'"></mat-datepicker-toggle>
                                 <mat-datepicker #wrongLocEnd disabled="false"></mat-datepicker>
                             </mat-form-field>
@@ -442,8 +416,7 @@
                 </div>
 
                 <div class="col-lg text-left pt-lg-2 pl-lg-4 pl-4 pb-lg-0 pb-4 mb-lg-3">
-                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline"
-                            *ngIf="data.length > 0">Download <i class="material-icons">arrow_drop_down</i></button>
+                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline" *ngIf="data.length > 0">Download <i class="material-icons">arrow_drop_down</i></button>
                     <mat-menu #downloadmenu="matMenu">
                         <button mat-menu-item (click)="downloadPdf()">PDF</button>
                         <button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>
@@ -468,26 +441,26 @@
             <div class="table-responsive">
                 <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                     <thead>
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email Address</th>
-                        <th scope="col">Clock in Location</th>
-                        <th scope="col">Expected Location</th>
-                        <th scope="col">Mode of Clock-In</th>
-                        <th scope="col">Clock-In Time</th>
-                        <th scope="col">Date</th>
-                    </tr>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email Address</th>
+                            <th scope="col">Clock in Location</th>
+                            <th scope="col">Expected Location</th>
+                            <th scope="col">Mode of Clock-In</th>
+                            <th scope="col">Clock-In Time</th>
+                            <th scope="col">Date</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let d of mf.data">
-                        <td>{{d.name}}</td>
-                        <td>{{d.email}}</td>
-                        <td>{{d.clock_in_address}}</td>
-                        <td>{{d.location}}</td>
-                        <td>{{d.mode}}</td>
-                        <td>{{d.clock_in_time}}</td>
-                        <td>{{d.date}}</td>
-                    </tr>
+                        <tr *ngFor="let d of mf.data">
+                            <td>{{d.name}}</td>
+                            <td>{{d.email}}</td>
+                            <td>{{d.clock_in_address}}</td>
+                            <td>{{d.location}}</td>
+                            <td>{{d.mode}}</td>
+                            <td>{{d.clock_in_time}}</td>
+                            <td>{{d.date}}</td>
+                        </tr>
                 </table>
             </div>
 
@@ -507,11 +480,8 @@
                     </div>
                 </div>
                 <div class="col-auto">
-                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 3" [totalItems]="totalSize"
-                                [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage"
-                                (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true"
-                                [rotate]="false" previousText="&lsaquo;"
-                                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                    <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 3" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
+                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
                 </div>
             </div>
 
@@ -562,103 +532,89 @@
 
             </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="col-md-2">
-                        <div class="">
-                            <table class="table table-striped" [mfData]="employees" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
-                                <thead>
-                                <tr>
-                                    <th scope="col">Name</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr *ngFor="let d of mf.data">
-                                    <td>{{d.email}}</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
+            <div class="d-inline-flex">
+                <table class="d-inline-block table table-striped" [mfData]="employees" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let d of mf.data">
+                            <td>{{d.email}}</td>
+                        </tr>
+                </table>
 
-                    <div class="table-adjust col-md-6">
-                            <table class="table table-striped" [mfData]="employees" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
-                                <thead>
-                                <tr>
-                                    <th scope="col" *ngFor="let date of dateColumn">{{date.title}}</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr *ngFor="let d of mf.data">
-                                    <td *ngFor="let a of d.attendance" class="{{a.status == 'EARLY'? 'early-color': a.status == 'ABSENT'? 'absent-color':'late-color'}}">{{a.status}}</td>
-                                </tr>
-                            </table>
-                    </div>
+                <table class="d-inline-block table table-striped" [mfData]="employees" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
+                    <thead>
+                        <tr>
+                            <th scope="col" *ngFor="let date of dateColumn">{{date.title}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let d of mf.data">
+                            <td *ngFor="let a of d.attendance" class="{{a.status == 'EARLY'? 'early-color': a.status == 'ABSENT'? 'absent-color':'late-color'}}">{{a.status}}</td>
+                        </tr>
+                </table>
 
-                    <div class="col-md-2" *ngFor="let week of weeksArray; let i = index">
-                            <table class="table table-striped" [mfData]="employees" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
-                                <thead>
-                                <tr>
-                                    <th scope="col">TDP</th>
-                                    <th scope="col">TDA</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr *ngFor="let d of mf.data">
-                                        <td>{{d.weeks[i]?.tdp}}</td>
-                                        <td>{{d.weeks[i]?.tda}}</td>
+                <table class="d-inline-block table table-striped" [mfData]="employees" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
+                    <thead>
+                        <tr>
+                            <th scope="col">TDP</th>
+                            <th scope="col">TDA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let d of mf.data">
+                            <td>{{d.weeks[i]?.tdp}}</td>
+                            <td>{{d.weeks[i]?.tda}}</td>
 
-                                </tr>
-                            </table>
-                    </div>
-
-                </div>
-
-                <div class="row justify-content-between">
-                    <div class="col-auto">
-                        <div class="pb-lg-0 pb-4">
-                            <div class="form-group form-inline">
-                                <p class="pt-3 pr-2">Show</p>
-                                <mat-form-field class="w-25">
-                                    <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
-                                        <mat-option [value]="10">10</mat-option>
-                                        <mat-option [value]="25">25</mat-option>
-                                        <mat-option [value]="50">50</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                        <pagination class="pt-2" *ngIf="employees.length > 0 && currentTab == 4" [totalItems]="totalSize"
-                                    [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage"
-                                    (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true"
-                                    [rotate]="false" previousText="&lsaquo;"
-                                    nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
-                    </div>
-                </div>
-
+                        </tr>
+                </table>
 
             </div>
+
+            <div class="row justify-content-between">
+                <div class="col-auto">
+                    <div class="pb-lg-0 pb-4">
+                        <div class="form-group form-inline">
+                            <p class="pt-3 pr-2">Show</p>
+                            <mat-form-field class="w-25">
+                                <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
+                                    <mat-option [value]="10">10</mat-option>
+                                    <mat-option [value]="25">25</mat-option>
+                                    <mat-option [value]="50">50</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <pagination class="pt-2" *ngIf="employees.length > 0 && currentTab == 4" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
+                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                </div>
+            </div>
+
 
 
 
             <!--<div class="row justify-content-between">-->
-                <!--<div class="col-auto">-->
-                    <!--<div class="pb-lg-0 pb-4">-->
-                        <!--<div class="form-group form-inline">-->
-                            <!--<p class="pt-3 pr-2">Show</p>-->
-                            <!--<mat-form-field class="w-25">-->
-                                <!--<mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">-->
-                                    <!--<mat-option [value]="10">10</mat-option>-->
-                                    <!--<mat-option [value]="25">25</mat-option>-->
-                                    <!--<mat-option [value]="50">50</mat-option>-->
-                                <!--</mat-select>-->
-                            <!--</mat-form-field>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-        <!--</div>-->
-            </div>
+            <!--<div class="col-auto">-->
+            <!--<div class="pb-lg-0 pb-4">-->
+            <!--<div class="form-group form-inline">-->
+            <!--<p class="pt-3 pr-2">Show</p>-->
+            <!--<mat-form-field class="w-25">-->
+            <!--<mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">-->
+            <!--<mat-option [value]="10">10</mat-option>-->
+            <!--<mat-option [value]="25">25</mat-option>-->
+            <!--<mat-option [value]="50">50</mat-option>-->
+            <!--</mat-select>-->
+            <!--</mat-form-field>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+        </div>
 
     </mat-tab>
     <!--<mat-tab label="Custom">-->
