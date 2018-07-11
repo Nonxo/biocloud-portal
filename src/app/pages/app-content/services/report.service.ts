@@ -109,5 +109,31 @@ export class ReportService {
                 })
             )
     }
+
+    getAvgTime(model: DaysPresentRequest): Observable<any> {
+        const params = new HttpParams()
+            .set("id", model.id.toString())
+            .set("weekId", model.weekId.toString())
+            .set("orgId", model.orgId)
+            .set("email", model.email)
+            .set("locId", model.locId)
+            .set("currentStartTime", model.currentStartTime.toString())
+            .set("currentEndTime", model.currentEndTime.toString())
+            .set("prevStartTime", model.prevStartTime.toString())
+            .set("prevEndTime", model.prevEndTime.toString());
+
+        return this.httpClient
+            .get(Endpoints.GET_AVG_TIME + params, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            }).pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
 }
 

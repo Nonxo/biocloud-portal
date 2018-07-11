@@ -262,6 +262,11 @@ export class DaysPresentRequest {
     orgId: string;
     prevStartTime: number;
     prevEndTime: number;
+
+    constructor() {
+        this.id = 0;
+        this.weekId = 0;
+    }
 }
 
 
