@@ -102,8 +102,17 @@
                         <a routerLink="{{view.url}}" mat-list-item>
                             <mat-icon mat-list-icon>{{view.icon}}</mat-icon>
                             <span mat-line>{{view.route}}</span>
+                            <i class="material-icons mr-3 text-white" *ngIf="view.dropdowns">arrow_drop_down</i>
                         </a>
                     </li>
+
+                    <ul *ngIf="view.dropdowns">
+                        <li *ngFor="let dropdown of view.dropdowns">
+                            <a routerLink="{{dropdown.route}}" mat-list-item>
+                                <span class="ml-5" mat-line>{{dropdown.subName}}</span>
+                            </a>
+                        </li>
+                    </ul>
                 </ng-container>
             </ul>
         </mat-nav-list>

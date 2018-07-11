@@ -46,7 +46,11 @@ export class NavComponent implements OnInit, OnDestroy {
             icon: "insert_chart",
             route: "Report",
             url: "/portal/report-dashboard",
-            authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']
+            authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN'],
+            dropdowns:[
+               {subName:'Quick Report', route:'/portal/report-dashboard'} ,
+               {subName:'Full Report', route:''}
+            ]
         },
         {
             icon: "payment",
