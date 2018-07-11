@@ -83,17 +83,48 @@
                         <h5 class="mb-3">Total day Present</h5>
                         <div class="row">
                             <div class="col-md-6">
-                                <span class="font-size text-success">10</span>
-                                <i class="material-icons text-success">arrow_upward</i>
+                                <span class="font-size text-success">{{selectedRangeForDaysPresent?.daysPresent}}</span>
+                                <!--<i class="material-icons text-success" *ngIf="selectedRangeForDaysPresent.trend == 'UP'">arrow_upward</i>-->
+                                <!--<i class="material-icons text-danger" *ngIf="selectedRangeForDaysPresent.trend == 'DOWN'">arrow_downward</i>-->
                             </div>
                             <div class="col-md-6">
                                 <small>
                                     <span class="float-left">This month</span>
-                                    <span class="float-right text-success">10</span>
+                                    <span class="float-right text-success">{{totalDaysPresent[1]?.daysPresent}}</span>
                                 </small><br/>
                                 <small>
                                     <span class="float-left">This year</span>
-                                    <span class="float-right text-danger">10</span>
+                                    <span class="float-right text-danger"></span>
+                                </small>
+                            </div>
+                        </div>
+                        <button mat-button [matMenuTriggerFor]="filterMenu" class="m-0 mt-3 p-0">
+                            {{selectedRangeForDaysPresent?.title}}
+                            <i class="material-icons">arrow_drop_down</i>
+                        </button>
+                        <mat-menu #filterMenu="matMenu">
+                            <button mat-menu-item (click)="filterDaysPresent('week')">This week</button>
+                            <button mat-menu-item (click)="filterDaysPresent('month')">This month</button>
+                            <button mat-menu-item (click)="filterDaysPresent()">This year</button>
+                        </mat-menu>
+                    </mat-card>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <mat-card>
+                        <h5 class="mb-3">Total day Absent</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="font-size text-success"></span>
+                                <!--<i class="material-icons text-success">arrow_upward</i>-->
+                            </div>
+                            <div class="col-md-6">
+                                <small>
+                                    <span class="float-left">This month</span>
+                                    <span class="float-right text-success"></span>
+                                </small><br/>
+                                <small>
+                                    <span class="float-left">This year</span>
+                                    <span class="float-right text-danger"></span>
                                 </small>
                             </div>
                         </div>
@@ -109,20 +140,83 @@
                 </div>
                 <div class="col-md-6 mb-4">
                     <mat-card>
-                        <h5 class="mb-3">Total day Present</h5>
+                        <h5 class="mb-3">Total day Early</h5>
                         <div class="row">
                             <div class="col-md-6">
-                                <span class="font-size text-success">10</span>
-                                <i class="material-icons text-success">arrow_upward</i>
+                                <span class="font-size text-success">{{selectedRangeForDaysEarly?.daysEarly}}</span>
+                                <i class="material-icons text-success" *ngIf="selectedRangeForDaysEarly?.trend == 'UP'">arrow_upward</i>
+                                <i class="material-icons text-danger" *ngIf="selectedRangeForDaysEarly?.trend == 'DOWN'">arrow_downward</i>
+                                <!--<i class="material-icons text-success">arrow_upward</i>-->
                             </div>
                             <div class="col-md-6">
                                 <small>
                                     <span class="float-left">This month</span>
-                                    <span class="float-right text-success">10</span>
+                                    <span class="float-right text-success">{{totalDaysEarly[1].daysEarly}}</span>
                                 </small><br/>
                                 <small>
                                     <span class="float-left">This year</span>
-                                    <span class="float-right text-danger">10</span>
+                                    <span class="float-right text-danger"></span>
+                                </small>
+                            </div>
+                        </div>
+                        <button mat-button [matMenuTriggerFor]="earlyMenu" class="m-0 mt-3 p-0">
+                            {{selectedRangeForDaysEarly?.title}}
+                            <i class="material-icons">arrow_drop_down</i>
+                        </button>
+                        <mat-menu #earlyMenu="matMenu">
+                            <button mat-menu-item (click)="filterDaysEarly('week')">This week</button>
+                            <button mat-menu-item (click)="filterDaysEarly('month')">This month</button>
+                            <button mat-menu-item (click)="filterDaysEarly()">This year</button>
+                        </mat-menu>
+                    </mat-card>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <mat-card>
+                        <h5 class="mb-3">Total day Late</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="font-size text-success">{{selectedRangeForDaysLate?.daysLate}}</span>
+                                <i class="material-icons text-success" *ngIf="selectedRangeForDaysLate?.trend == 'UP'">arrow_upward</i>
+                                <i class="material-icons text-danger" *ngIf="selectedRangeForDaysLate?.trend == 'DOWN'">arrow_downward</i>
+                            </div>
+                            <div class="col-md-6">
+                                <small>
+                                    <span class="float-left">This month</span>
+                                    <span class="float-right text-success">{{totalDaysLate[1].daysLate}}</span>
+                                </small><br/>
+                                <small>
+                                    <span class="float-left">This year</span>
+                                    <span class="float-right text-danger"></span>
+                                </small>
+                            </div>
+                        </div>
+                        <button mat-button [matMenuTriggerFor]="lateMenu" class="m-0 mt-3 p-0">
+                            {{selectedRangeForDaysLate?.title}}
+                            <i class="material-icons">arrow_drop_down</i>
+                        </button>
+                        <mat-menu #lateMenu="matMenu">
+                            <button mat-menu-item (click)="filterDaysLate('week')">This week</button>
+                            <button mat-menu-item (click)="filterDaysLate('month')">This month</button>
+                            <button mat-menu-item (click)="filterDaysLate()">This year</button>
+                        </mat-menu>
+                    </mat-card>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <mat-card>
+                        <h5 class="mb-3">Average Clock-in Time</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!--<span class="font-size text-success">10</span>-->
+                                <!--<i class="material-icons text-success">arrow_upward</i>-->
+                            </div>
+                            <div class="col-md-6">
+                                <small>
+                                    <span class="float-left">This month</span>
+                                    <span class="float-right text-success"></span>
+                                </small><br/>
+                                <small>
+                                    <span class="float-left">This year</span>
+                                    <span class="float-right text-danger"></span>
                                 </small>
                             </div>
                         </div>
@@ -138,107 +232,20 @@
                 </div>
                 <div class="col-md-6 mb-4">
                     <mat-card>
-                        <h5 class="mb-3">Total day Present</h5>
+                        <h5 class="mb-3">Average Clock-out Time</h5>
                         <div class="row">
                             <div class="col-md-6">
-                                <span class="font-size text-success">10</span>
-                                <i class="material-icons text-success">arrow_upward</i>
+                                <!--<span class="font-size text-success">10</span>-->
+                                <!--<i class="material-icons text-success">arrow_upward</i>-->
                             </div>
                             <div class="col-md-6">
                                 <small>
                                     <span class="float-left">This month</span>
-                                    <span class="float-right text-success">10</span>
+                                    <span class="float-right text-success"></span>
                                 </small><br/>
                                 <small>
                                     <span class="float-left">This year</span>
-                                    <span class="float-right text-danger">10</span>
-                                </small>
-                            </div>
-                        </div>
-                        <button mat-button [matMenuTriggerFor]="menu" class="m-0 mt-3 p-0">
-                            This week
-                            <i class="material-icons">arrow_drop_down</i>
-                        </button>
-                        <mat-menu #menu="matMenu">
-                            <button mat-menu-item>This week</button>
-                            <button mat-menu-item>Item 2</button>
-                        </mat-menu>
-                    </mat-card>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <mat-card>
-                        <h5 class="mb-3">Total day Present</h5>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <span class="font-size text-success">10</span>
-                                <i class="material-icons text-success">arrow_upward</i>
-                            </div>
-                            <div class="col-md-6">
-                                <small>
-                                    <span class="float-left">This month</span>
-                                    <span class="float-right text-success">10</span>
-                                </small><br/>
-                                <small>
-                                    <span class="float-left">This year</span>
-                                    <span class="float-right text-danger">10</span>
-                                </small>
-                            </div>
-                        </div>
-                        <button mat-button [matMenuTriggerFor]="menu" class="m-0 mt-3 p-0">
-                            This week
-                            <i class="material-icons">arrow_drop_down</i>
-                        </button>
-                        <mat-menu #menu="matMenu">
-                            <button mat-menu-item>This week</button>
-                            <button mat-menu-item>Item 2</button>
-                        </mat-menu>
-                    </mat-card>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <mat-card>
-                        <h5 class="mb-3">Total day Present</h5>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <span class="font-size text-success">10</span>
-                                <i class="material-icons text-success">arrow_upward</i>
-                            </div>
-                            <div class="col-md-6">
-                                <small>
-                                    <span class="float-left">This month</span>
-                                    <span class="float-right text-success">10</span>
-                                </small><br/>
-                                <small>
-                                    <span class="float-left">This year</span>
-                                    <span class="float-right text-danger">10</span>
-                                </small>
-                            </div>
-                        </div>
-                        <button mat-button [matMenuTriggerFor]="menu" class="m-0 mt-3 p-0">
-                            This week
-                            <i class="material-icons">arrow_drop_down</i>
-                        </button>
-                        <mat-menu #menu="matMenu">
-                            <button mat-menu-item>This week</button>
-                            <button mat-menu-item>Item 2</button>
-                        </mat-menu>
-                    </mat-card>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <mat-card>
-                        <h5 class="mb-3">Total day Present</h5>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <span class="font-size text-success">10</span>
-                                <i class="material-icons text-success">arrow_upward</i>
-                            </div>
-                            <div class="col-md-6">
-                                <small>
-                                    <span class="float-left">This month</span>
-                                    <span class="float-right text-success">10</span>
-                                </small><br/>
-                                <small>
-                                    <span class="float-left">This year</span>
-                                    <span class="float-right text-danger">10</span>
+                                    <span class="float-right text-danger"></span>
                                 </small>
                             </div>
                         </div>
