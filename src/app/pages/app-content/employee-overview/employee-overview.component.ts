@@ -255,7 +255,7 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
         let route = this.ss.getPrevRoute();
 
         if(this.ss.getPrevRoute()) {
-            this.router.navigate([]);
+            this.router.navigate([route]);
         }else {
             this.router.navigate(['/portal/manage-users'])
         }
