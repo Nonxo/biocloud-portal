@@ -533,49 +533,58 @@
             </div>
 
             <div class="d-inline-flex">
-                <table class="d-inline-block table table-striped" [mfData]="employees" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
-                    <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let d of mf.data">
-                            <td>{{d.email}}</td>
-                        </tr>
-                </table>
-                <table class="d-inline-block table table-striped" [mfData]="employees" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
-                    <thead>
-                        <tr>
-                            <th scope="col" *ngFor="let date of dateColumn">{{date.title}}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let d of mf.data">
-                            <td *ngFor="let a of d.attendance" class="">
-                                <span *ngIf="a.status == 'LATE'" class="red-dot"></span>
-                                <span *ngIf="a.status == 'EARLY'" class="green-dot"></span>
-                                <span *ngIf="a.status == 'ABSENT'" class="grey-dot">ABS</span>
-                            </td>
-                        </tr>
-                </table>
+                <div class="equal-row h-100">
+                    <table class="table table-striped" [mfData]="employees" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let d of mf.data">
+                                <td>{{d.email}}</td>
+                            </tr>
+                    </table>
+                </div>
 
-                <table class="d-inline-block table table-striped" [mfData]="employees" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" *ngFor="let week of weeksArray; let i = index">
-                    <thead>
-                        <tr>
-                            <th scope="col">Total Days Early</th>
-                            <th scope="col">Total Days Late</th>
-                            <th scope="col">Total Days Absent</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let d of mf.data">
-                            <td>{{d.weeks[i]?.tde}}<mat-icon class="text-success">arrow_upward</mat-icon></td>
-                            <td>{{d.weeks[i]?.tdl}}</td>
-                            <td>{{d.weeks[i]?.tda}}</td>
+                <div class="equal-row h-100">
+                    <table class="table table-striped" [mfData]="employees" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
+                        <thead>
+                            <tr>
+                                <th scope="col" *ngFor="let date of dateColumn">{{date.title}}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let d of mf.data">
+                                <td *ngFor="let a of d.attendance" class="">
+                                    <div *ngIf="a.status == 'LATE'" class="red-dot"></div>
+                                    <div *ngIf="a.status == 'EARLY'" class="green-dot"></div>
+                                    <div *ngIf="a.status == 'ABSENT'" class="grey-dot"></div>
+                                </td>
+                            </tr>
+                    </table>
+                </div>
 
-                        </tr>
-                </table>
+                <div class="equal-row h-100">
+                    <table class="table table-striped" [mfData]="employees" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" *ngFor="let week of weeksArray; let i = index">
+                        <thead>
+                            <tr>
+                                <th scope="col">Total Days Early</th>
+                                <th scope="col">Total Days Late</th>
+                                <th scope="col">Total Days Absent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let d of mf.data">
+                                <td>{{d.weeks[i]?.tde}}
+                                    <mat-icon class="text-success position-absolute">arrow_upward</mat-icon>
+                                </td>
+                                <td>{{d.weeks[i]?.tdl}}</td>
+                                <td>{{d.weeks[i]?.tda}}</td>
+
+                            </tr>
+                    </table>
+                </div>
 
             </div>
 
