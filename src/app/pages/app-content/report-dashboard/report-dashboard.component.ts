@@ -43,14 +43,15 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     reportPeriod: string = "DATE_RANGE";
     dateColumn: DateColumn[] = [];
     employees: any[] = [];
-    attendeePOJO: AttendeesPOJO;
+    attendeePOJO: AttendeesPOJO = new AttendeesPOJO();
     pageSize: number = 10;
     pageNo: number = 1;
-    startRange: number = 1525190429000;
-    endRange: number = 1525699118000;
-    currentDayMarker: number = this.startRange;
+    startRange: number;
+    endRange: number;
+    currentDayMarker: number;
     weeksArray: any[] = [];
     daysPresentRequest: DaysPresentRequest = new DaysPresentRequest();
+    statPeriod: string = 'THIS_WEEK';
 
     constructor(private reportService: ReportService,
                 private ss: StorageService,
@@ -85,6 +86,8 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
         this.fetchDailyReport();
         this.callLocationService();
 
+        // this.fetchAttendees();
+
     }
 
     fetchDailyReport() {
@@ -92,7 +95,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
         this.reportModel.endDate = this.selectedEndDate.getTime();
 
         //if report type is absent report
-        if(this.currentTab == 2) {
+        if(this.currentTab == 3) {
             this.reportModel.startDate = this.absentDate.getTime();
             this.reportModel.endDate = this.absentDate.getTime();
         }
@@ -150,13 +153,26 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     }
 
     pageChanged(event) {
-        this.reportModel.pageNo = event.page;
-        this.fetchDailyReport();
+
+        if(this.currentTab == 0) {
+            this.attendeePOJO.pageNo = event.page;
+            this.fetchAttendeesCount();
+        }else {
+            this.reportModel.pageNo = event.page;
+            this.fetchDailyReport();
+        }
+
     }
 
     locationChange() {
         this.resetValues();
-        this.fetchDailyReport();
+
+        if(this.currentTab == 0) {
+            this.fetchAttendeesCount();
+        } else {
+            this.fetchDailyReport();
+        }
+
     }
 
     resetValues() {
@@ -180,45 +196,34 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
 
         switch (event.index) {
             case 0: {
-                this.reportModel.reportType = "early";
                 this.currentTab = 0;
+                this.fetchAttendeesCount();
+
                 break;
             }
             case 1: {
-                this.reportModel.reportType = "late";
+
+                this.reportModel.reportType = "early";
                 this.currentTab = 1;
                 break;
+
             }
             case 2: {
-                this.reportModel.reportType = "absent";
+                this.reportModel.reportType = "late";
                 this.currentTab = 2;
                 break;
+
             }
             case 3: {
-                this.reportModel.reportType = "wrong_location";
+                this.reportModel.reportType = "absent";
                 this.currentTab = 3;
                 break;
+
             }
 
             case 4: {
+                this.reportModel.reportType = "wrong_location";
                 this.currentTab = 4;
-                this.reportModel.locId = this.reportModel.locId? this.reportModel.locId:this.locations[0]? this.locations[0].locId:'';
-
-                this.attendeePOJO = new AttendeesPOJO();
-                this.attendeePOJO.locId = this.reportModel.locId;
-                this.attendeePOJO.orgId = this.reportModel.orgId;
-                this.attendeePOJO.pageSize = 10;
-                this.attendeePOJO.pageNo = 1;
-                this.contentService.fetchAttendees(this.attendeePOJO)
-                    .subscribe(
-                        result => {
-                            this.employees = result.attendees;
-                            this.getDate();
-                            this.getDaysPresent();
-                        },
-                        error => {debugger;}
-                    )
-
                 break;
             }
         }
@@ -239,6 +244,8 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
                                 this.reportModel.locId = this.locations[0].locId;
                             }
                         }
+
+                        this.fetchAttendeesCount();
 
                     } else {
                         this.locations = [];
@@ -334,6 +341,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
         // let endRange = 1526148069000;
 
         let days = this.dateUtil.getDaysLeft(this.startRange, this.endRange) + 1;
+        this.currentDayMarker = this.startRange;
 
 
         // let currentDayMarker = startRange;
@@ -363,7 +371,6 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
                                 }
                             },
                             error => {
-                                debugger;
                             }
                         )
                 }
@@ -408,10 +415,12 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
                     .subscribe(
                         result => {
                             this.employees[result.id].weeks[result.weekId].tde = result.daysEarly;
+                            this.employees[result.id].weeks[result.weekId].tdeTrend = result.earlyTrend;
                             this.employees[result.id].weeks[result.weekId].tdl = result.daysLate;
+                            this.employees[result.id].weeks[result.weekId].tdlTrend = result.lateTrend;
                             this.employees[result.id].weeks[result.weekId].tda = days - result.daysPresent;
                         },
-                        error => {debugger}
+                        error => {}
                     )
             }
 
@@ -419,8 +428,63 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
         }
     }
 
-    onScroll() {
-        this.getDate();
+    fetchAttendees() {
+        this.mService.setDisplay(true);
+        this.contentService.fetchAttendees(this.attendeePOJO)
+            .finally(() => {this.mService.setDisplay(false);})
+            .subscribe(
+                result => {
+                    this.employees = result.attendees;
+                    this.getDate();
+                    this.getDaysPresent();
+                },
+                error => {}
+            )
+    }
+
+    fetchAttendeesCount() {
+        this.weeksArray = [];
+        this.dateColumn = [];
+        this.daysPresentRequest = new DaysPresentRequest();
+
+        this.startRange = this.dateUtil.getFirstDayOfCurrentWeek(new Date()).getTime();
+        this.endRange = this.dateUtil.getLastDayOfCurrentWeek(new Date()).getTime();
+
+        this.reportModel.locId = this.reportModel.locId? this.reportModel.locId:this.locations[0]? this.locations[0].locId:'';
+
+        this.attendeePOJO.locId = this.reportModel.locId;
+        this.attendeePOJO.orgId = this.reportModel.orgId;
+
+        this.contentService.fetchAttendeesCount(this.attendeePOJO)
+            .subscribe(
+                result => {
+                    let res: any = result;
+                    if (res.code == 0) {
+                        this.totalSize = res.total;
+                        this.fetchAttendees();
+                    } else {
+                        this.ns.showError(res.description);
+                        this.totalSize = 0;
+                        this.mService.setDisplay(false)
+                    }
+                },
+                error => {
+                    this.ns.showError("An Error Occurred");
+                    this.totalSize = 0;
+                    this.mService.setDisplay(false)
+                }
+            )
+    }
+
+    gotoOverview(email: string) {
+        this.ss.setPrevRoute("/portal/report-dashboard");
+
+        this.dataService.setUserObj({
+            email,
+            orgId: this.reportModel.orgId,
+            locId: this.reportModel.locId
+        });
+        this.router.navigate(['/portal/overview']);
     }
 
 }

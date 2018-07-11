@@ -8,6 +8,7 @@ import {DaysPresentRequest, HistoryPojo, UpdateProfile} from "../model/app-conte
 import {isNullOrUndefined} from "util";
 import {ReportService} from "../services/report.service";
 import {DateUtil} from "../../../util/DateUtil";
+import {StorageService} from "../../../service/storage.service";
 
 @Component({
     selector: 'app-employee-overview',
@@ -42,7 +43,8 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
                 private ns: NotifyService,
                 private dataService: DataService,
                 private reportService: ReportService,
-                private dateUtil: DateUtil) {
+                private dateUtil: DateUtil,
+                private ss: StorageService) {
         this.mService.setTitle("Employee Overview");
     }
 
@@ -158,8 +160,8 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
 
         this.reportService.getAvgTime(this.daysPresentRequest)
             .subscribe(
-                result => {debugger;},
-                error => {debugger;}
+                result => {},
+                error => {}
             )
     }
 
@@ -191,7 +193,7 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
 
                     this.fetchMonthlyStat();
                 },
-                error => {debugger}
+                error => {}
             )
     }
 
@@ -221,7 +223,7 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
                     this.selectedRangeForDaysEarly = this.totalDaysEarly[1];
                     this.selectedRangeForDaysLate = this.totalDaysLate[1];
                 },
-                error => {debugger}
+                error => {}
             )
     }
 
@@ -249,8 +251,19 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
         }
     }
 
+    goBack() {
+        let route = this.ss.getPrevRoute();
+
+        if(this.ss.getPrevRoute()) {
+            this.router.navigate([]);
+        }else {
+            this.router.navigate(['/portal/manage-users'])
+        }
+    }
+
     ngOnDestroy() {
         this.dataService.setUserObj(null);
+        this.ss.clearPrevRoute();
     }
 
 }
