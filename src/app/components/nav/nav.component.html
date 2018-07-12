@@ -102,21 +102,32 @@
                         <a routerLink="{{view.url}}" mat-list-item>
                             <mat-icon mat-list-icon>{{view.icon}}</mat-icon>
                             <span mat-line>{{view.route}}</span>
-                            <i class="material-icons mr-3 text-white" *ngIf="view.dropdowns">arrow_drop_down</i>
+
                         </a>
                     </li>
 
-                    <ul *ngIf="view.dropdowns">
-                        <li *ngFor="let dropdown of view.dropdowns">
-                            <a routerLink="{{dropdown.route}}" mat-list-item>
-                                <span class="ml-5" mat-line>{{dropdown.subName}}</span>
-                            </a>
-                        </li>
-                    </ul>
+
                 </ng-container>
             </ul>
         </mat-nav-list>
-        <mat-nav-list>
+        <mat-nav-list class="pt-0 mt-0">
+            <ul>
+                <li routerLinkActive="active" id="report" *hasAuthority="['GENERAL_ADMIN','LOCATION_ADMIN']" (click)="activeClass = ''">
+                    <a mat-list-item class="text-white">
+                        <mat-icon mat-list-icon>insert_chart</mat-icon>
+                        <span mat-line>Report</span>
+                        <i class="material-icons mr-3 text-white" (click)="toggleReport()">arrow_drop_down</i>
+                    </a>
+                </li>
+
+                <ul *ngIf="showDropdown">
+                    <li *ngFor="let dropdown of reportDropdowns">
+                        <a routerLink="{{dropdown.route}}" mat-list-item>
+                            <span class="ml-5" mat-line>{{dropdown.subName}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </ul>
             <ul>
                 <li routerLinkActive="active" id="admin" *hasAuthority="['GENERAL_ADMIN','LOCATION_ADMIN']" (click)="activeClass = ''">
                     <a routerLink="/portal/manage-admins" mat-list-item class="text-white">

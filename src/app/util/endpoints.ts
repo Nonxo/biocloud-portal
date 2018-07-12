@@ -60,4 +60,5 @@ export class Endpoints {
     public static GET_ATTENDANCE_STATUS = `${Endpoints.BASE_URL}/reports/api/alog/attendance-status`;
     public static GET_DAYS_PRESENT = `${Endpoints.BASE_URL}/reports/api/alog/total-days-present?`;
     public static GET_AVG_TIME = `${Endpoints.BASE_URL}/reports/api/alog/total-avg-time?`;
+    public static GENERATE_METABASE_TOKEN = `${Endpoints.BASE_URL}/reports/api/alog/generate-metabase-token?`;
 }

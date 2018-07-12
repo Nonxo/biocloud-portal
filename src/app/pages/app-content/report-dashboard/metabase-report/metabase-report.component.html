@@ -1,0 +1,9 @@
+<ng-container *ngIf="iframeUrl">
+<iframe class="w-100"
+    [src]="sanitizer.bypassSecurityTrustResourceUrl(iframeUrl)"
+    frameborder="0"
+    width="800"
+    height="600"
+    allowtransparency
+></iframe>
+</ng-container>

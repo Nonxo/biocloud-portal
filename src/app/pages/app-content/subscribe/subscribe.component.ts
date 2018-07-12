@@ -49,7 +49,6 @@ export class SubscribeComponent implements OnInit, OnDestroy {
         this.userEmail = this.ss.getLoggedInUserEmail();
         this.orgId = this.ss.getSelectedOrg().orgId;
 
-        this.iframeUrl = "http://reports.seamfix.com:3000" + "/embed/dashboard/" + "eyJhbGciOiJIUzI1NiJ9.eyJyZXNvdXJjZSI6eyJkYXNoYm9hcmQiOjE2MX0sInBhcmFtcyI6eyJvcmdpZCI6IjBmMDEyYjg3LTIxY2ItNDU2ZC1hNDBlLWE1MWJhMmE0ZDlmYyJ9fQ._iIs3HJI2QNu6C-lxjToB-tsxxsv8Vp4GUybhOMnUbM" + "#bordered=true&titled=true";
     }
 
     ngOnInit() {

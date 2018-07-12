@@ -96,7 +96,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
         this.reportModel.endDate = this.selectedEndDate.getTime();
 
         //if report type is absent report
-        if(this.currentTab == 3) {
+        if(this.currentTab == 2) {
             this.reportModel.startDate = this.absentDate.getTime();
             this.reportModel.endDate = this.absentDate.getTime();
         }
@@ -154,26 +154,13 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     }
 
     pageChanged(event) {
-
-        if(this.currentTab == 0) {
-            this.attendeePOJO.pageNo = event.page;
-            this.fetchAttendeesCount();
-        }else {
             this.reportModel.pageNo = event.page;
             this.fetchDailyReport();
-        }
-
     }
 
     locationChange() {
         this.resetValues();
-
-        if(this.currentTab == 0) {
-            this.fetchAttendeesCount();
-        } else {
             this.fetchDailyReport();
-        }
-
     }
 
     resetValues() {
@@ -197,35 +184,26 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
 
         switch (event.index) {
             case 0: {
+                this.reportModel.reportType = "early";
                 this.currentTab = 0;
-                this.fetchAttendeesCount();
-
                 break;
             }
             case 1: {
-
-                this.reportModel.reportType = "early";
+                this.reportModel.reportType = "late";
                 this.currentTab = 1;
                 break;
 
             }
             case 2: {
-                this.reportModel.reportType = "late";
+                this.reportModel.reportType = "absent";
                 this.currentTab = 2;
                 break;
-
             }
             case 3: {
-                this.reportModel.reportType = "absent";
+                this.reportModel.reportType = "wrong_location";
                 this.currentTab = 3;
                 break;
 
-            }
-
-            case 4: {
-                this.reportModel.reportType = "wrong_location";
-                this.currentTab = 4;
-                break;
             }
         }
 
