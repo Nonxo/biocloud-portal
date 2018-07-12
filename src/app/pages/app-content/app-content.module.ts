@@ -29,6 +29,8 @@ import {SubscriptionService} from "./services/subscription.service";
 import { SubscriptionCardDetailsComponent } from './subscribe/subscription-card-details/subscription-card-details.component';
 import { EmployeesReportComponent } from './report-dashboard/employees-report/employees-report.component';
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import { QuickReportComponent } from './report-dashboard/quick-report/quick-report.component';
+import { MetabaseReportComponent } from './report-dashboard/metabase-report/metabase-report.component';
 
 @NgModule({
     imports: [
@@ -55,7 +57,9 @@ import {InfiniteScrollModule} from "ngx-infinite-scroll";
         SettingComponent,
         EmployeeOverviewComponent,
         SubscriptionCardDetailsComponent,
-        EmployeesReportComponent
+        EmployeesReportComponent,
+        QuickReportComponent,
+        MetabaseReportComponent
     ],
     providers: [MessageService, AppConfigService, GeoMapService, SearchService, ReportService, SubscriptionService, BsModalRef],
     entryComponents: [SetupComponent, AddAttendeesComponent]

@@ -5,8 +5,8 @@ import {StorageService} from "../../service/storage.service";
 import {AppContentService} from "../../pages/app-content/services/app-content.service";
 import {NotifyService} from "../../service/notify.service";
 import {
-  CreateOrgRequest, Org, AdminRemovalRequest, Invitation,
-  ApproveRequest, UpdateProfile
+    CreateOrgRequest, Org, AdminRemovalRequest, Invitation,
+    ApproveRequest, UpdateProfile
 } from "../../pages/app-content/model/app-content.model";
 import {MessageService} from "../../service/message.service";
 import {InviteRequest} from "../../pages/app-content/app-config/model/app-config.model";
@@ -33,7 +33,7 @@ export class NavComponent implements OnInit, OnDestroy {
     locations: any[] = [];
     users: any[] = [];
     uploadedFileName: string;
-    hoverState:boolean;
+    hoverState: boolean;
     adminRemovalRequest: AdminRemovalRequest = new AdminRemovalRequest();
     views: Object[] = [
         {
@@ -42,21 +42,30 @@ export class NavComponent implements OnInit, OnDestroy {
             url: "/portal/manage-users",
             authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']
         },
-        {
-            icon: "insert_chart",
-            route: "Report",
-            url: "/portal/report-dashboard",
-            authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN'],
-            dropdowns:[
-               {subName:'Quick Report', route:'/portal/report-dashboard'} ,
-               {subName:'Full Report', route:''}
-            ]
-        },
+        // {
+        //     icon: "insert_chart",
+        //     route: "Report",
+        //     url: "/portal/report-dashboard",
+        //     authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN'],
+        //     dropdowns:[
+        //        {subName:'Quick Report', route:'/portal/quick-report'} ,
+        //        {subName:'Full Report', route:'/portal/report-dashboard'},
+        //        {subName:'Metabase', route:'/portal/report-dashboard'},
+        //     ]
+        // }
+        // ,
         {
             icon: "payment",
             route: "Subscribe",
             url: "/portal/subscribe",
-            authority: "GENERAL_ADMIN"}
+            authority: "GENERAL_ADMIN"
+        }
+    ];
+
+    reportDropdowns = [
+        {subName: 'Quick Report', route: '/portal/quick-report'},
+        {subName: 'Full Report', route: '/portal/report-dashboard'},
+        {subName: 'Analytics', route: '/portal/analytics'},
     ];
 
     orgTypes: string[] = ["SCHOOL", "SECURITY", "HOSPITAL"];
@@ -66,7 +75,7 @@ export class NavComponent implements OnInit, OnDestroy {
     selectedOrg: Org = new Org();
     sidenavWidth = 16;
     openDropdown: boolean;
-    retrieveStatus:boolean = true;
+    retrieveStatus: boolean = true;
     approveRequest: ApproveRequest = new ApproveRequest();
     notifications: any[] = [];
     selectedLocIds: string[] = [];
@@ -81,17 +90,18 @@ export class NavComponent implements OnInit, OnDestroy {
     userImage = this.ss.getUserImg();
     @ViewChild("assignLocation") public assignLocation: TemplateRef<any>;
     searchField: string;
-    userId:string;
+    userId: string;
     searchOrgTerm$ = new Subject<any>();
     searchType: string;
     activeClass: string;
     editOrgMode: boolean;
     notificationLength: number;
     notifAlert: boolean;
-    timer:any;
-    loading:boolean;
-    subscription:any;
+    timer: any;
+    loading: boolean;
+    subscription: any;
     daysLeft: number;
+    showDropdown: boolean;
 
     constructor(private router: Router,
                 private authService: AuthService,
@@ -141,11 +151,11 @@ export class NavComponent implements OnInit, OnDestroy {
             )
         //subscribe to userImage Observable
         this.mService.getUserImage()
-          .subscribe(
-            result => {
-               this.userImage = result ? result : '';
-            }
-          )
+            .subscribe(
+                result => {
+                    this.userImage = result ? result : '';
+                }
+            )
 
         //set interval to fetch notifications
         this.timer = setInterval(() => {
@@ -171,18 +181,19 @@ export class NavComponent implements OnInit, OnDestroy {
     }
 
     fetchCompanyType() {
-        if(this.ss.getCompanyType() && this.ss.getCompanyType().length > 0) {
+        if (this.ss.getCompanyType() && this.ss.getCompanyType().length > 0) {
             this.orgTypes = this.ss.getCompanyType();
         } else {
             this.contentService.fetchCompanyType()
                 .subscribe(
                     result => {
-                        if(result.code == 0) {
+                        if (result.code == 0) {
                             this.orgTypes = result.orgTypes;
                             this.ss.setCompanyType(this.orgTypes);
                         }
                     },
-                    error => {}
+                    error => {
+                    }
                 )
         }
     }
@@ -279,7 +290,7 @@ export class NavComponent implements OnInit, OnDestroy {
         let arr = [];
         let notif = this.ss.getLatesNotifTime();
 
-        if(!notif) {
+        if (!notif) {
             let n: any = this.notifications.length > 0 ? this.notifications[0] : null;
             if (n) {
                 this.ss.setLatestNotifTime(n.created);
@@ -447,7 +458,7 @@ export class NavComponent implements OnInit, OnDestroy {
     }
 
     saveOrg() {
-        if(!this.isFormValid()) {
+        if (!this.isFormValid()) {
             return;
         }
 
@@ -457,7 +468,7 @@ export class NavComponent implements OnInit, OnDestroy {
     }
 
     isFormValid(): boolean {
-        if(!this.orgRequest.type) {
+        if (!this.orgRequest.type) {
             this.ns.showError('Company Type is required');
             return false;
         }
@@ -467,7 +478,9 @@ export class NavComponent implements OnInit, OnDestroy {
 
     callOrgCreationService() {
         this.contentService.createOrg(this.orgRequest)
-            .finally(() => {this.loading = false;})
+            .finally(() => {
+                this.loading = false;
+            })
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -491,12 +504,15 @@ export class NavComponent implements OnInit, OnDestroy {
 
     callOrgEditService() {
         this.contentService.updateOrg(this.orgRequest)
-            .finally(() => {this.hoverState = false; this.loading = false;})
+            .finally(() => {
+                this.hoverState = false;
+                this.loading = false;
+            })
             .subscribe(
                 result => {
                     if (result.code == 0) {
                         this.ns.showSuccess(result.description);
-                        this.modalRef? this.modalRef.hide():'';
+                        this.modalRef ? this.modalRef.hide() : '';
                         this.updateOrg(result.organisation);
                         this.cacheOrg();
                         this.selectOrg(result.organisation);
@@ -527,7 +543,7 @@ export class NavComponent implements OnInit, OnDestroy {
         //change selected state
         this.selectedOrg = org;
 
-        org.orgType? this.selectedOrg.sector = org.orgType:'';
+        org.orgType ? this.selectedOrg.sector = org.orgType : '';
 
         this.ss.setSelectedOrg(org);
         this.setOrgRole();
@@ -611,7 +627,7 @@ export class NavComponent implements OnInit, OnDestroy {
     editOrg(template: TemplateRef<any>) {
         this.editOrgMode = true;
         this.uploadedFileName = "";
-        this.orgRequest.type = this.selectedOrg.sector? this.selectedOrg.sector:this.selectedOrg.orgType;
+        this.orgRequest.type = this.selectedOrg.sector ? this.selectedOrg.sector : this.selectedOrg.orgType;
         this.orgRequest.name = this.selectedOrg.name;
         this.orgRequest.logo = this.selectedOrg.logo;
         this.openModal(template);
@@ -630,7 +646,7 @@ export class NavComponent implements OnInit, OnDestroy {
         this.router.navigate(['/portal/profile']);
     }
 
-    fileChange(event:any, hoverState:boolean) {
+    fileChange(event: any, hoverState: boolean) {
         this.hoverState = hoverState;
 
         if (this.pictureUtil.restrictFilesSize(event.target.files[0].size)) {
@@ -662,7 +678,7 @@ export class NavComponent implements OnInit, OnDestroy {
 
                     this.orgRequest.logo = resized_jpeg;
                     //perform this action if image upload was done when hovering over the
-                    if(this.hoverState) {
+                    if (this.hoverState) {
                         this.orgRequest.type = this.selectedOrg.sector;
                         this.orgRequest.name = this.selectedOrg.name;
                         this.callOrgEditService();
@@ -687,38 +703,39 @@ export class NavComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         clearInterval(this.timer);
-        this.modalRef? this.modalRef.hide():'';
+        this.modalRef ? this.modalRef.hide() : '';
     }
 
-  getSelectedLocationName() {
-    if (this.approveRequest.locIds.length > 0) {
-      for(let l of this.locations) {
-        if (l.locId == this.approveRequest.locIds[0]) {
-          return l.name;
+    getSelectedLocationName() {
+        if (this.approveRequest.locIds.length > 0) {
+            for (let l of this.locations) {
+                if (l.locId == this.approveRequest.locIds[0]) {
+                    return l.name;
+                }
+            }
         }
-      }
     }
-  }
 
-  confirmAssignment(inviteId:string) {
-      if (this.approveRequest.locIds.length == 0) {
-          this.ns.showError("You must select at least one location");
-          return;
-      }
+    confirmAssignment(inviteId: string) {
+        if (this.approveRequest.locIds.length == 0) {
+            this.ns.showError("You must select at least one location");
+            return;
+        }
 
-    this.callApproveService(inviteId);
-  }
+        this.callApproveService(inviteId);
+    }
 
     fetchSubscriptionDetails() {
         this.subService.fetchSubscriptionDetails(this.selectedOrg.orgId)
             .subscribe(
                 result => {
-                    if(result.code == 0) {
+                    if (result.code == 0) {
                         this.subscription = result.subscription;
                         this.checkTrialPeriodStatus();
                     }
                 },
-                error => {}
+                error => {
+                }
             )
     }
 
@@ -726,6 +743,10 @@ export class NavComponent implements OnInit, OnDestroy {
         if (this.subscription.subscriptionMode.toLowerCase() == SubscriptionMode.TRIAL.toLowerCase()) {
             this.daysLeft = this.dateUtil.getDaysLeft(new Date().getTime(), this.subscription.endDate);
         }
+    }
+
+    toggleReport() {
+        this.showDropdown ? this.showDropdown = false : this.showDropdown = true;
     }
 
 }

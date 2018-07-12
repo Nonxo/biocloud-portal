@@ -1,0 +1,105 @@
+.fixed-action-btn {
+    position: fixed;
+    z-index: 998;
+    right: 25px;
+    bottom: 45px;
+    padding-top: 15px;
+    margin-bottom: 0;
+}
+
+.btn-search {
+    background: #603484;
+    border: none;
+    margin-left: -10px;
+    height: 38px;
+}
+
+.mat-search {
+    color: #fff;
+}
+
+.report-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #c5c5c5;
+    width: 45px;
+    outline: none;
+}
+
+.location-padding {
+    padding-left: 34px;
+}
+
+.date-style {
+    position: absolute;
+    padding-top: 18px;
+    padding-left: 156px;
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 736px) {
+    .btn-search {
+        background: #603484;
+        border: none;
+        margin-left: -48px;
+        height: 38px;
+    }
+}
+
+@media (min-width: 992px) {
+    .col-lg {
+        -ms-flex-preferred-size: 0;
+        flex-basis: 0;
+        -ms-flex-positive: 0 !important;
+        flex-grow: 0 !important;
+        max-width: 100%;
+    }
+}
+
+@media (min-width: 992px) {
+    .col-lg-4 {
+        -ms-flex: 0 0 39.333333% !important;
+        flex: 0 0 39.333333% !important;
+        max-width: 39.333333% !important;
+    }
+}
+
+.red-dot {
+    height: 18px;
+    width: 25px;
+    background-color: red;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    margin-bottom: 6px;
+}
+
+.green-dot {
+    height: 18px;
+    width: 25px;
+    background-color: green;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    margin-bottom: 6px;
+}
+
+.grey-dot {
+    height: 18px;
+    width: 25px;
+    background-color: grey;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    margin-bottom: 6px;
+}
+
+.example-month-picker .mat-calendar-period-button {
+    pointer-events: none;
+}
+
+.example-month-picker .mat-calendar-arrow {
+    display: none;
+}
