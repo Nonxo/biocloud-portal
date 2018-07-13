@@ -21,39 +21,38 @@
 
                 <div class="col-md-2 col-lg">
                     <mat-form-field>
-                        <mat-select name="statPeriod" [(ngModel)]="statPeriod">
+                        <mat-select name="statPeriod" [(ngModel)]="statPeriod" (change)="filter()">
                             <mat-option value="THIS_WEEK">THIS WEEK</mat-option>
                             <mat-option value="OTHER_WEEKS">OTHER WEEKS</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
 
+                <ng-container *ngIf="statPeriod == 'OTHER_WEEKS'">
                 <div class="col-md-2 col-lg">
                     <mat-form-field>
-                        <mat-select placeholder="Select Year">
-                            <mat-option value="lorem">lorem</mat-option>
-                            <mat-option value="lorem1">lorem1</mat-option>
+                        <mat-select placeholder="Select Year" name="selectedYear" [(ngModel)]="selectedYear" (change)="onFilterToggle()">
+                            <mat-option value="{{year}}" *ngFor="let year of years">{{year}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
 
                 <div class="col-md-2 col-lg">
                     <mat-form-field>
-                        <mat-select placeholder="Select Month">
-                            <mat-option value="lorem">lorem</mat-option>
-                            <mat-option value="lorem1">lorem1</mat-option>
+                        <mat-select placeholder="Select Month" name="selectedMonth" [(ngModel)]="selectedMonth" (change)="onFilterToggle()">
+                            <mat-option value="{{month.id}}" *ngFor="let month of months">{{month.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
 
                 <div class="col-md-2 col-lg">
                     <mat-form-field>
-                        <mat-select placeholder="Select Week">
-                            <mat-option value="lorem">lorem</mat-option>
-                            <mat-option value="lorem1">lorem1</mat-option>
+                        <mat-select placeholder="Select Week" name="week" [(ngModel)]="selectedWeek" (change)="onWeekFilter()">
+                            <mat-option value="{{week.id}}" *ngFor="let week of weeks">{{week.title}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
+                </ng-container>
 
                 <!-- <div class="col-md-2 col-lg">
                     <mat-form-field>
@@ -131,6 +130,7 @@
                                     <div *ngIf="a.status == 'LATE'" class="red-dot"></div>
                                     <div *ngIf="a.status == 'EARLY'" class="green-dot"></div>
                                     <div *ngIf="a.status == 'ABSENT'" class="grey-dot"></div>
+                                    <mat-icon class="small" style="height: 0" *ngIf="a.status == 'N/A'" mat-list-icon>remove</mat-icon>
                                 </td>
                             </tr>
                     </table>
@@ -149,11 +149,11 @@
                             <tr *ngFor="let d of mf.data">
                                 <td>{{d.weeks[i]?.tde}}
                                     <mat-icon class="text-success small position-absolute" *ngIf="d.weeks[i]?.tdeTrend == 'UP'">arrow_upward</mat-icon>
-                                    <mat-icon class="text-success small position-absolute" *ngIf="d.weeks[i]?.tdeTrend == 'DOWN'">arrow_downward</mat-icon>
+                                    <mat-icon class="text-danger small position-absolute" *ngIf="d.weeks[i]?.tdeTrend == 'DOWN'">arrow_downward</mat-icon>
                                 </td>
                                 <td>{{d.weeks[i]?.tdl}}
                                     <mat-icon class="text-success small position-absolute" *ngIf="d.weeks[i]?.tdlTrend == 'UP'">arrow_upward</mat-icon>
-                                    <mat-icon class="text-success small position-absolute" *ngIf="d.weeks[i]?.tdlTrend == 'DOWN'">arrow_downward</mat-icon>
+                                    <mat-icon class="text-danger small position-absolute" *ngIf="d.weeks[i]?.tdlTrend == 'DOWN'">arrow_downward</mat-icon>
                                 </td>
                                 <td>{{d.weeks[i]?.tda}}
                                     <!--<mat-icon class="text-success small position-absolute">arrow_upward</mat-icon>-->

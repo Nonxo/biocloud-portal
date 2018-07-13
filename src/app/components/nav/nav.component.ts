@@ -64,7 +64,7 @@ export class NavComponent implements OnInit, OnDestroy {
 
     reportDropdowns = [
         {subName: 'Quick Report', route: '/portal/quick-report'},
-        {subName: 'Full Report', route: '/portal/report-dashboard'},
+        {subName: 'Attendance Report', route: '/portal/report-dashboard'},
         {subName: 'Analytics', route: '/portal/analytics'},
     ];
 

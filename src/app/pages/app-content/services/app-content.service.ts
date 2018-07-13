@@ -511,11 +511,13 @@ export class AppContentService {
             )
     }
 
-    fetchPuncScore(model: HistoryPojo): Observable<any> {
+    fetchPuncScore(model: HistoryPojo, startTime: number, endTime: number): Observable<any> {
         const params = new HttpParams()
             .set("email", model.email)
             .set("orgId", model.orgId)
-            .set("locId", model.locId);
+            .set("locId", model.locId)
+            .set("startTime", startTime.toString())
+            .set("endTime", endTime.toString());
 
         return this.httpClient
             .get(Endpoints.FETCH_PUNCTUALITY_SCORE + params, {
