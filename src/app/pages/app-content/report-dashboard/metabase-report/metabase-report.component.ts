@@ -8,7 +8,7 @@ import {StorageService} from "../../../../service/storage.service";
   templateUrl: './metabase-report.component.html',
   styleUrls: ['./metabase-report.component.css']
 })
-export class MetabaseReportComponent implements OnInit, OnChanges {
+export class MetabaseReportComponent implements OnInit {
 
     orgId: string;
     token: string;
@@ -24,16 +24,12 @@ export class MetabaseReportComponent implements OnInit, OnChanges {
       this.getToken();
   }
 
-  ngOnChanges() {
-      debugger;
-  }
-
   getToken() {
       this.reportService.generateMetabaseToken(this.orgId)
           .subscribe(
               result => {
                   this.token = result.token;
-                  this.iframeUrl = this.iframeUrl = "http://reports.seamfix.com:3000" + "/embed/dashboard/" + this.token + "#bordered=true&titled=true";
+                  this.iframeUrl = this.iframeUrl = "http://fuelvoucher.com.ng:2395" + "/embed/dashboard/" + this.token + "#bordered=true&titled=true";
               },
               error => {}
           )
