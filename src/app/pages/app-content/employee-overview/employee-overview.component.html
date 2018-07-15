@@ -54,16 +54,34 @@
 
             <mat-card class="mt-lg-3 mt-4 punctuality-height">
                 <div class="row">
+                    <div class="col-lg-12">
+                        <h5 class="text-brand pb-lg-2 punctuality-padding">Punctuality Report</h5>
+
+                        <div class="row">
+                            <div class="col-md-12 d-inline-flex">
+                                <p class="small">
+                                    0% - Never early
+                                </p>
+                                <p class="small pl-3">
+                                    50% - Averagely early
+                                </p>
+                                <p class="small pl-3">
+                                    100% - Always early
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-lg-12 pb-lg-0 pb-2">
-                        <h5 class="text-brand pb-lg-5 punctuality-padding">Punctuality Report</h5>
+                        <!-- <h5 class="text-brand pb-lg-5 punctuality-padding">Punctuality Report</h5> -->
 
                         <div class="col-lg-6 float-left w-50 pt-3 gauge-width">
-                            <mwl-gauge class="two {{active}}" [max]="100" [dialStartAngle]="0" [dialEndAngle]="180" [value]="punctualityScore" [animated]="true" [animationDuration]="4">
+                            <mwl-gauge class="two {{active}}" [max]="100" [dialStartAngle]="0" [dialEndAngle]="180" [value]="punctualityScore" [animated]="true" [animationDuration]="5">
                             </mwl-gauge>
 
                         </div>
 
-                        <div class="col-lg-6 pt-lg-5 float-right pl-lg-5 punctuality-text">
+                        <!-- <div class="col-lg-6 pt-lg-5 float-right pl-lg-5 punctuality-text">
                             <p class="small">
                                 0% - Never early
                             </p>
@@ -73,30 +91,36 @@
                             <p class="small">
                                 100% - Always early
                             </p>
-                        </div>
+                        </div> -->
 
-                        <div class="col-md-6 pt-lg-5 float-right pl-lg-5 punctuality-text">
-                            <small>
-                                <span class="float-left">This month</span>
-                                <span class="float-right text-success">{{punctuality[1]?.punctualityScore}}</span>
-                            </small><br/>
-                            <small>
-                                <span class="float-left">This year</span>
-                                <span class="float-right text-danger">{{punctuality[2]?.punctualityScore}}</span>
-                            </small>
+                        <div class="row">
+                            <div class="col-md-6 pt-lg-5 float-right pl-lg-5 punctuality-text">
+                                <small>
+                                    <span class="float-left">This month</span>
+                                    <span class="float-right text-success">{{punctuality[1]?.punctualityScore}}</span>
+                                </small><br/>
+                                <small>
+                                    <span class="float-left">This year</span>
+                                    <span class="float-right text-danger">{{punctuality[2]?.punctualityScore}}</span>
+                                </small>
+
+                                <div>
+                                    <button mat-button [matMenuTriggerFor]="puncMenu" class="m-0 mt-3 p-0">
+                                        {{selectedRangeForPunc?.title}}
+                                        <i class="material-icons">arrow_drop_down</i>
+                                    </button>
+                                    <mat-menu #puncMenu="matMenu">
+                                        <button mat-menu-item (click)="filterPuncScore('week')">This week</button>
+                                        <button mat-menu-item (click)="filterPuncScore('month')">This month</button>
+                                        <button mat-menu-item (click)="filterPuncScore('year')">This year</button>
+                                    </mat-menu>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
 
-                    <button mat-button [matMenuTriggerFor]="puncMenu" class="m-0 mt-3 p-0">
-                        {{selectedRangeForPunc?.title}}
-                        <i class="material-icons">arrow_drop_down</i>
-                    </button>
-                    <mat-menu #puncMenu="matMenu">
-                        <button mat-menu-item (click)="filterPuncScore('week')">This week</button>
-                        <button mat-menu-item (click)="filterPuncScore('month')">This month</button>
-                        <button mat-menu-item (click)="filterPuncScore('year')">This year</button>
-                    </mat-menu>
+
                 </div>
             </mat-card>
 

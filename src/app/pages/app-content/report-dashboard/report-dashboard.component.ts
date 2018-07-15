@@ -42,17 +42,9 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     selectedEndDate: Date = new Date();
     absentDate: Date = new Date();
     reportPeriod: string = "DATE_RANGE";
-    dateColumn: DateColumn[] = [];
     employees: any[] = [];
-    attendeePOJO: AttendeesPOJO = new AttendeesPOJO();
     pageSize: number = 10;
     pageNo: number = 1;
-    startRange: number;
-    endRange: number;
-    currentDayMarker: number;
-    weeksArray: any[] = [];
-    daysPresentRequest: DaysPresentRequest = new DaysPresentRequest();
-    statPeriod: string = 'THIS_WEEK';
 
     constructor(private reportService: ReportService,
                 private ss: StorageService,
@@ -167,12 +159,6 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
         this.data = [];
         this.currentPage = 1;
         this.reportModel.pageNo = 1;
-
-        this.employees = [];
-        this.weeksArray = [];
-        this.dateColumn = [];
-        this.attendeePOJO = new AttendeesPOJO();
-        this.daysPresentRequest = new DaysPresentRequest();
     }
 
     /**
@@ -223,8 +209,6 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
                                 this.reportModel.locId = this.locations[0].locId;
                             }
                         }
-
-                        this.fetchAttendeesCount();
 
                     } else {
                         this.locations = [];
@@ -315,145 +299,6 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
         this.dataService.setLocId(null);
     }
 
-    getDate() {
-        // let startRange = 1525190429000;
-        // let endRange = 1526148069000;
-
-        let days = this.dateUtil.getDaysLeft(this.startRange, this.endRange) + 1;
-        this.currentDayMarker = this.startRange;
-
-
-        // let currentDayMarker = startRange;
-
-        for(let i = 0; i < days; i++) {
-
-            if(i < days) {
-                let startTime = this.dateUtil.getStartOfDay(new Date(this.currentDayMarker));
-                let endTime = this.dateUtil.getEndOfDay(new Date(this.currentDayMarker));
-
-                this.dateColumn.push(new DateColumn(i + 1, "Day " + (i + 1), startTime, endTime));
-
-                for (let employee of this.employees) {
-                    !employee.attendance ? employee.attendance = [] : "";
-
-                    employee.attendance.push(new DateColumn(i + 1, "Day " + (i + 1), startTime, endTime, ""));
-
-                    //make service call to get details of employee for a particular day
-                    this.reportService.fetchAttendanceStatus(new AttendanceStatusRequest(i + 1, employee.email, startTime, endTime, this.reportModel.locId, this.reportModel.orgId))
-                        .subscribe(
-                            result => {
-                                for (let emp of this.employees) {
-                                    if (emp.email == result.email) {
-                                        emp.attendance[result.id - 1].status = result.status;
-                                        break;
-                                    }
-                                }
-                            },
-                            error => {
-                            }
-                        )
-                }
-
-                this.currentDayMarker = endTime + 1;
-            }
-
-
-        }
-
-        this.pageNo = this.pageNo + 1;
-
-        console.log(this.dateColumn);
-
-    }
-
-    getDaysPresent() {
-        let days = this.dateUtil.getDaysLeft(this.startRange, this.endRange) + 1;
-
-        let weeks = Math.ceil(days/7);
-        for(let i = 0; i < weeks; i++) {
-            this.weeksArray.push({id: i});
-        }
-
-        for(let i = 0; i < this.employees.length; i++) {
-
-            for(let j = 0; j < weeks; i++) {
-                this.employees[i].weeks? '':this.employees[i].weeks = [];
-                this.employees[i].weeks.push({id: j, tde: 0, tdl: 0, tda: 0, startTime: this.dateUtil.getStartOfDay(new Date(this.startRange)), endTime: this.dateUtil.getEndOfDay(new Date(this.endRange))});
-
-                this.daysPresentRequest.id = i;
-                this.daysPresentRequest.weekId = j;
-                this.daysPresentRequest.email = this.employees[i].email;
-                this.daysPresentRequest.orgId = this.reportModel.orgId;
-                this.daysPresentRequest.locId = this.reportModel.locId;
-                this.daysPresentRequest.currentStartTime = this.dateUtil.getStartOfDay(new Date(this.startRange));
-                this.daysPresentRequest.currentEndTime = this.dateUtil.getEndOfDay(new Date(this.endRange));
-                this.daysPresentRequest.prevStartTime = this.dateUtil.getPreviousWeekTimeStamp(this.dateUtil.getStartOfDay(new Date(this.startRange)) - 1)
-                this.daysPresentRequest.prevEndTime = this.dateUtil.getStartOfDay(new Date(this.startRange)) - 1;
-
-                this.reportService.getDaysPresent(this.daysPresentRequest)
-                    .subscribe(
-                        result => {
-                            this.employees[result.id].weeks[result.weekId].tde = result.daysEarly;
-                            this.employees[result.id].weeks[result.weekId].tdeTrend = result.earlyTrend;
-                            this.employees[result.id].weeks[result.weekId].tdl = result.daysLate;
-                            this.employees[result.id].weeks[result.weekId].tdlTrend = result.lateTrend;
-                            this.employees[result.id].weeks[result.weekId].tda = days - result.daysPresent;
-                        },
-                        error => {}
-                    )
-            }
-
-
-        }
-    }
-
-    fetchAttendees() {
-        this.mService.setDisplay(true);
-        this.contentService.fetchAttendees(this.attendeePOJO)
-            .finally(() => {this.mService.setDisplay(false);})
-            .subscribe(
-                result => {
-                    this.employees = result.attendees;
-                    this.getDate();
-                    this.getDaysPresent();
-                },
-                error => {}
-            )
-    }
-
-    fetchAttendeesCount() {
-        this.weeksArray = [];
-        this.dateColumn = [];
-        this.daysPresentRequest = new DaysPresentRequest();
-
-        this.startRange = this.dateUtil.getFirstDayOfCurrentWeek(new Date()).getTime();
-        this.endRange = this.dateUtil.getLastDayOfCurrentWeek(new Date()).getTime();
-
-        this.reportModel.locId = this.reportModel.locId? this.reportModel.locId:this.locations[0]? this.locations[0].locId:'';
-
-        this.attendeePOJO.locId = this.reportModel.locId;
-        this.attendeePOJO.orgId = this.reportModel.orgId;
-
-        this.contentService.fetchAttendeesCount(this.attendeePOJO)
-            .subscribe(
-                result => {
-                    let res: any = result;
-                    if (res.code == 0) {
-                        this.totalSize = res.total;
-                        this.fetchAttendees();
-                    } else {
-                        this.ns.showError(res.description);
-                        this.totalSize = 0;
-                        this.mService.setDisplay(false)
-                    }
-                },
-                error => {
-                    this.ns.showError("An Error Occurred");
-                    this.totalSize = 0;
-                    this.mService.setDisplay(false)
-                }
-            )
-    }
 
     gotoOverview(email: string) {
         this.ss.setPrevRoute("/portal/report-dashboard");
