@@ -9,6 +9,15 @@
 
         <div class="container-fluid" *ngIf="currentTab == 0">
 
+            <div class="col-md-12 text-lg-right">
+                <mat-form-field>
+                    <div class="d-inline-flex">
+                        <input matInput placeholder="Search">
+                        <mat-icon class="cursor">search</mat-icon>
+                    </div>
+                </mat-form-field>
+            </div>
+
             <div class="col-md-12 col-lg d-lg-flex align-items-center">
                 <div class="col-md-2 col-lg">
                     <mat-form-field>
@@ -29,29 +38,29 @@
                 </div>
 
                 <ng-container *ngIf="statPeriod == 'OTHER_WEEKS'">
-                <div class="col-md-2 col-lg">
-                    <mat-form-field>
-                        <mat-select placeholder="Select Year" name="selectedYear" [(ngModel)]="selectedYear" (change)="onFilterToggle()">
-                            <mat-option value="{{year}}" *ngFor="let year of years">{{year}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+                    <div class="col-md-2 col-lg">
+                        <mat-form-field>
+                            <mat-select placeholder="Select Year" name="selectedYear" [(ngModel)]="selectedYear" (change)="onFilterToggle()">
+                                <mat-option value="{{year}}" *ngFor="let year of years">{{year}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
 
-                <div class="col-md-2 col-lg">
-                    <mat-form-field>
-                        <mat-select placeholder="Select Month" name="selectedMonth" [(ngModel)]="selectedMonth" (change)="onFilterToggle()">
-                            <mat-option value="{{month.id}}" *ngFor="let month of months">{{month.name}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+                    <div class="col-md-2 col-lg">
+                        <mat-form-field>
+                            <mat-select placeholder="Select Month" name="selectedMonth" [(ngModel)]="selectedMonth" (change)="onFilterToggle()">
+                                <mat-option value="{{month.id}}" *ngFor="let month of months">{{month.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
 
-                <div class="col-md-2 col-lg">
-                    <mat-form-field>
-                        <mat-select placeholder="Select Week" name="week" [(ngModel)]="selectedWeek" (change)="onWeekFilter()">
-                            <mat-option value="{{week.id}}" *ngFor="let week of weeks">{{week.title}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+                    <div class="col-md-2 col-lg">
+                        <mat-form-field>
+                            <mat-select placeholder="Select Week" name="week" [(ngModel)]="selectedWeek" (change)="onWeekFilter()">
+                                <mat-option value="{{week.id}}" *ngFor="let week of weeks">{{week.title}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
                 </ng-container>
 
                 <!-- <div class="col-md-2 col-lg">
