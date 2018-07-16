@@ -30,6 +30,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     public totalAmount: number;
     private planId: string;
     private userEmail: string;
+    private userPhoneNumber: string;
     public modalRef: BsModalRef;
     public renewSub: boolean;
     public discountRate:number;
@@ -44,10 +45,13 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                 private ss: StorageService,
                 private mService: MessageService) {
         this.userEmail = this.ss.getLoggedInUserEmail();
+        this.userPhoneNumber = (this.ss.loggedInUser.phoneCode? this.ss.loggedInUser.phoneCode:'') + this.ss.loggedInUser.phone;
+        console.log(this.userPhoneNumber);
         this.orgId = this.ss.getSelectedOrg().orgId;
     }
 
     ngOnInit() {
+        this.mService.setTitle("Subscription");
         this.fetchSubscriptionDetails();
         this.fetchAllExchangeRates();
     }
@@ -157,9 +161,9 @@ export class SubscribeComponent implements OnInit, OnDestroy {
             PBFPubKey: this.PUBKey,
             customer_email: this.userEmail,
             amount: this.amountToPay,
-            customer_phone: "234099940409",
+            customer_phone: this.userEmail,
             currency: this.selectedCurrency,
-            payment_method: this.renewSub? "card":"both",
+            payment_method: "card",
             txref: this.transactionRef,
             meta: [{metaname: 'brcrypt', metavalue: this.cipher}],
             onclose: function () {
@@ -263,7 +267,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     }
 
     changePlan() {
-        this.subService.changePlan(new SubscriptionChangeRequest(this.monthlyPlan? 'MONTHLY':'ANNUAL',this.orgId, this.selectedPlan.planId))
+        this.subService.changePlan(new SubscriptionChangeRequest(this.monthlyPlan? 'MONTHLY':'ANNUAL',this.orgId, this.selectedPlan.planId, this.selectedCurrency))
             .subscribe(
                 result => {
                     if(result.code == 0) {

@@ -1,3 +1,8 @@
+<div class="d-inline-flex pt-3 cursor" (click)="goBack()">
+<i class="material-icons text-muted"> keyboard_backspace</i>
+<p class="text-muted">Back</p>
+</div>
+
 <div id="receipt" style="width: 100%; background: #f4f4f4; text-align: left;">
     <div style="display:none;font-size:1px;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;mso-hide:all;font-family: sans-serif;">(Optional) This text will appear in the inbox preview, but not the email body.</div>
     <div style="max-width: 600px; margin: auto; background: #fff;" class="email-container">
@@ -29,7 +34,6 @@
                         <div class="logo-div" style="padding: 10px;">
                             <img src="https://seamfix.com/wp-content/uploads/2018/04/iClocker2-e1523144398554.png" width="135px" style=" padding-left: 16px; padding-top: 5px;">
                             <hr style="margin-left: 20px;margin-right: 20px;border-bottom: 1px solid #d5d5d5; border-top: none;">
-                            <h2 style="color: #373435; margin-left: 20px">Bill To</h2>
                         </div>
                     </div>
                 </td>
@@ -40,8 +44,9 @@
             <tbody bgcolor="#ffffff">
             <tr>
                 <th>
-                    <div style="border:1px solid #d5d5d570; margin-top: 22px;">
-                        <h3 style="font-weight: 500;padding-left: 10px;">{{companyName}}</h3>
+                    <h3 style="margin-bottom: 2px; text-align: center; font-weight: bold">Bill To</h3>
+                    <div style="border:1px solid #d5d5d570;">
+                        <h4 style="text-align: center; font-weight: 500;">{{companyName}}</h4>
                     </div>
                 </th>
                 <th>
@@ -65,17 +70,19 @@
             <tr style="background: #D2D3D5">
                 <th>QTY</th>
                 <th>Description</th>
+                <th>Currency</th>
                 <th>Amount</th>
             </tr>
             <tr>
                 <td>1</td>
                 <td>{{history?.billingCycle == 'MONTHLY'? 'Monthly Subscription':'Annual Subscription'}}, {{history?.planName}} Plan</td>
-                <td>{{history?.amountPaid | currency:history?.currency:'symbol-narrow':'1.0'}}</td>
+                <td>{{history?.currency}}</td>
+                <td>{{history?.amountPaid}}</td>
             </tr>
             <tr style="border-top: 1px solid #d5d5d5">
                 <td></td>
                 <td style="text-align: right;"><b>Total</b></td>
-                <td>{{history?.amountPaid | currency:history?.currency:'symbol-narrow':'1.0'}}</td>
+                <td>{{history.currency }} {{ history?.amountPaid}}</td>
             </tr>
             </tbody>
         </table>

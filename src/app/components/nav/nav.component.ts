@@ -153,6 +153,7 @@ export class NavComponent implements OnInit, OnDestroy {
                 result => {
                     if(result) {
                         this.subscription = result;
+                        this.checkTrialPeriodStatus();
                     }
                 }
             )

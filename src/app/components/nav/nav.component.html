@@ -143,7 +143,7 @@
         <span>{{title}}</span>
         <span class="example-spacer"></span>
 
-        <div *ngIf="subscription?.subscriptionMode.toLowerCase() == 'TRIAL'.toLowerCase()" class="trial-div d-xl-block d-none">
+        <div *ngIf="subscription?.subscriptionMode.toLowerCase() == 'TRIAL'.toLowerCase() && daysLeft > 0" class="trial-div d-xl-block d-none">
             <p class="small trial-p">Trial Expires in: {{daysLeft}} days</p>
         </div>
 

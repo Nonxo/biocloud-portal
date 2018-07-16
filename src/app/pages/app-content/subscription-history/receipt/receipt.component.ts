@@ -21,7 +21,7 @@ export class ReceiptComponent implements OnInit, OnDestroy, AfterViewInit {
     public companyName: string;
     public date: number;
     public base64Img: string;
-    public description:string;
+    public description: string;
 
     constructor(private ds: DataService,
                 private router: Router,
@@ -41,11 +41,12 @@ export class ReceiptComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.pictureUtil.imageToBase64('../../../../../assets/img/logos-bc.png', (img) => {
             this.base64Img = img;
+            this.download();
         });
     }
 
     ngAfterViewInit() {
-        this.download();
+
     }
 
     download() {
@@ -138,6 +139,10 @@ export class ReceiptComponent implements OnInit, OnDestroy, AfterViewInit {
         // }, function() {
         //     doc.save("receipt.pdf");
         // });
+    }
+
+    goBack() {
+        this.router.navigate(['/portal/subscription-history']);
     }
 
     ngOnDestroy() {
