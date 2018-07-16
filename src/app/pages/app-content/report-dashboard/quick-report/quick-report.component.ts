@@ -12,6 +12,8 @@ import {DataService} from "../../../../service/data.service";
 import {Router} from "@angular/router";
 import {MessageService} from "../../../../service/message.service";
 import {DateUtil} from "../../../../util/DateUtil";
+import {Subject} from 'rxjs';
+import {SearchService} from "../../../../service/search.service";
 
 @Component({
     selector: 'app-quick-report',
@@ -65,6 +67,8 @@ export class QuickReportComponent implements OnInit {
     selectedMonth: number;
     selectedYear: number;
     selectedWeek: number;
+    searchOrgTerm$ = new Subject<any>();
+    searchType: string;
 
 
     constructor(private reportService: ReportService,
@@ -75,8 +79,15 @@ export class QuickReportComponent implements OnInit {
                 private dataService: DataService,
                 private router: Router,
                 private mService: MessageService,
-                private dateUtil: DateUtil) {
+                private dateUtil: DateUtil,
+                private searchService: SearchService) {
         this.reportModel.orgId = this.ss.getSelectedOrg().orgId;
+
+        //subscribe to search observable
+        this.searchService.search(this.searchOrgTerm$)
+            .subscribe(results => {
+
+            });
     }
 
     ngOnInit() {
@@ -184,7 +195,7 @@ export class QuickReportComponent implements OnInit {
         for (let i = 0; i < this.employees.length; i++) {
 
             for (let j = 0; j < weeks; i++) {
-                this.employees[i].weeks = [];
+                this.employees[i]['weeks'] = [];
                 this.employees[i].weeks.push({
                     id: j,
                     tde: 0,
@@ -230,7 +241,7 @@ export class QuickReportComponent implements OnInit {
             })
             .subscribe(
                 result => {
-                    this.employees = result.attendees;
+                    this.employees = result.attendees? result.attendees:[];
                     this.getDate();
                     this.getDaysPresent();
                 },
@@ -247,7 +258,7 @@ export class QuickReportComponent implements OnInit {
         this.reportModel.locId = this.reportModel.locId ? this.reportModel.locId : this.locations[0] ? this.locations[0].locId : '';
 
         this.attendeePOJO.locId = this.reportModel.locId;
-        this.attendeePOJO.orgId = this.reportModel.orgId;
+        // this.attendeePOJO.orgId = this.reportModel.orgId;
 
         this.contentService.fetchAttendeesCount(this.attendeePOJO)
             .subscribe(
@@ -282,6 +293,7 @@ export class QuickReportComponent implements OnInit {
     }
 
     resetValues() {
+        this.statPeriod = 'THIS_WEEK';
         this.data = [];
         this.currentPage = 1;
         this.reportModel.pageNo = 1;
@@ -337,6 +349,11 @@ export class QuickReportComponent implements OnInit {
 
 
         this.fetchAttendeesCount();
+    }
+
+    search(searchType: string, searchValue: string) {
+        this.searchType = searchType;
+        this.searchOrgTerm$.next({searchValue: searchValue, searchType: searchType});
     }
 
     filter() {

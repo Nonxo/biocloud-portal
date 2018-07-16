@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MetabaseReportComponent } from './metabase-report.component';
+import { MetabaseReportComponent } from './analytics.component';
 
 describe('MetabaseReportComponent', () => {
   let component: MetabaseReportComponent;

@@ -112,7 +112,7 @@
         </mat-nav-list>
         <mat-nav-list class="pt-0 mt-0">
             <ul>
-                <li routerLinkActive="active" id="report" *hasAuthority="['GENERAL_ADMIN','LOCATION_ADMIN']" (click)="activeClass = ''">
+                <li routerLinkActive="active" id="report" *hasAuthority="['GENERAL_ADMIN','LOCATION_ADMIN']">
                     <a mat-list-item class="text-white" (click)="toggleReport()">
                         <mat-icon mat-list-icon>insert_chart</mat-icon>
                         <span mat-line>Report</span>
@@ -121,7 +121,7 @@
                 </li>
 
                 <ul *ngIf="showDropdown">
-                    <li *ngFor="let dropdown of reportDropdowns">
+                    <li routerLinkActive="active" *ngFor="let dropdown of reportDropdowns" (click)="activeClass = ''">
                         <a routerLink="{{dropdown.route}}" mat-list-item>
                             <span class="ml-5" mat-line>{{dropdown.subName}}</span>
                         </a>
@@ -164,7 +164,7 @@
         <span class="example-spacer"></span>
 
         <div *ngIf="subscription?.subscriptionMode.toLowerCase() == 'TRIAL'.toLowerCase() && daysLeft > 0" class="trial-div d-xl-block d-none">
-            <p class="small trial-p">Trial Expires in: {{daysLeft}} days</p>
+            <p class="small trial-p">Trial Expires in: {{daysLeft}} day(s)</p>
         </div>
 
         <!--<button mat-icon-button class="pr-5" matTooltip="Switch to bioregistra">-->
