@@ -14,6 +14,7 @@ export class MessageService {
     private title = new Subject<string>();
     private display = new Subject<boolean>();
     private userImage = new Subject<string>();
+    private updateSub = new Subject<any>();
 
     constructor() {}
 
@@ -63,6 +64,14 @@ export class MessageService {
 
     getDisplayStatus(): Observable<boolean> {
         return this.display.asObservable();
+    }
+
+    setUpdateSub(value: any): void {
+        this.updateSub.next(value);
+    }
+
+    getUpdateSub(): Observable<any> {
+        return this.updateSub.asObservable();
     }
 
 }
