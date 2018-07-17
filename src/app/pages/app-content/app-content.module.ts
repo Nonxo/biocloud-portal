@@ -30,7 +30,7 @@ import { SubscriptionCardDetailsComponent } from './subscribe/subscription-card-
 import { EmployeesReportComponent } from './report-dashboard/employees-report/employees-report.component';
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import { QuickReportComponent } from './report-dashboard/quick-report/quick-report.component';
-import { MetabaseReportComponent } from './report-dashboard/metabase-report/metabase-report.component';
+import { MetabaseReportComponent } from './report-dashboard/analytics/analytics.component';
 
 @NgModule({
     imports: [

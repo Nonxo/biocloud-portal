@@ -751,7 +751,7 @@ export class NavComponent implements OnInit, OnDestroy {
 
     checkTrialPeriodStatus() {
         if (this.subscription.subscriptionMode.toLowerCase() == SubscriptionMode.TRIAL.toLowerCase()) {
-            this.daysLeft = this.dateUtil.getDaysLeft(new Date().getTime(), this.subscription.endDate);
+            this.daysLeft = this.dateUtil.getDaysLeft(this.dateUtil.getStartOfDay(new Date()), this.dateUtil.getEndOfDay(new Date(this.subscription.endDate))) - 1;
         }
     }
 

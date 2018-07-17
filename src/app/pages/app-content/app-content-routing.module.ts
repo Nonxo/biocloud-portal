@@ -21,7 +21,7 @@ import {EmployeeOverviewComponent} from "./employee-overview/employee-overview.c
 import {SubscriptionCardDetailsComponent} from './subscribe/subscription-card-details/subscription-card-details.component';
 import {EmployeesReportComponent} from "./report-dashboard/employees-report/employees-report.component";
 import {QuickReportComponent} from "./report-dashboard/quick-report/quick-report.component";
-import {MetabaseReportComponent} from "./report-dashboard/metabase-report/metabase-report.component";
+import {MetabaseReportComponent} from "./report-dashboard/analytics/analytics.component";
 
 const routes: Routes = [
     {
