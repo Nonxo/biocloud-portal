@@ -39,7 +39,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     private orgId:string;
     public subscription:any;
     @ViewChild("confirmPaymentTemplate")private confirmPaymentTemplate: TemplateRef<any>;
-    iframeUrl:string;
+    @ViewChild("warningTemplate")private warningTemplate: TemplateRef<any>;
 
     constructor(private subService: SubscriptionService,
                 private modalService: BsModalService,
@@ -150,7 +150,9 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                         this.transactionRef = result.transactionRef;
 
                         this.callRave();
-                    } else {
+                    } else if (result.code == -16) {
+                        this.openModal(this.warningTemplate);
+                    }else {
                         this.ns.showError(result.description);
                     }
                 },
@@ -288,7 +290,9 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                         this.amountToPay = result.amount;
 
                         this.openModal(this.confirmPaymentTemplate);
-                    } else {
+                    } else if (result.code == -16) {
+                        this.openModal(this.warningTemplate);
+                    }else {
                         this.ns.showError(result.description);
                     }
                 },
