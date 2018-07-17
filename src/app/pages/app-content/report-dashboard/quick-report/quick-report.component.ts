@@ -109,9 +109,7 @@ export class QuickReportComponent implements OnInit {
                             }
                         }
 
-                        if(this.locations.length > 0) {
                             this.fetchAttendeesCount();
-                        }
 
                     } else {
                         this.locations = [];
@@ -253,34 +251,36 @@ export class QuickReportComponent implements OnInit {
     }
 
     fetchAttendeesCount() {
-        this.weeksArray = [];
-        this.dateColumn = [];
-        this.daysPresentRequest = new DaysPresentRequest();
+        if(this.locations.length > 0) {
+            this.weeksArray = [];
+            this.dateColumn = [];
+            this.daysPresentRequest = new DaysPresentRequest();
 
-        this.reportModel.locId = this.reportModel.locId ? this.reportModel.locId : this.locations[0] ? this.locations[0].locId : '';
+            this.reportModel.locId = this.reportModel.locId ? this.reportModel.locId : this.locations[0] ? this.locations[0].locId : '';
 
-        this.attendeePOJO.locId = this.reportModel.locId;
-        // this.attendeePOJO.orgId = this.reportModel.orgId;
+            this.attendeePOJO.locId = this.reportModel.locId;
+            // this.attendeePOJO.orgId = this.reportModel.orgId;
 
-        this.contentService.fetchAttendeesCount(this.attendeePOJO)
-            .subscribe(
-                result => {
-                    let res: any = result;
-                    if (res.code == 0) {
-                        this.totalSize = res.total;
-                        this.fetchAttendees();
-                    } else {
-                        this.ns.showError(res.description);
+            this.contentService.fetchAttendeesCount(this.attendeePOJO)
+                .subscribe(
+                    result => {
+                        let res: any = result;
+                        if (res.code == 0) {
+                            this.totalSize = res.total;
+                            this.fetchAttendees();
+                        } else {
+                            this.ns.showError(res.description);
+                            this.totalSize = 0;
+                            this.mService.setDisplay(false)
+                        }
+                    },
+                    error => {
+                        this.ns.showError("An Error Occurred");
                         this.totalSize = 0;
                         this.mService.setDisplay(false)
                     }
-                },
-                error => {
-                    this.ns.showError("An Error Occurred");
-                    this.totalSize = 0;
-                    this.mService.setDisplay(false)
-                }
-            )
+                )
+        }
     }
 
     gotoOverview(email: string) {

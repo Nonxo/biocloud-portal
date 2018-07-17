@@ -28,7 +28,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="col-md-2 col-lg">
+                <div class="col-md-2 col-lg" *ngIf="locations.length > 0">
                     <mat-form-field>
                         <mat-select name="statPeriod" [(ngModel)]="statPeriod" (change)="filter()">
                             <mat-option value="THIS_WEEK">THIS WEEK</mat-option>

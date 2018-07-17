@@ -193,4 +193,28 @@
     </div>
 </ng-template>
 
+<ng-template #warningTemplate>
+    <div class="modal-header" style="border-bottom: none">
+        <h5 class="modal-title text-brand mx-auto">Important Notice</h5>
+        <!-- <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button> -->
+    </div>
+    <div class="modal-body">
+        <div class="text-center">
+            <img src="assets/img/caution.png" alt="" class="img-fluid" style="max-width: 78px;">
+        </div>
+        <p class="text-center pt-2">You are about to subscribe to a service that doesn't support your employees range. You are advised to either
+        <a routerLink="/portal/manage-users">Deactivate</a> some of your employees or choose a suitable plan
+        </p>
+
+        <div class="col-md-12 text-md-center text-center pt-3 pb-4">
+            <button mat-raised-button color="primary" type="submit" class="primary-outline">
+                Close
+            </button>
+
+        </div>
+
+    </div>
+</ng-template>
 
