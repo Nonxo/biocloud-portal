@@ -22,6 +22,7 @@ import {SearchService} from "../../../../service/search.service";
 })
 export class QuickReportComponent implements OnInit {
 
+    searchValue: string;
     reportModel: ReportModel = new ReportModel();
     rowsOnPage: number = 10;
     data: any[] = [];
@@ -67,7 +68,6 @@ export class QuickReportComponent implements OnInit {
     selectedMonth: number;
     selectedYear: number;
     selectedWeek: number;
-    searchOrgTerm$ = new Subject<any>();
     searchType: string;
 
 
@@ -83,11 +83,6 @@ export class QuickReportComponent implements OnInit {
                 private searchService: SearchService) {
         this.reportModel.orgId = this.ss.getSelectedOrg().orgId;
 
-        //subscribe to search observable
-        this.searchService.search(this.searchOrgTerm$)
-            .subscribe(results => {
-
-            });
     }
 
     ngOnInit() {
@@ -295,7 +290,6 @@ export class QuickReportComponent implements OnInit {
     }
 
     resetValues() {
-        this.statPeriod = 'THIS_WEEK';
         this.data = [];
         this.currentPage = 1;
         this.reportModel.pageNo = 1;
@@ -315,8 +309,17 @@ export class QuickReportComponent implements OnInit {
 
     locationChange() {
         this.resetValues();
+        this.statPeriod = 'THIS_WEEK';
+
         this.fetchAttendeesCount();
 
+    }
+
+    updateSize() {
+        this.resetValues();
+        this.attendeePOJO.pageSize = this.rowsOnPage;
+
+        this.fetchAttendeesCount();
     }
 
     onTabChange(event) {
@@ -353,9 +356,10 @@ export class QuickReportComponent implements OnInit {
         this.fetchAttendeesCount();
     }
 
-    search(searchType: string, searchValue: string) {
-        this.searchType = searchType;
-        this.searchOrgTerm$.next({searchValue: searchValue, searchType: searchType});
+    search() {
+        this.resetValues();
+        this.attendeePOJO.param = this.searchValue;
+        this.fetchAttendeesCount();
     }
 
     filter() {
