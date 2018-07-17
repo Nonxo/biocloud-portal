@@ -109,7 +109,9 @@ export class QuickReportComponent implements OnInit {
                             }
                         }
 
-                        this.fetchAttendeesCount();
+                        if(this.locations.length > 0) {
+                            this.fetchAttendeesCount();
+                        }
 
                     } else {
                         this.locations = [];
