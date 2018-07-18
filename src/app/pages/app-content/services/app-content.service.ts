@@ -219,12 +219,14 @@ export class AppContentService {
             params = new HttpParams()
                 .set("orgId", model.orgId)
                 .set("active", String(model.active))
+                .set("param", model.param)
                 .set("pageNo", String(model.pageNo))
                 .set("pageSize", String(model.pageSize));
         } else {
             params = new HttpParams()
                 .set("locId", model.locId)
                 .set("active", String(model.active))
+                .set("param", model.param)
                 .set("pageNo", String(model.pageNo))
                 .set("pageSize", String(model.pageSize));
         }
@@ -249,10 +251,12 @@ export class AppContentService {
         if (model.orgId) {
             params = new HttpParams()
                 .set("orgId", model.orgId)
+                .set("param", model.param)
                 .set("active", String(model.active));
         } else {
             params = new HttpParams()
                 .set("locId", model.locId)
+                .set("param", model.param)
                 .set("active", String(model.active));
         }
 

@@ -132,11 +132,13 @@ export class AttendeesPOJO {
     active:boolean;
     pageSize:number;
     pageNo:number;
+    param:string;
 
     constructor() {
         this.active = true;
         this.pageSize = 10;
         this.pageNo = 1;
+        this.param = "";
     }
 
 }
