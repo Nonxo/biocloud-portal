@@ -136,9 +136,11 @@ export class ReportService {
             )
     }
 
-    generateMetabaseToken(orgId: string): Observable<any> {
+    generateMetabaseToken(orgId: string, startdate: string, enddate: string): Observable<any> {
         const params = new HttpParams()
-            .set("orgId",orgId);
+            .set("orgId", orgId)
+            .set("startdate", startdate)
+            .set("enddate", enddate);
 
         return this.httpClient
             .get(Endpoints.GENERATE_METABASE_TOKEN + params, {

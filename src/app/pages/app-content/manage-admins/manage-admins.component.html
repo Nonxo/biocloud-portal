@@ -45,7 +45,7 @@
                     </th>
                     <td>{{d.firstName }} {{ d.lastName}}</td>
                     <td>{{d.email}}</td>
-                    <td>{{d.phone}}</td>
+                    <td>{{d.phoneCode? d.phoneCode: "" }} {{ d.phone}}</td>
                     <td>{{d.role == 'GENERAL_ADMIN'? 'GENERAL ADMIN':'LOCATION ADMIN'}}</td>
                 </tr>
 

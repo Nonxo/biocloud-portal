@@ -64,8 +64,8 @@ export class DateUtil {
     }
 
     public getDaysLeft(startTimestamp: number, endTimestamp: number): number {
-        let timeDiff = Math.abs(endTimestamp - startTimestamp);
-        return Math.ceil(timeDiff / (1000 * 3600 * 24));
+        let timeDiff = endTimestamp - startTimestamp;
+        return Math.round(timeDiff / (1000 * 3600 * 24));
     }
 
     public getStartOfDay(date: Date): number {
@@ -147,6 +147,14 @@ export class DateUtil {
         );
 
         return firstDateOfWeek;
+    }
+
+    getDateString(date: Date) {
+        let month = this.addZero((date.getMonth() + 1)),
+            day = this.addZero(date.getDate()),
+            year = date.getFullYear();
+
+        return [year, month, day].join('-');
     }
 
 }

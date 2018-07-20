@@ -9,7 +9,7 @@ import {Endpoints} from "../../../util/endpoints";
 import {MediaType} from "../../../util/constants";
 import {map, timeout} from "rxjs/operators";
 import {AuthService} from "../../../components/auth/auth.service";
-import {VerifyPaymentRequest} from "../model/app-content.model";
+import {SubscriptionChangeRequest, VerifyPaymentRequest} from "../model/app-content.model";
 
 @Injectable()
 export class SubscriptionService {
@@ -184,11 +184,33 @@ export class SubscriptionService {
             )
     }
 
-    changePlan(model: any): Observable<any> {
+    changePlan(model: SubscriptionChangeRequest): Observable<any> {
         return this.httpClient
             .post(Endpoints.CHANGE_PLAN, JSON.stringify(model), {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_JSON)
+            }).pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
+    getProratedCost(model: SubscriptionChangeRequest): Observable<any> {
+        const params = new HttpParams()
+            .set("currency", model.currency)
+            .set("orgId", model.orgId)
+            .set("planId", model.planId)
+            .set("billingCycle", model.billingCycle)
+            .set("amount", String(model.amount));
+
+        return this.httpClient
+            .get(Endpoints.GET_PRORATED_COST + params, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             }).pipe(
                 timeout(50000),
                 map(response => {

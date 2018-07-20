@@ -81,7 +81,7 @@ export class RegisterComponent implements OnInit {
         this.loading = true;
         this.payload = this.form.value;
 
-        this.payload['phoneCode'] = this.selectedPhoneCode;
+        this.payload['phoneCode'] = this.selectedPhoneCode.charAt(0) == "+"? this.selectedPhoneCode: "+" + this.selectedPhoneCode;
 
         //set Device Type
         this.payload['deviceType'] = 'WEB';

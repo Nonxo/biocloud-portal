@@ -87,7 +87,7 @@ export class SubscriptionCardDetailsComponent implements OnInit {
 
     generateTransactionRef() {
         this.loading = true;
-        this.subService.generateTransactionRef(this.orgId, this.amountToPay, this.selectedCurrency, this.planId, "ADD_CARD")
+        this.subService.generateTransactionRef(this.orgId, this.getPrice(), this.selectedCurrency, this.planId, "ADD_CARD")
             .finally(() => {this.loading = false; this.modalRef.hide();})
             .subscribe(
                 result => {
@@ -111,7 +111,7 @@ export class SubscriptionCardDetailsComponent implements OnInit {
         getpaidSetup({
             PBFPubKey: this.PUBKey,
             customer_email: this.userEmail,
-            amount: this.amountToPay,
+            amount: this.getPrice(),
             customer_phone: "234099940409",
             currency: this.selectedCurrency,
             payment_method: "card",

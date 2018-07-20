@@ -27,7 +27,7 @@
                 <div class="mx-auto mb-2 container-img-hover">
                     <img *ngIf="!selectedOrg.logo" src=" assets/img/1.png" class="image-hover mx-auto img-fluid rounded-circle logo-icon" />
                     <img *ngIf="selectedOrg.logo" src="data:image/jpg;base64,{{selectedOrg.logo}}" class="image-hover mx-auto img-fluid rounded-circle logo-icon" />
-                    <div class="middle">
+                    <div class="middle" *hasAuthority="'GENERAL_ADMIN'">
                         <span class="fileUpload btn">
                             <span><mat-icon class="float-left text-white upload-icon">camera_enhance</mat-icon></span>
                         <input type="file" class="upload" accept="image/*" #input (change)="fileChange($event, true)">
@@ -165,6 +165,10 @@
 
         <div *ngIf="subscription?.subscriptionMode.toLowerCase() == 'TRIAL'.toLowerCase() && daysLeft > 0" class="trial-div d-xl-block d-none">
             <p class="small trial-p">Trial Expires in: {{daysLeft}} day(s)</p>
+        </div>
+
+        <div *ngIf="subscription?.subscriptionMode.toLowerCase() == 'EXPIRED'.toLowerCase()" class="trial-div d-xl-block d-none">
+            <p class="small trial-p">Subscription Plan Expired</p>
         </div>
 
         <!--<button mat-icon-button class="pr-5" matTooltip="Switch to bioregistra">-->

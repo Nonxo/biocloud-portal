@@ -38,6 +38,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     public discountPrice:number;
     private orgId:string;
     public subscription:any;
+    public proratedAmount: number;
     @ViewChild("confirmPaymentTemplate")private confirmPaymentTemplate: TemplateRef<any>;
     @ViewChild("warningTemplate")private warningTemplate: TemplateRef<any>;
 
@@ -199,7 +200,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     }
 
     confirmPayment(plan: SubscriptionPlan, template: TemplateRef<any>) {
-        if(!this.subscription || this.subscription.subscriptionMode.toLowerCase() == SubscriptionMode.TRIAL.toLowerCase()) {
+        if(!this.subscription || this.subscription.subscriptionPlanId.toLowerCase().startsWith(SubscriptionMode.TRIAL.toLowerCase())) {
             this.selectedPlan = plan;
             this.renewSub = false;
             this.totalAmount = this.getPrice(plan);
@@ -209,18 +210,43 @@ export class SubscribeComponent implements OnInit, OnDestroy {
             this.openModal(template);
         }else {
             this.selectedPlan = plan;
-            this.changePlan();
+            this.totalAmount = this.getPrice(plan);
+            this.getProratedCost();
+            // this.changePlan();
         }
+    }
+
+    getProratedCost() {
+        this.mService.setDisplay(true);
+        this.subService.getProratedCost(new SubscriptionChangeRequest(this.monthlyPlan? 'MONTHLY':'ANNUAL',this.orgId, this.selectedPlan.planId, this.selectedCurrency, 0))
+            ._finally(() => {this.mService.setDisplay(false)})
+            .subscribe(
+                result => {
+                    if(result.code == 0) {
+                        // this.totalAmount = result.amount;
+                        this.proratedAmount = result.amount;
+                        this.setDiscountPrice();
+                        this.amountToPay = this.proratedAmount - this.discountPrice;
+
+                        this.openModal(this.confirmPaymentTemplate);
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+
+                },
+                error => {this.ns.showError("An Error Occurred")}
+            )
     }
 
     subscribe(plan) {
         this.modalRef.hide();
         this.planId = plan.planId;
 
-        if(!this.subscription || this.subscription.subscriptionMode.toLowerCase() == SubscriptionMode.TRIAL.toLowerCase()) {
+        if(!this.subscription || this.subscription.subscriptionPlanId.toLowerCase().startsWith(SubscriptionMode.TRIAL.toLowerCase())) {
             this.generateTransactionRef();
         }else {
-            this.callRave();
+            this.changePlan();
+            // this.callRave();
         }
 
     }
@@ -256,7 +282,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     verifyPayment(txRef, autoRenew:boolean) {
         this.mService.setDisplay(true);
         this.subService.verifyPayment(new VerifyPaymentRequest(txRef, this.monthlyPlan? 'MONTHLY':'ANNUAL', autoRenew, this.orgId, this.exchangeRate, "SUBSCRIPTION"))
-            .finally(() => {this.mService.setDisplay(false);})
+            ._finally(() => {this.mService.setDisplay(false);})
             .subscribe(
                 result => {
                     if(result.code == 0) {
@@ -273,7 +299,9 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     }
 
     changePlan() {
-        this.subService.changePlan(new SubscriptionChangeRequest(this.monthlyPlan? 'MONTHLY':'ANNUAL',this.orgId, this.selectedPlan.planId, this.selectedCurrency))
+        this.mService.setDisplay(true);
+        this.subService.changePlan(new SubscriptionChangeRequest(this.monthlyPlan? 'MONTHLY':'ANNUAL',this.orgId, this.selectedPlan.planId, this.selectedCurrency, this.amountToPay))
+            .finally(() => {this.mService.setDisplay(false)})
             .subscribe(
                 result => {
                     if(result.code == 0) {
@@ -287,9 +315,15 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                         this.PUBKey = result.ravePayPublicKey;
                         this.transactionRef = result.transactionRef;
 
-                        this.amountToPay = result.amount;
+                        //dont get transaction ref from here
 
-                        this.openModal(this.confirmPaymentTemplate);
+                        // this.totalAmount = result.amount;
+                        // this.setDiscountPrice();
+                        // this.amountToPay = this.totalAmount - this.discountPrice;
+
+
+                        // this.openModal(this.confirmPaymentTemplate);
+                        this.callRave();
                     } else if (result.code == -16) {
                         this.openModal(this.warningTemplate);
                     }else {
@@ -304,6 +338,10 @@ export class SubscribeComponent implements OnInit, OnDestroy {
         let date = new Date(this.subscription.endDate);
         date.setDate(date.getDate() + 1);
         return date.getTime();
+    }
+
+    gotoContactPage() {
+        window.open("https://seamfix.com/contact");
     }
 
     ngOnDestroy() {

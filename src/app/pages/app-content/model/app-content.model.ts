@@ -187,6 +187,7 @@ export class SubscriptionPlan {
     enabled:boolean;
     maxAttendeeThreshold:number;
     autoRenew:boolean;
+    planFeatures: string[];
 
 }
 
@@ -213,12 +214,14 @@ export class SubscriptionChangeRequest {
     orgId: string;
     planId: string;
     currency: string;
+    amount: number;
 
-    constructor(billingCycle: string, orgId: string, planId: string, currency: string) {
+    constructor(billingCycle: string, orgId: string, planId: string, currency: string, amount: number) {
         this.billingCycle = billingCycle;
         this.orgId = orgId;
         this.planId = planId;
         this.currency = currency;
+        this.amount = amount;
     }
 }
 
