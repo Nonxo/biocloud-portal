@@ -163,11 +163,11 @@
         <span>{{title}}</span>
         <span class="example-spacer"></span>
 
-        <div *ngIf="subscription?.subscriptionMode.toLowerCase() == 'TRIAL'.toLowerCase() && daysLeft > 0" class="trial-div d-xl-block d-none">
+        <div *ngIf="subscription?.subscriptionMode.toLowerCase() == 'TRIAL'.toLowerCase() && daysLeft > 0" class="trial-div-success d-xl-block d-none">
             <p class="small trial-p">Trial Expires in: {{daysLeft}} day(s)</p>
         </div>
 
-        <div *ngIf="subscription?.subscriptionMode.toLowerCase() == 'EXPIRED'.toLowerCase()" class="trial-div d-xl-block d-none">
+        <div *ngIf="subscription?.subscriptionStatus.toLowerCase() == 'EXPIRED'.toLowerCase()" class="trial-div-danger d-xl-block d-none">
             <p class="small trial-p">Subscription Plan Expired</p>
         </div>
 

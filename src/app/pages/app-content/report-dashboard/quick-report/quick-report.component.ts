@@ -169,8 +169,6 @@ export class QuickReportComponent implements OnInit {
 
         this.pageNo = this.pageNo + 1;
 
-        console.log(this.dateColumn);
-
     }
 
     getDaysPresent() {

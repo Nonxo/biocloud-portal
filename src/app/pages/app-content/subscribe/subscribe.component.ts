@@ -50,7 +50,6 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                 public sanitizer: DomSanitizer) {
         this.userEmail = this.ss.getLoggedInUserEmail();
         this.userPhoneNumber = (this.ss.loggedInUser.phoneCode? this.ss.loggedInUser.phoneCode:'') + this.ss.loggedInUser.phone;
-        console.log(this.userPhoneNumber);
         this.orgId = this.ss.getSelectedOrg().orgId;
 
     }
@@ -179,7 +178,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                 let txRef = response.tx.txRef; // collect flwRef returned and pass to a 					server page to complete status check.
                 let authToken = response.tx.chargeToken.embed_token;
 
-                console.log("This is the response returned after a charge", response);
+                // console.log("This is the response returned after a charge", response);
                 if (
                     response.tx.chargeResponseCode == "00" ||
                     response.tx.chargeResponseCode == "0"
@@ -210,7 +209,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
             this.openModal(template);
         }else {
             this.selectedPlan = plan;
-            this.totalAmount = this.getPrice(plan);
+            // this.totalAmount = this.getPrice(plan);
             this.getProratedCost();
             // this.changePlan();
         }
@@ -223,7 +222,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
             .subscribe(
                 result => {
                     if(result.code == 0) {
-                        // this.totalAmount = result.amount;
+                        this.totalAmount = result.amount;
                         this.proratedAmount = result.amount;
                         this.setDiscountPrice();
                         this.amountToPay = this.proratedAmount - this.discountPrice;

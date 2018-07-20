@@ -74,11 +74,20 @@ ol {
     width: 100% !important;
 }
 
-.trial-div {
+.trial-div-success {
     margin-right: 430px;
     margin-top: -25px;
     width: 265px;
     background: #14a50e;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.trial-div-danger {
+    margin-right: 430px;
+    margin-top: -25px;
+    width: 265px;
+    background: red;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }

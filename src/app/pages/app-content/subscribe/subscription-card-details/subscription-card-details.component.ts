@@ -123,7 +123,7 @@ export class SubscriptionCardDetailsComponent implements OnInit {
                 let txRef = response.tx.txRef; // collect flwRef returned and pass to a 					server page to complete status check.
                 let authToken = response.tx.chargeToken.embed_token;
 
-                console.log("This is the response returned after a charge", response);
+                // console.log("This is the response returned after a charge", response);
                 if (
                     response.tx.chargeResponseCode == "00" ||
                     response.tx.chargeResponseCode == "0"
