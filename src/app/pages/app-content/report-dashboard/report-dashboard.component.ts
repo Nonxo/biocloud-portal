@@ -1,5 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ReportModel} from "../model/app-content.model";
+import {
+    AttendanceStatusRequest, AttendeesPOJO, DateColumn, DaysPresentRequest,
+    ReportModel
+} from "../model/app-content.model";
 import {ReportService} from "../services/report.service";
 import {StorageService} from "../../../service/storage.service";
 import {AppContentService} from "../services/app-content.service";
@@ -12,6 +15,7 @@ import {Router} from "@angular/router";
 import {DateUtil} from "../../../util/DateUtil";
 import {MyDateAdapter} from "../../../util/adapters/date-adapter";
 import {DateAdapter} from "@angular/material";
+
 
 @Component({
     selector: 'app-report-dashboard',
@@ -38,6 +42,9 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     selectedEndDate: Date = new Date();
     absentDate: Date = new Date();
     reportPeriod: string = "DATE_RANGE";
+    employees: any[] = [];
+    pageSize: number = 10;
+    pageNo: number = 1;
 
     constructor(private reportService: ReportService,
                 private ss: StorageService,
@@ -71,6 +78,9 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
 
         this.fetchDailyReport();
         this.callLocationService();
+
+        // this.fetchAttendees();
+
     }
 
     fetchDailyReport() {
@@ -136,13 +146,13 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     }
 
     pageChanged(event) {
-        this.reportModel.pageNo = event.page;
-        this.fetchDailyReport();
+            this.reportModel.pageNo = event.page;
+            this.fetchDailyReport();
     }
 
     locationChange() {
         this.resetValues();
-        this.fetchDailyReport();
+            this.fetchDailyReport();
     }
 
     resetValues() {
@@ -168,6 +178,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
                 this.reportModel.reportType = "late";
                 this.currentTab = 1;
                 break;
+
             }
             case 2: {
                 this.reportModel.reportType = "absent";
@@ -178,6 +189,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
                 this.reportModel.reportType = "wrong_location";
                 this.currentTab = 3;
                 break;
+
             }
         }
 
@@ -285,6 +297,18 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
      */
     ngOnDestroy() {
         this.dataService.setLocId(null);
+    }
+
+
+    gotoOverview(email: string) {
+        this.ss.setPrevRoute("/portal/report-dashboard");
+
+        this.dataService.setUserObj({
+            email,
+            orgId: this.reportModel.orgId,
+            locId: this.reportModel.locId
+        });
+        this.router.navigate(['/portal/overview']);
     }
 
 }

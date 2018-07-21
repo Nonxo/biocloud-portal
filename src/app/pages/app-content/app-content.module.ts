@@ -25,7 +25,12 @@ import {ReportService} from "./services/report.service";
 import {BsModalRef, PaginationModule} from "ngx-bootstrap";
 import { EmployeeOverviewComponent } from './employee-overview/employee-overview.component';
 import {GaugeModule} from "angular-gauge";
+import {SubscriptionService} from "./services/subscription.service";
+import { SubscriptionCardDetailsComponent } from './subscribe/subscription-card-details/subscription-card-details.component';
 import { EmployeesReportComponent } from './report-dashboard/employees-report/employees-report.component';
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import { QuickReportComponent } from './report-dashboard/quick-report/quick-report.component';
+import { MetabaseReportComponent } from './report-dashboard/analytics/analytics.component';
 
 @NgModule({
     imports: [
@@ -34,6 +39,7 @@ import { EmployeesReportComponent } from './report-dashboard/employees-report/em
         DataTableModule,
         PaginationModule.forRoot(),
         GaugeModule.forRoot(),
+        InfiniteScrollModule,
         AppContentRoutingModule
     ],
     declarations: [
@@ -50,9 +56,12 @@ import { EmployeesReportComponent } from './report-dashboard/employees-report/em
         ManageAdminsComponent,
         SettingComponent,
         EmployeeOverviewComponent,
-        EmployeesReportComponent
+        SubscriptionCardDetailsComponent,
+        EmployeesReportComponent,
+        QuickReportComponent,
+        MetabaseReportComponent
     ],
-    providers: [MessageService, AppConfigService, GeoMapService, SearchService, ReportService, BsModalRef],
+    providers: [MessageService, AppConfigService, GeoMapService, SearchService, ReportService, SubscriptionService, BsModalRef],
     entryComponents: [SetupComponent, AddAttendeesComponent]
 })
 export class AppContentModule { }

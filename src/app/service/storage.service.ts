@@ -190,4 +190,18 @@ export class StorageService {
         return obj? obj:null;
     }
 
+    setPrevRoute(value: string) {
+        localStorage.setItem('prevRoute', value);
+    }
+
+    getPrevRoute() {
+        let obj:any = localStorage.getItem('prevRoute');
+
+        return obj? obj:null;
+    }
+
+    clearPrevRoute() {
+        localStorage.removeItem('prevRoute');
+    }
+
 }

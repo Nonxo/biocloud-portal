@@ -132,11 +132,13 @@ export class AttendeesPOJO {
     active:boolean;
     pageSize:number;
     pageNo:number;
+    param:string;
 
     constructor() {
         this.active = true;
         this.pageSize = 10;
         this.pageNo = 1;
+        this.param = "";
     }
 
 }
@@ -185,6 +187,7 @@ export class SubscriptionPlan {
     enabled:boolean;
     maxAttendeeThreshold:number;
     autoRenew:boolean;
+    planFeatures: string[];
 
 }
 
@@ -203,6 +206,73 @@ export class VerifyPaymentRequest {
         this.orgId = orgId;
         this.conversionRate = conversionRate;
         this.transactionMode = transactionMode;
+    }
+}
+
+export class SubscriptionChangeRequest {
+    billingCycle:string;
+    orgId: string;
+    planId: string;
+    currency: string;
+    amount: number;
+
+    constructor(billingCycle: string, orgId: string, planId: string, currency: string, amount: number) {
+        this.billingCycle = billingCycle;
+        this.orgId = orgId;
+        this.planId = planId;
+        this.currency = currency;
+        this.amount = amount;
+    }
+}
+
+export class DateColumn {
+    id: number;
+    title: string;
+    startTime: number;
+    endTime: number;
+    status: string;
+
+    constructor (id: number, title: string, startTime?: number, endTime?: number, status?: string) {
+        this.id = id;
+        this.title = title;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.status = status;
+    }
+}
+
+export class AttendanceStatusRequest {
+    id: number;
+    email: string;
+    startTime: number;
+    endTime: number;
+    locId: string;
+    orgId: string;
+
+    constructor(id: number, email: string, startTime: number, endTime: number, locId: string, orgId: string) {
+        this.id = id;
+        this.email = email;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.locId = locId;
+        this.orgId = orgId;
+    }
+}
+
+export class DaysPresentRequest {
+    id: number;
+    weekId: number;
+    email: string;
+    currentStartTime: number;
+    currentEndTime: number;
+    locId: string;
+    orgId: string;
+    prevStartTime: number;
+    prevEndTime: number;
+
+    constructor() {
+        this.id = 0;
+        this.weekId = 0;
     }
 }
 

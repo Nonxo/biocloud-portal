@@ -47,4 +47,19 @@ export class Endpoints {
     public static FETCH_ATTENDEES_LOCATION = `${Endpoints.BASE_URL}/users/api/attendees/`;
     public static FETCH_COMPANY_TYPE = `${Endpoints.BASE_URL}/users/api/org/orgType`;
     public static FETCH_USER_DAILY_REPORT = `${Endpoints.BASE_URL}/reports/api/alog/user?`;
+    public static ACCEPT_GDPR_COMPLIANCE = `${Endpoints.BASE_URL}/users/api/u/gdpr-compliance/accept`;
+    public static FETCH_SUBSCRIPTION_PLANS = `${Endpoints.BASE_URL}/users/api/subscriptions/plans`;
+    public static FETCH_ALL_EXCHANGE_RATE = `${Endpoints.BASE_URL}/users/api/subscriptions/rates/all`;
+    public static FETCH_SPECIFIC_EXCHANGE_RATE = `${Endpoints.BASE_URL}/users/api/subscriptions/rate?`;
+    public static GEENERATE_TRANSACTION_REF = `${Endpoints.BASE_URL}/users/api/subscriptions/gtr`;
+    public static VERIFY_PAYMENT = `${Endpoints.BASE_URL}/users/api/subscriptions/payment/verify`;
+    public static FETCH_SUBSCRIPTION = `${Endpoints.BASE_URL}/users/api/subscriptions/org`;
+    public static DELETE_CARD = `${Endpoints.BASE_URL}/users/api/subscriptions/card/delete?`;
+    public static FETCH_CARD = `${Endpoints.BASE_URL}/users/api/subscriptions/card?`;
+    public static CHANGE_PLAN = `${Endpoints.BASE_URL}/users/api/subscriptions/change-plan`;
+    public static GET_ATTENDANCE_STATUS = `${Endpoints.BASE_URL}/reports/api/alog/attendance-status`;
+    public static GET_DAYS_PRESENT = `${Endpoints.BASE_URL}/reports/api/alog/total-days-present?`;
+    public static GET_AVG_TIME = `${Endpoints.BASE_URL}/reports/api/alog/total-avg-time?`;
+    public static GENERATE_METABASE_TOKEN = `${Endpoints.BASE_URL}/reports/api/alog/generate-metabase-token?`;
+    public static GET_PRORATED_COST = `${Endpoints.BASE_URL}/users/api/subscriptions/get-prorated-cost?`;
 }

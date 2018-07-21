@@ -211,6 +211,8 @@ export class SetupComponent implements OnInit {
                 }
 
                 this.locRequest.clockOutTime = this.getTimeStamp(this.clockoutTime);
+            } else {
+                this.locRequest.clockOutTime = null;
             }
 
         } else {
@@ -465,10 +467,10 @@ export class SetupComponent implements OnInit {
 
         if (event && event.target) {
             input = event.target;
-            value = event.target.value;
+            value = event.target.value.toLowerCase();
         } else {
             input = event.input;
-            value = event.value;
+            value = event.value.toLowerCase();
         }
 
         let arr = value.split(" ");

@@ -61,7 +61,7 @@
                                 <p class="cursor text-brand" (click)="gotoOverview(d.email)">{{d.firstName }} {{ d.lastName}}</p>
                             </td>
                             <td>{{d.email}}</td>
-                            <td>{{d.phone}}</td>
+                            <td>{{d.phoneCode? d.phoneCode: "" }} {{ d.phone}}</td>
                             <!--<td>{{d.status? 'Active':'Inactive'}}</td>-->
                         </tr>
 
@@ -155,7 +155,7 @@
                                 <p class="cursor text-brand" (click)="gotoOverview(d.email)">{{d.firstName }} {{ d.lastName}}</p>
                             </td>
                             <td>{{d.email}}</td>
-                            <td>{{d.phone}}</td>
+                            <td>{{d.phoneCode? d.phoneCode: "" }} {{ d.phone}}</td>
                         </tr>
 
                     </tbody>

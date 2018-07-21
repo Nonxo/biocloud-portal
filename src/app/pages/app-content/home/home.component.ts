@@ -41,6 +41,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     noOfAttendees:number;
     assignRequestObj:AssignUserRequest = new AssignUserRequest();
     @ViewChild("deactivateLocation")public deactivateLocation: TemplateRef<any>;
+    selectedLocObj: any;
 
     constructor(private mService:MessageService,
                 private ns:NotifyService,
@@ -86,6 +87,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             )
 
 
+
     }
 
     callLocationService() {
@@ -111,6 +113,8 @@ export class HomeComponent implements OnInit, OnDestroy {
                 }
             )
     }
+
+
 
     editLocation(loc:LocationRequest) {
         this.openLocationModal(loc);
@@ -281,6 +285,27 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.locations.forEach((obj) => {
             this.totalClockin = this.totalClockin + obj.noOfClockInForToday;
         })
+    }
+
+    getLocAddress(): string {
+        if(this.selectedLocObj.locationType == "SPECIFIC_ADDRESS") {
+            return this.selectedLocObj.address;
+        }
+
+        if(this.selectedLocObj.locationType == "COUNTRY") {
+            return this.selectedLocObj.country;
+        }
+
+        if(this.selectedLocObj.locationType == "STATE") {
+            return this.selectedLocObj.state;
+        }
+
+        return "N/A";
+    }
+
+    viewLocDetails(loc: any, template: TemplateRef<any>) {
+        this.selectedLocObj = loc;
+        this.openModal(template);
     }
 
     ngOnDestroy(): void {

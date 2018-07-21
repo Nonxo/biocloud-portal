@@ -1,0 +1,103 @@
+<app-loading></app-loading>
+
+<div class="container-fluid">
+    <h5 class="text-brand pt-3">Card Details</h5>
+    <a routerLink="/portal/subscription-history">
+        <p class="text-muted cursor pt-lg-3"><i
+            class="material-icons pr-2 position-absolute">keyboard_backspace</i><span class="pl-4">Back</span></p>
+    </a>
+    <p class="text-muted">Subscription Payment Method</p>
+    <p>These are the payment methods for your subscriptions. If you are on auto renew, payments will be automatically
+        made through this payment method. This payment method MUST belong to you</p>
+    <hr>
+    <div class="row col-md-12" *ngFor="let detail of cardDetails">
+        <div class="col-md-6">
+            <div class="d-inline-flex">
+                <!--<img src="assets/img/mastercard1.png" alt="">-->
+                <p class="font-weight-normal pl-3 my-auto">**** **** **** {{detail.lastFourDigits}}</p>
+                <p class="pl-3 my-auto">Expires {{ detail.expiryMonth + "/" + detail.expiryYear}}</p>
+                <!-- <div class="text-right">
+                    <p class="text-brand"><span class="cursor">Edit</span> | <span class="cursor">Delete</span></p>
+                </div> -->
+            </div>
+        </div>
+        <div class="col-md-6 my-auto">
+            <div class="text-right">
+                <p class="text-brand"><span class="cursor" (click)="openModal(addCardTemplate)">Edit</span> | <span
+                    class="cursor" (click)="openModal(deleteCardTemplate)">Delete</span></p>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="pb-3">
+        <img src="assets/img/cardslogo.png" alt="" class="">
+    </div>
+    <p>This page and all data is securely transmitted and encrypted. PCI Compliance, 3-D Secure, HTTPS, SSL
+        encryption.</p>
+    <p>payments are processed securely by Flutterwave</p>
+</div>
+
+<ng-template #deleteCardTemplate>
+    <div class="modal-header" style="border-bottom: none">
+        <h5 class="modal-title text-brand mx-auto">Delete Card</h5>
+        <!-- <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button> -->
+    </div>
+    <div class="modal-body">
+        <div class="text-center">
+            <img src="assets/img/caution.png" alt="" class="img-fluid" style="max-width: 78px;">
+        </div>
+        <p class="text-center pt-2">You are about to delete your card.</p>
+
+
+        <div class="col-md-12 text-md-center text-center pt-3 pb-4">
+
+            <button mat-button class="primary-outline" type="button" (click)="modalRef.hide()">Cancel</button>
+
+            <button mat-raised-button color="primary" type="submit" class="primary-outline" (click)="deleteCard()">
+                Delete
+            </button>
+
+        </div>
+
+    </div>
+</ng-template>
+
+<ng-template #addCardTemplate>
+    <div class="modal-header" style="border-bottom: none">
+        <h5 class="modal-title text-brand mx-auto">Edit Card Details</h5>
+        <!-- <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button> -->
+    </div>
+    <div class="modal-body">
+        <div class="text-center">
+            <img src="assets/img/caution.png" alt="" class="img-fluid" style="max-width: 78px;">
+        </div>
+        <p class="text-center pt-2">You are about to edit your card details a fee of {{getPrice() | currency:selectedCurrency:'symbol-narrow':'1.0'}} will be deducted from your card to
+            verify the card.</p>
+
+        <div class="text-center">
+            <mat-form-field>
+                <mat-select placeholder="Select Currency" name="selectedCurrency" [(ngModel)]="selectedCurrency" (change)="onChange()">
+                    <mat-option select value="NGN">NGN</mat-option>
+                    <mat-option select *ngFor="let e of exchangeRates" value="{{e.target}}">{{e.target}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+
+        <div class="col-md-12 text-md-center text-center pt-3 pb-4">
+
+            <button mat-button class="primary-outline" type="button" (click)="modalRef.hide()">Cancel</button>
+
+            <button mat-raised-button color="primary" type="submit" class="primary-outline" (click)="generateTransactionRef()">
+                Continue
+                <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
+            </button>
+
+        </div>
+
+    </div>
+</ng-template>

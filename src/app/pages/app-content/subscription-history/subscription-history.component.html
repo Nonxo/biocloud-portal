@@ -1,129 +1,142 @@
 <div class="container-fluid px-lg-4 px-md-3 ">
-  <div class="row ">
-    
-    <div class="col-md-7 py-md-4 py-md-3 pt-3">
-      <mat-card class="p-0">
-        <h6 class="pt-4 pb-2 align-middle text-uppercase px-3">Subscription History</h6>
-        <div class="list-group">
-            <div class="list-group-item list-group-item-action d-flex flex-row align-items-start">
-                <div class="col-auto px-0">
-                    <small>12 JUN</small><br/>
-                    <small>2018</small>
-                </div>
-                <div class="w-100 pl-3">
-                    <div class="d-flex w-100 justify-content-between">
-                        <p class=" mb-1"><span class="weight-600">PRO PLAN</span> (TRANS-246789)</p>
-                        <small>
-                            <mat-icon [matMenuTriggerFor]="menu" class="cursor">more_horiz</mat-icon>
-                            <mat-menu #menu="matMenu">
-                                <button mat-menu-item>
-                                    <mat-icon>view_list</mat-icon>
-                                    <span>View Invoice</span>
-                                </button>
-                                <button mat-menu-item>
-                                    <mat-icon>file_download</mat-icon>
-                                    <span>Download Invoice</span>
-                                </button>
-                            </mat-menu>
-                        </small>
+    <div class="row ">
+
+        <div class="col-md-12 py-md-4 py-md-3 pt-3">
+            <div class="container-fluid">
+                <h5 class="text-brand pb-3">Subscription History</h5>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="text-muted cursor" (click)="goBack()"><i class="material-icons pr-2 position-absolute">keyboard_backspace</i><span class="pl-4">Back</span></p>
                     </div>
-                    <p class="mb-1 d-flex justify-content-between">
-                        <span class="text-success">Active</span>
-                    </p>
-                </div>
-                
-            </div>
-            <div class="list-group-item list-group-item-action d-flex flex-row align-items-start">
-                <div class="col-auto px-0">
-                    <small>12 JUN</small><br/>
-                    <small>2018</small>
-                </div>
-                <div class="w-100 pl-3">
-                    <div class="d-flex w-100 justify-content-between">
-                        <p class=" mb-1"><span class="weight-600">BASIC PLAN</span> (TRANS-246789)</p>
-                        <small>
-                            <mat-icon [matMenuTriggerFor]="menu" class="cursor">more_horiz</mat-icon>
-                            <mat-menu #menu="matMenu">
-                                <button mat-menu-item>
-                                    <mat-icon>view_list</mat-icon>
-                                    <span>View Invoice</span>
-                                </button>
-                                <button mat-menu-item>
-                                    <mat-icon>file_download</mat-icon>
-                                    <span>Download Invoice</span>
-                                </button>
-                            </mat-menu>
-                        </small>
+                    <div class="col-md-6">
+                        <p class="text-brand text-right cursor" (click)="viewCardDetails()">View/update card details</p>
                     </div>
-                    <p class="mb-1 d-flex justify-content-between">
-                        <span class="text-danger">Expired</span>
-                    </p>
                 </div>
-                
-            </div>
-            <div class="list-group-item list-group-item-action d-flex flex-row align-items-start">
-                <div class="col-auto px-0">
-                    <small>12 JUN</small><br/>
-                    <small>2018</small>
+
+                <div class="table-responsive">
+                    <table class="table table-striped" [mfData]="histories" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Currency</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Receipt</th>
+                                <!--<th scope="col">Status</th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let d of mf.data; let i = index">
+                                <td>{{d.startDate | date:'mediumDate'}}</td>
+                                <td>{{d.planName}}</td>
+                                <td>{{d.currency}}</td>
+                                <td>{{d.amountPaid}}</td>
+                                <td><p class="cursor text-brand" (click)="viewReceipt(d)">{{d.reference}}</p></td>
+                                <!--<td>{{d.status? 'Active':'Inactive'}}</td>-->
+                            </tr>
+
+                        </tbody>
+                    </table>
                 </div>
-                <div class="w-100 pl-3">
-                    <div class="d-flex w-100 justify-content-between">
-                        <p class=" mb-1"><span class="weight-600">BASIC PLAN</span> (TRANS-246789)</p>
-                        <small>
-                            <mat-icon [matMenuTriggerFor]="menu" class="cursor">more_horiz</mat-icon>
-                            <mat-menu #menu="matMenu">
-                                <button mat-menu-item>
-                                    <mat-icon>view_list</mat-icon>
-                                    <span>View Invoice</span>
-                                </button>
-                                <button mat-menu-item>
-                                    <mat-icon>file_download</mat-icon>
-                                    <span>Download Invoice</span>
-                                </button>
-                            </mat-menu>
-                        </small>
+
+                <div class="row justify-content-between" *ngIf="totalItems > 0">
+                    <div class="col-auto">
+                        <div class="pb-lg-0 pb-4">
+                            <div class="form-group form-inline">
+                                <p class="pt-3 pr-2">Show</p>
+                                <mat-form-field class="w-25">
+                                    <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
+                                        <mat-option [value]="10">10</mat-option>
+                                        <mat-option [value]="25">25</mat-option>
+                                        <mat-option [value]="50">50</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
                     </div>
-                    <p class="mb-1 d-flex justify-content-between">
-                        <span class="text-danger">Expired</span>
-                    </p>
+                    <div class="col-auto">
+                        <pagination class="pt-2" [totalItems]="totalItems" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+                            lastText="&raquo;"></pagination>
+                    </div>
                 </div>
-                
+
+
             </div>
+
+
+
+            <!--<h6 class="pt-4 pb-2 align-middle text-uppercase px-3">Subscription History</h6>-->
+            <!--<div class="list-group">-->
+            <!--<div class="list-group-item list-group-item-action d-flex flex-row align-items-start"-->
+            <!--*ngFor="let history of histories">-->
+            <!--<div class="col-auto px-0">-->
+            <!--<small>12 JUN</small>-->
+            <!--<br/>-->
+            <!--<small>2018</small>-->
+            <!--</div>-->
+            <!--<div class="w-100 pl-3">-->
+            <!--<div class="d-flex w-100 justify-content-between">-->
+            <!--<p class=" mb-1"><span class="weight-600">PRO PLAN</span> (TRANS-246789)</p>-->
+            <!--<small>-->
+            <!--<mat-icon [matMenuTriggerFor]="menu" class="cursor">more_horiz</mat-icon>-->
+            <!--<mat-menu #menu="matMenu">-->
+            <!--<button mat-menu-item>-->
+            <!--<mat-icon>view_list</mat-icon>-->
+            <!--<span>View Invoice</span>-->
+            <!--</button>-->
+            <!--<button mat-menu-item>-->
+            <!--<mat-icon>file_download</mat-icon>-->
+            <!--<span>Download Invoice</span>-->
+            <!--</button>-->
+            <!--</mat-menu>-->
+            <!--</small>-->
+            <!--</div>-->
+            <!--<p class="mb-1 d-flex justify-content-between">-->
+            <!--<span class="text-success">{{history? (history.active? 'ACTIVE':'INACTIVE'):''}}</span>-->
+            <!--</p>-->
+            <!--</div>-->
+
+            <!--</div>-->
+            <!--</div>-->
+
         </div>
-      </mat-card>
+        <!--<div class="col-md-5 py-md-4 py-md-3 pt-3">-->
+        <!--<mat-card class="p-0">-->
+        <!--<div class="list-group">-->
+        <!--<div class="list-group-item list-group-item-action flex-column align-items-start">-->
+        <!--<div class="d-flex w-100 justify-content-between">-->
+        <!--<h6 class="mb-1">Current Plan</h6>-->
+        <!--<span>{{subscription? subscription.subscriptionPlanId: ''}}</span>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="list-group-item list-group-item-action flex-column align-items-start">-->
+        <!--<div class="d-flex w-100 justify-content-between">-->
+        <!--<h6 class="mb-1">Due amount</h6>-->
+        <!--<span>{{subscription? subscription.amountPaid: ''}}</span>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="list-group-item list-group-item-action flex-column align-items-start">-->
+        <!--<div class="d-flex w-100 justify-content-between">-->
+        <!--<h6 class="mb-1">Mode of payment</h6>-->
+        <!--<span class="text-muted"><i class="material-icons alignment">credit_card</i> CARD</span>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="list-group-item list-group-item-action flex-column align-items-start">-->
+        <!--<div class="d-flex w-100 justify-content-between">-->
+        <!--<h6 class="mb-1">Due date</h6>-->
+        <!--<small class="text-muted"></small>-->
+        <!--</div>-->
+        <!--<p class="mb-1 mt-2">-->
+        <!--<button class=" btn-accent btn px-3 py-2  btn-sm">UPGRADE</button>-->
+        <!--<button class="btn btn-primary px-3 py-2 btn-sm">PLAN CHANGE POLICY</button>-->
+        <!--</p>-->
+        <!--</div>-->
+
+        <!--</div>-->
+        <!--</mat-card>-->
+        <!--</div>-->
     </div>
-    <div class="col-md-5 py-md-4 py-md-3 pt-3">
-      <mat-card class="p-0">
-          <div class="list-group">
-            <div class="list-group-item list-group-item-action flex-column align-items-start">
-              <div class="d-flex w-100 justify-content-between">
-                <h6 class="mb-1">Current Plan</h6>
-                <span>BASIC</span>
-              </div>
-            </div>
-            <div class="list-group-item list-group-item-action flex-column align-items-start">
-              <div class="d-flex w-100 justify-content-between">
-                <h6 class="mb-1">Due amount</h6>
-                <span>NGN 9,000</span>
-              </div>
-            </div>
-            <div class="list-group-item list-group-item-action flex-column align-items-start">
-              <div class="d-flex w-100 justify-content-between">
-                <h6 class="mb-1">Mode of payment</h6>
-                <span class="text-muted"><i class="material-icons alignment">credit_card</i> CARD</span>
-              </div>
-            </div>
-            <div class="list-group-item list-group-item-action flex-column align-items-start">
-              <div class="d-flex w-100 justify-content-between">
-                <h6 class="mb-1">Due date</h6>
-                <small class="text-muted">30 days left</small>
-              </div>
-              <p class="mb-1 mt-2"><button class=" btn-accent btn px-3 py-2  btn-sm">UPGRADE</button> 
-                <button class="btn btn-primary px-3 py-2 btn-sm">PLAN CHANGE POLICY</button></p>
-            </div>
-            
-          </div>
-      </mat-card>
-    </div>
-  </div>
+
+
 </div>

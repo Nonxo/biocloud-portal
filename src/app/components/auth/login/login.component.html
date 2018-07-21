@@ -1,50 +1,85 @@
 <form class="pt-5" [formGroup]="loginForm" (submit)="login()">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-12">
-        <mat-form-field class="input-field">
-          <input matInput placeholder="Email" formControlName="email" autofocus>
-        </mat-form-field>
-      </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <mat-form-field class="input-field">
+                    <input matInput placeholder="Email" formControlName="email" autofocus>
+                </mat-form-field>
+            </div>
 
-      <div class="col-12">
-        <mat-form-field class="input-field">
-          <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" formControlName="pw">
-          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-        </mat-form-field>
-      </div>
+            <div class="col-12">
+                <mat-form-field class="input-field">
+                    <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" formControlName="pw">
+                    <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                </mat-form-field>
+            </div>
 
-      <div class="col-12 text-right pt-3 pb-4">
-        <small (click)="openModal(template)" class="cursor">{{ 'LOGIN_COMPONENT.FORGOT_PASSWORD' | translate}}</small>
-      </div>
+            <div class="col-12 text-right pt-3 pb-4">
+                <small (click)="openModal(template)" class="cursor">{{ 'LOGIN_COMPONENT.FORGOT_PASSWORD' | translate}}
+                </small>
+            </div>
 
-      <div class="col-md-12">
-        <button type="submit" mat-raised-button color="primary" class="px-4 py-1" [disabled]="loginForm.invalid || loading">
-          LOGIN
-          <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
-        </button>
-      </div>
+            <div class="col-md-12">
+                <button type="submit" mat-raised-button color="primary" class="px-4 py-1"
+                        [disabled]="loginForm.invalid || loading">
+                    LOGIN
+                    <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
+                </button>
+            </div>
+        </div>
     </div>
-  </div>
 </form>
 
 <ng-template #template>
-  <div class="modal-header">
-    <h5 class="modal-title text-brand pull-left">Forgot Password?</h5>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form (submit)="forgotPassword()" [formGroup]="resetForm">
-      <div class="col-md-12">
-        <mat-form-field class="input-field">
-          <input matInput placeholder="Email" type="email" formControlName="email">
-        </mat-form-field>
-      </div>
-      <div class="col-md-12 text-right">
-        <button mat-raised-button color="primary" class="px-4 py-1" [disabled]="resetForm.invalid || loading">SEND</button>
-      </div>
-    </form>
-  </div>
+    <div class="modal-header">
+        <h5 class="modal-title text-brand pull-left">Forgot Password?</h5>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form (submit)="forgotPassword()" [formGroup]="resetForm">
+            <div class="col-md-12">
+                <mat-form-field class="input-field">
+                    <input matInput placeholder="Email" type="email" formControlName="email">
+                </mat-form-field>
+            </div>
+            <div class="col-md-12 text-right">
+                <button mat-raised-button color="primary" class="px-4 py-1" [disabled]="resetForm.invalid || loading">
+                    SEND
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+
+<ng-template #complianceTemplate>
+    <div class="modal-header">
+        <h5 class="modal-title text-brand pull-left">Terms and Conditions</h5>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <p>You probably heard about the GDPR policy already.</p>
+                <p>We've also updated our terms and privacy in line with this.</p>
+                <p>Here's the <span class=" cursor text-brand" (click)="goToTerms()">link</span> to read the Updated Terms & Condition and Privacy policy. Accept iClocker's terms & conditions to continue using iClocker.</p>
+
+            </div>
+
+        </div>
+        <div class="col-md-12 mt-3 text-center">
+            <button mat-raised-button class="px-4 primary-outline py-1" type="button" (click)="modalRef.hide()">DECLINE
+            </button>
+
+            <button mat-raised-button color="primary" class="px-4 primary-outline py-1 mr-2" (click)="accept()">
+                ACCEPT
+                <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
+            </button>
+        </div>
+
+    </div>
 </ng-template>

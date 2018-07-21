@@ -1,6 +1,6 @@
 <mat-sidenav-container autosize>
 
-    <mat-sidenav #sidenav mode="{{sideNavMode}}" [opened]="opener" [ngStyle]="{ 'width.em': sidenavWidth }" (mouseenter)="toggleNavFromMouseEvent(true)" (mouseleave)="toggleNavFromMouseEvent(false)">
+    <mat-sidenav #sidenav mode="{{sideNavMode}}" [opened]="opener" [ngStyle]="{ 'width.em': sidenavWidth }">
         <div class="nav-header d-md-block d-none">
             <div class="py-4 pb-0 px-3">
                 <img src="assets/img/logo-img.png" class="img-fluid logo-icon" *ngIf="sidenavWidth >= 15" style="max-height:50px;" />
@@ -27,7 +27,7 @@
                 <div class="mx-auto mb-2 container-img-hover">
                     <img *ngIf="!selectedOrg.logo" src=" assets/img/1.png" class="image-hover mx-auto img-fluid rounded-circle logo-icon" />
                     <img *ngIf="selectedOrg.logo" src="data:image/jpg;base64,{{selectedOrg.logo}}" class="image-hover mx-auto img-fluid rounded-circle logo-icon" />
-                    <div class="middle">
+                    <div class="middle" *hasAuthority="'GENERAL_ADMIN'">
                         <span class="fileUpload btn">
                             <span><mat-icon class="float-left text-white upload-icon">camera_enhance</mat-icon></span>
                         <input type="file" class="upload" accept="image/*" #input (change)="fileChange($event, true)">
@@ -102,12 +102,32 @@
                         <a routerLink="{{view.url}}" mat-list-item>
                             <mat-icon mat-list-icon>{{view.icon}}</mat-icon>
                             <span mat-line>{{view.route}}</span>
+
                         </a>
                     </li>
+
+
                 </ng-container>
             </ul>
         </mat-nav-list>
-        <mat-nav-list>
+        <mat-nav-list class="pt-0 mt-0">
+            <ul>
+                <li routerLinkActive="active" id="report" *hasAuthority="['GENERAL_ADMIN','LOCATION_ADMIN']">
+                    <a mat-list-item class="text-white" (click)="toggleReport()">
+                        <mat-icon mat-list-icon>insert_chart</mat-icon>
+                        <span mat-line>Report</span>
+                        <i class="material-icons mr-3 text-white">arrow_drop_down</i>
+                    </a>
+                </li>
+
+                <ul *ngIf="showDropdown">
+                    <li routerLinkActive="active" *ngFor="let dropdown of reportDropdowns" (click)="activeClass = ''">
+                        <a routerLink="{{dropdown.route}}" mat-list-item>
+                            <span class="ml-5" mat-line>{{dropdown.subName}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </ul>
             <ul>
                 <li routerLinkActive="active" id="admin" *hasAuthority="['GENERAL_ADMIN','LOCATION_ADMIN']" (click)="activeClass = ''">
                     <a routerLink="/portal/manage-admins" mat-list-item class="text-white">
@@ -142,6 +162,14 @@
 
         <span>{{title}}</span>
         <span class="example-spacer"></span>
+
+        <div *ngIf="subscription?.subscriptionMode.toLowerCase() == 'TRIAL'.toLowerCase() && daysLeft > 0" class="trial-div-success d-xl-block d-none">
+            <p class="small trial-p">Trial Expires in: {{daysLeft}} day(s)</p>
+        </div>
+
+        <div *ngIf="subscription?.subscriptionStatus.toLowerCase() == 'EXPIRED'.toLowerCase()" class="trial-div-danger d-xl-block d-none">
+            <p class="small trial-p">Subscription Plan Expired</p>
+        </div>
 
         <!--<button mat-icon-button class="pr-5" matTooltip="Switch to bioregistra">-->
         <!--<mat-icon class="example-icon">apps</mat-icon>-->
@@ -196,7 +224,7 @@
         </div>
       </div>
       <mat-divider></mat-divider> -->
-          <small class="cursor" *ngIf="notifications.length == 0">
+            <small class="cursor" *ngIf="notifications.length == 0">
             <a class="float-right p-3 text-danger">No New Notifications..</a>
           </small>
             <small class="" *ngIf="notifications.length > 0">
