@@ -87,7 +87,7 @@ export class SubscriptionCardDetailsComponent implements OnInit {
 
     generateTransactionRef() {
         this.loading = true;
-        this.subService.generateTransactionRef(this.orgId, this.amountToPay, this.selectedCurrency, this.planId, "ADD_CARD")
+        this.subService.generateTransactionRef(this.orgId, this.getPrice(), this.selectedCurrency, this.planId, "ADD_CARD")
             .finally(() => {this.loading = false; this.modalRef.hide();})
             .subscribe(
                 result => {
@@ -111,7 +111,7 @@ export class SubscriptionCardDetailsComponent implements OnInit {
         getpaidSetup({
             PBFPubKey: this.PUBKey,
             customer_email: this.userEmail,
-            amount: this.amountToPay,
+            amount: this.getPrice(),
             customer_phone: "234099940409",
             currency: this.selectedCurrency,
             payment_method: "card",
@@ -123,7 +123,7 @@ export class SubscriptionCardDetailsComponent implements OnInit {
                 let txRef = response.tx.txRef; // collect flwRef returned and pass to a 					server page to complete status check.
                 let authToken = response.tx.chargeToken.embed_token;
 
-                console.log("This is the response returned after a charge", response);
+                // console.log("This is the response returned after a charge", response);
                 if (
                     response.tx.chargeResponseCode == "00" ||
                     response.tx.chargeResponseCode == "0"

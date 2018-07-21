@@ -172,11 +172,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
         if(this.model.phoneCode) {
             this.selectPhoneCode();
             this.selectCountryCode();
-        }else {
-            //legacy
-            this.selectedPhoneCode = "234";
-            this.selectCountryCode();
         }
+        // else {
+        //     //legacy
+        //     this.selectedPhoneCode = "234";
+        //     this.selectCountryCode();
+        // }
     }
 
     openeditProfileModal(template: TemplateRef<any>) {
@@ -273,7 +274,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     selectCountryCode() {
-        let obj = this.countries.filter((obj) => obj.phoneCode == this.selectedPhoneCode)[0];
+        let obj = this.countries.filter((obj) => obj.phoneCode.includes(this.selectedPhoneCode))[0];
 
         if (obj) {
             this.selectedCountryCode = obj.code;

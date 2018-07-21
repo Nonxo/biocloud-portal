@@ -1,7 +1,7 @@
 <app-loading></app-loading>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-9 col-md-7 p-0 mt-3">
+        <div class="col-lg-12 col-md-12 p-0 mt-3">
             <div class="row m-3 justify-content-center">
 
                 <div class="col-md-12">
@@ -30,6 +30,9 @@
                                 <!--</label>-->
                                 <!--</div>-->
                             </div>
+                            <p class="text-brand text-right font-weight-bold cursor" *ngIf="subscription"><a
+                                routerLink="/portal/subscription-history">View subscription history</a></p>
+
                         </div>
                     </div>
 
@@ -51,7 +54,7 @@
                     <mat-slide-toggle> Yearly (20% OFF)</mat-slide-toggle>
                 </div> -->
 
-                <div class="col-xl-4 col-lg-6 col-md-12  col-12 pt-5 p-0 p-md-3 text-center"
+                <div class="col-xl-3 col-lg-6 col-md-12  col-12 pt-5 p-0 p-md-3 text-center"
                      *ngFor="let plan of subscriptionPlans">
                     <mat-card
                         [ngClass]="{'py-lg-5 p-md-2 p-3 subscribe-plan text-white h-100 equal-row': true, 'active-subscription': plan.planId == subscription?.subscriptionPlanId}">
@@ -59,15 +62,14 @@
                         <h1>{{plan.name}}</h1>
                         <h4 class="py-3">
                             <!--{{monthlyPlan? (plan.pricePerMonth | currency:'NGN':'symbol-narrow':'4.0'):(plan.pricePerAnnum | currency:'NGN':'symbol-narrow':'4.0')}}-->
-                            {{getPrice(plan) | currency:selectedCurrency:'symbol-narrow':'1.0'}}
+                            <ng-container *ngIf="plan.maxAttendeeThreshold > 0">{{getPrice(plan) | currency:selectedCurrency:'symbol-narrow':'1.0'}}</ng-container>
+                            <ng-container *ngIf="plan.maxAttendeeThreshold == 0">N/A</ng-container>
                         </h4>
 
                         <ul class="list-group mb-4" *ngIf="plan.planId != subscription?.subscriptionPlanId">
-                            <li class="list-group-item  border-0">{{plan.maxAttendeeThreshold}} Employees</li>
-                            <li class="list-group-item  border-0">Ultimate Features</li>
-                            <li class="list-group-item  border-0">Responsive Ready</li>
-                            <li class="list-group-item  border-0">Visual Composer Included</li>
-                            <li class="list-group-item  border-0">24/7 Support System</li>
+                            <li class="list-group-item  border-0" *ngIf="plan.maxAttendeeThreshold > 0">{{plan.maxAttendeeThreshold}} Employees</li>
+                            <li class="list-group-item  border-0" *ngIf="plan.maxAttendeeThreshold == 0">Unlimited Employees</li>
+                            <li class="list-group-item  border-0" *ngFor="let features of plan.planFeatures">{{features}}</li>
                         </ul>
                         <ul class="list-group pt-3" *ngIf="plan.planId == subscription?.subscriptionPlanId">
                             <li class="list-group-item border-0">
@@ -85,10 +87,12 @@
                             Monthly
                             <mat-slide-toggle> Yearly (20% OFF)</mat-slide-toggle>
                         </div> -->
+                        <ng-container *ngIf="plan.maxAttendeeThreshold > 0">
                         <button *ngIf="plan.planId != subscription?.subscriptionPlanId || subscription?.subscriptionStatus == 'EXPIRED'" mat-raised-button
                                 color="primary" class="px-4 py-2"
                                 (click)="confirmPayment(plan, confirmPaymentTemplate)">SUBSCRIBE
                         </button>
+                        </ng-container>
                         <p *ngIf="(plan.planId == subscription?.subscriptionPlanId)" mat-raised-button
                                 color="primary" class="px-4 py-2">CURRENT PLAN
                         </p>
@@ -98,12 +102,16 @@
                             confirmPaymentTemplate)">
                             UPGRADE PLAN
                         </button>
+                        <button *ngIf="plan?.maxAttendeeThreshold == 0" mat-raised-button
+                                color="primary" class="px-4 py-2" (click)="gotoContactPage()">CONTACT US
+                        </button>
+
                     </mat-card>
                 </div>
 
             </div>
-            <p class="text-brand text-right font-weight-bold cursor" *ngIf="subscription"><a
-                routerLink="/portal/subscription-history">View subscription history</a></p>
+            <!--<p class="text-brand text-right font-weight-bold cursor" *ngIf="subscription"><a-->
+                <!--routerLink="/portal/subscription-history">View subscription history</a></p>-->
         </div>
 
         <!--<div class="col-lg-2 ml-auto col-md-5 p-0 d-none d-md-block sidebar sticky-right bg-brand">-->
@@ -149,12 +157,21 @@
             <hr>
 
             <div class="p-0 row col-md-12">
-                <div class="col-md-7">Total
-                    <p class="text-brand font-weight-bold">Sub </p>
+                <div class="col-md-7">
+                    <p class="text-brand font-weight-bold">Sub Total</p>
                 </div>
                 <div class="col-md-5">
                     <p>{{getPrice(selectedPlan) | currency:selectedCurrency:'symbol-narrow':'2.0'}}</p>
                 </div>
+                <ng-container *ngIf="proratedAmount">
+                <div class="col-md-7">
+                    <p class="text-brand font-weight-bold">Prorated amount (Due to switch)</p>
+                </div>
+                <div class="col-md-5">
+                    <p>{{proratedAmount | currency:selectedCurrency:'symbol-narrow':'1.0'}}</p>
+                </div>
+                </ng-container>
+
                 <div class="col-md-7">
                     <p class="text-brand font-weight-bold">Special Offer({{monthlyPlan? 0:discountRate}}% off)</p>
                 </div>
@@ -209,7 +226,7 @@
         </p>
 
         <div class="col-md-12 text-md-center text-center pt-3 pb-4">
-            <button mat-raised-button color="primary" type="submit" class="primary-outline">
+            <button mat-raised-button color="primary" type="button" (click)="modalRef.hide()" class="primary-outline">
                 Close
             </button>
 

@@ -64,8 +64,8 @@ export class DateUtil {
     }
 
     public getDaysLeft(startTimestamp: number, endTimestamp: number): number {
-        let timeDiff = Math.abs(endTimestamp - startTimestamp);
-        return Math.ceil(timeDiff / (1000 * 3600 * 24));
+        let timeDiff = endTimestamp - startTimestamp;
+        return Math.round(timeDiff / (1000 * 3600 * 24));
     }
 
     public getStartOfDay(date: Date): number {
@@ -110,7 +110,6 @@ export class DateUtil {
         let diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
         let oneDay = 1000 * 60 * 60 * 24;
         let day = Math.floor(diff / oneDay);
-        console.log('Day of year: ' + day);
     }
 
     isLeapYear(year) {
@@ -147,6 +146,14 @@ export class DateUtil {
         );
 
         return firstDateOfWeek;
+    }
+
+    getDateString(date: Date) {
+        let month = this.addZero((date.getMonth() + 1)),
+            day = this.addZero(date.getDate()),
+            year = date.getFullYear();
+
+        return [year, month, day].join('-');
     }
 
 }

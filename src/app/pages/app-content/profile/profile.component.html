@@ -362,14 +362,14 @@
                                 <mat-select placeholder="" name="phoneCode" [(ngModel)]="model.phoneCode" (change)="onSelectChange()">
                                     <mat-option value=""></mat-option>
                                     <mat-option *ngFor="let country of countries" value="{{country.phoneCode}}">
-                                        <img src="{{baseUrl}}/as/flags/{{country.code.toLowerCase()}}.png"> {{country.name}}
+                                        <img style="width: 40px; height: 30px" src="{{baseUrl}}/as/flags/{{country.code.toLowerCase()}}.png"> {{country.name}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
 
                         <div class="col-md-2 pl-lg-0 text-center pl-3 pl-0 pr-0 my-auto pt-3 text-muted">
-                            <p>{{selectedPhoneCode}}</p>
+                            <p>{{selectedPhoneCode.charAt(0) == "+"? selectedPhoneCode: "+" + selectedPhoneCode}}</p>
                         </div>
 
                         <div class="col-md-6">
