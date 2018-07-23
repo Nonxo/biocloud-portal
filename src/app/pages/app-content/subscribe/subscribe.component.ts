@@ -75,7 +75,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                 result => {
                     if(result.code == 0) {
                         this.subscription = result.subscription;
-                        this.selectedCurrency = this.subscription.currency;
+                        this.selectedCurrency = this.subscription.currency == '---'? 'NGN': this.subscription.currency;
                         this.fetchSpecificExchangeRate();
 
                         this.mService.setUpdateSub(this.subscription);
