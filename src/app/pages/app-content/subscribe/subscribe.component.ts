@@ -75,7 +75,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                 result => {
                     if(result.code == 0) {
                         this.subscription = result.subscription;
-                        this.selectedCurrency = this.subscription.currency;
+                        this.selectedCurrency = this.subscription.currency == '---'? 'NGN': this.subscription.currency;
                         this.fetchSpecificExchangeRate();
 
                         this.mService.setUpdateSub(this.subscription);
@@ -118,7 +118,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
 
     setDiscountPrice() {
         if(this.discountRate > 0 && !this.monthlyPlan) {
-            this.discountPrice =  Math.ceil((this.discountRate/100) * this.totalAmount);
+            this.discountPrice =  Math.round((this.discountRate/100) * this.totalAmount);
             return;
         }
 
@@ -129,15 +129,15 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     getPrice(plan: SubscriptionPlan):number {
         if (this.selectedCurrency == 'NGN') {
             if (this.monthlyPlan) {
-                return Math.ceil(plan.pricePerMonth);
+                return Math.round(plan.pricePerMonth);
             } else {
-                return Math.ceil(plan.pricePerAnnum);
+                return Math.round(plan.pricePerAnnum);
             }
         } else {
             if (this.monthlyPlan) {
-                return Math.ceil(plan.pricePerMonth / this.exchangeRate);
+                return Math.round(plan.pricePerMonth / this.exchangeRate);
             } else {
-                return Math.ceil(plan.pricePerAnnum / this.exchangeRate);
+                return Math.round(plan.pricePerAnnum / this.exchangeRate);
             }
         }
     }
