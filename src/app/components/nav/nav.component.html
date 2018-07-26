@@ -163,13 +163,15 @@
         <span>{{title}}</span>
         <span class="example-spacer"></span>
 
+        <ng-container *hasAuthority="'GENERAL_ADMIN'">
         <div *ngIf="subscription?.subscriptionMode.toLowerCase() == 'TRIAL'.toLowerCase() && daysLeft > 0" class="trial-div-success d-xl-block d-none">
-            <p class="small trial-p">Trial Expires in: {{daysLeft}} day(s)</p>
+            <p routerLink="/portal/subscribe" class="small trial-p cursor">Trial Expires in: {{daysLeft}} day(s)</p>
         </div>
 
         <div *ngIf="subscription?.subscriptionStatus.toLowerCase() == 'EXPIRED'.toLowerCase()" class="trial-div-danger d-xl-block d-none">
-            <p class="small trial-p">Subscription Plan Expired</p>
+            <p routerLink="/portal/subscribe" class="small trial-p cursor">Subscription Plan Expired</p>
         </div>
+        </ng-container>
 
         <!--<button mat-icon-button class="pr-5" matTooltip="Switch to bioregistra">-->
         <!--<mat-icon class="example-icon">apps</mat-icon>-->
