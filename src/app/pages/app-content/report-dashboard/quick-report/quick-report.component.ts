@@ -175,8 +175,8 @@ export class QuickReportComponent implements OnInit {
         let days = this.dateUtil.getDaysLeft(this.startRange, this.endRange) + 1;
         let inActiveDays = 0;
 
-        if(new Date().getTime() < this.endRange) {
-            inActiveDays = this.dateUtil.getDaysLeft(new Date().getTime(), this.endRange);
+        if(this.dateUtil.getStartOfDay(new Date()) < this.endRange) {
+            inActiveDays = this.dateUtil.getDaysLeft(this.dateUtil.getStartOfDay(new Date()), this.endRange);
         }
 
 
