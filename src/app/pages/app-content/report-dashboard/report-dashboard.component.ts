@@ -41,7 +41,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     selectedStartDate: Date = new Date();
     selectedEndDate: Date = new Date();
     absentDate: Date = new Date();
-    reportPeriod: string = "DATE_RANGE";
+    reportPeriod: string = "TODAY";
     employees: any[] = [];
     pageSize: number = 10;
     pageNo: number = 1;
@@ -268,6 +268,10 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
         this.selectedEndDate = new Date();
 
         switch(this.reportPeriod) {
+            case "TODAY": {
+                this.fetchDailyReport();
+                break;
+            }
             case "DATE_RANGE": {
                 break;
             }
