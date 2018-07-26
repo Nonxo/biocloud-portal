@@ -185,8 +185,8 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
 
         let days = this.dateUtil.getDaysLeft(startRange, endRange) + 1;
         let inActiveDays = 0;
-        if(new Date().getTime() < endRange) {
-            inActiveDays = this.dateUtil.getDaysLeft(new Date().getTime(), endRange);
+        if(this.dateUtil.getStartOfDay(new Date()) < endRange) {
+            inActiveDays = this.dateUtil.getDaysLeft(this.dateUtil.getStartOfDay(new Date()), endRange);
         }
 
         //fetch current week
@@ -254,8 +254,8 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
 
         let days = this.dateUtil.getDaysLeft(startRange, endRange) + 1;
         let inActiveDays = 0;
-        if(new Date().getTime() < endRange) {
-            inActiveDays = this.dateUtil.getDaysLeft(new Date().getTime(), endRange);
+        if(this.dateUtil.getStartOfDay(new Date()) < endRange) {
+            inActiveDays = this.dateUtil.getDaysLeft(this.dateUtil.getStartOfDay(new Date()), endRange);
         }
 
         //fetch current week
@@ -317,8 +317,8 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
 
         let days = this.dateUtil.getDaysLeft(startRange, endRange) + 1;
         let inActiveDays = 0;
-        if(new Date().getTime() < endRange) {
-            inActiveDays = this.dateUtil.getDaysLeft(new Date().getTime(), endRange);
+        if(this.dateUtil.getStartOfDay(new Date()) < endRange) {
+            inActiveDays = this.dateUtil.getDaysLeft(this.dateUtil.getStartOfDay(new Date()), endRange);
         }
 
         //fetch current week
