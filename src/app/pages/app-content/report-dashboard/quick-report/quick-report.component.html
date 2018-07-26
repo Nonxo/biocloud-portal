@@ -113,67 +113,44 @@
             </div>
 
             <div class="d-inline-flex pl-4 w-100">
-                <div style="width: 40%" *ngIf="employees.length > 0">
-                    <table class="table table-striped" [mfData]="employees" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
+                <div *ngIf="employees.length > 0">
+                    <table class="table table-striped text-center" [mfData]="employees" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                         <thead>
                             <tr>
-                                <th class="font-weight-normal small" scope="col">Name</th>
+                                <th class="font-weight-bold small" scope="col">Employee Name</th>
+                                <th class="font-weight-normal small" scope="col" *ngFor="let date of dateColumn">
+                                    <span class="font-weight-bold">{{(date.startTime | date:'full').split(',')[0]}}</span>
+                                    <span>{{date.startTime | date:'d/M/yyyy'}}</span>
+                                </th>
+                                <th class="font-weight-bold small" scope="col">Total Days Early</th>
+                                <th class="font-weight-bold small" scope="col">Total Days Late</th>
+                                <th class="font-weight-bold small" scope="col">Total Days Absent</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let d of mf.data">
                                 <td> <span class="cursor text-brand" (click)="gotoOverview(d.email)">{{d.firstName }} {{ d.lastName}}</span></td>
-                            </tr>
-                    </table>
-                </div>
-
-                <div style="width: 100%" *ngIf="employees.length > 0">
-                    <table class="table table-striped" [mfData]="employees" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
-                        <thead>
-                            <tr>
-                                <th class="font-weight-normal small" scope="col" *ngFor="let date of dateColumn">{{date.startTime | date:'d/M/yyyy'}}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let d of mf.data">
                                 <td *ngFor="let a of d.attendance" class="">
-                                    <div *ngIf="a.status == 'LATE'" class="red-dot"></div>
-                                    <div *ngIf="a.status == 'EARLY'" class="green-dot"></div>
-                                    <div *ngIf="a.status == 'ABSENT'" class="grey-dot"></div>
+                                    <div *ngIf="a.status == 'LATE'" class="red-dot mx-auto"></div>
+                                    <div *ngIf="a.status == 'EARLY'" class="green-dot mx-auto"></div>
+                                    <div *ngIf="a.status == 'ABSENT'" class="grey-dot mx-auto"></div>
                                     <mat-icon class="small" style="height: 0" *ngIf="a.status == 'N/A'" mat-list-icon>remove</mat-icon>
                                 </td>
-                            </tr>
-                    </table>
-                </div>
-
-                <div style="width: 92%" *ngIf="employees.length > 0">
-                    <table class="table table-striped" [mfData]="employees" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" *ngFor="let week of weeksArray; let i = index">
-                        <thead>
-                            <tr>
-                                <th class="font-weight-normal small" scope="col">Total Days Early</th>
-                                <th class="font-weight-normal small" scope="col">Total Days Late</th>
-                                <th class="font-weight-normal small" scope="col">Total Days Absent</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let d of mf.data">
-                                <td>{{d.weeks[i]?.tde}}
-                                    <mat-icon class="text-success small position-absolute" *ngIf="d.weeks[i]?.tdeTrend == 'UP'">arrow_upward</mat-icon>
-                                    <mat-icon class="text-danger small position-absolute" *ngIf="d.weeks[i]?.tdeTrend == 'DOWN'">arrow_downward</mat-icon>
+                                <td>{{d.weeks[0]?.tde}}
+                                    <mat-icon class="text-success small position-absolute" *ngIf="d.weeks[0]?.tdeTrend == 'UP'">arrow_upward</mat-icon>
+                                    <mat-icon class="text-danger small position-absolute" *ngIf="d.weeks[0]?.tdeTrend == 'DOWN'">arrow_downward</mat-icon>
                                 </td>
-                                <td>{{d.weeks[i]?.tdl}}
-                                    <mat-icon class="text-success small position-absolute" *ngIf="d.weeks[i]?.tdlTrend == 'UP'">arrow_upward</mat-icon>
-                                    <mat-icon class="text-danger small position-absolute" *ngIf="d.weeks[i]?.tdlTrend == 'DOWN'">arrow_downward</mat-icon>
+                                <td>{{d.weeks[0]?.tdl}}
+                                    <mat-icon class="text-success small position-absolute" *ngIf="d.weeks[0]?.tdlTrend == 'UP'">arrow_upward</mat-icon>
+                                    <mat-icon class="text-danger small position-absolute" *ngIf="d.weeks[0]?.tdlTrend == 'DOWN'">arrow_downward</mat-icon>
                                 </td>
-                                <td>{{d.weeks[i]?.tda}}
+                                <td>{{d.weeks[0]?.tda}}
                                     <!--<mat-icon class="text-success small position-absolute">arrow_upward</mat-icon>-->
                                     <!--<mat-icon class="text-success small position-absolute">arrow_downward</mat-icon>-->
                                 </td>
-
                             </tr>
                     </table>
                 </div>
-
             </div>
 
             <div class="row justify-content-between">
