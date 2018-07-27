@@ -235,3 +235,28 @@ mwl-gauge.seven>.gauge>.value {
 .font-size {
     font-size: 2rem;
 }
+
+.purple-card {
+    background-color: #9B28B0 !important;
+}
+
+.light-red-card {
+    background-color: #EC4C49 !important;
+}
+
+
+.green-card {
+    background-color: #59B15C !important;
+}
+
+.orange-card {
+    background-color: #FD9A1A !important;
+}
+
+.light-blue-card {
+    background-color: #20C1D6 !important;
+}
+
+.red-card {
+    background-color: #931B13 !important;
+}

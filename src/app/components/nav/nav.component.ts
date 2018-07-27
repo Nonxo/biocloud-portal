@@ -42,18 +42,6 @@ export class NavComponent implements OnInit, OnDestroy {
             url: "/portal/manage-users",
             authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']
         },
-        // {
-        //     icon: "insert_chart",
-        //     route: "Report",
-        //     url: "/portal/report-dashboard",
-        //     authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN'],
-        //     dropdowns:[
-        //        {subName:'Quick Report', route:'/portal/quick-report'} ,
-        //        {subName:'Full Report', route:'/portal/report-dashboard'},
-        //        {subName:'Metabase', route:'/portal/report-dashboard'},
-        //     ]
-        // }
-        // ,
         {
             icon: "payment",
             route: "Subscribe",
@@ -64,8 +52,8 @@ export class NavComponent implements OnInit, OnDestroy {
 
     reportDropdowns = [
         {subName: 'Quick Report', route: '/portal/quick-report'},
-        {subName: 'Attendance Report', route: '/portal/report-dashboard'}
-        // {subName: 'Analytics', route: '/portal/analytics'},
+        {subName: 'Summary Report', route: '/portal/report-dashboard'},
+        {subName: 'Performance Report', route: '/portal/analytics'}
     ];
 
     orgTypes: string[] = ["SCHOOL", "SECURITY", "HOSPITAL"];
@@ -176,7 +164,6 @@ export class NavComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.selectedOrg = this.ss.getSelectedOrg() ? this.ss.getSelectedOrg() : new Org();
-
 
         //if an org is already selected, update role
         if (this.selectedOrg.orgId) {
@@ -424,9 +411,6 @@ export class NavComponent implements OnInit, OnDestroy {
     }
 
     setDefaultSelectedOrg() {
-        //fetch org subscription details
-        this.fetchSubscriptionDetails();
-
         if (!this.selectedOrg.orgId) {
             if (this.orgs.length > 0) {
                 this.selectedOrg = this.orgs[0];
@@ -436,6 +420,9 @@ export class NavComponent implements OnInit, OnDestroy {
                 this.mService.setSelectedOrg(this.orgs[0].orgId);
             }
         }
+
+        //fetch org subscription details
+        this.fetchSubscriptionDetails();
         this.callLocationService();
     }
 
@@ -747,6 +734,11 @@ export class NavComponent implements OnInit, OnDestroy {
                 error => {
                 }
             )
+    }
+
+    goToSubscription() {
+        this.toggleClass(false);
+        this.router.navigate(['/portal/subscribe']);
     }
 
     checkTrialPeriodStatus() {

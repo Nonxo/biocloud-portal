@@ -75,30 +75,83 @@ ol {
 }
 
 .trial-div-success {
-    margin-right: 430px;
+    margin-right: 375px;
+    padding-left: 20px;
     margin-top: -25px;
-    width: 265px;
-    background: #14a50e;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    width: 365px;
+    background: #6a9a1f;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+button.btn.btn-trial-subscribe {
+    color: #6a9a1f;
+    background: #fff;
+    border-radius: 50px;
+    font-size: 13px !important;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.3rem !important;
+    padding-bottom: 0.3rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.4rem;
+}
+
+button.btn.btn-trial-danger {
+    color: #ff0000;
+    background: #fff;
+    border-radius: 50px;
+    font-size: 13px !important;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.3rem !important;
+    padding-bottom: 0.3rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.4rem;
 }
 
 .trial-div-danger {
-    margin-right: 430px;
+    margin-right: 375px;
     margin-top: -25px;
-    width: 265px;
+    padding-left: 20px;
+    width: 365px;
     background: red;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
 }
 
 .trial-p {
-    margin-top: 0;
+    margin-top: 5px;
     margin-bottom: 1rem;
     text-align: center;
     color: #fff;
     padding-bottom: -39px !important;
     margin-bottom: 7px;
+    padding-right: 21px;
+}
+
+
+
+@media only screen and (min-device-width: 653px) and (max-device-width: 1440px) {
+    .trial-div-success {
+        margin-right: 335px;
+        padding-left: 20px;
+        margin-top: -25px;
+        width: 365px;
+        background: #6a9a1f;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+
+    .trial-div-danger {
+        margin-right: 335px;
+        margin-top: -25px;
+        padding-left: 20px;
+        width: 365px;
+        background: red;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
 }
 
 @media(max-width:660px) {

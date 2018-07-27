@@ -58,7 +58,13 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.userObj = this.dataService.getUserObj();
         if (isNullOrUndefined(this.userObj)) {
-            this.router.navigate(['/portal/manage-users']);
+
+            if(this.ss.getPrevRoute()) {
+                this.router.navigate([this.ss.getPrevRoute()]);
+            }else {
+                this.router.navigate(['/portal/manage-users']);
+            }
+
         } else {
             this.getHistoryRequestObj();
 
@@ -459,7 +465,7 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.dataService.setUserObj(null);
-        this.ss.clearPrevRoute();
+        // this.ss.clearPrevRoute();
     }
 
 }
