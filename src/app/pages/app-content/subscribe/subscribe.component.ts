@@ -33,7 +33,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     private userEmail: string;
     private userPhoneNumber: string;
     public modalRef: BsModalRef;
-    public renewSub: boolean;
+    public renewSub: boolean = true;
     public discountRate:number;
     public discountPrice:number;
     private orgId:string;
@@ -203,7 +203,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     confirmPayment(plan: SubscriptionPlan, template: TemplateRef<any>) {
         if(!this.subscription || this.subscription.subscriptionPlanId.toLowerCase().startsWith(SubscriptionMode.TRIAL.toLowerCase())) {
             this.selectedPlan = plan;
-            this.renewSub = false;
+            // this.renewSub = false;
             this.totalAmount = this.getPrice(plan);
 
             this.setDiscountPrice();
