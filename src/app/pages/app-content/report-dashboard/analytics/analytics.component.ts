@@ -4,6 +4,7 @@ import {ReportService} from "../../services/report.service";
 import {StorageService} from "../../../../service/storage.service";
 import {MessageService} from "../../../../service/message.service";
 import {DateUtil} from "../../../../util/DateUtil";
+import {NotifyService} from "../../../../service/notify.service";
 
 @Component({
   selector: 'app-metabase-report',
@@ -16,17 +17,18 @@ export class MetabaseReportComponent implements OnInit {
     token: string;
     iframeUrl: string;
     dateObj: Date = new Date();
-    selectedStartDate: Date = this.dateUtil.getFirstDayOfCurrentMonth(new Date());
+    selectedStartDate: Date = new Date();
     selectedEndDate: Date = new Date();
     startdate: string;
     enddate: string;
-    reportPeriod: string = "THIS_MONTH";
+    reportPeriod: string = "TODAY";
 
   constructor(public sanitizer: DomSanitizer,
               private reportService: ReportService,
               private ss: StorageService,
               private mService: MessageService,
-              private dateUtil: DateUtil) {
+              private dateUtil: DateUtil,
+              private ns: NotifyService) {
       this.orgId = this.ss.getSelectedOrg().orgId;
   }
 
@@ -51,6 +53,12 @@ export class MetabaseReportComponent implements OnInit {
   }
 
     onDatePickerToggle() {
+
+      if(this.selectedEndDate.getTime() < this.selectedStartDate.getTime()) {
+          this.ns.showError("End date must be less than start date");
+          return;
+      }
+
         this.startdate = this.dateUtil.getDateString(this.selectedStartDate);
         this.enddate = this.dateUtil.getDateString(this.selectedEndDate);
 
@@ -59,13 +67,36 @@ export class MetabaseReportComponent implements OnInit {
     }
 
     filterReport() {
-      if(this.reportPeriod == 'THIS_MONTH') {
-          this.selectedStartDate = this.dateUtil.getFirstDayOfCurrentMonth(new Date());
-          this.selectedEndDate = new Date();
+        this.selectedStartDate = new Date();
+        this.selectedEndDate = new Date();
 
-          this.iframeUrl = "";
-          this.getToken();
-      }
+        switch(this.reportPeriod) {
+            case "DATE_RANGE": {
+                break;
+            }
+            case "THIS_WEEK": {
+                this.selectedStartDate = this.dateUtil.getFirstDayOfCurrentWeek(new Date());
+                this.selectedEndDate = new Date();
+
+                break;
+            }
+            case "THIS_MONTH": {
+                this.selectedStartDate = this.dateUtil.getFirstDayOfCurrentMonth(new Date());
+                this.selectedEndDate = new Date();
+
+                break;
+            }
+        }
+
+        if(this.reportPeriod != 'DATE_RANGE') {
+            this.startdate = this.dateUtil.getDateString(this.selectedStartDate);
+            this.enddate = this.dateUtil.getDateString(this.selectedEndDate);
+
+            this.iframeUrl = "";
+            this.getToken();
+        }
+
+
     }
 
 }

@@ -82,6 +82,7 @@ export class QuickReportComponent implements OnInit {
                 private dateUtil: DateUtil,
                 private searchService: SearchService) {
         this.reportModel.orgId = this.ss.getSelectedOrg().orgId;
+        this.ss.clearPrevRoute();
 
     }
 

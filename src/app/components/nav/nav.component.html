@@ -115,7 +115,7 @@
                 <li routerLinkActive="active" id="report" *hasAuthority="['GENERAL_ADMIN','LOCATION_ADMIN']">
                     <a mat-list-item class="text-white" (click)="toggleReport()">
                         <mat-icon mat-list-icon>insert_chart</mat-icon>
-                        <span mat-line>Report</span>
+                        <span mat-line>Attendance Report</span>
                         <i class="material-icons mr-3 text-white">arrow_drop_down</i>
                     </a>
                 </li>
@@ -164,12 +164,14 @@
         <span class="example-spacer"></span>
 
         <ng-container *hasAuthority="'GENERAL_ADMIN'">
-        <div *ngIf="subscription?.subscriptionMode.toLowerCase() == 'TRIAL'.toLowerCase() && daysLeft > 0" class="trial-div-success d-xl-block d-none">
-            <p routerLink="/portal/subscribe" class="small trial-p cursor">Trial Expires in: {{daysLeft}} day(s)</p>
+        <div *ngIf="subscription?.subscriptionMode.toLowerCase() == 'TRIAL'.toLowerCase() && daysLeft > 0" class="trial-div-success d-xl-inline-flex d-none">
+            <p (click)="goToSubscription()" class="small trial-p cursor">Trial Expires in: {{daysLeft}} day(s)</p>
+            <button (click)="goToSubscription()" class="btn btn-trial-subscribe cursor">Subscribe Now</button>
         </div>
 
-        <div *ngIf="subscription?.subscriptionStatus.toLowerCase() == 'EXPIRED'.toLowerCase()" class="trial-div-danger d-xl-block d-none">
-            <p routerLink="/portal/subscribe" class="small trial-p cursor">Subscription Plan Expired</p>
+        <div *ngIf="subscription?.subscriptionStatus.toLowerCase() == 'EXPIRED'.toLowerCase()" class="trial-div-danger d-xl-inline-flex d-none">
+            <p (click)="goToSubscription()" class="small trial-p cursor">Subscription Plan Expired</p>
+            <button (click)="goToSubscription()" class="btn btn-trial-danger cursor">Subscribe Now</button>
         </div>
         </ng-container>
 
