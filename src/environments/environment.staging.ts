@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  baseUrl: 'https://bcstaging.bioregistra.com'
+  baseUrl: 'http://192.168.8.12:17420'
 };

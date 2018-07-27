@@ -27,6 +27,7 @@ import {SignUpAsComponent} from "./pages/app-content/sign-up-as/sign-up-as.compo
 import {AppContentService} from "./pages/app-content/services/app-content.service";
 import {InviteUserComponent} from "./components/auth/invite-user/invite-user.component";
 import {ReceiptComponent} from "./pages/app-content/subscription-history/receipt/receipt.component";
+import {Angulartics2Facebook, Angulartics2Module} from "angulartics2";
 
 @NgModule({
     declarations: [
@@ -49,6 +50,7 @@ import {ReceiptComponent} from "./pages/app-content/subscription-history/receipt
             apiKey: 'AIzaSyC7hZTZ41Qwx4XT70L8FaGico6H6w8buaU',
             libraries: ['places']
         }),
+        Angulartics2Module.forRoot([Angulartics2Facebook]),
         AppRoutingModule
     ],
     providers: [

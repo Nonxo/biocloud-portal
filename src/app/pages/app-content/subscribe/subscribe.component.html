@@ -59,11 +59,15 @@
                     <mat-card
                         [ngClass]="{'py-lg-5 p-md-2 p-3 subscribe-plan text-white h-100 equal-row': true, 'active-subscription': plan.planId == subscription?.subscriptionPlanId}">
 
-                        <h1>{{plan.name}}</h1>
+                        <h2>{{plan.name}}</h2>
                         <h4 class="py-3">
                             <!--{{monthlyPlan? (plan.pricePerMonth | currency:'NGN':'symbol-narrow':'4.0'):(plan.pricePerAnnum | currency:'NGN':'symbol-narrow':'4.0')}}-->
                             <ng-container *ngIf="plan.maxAttendeeThreshold > 0">{{getPrice(plan) | currency:selectedCurrency:'symbol-narrow':'1.0'}}</ng-container>
-                            <ng-container *ngIf="plan.maxAttendeeThreshold == 0">N/A</ng-container>
+                            <ng-container *ngIf="plan.maxAttendeeThreshold == 0">
+                                <p *ngIf="plan?.maxAttendeeThreshold == 0" class="small" (click)="gotoContactPage()">CONTACT US
+                                </p>
+
+                            </ng-container>
                         </h4>
 
                         <ul class="list-group mb-4" *ngIf="plan.planId != subscription?.subscriptionPlanId">
@@ -88,7 +92,7 @@
                             <mat-slide-toggle> Yearly (20% OFF)</mat-slide-toggle>
                         </div> -->
                         <ng-container *ngIf="plan.maxAttendeeThreshold > 0">
-                        <button *ngIf="plan.planId != subscription?.subscriptionPlanId || subscription?.subscriptionStatus == 'EXPIRED'" mat-raised-button
+                        <button *ngIf="plan.planId != subscription?.subscriptionPlanId || (plan.planId == subscription?.subscriptionPlanId && subscription?.subscriptionStatus == 'EXPIRED')" mat-raised-button
                                 color="primary" class="px-4 py-2"
                                 (click)="confirmPayment(plan, confirmPaymentTemplate)">SUBSCRIBE
                         </button>
@@ -97,7 +101,7 @@
                                 color="primary" class="px-4 py-2">CURRENT PLAN
                         </p>
                         <button
-                            *ngIf="(plan.planId == subscription?.subscriptionPlanId) && (subscription?.billingCycle == 'MONTHLY' && !monthlyPlan)"
+                            *ngIf="(plan.planId == subscription?.subscriptionPlanId) && (subscription?.billingCycle == 'MONTHLY' && !monthlyPlan) && subscription?.subscriptionStatus != 'EXPIRED'"
                             mat-raised-button color="primary" class="px-4 py-2" (click)="confirmPayment(plan,
                             confirmPaymentTemplate)">
                             UPGRADE PLAN
@@ -114,24 +118,6 @@
                 <!--routerLink="/portal/subscription-history">View subscription history</a></p>-->
         </div>
 
-        <!--<div class="col-lg-2 ml-auto col-md-5 p-0 d-none d-md-block sidebar sticky-right bg-brand">-->
-        <!--<carousel class="h-100">-->
-        <!--<slide class="h-100">-->
-        <!--<img src="assets/img/testimonial-2.png" alt="First slide" style="display: block; width: 100%;">-->
-        <!--<div class="carousel-caption text-black">-->
-        <!--<h3>CEO Hitman LTD</h3>-->
-        <!--<p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>-->
-        <!--</div>-->
-        <!--</slide>-->
-        <!--<slide class="h-100">-->
-        <!--<img src="assets/img/testimonial.png" alt="First slide" style="display: block; width: 100%;">-->
-        <!--<div class="carousel-caption text-black">-->
-        <!--<h3>CEO Nereus LTD</h3>-->
-        <!--<p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>-->
-        <!--</div>-->
-        <!--</slide>-->
-        <!--</carousel>-->
-        <!--</div>-->
     </div>
 </div>
 

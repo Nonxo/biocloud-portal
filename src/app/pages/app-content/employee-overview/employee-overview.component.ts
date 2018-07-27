@@ -58,7 +58,13 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.userObj = this.dataService.getUserObj();
         if (isNullOrUndefined(this.userObj)) {
-            this.router.navigate(['/portal/manage-users']);
+
+            if(this.ss.getPrevRoute()) {
+                this.router.navigate([this.ss.getPrevRoute()]);
+            }else {
+                this.router.navigate(['/portal/manage-users']);
+            }
+
         } else {
             this.getHistoryRequestObj();
 
@@ -185,8 +191,8 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
 
         let days = this.dateUtil.getDaysLeft(startRange, endRange) + 1;
         let inActiveDays = 0;
-        if(new Date().getTime() < endRange) {
-            inActiveDays = this.dateUtil.getDaysLeft(new Date().getTime(), endRange);
+        if(this.dateUtil.getStartOfDay(new Date()) < endRange) {
+            inActiveDays = this.dateUtil.getDaysLeft(this.dateUtil.getStartOfDay(new Date()), endRange);
         }
 
         //fetch current week
@@ -254,8 +260,8 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
 
         let days = this.dateUtil.getDaysLeft(startRange, endRange) + 1;
         let inActiveDays = 0;
-        if(new Date().getTime() < endRange) {
-            inActiveDays = this.dateUtil.getDaysLeft(new Date().getTime(), endRange);
+        if(this.dateUtil.getStartOfDay(new Date()) < endRange) {
+            inActiveDays = this.dateUtil.getDaysLeft(this.dateUtil.getStartOfDay(new Date()), endRange);
         }
 
         //fetch current week
@@ -317,8 +323,8 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
 
         let days = this.dateUtil.getDaysLeft(startRange, endRange) + 1;
         let inActiveDays = 0;
-        if(new Date().getTime() < endRange) {
-            inActiveDays = this.dateUtil.getDaysLeft(new Date().getTime(), endRange);
+        if(this.dateUtil.getStartOfDay(new Date()) < endRange) {
+            inActiveDays = this.dateUtil.getDaysLeft(this.dateUtil.getStartOfDay(new Date()), endRange);
         }
 
         //fetch current week
@@ -459,7 +465,7 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.dataService.setUserObj(null);
-        this.ss.clearPrevRoute();
+        // this.ss.clearPrevRoute();
     }
 
 }

@@ -18,7 +18,7 @@
 
         <div class="col-md-6 col-lg-5 my-5 my-md-0 pl-md-0">
             <mat-card class="auth">
-                <mat-tab-group (selectedTabChange)="onTabChange($event)">
+                <mat-tab-group (selectedTabChange)="onTabChange($event)" [selectedIndex]="currentTab">
                     <mat-tab label="LOGIN">
                         <app-login></app-login>
                     </mat-tab>
