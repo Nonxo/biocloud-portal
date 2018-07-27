@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
     selector: 'app-auth',
@@ -8,9 +9,21 @@ import {Component, OnInit} from '@angular/core';
 export class AuthComponent implements OnInit {
 
     register: boolean;
+    currentTab: number;
 
 
-    constructor() {
+    constructor(private route: ActivatedRoute) {
+        this.route
+            .queryParams
+            .subscribe(params => {
+                    // Defaults to null if no query param provided.
+                    this.register = (params['signup'] == 'true') || null;
+
+                    if(this.register) {
+                        this.currentTab = 1;
+                    }
+                }
+            )
     }
 
     ngOnInit() {
@@ -20,9 +33,11 @@ export class AuthComponent implements OnInit {
 
         switch (event.index) {
             case 0: {
+                this.currentTab = 0;
                 break;
             }
             case 1: {
+                this.currentTab = 1;
                 this.register = true;
                 break;
             }
