@@ -343,7 +343,7 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
     }
 
     pageChanged(event) {
-        this.users = []
+        this.users = [];
         this.pagObj.pageNo = event.page;
         this.fetchAdminUsersCount();
     }

@@ -53,7 +53,7 @@ export class NavComponent implements OnInit, OnDestroy {
     reportDropdowns = [
         {subName: 'Quick Report', route: '/portal/quick-report'},
         {subName: 'Summary Report', route: '/portal/report-dashboard'},
-        {subName: 'Performance Report', route: '/portal/analytics'}
+        {subName: 'Performance Dashboard', route: '/portal/analytics'}
     ];
 
     orgTypes: string[] = ["SCHOOL", "SECURITY", "HOSPITAL"];
@@ -536,6 +536,7 @@ export class NavComponent implements OnInit, OnDestroy {
 
     selectOrg(org: Org) {
         this.activeClass = "active";
+        this.showDropdown = false;
 
         //change selected state
         this.selectedOrg = org;
