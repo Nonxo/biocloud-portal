@@ -536,6 +536,7 @@ export class NavComponent implements OnInit, OnDestroy {
 
     selectOrg(org: Org) {
         this.activeClass = "active";
+        this.showDropdown = false;
 
         //change selected state
         this.selectedOrg = org;
