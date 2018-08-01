@@ -225,6 +225,7 @@ export class QuickReportComponent implements OnInit {
 
 
         }
+
     }
 
     fetchAttendees() {
@@ -236,8 +237,14 @@ export class QuickReportComponent implements OnInit {
             .subscribe(
                 result => {
                     this.employees = result.attendees? result.attendees:[];
-                    this.getDate();
-                    this.getDaysPresent();
+
+                    if(this.statPeriod == 'THIS_WEEK' || this.statPeriod == 'OTHER_WEEKS') {
+                        this.getDate();
+                        this.getDaysPresent();
+                    }else {
+                        this.getDaysPresent();
+                    }
+
                 },
                 error => {
                 }
@@ -309,6 +316,11 @@ export class QuickReportComponent implements OnInit {
     locationChange() {
         this.resetValues();
         this.statPeriod = 'THIS_WEEK';
+        this.startRange = this.dateUtil.getFirstDayOfCurrentWeek(new Date()).getTime();
+        this.endRange = this.dateUtil.getLastDayOfCurrentWeek(new Date()).getTime();
+        this.selectedWeek = null;
+        this.selectedMonth = null;
+        this.selectedYear = null;
 
         this.fetchAttendeesCount();
 
@@ -326,19 +338,41 @@ export class QuickReportComponent implements OnInit {
     }
 
     onFilterToggle() {
-        if(this.selectedMonth && this.selectedYear) {
-            let weekInaMonth = this.dateUtil.weeksInAmonth(this.selectedMonth, this.selectedYear);
+        switch(this.statPeriod) {
+            case 'OTHER_WEEKS':
+                if(this.selectedMonth && this.selectedYear) {
+                    let weekInaMonth = this.dateUtil.weeksInAmonth(this.selectedMonth, this.selectedYear);
 
-            this.weeks = [];
+                    this.weeks = [];
 
-            for(let i = 1; i <= weekInaMonth; i++) {
-                this.weeks.push({id: i - 1, title: "WEEK " + i});
-            }
+                    for(let i = 1; i <= weekInaMonth; i++) {
+                        this.weeks.push({id: i - 1, title: "WEEK " + i});
+                    }
+                }
+
+                if(this.selectedMonth && this.selectedYear && this.selectedWeek) {
+                    this.onWeekFilter();
+                }
+                break;
+            case 'OTHER_MONTHS':
+                if(this.selectedMonth && this.selectedYear) {
+                    let firstDateOfTheMonth = this.dateUtil.getFirstDayOfCurrentMonth(new Date(this.selectedYear, this.selectedMonth, 0));
+
+
+                    let firstDay = this.dateUtil.getFirstDayOfCurrentMonth(firstDateOfTheMonth);
+                    let lastDay = this.dateUtil.getLastDayOfCurrentMonth(firstDateOfTheMonth);
+
+                    this.startRange = firstDay.getTime();
+                    this.endRange = lastDay.getTime();
+
+
+                    this.fetchAttendeesCount();
+                }
+                break;
         }
 
-        if(this.selectedMonth && this.selectedYear && this.selectedWeek) {
-            this.onWeekFilter();
-        }
+
+
     }
 
     onWeekFilter() {
@@ -362,12 +396,27 @@ export class QuickReportComponent implements OnInit {
     }
 
     filter() {
-        if(this.statPeriod == 'THIS_WEEK') {
-            this.startRange = this.dateUtil.getFirstDayOfCurrentWeek(new Date()).getTime();
-            this.endRange = this.dateUtil.getLastDayOfCurrentWeek(new Date()).getTime();
+        this.selectedWeek = null;
+        this.selectedMonth = null;
+        this.selectedYear = null;
 
-            this.fetchAttendeesCount();
+        switch(this.statPeriod) {
+            case 'THIS_WEEK':
+                this.startRange = this.dateUtil.getFirstDayOfCurrentWeek(new Date()).getTime();
+                this.endRange = this.dateUtil.getLastDayOfCurrentWeek(new Date()).getTime();
+
+                this.fetchAttendeesCount();
+                break;
+
+            case 'THIS_MONTH':
+                this.startRange = this.dateUtil.getFirstDayOfCurrentMonth(new Date()).getTime();
+                this.endRange = this.dateUtil.getLastDayOfCurrentMonth(new Date()).getTime();
+
+                this.fetchAttendeesCount();
+                break;
+
         }
+
     }
 
 }
