@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import {
     AttendanceStatusRequest, AttendeesPOJO, DateColumn, DaysPresentRequest,
     ReportModel
@@ -15,6 +15,7 @@ import {Router} from "@angular/router";
 import {DateUtil} from "../../../util/DateUtil";
 import {MyDateAdapter} from "../../../util/adapters/date-adapter";
 import {DateAdapter} from "@angular/material";
+import {BsModalRef, BsModalService} from "ngx-bootstrap";
 
 
 @Component({
@@ -45,6 +46,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     employees: any[] = [];
     pageSize: number = 10;
     pageNo: number = 1;
+    modalRef: BsModalRef;
 
     constructor(private reportService: ReportService,
                 private ss: StorageService,
@@ -54,7 +56,8 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
                 private dataService: DataService,
                 private router: Router,
                 private mService: MessageService,
-                private dateUtil: DateUtil) {
+                private dateUtil: DateUtil,
+                private modalService: BsModalService) {
         this.reportModel.reportType = "early";
         this.reportModel.pageSize = this.rowsOnPage;
         this.reportModel.user = this.ss.getUserName();
@@ -81,6 +84,10 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
 
         // this.fetchAttendees();
 
+    }
+
+    openModal(template: TemplateRef<any>) {
+        this.modalRef = this.modalService.show(template);
     }
 
     fetchDailyReport() {
