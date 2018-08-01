@@ -174,36 +174,22 @@ export class QuickReportComponent implements OnInit {
 
     getDaysPresent() {
         let days = this.dateUtil.getDaysLeft(this.startRange, this.endRange) + 1;
-        // let inActiveDays = 0;
-        //
-        // if(this.dateUtil.getStartOfDay(new Date()) < this.endRange) {
-        //     inActiveDays = this.dateUtil.getDaysLeft(this.dateUtil.getStartOfDay(new Date()), this.endRange);
-        // }
+        let inActiveDays = 0;
+
+        if(this.dateUtil.getStartOfDay(new Date()) < this.endRange) {
+            inActiveDays = this.dateUtil.getDaysLeft(this.dateUtil.getStartOfDay(new Date()), this.endRange);
+        }
 
 
         let weeks = Math.ceil(days / 7);
-
         for (let i = 0; i < weeks; i++) {
-            let firstDateOfTheWeek = this.dateUtil.getFirstDayOfAweek(2018, 7, i);
-            let startDate = this.dateUtil.getFirstDayOfCurrentWeek(firstDateOfTheWeek).getTime();
-            let endDate = this.dateUtil.getLastDayOfCurrentWeek(firstDateOfTheWeek).getTime();
-
-            let inActiveDays = 0;
-
-            if(this.dateUtil.getStartOfDay(new Date()) < endDate) {
-                inActiveDays = this.dateUtil.getDaysLeft(this.dateUtil.getStartOfDay(new Date()), endDate);
-            }
-
-
-            this.weeksArray.push({id: i, inActiveDays: inActiveDays, startDate: startDate, endDate: endDate});
-            debugger;
+            this.weeksArray.push({id: i});
         }
 
         for (let i = 0; i < this.employees.length; i++) {
-            this.employees[i]['weeks'] = [];
 
-            for (let j = 0; j < this.weeksArray.length; j++) {
-                // this.employees[i]['weeks'] = [];
+            for (let j = 0; j < weeks; i++) {
+                this.employees[i]['weeks'] = [];
                 this.employees[i].weeks.push({
                     id: j,
                     tde: 0,
@@ -218,10 +204,10 @@ export class QuickReportComponent implements OnInit {
                 this.daysPresentRequest.email = this.employees[i].email;
                 this.daysPresentRequest.orgId = this.reportModel.orgId;
                 this.daysPresentRequest.locId = this.reportModel.locId;
-                this.daysPresentRequest.currentStartTime = this.dateUtil.getStartOfDay(new Date(this.weeksArray[j].startDate));
-                this.daysPresentRequest.currentEndTime = this.dateUtil.getEndOfDay(new Date(this.weeksArray[j].endDate));
-                this.daysPresentRequest.prevStartTime = this.dateUtil.getPreviousWeekTimeStamp(this.dateUtil.getStartOfDay(new Date(this.weeksArray[j].startDate)) - 1)
-                this.daysPresentRequest.prevEndTime = this.dateUtil.getStartOfDay(new Date(this.weeksArray[j].startDate)) - 1;
+                this.daysPresentRequest.currentStartTime = this.dateUtil.getStartOfDay(new Date(this.startRange));
+                this.daysPresentRequest.currentEndTime = this.dateUtil.getEndOfDay(new Date(this.endRange));
+                this.daysPresentRequest.prevStartTime = this.dateUtil.getPreviousWeekTimeStamp(this.dateUtil.getStartOfDay(new Date(this.startRange)) - 1)
+                this.daysPresentRequest.prevEndTime = this.dateUtil.getStartOfDay(new Date(this.startRange)) - 1;
 
                 this.reportService.getDaysPresent(this.daysPresentRequest)
                     .subscribe(
@@ -230,7 +216,7 @@ export class QuickReportComponent implements OnInit {
                             this.employees[result.id].weeks[result.weekId].tdeTrend = result.earlyTrend;
                             this.employees[result.id].weeks[result.weekId].tdl = result.daysLate;
                             this.employees[result.id].weeks[result.weekId].tdlTrend = result.lateTrend;
-                            this.employees[result.id].weeks[result.weekId].tda = this.weeksArray[j].inActiveDays > (7 - result.daysPresent)? 0: 7 - result.daysPresent - this.weeksArray[j].inActiveDays;
+                            this.employees[result.id].weeks[result.weekId].tda = inActiveDays > (days - result.daysPresent)? 0: days - result.daysPresent - inActiveDays;
                         },
                         error => {
                         }
@@ -239,6 +225,7 @@ export class QuickReportComponent implements OnInit {
 
 
         }
+
     }
 
     fetchAttendees() {
@@ -251,7 +238,7 @@ export class QuickReportComponent implements OnInit {
                 result => {
                     this.employees = result.attendees? result.attendees:[];
 
-                    if(this.statPeriod == 'THIS_WEEK') {
+                    if(this.statPeriod == 'THIS_WEEK' || this.statPeriod == 'OTHER_WEEKS') {
                         this.getDate();
                         this.getDaysPresent();
                     }else {
@@ -329,6 +316,11 @@ export class QuickReportComponent implements OnInit {
     locationChange() {
         this.resetValues();
         this.statPeriod = 'THIS_WEEK';
+        this.startRange = this.dateUtil.getFirstDayOfCurrentWeek(new Date()).getTime();
+        this.endRange = this.dateUtil.getLastDayOfCurrentWeek(new Date()).getTime();
+        this.selectedWeek = null;
+        this.selectedMonth = null;
+        this.selectedYear = null;
 
         this.fetchAttendeesCount();
 
@@ -346,19 +338,41 @@ export class QuickReportComponent implements OnInit {
     }
 
     onFilterToggle() {
-        if(this.selectedMonth && this.selectedYear) {
-            let weekInaMonth = this.dateUtil.weeksInAmonth(this.selectedMonth, this.selectedYear);
+        switch(this.statPeriod) {
+            case 'OTHER_WEEKS':
+                if(this.selectedMonth && this.selectedYear) {
+                    let weekInaMonth = this.dateUtil.weeksInAmonth(this.selectedMonth, this.selectedYear);
 
-            this.weeks = [];
+                    this.weeks = [];
 
-            for(let i = 1; i <= weekInaMonth; i++) {
-                this.weeks.push({id: i - 1, title: "WEEK " + i});
-            }
+                    for(let i = 1; i <= weekInaMonth; i++) {
+                        this.weeks.push({id: i - 1, title: "WEEK " + i});
+                    }
+                }
+
+                if(this.selectedMonth && this.selectedYear && this.selectedWeek) {
+                    this.onWeekFilter();
+                }
+                break;
+            case 'OTHER_MONTHS':
+                if(this.selectedMonth && this.selectedYear) {
+                    let firstDateOfTheMonth = this.dateUtil.getFirstDayOfCurrentMonth(new Date(this.selectedYear, this.selectedMonth, 0));
+
+
+                    let firstDay = this.dateUtil.getFirstDayOfCurrentMonth(firstDateOfTheMonth);
+                    let lastDay = this.dateUtil.getLastDayOfCurrentMonth(firstDateOfTheMonth);
+
+                    this.startRange = firstDay.getTime();
+                    this.endRange = lastDay.getTime();
+
+
+                    this.fetchAttendeesCount();
+                }
+                break;
         }
 
-        if(this.selectedMonth && this.selectedYear && this.selectedWeek) {
-            this.onWeekFilter();
-        }
+
+
     }
 
     onWeekFilter() {
@@ -382,6 +396,9 @@ export class QuickReportComponent implements OnInit {
     }
 
     filter() {
+        this.selectedWeek = null;
+        this.selectedMonth = null;
+        this.selectedYear = null;
 
         switch(this.statPeriod) {
             case 'THIS_WEEK':
@@ -397,6 +414,7 @@ export class QuickReportComponent implements OnInit {
 
                 this.fetchAttendeesCount();
                 break;
+
         }
 
     }

@@ -40,7 +40,7 @@
                     </mat-form-field>
                 </div>
 
-                <ng-container *ngIf="statPeriod == 'OTHER_WEEKS'">
+                <ng-container *ngIf="statPeriod == 'OTHER_WEEKS' || statPeriod == 'OTHER_MONTHS'">
                     <div class="col-md-2 col-lg">
                         <mat-form-field>
                             <mat-select placeholder="Select Year" name="selectedYear" [(ngModel)]="selectedYear" (change)="onFilterToggle()">
@@ -57,7 +57,7 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="col-md-2 col-lg">
+                    <div class="col-md-2 col-lg" *ngIf="statPeriod == 'OTHER_WEEKS'">
                         <mat-form-field>
                             <mat-select placeholder="Select Week" name="week" [(ngModel)]="selectedWeek" (change)="onWeekFilter()">
                                 <mat-option value="{{week.id}}" *ngFor="let week of weeks">{{week.title}}</mat-option>
@@ -66,6 +66,9 @@
                     </div>
                 </ng-container>
 
+                <!--<div class="col-lg col-md-2 float-right">-->
+                    <!--<button mat-button class="primary-outline">Download</button>-->
+                <!--</div>-->
                 <!-- <div class="col-md-2 col-lg">
                     <mat-form-field>
                         <mat-select placeholder="Select Week">
@@ -126,11 +129,9 @@
                                     <span>{{date.startTime | date:'d/M/yyyy'}}</span>
                                 </th>
                                 </ng-container>
-                                <ng-container *ngFor="let week of weeksArray">
                                 <th class="font-weight-bold small" scope="col">Total Days Early</th>
                                 <th class="font-weight-bold small" scope="col">Total Days Late</th>
                                 <th class="font-weight-bold small" scope="col">Total Days Absent</th>
-                                </ng-container>
                             </tr>
                         </thead>
                         <tbody>
@@ -144,20 +145,18 @@
                                     <mat-icon class="small" style="height: 0" *ngIf="a.status == 'N/A'" mat-list-icon>remove</mat-icon>
                                 </td>
                                 </ng-container>
-                                <ng-container *ngFor="let week of weeksArray; let i = index">
-                                <td>{{d.weeks[i]?.tde}}
-                                    <mat-icon class="text-success small position-absolute" *ngIf="d.weeks[i]?.tdeTrend == 'UP'">arrow_upward</mat-icon>
-                                    <mat-icon class="text-danger small position-absolute" *ngIf="d.weeks[i]?.tdeTrend == 'DOWN'">arrow_downward</mat-icon>
+                                <td>{{d.weeks[0]?.tde}}
+                                    <mat-icon class="text-success small position-absolute" *ngIf="d.weeks[0]?.tdeTrend == 'UP'">arrow_upward</mat-icon>
+                                    <mat-icon class="text-danger small position-absolute" *ngIf="d.weeks[0]?.tdeTrend == 'DOWN'">arrow_downward</mat-icon>
                                 </td>
-                                <td>{{d.weeks[i]?.tdl}}
-                                    <mat-icon class="text-success small position-absolute" *ngIf="d.weeks[i]?.tdlTrend == 'UP'">arrow_upward</mat-icon>
-                                    <mat-icon class="text-danger small position-absolute" *ngIf="d.weeks[i]?.tdlTrend == 'DOWN'">arrow_downward</mat-icon>
+                                <td>{{d.weeks[0]?.tdl}}
+                                    <mat-icon class="text-success small position-absolute" *ngIf="d.weeks[0]?.tdlTrend == 'UP'">arrow_upward</mat-icon>
+                                    <mat-icon class="text-danger small position-absolute" *ngIf="d.weeks[0]?.tdlTrend == 'DOWN'">arrow_downward</mat-icon>
                                 </td>
-                                <td>{{d.weeks[i]?.tda}}
+                                <td>{{d.weeks[0]?.tda}}
                                     <!--<mat-icon class="text-success small position-absolute">arrow_upward</mat-icon>-->
                                     <!--<mat-icon class="text-success small position-absolute">arrow_downward</mat-icon>-->
                                 </td>
-                                </ng-container>
                             </tr>
                     </table>
                 </div>
