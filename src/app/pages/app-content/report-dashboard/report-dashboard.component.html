@@ -2,6 +2,17 @@
 <mat-tab-group class="employee" (selectedTabChange)="onTabChange($event)">
     <mat-tab label="Early">
         <div class="container-fluid">
+
+            <div class="col-md-12 text-lg-right" *ngIf="locations.length > 0">
+                <mat-form-field>
+                    <div class="d-inline-flex">
+                        <input matInput placeholder="Search" name="search" [(ngModel)]="searchValue">
+                        <mat-icon *ngIf="searchValue" (click)="searchValue = ''" class="cursor text-secondary pl-1" style="font-size: 20px">cancel</mat-icon>
+                        <mat-icon class="cursor" (click)="search()">search</mat-icon>
+                    </div>
+                </mat-form-field>
+            </div>
+
             <div class="row mt-4">
 
                 <!--<div class="col-md-12"><p>Report for {{selectedDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>-->
@@ -131,6 +142,17 @@
 
     <mat-tab label="Late">
         <div class="container-fluid">
+
+            <div class="col-md-12 text-lg-right" *ngIf="locations.length > 0">
+                <mat-form-field>
+                    <div class="d-inline-flex">
+                        <input matInput placeholder="Search" name="search" [(ngModel)]="searchValue">
+                        <mat-icon *ngIf="searchValue" (click)="searchValue = ''" class="cursor text-secondary pl-1" style="font-size: 20px">cancel</mat-icon>
+                        <mat-icon class="cursor" (click)="search()">search</mat-icon>
+                    </div>
+                </mat-form-field>
+            </div>
+
             <div class="row mt-4">
 
                 <!--<div class="col-md-12"><p>Report for {{selectedDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>-->
@@ -260,6 +282,17 @@
     <mat-tab label="Absent">
 
         <div class="container-fluid">
+
+            <div class="col-md-12 text-lg-right" *ngIf="locations.length > 0">
+                <mat-form-field>
+                    <div class="d-inline-flex">
+                        <input matInput placeholder="Search" name="search" [(ngModel)]="searchValue">
+                        <mat-icon *ngIf="searchValue" (click)="searchValue = ''" class="cursor text-secondary pl-1" style="font-size: 20px">cancel</mat-icon>
+                        <mat-icon class="cursor" (click)="search()">search</mat-icon>
+                    </div>
+                </mat-form-field>
+            </div>
+
             <div class="row mt-4">
 
                 <!--<div class="col-md-12"><p>Report for {{selectedDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>-->
@@ -374,6 +407,18 @@
     <mat-tab label="Wrong location">
 
         <div class="container-fluid">
+
+            <div class="col-md-12 text-lg-right" *ngIf="locations.length > 0">
+                <mat-form-field>
+                    <div class="d-inline-flex">
+                        <input matInput placeholder="Search" name="search" [(ngModel)]="searchValue">
+                        <mat-icon *ngIf="searchValue" (click)="searchValue = ''" class="cursor text-secondary pl-1" style="font-size: 20px">cancel</mat-icon>
+                        <mat-icon class="cursor" (click)="search()">search</mat-icon>
+                    </div>
+                </mat-form-field>
+            </div>
+
+
             <div class="row mt-4">
 
                 <!--<div class="col-md-12"><p>Report for {{selectedDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>-->

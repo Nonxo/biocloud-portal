@@ -150,7 +150,9 @@ export class QuickReportComponent implements OnInit {
                                     if (emp.email == result.email) {
                                         if(startTime > currentDateEndTime) {
                                             emp.attendance[result.id - 1].status = "N/A";
-                                        } else {
+                                        } else if(emp.created > startTime) {
+                                            emp.attendance[result.id - 1].status = "N/A";
+                                        }else {
                                             emp.attendance[result.id - 1].status = result.status;
                                         }
                                         break;
@@ -216,7 +218,7 @@ export class QuickReportComponent implements OnInit {
                             this.employees[result.id].weeks[result.weekId].tdeTrend = result.earlyTrend;
                             this.employees[result.id].weeks[result.weekId].tdl = result.daysLate;
                             this.employees[result.id].weeks[result.weekId].tdlTrend = result.lateTrend;
-                            this.employees[result.id].weeks[result.weekId].tda = inActiveDays > (days - result.daysPresent)? 0: days - result.daysPresent - inActiveDays;
+                            this.employees[result.id].weeks[result.weekId].tda = inActiveDays > (days - result.daysPresent)? 0: days - result.daysPresent - inActiveDays - this.getUserIneligibleDays(this.employees[result.id].created, days);
                         },
                         error => {
                         }
@@ -226,6 +228,24 @@ export class QuickReportComponent implements OnInit {
 
         }
 
+    }
+
+    /**
+     *
+     * @param {number} created => date user was created
+     * @param days
+     */
+    getUserIneligibleDays(created:number, days) {
+        if(this.dateUtil.getStartOfDay(new Date(created)) > this.dateUtil.getEndOfDay(new Date(this.endRange))) {
+            return days;
+        }
+
+        let eligibleDays = this.dateUtil.getDaysLeft(this.dateUtil.getStartOfDay(new Date(created)), this.dateUtil.getEndOfDay(new Date(this.endRange))) - 1;
+        if(eligibleDays < days) {
+            return days - eligibleDays;
+        }
+
+        return 0;
     }
 
     fetchAttendees() {
