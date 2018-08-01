@@ -319,7 +319,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     search() {
         this.resetValues();
         this.reportModel.param = this.searchValue;
-        this.fetchAttendeesCount();
+        this.fetchDailyReport();
     }
 
 }
