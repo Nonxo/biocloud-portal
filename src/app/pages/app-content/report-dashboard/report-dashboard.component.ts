@@ -45,6 +45,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     employees: any[] = [];
     pageSize: number = 10;
     pageNo: number = 1;
+    searchValue: string;
 
     constructor(private reportService: ReportService,
                 private ss: StorageService,
@@ -313,6 +314,12 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
             locId: this.reportModel.locId
         });
         this.router.navigate(['/portal/overview']);
+    }
+
+    search() {
+        this.resetValues();
+        this.reportModel.param = this.searchValue;
+        this.fetchDailyReport();
     }
 
 }
