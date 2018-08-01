@@ -62,8 +62,7 @@
                 </div>
 
                 <div class="col-lg col-md-12  text-left pt-lg-2 pl-lg-4 pl-4 pb-lg-0 pb-4 mb-lg-3">
-                    <!--<button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline" *ngIf="data.length > 0">Download<i class="material-icons">arrow_drop_down</i></button>-->
-                    <button mat-button class="primary-outline" (click)="openModal(downloadTemplate)">Download</button>
+                    <button mat-button class="primary-outline" (click)="openModal(downloadTemplate)" *ngIf="data.length > 0">Download</button>
                     <!--<mat-menu #downloadmenu="matMenu">-->
                     <!--<button mat-menu-item (click)="downloadPdf()">PDF</button>-->
                     <!--<button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>-->
@@ -201,12 +200,12 @@
 
                 </div>
 
-                <div class="col-lg col-md-12 text-md-center text-left pt-lg-2 pl-lg-4 pl-4 pb-lg-0 pb-4 mb-lg-3">
-                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline" *ngIf="data.length > 0">Download<i class="material-icons">arrow_drop_down</i></button>
-                    <mat-menu #downloadmenu="matMenu">
-                        <button mat-menu-item (click)="downloadPdf()">PDF</button>
-                        <button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>
-                    </mat-menu>
+                <div class="col-lg col-md-12  text-left pt-lg-2 pl-lg-4 pl-4 pb-lg-0 pb-4 mb-lg-3">
+                    <button mat-button class="primary-outline" (click)="openModal(downloadTemplate)" *ngIf="data.length > 0">Download</button>
+                    <!--<mat-menu #downloadmenu="matMenu">-->
+                    <!--<button mat-menu-item (click)="downloadPdf()">PDF</button>-->
+                    <!--<button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>-->
+                    <!--</mat-menu>-->
                 </div>
 
                 <!--<div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">-->
@@ -338,12 +337,12 @@
 
                 </div>
 
-                <div class="col-lg text-left pt-lg-2 pl-lg-4 pl-4 pb-lg-0 pb-4 mb-lg-3">
-                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline" *ngIf="data.length > 0">Download <i class="material-icons">arrow_drop_down</i></button>
-                    <mat-menu #downloadmenu="matMenu">
-                        <button mat-menu-item (click)="downloadPdf()">PDF</button>
-                        <button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>
-                    </mat-menu>
+                <div class="col-lg col-md-12  text-left pt-lg-2 pl-lg-4 pl-4 pb-lg-0 pb-4 mb-lg-3">
+                    <button mat-button class="primary-outline" (click)="openModal(downloadTemplate)" *ngIf="data.length > 0">Download</button>
+                    <!--<mat-menu #downloadmenu="matMenu">-->
+                    <!--<button mat-menu-item (click)="downloadPdf()">PDF</button>-->
+                    <!--<button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>-->
+                    <!--</mat-menu>-->
                 </div>
 
                 <!--<div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">-->
@@ -467,12 +466,12 @@
 
                 </div>
 
-                <div class="col-lg text-left pt-lg-2 pl-lg-4 pl-4 pb-lg-0 pb-4 mb-lg-3">
-                    <button mat-button [matMenuTriggerFor]="downloadmenu" class="primary-outline" *ngIf="data.length > 0">Download <i class="material-icons">arrow_drop_down</i></button>
-                    <mat-menu #downloadmenu="matMenu">
-                        <button mat-menu-item (click)="downloadPdf()">PDF</button>
-                        <button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>
-                    </mat-menu>
+                <div class="col-lg col-md-12  text-left pt-lg-2 pl-lg-4 pl-4 pb-lg-0 pb-4 mb-lg-3">
+                    <button mat-button class="primary-outline" (click)="openModal(downloadTemplate)" *ngIf="data.length > 0">Download</button>
+                    <!--<mat-menu #downloadmenu="matMenu">-->
+                    <!--<button mat-menu-item (click)="downloadPdf()">PDF</button>-->
+                    <!--<button mat-menu-item (click)="downloadExcel()">Spreadsheet</button>-->
+                    <!--</mat-menu>-->
                 </div>
 
                 <!--<div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">-->
@@ -765,14 +764,14 @@
 
 <ng-template #downloadTemplate>
     <div class="modal-header">
-        <h4 class="modal-title pull-left text-brand">Download</h4>
+        <h4 class="modal-title pull-left text-brand text-center">Download Report</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">
         <p class="text-secondary small">Export Range</p>
-        <mat-radio-group>
+        <mat-radio-group name="exportOption" [(ngModel)]="exportOption" (change)="toggleExportType($event)">
             <div class="row">
                 <div class="col-md-12">
                     <div class="row">
@@ -792,11 +791,10 @@
                         <mat-radio-button class="small" value="3">Pages</mat-radio-button>
                     </div>
 
-                    <div>
+                    <div *ngIf="showPageOption">
                         <mat-form-field class="w-25">
-                            <mat-select>
-                                <mat-option value="1">1</mat-option>
-                                <mat-option value="2">2</mat-option>
+                            <mat-select name="pageNo" [(ngModel)]="pageNo">
+                                <mat-option value="{{i + 1}}" *ngFor="let page of pageArray; let i = index">{{i + 1}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -809,19 +807,20 @@
 
         <div class="col-md-12 pt-3">
             <mat-form-field class="w-100">
-                <mat-select placeholder="Download Format">
+                <mat-select placeholder="Download Format" name="exportType" [(ngModel)]="exportType">
                     <mat-option value="pdf">PDF</mat-option>
+                    <mat-option value="sheet">EXCEL</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
 
         <div class="col-md-12 text-center mb-3 mt-3">
 
-            <button mat-raised-button color="primary" class="px-4 primary-outline py-1 mr-2">
+            <button mat-raised-button color="primary" class="px-4 primary-outline py-1 mr-2" (click)="downloadReport()">
                         Download
                     </button>
 
-            <button mat-raised-button class="px-4 primary-outline py-1" type="button" (click)="cancel()">CANCEL
+            <button mat-raised-button class="px-4 primary-outline py-1" type="button" (click)="modalRef.hide()">CANCEL
                 </button>
 
 
