@@ -4,7 +4,7 @@ import {Router} from "@angular/router";
 import {AppContentService} from "../services/app-content.service";
 import {NotifyService} from "../../../service/notify.service";
 import {DataService} from "../../../service/data.service";
-import {DaysPresentRequest, HistoryPojo, UpdateProfile} from "../model/app-content.model";
+import {AttendeesPOJO, DaysPresentRequest, HistoryPojo, UpdateProfile} from "../model/app-content.model";
 import {isNullOrUndefined} from "util";
 import {ReportService} from "../services/report.service";
 import {DateUtil} from "../../../util/DateUtil";
@@ -43,6 +43,8 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
     selectedRangeForPunc: any;
     startRange: number = 1525190429000;
     endRange: number = 1531245317000;
+    attendeePOJO: AttendeesPOJO = new AttendeesPOJO();
+    created: number;
 
     constructor(private mService: MessageService,
                 private contentService: AppContentService,
@@ -71,7 +73,11 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
             this.fetchUserDetail();
             this.fetchClockinHistory();
             // this.fetchPuncScore();
-            this.fetchDaysPresent();
+            if(this.userObj.locId) {
+                this.fetchAttendeeDetails();
+            }else {
+                this.fetchDaysPresent();
+            }
             // this.getAverageTime();
         }
 
@@ -81,6 +87,26 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
         this.history.orgId = this.userObj.orgId;
         this.history.locId = this.userObj.locId;
         this.history.email = this.userObj.email;
+    }
+
+    fetchAttendeeDetails() {
+        this.attendeePOJO.param = this.userObj.email;
+        this.attendeePOJO.locId = this.userObj.locId;
+
+
+        this.contentService.fetchAttendees(this.attendeePOJO)
+            .finally(() => {
+                this.mService.setDisplay(false);
+            })
+            .subscribe(
+                result => {
+                    this.created = result.attendees? result.attendees[0].created:null;
+
+                    this.fetchDaysPresent();
+                },
+                error => {
+                }
+            )
     }
 
     fetchClockinHistory() {
@@ -375,6 +401,24 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
                 error => {
                 }
             )
+    }
+
+    /**
+     *
+     * @param {number} created => date user was created
+     * @param days
+     */
+    getUserIneligibleDays(created:number, days) {
+        if(this.dateUtil.getStartOfDay(new Date(created)) > this.dateUtil.getEndOfDay(new Date(this.endRange))) {
+            return days;
+        }
+
+        let eligibleDays = this.dateUtil.getDaysLeft(this.dateUtil.getStartOfDay(new Date(created)), this.dateUtil.getEndOfDay(new Date(this.endRange))) - 1;
+        if(eligibleDays < days) {
+            return days - eligibleDays;
+        }
+
+        return 0;
     }
 
     filterDaysPresent(type?: string) {
