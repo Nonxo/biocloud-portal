@@ -307,7 +307,7 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
                     this.totalDaysEarly[1].trend = result.earlyTrend;
                     this.totalDaysLate[1].daysLate = result.daysLate;
                     this.totalDaysLate[1].trend = result.lateTrend;
-                    this.totalDaysAbsent[1].daysAbsent = inActiveDays > (days - result.daysPresent)? 0: days - result.daysPresent - inActiveDays;
+                    this.totalDaysAbsent[1].daysAbsent = inActiveDays > (days - result.daysPresent)? 0: days - result.daysPresent - inActiveDays- this.getUserIneligibleDays(this.created, days, endRange);
 
                     // this.selectedRangeForDaysPresent = this.totalDaysPresent[1];
                     // this.selectedRangeForDaysEarly = this.totalDaysEarly[1];
@@ -370,7 +370,7 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
                     this.totalDaysEarly[2].trend = result.earlyTrend;
                     this.totalDaysLate[2].daysLate = result.daysLate;
                     this.totalDaysLate[2].trend = result.lateTrend;
-                    this.totalDaysAbsent[2].daysAbsent = inActiveDays > (days - result.daysPresent)? 0: days - result.daysPresent - inActiveDays;
+                    this.totalDaysAbsent[2].daysAbsent = inActiveDays > (days - result.daysPresent)? 0: days - result.daysPresent - inActiveDays- this.getUserIneligibleDays(this.created, days, endRange);
 
                     // this.selectedRangeForDaysPresent = this.totalDaysPresent[1];
                     // this.selectedRangeForDaysEarly = this.totalDaysEarly[1];
