@@ -90,6 +90,8 @@ export class NavComponent implements OnInit, OnDestroy {
     subscription: any;
     daysLeft: number;
     showDropdown: boolean;
+    range: any[] = [];
+    employeeRangeUpperLimit:any;
 
     constructor(private router: Router,
                 private authService: AuthService,
@@ -171,6 +173,7 @@ export class NavComponent implements OnInit, OnDestroy {
             this.mService.setSelectedOrg(this.selectedOrg.orgId);
         }
 
+        this.fetchEmployeeRange();
         this.fetchCompanyType();
         this.fetchUsersOrg();
         this.onResizeByWindowScreen();
@@ -461,7 +464,21 @@ export class NavComponent implements OnInit, OnDestroy {
 
         this.loading = true;
         this.getOrgRequestObject();
+
+        this.transformEmployeeRangeObj();
         this.editOrgMode ? this.callOrgEditService() : this.callOrgCreationService();
+    }
+
+    transformEmployeeRangeObj() {
+        if(this.range.length > 0) {
+            for(let r of this.range) {
+                if(r.upperLimit == this.employeeRangeUpperLimit) {
+                    this.orgRequest.employeeRange = r;
+                    break;
+                }
+
+            }
+        }
     }
 
     isFormValid(): boolean {
@@ -618,6 +635,7 @@ export class NavComponent implements OnInit, OnDestroy {
     createOrg(template: TemplateRef<any>) {
         this.editOrgMode = false;
         this.uploadedFileName = "";
+        this.employeeRangeUpperLimit = "";
         this.orgRequest = new CreateOrgRequest();
         this.openModal(template);
     }
@@ -628,6 +646,7 @@ export class NavComponent implements OnInit, OnDestroy {
         this.orgRequest.type = this.selectedOrg.sector ? this.selectedOrg.sector : this.selectedOrg.orgType;
         this.orgRequest.name = this.selectedOrg.name;
         this.orgRequest.logo = this.selectedOrg.logo;
+        this.employeeRangeUpperLimit = this.selectedOrg.employeeRange? this.selectedOrg.employeeRange.upperLimit.toString():'';
         this.openModal(template);
     }
 
@@ -750,6 +769,16 @@ export class NavComponent implements OnInit, OnDestroy {
 
     toggleReport() {
         this.showDropdown ? this.showDropdown = false : this.showDropdown = true;
+    }
+
+    fetchEmployeeRange() {
+        this.contentService.fetchEmployeeRange()
+            .subscribe(
+                result => {
+                    this.range = result.range? result.range: [];
+                },
+                error => {}
+            )
     }
 
 }
