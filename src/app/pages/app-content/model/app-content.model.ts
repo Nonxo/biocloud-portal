@@ -6,6 +6,7 @@ export class CreateOrgRequest {
     name:string;
     type:string;
     createdBy:string;
+    employeeRange:any;
     logo:string;
 }
 
@@ -22,6 +23,7 @@ export class Org {
     sector:string;
     orgType:string;
     walletId:number;
+    employeeRange:any;
 }
 
 

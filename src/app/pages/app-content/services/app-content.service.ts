@@ -632,4 +632,19 @@ export class AppContentService {
             )
     }
 
+    fetchEmployeeRange(): Observable<any> {
+        return this.httpClient
+            .get(Endpoints.FETCH_EMPLOYEE_RANGE, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+        }).pipe(
+            timeout(50000),
+            map(response => {
+                let res: any = response;
+                this.as.checkUnauthorized(res.description);
+                return res
+            })
+        )
+    }
+
 }
