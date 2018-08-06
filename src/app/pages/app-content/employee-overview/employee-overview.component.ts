@@ -238,7 +238,7 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
                     this.totalDaysEarly[0].trend = result.earlyTrend;
                     this.totalDaysLate[0].daysLate = result.daysLate;
                     this.totalDaysLate[0].trend = result.lateTrend;
-                    this.totalDaysAbsent[0].daysAbsent = inActiveDays > (days - result.daysPresent)? 0: days - result.daysPresent - inActiveDays;
+                    this.totalDaysAbsent[0].daysAbsent = inActiveDays > (days - result.daysPresent)? 0: days - result.daysPresent - inActiveDays - this.getUserIneligibleDays(this.created, days, endRange);
 
                     this.selectedRangeForDaysPresent = this.totalDaysPresent[0];
                     this.selectedRangeForDaysEarly = this.totalDaysEarly[0];
@@ -408,12 +408,12 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
      * @param {number} created => date user was created
      * @param days
      */
-    getUserIneligibleDays(created:number, days) {
-        if(this.dateUtil.getStartOfDay(new Date(created)) > this.dateUtil.getEndOfDay(new Date(this.endRange))) {
+    getUserIneligibleDays(created:number, days, endRange: number) {
+        if(this.dateUtil.getStartOfDay(new Date(created)) > this.dateUtil.getEndOfDay(new Date(endRange))) {
             return days;
         }
 
-        let eligibleDays = this.dateUtil.getDaysLeft(this.dateUtil.getStartOfDay(new Date(created)), this.dateUtil.getEndOfDay(new Date(this.endRange))) - 1;
+        let eligibleDays = this.dateUtil.getDaysLeft(this.dateUtil.getStartOfDay(new Date(created)), this.dateUtil.getEndOfDay(new Date(endRange))) - 1;
         if(eligibleDays < days) {
             return days - eligibleDays;
         }
