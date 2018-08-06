@@ -66,6 +66,10 @@
                     </div>
                 </ng-container>
 
+                <div class="col-md-2 col-lg" *ngIf="employees.length > 0">
+                    <button mat-button class="primary-outline" (click)="downloadReport()">Download</button>
+                </div>
+
                 <!--<div class="col-lg col-md-2 float-right">-->
                     <!--<button mat-button class="primary-outline">Download</button>-->
                 <!--</div>-->

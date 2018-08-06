@@ -14,6 +14,7 @@ import {MessageService} from "../../../../service/message.service";
 import {DateUtil} from "../../../../util/DateUtil";
 import {Subject} from 'rxjs';
 import {SearchService} from "../../../../service/search.service";
+import * as FileSaver from "file-saver";
 
 @Component({
     selector: 'app-quick-report',
@@ -439,4 +440,28 @@ export class QuickReportComponent implements OnInit {
 
     }
 
-}
+    downloadReport() {
+        this.mService.setDisplay(true);
+        this.reportService.downloadQuickReport(this.attendeePOJO.locId, this.dateUtil.getDateString(new Date(this.startRange)), this.dateUtil.getDateString(new Date(this.endRange)))
+            .subscribe(
+                result => {
+                    if(result.code == 0) {
+                        this.generateReport(result.exportedData);
+                    }else {
+                        this.ns.showError("An Error Occurred.");
+                    }
+                    this.mService.setDisplay(false)
+                },
+                error => {
+                    this.mService.setDisplay(false);
+                    this.ns.showError("An Error Occurred.");
+                }
+            )
+    }
+
+    generateReport(data: any) {
+            let blob = this.picUtil.base64toBlob(data, 'application/vnd.ms-excel');
+            FileSaver.saveAs(blob, "QUICK" + "-REPORT" + ".xlsx");
+
+        }
+    }
