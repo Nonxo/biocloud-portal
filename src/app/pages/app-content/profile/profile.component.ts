@@ -84,10 +84,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
         } else {
             this.ns.showError('Picture size is more than 100kb. Select another');
         }
+
+        event.target.value = '';
     }
 
     remove() {
-        this.model.img = "";
+        this.tmpModel.img = "";
         this.mService.setUserImage("");
         this.onSubmit();
         this.ss.setUserImage("")
@@ -111,9 +113,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
                 img.src = result;
 
                 this.pictureUtil.resize(img, 250, 250, (resized_jpeg, before, after) => {
-                    this.model.img = resized_jpeg;
-                    this.mService.setUserImage(this.model.img);
-                    this.ss.setUserImage(this.model.img);
+                    this.tmpModel.img = resized_jpeg;
+                    this.mService.setUserImage(this.tmpModel.img);
+                    this.ss.setUserImage(this.tmpModel.img);
                     this.readFiles(files, index + 1);
                     this.onSubmit();
 
@@ -138,6 +140,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
                             let str = this.model.img.replace(/ /g, "+");
                             this.model.img = str
                         }
+
+                        this.tmpModel = this.model;
                     } else {
                         // this.ns.showError(result.description);
                     }

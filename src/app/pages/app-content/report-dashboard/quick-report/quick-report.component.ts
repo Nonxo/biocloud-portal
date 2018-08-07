@@ -168,13 +168,10 @@ export class QuickReportComponent implements OnInit {
         for (let emp of this.employees) {
             if (emp.email == result.email) {
                 if(startTime > currentDateEndTime) {
-                    debugger;
                     emp.attendance[result.id - 1].status = "N/A";
                 } else if(this.dateUtil.getStartOfDay(new Date(emp.created)) > startTime) {
-                    debugger;
                     emp.attendance[result.id - 1].status = "N/A";
                 }else {
-                    debugger;
                     emp.attendance[result.id - 1].status = result.status;
                 }
                 break;
