@@ -184,7 +184,7 @@
                         </div>
                         <div class="pt-3">
                             <p>Phone Number</p>
-                            <h6>{{selectedPhoneCode }} {{ model.phone}}</h6>
+                            <h6>{{selectedPhoneCode.charAt(0) == "+"? selectedPhoneCode: "+" + selectedPhoneCode }} {{ model.phone}}</h6>
                         </div>
                         <div class="pt-3">
                             <p>Residential Address</p>

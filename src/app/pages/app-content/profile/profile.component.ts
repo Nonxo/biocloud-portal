@@ -136,12 +136,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
                     if (result.code == 0) {
                         this.retrieveStatus = true;
                         this.transformUserObj(result.user, result.bio);
-                        if (this.model.img) {
-                            let str = this.model.img.replace(/ /g, "+");
-                            this.model.img = str
-                        }
 
-                        this.tmpModel = this.model;
                     } else {
                         // this.ns.showError(result.description);
                     }
@@ -173,6 +168,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.model.img = userObj.img;
         this.model.phoneCode = userObj.phoneCode;
         this.model.bio = bio;
+
+        if (this.model.img) {
+            let str = this.model.img.replace(/ /g, "+");
+            this.model.img = str
+        }
+
+        this.tmpModel = this.model;
 
         if(this.model.phoneCode) {
             this.selectPhoneCode();
@@ -275,9 +277,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     selectPhoneCode() {
-        this.selectedPhoneCode = this.model.phoneCode;
+        this.selectedPhoneCode = this.tmpModel.phoneCode;
         setTimeout(() => {
-            this.model.phoneCode = "";
+            this.tmpModel.phoneCode = "";
         },200);
     }
 
