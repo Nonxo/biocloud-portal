@@ -147,18 +147,7 @@ export class QuickReportComponent implements OnInit {
                     this.reportService.fetchAttendanceStatus(new AttendanceStatusRequest(i + 1, employee.email, startTime, endTime, this.reportModel.locId, this.reportModel.orgId))
                         .subscribe(
                             result => {
-                                for (let emp of this.employees) {
-                                    if (emp.email == result.email) {
-                                        if(startTime > currentDateEndTime) {
-                                            emp.attendance[result.id - 1].status = "N/A";
-                                        } else if(emp.created > startTime) {
-                                            emp.attendance[result.id - 1].status = "N/A";
-                                        }else {
-                                            emp.attendance[result.id - 1].status = result.status;
-                                        }
-                                        break;
-                                    }
-                                }
+                                this.populateReport(result, startTime, currentDateEndTime);
                             },
                             error => {
                             }
@@ -173,6 +162,24 @@ export class QuickReportComponent implements OnInit {
 
         this.pageNo = this.pageNo + 1;
 
+    }
+
+    populateReport(result: any, startTime, currentDateEndTime) {
+        for (let emp of this.employees) {
+            if (emp.email == result.email) {
+                if(startTime > currentDateEndTime) {
+                    debugger;
+                    emp.attendance[result.id - 1].status = "N/A";
+                } else if(this.dateUtil.getStartOfDay(new Date(emp.created)) > startTime) {
+                    debugger;
+                    emp.attendance[result.id - 1].status = "N/A";
+                }else {
+                    debugger;
+                    emp.attendance[result.id - 1].status = result.status;
+                }
+                break;
+            }
+        }
     }
 
     getDaysPresent() {
@@ -243,7 +250,7 @@ export class QuickReportComponent implements OnInit {
 
         let eligibleDays = this.dateUtil.getDaysLeft(this.dateUtil.getStartOfDay(new Date(created)), this.dateUtil.getEndOfDay(new Date(this.endRange))) - 1;
         if(eligibleDays < days) {
-            return days - eligibleDays;
+            return days - eligibleDays - 1;
         }
 
         return 0;

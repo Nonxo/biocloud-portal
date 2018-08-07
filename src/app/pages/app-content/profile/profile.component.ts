@@ -26,6 +26,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     userId: string;
     bio: string;
     model: UpdateProfile = new UpdateProfile();
+    tmpModel: UpdateProfile = new UpdateProfile();
     changePasswordForm: FormGroup;
     submitted: boolean;
     hide: boolean;
@@ -181,6 +182,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     openeditProfileModal(template: TemplateRef<any>) {
+        this.tmpModel = JSON.parse(JSON.stringify(this.model));
         this.openModal(template);
     }
 
@@ -194,9 +196,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
 
     onSubmit() {
-        this.model.phoneCode = this.selectedPhoneCode;
+        this.tmpModel.phoneCode = this.selectedPhoneCode;
 
-        if(!this.model.phoneCode) {
+        if(!this.tmpModel.phoneCode) {
             this.ns.showError("Please select a country code for phone number");
             return;
         }
@@ -207,17 +209,19 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.contentService.updateProfile(this.userId, this.model)
             .finally(() => {
                 this.loading = false;
-                this.model.phoneCode = "";
+                this.tmpModel.phoneCode = "";
             })
             .subscribe(
                 result => {
                     if (result.code == 0) {
+                        this.model = this.tmpModel;
                         this.ns.showSuccess(result.description);
-                        this.modalRef.hide();
+                        this.modalRef? this.modalRef.hide():'';
                     } else {
                         this.ns.showError(result.description)
                     }
-                }
+                },
+                error => {this.ns.showError("An Error Occurred.")}
             )
     }
 
@@ -274,7 +278,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     selectCountryCode() {
-        let obj = this.countries.filter((obj) => obj.phoneCode.includes(this.selectedPhoneCode))[0];
+        let obj = this.countries.filter((obj) => obj.phoneCode? obj.phoneCode.includes(this.selectedPhoneCode):'')[0];
 
         if (obj) {
             this.selectedCountryCode = obj.code;
