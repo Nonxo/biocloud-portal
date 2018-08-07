@@ -415,7 +415,7 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
 
         let eligibleDays = this.dateUtil.getDaysLeft(this.dateUtil.getStartOfDay(new Date(created)), this.dateUtil.getEndOfDay(new Date(endRange))) - 1;
         if(eligibleDays < days) {
-            return days - eligibleDays;
+            return days - eligibleDays - 1;
         }
 
         return 0;

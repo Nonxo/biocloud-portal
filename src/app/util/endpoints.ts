@@ -63,4 +63,5 @@ export class Endpoints {
     public static GENERATE_METABASE_TOKEN = `${Endpoints.BASE_URL}/reports/api/alog/generate-metabase-token?`;
     public static GET_PRORATED_COST = `${Endpoints.BASE_URL}/users/api/subscriptions/get-prorated-cost?`;
     public static FETCH_EMPLOYEE_RANGE = `${Endpoints.BASE_URL}/users/api/org/get-employee-range`;
+    public static DOWNLOAD_QUICK_REORT = `${Endpoints.BASE_URL}/reports/api/alog/generate-quick-report?`;
 }
