@@ -34,11 +34,13 @@
                         <mat-select name="statPeriod" [(ngModel)]="statPeriod" (change)="filter()">
                             <mat-option value="THIS_WEEK">THIS WEEK</mat-option>
                             <mat-option value="OTHER_WEEKS">OTHER WEEKS</mat-option>
+                            <mat-option value="THIS_MONTH">THIS MONTH</mat-option>
+                            <mat-option value="OTHER_MONTHS">OTHER MONTHS</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
 
-                <ng-container *ngIf="statPeriod == 'OTHER_WEEKS'">
+                <ng-container *ngIf="statPeriod == 'OTHER_WEEKS' || statPeriod == 'OTHER_MONTHS'">
                     <div class="col-md-2 col-lg">
                         <mat-form-field>
                             <mat-select placeholder="Select Year" name="selectedYear" [(ngModel)]="selectedYear" (change)="onFilterToggle()">
@@ -55,7 +57,7 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="col-md-2 col-lg">
+                    <div class="col-md-2 col-lg" *ngIf="statPeriod == 'OTHER_WEEKS'">
                         <mat-form-field>
                             <mat-select placeholder="Select Week" name="week" [(ngModel)]="selectedWeek" (change)="onWeekFilter()">
                                 <mat-option value="{{week.id}}" *ngFor="let week of weeks">{{week.title}}</mat-option>
@@ -64,6 +66,13 @@
                     </div>
                 </ng-container>
 
+                <div class="col-md-2 col-lg" *ngIf="employees.length > 0">
+                    <button mat-button class="primary-outline" (click)="downloadReport()">Download</button>
+                </div>
+
+                <!--<div class="col-lg col-md-2 float-right">-->
+                    <!--<button mat-button class="primary-outline">Download</button>-->
+                <!--</div>-->
                 <!-- <div class="col-md-2 col-lg">
                     <mat-form-field>
                         <mat-select placeholder="Select Week">
@@ -118,10 +127,12 @@
                         <thead>
                             <tr>
                                 <th class="font-weight-bold small" scope="col">Employee Name</th>
+                                <ng-container *ngIf="statPeriod != 'THIS_MONTH'">
                                 <th class="font-weight-normal small" scope="col" *ngFor="let date of dateColumn">
                                     <span class="font-weight-bold">{{(date.startTime | date:'full').split(',')[0]}}</span>
                                     <span>{{date.startTime | date:'d/M/yyyy'}}</span>
                                 </th>
+                                </ng-container>
                                 <th class="font-weight-bold small" scope="col">Total Days Early</th>
                                 <th class="font-weight-bold small" scope="col">Total Days Late</th>
                                 <th class="font-weight-bold small" scope="col">Total Days Absent</th>
@@ -130,12 +141,14 @@
                         <tbody>
                             <tr *ngFor="let d of mf.data">
                                 <td> <span class="cursor text-brand" (click)="gotoOverview(d.email)">{{d.firstName }} {{ d.lastName}}</span></td>
+                                <ng-container *ngIf="statPeriod != 'THIS_MONTH'">
                                 <td *ngFor="let a of d.attendance" class="">
                                     <div *ngIf="a.status == 'LATE'" class="red-dot mx-auto"></div>
                                     <div *ngIf="a.status == 'EARLY'" class="green-dot mx-auto"></div>
                                     <div *ngIf="a.status == 'ABSENT'" class="grey-dot mx-auto"></div>
                                     <mat-icon class="small" style="height: 0" *ngIf="a.status == 'N/A'" mat-list-icon>remove</mat-icon>
                                 </td>
+                                </ng-container>
                                 <td>{{d.weeks[0]?.tde}}
                                     <mat-icon class="text-success small position-absolute" *ngIf="d.weeks[0]?.tdeTrend == 'UP'">arrow_upward</mat-icon>
                                     <mat-icon class="text-danger small position-absolute" *ngIf="d.weeks[0]?.tdeTrend == 'DOWN'">arrow_downward</mat-icon>
@@ -163,6 +176,7 @@
                                     <mat-option [value]="10">10</mat-option>
                                     <mat-option [value]="25">25</mat-option>
                                     <mat-option [value]="50">50</mat-option>
+                                    <mat-option [value]="100">100</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>

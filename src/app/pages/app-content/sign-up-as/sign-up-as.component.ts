@@ -17,6 +17,8 @@ export class SignUpAsComponent implements OnInit {
     orgRequest:CreateOrgRequest = new CreateOrgRequest();
     uploadedFileName:string;
     loading: boolean;
+    range: any[] = [];
+    employeeRangeUpperLimit: string;
 
   constructor(private contentService: AppContentService,
               private ns: NotifyService,
@@ -25,6 +27,7 @@ export class SignUpAsComponent implements OnInit {
               private pictureUtil: PictureUtil) { }
 
   ngOnInit() {
+      this.fetchEmployeeRange();
       this.fetchCompanyType();
   }
 
@@ -45,11 +48,22 @@ export class SignUpAsComponent implements OnInit {
         }
     }
 
+    fetchEmployeeRange() {
+      this.contentService.fetchEmployeeRange()
+          .subscribe(
+              result => {
+                  this.range = result.range? result.range: [];
+              },
+              error => {}
+          )
+    }
+
     getOrgRequestObject() {
         this.orgRequest.createdBy = this.ss.getLoggedInUserEmail();
     }
 
     saveOrg() {
+      this.transformEmployeeRangeObj();
       if(!this.isFormValid()) {
           return;
       }
@@ -57,6 +71,18 @@ export class SignUpAsComponent implements OnInit {
         this.loading = true;
         this.getOrgRequestObject();
         this.callOrgCreationService();
+    }
+
+    transformEmployeeRangeObj() {
+      if(this.range.length > 0) {
+          for(let r of this.range) {
+              if(r.upperLimit == this.employeeRangeUpperLimit) {
+                  this.orgRequest.employeeRange = r;
+                  break;
+              }
+
+          }
+      }
     }
 
     isFormValid(): boolean {

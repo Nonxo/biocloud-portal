@@ -290,6 +290,13 @@
                     <mat-error *ngIf="orgType.errors?.required">You must make a selection</mat-error>
                 </mat-form-field>
 
+                <mat-form-field class="input-field">
+                    <mat-select placeholder="Company Size" name="employeeRange" #employeeRange="ngModel" [(ngModel)]="employeeRangeUpperLimit" [required]="true">
+                        <mat-option *ngFor="let r of range" value="{{r.upperLimit}}">{{r.lowerLimit}} - {{r.upperLimit}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="employeeRange.errors?.required">You must make a selection</mat-error>
+                </mat-form-field>
+
                 <div class="mb-3 text-center">
                     <span class="fileUpload btn btn-accent">
                                    <span><mat-icon>attachment</mat-icon></span>

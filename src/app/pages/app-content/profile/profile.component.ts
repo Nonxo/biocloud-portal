@@ -26,6 +26,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     userId: string;
     bio: string;
     model: UpdateProfile = new UpdateProfile();
+    tmpModel: UpdateProfile = new UpdateProfile();
     changePasswordForm: FormGroup;
     submitted: boolean;
     hide: boolean;
@@ -83,10 +84,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
         } else {
             this.ns.showError('Picture size is more than 100kb. Select another');
         }
+
+        event.target.value = '';
     }
 
     remove() {
-        this.model.img = "";
+        this.tmpModel.img = "";
         this.mService.setUserImage("");
         this.onSubmit();
         this.ss.setUserImage("")
@@ -110,9 +113,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
                 img.src = result;
 
                 this.pictureUtil.resize(img, 250, 250, (resized_jpeg, before, after) => {
-                    this.model.img = resized_jpeg;
-                    this.mService.setUserImage(this.model.img);
-                    this.ss.setUserImage(this.model.img);
+                    this.tmpModel.img = resized_jpeg;
+                    this.mService.setUserImage(this.tmpModel.img);
+                    this.ss.setUserImage(this.tmpModel.img);
                     this.readFiles(files, index + 1);
                     this.onSubmit();
 
@@ -133,10 +136,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
                     if (result.code == 0) {
                         this.retrieveStatus = true;
                         this.transformUserObj(result.user, result.bio);
-                        if (this.model.img) {
-                            let str = this.model.img.replace(/ /g, "+");
-                            this.model.img = str
-                        }
+
                     } else {
                         // this.ns.showError(result.description);
                     }
@@ -169,6 +169,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.model.phoneCode = userObj.phoneCode;
         this.model.bio = bio;
 
+        if (this.model.img) {
+            let str = this.model.img.replace(/ /g, "+");
+            this.model.img = str
+        }
+
+        this.tmpModel = this.model;
+
         if(this.model.phoneCode) {
             this.selectPhoneCode();
             this.selectCountryCode();
@@ -181,6 +188,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     openeditProfileModal(template: TemplateRef<any>) {
+        this.tmpModel = JSON.parse(JSON.stringify(this.model));
         this.openModal(template);
     }
 
@@ -194,9 +202,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
 
     onSubmit() {
-        this.model.phoneCode = this.selectedPhoneCode;
+        this.tmpModel.phoneCode = this.selectedPhoneCode;
 
-        if(!this.model.phoneCode) {
+        if(!this.tmpModel.phoneCode) {
             this.ns.showError("Please select a country code for phone number");
             return;
         }
@@ -207,17 +215,19 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.contentService.updateProfile(this.userId, this.model)
             .finally(() => {
                 this.loading = false;
-                this.model.phoneCode = "";
+                this.tmpModel.phoneCode = "";
             })
             .subscribe(
                 result => {
                     if (result.code == 0) {
+                        this.model = this.tmpModel;
                         this.ns.showSuccess(result.description);
-                        this.modalRef.hide();
+                        this.modalRef? this.modalRef.hide():'';
                     } else {
                         this.ns.showError(result.description)
                     }
-                }
+                },
+                error => {this.ns.showError("An Error Occurred.")}
             )
     }
 
@@ -267,14 +277,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     selectPhoneCode() {
-        this.selectedPhoneCode = this.model.phoneCode;
+        this.selectedPhoneCode = this.tmpModel.phoneCode;
         setTimeout(() => {
-            this.model.phoneCode = "";
+            this.tmpModel.phoneCode = "";
         },200);
     }
 
     selectCountryCode() {
-        let obj = this.countries.filter((obj) => obj.phoneCode.includes(this.selectedPhoneCode))[0];
+        let obj = this.countries.filter((obj) => obj.phoneCode? obj.phoneCode.includes(this.selectedPhoneCode):'')[0];
 
         if (obj) {
             this.selectedCountryCode = obj.code;

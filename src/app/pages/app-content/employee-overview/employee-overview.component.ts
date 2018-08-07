@@ -4,7 +4,7 @@ import {Router} from "@angular/router";
 import {AppContentService} from "../services/app-content.service";
 import {NotifyService} from "../../../service/notify.service";
 import {DataService} from "../../../service/data.service";
-import {DaysPresentRequest, HistoryPojo, UpdateProfile} from "../model/app-content.model";
+import {AttendeesPOJO, DaysPresentRequest, HistoryPojo, UpdateProfile} from "../model/app-content.model";
 import {isNullOrUndefined} from "util";
 import {ReportService} from "../services/report.service";
 import {DateUtil} from "../../../util/DateUtil";
@@ -43,6 +43,8 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
     selectedRangeForPunc: any;
     startRange: number = 1525190429000;
     endRange: number = 1531245317000;
+    attendeePOJO: AttendeesPOJO = new AttendeesPOJO();
+    created: number;
 
     constructor(private mService: MessageService,
                 private contentService: AppContentService,
@@ -71,7 +73,11 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
             this.fetchUserDetail();
             this.fetchClockinHistory();
             // this.fetchPuncScore();
-            this.fetchDaysPresent();
+            if(this.userObj.locId) {
+                this.fetchAttendeeDetails();
+            }else {
+                this.fetchDaysPresent();
+            }
             // this.getAverageTime();
         }
 
@@ -81,6 +87,26 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
         this.history.orgId = this.userObj.orgId;
         this.history.locId = this.userObj.locId;
         this.history.email = this.userObj.email;
+    }
+
+    fetchAttendeeDetails() {
+        this.attendeePOJO.param = this.userObj.email;
+        this.attendeePOJO.locId = this.userObj.locId;
+
+
+        this.contentService.fetchAttendees(this.attendeePOJO)
+            .finally(() => {
+                this.mService.setDisplay(false);
+            })
+            .subscribe(
+                result => {
+                    this.created = result.attendees? result.attendees[0].created:null;
+
+                    this.fetchDaysPresent();
+                },
+                error => {
+                }
+            )
     }
 
     fetchClockinHistory() {
@@ -212,7 +238,7 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
                     this.totalDaysEarly[0].trend = result.earlyTrend;
                     this.totalDaysLate[0].daysLate = result.daysLate;
                     this.totalDaysLate[0].trend = result.lateTrend;
-                    this.totalDaysAbsent[0].daysAbsent = inActiveDays > (days - result.daysPresent)? 0: days - result.daysPresent - inActiveDays;
+                    this.totalDaysAbsent[0].daysAbsent = inActiveDays > (days - result.daysPresent)? 0: days - result.daysPresent - inActiveDays - this.getUserIneligibleDays(this.created, days, endRange);
 
                     this.selectedRangeForDaysPresent = this.totalDaysPresent[0];
                     this.selectedRangeForDaysEarly = this.totalDaysEarly[0];
@@ -281,7 +307,7 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
                     this.totalDaysEarly[1].trend = result.earlyTrend;
                     this.totalDaysLate[1].daysLate = result.daysLate;
                     this.totalDaysLate[1].trend = result.lateTrend;
-                    this.totalDaysAbsent[1].daysAbsent = inActiveDays > (days - result.daysPresent)? 0: days - result.daysPresent - inActiveDays;
+                    this.totalDaysAbsent[1].daysAbsent = inActiveDays > (days - result.daysPresent)? 0: days - result.daysPresent - inActiveDays- this.getUserIneligibleDays(this.created, days, endRange);
 
                     // this.selectedRangeForDaysPresent = this.totalDaysPresent[1];
                     // this.selectedRangeForDaysEarly = this.totalDaysEarly[1];
@@ -344,7 +370,7 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
                     this.totalDaysEarly[2].trend = result.earlyTrend;
                     this.totalDaysLate[2].daysLate = result.daysLate;
                     this.totalDaysLate[2].trend = result.lateTrend;
-                    this.totalDaysAbsent[2].daysAbsent = inActiveDays > (days - result.daysPresent)? 0: days - result.daysPresent - inActiveDays;
+                    this.totalDaysAbsent[2].daysAbsent = inActiveDays > (days - result.daysPresent)? 0: days - result.daysPresent - inActiveDays- this.getUserIneligibleDays(this.created, days, endRange);
 
                     // this.selectedRangeForDaysPresent = this.totalDaysPresent[1];
                     // this.selectedRangeForDaysEarly = this.totalDaysEarly[1];
@@ -375,6 +401,24 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
                 error => {
                 }
             )
+    }
+
+    /**
+     *
+     * @param {number} created => date user was created
+     * @param days
+     */
+    getUserIneligibleDays(created:number, days, endRange: number) {
+        if(this.dateUtil.getStartOfDay(new Date(created)) > this.dateUtil.getEndOfDay(new Date(endRange))) {
+            return days;
+        }
+
+        let eligibleDays = this.dateUtil.getDaysLeft(this.dateUtil.getStartOfDay(new Date(created)), this.dateUtil.getEndOfDay(new Date(endRange))) - 1;
+        if(eligibleDays < days) {
+            return days - eligibleDays - 1;
+        }
+
+        return 0;
     }
 
     filterDaysPresent(type?: string) {

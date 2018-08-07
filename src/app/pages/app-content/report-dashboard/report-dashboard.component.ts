@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import {
     AttendanceStatusRequest, AttendeesPOJO, DateColumn, DaysPresentRequest,
     ReportModel
@@ -15,6 +15,7 @@ import {Router} from "@angular/router";
 import {DateUtil} from "../../../util/DateUtil";
 import {MyDateAdapter} from "../../../util/adapters/date-adapter";
 import {DateAdapter} from "@angular/material";
+import {BsModalRef, BsModalService} from "ngx-bootstrap";
 
 
 @Component({
@@ -44,7 +45,13 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     reportPeriod: string = "TODAY";
     employees: any[] = [];
     pageSize: number = 10;
-    pageNo: number = 1;
+    pageNo: string = "1";
+    searchValue: string;
+    modalRef: BsModalRef;
+    exportOption: string = "1";
+    pageArray: any[];
+    exportType: string = "pdf";
+    showPageOption: boolean;
 
     constructor(private reportService: ReportService,
                 private ss: StorageService,
@@ -54,7 +61,8 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
                 private dataService: DataService,
                 private router: Router,
                 private mService: MessageService,
-                private dateUtil: DateUtil) {
+                private dateUtil: DateUtil,
+                private modalService: BsModalService) {
         this.reportModel.reportType = "early";
         this.reportModel.pageSize = this.rowsOnPage;
         this.reportModel.user = this.ss.getUserName();
@@ -71,7 +79,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.mService.setTitle("Reports");
 
-        if(this.dataService.getReportStartDate() && this.dataService.getReportEndDate()) {
+        if (this.dataService.getReportStartDate() && this.dataService.getReportEndDate()) {
             this.selectedStartDate = this.dataService.getReportStartDate();
             this.selectedEndDate = this.dataService.getReportEndDate();
         }
@@ -83,12 +91,16 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
 
     }
 
+    openModal(template: TemplateRef<any>) {
+        this.modalRef = this.modalService.show(template);
+    }
+
     fetchDailyReport() {
         this.reportModel.startDate = this.selectedStartDate.getTime();
         this.reportModel.endDate = this.selectedEndDate.getTime();
 
         //if report type is absent report
-        if(this.currentTab == 2) {
+        if (this.currentTab == 2) {
             this.reportModel.startDate = this.absentDate.getTime();
             this.reportModel.endDate = this.absentDate.getTime();
         }
@@ -113,7 +125,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
 
                     } else {
                         this.data = [];
-                        this.ns.showError(result.description);
+                        // this.ns.showError(result.description);
                     }
                 },
                 error => {
@@ -125,11 +137,11 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
 
     isFormValid() {
 
-        if(this.selectedEndDate.getTime() < this.selectedStartDate.getTime()) {
+        if (this.selectedEndDate.getTime() < this.selectedStartDate.getTime()) {
             return false;
         }
 
-        if(this.selectedStartDate.getTime() > this.dateUtil.getStartOfDay(new Date())) {
+        if (this.selectedStartDate.getTime() > this.dateUtil.getStartOfDay(new Date())) {
 
         }
     }
@@ -146,19 +158,23 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     }
 
     pageChanged(event) {
-            this.reportModel.pageNo = event.page;
-            this.fetchDailyReport();
+        this.reportModel.pageNo = event.page;
+        this.reportModel.pageSize = this.rowsOnPage;
+        this.reportModel.export = false;
+        this.fetchDailyReport();
     }
 
     locationChange() {
         this.resetValues();
-            this.fetchDailyReport();
+        this.fetchDailyReport();
     }
 
     resetValues() {
         this.data = [];
         this.currentPage = 1;
         this.reportModel.pageNo = 1;
+        this.reportModel.pageSize = this.rowsOnPage;
+        this.reportModel.export = false;
     }
 
     /**
@@ -167,6 +183,9 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
      */
     onTabChange(event) {
         this.resetValues();
+        this.exportOption = "1";
+        this.reportModel.export = false;
+        this.showPageOption = false;
 
         switch (event.index) {
             case 0: {
@@ -226,17 +245,30 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
         this.fetchDailyReport();
     }
 
-    downloadPdf() {
-        this.reportModel.exportFormat = "pdf";
-        this.reportModel.title = this.capitalizeFirstLetter(this.reportModel.reportType) + " Report";
-        this.reportModel.export = true;
-        this.fetchDailyReport();
-    }
+    downloadReport() {
 
-    downloadExcel() {
-        this.reportModel.exportFormat = "sheet";
+        switch (this.exportOption) {
+            case "1":
+                this.reportModel.pageNo = this.currentPage;
+                this.reportModel.pageSize = this.rowsOnPage;
+                break;
+
+            case "2":
+                this.reportModel.pageNo = 0;
+                this.reportModel.pageSize = 0;
+                break;
+
+            case "3":
+                this.reportModel.pageNo = +this.pageNo;
+                this.reportModel.pageSize = this.rowsOnPage;
+                break;
+        }
+
+        this.reportModel.exportFormat = this.exportType;
         this.reportModel.title = this.capitalizeFirstLetter(this.reportModel.reportType) + " Report";
         this.reportModel.export = true;
+
+        this.modalRef.hide();
         this.fetchDailyReport();
     }
 
@@ -254,8 +286,9 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     }
 
     onDatePickerToggle() {
+        this.resetValues();
 
-        if((this.selectedStartDate.getTime() > this.selectedEndDate.getTime()) && this.reportModel.reportType != "ABSENT") {
+        if ((this.selectedStartDate.getTime() > this.selectedEndDate.getTime()) && this.reportModel.reportType != "ABSENT") {
             this.ns.showError("End date should be greater than Start date.");
             return;
         }
@@ -267,12 +300,15 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
         this.selectedStartDate = new Date();
         this.selectedEndDate = new Date();
 
-        switch(this.reportPeriod) {
+        this.resetValues();
+
+        switch (this.reportPeriod) {
             case "TODAY": {
                 this.fetchDailyReport();
                 break;
             }
             case "DATE_RANGE": {
+                this.fetchDailyReport();
                 break;
             }
             case "WEEKLY": {
@@ -301,6 +337,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
      */
     ngOnDestroy() {
         this.dataService.setLocId(null);
+        this.modalRef ? this.modalRef.hide() : '';
     }
 
 
@@ -313,6 +350,27 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
             locId: this.reportModel.locId
         });
         this.router.navigate(['/portal/overview']);
+    }
+
+    search() {
+        this.resetValues();
+        this.reportModel.param = this.searchValue;
+        this.fetchDailyReport();
+    }
+
+    toggleExportType(event) {
+        this.exportOption = event.value;
+        this.showPageOption = false;
+
+        if (this.exportOption == "3") {
+            this.pageArray = [];
+
+            for (let i = 0; i < Math.ceil(this.totalSize / this.rowsOnPage); i++) {
+                this.pageArray.push(i);
+            }
+
+            this.showPageOption = true;
+        }
     }
 
 }
