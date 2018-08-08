@@ -8,6 +8,8 @@
                 <div class="col">
                     <mat-form-field>
                         <mat-select name="reportPeriod" [(ngModel)]="reportPeriod" (change)="filterReport()">
+                            <mat-option value="TODAY">TODAY</mat-option>
+                            <mat-option value="THIS_WEEK">THIS WEEK</mat-option>
                             <mat-option value="THIS_MONTH">THIS MONTH</mat-option>
                             <mat-option value="DATE_RANGE">DATE RANGE</mat-option>
                         </mat-select>
@@ -18,7 +20,7 @@
                         <mat-form-field>
                             <input matInput [matDatepicker]="earlyStart" placeholder="Start date" [max]="dateObj"
                                    name="date"
-                                   [(ngModel)]="selectedStartDate" (dateChange)="onDatePickerToggle()" disabled>
+                                   [(ngModel)]="selectedStartDate" (dateChange)="onDatePickerToggle()" (click)="earlyStart.open()" readonly>
                             <mat-datepicker-toggle matSuffix [for]="earlyStart"></mat-datepicker-toggle>
                             <mat-datepicker #earlyStart disabled="false"></mat-datepicker>
                         </mat-form-field>
@@ -29,7 +31,7 @@
                         <mat-form-field>
                             <input matInput [matDatepicker]="earlyEnd" placeholder="End date" [max]="dateObj"
                                    name="date"
-                                   [(ngModel)]="selectedEndDate" (dateChange)="onDatePickerToggle()" disabled>
+                                   [(ngModel)]="selectedEndDate" (dateChange)="onDatePickerToggle()" (click)="earlyEnd.open()" readonly>
                             <mat-datepicker-toggle matSuffix [for]="earlyEnd"></mat-datepicker-toggle>
                             <mat-datepicker #earlyEnd disabled="false"></mat-datepicker>
                         </mat-form-field>
@@ -44,7 +46,7 @@
 
 
 <ng-container *ngIf="iframeUrl">
-    <iframe class="w-100"
+    <iframe style="height: 100vh" class="w-100"
             [src]="sanitizer.bypassSecurityTrustResourceUrl(iframeUrl)"
             frameborder="0"
             width="800"

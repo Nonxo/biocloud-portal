@@ -29,6 +29,7 @@ export class ReportService {
             .set("title", model.title)
             .set("startDate", model.startDate.toString())
             .set("endDate", model.endDate.toString())
+            .set("param", model.param)
             .set("user", model.user);
 
         return this.httpClient
@@ -144,6 +145,26 @@ export class ReportService {
 
         return this.httpClient
             .get(Endpoints.GENERATE_METABASE_TOKEN + params, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            }).pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
+    downloadQuickReport(locId: string, startDate: string, endDate: string): Observable<any> {
+        const params = new HttpParams()
+            .set("locId", locId)
+            .set("startDate", startDate)
+            .set("endDate", endDate);
+
+        return this.httpClient
+            .get(Endpoints.DOWNLOAD_QUICK_REORT + params, {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             }).pipe(

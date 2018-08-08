@@ -42,18 +42,6 @@ export class NavComponent implements OnInit, OnDestroy {
             url: "/portal/manage-users",
             authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']
         },
-        // {
-        //     icon: "insert_chart",
-        //     route: "Report",
-        //     url: "/portal/report-dashboard",
-        //     authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN'],
-        //     dropdowns:[
-        //        {subName:'Quick Report', route:'/portal/quick-report'} ,
-        //        {subName:'Full Report', route:'/portal/report-dashboard'},
-        //        {subName:'Metabase', route:'/portal/report-dashboard'},
-        //     ]
-        // }
-        // ,
         {
             icon: "payment",
             route: "Subscribe",
@@ -64,8 +52,8 @@ export class NavComponent implements OnInit, OnDestroy {
 
     reportDropdowns = [
         {subName: 'Quick Report', route: '/portal/quick-report'},
-        {subName: 'Attendance Report', route: '/portal/report-dashboard'}
-        // {subName: 'Analytics', route: '/portal/analytics'},
+        {subName: 'Summary Report', route: '/portal/report-dashboard'},
+        {subName: 'Performance Dashboard', route: '/portal/analytics'}
     ];
 
     orgTypes: string[] = ["SCHOOL", "SECURITY", "HOSPITAL"];
@@ -102,6 +90,8 @@ export class NavComponent implements OnInit, OnDestroy {
     subscription: any;
     daysLeft: number;
     showDropdown: boolean;
+    range: any[] = [];
+    employeeRangeUpperLimit:any;
 
     constructor(private router: Router,
                 private authService: AuthService,
@@ -177,13 +167,13 @@ export class NavComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.selectedOrg = this.ss.getSelectedOrg() ? this.ss.getSelectedOrg() : new Org();
 
-
         //if an org is already selected, update role
         if (this.selectedOrg.orgId) {
             this.setOrgRole();
             this.mService.setSelectedOrg(this.selectedOrg.orgId);
         }
 
+        this.fetchEmployeeRange();
         this.fetchCompanyType();
         this.fetchUsersOrg();
         this.onResizeByWindowScreen();
@@ -424,9 +414,6 @@ export class NavComponent implements OnInit, OnDestroy {
     }
 
     setDefaultSelectedOrg() {
-        //fetch org subscription details
-        this.fetchSubscriptionDetails();
-
         if (!this.selectedOrg.orgId) {
             if (this.orgs.length > 0) {
                 this.selectedOrg = this.orgs[0];
@@ -436,6 +423,9 @@ export class NavComponent implements OnInit, OnDestroy {
                 this.mService.setSelectedOrg(this.orgs[0].orgId);
             }
         }
+
+        //fetch org subscription details
+        this.fetchSubscriptionDetails();
         this.callLocationService();
     }
 
@@ -474,7 +464,21 @@ export class NavComponent implements OnInit, OnDestroy {
 
         this.loading = true;
         this.getOrgRequestObject();
+
+        this.transformEmployeeRangeObj();
         this.editOrgMode ? this.callOrgEditService() : this.callOrgCreationService();
+    }
+
+    transformEmployeeRangeObj() {
+        if(this.range.length > 0) {
+            for(let r of this.range) {
+                if(r.upperLimit == this.employeeRangeUpperLimit) {
+                    this.orgRequest.employeeRange = r;
+                    break;
+                }
+
+            }
+        }
     }
 
     isFormValid(): boolean {
@@ -549,6 +553,7 @@ export class NavComponent implements OnInit, OnDestroy {
 
     selectOrg(org: Org) {
         this.activeClass = "active";
+        this.showDropdown = false;
 
         //change selected state
         this.selectedOrg = org;
@@ -630,6 +635,7 @@ export class NavComponent implements OnInit, OnDestroy {
     createOrg(template: TemplateRef<any>) {
         this.editOrgMode = false;
         this.uploadedFileName = "";
+        this.employeeRangeUpperLimit = "";
         this.orgRequest = new CreateOrgRequest();
         this.openModal(template);
     }
@@ -640,6 +646,7 @@ export class NavComponent implements OnInit, OnDestroy {
         this.orgRequest.type = this.selectedOrg.sector ? this.selectedOrg.sector : this.selectedOrg.orgType;
         this.orgRequest.name = this.selectedOrg.name;
         this.orgRequest.logo = this.selectedOrg.logo;
+        this.employeeRangeUpperLimit = this.selectedOrg.employeeRange? this.selectedOrg.employeeRange.upperLimit.toString():'';
         this.openModal(template);
     }
 
@@ -749,6 +756,11 @@ export class NavComponent implements OnInit, OnDestroy {
             )
     }
 
+    goToSubscription() {
+        this.toggleClass(false);
+        this.router.navigate(['/portal/subscribe']);
+    }
+
     checkTrialPeriodStatus() {
         if (this.subscription.subscriptionMode.toLowerCase() == SubscriptionMode.TRIAL.toLowerCase()) {
             this.daysLeft = this.dateUtil.getDaysLeft(this.dateUtil.getStartOfDay(new Date()), this.dateUtil.getEndOfDay(new Date(this.subscription.endDate))) - 1;
@@ -757,6 +769,16 @@ export class NavComponent implements OnInit, OnDestroy {
 
     toggleReport() {
         this.showDropdown ? this.showDropdown = false : this.showDropdown = true;
+    }
+
+    fetchEmployeeRange() {
+        this.contentService.fetchEmployeeRange()
+            .subscribe(
+                result => {
+                    this.range = result.range? result.range: [];
+                },
+                error => {}
+            )
     }
 
 }

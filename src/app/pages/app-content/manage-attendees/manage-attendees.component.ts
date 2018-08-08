@@ -48,6 +48,7 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
                 private mService: MessageService,
                 private router: Router) {
         this.orgId = this.ss.getSelectedOrg().orgId;
+        this.ss.clearPrevRoute();
 
         if (this.dataService.getLocId()) {
             this.orgWideSearch = false;

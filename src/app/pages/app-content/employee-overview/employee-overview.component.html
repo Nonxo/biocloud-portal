@@ -136,26 +136,26 @@
         <div class="col-lg-6 pt-lg-0 pt-4">
             <div class="row">
                 <div class="col-md-6 mb-4">
-                    <mat-card>
-                        <h5 class="mb-3">Total days Present</h5>
+                    <mat-card class="purple-card">
+                        <h5 class="mb-3 text-white">Total days Present</h5>
                         <div class="row">
                             <div class="col-md-6">
-                                <span class="font-size text-success">{{selectedRangeForDaysPresent?.daysPresent}}</span>
+                                <span class="font-size text-white">{{selectedRangeForDaysPresent?.daysPresent}}</span>
                                 <!--<i class="material-icons text-success" *ngIf="selectedRangeForDaysPresent.trend == 'UP'">arrow_upward</i>-->
                                 <!--<i class="material-icons text-danger" *ngIf="selectedRangeForDaysPresent.trend == 'DOWN'">arrow_downward</i>-->
                             </div>
                             <div class="col-md-6">
                                 <small>
-                                    <span class="float-left">This month</span>
-                                    <span class="float-right text-success">{{totalDaysPresent[1]?.daysPresent}}</span>
+                                    <span class="float-left text-white">This month</span>
+                                    <span class="float-right text-white">{{totalDaysPresent[1]?.daysPresent}}</span>
                                 </small><br/>
                                 <small>
-                                    <span class="float-left">This year</span>
-                                    <span class="float-right text-danger">{{totalDaysPresent[2]?.daysPresent}}</span>
+                                    <span class="float-left text-white">This year</span>
+                                    <span class="float-right text-white">{{totalDaysPresent[2]?.daysPresent}}</span>
                                 </small>
                             </div>
                         </div>
-                        <button mat-button [matMenuTriggerFor]="filterMenu" class="m-0 mt-3 p-0">
+                        <button mat-button [matMenuTriggerFor]="filterMenu" class="m-0 mt-3 p-0 text-white">
                             {{selectedRangeForDaysPresent?.title}}
                             <i class="material-icons">arrow_drop_down</i>
                         </button>
@@ -167,25 +167,25 @@
                     </mat-card>
                 </div>
                 <div class="col-md-6 mb-4">
-                    <mat-card>
-                        <h5 class="mb-3">Total days Absent</h5>
+                    <mat-card class="light-red-card">
+                        <h5 class="mb-3 text-white">Total days Absent</h5>
                         <div class="row">
                             <div class="col-md-6">
-                                <span class="font-size text-success">{{selectedRangeForDaysAbsent?.daysAbsent}}</span>
+                                <span class="font-size text-white">{{selectedRangeForDaysAbsent?.daysAbsent}}</span>
                                 <!--<i class="material-icons text-success">arrow_upward</i>-->
                             </div>
                             <div class="col-md-6">
                                 <small>
-                                    <span class="float-left">This month</span>
-                                    <span class="float-right text-success">{{totalDaysAbsent[1]?.daysAbsent}}</span>
+                                    <span class="float-left text-white">This month</span>
+                                    <span class="float-right text-white">{{totalDaysAbsent[1]?.daysAbsent}}</span>
                                 </small><br/>
                                 <small>
-                                    <span class="float-left">This year</span>
-                                    <span class="float-right text-danger">{{totalDaysAbsent[2]?.daysAbsent}}</span>
+                                    <span class="float-left text-white">This year</span>
+                                    <span class="float-right text-white">{{totalDaysAbsent[2]?.daysAbsent}}</span>
                                 </small>
                             </div>
                         </div>
-                        <button mat-button [matMenuTriggerFor]="amenu" class="m-0 mt-3 p-0">
+                        <button mat-button [matMenuTriggerFor]="amenu" class="m-0 mt-3 p-0 text-white">
                             {{selectedRangeForDaysAbsent?.title}}
                             <i class="material-icons">arrow_drop_down</i>
                         </button>
@@ -197,27 +197,27 @@
                     </mat-card>
                 </div>
                 <div class="col-md-6 mb-4">
-                    <mat-card>
-                        <h5 class="mb-3">Total days Early</h5>
+                    <mat-card class="green-card">
+                        <h5 class="mb-3 text-white">Total days Early</h5>
                         <div class="row">
                             <div class="col-md-6">
-                                <span class="font-size text-success">{{selectedRangeForDaysEarly?.daysEarly}}</span>
-                                <i class="material-icons text-success" *ngIf="selectedRangeForDaysEarly?.trend == 'UP'">arrow_upward</i>
-                                <i class="material-icons text-danger" *ngIf="selectedRangeForDaysEarly?.trend == 'DOWN'">arrow_downward</i>
+                                <span class="font-size text-white">{{selectedRangeForDaysEarly?.daysEarly}}</span>
+                                <i class="material-icons text-white" *ngIf="selectedRangeForDaysEarly?.trend == 'UP'">arrow_upward</i>
+                                <i class="material-icons text-white" *ngIf="selectedRangeForDaysEarly?.trend == 'DOWN'">arrow_downward</i>
                                 <!--<i class="material-icons text-success">arrow_upward</i>-->
                             </div>
                             <div class="col-md-6">
                                 <small>
-                                    <span class="float-left">This month</span>
-                                    <span class="float-right text-success">{{totalDaysEarly[1].daysEarly}}</span>
+                                    <span class="float-left text-white">This month</span>
+                                    <span class="float-right text-white">{{totalDaysEarly[1].daysEarly}}</span>
                                 </small><br/>
                                 <small>
-                                    <span class="float-left">This year</span>
-                                    <span class="float-right text-danger">{{totalDaysEarly[2].daysEarly}}</span>
+                                    <span class="float-left text-white">This year</span>
+                                    <span class="float-right text-white">{{totalDaysEarly[2].daysEarly}}</span>
                                 </small>
                             </div>
                         </div>
-                        <button mat-button [matMenuTriggerFor]="earlyMenu" class="m-0 mt-3 p-0">
+                        <button mat-button [matMenuTriggerFor]="earlyMenu" class="m-0 mt-3 p-0 text-white">
                             {{selectedRangeForDaysEarly?.title}}
                             <i class="material-icons">arrow_drop_down</i>
                         </button>
@@ -229,26 +229,26 @@
                     </mat-card>
                 </div>
                 <div class="col-md-6 mb-4">
-                    <mat-card>
-                        <h5 class="mb-3">Total days Late</h5>
+                    <mat-card class="orange-card">
+                        <h5 class="mb-3 text-white">Total days Late</h5>
                         <div class="row">
                             <div class="col-md-6">
-                                <span class="font-size text-success">{{selectedRangeForDaysLate?.daysLate}}</span>
-                                <i class="material-icons text-success" *ngIf="selectedRangeForDaysLate?.trend == 'UP'">arrow_upward</i>
-                                <i class="material-icons text-danger" *ngIf="selectedRangeForDaysLate?.trend == 'DOWN'">arrow_downward</i>
+                                <span class="font-size text-white">{{selectedRangeForDaysLate?.daysLate}}</span>
+                                <i class="material-icons text-white" *ngIf="selectedRangeForDaysLate?.trend == 'UP'">arrow_upward</i>
+                                <i class="material-icons text-white" *ngIf="selectedRangeForDaysLate?.trend == 'DOWN'">arrow_downward</i>
                             </div>
                             <div class="col-md-6">
                                 <small>
-                                    <span class="float-left">This month</span>
-                                    <span class="float-right text-success">{{totalDaysLate[1].daysLate}}</span>
+                                    <span class="float-left text-white">This month</span>
+                                    <span class="float-right text-white">{{totalDaysLate[1].daysLate}}</span>
                                 </small><br/>
                                 <small>
-                                    <span class="float-left">This year</span>
-                                    <span class="float-right text-danger">{{totalDaysLate[2].daysLate}}</span>
+                                    <span class="float-left text-white">This year</span>
+                                    <span class="float-right text-white">{{totalDaysLate[2].daysLate}}</span>
                                 </small>
                             </div>
                         </div>
-                        <button mat-button [matMenuTriggerFor]="lateMenu" class="m-0 mt-3 p-0">
+                        <button mat-button [matMenuTriggerFor]="lateMenu" class="m-0 mt-3 p-0 text-white">
                             {{selectedRangeForDaysLate?.title}}
                             <i class="material-icons">arrow_drop_down</i>
                         </button>
@@ -260,26 +260,26 @@
                     </mat-card>
                 </div>
                 <div class="col-md-6 mb-4">
-                    <mat-card>
-                        <h5 class="mb-3">Average Clock-In Time</h5>
+                    <mat-card class="light-blue-card">
+                        <h5 class="mb-3 text-white">Average Clock-In Time</h5>
                         <div class="row">
                             <div class="col-md-4">
-                                <span class="text-success">{{selectedRangeForClockInTime?.time > 0? (selectedRangeForClockInTime?.time | date:'shortTime'):'N/A'}}</span>
+                                <span class="text-white">{{selectedRangeForClockInTime?.time > 0? (selectedRangeForClockInTime?.time | date:'shortTime'):'N/A'}}</span>
                                 <!--<span class="font-size text-success">10</span>-->
                                 <!--<i class="material-icons text-success">arrow_upward</i>-->
                             </div>
                             <div class="col-md-8">
                                 <small>
-                                    <span class="float-left">This month</span>
-                                    <span class="float-right text-success">{{avgClockIn[1].time > 0? (avgClockIn[1].time | date:'shortTime'):'N/A'}}</span>
+                                    <span class="float-left text-white">This month</span>
+                                    <span class="float-right text-white">{{avgClockIn[1].time > 0? (avgClockIn[1].time | date:'shortTime'):'N/A'}}</span>
                                 </small><br/>
                                 <small>
-                                    <span class="float-left">This year</span>
-                                    <span class="float-right small text-danger">{{avgClockIn[2].time > 0? (avgClockIn[2].time | date:'shortTime'):'N/A'}}</span>
+                                    <span class="float-left text-white">This year</span>
+                                    <span class="float-right text-white">{{avgClockIn[2].time > 0? (avgClockIn[2].time | date:'shortTime'):'N/A'}}</span>
                                 </small>
                             </div>
                         </div>
-                        <button mat-button [matMenuTriggerFor]="cmenu" class="m-0 mt-3 p-0">
+                        <button mat-button [matMenuTriggerFor]="cmenu" class="m-0 mt-3 p-0 text-white">
                             {{selectedRangeForClockInTime?.title}}
                             <i class="material-icons">arrow_drop_down</i>
                         </button>
@@ -291,26 +291,26 @@
                     </mat-card>
                 </div>
                 <div class="col-md-6 mb-4">
-                    <mat-card>
-                        <h5 class="mb-3">Average Clock-Out Time</h5>
+                    <mat-card class="red-card">
+                        <h5 class="mb-3 text-white">Average Clock-Out Time</h5>
                         <div class="row">
                             <div class="col-md-4">
-                                <span class="text-success">{{selectedRangeForClockOutTime?.time > 0? (selectedRangeForClockOutTime?.time | date:'shortTime'):'N/A'}}</span>
+                                <span class="text-white">{{selectedRangeForClockOutTime?.time > 0? (selectedRangeForClockOutTime?.time | date:'shortTime'):'N/A'}}</span>
                                 <!--<span class="font-size text-success">10</span>-->
                                 <!--<i class="material-icons text-success">arrow_upward</i>-->
                             </div>
                             <div class="col-md-8">
                                 <small>
-                                    <span class="float-left">This month</span>
-                                    <span class="float-right text-success">{{avgClockOut[1].time > 0? (avgClockOut[1].time | date:'shortTime'):'N/A'}}</span>
+                                    <span class="float-left text-white">This month</span>
+                                    <span class="float-right text-white">{{avgClockOut[1].time > 0? (avgClockOut[1].time | date:'shortTime'):'N/A'}}</span>
                                 </small><br/>
                                 <small>
-                                    <span class="float-left">This year</span>
-                                    <span class="float-right text-danger">{{avgClockOut[2].time > 0? (avgClockOut[2].time | date:'shortTime'):'N/A'}}</span>
+                                    <span class="float-left text-white">This year</span>
+                                    <span class="float-right text-white">{{avgClockOut[2].time > 0? (avgClockOut[2].time | date:'shortTime'):'N/A'}}</span>
                                 </small>
                             </div>
                         </div>
-                        <button mat-button [matMenuTriggerFor]="comenu" class="m-0 mt-3 p-0">
+                        <button mat-button [matMenuTriggerFor]="comenu" class="m-0 mt-3 p-0 text-white">
                             {{selectedRangeForClockOutTime?.title}}
                             <i class="material-icons">arrow_drop_down</i>
                         </button>

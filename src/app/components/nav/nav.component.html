@@ -115,7 +115,7 @@
                 <li routerLinkActive="active" id="report" *hasAuthority="['GENERAL_ADMIN','LOCATION_ADMIN']">
                     <a mat-list-item class="text-white" (click)="toggleReport()">
                         <mat-icon mat-list-icon>insert_chart</mat-icon>
-                        <span mat-line>Report</span>
+                        <span mat-line>Attendance Reports</span>
                         <i class="material-icons mr-3 text-white">arrow_drop_down</i>
                     </a>
                 </li>
@@ -163,13 +163,17 @@
         <span>{{title}}</span>
         <span class="example-spacer"></span>
 
-        <div *ngIf="subscription?.subscriptionMode.toLowerCase() == 'TRIAL'.toLowerCase() && daysLeft > 0" class="trial-div-success d-xl-block d-none">
-            <p class="small trial-p">Trial Expires in: {{daysLeft}} day(s)</p>
+        <ng-container *hasAuthority="'GENERAL_ADMIN'">
+        <div *ngIf="subscription?.subscriptionMode.toLowerCase() == 'TRIAL'.toLowerCase() && daysLeft > 0" class="trial-div-success d-xl-inline-flex d-none">
+            <p (click)="goToSubscription()" class="small trial-p cursor">Trial Expires in: {{daysLeft}} day(s)</p>
+            <button (click)="goToSubscription()" class="btn btn-trial-subscribe cursor">Subscribe Now</button>
         </div>
 
-        <div *ngIf="subscription?.subscriptionStatus.toLowerCase() == 'EXPIRED'.toLowerCase()" class="trial-div-danger d-xl-block d-none">
-            <p class="small trial-p">Subscription Plan Expired</p>
+        <div *ngIf="subscription?.subscriptionStatus.toLowerCase() == 'EXPIRED'.toLowerCase()" class="trial-div-danger d-xl-inline-flex d-none">
+            <p (click)="goToSubscription()" class="small trial-p cursor">Subscription Plan Expired</p>
+            <button (click)="goToSubscription()" class="btn btn-trial-danger cursor">Subscribe Now</button>
         </div>
+        </ng-container>
 
         <!--<button mat-icon-button class="pr-5" matTooltip="Switch to bioregistra">-->
         <!--<mat-icon class="example-icon">apps</mat-icon>-->
@@ -284,6 +288,13 @@
                         <mat-option *ngFor="let type of orgTypes" value="{{type.name}}">{{type.name}}</mat-option>
                     </mat-select>
                     <mat-error *ngIf="orgType.errors?.required">You must make a selection</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="input-field">
+                    <mat-select placeholder="Company Size" name="employeeRange" #employeeRange="ngModel" [(ngModel)]="employeeRangeUpperLimit" [required]="true">
+                        <mat-option *ngFor="let r of range" value="{{r.upperLimit}}">{{r.lowerLimit}} - {{r.upperLimit}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="employeeRange.errors?.required">You must make a selection</mat-error>
                 </mat-form-field>
 
                 <div class="mb-3 text-center">

@@ -6,6 +6,7 @@ export class CreateOrgRequest {
     name:string;
     type:string;
     createdBy:string;
+    employeeRange:any;
     logo:string;
 }
 
@@ -22,6 +23,7 @@ export class Org {
     sector:string;
     orgType:string;
     walletId:number;
+    employeeRange:any;
 }
 
 
@@ -110,6 +112,7 @@ export class ReportModel {
     user:string;
     startDate:number;
     endDate:number;
+    param: string;
 
     constructor() {
         this.orgId = "";
@@ -123,6 +126,7 @@ export class ReportModel {
         this.user = "";
         this.startDate = null;
         this.endDate = null;
+        this.param = "";
     }
 }
 
