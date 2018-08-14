@@ -23,7 +23,7 @@ import * as FileSaver from "file-saver";
 })
 export class QuickReportComponent implements OnInit {
 
-    searchValue: string;
+    searchValue: string = '';
     reportModel: ReportModel = new ReportModel();
     rowsOnPage: number = 10;
     data: any[] = [];
@@ -468,4 +468,5 @@ export class QuickReportComponent implements OnInit {
             FileSaver.saveAs(blob, "QUICK" + "-REPORT" + ".xlsx");
 
         }
-    }
+}
+
