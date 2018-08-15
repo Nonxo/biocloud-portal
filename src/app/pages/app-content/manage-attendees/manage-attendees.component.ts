@@ -78,7 +78,7 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.locations = result.locations;
+                        this.locations = result.locations? result.locations: [];
 
                         if (this.userRole == 'LOCATION_ADMIN') {
                             if (this.locations.length > 0) {
