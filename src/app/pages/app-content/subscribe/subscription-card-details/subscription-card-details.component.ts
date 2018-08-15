@@ -28,6 +28,8 @@ export class SubscriptionCardDetailsComponent implements OnInit {
     public exchangeRates: any[] = [];
     public exchangeRate: number;
     public loading: boolean;
+    public subscription: any;
+    public prevAutoRenewStatus: boolean;
 
     constructor(private ss: StorageService,
                 private subService: SubscriptionService,
@@ -41,6 +43,23 @@ export class SubscriptionCardDetailsComponent implements OnInit {
     ngOnInit() {
         this.fetchCards();
         this.fetchAllExchangeRates();
+        this.fetchSubscriptionDetails();
+    }
+
+    fetchSubscriptionDetails() {
+        this.subService.fetchSubscriptionDetails(this.orgId)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.subscription = result.subscription;
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {
+                    this.ns.showError("An Error Occurred");
+                }
+            )
     }
 
     fetchCards() {
@@ -88,7 +107,10 @@ export class SubscriptionCardDetailsComponent implements OnInit {
     generateTransactionRef() {
         this.loading = true;
         this.subService.generateTransactionRef(this.orgId, this.getPrice(), this.selectedCurrency, this.planId, "ADD_CARD")
-            .finally(() => {this.loading = false; this.modalRef.hide();})
+            .finally(() => {
+                this.loading = false;
+                this.modalRef.hide();
+            })
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -197,6 +219,26 @@ export class SubscriptionCardDetailsComponent implements OnInit {
         } else {
             return Math.ceil(this.amountToPay / this.exchangeRate);
         }
+    }
+
+    updateAutoRenewal() {
+        this.prevAutoRenewStatus = this.subscription.autoRenew ? false : true;
+        this.subService.setAutoRenew(this.orgId, this.subscription.autoRenew ? true : false)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.ns.showSuccess(result.description);
+                    } else {
+                        this.subscription.autoRenew = this.prevAutoRenewStatus;
+                        this.ns.showError("An Error Occurred");
+                    }
+
+                },
+                error => {
+                    this.subscription.autoRenew = this.prevAutoRenewStatus;
+                    this.ns.showError("An Error Occurred");
+                }
+            )
     }
 
     proceed() {

@@ -221,4 +221,25 @@ export class SubscriptionService {
             )
     }
 
+    setAutoRenew(orgId:string, status: boolean): Observable<any> {
+        const params = new HttpParams()
+            .set('orgId', orgId)
+            .set('status', String(status));
+
+        return this.httpClient
+            .post(Endpoints.SET_AUTO_RENEW, params.toString(), {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
+
 }
