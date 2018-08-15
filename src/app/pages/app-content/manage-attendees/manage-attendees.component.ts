@@ -39,6 +39,7 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     currentPage: number;
     rowsOnPage = 10;
     loading:boolean;
+    searchValue:string = '';
 
     constructor(private contentService: AppContentService,
                 private ss: StorageService,
@@ -447,6 +448,19 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
         });
         this.router.navigate(['/portal/overview']);
     }
+
+    search() {
+        this.resetValues();
+        this.aPojo.param = this.searchValue;
+        this.fetchAttendeesCount();
+    }
+
+    searchInvitedUser() {
+        this.resetValues();
+        this.aPojo.param = this.searchValue;
+        this.callInvitedUsersCountService();
+    }
+
 
     /**
      * Events that should happen when this component is destroyed
