@@ -30,6 +30,8 @@ export class ReportService {
             .set("startDate", model.startDate.toString())
             .set("endDate", model.endDate.toString())
             .set("param", model.param)
+            .set("companyName", model.companyName)
+            .set("locationName", model.locationName)
             .set("user", model.user);
 
         return this.httpClient
