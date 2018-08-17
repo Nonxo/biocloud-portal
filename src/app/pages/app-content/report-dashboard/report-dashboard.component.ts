@@ -67,6 +67,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
         this.reportModel.pageSize = this.rowsOnPage;
         this.reportModel.user = this.ss.getUserName();
         this.reportModel.orgId = this.ss.getSelectedOrg().orgId;
+        this.reportModel.companyName = this.ss.getSelectedOrg().name;
 
         if (this.dataService.getLocId()) {
             this.reportModel.locId = this.dataService.getLocId();
@@ -96,6 +97,8 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     }
 
     fetchDailyReport() {
+        this.getLocationSelectedDetails();
+
         this.reportModel.startDate = this.selectedStartDate.getTime();
         this.reportModel.endDate = this.selectedEndDate.getTime();
 
@@ -143,6 +146,19 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
 
         if (this.selectedStartDate.getTime() > this.dateUtil.getStartOfDay(new Date())) {
 
+        }
+    }
+
+    getLocationSelectedDetails() {
+        this.reportModel.locationName = "";
+
+        if(this.reportModel.locId) {
+            for(let loc of this.locations) {
+                if(loc.locId == this.reportModel.locId) {
+                    this.reportModel.locationName = loc.name;
+                    break;
+                }
+            }
         }
     }
 
