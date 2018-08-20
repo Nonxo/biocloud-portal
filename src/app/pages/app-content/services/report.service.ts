@@ -159,11 +159,13 @@ export class ReportService {
             )
     }
 
-    downloadQuickReport(locId: string, startDate: string, endDate: string): Observable<any> {
+    downloadQuickReport(locId: string, startDate: string, endDate: string, username: string, companyName: string): Observable<any> {
         const params = new HttpParams()
             .set("locId", locId)
             .set("startDate", startDate)
-            .set("endDate", endDate);
+            .set("endDate", endDate)
+            .set("username", username)
+            .set("companyName", companyName);
 
         return this.httpClient
             .get(Endpoints.DOWNLOAD_QUICK_REORT + params, {
