@@ -23,7 +23,7 @@ import * as FileSaver from "file-saver";
 })
 export class QuickReportComponent implements OnInit {
 
-    searchValue: string;
+    searchValue: string = '';
     reportModel: ReportModel = new ReportModel();
     rowsOnPage: number = 10;
     data: any[] = [];
@@ -70,6 +70,8 @@ export class QuickReportComponent implements OnInit {
     selectedYear: number;
     selectedWeek: number;
     searchType: string;
+    companyName: string;
+    username: string;
 
 
     constructor(private reportService: ReportService,
@@ -83,6 +85,9 @@ export class QuickReportComponent implements OnInit {
                 private dateUtil: DateUtil,
                 private searchService: SearchService) {
         this.reportModel.orgId = this.ss.getSelectedOrg().orgId;
+        this.companyName = this.ss.getSelectedOrg().name;
+        this.username = this.ss.getUserName();
+
         this.ss.clearPrevRoute();
 
     }
@@ -446,7 +451,7 @@ export class QuickReportComponent implements OnInit {
 
     downloadReport() {
         this.mService.setDisplay(true);
-        this.reportService.downloadQuickReport(this.attendeePOJO.locId, this.dateUtil.getDateString(new Date(this.startRange)), this.dateUtil.getDateString(new Date(this.endRange)))
+        this.reportService.downloadQuickReport(this.attendeePOJO.locId, this.dateUtil.getDateString(new Date(this.startRange)), this.dateUtil.getDateString(new Date(this.endRange)), this.username, this.companyName)
             .subscribe(
                 result => {
                     if(result.code == 0) {
@@ -468,4 +473,5 @@ export class QuickReportComponent implements OnInit {
             FileSaver.saveAs(blob, "QUICK" + "-REPORT" + ".xlsx");
 
         }
-    }
+}
+

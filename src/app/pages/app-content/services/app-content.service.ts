@@ -544,6 +544,7 @@ export class AppContentService {
             .set("locId", model.locId)
             .set("pageSize", String(model.pageSize))
             .set("pageNo", String(model.pageNo))
+            .set("param", String(model.param))
             .set("status", "SENT");
 
         return this.httpClient
@@ -565,6 +566,7 @@ export class AppContentService {
         const params = new HttpParams()
             .set("orgId", model.orgId)
             .set("locId", model.locId)
+            .set("param", model.param)
             .set("status", "SENT");
 
         return this.httpClient

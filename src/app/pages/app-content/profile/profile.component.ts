@@ -20,7 +20,7 @@ import {environment} from "../../../../environments/environment";
     styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-    selectedPhoneCode: any;
+    selectedPhoneCode: any = "234";
     selectedCountryCode: any;
     selectedCountry: any;
     userId: string;
@@ -212,7 +212,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.userId = this.ss.getUserId();
         this.submitted = true;
         this.loading = true;
-        this.contentService.updateProfile(this.userId, this.model)
+        this.contentService.updateProfile(this.userId, this.tmpModel)
             .finally(() => {
                 this.loading = false;
                 this.tmpModel.phoneCode = "";

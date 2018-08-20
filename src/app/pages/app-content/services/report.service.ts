@@ -30,6 +30,8 @@ export class ReportService {
             .set("startDate", model.startDate.toString())
             .set("endDate", model.endDate.toString())
             .set("param", model.param)
+            .set("companyName", model.companyName)
+            .set("locationName", model.locationName)
             .set("user", model.user);
 
         return this.httpClient
@@ -157,11 +159,13 @@ export class ReportService {
             )
     }
 
-    downloadQuickReport(locId: string, startDate: string, endDate: string): Observable<any> {
+    downloadQuickReport(locId: string, startDate: string, endDate: string, username: string, companyName: string): Observable<any> {
         const params = new HttpParams()
             .set("locId", locId)
             .set("startDate", startDate)
-            .set("endDate", endDate);
+            .set("endDate", endDate)
+            .set("username", username)
+            .set("companyName", companyName);
 
         return this.httpClient
             .get(Endpoints.DOWNLOAD_QUICK_REORT + params, {

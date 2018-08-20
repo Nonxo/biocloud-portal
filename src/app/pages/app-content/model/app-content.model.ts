@@ -113,6 +113,8 @@ export class ReportModel {
     startDate:number;
     endDate:number;
     param: string;
+    companyName: string;
+    locationName: string;
 
     constructor() {
         this.orgId = "";
@@ -127,6 +129,8 @@ export class ReportModel {
         this.startDate = null;
         this.endDate = null;
         this.param = "";
+        this.companyName = "";
+        this.locationName = "";
     }
 }
 
