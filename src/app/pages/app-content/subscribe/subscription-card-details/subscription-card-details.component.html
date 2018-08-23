@@ -9,6 +9,12 @@
     <p class="text-muted">Subscription Payment Method</p>
     <p>These are the payment methods for your subscriptions. If you are on auto renew, payments will be automatically
         made through this payment method. This payment method MUST belong to you</p>
+
+    <div class="text-right pl-5 mt-0 pt-0" *ngIf="cardDetails.length > 0">
+        <div class="form-check">
+            <mat-checkbox name="autoRenew" [(ngModel)]="subscription.autoRenew" (change)="updateAutoRenewal()">Auto Renewal</mat-checkbox>
+        </div>
+    </div>
     <hr>
     <div class="row col-md-12" *ngFor="let detail of cardDetails">
         <div class="col-md-6">

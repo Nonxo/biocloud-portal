@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Angulartics2Facebook} from "angulartics2";
+import {Angulartics2Facebook, Angulartics2GoogleTagManager} from "angulartics2";
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,7 @@ import {Angulartics2Facebook} from "angulartics2";
 export class AppComponent {
   title = 'app';
 
-  constructor(private a: Angulartics2Facebook) {
+  constructor(private a: Angulartics2Facebook, private angulartics2GoogleTagManager: Angulartics2GoogleTagManager) {
       // a.eventTrack('','');
   }
 }
