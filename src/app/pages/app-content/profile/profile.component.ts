@@ -39,8 +39,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
     retrieveStatus: boolean = true;
     loading: boolean;
     @ViewChild('changePassword') changePassword;
-    countries: any[];
+    countries: any[] = [];
+    filteredCountries: any[] = [];
     baseUrl: string = environment.baseUrl;
+    searchParam: string;
 
 
     ngOnInit() {
@@ -174,11 +176,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
             this.model.img = str
         }
 
-        this.tmpModel = this.model;
+        this.tmpModel = JSON.parse(JSON.stringify(this.model));
 
         if(this.model.phoneCode) {
             this.selectPhoneCode();
-            this.selectCountryCode();
+            this.selectCountryCode(this.model.phoneCode);
         }
         // else {
         //     //legacy
@@ -189,6 +191,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     openeditProfileModal(template: TemplateRef<any>) {
         this.tmpModel = JSON.parse(JSON.stringify(this.model));
+
+        this.selectCountryCode(this.tmpModel.phoneCode);
+        this.selectPhoneCode();
+
+
         this.openModal(template);
     }
 
@@ -215,7 +222,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.contentService.updateProfile(this.userId, this.tmpModel)
             .finally(() => {
                 this.loading = false;
-                this.tmpModel.phoneCode = "";
             })
             .subscribe(
                 result => {
@@ -264,6 +270,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
                 result => {
                     if (result.code == 0) {
                         this.countries = result.countries ? result.countries : [];
+                        this.filteredCountries = this.countries;
                     }
                 },
                 error => {
@@ -272,22 +279,43 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     onSelectChange() {
-        this.selectPhoneCode();
-        this.selectCountryCode();
-    }
-
-    selectPhoneCode() {
-        this.selectedPhoneCode = this.tmpModel.phoneCode;
+        this.selectedCountryCode = this.tmpModel.phoneCode;
         setTimeout(() => {
             this.tmpModel.phoneCode = "";
         },200);
+        this.selectPhoneCode();
     }
 
-    selectCountryCode() {
-        let obj = this.countries.filter((obj) => obj.phoneCode? obj.phoneCode.includes(this.selectedPhoneCode):'')[0];
+    selectCountryCode(phoneCode: string) {
+        let obj = this.countries.filter((obj) => obj.phoneCode == phoneCode)[0];
 
         if (obj) {
             this.selectedCountryCode = obj.code;
+        }
+    }
+
+    selectPhoneCode() {
+        let obj = this.countries.filter((obj) => obj.code == this.selectedCountryCode)[0];
+
+        if (obj) {
+            this.selectedPhoneCode = obj.phoneCode;
+        }
+    }
+
+
+    search(searchParam: string) {
+        if(searchParam) {
+            this.filteredCountries = this.countries.filter(obj => obj.name.toLowerCase().includes(searchParam.toLowerCase()));
+        }else {
+            this.filteredCountries = this.countries;
+        }
+
+    }
+
+    openc(event) {
+        if(!event) {
+            this.searchParam = '';
+            this.filteredCountries = this.countries;
         }
     }
 

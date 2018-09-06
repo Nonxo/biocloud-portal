@@ -41,11 +41,20 @@
                     <div class="{{selectedCountryCode? 'col-md-3 flag-col':'col-md-3'}}">
                         <i *ngIf="selectedCountryCode"><img class="flag-img"  src="{{baseUrl}}/as/flags/{{selectedCountryCode.toLowerCase()}}.png"></i>
                         <mat-form-field class="input-field">
-                            <mat-select placeholder="" name="phoneCode" formControlName="phoneCode" (change)="onSelectChange()">
-                                <mat-option value=""></mat-option>
-                                <mat-option *ngFor="let country of countries" value="{{country.phoneCode}}">
+                            <mat-select placeholder="" name="phoneCode" formControlName="phoneCode"
+                                        (change)="onSelectChange()" (openedChange)="openc($event)">
+
+                                <mat-form-field class="input-field sticky-search">
+                                <input class="myInput" (keydown)="$event.stopPropagation()" #myInput matInput focused="'true'" type="text" (keyup)="search($event.target.value)" autocomplete="off" placeholder="Search">
+                                </mat-form-field>
+
+                                <mat-option [hidden]="true" value=""></mat-option>
+
+                                <mat-option *ngFor="let country of filteredCountries" value="{{country.code}}">
                                     <img style="width: 40px; height: 30px" src="{{baseUrl}}/as/flags/{{country.code.toLowerCase()}}.png"> {{country.name}}
                                 </mat-option>
+
+                                <p *ngIf="filteredCountries.length == 0" class="text-center small text-muted">No result(s) found</p>
                             </mat-select>
                         </mat-form-field>
                     </div>

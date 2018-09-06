@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import 'rxjs/add/operator/finally';
 import {NotifyService} from '../../../service/notify.service';
@@ -24,10 +24,13 @@ export class RegisterComponent implements OnInit {
     captchaResponse: string;
     payload: any;
     @ViewChild('cap') public recaptchaInstance;
-    countries: any[];
+    countries: any[] = [];
     selectedPhoneCode: string = "234";
     selectedCountryCode: string = "NG";
     baseUrl: string = environment.baseUrl;
+    filteredCountries: any = [];
+
+    @ViewChild('myInput') myInput: ElementRef;
 
     userTypes: Array<{ name, checked }> = [
         {name: 'INDIVIDUAL', checked: true},
@@ -162,6 +165,7 @@ export class RegisterComponent implements OnInit {
                 result => {
                     if (result.code == 0) {
                         this.countries = result.countries ? result.countries : [];
+                        this.filteredCountries = this.countries;
                     }
                 },
                 error => {
@@ -170,20 +174,20 @@ export class RegisterComponent implements OnInit {
     }
 
     onSelectChange() {
-        this.selectPhoneCode();
         this.selectCountryCode();
-    }
-
-    selectPhoneCode() {
-        this.selectedPhoneCode = this.form.get('phoneCode').value;
-        this.form.get('phoneCode').setValue('');
+        this.selectPhoneCode();
     }
 
     selectCountryCode() {
-        let obj = this.countries.filter((obj) => obj.phoneCode == this.selectedPhoneCode)[0];
+        this.selectedCountryCode = this.form.get('phoneCode').value;
+        this.form.get('phoneCode').setValue('');
+    }
+
+    selectPhoneCode() {
+        let obj = this.countries.filter((obj) => obj.code == this.selectedCountryCode)[0];
 
         if (obj) {
-            this.selectedCountryCode = obj.code;
+            this.selectedPhoneCode = obj.phoneCode;
         }
     }
 
@@ -193,6 +197,24 @@ export class RegisterComponent implements OnInit {
 
     resetCaptcha() {
         this.recaptchaInstance.reset();
+    }
+
+    search(searchParam: string) {
+        if(searchParam) {
+            this.filteredCountries = this.countries.filter(obj => obj.name.toLowerCase().includes(searchParam.toLowerCase()));
+        }else {
+            this.filteredCountries = this.countries;
+        }
+
+    }
+
+    openc(event) {
+        if(!event) {
+            this.myInput.nativeElement.value = '';
+            this.filteredCountries = this.countries;
+        }else {
+            this.myInput.nativeElement.focus();
+        }
     }
 
 }
