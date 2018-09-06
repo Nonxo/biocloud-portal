@@ -2,7 +2,6 @@ import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Endpoints} from '../../util/endpoints';
-import {ApproveRequest} from "../../pages/app-content/model/app-content.model";
 import {MediaType} from "../../util/constants";
 import {StorageService} from "../../service/storage.service";
 import {DataService} from "../../service/data.service";
@@ -116,6 +115,21 @@ export class AuthService {
     fetchCountries(): Observable<any> {
         return this.httpClient
             .get(Endpoints.FETCH_COUNTRIES, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    return res
+                })
+            )
+    }
+
+    getAbTestMode(): Observable<any> {
+        return this.httpClient
+            .get(Endpoints.GET_AB_TEST_STATUS, {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })
