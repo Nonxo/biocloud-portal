@@ -65,4 +65,5 @@ export class Endpoints {
     public static FETCH_EMPLOYEE_RANGE = `${Endpoints.BASE_URL}/users/api/org/get-employee-range`;
     public static DOWNLOAD_QUICK_REORT = `${Endpoints.BASE_URL}/reports/api/alog/generate-quick-report?`;
     public static SET_AUTO_RENEW = `${Endpoints.BASE_URL}/users/api/subscriptions/set-auto-renew`;
+    public static GET_AB_TEST_STATUS = `${Endpoints.BASE_URL}/access/api/abtest/get-status`;
 }
