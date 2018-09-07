@@ -61,9 +61,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
         this.loginForm.get('email').valueChanges
             .subscribe((value) => {
-            if(value.length > value.trim().length) {
-                this.loginForm.get('email').setValue(value.trim());
-            }
+                if(value.length > value.trim().length) {
+                    this.loginForm.get('email').setValue(value.trim());
+                }
             })
 
     }

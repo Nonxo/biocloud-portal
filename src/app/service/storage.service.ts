@@ -204,4 +204,18 @@ export class StorageService {
         localStorage.removeItem('prevRoute');
     }
 
+    setAuthRoute(value: string) {
+        localStorage.setItem('authRoute', value);
+    }
+
+    getAuthRoute() {
+        let obj:any = localStorage.getItem('authRoute');
+
+        return obj? obj:null;
+    }
+
+    clearAuthRoute() {
+        localStorage.removeItem('authRoute');
+    }
+
 }
