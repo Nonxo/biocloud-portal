@@ -178,7 +178,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
         this.tmpModel = JSON.parse(JSON.stringify(this.model));
 
-        if(this.model.phoneCode) {
+        if (this.model.phoneCode) {
             this.selectPhoneCode();
             this.selectCountryCode(this.model.phoneCode);
         }
@@ -211,7 +211,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     onSubmit() {
         this.tmpModel.phoneCode = this.selectedPhoneCode;
 
-        if(!this.tmpModel.phoneCode) {
+        if (!this.tmpModel.phoneCode) {
             this.ns.showError("Please select a country code for phone number");
             return;
         }
@@ -228,12 +228,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
                     if (result.code == 0) {
                         this.model = this.tmpModel;
                         this.ns.showSuccess(result.description);
-                        this.modalRef? this.modalRef.hide():'';
+                        this.modalRef ? this.modalRef.hide() : '';
                     } else {
                         this.ns.showError(result.description)
                     }
                 },
-                error => {this.ns.showError("An Error Occurred.")}
+                error => {
+                    this.ns.showError("An Error Occurred.")
+                }
             )
     }
 
@@ -282,7 +284,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.selectedCountryCode = this.tmpModel.phoneCode;
         setTimeout(() => {
             this.tmpModel.phoneCode = "";
-        },200);
+        }, 200);
         this.selectPhoneCode();
     }
 
@@ -304,19 +306,24 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
 
     search(searchParam: string) {
-        if(searchParam) {
+        if (searchParam) {
             this.filteredCountries = this.countries.filter(obj => obj.name.toLowerCase().includes(searchParam.toLowerCase()));
-        }else {
+        } else {
             this.filteredCountries = this.countries;
         }
 
     }
 
     openc(event) {
-        if(!event) {
+        if (!event) {
             this.searchParam = '';
             this.filteredCountries = this.countries;
         }
+    }
+
+    onKeyUp() {
+        let str = this.tmpModel.phone.toString();
+        this.tmpModel.phone = +str.replace(/[^0-9]/g, "");
     }
 
     ngOnDestroy() {

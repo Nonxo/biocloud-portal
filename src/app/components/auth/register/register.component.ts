@@ -61,6 +61,15 @@ export class RegisterComponent implements OnInit {
 
         // disable validation for company name when it is invisible initially
         this.form.controls['companyName'].disable();
+
+        this.form.get('phone').valueChanges
+            .subscribe((value) => {
+                if (value.replace(/[^0-9]/g, "").length < value.length) {
+                    let val = value.replace(/[^0-9]/g, "");
+
+                    this.form.get('phone').setValue(val.trim());
+                }
+            })
     }
 
     changeUserType(index) {
@@ -84,7 +93,7 @@ export class RegisterComponent implements OnInit {
         this.loading = true;
         this.payload = this.form.value;
 
-        this.payload['phoneCode'] = this.selectedPhoneCode.charAt(0) == "+"? this.selectedPhoneCode: "+" + this.selectedPhoneCode;
+        this.payload['phoneCode'] = this.selectedPhoneCode.charAt(0) == "+" ? this.selectedPhoneCode : "+" + this.selectedPhoneCode;
 
         //set Device Type
         this.payload['deviceType'] = 'WEB';
@@ -200,19 +209,19 @@ export class RegisterComponent implements OnInit {
     }
 
     search(searchParam: string) {
-        if(searchParam) {
+        if (searchParam) {
             this.filteredCountries = this.countries.filter(obj => obj.name.toLowerCase().includes(searchParam.toLowerCase()));
-        }else {
+        } else {
             this.filteredCountries = this.countries;
         }
 
     }
 
     openc(event) {
-        if(!event) {
+        if (!event) {
             this.myInput.nativeElement.value = '';
             this.filteredCountries = this.countries;
-        }else {
+        } else {
             this.myInput.nativeElement.focus();
         }
     }
