@@ -98,6 +98,9 @@ export class RegisterComponent implements OnInit {
         //set Device Type
         this.payload['deviceType'] = 'WEB';
 
+        //set Flow id
+        this.setFlowId();
+
         if (this.company) {
             this.payload.customerType = "C"
         } else {
@@ -115,6 +118,16 @@ export class RegisterComponent implements OnInit {
             this.ns.showError("Error Validating Captcha");
         }
 
+    }
+
+    setFlowId() {
+        if(this.ss.getAuthRoute()) {
+            if(this.ss.getAuthRoute() == '/auth/flow-two') {
+                this.payload['flowId'] = 2;
+                return;
+            }
+        }
+            this.payload['flowId'] = 1;
     }
 
     trimValues() {
