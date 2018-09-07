@@ -31,26 +31,26 @@ export class AuthComponent implements OnInit {
 
                 if(result.status) {
 
-                    if(this.ss.getAuthRoute()) {
+                    if(this.ss.getAuthRoute() && (this.ss.getAuthRoute() == '/auth/login' || this.ss.getAuthRoute() == '/auth/register')) {
                         this.router.navigate([this.ss.getAuthRoute()]);
                     } else {
 
                         if(result.flowId == 1) {
-                            this.ss.setAuthRoute('/auth/flow-one');
-                            this.register? this.router.navigate(['/auth/flow-one'], { queryParams: { signup: 'true' } }): this.router.navigate(['/auth/flow-one']);
+                            this.ss.setAuthRoute('/auth/login');
+                            this.register? this.router.navigate(['/auth/login'], { queryParams: { signup: 'true' } }): this.router.navigate(['/auth/login']);
                         }else {
-                            this.ss.setAuthRoute('/auth/flow-two');
-                            this.router.navigate(['/auth/flow-two']);
+                            this.ss.setAuthRoute('/auth/register');
+                            this.router.navigate(['/auth/register']);
                         }
                     }
 
 
                 }else {
-                    this.register? this.router.navigate(['/auth/flow-one'], { queryParams: { signup: 'true' } }): this.router.navigate(['/auth/flow-one']);
+                    this.register? this.router.navigate(['/auth/login'], { queryParams: { signup: 'true' } }): this.router.navigate(['/auth/login']);
                 }
             },
             error => {
-                this.register? this.router.navigate(['/auth/flow-one'], { queryParams: { signup: 'true' } }): this.router.navigate(['/auth/flow-one']);
+                this.register? this.router.navigate(['/auth/login'], { queryParams: { signup: 'true' } }): this.router.navigate(['/auth/login']);
             }
         )
     }

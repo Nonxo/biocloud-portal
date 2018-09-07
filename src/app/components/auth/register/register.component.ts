@@ -122,7 +122,7 @@ export class RegisterComponent implements OnInit {
 
     setFlowId() {
         if(this.ss.getAuthRoute()) {
-            if(this.ss.getAuthRoute() == '/auth/flow-two') {
+            if(this.ss.getAuthRoute() == '/auth/register') {
                 this.payload['flowId'] = 2;
                 return;
             }

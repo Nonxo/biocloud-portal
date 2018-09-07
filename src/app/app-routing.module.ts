@@ -14,8 +14,8 @@ import {FlowTwoComponent} from "./pages/auth/flow-two/flow-two.component";
 const routes: Routes = [
     {path: '', redirectTo: '/auth', pathMatch: 'full'},
     {path: 'auth', component: AuthComponent, canActivate: [SessionGuard]},
-    {path: 'auth/flow-one', component: FlowOneComponent, canActivate: [SessionGuard]},
-    {path: 'auth/flow-two', component: FlowTwoComponent, canActivate: [SessionGuard]},
+    {path: 'auth/login', component: FlowOneComponent, canActivate: [SessionGuard]},
+    {path: 'auth/register', component: FlowTwoComponent, canActivate: [SessionGuard]},
     {path: 'invite', component: AddAdminAuthComponent},
     {path: 'inviteuser', component: InviteUserComponent},
     {path: 'change-password', component: ChangePasswordComponent},
