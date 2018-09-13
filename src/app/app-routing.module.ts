@@ -9,10 +9,12 @@ import {InviteUserComponent} from "./components/auth/invite-user/invite-user.com
 import {ReceiptComponent} from "./pages/app-content/subscription-history/receipt/receipt.component";
 import {FlowOneComponent} from "./pages/auth/flow-one/flow-one.component";
 import {FlowTwoComponent} from "./pages/auth/flow-two/flow-two.component";
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 
 const routes: Routes = [
     {path: '', redirectTo: '/auth', pathMatch: 'full'},
+    {path: 'landing-page', component: LandingPageComponent},
     {path: 'auth', component: AuthComponent, canActivate: [SessionGuard]},
     {path: 'auth/login', component: FlowOneComponent, canActivate: [SessionGuard]},
     {path: 'auth/register', component: FlowTwoComponent, canActivate: [SessionGuard]},
