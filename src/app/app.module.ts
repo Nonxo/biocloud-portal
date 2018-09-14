@@ -30,6 +30,7 @@ import {ReceiptComponent} from "./pages/app-content/subscription-history/receipt
 import {Angulartics2Facebook, Angulartics2GoogleTagManager, Angulartics2Module} from "angulartics2";
 import { FlowOneComponent } from './pages/auth/flow-one/flow-one.component';
 import { FlowTwoComponent } from './pages/auth/flow-two/flow-two.component';
+import { GoogleSignInComponent } from './components/auth/google-sign-in/google-sign-in.component';
 
 @NgModule({
     declarations: [
@@ -42,7 +43,8 @@ import { FlowTwoComponent } from './pages/auth/flow-two/flow-two.component';
         LoginComponent,
         ReceiptComponent,
         FlowOneComponent,
-        FlowTwoComponent
+        FlowTwoComponent,
+        GoogleSignInComponent
     ],
     imports: [
         HttpClientModule,

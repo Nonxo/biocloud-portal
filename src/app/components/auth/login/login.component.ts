@@ -1,4 +1,13 @@
-import {Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewChildren} from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    ElementRef,
+    OnDestroy,
+    OnInit,
+    TemplateRef,
+    ViewChild,
+    ViewChildren
+} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {BsModalRef, BsModalService, ModalOptions} from 'ngx-bootstrap';
@@ -16,7 +25,7 @@ import {DataService} from "../../../service/data.service";
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit,OnDestroy {
 
     hide = true;
     loginForm: FormGroup;
@@ -29,18 +38,23 @@ export class LoginComponent implements OnInit, OnDestroy {
     @ViewChild
     ("complianceTemplate") private complianceTemplate: TemplateRef<any>;
 
+
     constructor(private authService: AuthService,
                 private ss: StorageService,
                 private ds: DataService,
                 private router: Router,
                 private fb: FormBuilder,
+                private element: ElementRef,
                 private ns: NotifyService,
                 private modalService: BsModalService,
                 public translate: TranslateService) {
         translate.setDefaultLang('en/login');
         translate.use('en/login');
 
+        console.log('ElementRef:', this.element);
+
     }
+
 
     openModal(template: TemplateRef<any>) {
         this.modalRef = this.modalService.show(template);
@@ -67,6 +81,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             })
 
     }
+
 
     resetPasswordCheck(res: any) {
 
@@ -173,6 +188,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                 error => {this.ns.showError("An Error Occurred");}
             )
     }
+
 
     goToTerms() {
         window.open("https://seamfix.com/privacy/privacy-policy-iclocker/");
