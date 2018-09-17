@@ -1,4 +1,5 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
 
 declare const gapi: any;
 
@@ -36,13 +37,15 @@ export class GoogleSignInComponent implements OnInit, AfterViewInit {
                 console.log('Name: ' + profile.getName());
                 console.log('Image URL: ' + profile.getImageUrl());
                 console.log('Email: ' + profile.getEmail());
+
+                this.router.navigate(["/get-started"]);
                 //...
             }, function (error) {
                 console.log(JSON.stringify(error, undefined, 2));
             });
     }
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
