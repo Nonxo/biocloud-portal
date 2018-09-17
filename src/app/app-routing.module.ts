@@ -14,7 +14,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 
 const routes: Routes = [
     {path: '', redirectTo: '/auth', pathMatch: 'full'},
-    {path: 'landing-page', component: LandingPageComponent},
+    {path: 'get-started', component: LandingPageComponent},
     {path: 'auth', component: AuthComponent, canActivate: [SessionGuard]},
     {path: 'auth/login', component: FlowOneComponent, canActivate: [SessionGuard]},
     {path: 'auth/register', component: FlowTwoComponent, canActivate: [SessionGuard]},
