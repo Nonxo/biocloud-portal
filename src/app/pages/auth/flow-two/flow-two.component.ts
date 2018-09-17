@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
     selector: 'app-flow-two',
@@ -9,7 +10,14 @@ export class FlowTwoComponent implements OnInit {
 
     loginFlag: boolean = false;
 
-    constructor() {
+    constructor(private route: ActivatedRoute) {
+        this.route
+            .queryParams
+            .subscribe(params => {
+                    // Defaults to null if no query param provided.
+                    this.loginFlag = (params['login'] == 'true') || false;
+                }
+            )
     }
 
     ngOnInit() {
