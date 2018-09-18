@@ -12,7 +12,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 
 const routes: Routes = [
     {path: '', redirectTo: '/auth', pathMatch: 'full'},
-    {path: 'get-started', component: LandingPageComponent},
+    {path: 'get-started', component: LandingPageComponent, canActivate: [SessionGuard]},
     {path: 'auth', component: FlowTwoComponent, canActivate: [SessionGuard]},
     {path: 'invite', component: AddAdminAuthComponent},
     {path: 'inviteuser', component: InviteUserComponent},
