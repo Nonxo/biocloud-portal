@@ -42,10 +42,7 @@ export class RegisterComponent implements OnInit {
                 private router: Router,
                 private ns: NotifyService,
                 private fb: FormBuilder,
-                private element: ElementRef,
                 private ss: StorageService) {
-
-        console.log('ElementRef:', this.element)
     }
 
     ngOnInit() {

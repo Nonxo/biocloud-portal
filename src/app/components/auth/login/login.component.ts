@@ -1,7 +1,5 @@
 import {
-    AfterViewInit,
     Component,
-    ElementRef,
     OnDestroy,
     OnInit,
     TemplateRef,
@@ -44,14 +42,11 @@ export class LoginComponent implements OnInit,OnDestroy {
                 private ds: DataService,
                 private router: Router,
                 private fb: FormBuilder,
-                private element: ElementRef,
                 private ns: NotifyService,
                 private modalService: BsModalService,
                 public translate: TranslateService) {
         translate.setDefaultLang('en/login');
         translate.use('en/login');
-
-        console.log('ElementRef:', this.element);
 
     }
 
