@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import 'rxjs/add/operator/finally';
 import {NotifyService} from '../../../service/notify.service';
@@ -7,6 +7,7 @@ import {Constants} from "../../../util/constants";
 import {Router} from "@angular/router";
 import {StorageService} from "../../../service/storage.service";
 import {environment} from "../../../../environments/environment";
+
 
 @Component({
     selector: 'app-register',
@@ -37,7 +38,7 @@ export class RegisterComponent implements OnInit {
         {name: 'CORPORATE', checked: false}
     ];
 
-    constructor(private authService: AuthService,
+   constructor(private authService: AuthService,
                 private router: Router,
                 private ns: NotifyService,
                 private fb: FormBuilder,
@@ -168,7 +169,7 @@ export class RegisterComponent implements OnInit {
                 res => {
                     if (res.code == 0) {
                         this.ss.authToken = res.token;
-                        this.ss.loggedInUser = res.user;
+                        this.ss.loggedInUser = res.bioUser;
                         this.router.navigate(['/sign-up-as']);
                     } else {
                         this.ns.showError(res.description);
@@ -238,5 +239,6 @@ export class RegisterComponent implements OnInit {
             this.myInput.nativeElement.focus();
         }
     }
+
 
 }

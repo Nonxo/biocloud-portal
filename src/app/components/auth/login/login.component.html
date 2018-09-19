@@ -14,6 +14,8 @@
                 </mat-form-field>
             </div>
 
+
+
             <div class="col-12 text-right pt-3 pb-4">
                 <small (click)="openModal(template)" class="cursor">{{ 'LOGIN_COMPONENT.FORGOT_PASSWORD' | translate}}
                 </small>
@@ -26,9 +28,18 @@
                     <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
                 </button>
             </div>
+
         </div>
     </div>
 </form>
+
+<div class="col-12 pt-4 text-xl-left text-center">
+    <!--<div class="cursor" id="googleBtn">Google</div>-->
+    <!--<p class="hr">or</p>-->
+    <img src="assets/img/or.png" class="img-fluid or" style=""/>
+
+</div>
+
 
 <ng-template #template>
     <div class="modal-header">
