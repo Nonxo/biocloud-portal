@@ -1,17 +1,34 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, NgZone, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {AuthService} from "../auth.service";
+import {StorageService} from "../../../service/storage.service";
+import {NotifyService} from "../../../service/notify.service";
 
 declare const gapi: any;
 
 @Component({
-  selector: 'app-google-sign-in',
-  templateUrl: './google-sign-in.component.html',
-  styleUrls: ['./google-sign-in.component.css']
+    selector: 'app-google-sign-in',
+    templateUrl: './google-sign-in.component.html',
+    styleUrls: ['./google-sign-in.component.css']
 })
 export class GoogleSignInComponent implements OnInit, AfterViewInit {
 
 
     public auth2: any;
+
+    constructor(private router: Router,
+                private authService: AuthService,
+                private ss: StorageService,
+                private ns: NotifyService,
+                private ngZone: NgZone) {
+    }
+
+    ngOnInit() {
+    }
+
+    ngAfterViewInit() {
+        this.googleInit();
+    }
 
     public googleInit() {
         gapi.load('auth2', () => {
@@ -31,27 +48,41 @@ export class GoogleSignInComponent implements OnInit, AfterViewInit {
     public attachSignin(element) {
         this.auth2.attachClickHandler(element, {},
             (googleUser) => {
-            let profile = googleUser.getBasicProfile();
-                console.log('Token || ' + googleUser.getAuthResponse().id_token);
-                console.log('ID: ' + googleUser.getId());
-                console.log('Name: ' + profile.getName());
-                console.log('Image URL: ' + profile.getImageUrl());
-                console.log('Email: ' + profile.getEmail());
 
-                this.router.navigate(["/get-started"]);
-                //...
-            }, function (error) {
+                this.authService.verifySocialLogin('GOOGLE', googleUser.getAuthResponse().id_token)
+                    .subscribe(
+                        result => {
+
+                            this.ngZone.run(() => {
+                                if (result.code == 0) {
+                                    this.ss.authToken = result.token;
+                                    this.ss.loggedInUser = result.bioUser;
+
+                                    this.router.navigate(['/sign-up-as']);
+                                } else if(result.code == -9) {
+                                    this.ss.authToken = result.token;
+                                    this.ss.loggedInUser = result.bioUser;
+                                    this.ss.setOrgRoles(result.bioUser.orgRoles);
+
+                                    this.router.navigate(['/portal']);
+                                } else {
+                                    this.ns.showError(result.description);
+                                }
+
+                            });
+
+                        },
+                        error => {this.ns.showError("An Error Occurred");}
+                    )
+
+
+
+            }, (error) =>  {
                 console.log(JSON.stringify(error, undefined, 2));
             });
     }
 
-  constructor(private router: Router) { }
 
-  ngOnInit() {
-  }
 
-  ngAfterViewInit () {
-      this.googleInit();
-  }
 
 }

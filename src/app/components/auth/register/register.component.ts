@@ -172,7 +172,7 @@ export class RegisterComponent implements OnInit {
                 res => {
                     if (res.code == 0) {
                         this.ss.authToken = res.token;
-                        this.ss.loggedInUser = res.user;
+                        this.ss.loggedInUser = res.bioUser;
                         this.router.navigate(['/sign-up-as']);
                     } else {
                         this.ns.showError(res.description);
