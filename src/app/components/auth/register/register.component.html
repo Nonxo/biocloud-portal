@@ -41,11 +41,10 @@
                     <div class="{{selectedCountryCode? 'col-md-3 flag-col':'col-md-3'}}">
                         <i *ngIf="selectedCountryCode"><img class="flag-img"  src="{{baseUrl}}/as/flags/{{selectedCountryCode.toLowerCase()}}.png"></i>
                         <mat-form-field class="input-field">
-                            <mat-select placeholder="" name="phoneCode" formControlName="phoneCode"
-                                        (change)="onSelectChange()" (openedChange)="openc($event)">
+                            <mat-select placeholder="" name="phoneCode" formControlName="phoneCode" (change)="onSelectChange()" (openedChange)="openc($event)">
 
                                 <mat-form-field class="input-field sticky-search">
-                                <input class="myInput" (keydown)="$event.stopPropagation()" #myInput matInput focused="'true'" type="text" (keyup)="search($event.target.value)" autocomplete="off" placeholder="Search">
+                                    <input class="myInput" (keydown)="$event.stopPropagation()" #myInput matInput focused="'true'" type="text" (keyup)="search($event.target.value)" autocomplete="off" placeholder="Search">
                                 </mat-form-field>
 
                                 <mat-option [hidden]="true" value=""></mat-option>
@@ -113,7 +112,6 @@
 <div class="col-12 text-xl-left text-center">
     <!--<div class="cursor" id="googleBtn">Google</div>-->
     <!--<p class="hr">or</p>-->
-    <img src="assets/img/or.png" class="img-fluid or" style=""/>
+    <img src="assets/img/or.png" class="img-fluid or w-75" style="" />
 
 </div>
-
