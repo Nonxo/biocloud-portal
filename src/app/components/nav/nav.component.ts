@@ -17,6 +17,7 @@ import {PictureUtil} from "../../util/PictureUtil";
 import {SubscriptionService} from "../../pages/app-content/services/subscription.service";
 import {DateUtil} from "../../util/DateUtil";
 import {SubscriptionMode} from "../../pages/app-content/enums/enums";
+declare const gapi: any;
 
 @Component({
     selector: 'app-nav',

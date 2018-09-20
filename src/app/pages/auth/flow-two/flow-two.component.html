@@ -23,7 +23,7 @@
 
                     <h3 class="pl-2 text-brand text-center">Start your 14 days free trial</h3>
                     <app-register></app-register>
-                    <app-google-sign-in></app-google-sign-in>
+                    <app-google-sign-in [isSignIn]="loginFlag"></app-google-sign-in>
 
                     <hr>
 
@@ -33,7 +33,7 @@
                 <ng-container *ngIf="loginFlag">
                     <h3 class="pl-2 text-brand text-center">Login to your account</h3>
                     <app-login></app-login>
-                    <app-google-sign-in></app-google-sign-in>
+                    <app-google-sign-in [isSignIn]="loginFlag"></app-google-sign-in>
 
                     <hr>
 
