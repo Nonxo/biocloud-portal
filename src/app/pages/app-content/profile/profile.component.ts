@@ -168,7 +168,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.model.email = userObj.email;
         this.model.address = userObj.address;
         this.model.img = userObj.img;
-        this.model.phoneCode = userObj.phoneCode;
+        this.model.phoneCode = userObj.phoneCode? userObj.phoneCode: "234";
         this.model.bio = bio;
 
         if (this.model.img) {

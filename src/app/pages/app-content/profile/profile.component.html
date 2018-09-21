@@ -44,7 +44,7 @@
                         </div>
                         <div class="pt-3">
                             <p>Phone Number</p>
-                            <h6>{{model.phoneCode?.charAt(0) == "+"? model.phoneCode: "+" + model.phoneCode }} {{ model.phone}}</h6>
+                            <h6>{{model.phone? (model.phoneCode?.charAt(0) == "+"? model.phoneCode: "+" + model.phoneCode):'' }} {{ model.phone}}</h6>
                         </div>
                         <div class="pt-3">
                             <p>Residential Address</p>

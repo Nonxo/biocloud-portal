@@ -51,7 +51,7 @@ export class AuthService {
 
     forgotPassword(email): Observable<any> {
         let params = new HttpParams()
-            .set('email', email)
+            .set('email', email);
 
         return this.httpClient.post(Endpoints.FORGOT_PASSWORD, params.toString(), {
             headers: this.urlEncodeHeader
@@ -121,7 +121,7 @@ export class AuthService {
             .pipe(
                 timeout(50000),
                 map(response => {
-                    let res:any = response;
+                    let res: any = response;
                     return res
                 })
             )
@@ -136,7 +136,28 @@ export class AuthService {
             .pipe(
                 timeout(50000),
                 map(response => {
-                    let res:any = response;
+                    let res: any = response;
+                    return res
+                })
+            )
+    }
+
+    verifySocialLogin(medium: string, token: string): Observable<any> {
+        const params = new HttpParams()
+            .set('medium', medium)
+            .set('deviceType', 'WEB')
+            .set('token', token);
+
+        return this.httpClient
+            .post(Endpoints.VERIFY_SOCIAL_MEDIA_SIGN_IN, params.toString(),
+                {
+                    headers: new HttpHeaders()
+                        .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+                })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
                     return res
                 })
             )

@@ -109,7 +109,7 @@ export class SignUpAsComponent implements OnInit {
                             this.ss.updateUsersOrg(result.organisation);
                         }
 
-                        this.router.navigate(['/portal']);
+                        this.router.navigate(['/portal/config']);
                     } else {
                         this.ns.showError(result.description);
                     }

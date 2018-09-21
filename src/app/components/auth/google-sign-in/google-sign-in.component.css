@@ -1,0 +1,19 @@
+button.googleBtn {
+    background: transparent;
+    border: 1px solid #707070;
+    color: #707070;
+    outline: none;
+}
+
+
+@media only screen and (min-device-width : 1024px) {
+    .or {
+        max-width: 286px
+    }
+}
+
+@media only screen and (max-device-width : 812px) {
+    .or {
+        max-width: 243px
+    }
+}

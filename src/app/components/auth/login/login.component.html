@@ -14,21 +14,31 @@
                 </mat-form-field>
             </div>
 
+
+
             <div class="col-12 text-right pt-3 pb-4">
                 <small (click)="openModal(template)" class="cursor">{{ 'LOGIN_COMPONENT.FORGOT_PASSWORD' | translate}}
                 </small>
             </div>
 
             <div class="col-md-12">
-                <button type="submit" mat-raised-button color="primary" class="px-4 py-1"
-                        [disabled]="loginForm.invalid || loading">
+                <button type="submit" mat-raised-button color="primary" class="px-4 py-1" [disabled]="loginForm.invalid || loading">
                     LOGIN
                     <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
                 </button>
             </div>
+
         </div>
     </div>
 </form>
+
+<div class="col-12 pt-4 text-xl-left text-center">
+    <!--<div class="cursor" id="googleBtn">Google</div>-->
+    <!--<p class="hr">or</p>-->
+    <img src="assets/img/or.png" class="img-fluid or w-75" style="" />
+
+</div>
+
 
 <ng-template #template>
     <div class="modal-header">

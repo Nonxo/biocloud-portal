@@ -17,14 +17,16 @@
         </div>
 
         <div class="col-md-6 col-lg-5 my-5 my-md-0 pl-md-0">
-            <mat-card class="auth">
+            <mat-card class="auth" style="max-height: 600px; overflow-y: auto">
                 <mat-tab-group (selectedTabChange)="onTabChange($event)" [selectedIndex]="currentTab">
                     <mat-tab label="LOGIN">
                         <app-login></app-login>
+                        <app-google-sign-in></app-google-sign-in>
                     </mat-tab>
                     <mat-tab label="REGISTER">
                         <ng-container *ngIf="register">
                             <app-register></app-register>
+                            <app-google-sign-in></app-google-sign-in>
                         </ng-container>
                     </mat-tab>
                 </mat-tab-group>
