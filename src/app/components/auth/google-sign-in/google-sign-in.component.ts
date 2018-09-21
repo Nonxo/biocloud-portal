@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, NgZone, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, NgZone, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthService} from "../auth.service";
 import {StorageService} from "../../../service/storage.service";
@@ -15,6 +15,10 @@ export class GoogleSignInComponent implements OnInit, AfterViewInit {
 
 
     public auth2: any;
+
+    @Input()
+    public isSignIn: boolean;
+
 
     constructor(private router: Router,
                 private authService: AuthService,
