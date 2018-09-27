@@ -38,8 +38,12 @@
 
             <div class="col-12">
                 <div class="row">
-                    <div class="{{selectedCountryCode? 'col-md-3 flag-col':'col-md-3'}}">
-                        <i *ngIf="selectedCountryCode"><img class="flag-img"  src="{{baseUrl}}/as/flags/{{selectedCountryCode.toLowerCase()}}.png"></i>
+                    <div class="{{selectedCountryCode? 'col-md-3 col-6 flag-col':'col-md-3'}}">
+                        <div class="position-absolute pt-3">
+                            <i *ngIf="selectedCountryCode" class="sprite {{selectedCountryCode.toLowerCase()}}">
+                            <!-- <img class="flag-img"  src="{{baseUrl}}/as/flags/{{selectedCountryCode.toLowerCase()}}.png"> -->
+                        </i>
+                        </div>
                         <mat-form-field class="input-field">
                             <mat-select placeholder="" name="phoneCode" formControlName="phoneCode" (change)="onSelectChange()" (openedChange)="openc($event)">
 
@@ -50,7 +54,8 @@
                                 <mat-option [hidden]="true" value=""></mat-option>
 
                                 <mat-option *ngFor="let country of filteredCountries" value="{{country.code}}">
-                                    <img style="width: 40px; height: 30px" src="{{baseUrl}}/as/flags/{{country.code.toLowerCase()}}.png"> {{country.name}}
+                                    <!-- <img style="width: 40px; height: 30px" src="{{baseUrl}}/as/flags/{{country.code.toLowerCase()}}.png"> {{country.name}} -->
+                                    <div><i class="sprite {{country.code.toLowerCase()}} d-inline-flex mr-2"></i>{{country.name}}</div>
                                 </mat-option>
 
                                 <p *ngIf="filteredCountries.length == 0" class="text-center small text-muted">No result(s) found</p>
@@ -58,7 +63,7 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="col-md-2 pl-lg-0 text-center pl-3 pl-0 pr-0 my-auto pt-3 text-muted">
+                    <div class="col-md-2 col-6 pl-lg-0 text-center pl-3 pl-0 pr-0 my-auto pt-3 text-muted">
                         <p>{{selectedPhoneCode.charAt(0) == "+"? selectedPhoneCode: "+" + selectedPhoneCode}}</p>
                     </div>
 
@@ -89,7 +94,8 @@
             <div class="col-md-12">
                 <mat-checkbox formControlName="gdprCompliance">
                 </mat-checkbox>
-                <span class="small pl-2">I agree to the <span (click)="goToTerms()" class="cursor text-brand">Terms of Service</span> and Privacy Policy</span>
+                <span class="small pl-2">I agree to the <span (click)="goToTerms()" class="cursor text-brand">Terms of
+                        Service</span> and Privacy Policy</span>
             </div>
 
             <div class="col-md-6 col-12">
@@ -100,9 +106,9 @@
 
             <div class="col-md-12 mt-3">
                 <button mat-raised-button color="primary" class="px-4 py-1" [disabled]="form.invalid || loading" type="submit">
-          REGISTER
-          <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
-        </button>
+                    REGISTER
+                    <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;" />
+                </button>
             </div>
         </div>
     </div>
@@ -112,6 +118,6 @@
 <div class="col-12 text-xl-left text-center">
     <!--<div class="cursor" id="googleBtn">Google</div>-->
     <!--<p class="hr">or</p>-->
-    <img src="assets/img/or.png" class="img-fluid or w-75" style="" />
+    <img src="assets/img/or.png" class="img-fluid or w-75" />
 
 </div>
