@@ -170,18 +170,21 @@
                         </div>
 
                         <div class="{{selectedCountryCode? 'col-md-3 flag-col':'col-md-3'}}">
-                            <i *ngIf="selectedCountryCode"><img class="flag-img"  src="{{baseUrl}}/as/flags/{{selectedCountryCode.toLowerCase()}}.png"></i>
+                            <div class="position-absolute pt-3">
+                                <!-- <i *ngIf="selectedCountryCode"><img class="flag-img"  src="{{baseUrl}}/as/flags/{{selectedCountryCode.toLowerCase()}}.png"></i> -->
+                                <i *ngIf="selectedCountryCode" class="sprite {{selectedCountryCode.toLowerCase()}}"></i>
+                            </div>
                             <mat-form-field class="w-100">
                                 <mat-select placeholder="" name="phoneCode" [(ngModel)]="tmpModel.phoneCode" (change)="searchInput.focus(); onSelectChange()" (openedChange)="openc($event)">
 
                                     <mat-form-field class="input-field sticky-search">
-                                    <input (keydown)="$event.stopPropagation()" #searchInput matInput focused="'true'" [(ngModel)]="searchParam"
-                                           name="searchParam" type="text" (keyup)="search($event.target.value)" autocomplete="off" placeholder="Search">
+                                        <input (keydown)="$event.stopPropagation()" #searchInput matInput focused="'true'" [(ngModel)]="searchParam" name="searchParam" type="text" (keyup)="search($event.target.value)" autocomplete="off" placeholder="Search">
                                     </mat-form-field>
 
                                     <mat-option value="" [hidden]="true"></mat-option>
                                     <mat-option *ngFor="let country of filteredCountries" value="{{country.code}}">
-                                        <img style="width: 40px; height: 30px" src="{{baseUrl}}/as/flags/{{country.code.toLowerCase()}}.png"> {{country.name}}
+                                        <!-- <img style="width: 40px; height: 30px" src="{{baseUrl}}/as/flags/{{country.code.toLowerCase()}}.png"> {{country.name}} -->
+                                        <div><i class="sprite {{country.code.toLowerCase()}} d-inline-flex mr-2"></i>{{country.name}}</div>
                                     </mat-option>
 
                                     <p *ngIf="filteredCountries.length == 0" class="text-center small text-muted">No result(s) found</p>
