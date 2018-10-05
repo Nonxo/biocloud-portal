@@ -1,17 +1,51 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
-
-.landing{
+.landing {
     font-family: 'Montserrat', sans-serif !important;
 }
 
-.vh-100{
-    height:100vh;
+.vh-100 {
+    height: 100vh;
     background: url(../../assets/img/wave.png);
     background-size: cover;
 }
-@media(max-width:1024px){
-    .vh-100{
-        height:auto;
+
+.grey-overlay {
+    background-color: rgba(38, 38, 38, 0.80);
+}
+
+.videobg-1 {
+    background: url(../../assets/img/videobg-1.png);
+    background-size: cover;
+    height: 85vh;
+}
+
+.videobg-2 {
+    background: url(../../assets/img/videobg-2.png);
+    background-size: cover;
+    height: 85vh;
+}
+
+.btn-outline-white {
+    background: transparent;
+    color: #fff;
+    border-radius: 25px;
+    border: 2px solid #fff;
+}
+
+button.btn.btn-outline-white {
+    position: absolute;
+    top: 45%;
+    left: 30%;
+}
+
+.modal-content {
+    border: none !important;
+    outline: none !important;
+}
+
+@media(max-width:1024px) {
+    .vh-100 {
+        height: auto;
         background: url(../../assets/img/wave.png);
         background-size: cover;
     }
@@ -20,7 +54,7 @@
 .home h4:after {
     height: 2px;
     width: 150px;
-    background: linear-gradient(212deg,#FF3CAC,#784BA0,#2B86C5);
+    background: linear-gradient(212deg, #FF3CAC, #784BA0, #2B86C5);
     display: block;
     content: "";
 }
@@ -28,17 +62,56 @@
 .center h4:after {
     height: 2px;
     width: 150px;
-    background: linear-gradient(212deg,#FF3CAC,#784BA0,#2B86C5);
+    background: linear-gradient(212deg, #FF3CAC, #784BA0, #2B86C5);
     display: block;
     content: "";
     margin: 0.75rem auto 0;
 }
 
 .purple-grad {
-    background: linear-gradient(212deg,#FF3CAC,#784BA0,#2B86C5);
+    background: linear-gradient(212deg, #FF3CAC, #784BA0, #2B86C5);
     color: white;
 }
 
-.card{
+.card {
     border-radius: 0;
+}
+
+button.btn.btn-primary-outline {
+    border: 2px solid #633586;
+    border-radius: 25px;
+    background: #623485;
+    color: #ffffff;
+    outline: none;
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 823px) {
+    .videobg-1 {
+        background: url(../../assets/img/videobg-1.png);
+        background-size: cover;
+        height: 45vh;
+    }
+    .videobg-2 {
+        background: url(../../assets/img/videobg-2.png);
+        background-size: cover;
+        height: 45vh;
+    }
+    button.btn.btn-outline-white[_ngcontent-c2] {
+        position: absolute;
+        top: 45%;
+        left: 14%;
+    }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1366px) {
+    .videobg-1 {
+        background: url(../../assets/img/videobg-1.png);
+        background-size: cover;
+        height: 50vh;
+    }
+    .videobg-2 {
+        background: url(../../assets/img/videobg-2.png);
+        background-size: cover;
+        height: 50vh;
+    }
 }
