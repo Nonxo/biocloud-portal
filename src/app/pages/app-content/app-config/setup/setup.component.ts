@@ -231,7 +231,7 @@ export class SetupComponent implements OnInit {
     isValidTimezone(): boolean {
         let filter: any[] = this.timezones.filter((obj) => obj.zoneId.toLowerCase() == (this.locRequest.resumptionTimezoneId.toLowerCase()));
 
-        if(filter.length == 0) {
+        if (filter.length == 0) {
             return false;
         }
 
@@ -382,9 +382,13 @@ export class SetupComponent implements OnInit {
                 //noinspection TypeScriptUnresolvedVariable
                 let place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
-
+                debugger;
                 //noinspection TypeScriptUnresolvedVariable
                 if (place.geometry === undefined || place.geometry === null) {
+                    this.locRequest.address = "";
+                    //check if coordinate was entered
+                    this.checkValidCoordinate(place.name);
+
                     return;
                 }
 
@@ -400,24 +404,80 @@ export class SetupComponent implements OnInit {
         });
     }
 
+    checkValidCoordinate(value: string) {
+        let splitParts = value.split(",");
+
+        if(splitParts.length == 2) {
+            if(!isNaN(+splitParts[0]) && !isNaN(+splitParts[1])) {
+                this.lat = +splitParts[0];
+                this.lng = +splitParts[1];
+
+                this.getSearchAddress(this.lat, this.lng);
+                return;
+            }
+        }
+
+        this.getCoordinates(value);
+
+
+    }
+
+
+    getCoordinates(address: string) {
+        debugger;
+        this.mapService.getCoordinates(address)
+            .subscribe(
+                (result) => {
+                    debugger;
+                    this.ngZone.run(() => {
+
+                        this.lat = result.lat();
+                        this.lng = result.lng();
+
+                        this.locRequest.address = address;
+                        (<HTMLInputElement>document.getElementById("autocompleteInput")).value = " ";
+
+
+                        // if(typeof result === 'string') {
+                        //     this.locRequest.address = result;
+                        //     debugger;
+                        // } else {
+                        //     this.ns.showError("Unable to get Address")
+                        // }
+                        //
+                        // (<HTMLInputElement>document.getElementById("autocompleteInput")).value = " ";
+                    });
+                }
+            )
+    }
 
     getSearchAddress(lat: number, lng: number) {
+        debugger;
         this.mapService.getAddress(lat, lng)
             .subscribe(
                 result => {
                     // needs to run inside zone to update the map
                     this.ngZone.run(() => {
-                        this.locRequest.address = result;
-                        (<HTMLInputElement>document.getElementById("autocompleteInput")).value = result;
+
+                        if(typeof result === 'string') {
+                            this.locRequest.address = result;
+                            debugger;
+                        } else {
+                            this.ns.showError("Unable to get Address")
+                        }
+
+                        (<HTMLInputElement>document.getElementById("autocompleteInput")).value = " ";
                     });
                 },
-                error => console.log(error),
+                error => {
+                    this.locRequest.address = "";
+                    },
                 () => console.log('Geocoding completed!')
             );
     }
 
     getCurrentPosition(withAddress: boolean) {
-        this.mapService.getLocation().subscribe((result) => {
+        this.mapService.getLocation({enableHighAccuracy: true}).subscribe((result) => {
                 this.lat = result.coords.latitude;
                 this.lng = result.coords.longitude;
 

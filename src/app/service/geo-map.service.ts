@@ -41,6 +41,30 @@ export class GeoMapService {
     }
 
     /**
+     * returns the coordinates of a geo address
+     * @returns {Observable}
+     */
+    getCoordinates(address: string) {
+        //noinspection TypeScriptUnresolvedVariable
+        let geocoder = new google.maps.Geocoder();
+
+        return Observable.create(observer => {
+            geocoder.geocode( { 'address': address}, function(results, status) {
+                debugger;
+                //noinspection TypeScriptUnresolvedVariable
+                if (status == google.maps.GeocoderStatus.OK) {
+                    observer.next(results[0].geometry.location);
+                    observer.complete();
+                } else {
+                    // console.log('Error - ', results, ' & Status - ', status);
+                    observer.next({});
+                    observer.complete();
+                }
+            });
+        })
+    }
+
+    /**
      * get current location of a user
      * @param opts
      * @returns {Observable}
@@ -51,6 +75,7 @@ export class GeoMapService {
             if (window.navigator && window.navigator.geolocation) {
                 window.navigator.geolocation.getCurrentPosition(
                     (position) => {
+                        console.log(position.coords.accuracy);
                         observer.next(position);
                         observer.complete();
                     },
