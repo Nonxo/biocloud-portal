@@ -11,6 +11,7 @@
                     <div class="my-5 text-lg-left text-center">
                         <h2 class="text-brand mb-3">Clock In Everyday With A Smile</h2>
                         <h4>Make time and attendance more productive and fun for your organization with iClocker</h4>
+                        <button class="mt-4 pl-4 pr-4 btn btn-primary-outline d-inline-flex cursor" (click)="scroll(howItWorks)">See How It Works</button>
                     </div>
 
                 </div>
@@ -35,9 +36,8 @@
                 <div class="col-xl-7 col-md-12 align-items-center pl-md-5 pl-3 home">
                     <h4 class="text-brand mb-4">About iClocker</h4>
                     <article class="mb-4">
-                        iClocker is an innovative clock-in software for contemporary businesses to track employees
-                        in any location. The app uses facial recognition and Geo-Fencing technology to confirm that
-                        the user is who and where they say they are by taking selfies during clock-in.
+                        iClocker is an innovative clock-in software for contemporary businesses to track employees in any location. The app uses facial recognition and Geo-Fencing technology to confirm that the user is who and where they say they are by taking selfies during
+                        clock-in.
                     </article>
 
                     <div class="row">
@@ -48,9 +48,7 @@
                                 </div>
                                 <div class="col">
                                     <h5 class="text-brand">Smile Recognition</h5>
-                                    iClocker is equipped with face verification, using smiles as means of
-                                    identification.
-                                    Employees sign in to work with only a selfie.
+                                    iClocker is equipped with face verification, using smiles as means of identification. Employees sign in to work with only a selfie.
                                 </div>
                             </div>
                         </div>
@@ -61,8 +59,7 @@
                                 </div>
                                 <div class="col">
                                     <h5 class="text-brand">Geolocation</h5>
-                                    iClocker employs a GPS service that allows approved employees to clock in only
-                                    at the locations chosen by the Admin.
+                                    iClocker employs a GPS service that allows approved employees to clock in only at the locations chosen by the Admin.
                                 </div>
                             </div>
                         </div>
@@ -84,8 +81,7 @@
                                 </div>
                                 <div class="col">
                                     <h5 class="text-brand">Mobile</h5>
-                                    The iClocker app works on smartphone devices, with employees using the front
-                                    camera to take pictures.
+                                    The iClocker app works on smartphone devices, with employees using the front camera to take pictures.
                                 </div>
                             </div>
                         </div>
@@ -95,7 +91,7 @@
         </div>
     </section>
 
-    <section class="my-5 pt-md-5 pt-0">
+    <section #howItWorks class="my-5 pt-md-5 pt-0">
         <div class="container-fluid px-md-5 px-3">
             <div class="row justify-content-start  mx-md-5 mx-0">
                 <div class="col-12 center text-center">
@@ -146,7 +142,26 @@
         </div>
     </section>
 
-    <section class="purple-grad  mt-5">
+    <section>
+        <div class="row mr-0 ml-0">
+            <div class="col-md-6 p-0">
+                <div class="videobg-1">
+                    <div class="grey-overlay h-100">
+                        <button class="btn btn-outline-white d-inline-flex cursor" (click)="openModal(adminVideo)"><mat-icon class="text-white mr-2">play_circle_filled</mat-icon>How it works for Admin</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 p-0">
+                <div class="videobg-2">
+                    <div class="grey-overlay h-100">
+                        <button class="btn btn-outline-white d-inline-flex cursor" (click)="openModal(employeeVideo)"><mat-icon class="text-white mr-2">play_circle_filled</mat-icon>How it works for Employees</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="purple-grad">
         <div class="container-fluid h-100">
             <div class="row h-100 justify-content-xl-between justify-content-md-center d-flex align-items-center">
                 <div class="col-xl-5 col-md-8 my-3 align-items-center">
@@ -194,3 +209,29 @@
         </div>
     </section>
 </main>
+
+
+<ng-template #adminVideo>
+    <!-- <div class="modal-header">
+        <h4 class="modal-title pull-left">Modal</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+    </div> -->
+
+    <iframe width="798" height="415" src="https://www.youtube.com/embed/rUdN9h0DUmM?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+</ng-template>
+
+
+<ng-template #employeeVideo>
+    <!-- <div class="modal-header">
+            <h4 class="modal-title pull-left">Modal</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+        </div> -->
+
+    <iframe width="798" height="415" src="https://www.youtube.com/embed/_cPhEJd8vPg?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+</ng-template>
