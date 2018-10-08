@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, NgZone} from '@angular/core';
+import {Component, OnInit, TemplateRef, NgZone, AfterViewInit, AfterViewChecked} from '@angular/core';
 import {LocationRequest, TimezonePOJO} from "../model/app-config.model";
 import {AppConfigService} from "../services/app-config.service";
 import {BsModalService, BsModalRef, ModalOptions} from "ngx-bootstrap/index";
@@ -19,7 +19,7 @@ import {TranslateService} from "@ngx-translate/core";
     templateUrl: './setup.component.html',
     styleUrls: ['./setup.component.css']
 })
-export class SetupComponent implements OnInit {
+export class SetupComponent implements OnInit{
 
     locRequest: LocationRequest = new LocationRequest();
     editMode: boolean;
@@ -76,8 +76,10 @@ export class SetupComponent implements OnInit {
 
         //noinspection TypeScriptUnresolvedFunction
         this.loader.load().then(() => {
+            this.show();
         });
     }
+
 
     setEditMode() {
         if (this.locRequest.resumption) {
@@ -179,6 +181,10 @@ export class SetupComponent implements OnInit {
 
         if (this.locRequest.locationType == 'COUNTRY' || this.locRequest.locationType == 'STATE') {
             this.fetchCountries();
+        }
+
+        if(this.locRequest.locationType == 'SPECIFIC_ADDRESS') {
+            this.show();
         }
     }
 
@@ -382,7 +388,6 @@ export class SetupComponent implements OnInit {
                 //noinspection TypeScriptUnresolvedVariable
                 let place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
-                debugger;
                 //noinspection TypeScriptUnresolvedVariable
                 if (place.geometry === undefined || place.geometry === null) {
                     this.locRequest.address = "";
@@ -424,11 +429,9 @@ export class SetupComponent implements OnInit {
 
 
     getCoordinates(address: string) {
-        debugger;
         this.mapService.getCoordinates(address)
             .subscribe(
                 (result) => {
-                    debugger;
                     this.ngZone.run(() => {
 
                         this.lat = result.lat();
@@ -452,7 +455,6 @@ export class SetupComponent implements OnInit {
     }
 
     getSearchAddress(lat: number, lng: number) {
-        debugger;
         this.mapService.getAddress(lat, lng)
             .subscribe(
                 result => {
@@ -461,7 +463,6 @@ export class SetupComponent implements OnInit {
 
                         if(typeof result === 'string') {
                             this.locRequest.address = result;
-                            debugger;
                         } else {
                             this.ns.showError("Unable to get Address")
                         }
@@ -584,6 +585,12 @@ export class SetupComponent implements OnInit {
 
     cancel() {
         this.editMode ? this.modalRef.hide() : this.router.navigate(['/portal']);
+    }
+
+    validateRadius() {
+        if(this.locRequest.radiusThreshold > 200) {
+            this.locRequest.radiusThreshold = 200;
+        }
     }
 
 }
