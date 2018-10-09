@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, NgZone} from '@angular/core';
+import {Component, OnInit, TemplateRef, NgZone, AfterViewInit, AfterViewChecked} from '@angular/core';
 import {LocationRequest, TimezonePOJO} from "../model/app-config.model";
 import {AppConfigService} from "../services/app-config.service";
 import {BsModalService, BsModalRef, ModalOptions} from "ngx-bootstrap/index";
@@ -19,7 +19,7 @@ import {TranslateService} from "@ngx-translate/core";
     templateUrl: './setup.component.html',
     styleUrls: ['./setup.component.css']
 })
-export class SetupComponent implements OnInit {
+export class SetupComponent implements OnInit{
 
     locRequest: LocationRequest = new LocationRequest();
     editMode: boolean;
@@ -76,8 +76,10 @@ export class SetupComponent implements OnInit {
 
         //noinspection TypeScriptUnresolvedFunction
         this.loader.load().then(() => {
+            this.show();
         });
     }
+
 
     setEditMode() {
         if (this.locRequest.resumption) {
@@ -180,6 +182,10 @@ export class SetupComponent implements OnInit {
         if (this.locRequest.locationType == 'COUNTRY' || this.locRequest.locationType == 'STATE') {
             this.fetchCountries();
         }
+
+        if(this.locRequest.locationType == 'SPECIFIC_ADDRESS') {
+            this.show();
+        }
     }
 
     addnewLocation() {
@@ -231,7 +237,7 @@ export class SetupComponent implements OnInit {
     isValidTimezone(): boolean {
         let filter: any[] = this.timezones.filter((obj) => obj.zoneId.toLowerCase() == (this.locRequest.resumptionTimezoneId.toLowerCase()));
 
-        if(filter.length == 0) {
+        if (filter.length == 0) {
             return false;
         }
 
@@ -382,9 +388,12 @@ export class SetupComponent implements OnInit {
                 //noinspection TypeScriptUnresolvedVariable
                 let place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
-
                 //noinspection TypeScriptUnresolvedVariable
                 if (place.geometry === undefined || place.geometry === null) {
+                    this.locRequest.address = "";
+                    //check if coordinate was entered
+                    this.checkValidCoordinate(place.name);
+
                     return;
                 }
 
@@ -400,6 +409,50 @@ export class SetupComponent implements OnInit {
         });
     }
 
+    checkValidCoordinate(value: string) {
+        let splitParts = value.split(",");
+
+        if(splitParts.length == 2) {
+            if(!isNaN(+splitParts[0]) && !isNaN(+splitParts[1])) {
+                this.lat = +splitParts[0];
+                this.lng = +splitParts[1];
+
+                this.getSearchAddress(this.lat, this.lng);
+                return;
+            }
+        }
+
+        this.getCoordinates(value);
+
+
+    }
+
+
+    getCoordinates(address: string) {
+        this.mapService.getCoordinates(address)
+            .subscribe(
+                (result) => {
+                    this.ngZone.run(() => {
+
+                        this.lat = result.lat();
+                        this.lng = result.lng();
+
+                        this.locRequest.address = address;
+                        (<HTMLInputElement>document.getElementById("autocompleteInput")).value = " ";
+
+
+                        // if(typeof result === 'string') {
+                        //     this.locRequest.address = result;
+                        //     debugger;
+                        // } else {
+                        //     this.ns.showError("Unable to get Address")
+                        // }
+                        //
+                        // (<HTMLInputElement>document.getElementById("autocompleteInput")).value = " ";
+                    });
+                }
+            )
+    }
 
     getSearchAddress(lat: number, lng: number) {
         this.mapService.getAddress(lat, lng)
@@ -407,17 +460,25 @@ export class SetupComponent implements OnInit {
                 result => {
                     // needs to run inside zone to update the map
                     this.ngZone.run(() => {
-                        this.locRequest.address = result;
-                        (<HTMLInputElement>document.getElementById("autocompleteInput")).value = result;
+
+                        if(typeof result === 'string') {
+                            this.locRequest.address = result;
+                        } else {
+                            this.ns.showError("Unable to get Address")
+                        }
+
+                        (<HTMLInputElement>document.getElementById("autocompleteInput")).value = " ";
                     });
                 },
-                error => console.log(error),
+                error => {
+                    this.locRequest.address = "";
+                    },
                 () => console.log('Geocoding completed!')
             );
     }
 
     getCurrentPosition(withAddress: boolean) {
-        this.mapService.getLocation().subscribe((result) => {
+        this.mapService.getLocation({enableHighAccuracy: true}).subscribe((result) => {
                 this.lat = result.coords.latitude;
                 this.lng = result.coords.longitude;
 
@@ -524,6 +585,12 @@ export class SetupComponent implements OnInit {
 
     cancel() {
         this.editMode ? this.modalRef.hide() : this.router.navigate(['/portal']);
+    }
+
+    validateRadius() {
+        if(this.locRequest.radiusThreshold > 200) {
+            this.locRequest.radiusThreshold = 200;
+        }
     }
 
 }

@@ -23,6 +23,7 @@ export class LocationRequest {
     constructor() {
         this.inviteEmails = [];
         this.radiusThreshold = 32;
+        this.locationType = 'SPECIFIC_ADDRESS';
     }
 }
 
