@@ -71,11 +71,7 @@ export class SetupComponent implements OnInit {
 
         if (this.editMode) {
             this.setEditMode();
-        } else {
-            //set default address when its a new location request
-            // this.getSearchAddress(this.lat, this.lng);
         }
-
 
         this.fetchCountries();
         this.fetchTimezones();
