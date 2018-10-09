@@ -207,14 +207,16 @@ export class VerifyPaymentRequest {
     orgId:string;
     conversionRate:number;
     transactionMode:string;
+    vatAmount: number;
 
-    constructor(txRef:string, billingCycle:string, autoRenewal:boolean, orgId:string, conversionRate:number, transactionMode:string) {
+    constructor(txRef:string, billingCycle:string, autoRenewal:boolean, orgId:string, conversionRate:number, transactionMode:string, vatAmount: number) {
         this.billingCycle = billingCycle;
         this.txRef = txRef;
         this.autoRenewal = autoRenewal;
         this.orgId = orgId;
         this.conversionRate = conversionRate;
         this.transactionMode = transactionMode;
+        this.vatAmount = vatAmount;
     }
 }
 
@@ -224,13 +226,15 @@ export class SubscriptionChangeRequest {
     planId: string;
     currency: string;
     amount: number;
+    vat: number;
 
-    constructor(billingCycle: string, orgId: string, planId: string, currency: string, amount: number) {
+    constructor(billingCycle: string, orgId: string, planId: string, currency: string, amount: number, vat: number) {
         this.billingCycle = billingCycle;
         this.orgId = orgId;
         this.planId = planId;
         this.currency = currency;
         this.amount = amount;
+        this.vat = vat;
     }
 }
 

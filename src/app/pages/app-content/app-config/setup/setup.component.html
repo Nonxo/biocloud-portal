@@ -85,7 +85,7 @@
                                     <p class="text-secondary mb-0">Type in the field below to search for your address or move the pin on the Map to set address</p>
                                     <mat-form-field class="w-50">
                                         <input matInput placeholder="Search address or enter location coordinates" name="search" id="autocompleteInput" (keydown.enter)="$event.preventDefault()">
-                                        <mat-icon matSuffix>search</mat-icon>
+                                        <mat-icon matSuffix (click)="searchMaps()" class="cursor">search</mat-icon>
                                     </mat-form-field>
 
                                     <!--Map-->

@@ -47,6 +47,7 @@ export class SetupComponent implements OnInit{
     loading: boolean;
     resumptionTime: Date;
     clockoutTime: Date;
+    autoComplete:any;
 
     constructor(private aService: AppConfigService,
                 private modalService: BsModalService,
@@ -70,7 +71,12 @@ export class SetupComponent implements OnInit{
 
         if (this.editMode) {
             this.setEditMode();
+        }else {
+            //set default address when its a new location request
+            this.getSearchAddress(this.lat, this.lng);
         }
+
+
         this.fetchCountries();
         this.fetchTimezones();
 
@@ -335,6 +341,7 @@ export class SetupComponent implements OnInit{
 
                         if (this.addNewLoc) {
                             this.locRequest = new LocationRequest();
+                            this.getSearchAddress(this.lat, this.lng);
                             this.inviteEmails = [];
                             this.showMap = false;
                             this.clearResumptionTime();
@@ -372,21 +379,21 @@ export class SetupComponent implements OnInit{
         let country = this.countryCode ? this.countryCode : "";
 
         //noinspection TypeScriptUnresolvedVariable
-        let autocomplete = new google.maps.places.Autocomplete(<HTMLInputElement>document.getElementById('autocompleteInput'), {});
+        this.autoComplete = new google.maps.places.Autocomplete(<HTMLInputElement>document.getElementById('autocompleteInput'), {});
 
         if (country != "") {
-            autocomplete.setComponentRestrictions(
+            this.autoComplete.setComponentRestrictions(
                 {'country': country});
         } else {
-            autocomplete.setComponentRestrictions(
+           this. autoComplete.setComponentRestrictions(
                 {'country': []});
         }
 
-        autocomplete.addListener("place_changed", () => {
+        this.autoComplete.addListener("place_changed", () => {
             this.ngZone.run(() => {
                 //get the place result
                 //noinspection TypeScriptUnresolvedVariable
-                let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+                let place: google.maps.places.PlaceResult = this.autoComplete.getPlace();
 
                 //noinspection TypeScriptUnresolvedVariable
                 if (place.geometry === undefined || place.geometry === null) {
@@ -591,6 +598,10 @@ export class SetupComponent implements OnInit{
         if(this.locRequest.radiusThreshold > 200) {
             this.locRequest.radiusThreshold = 200;
         }
+    }
+
+    searchMaps() {
+        google.maps.event.trigger(this.autoComplete, 'place_changed');
     }
 
 }
