@@ -19,7 +19,7 @@ import {TranslateService} from "@ngx-translate/core";
     templateUrl: './setup.component.html',
     styleUrls: ['./setup.component.css']
 })
-export class SetupComponent implements OnInit{
+export class SetupComponent implements OnInit {
 
     locRequest: LocationRequest = new LocationRequest();
     editMode: boolean;
@@ -47,7 +47,7 @@ export class SetupComponent implements OnInit{
     loading: boolean;
     resumptionTime: Date;
     clockoutTime: Date;
-    autoComplete:any;
+    searchValue:string;
 
     constructor(private aService: AppConfigService,
                 private modalService: BsModalService,
@@ -71,9 +71,9 @@ export class SetupComponent implements OnInit{
 
         if (this.editMode) {
             this.setEditMode();
-        }else {
+        } else {
             //set default address when its a new location request
-            this.getSearchAddress(this.lat, this.lng);
+            // this.getSearchAddress(this.lat, this.lng);
         }
 
 
@@ -184,12 +184,13 @@ export class SetupComponent implements OnInit{
         this.locRequest.radiusThreshold = 32;
         this.locRequest.address = null;
         this.showMap = false;
+        this.searchValue = "";
 
         if (this.locRequest.locationType == 'COUNTRY' || this.locRequest.locationType == 'STATE') {
             this.fetchCountries();
         }
 
-        if(this.locRequest.locationType == 'SPECIFIC_ADDRESS') {
+        if (this.locRequest.locationType == 'SPECIFIC_ADDRESS') {
             this.show();
         }
     }
@@ -379,21 +380,21 @@ export class SetupComponent implements OnInit{
         let country = this.countryCode ? this.countryCode : "";
 
         //noinspection TypeScriptUnresolvedVariable
-        this.autoComplete = new google.maps.places.Autocomplete(<HTMLInputElement>document.getElementById('autocompleteInput'), {});
+        let a = new google.maps.places.Autocomplete(<HTMLInputElement>document.getElementById('autocompleteInput'), {});
 
         if (country != "") {
-            this.autoComplete.setComponentRestrictions(
+            a.setComponentRestrictions(
                 {'country': country});
         } else {
-           this. autoComplete.setComponentRestrictions(
+            a.setComponentRestrictions(
                 {'country': []});
         }
 
-        this.autoComplete.addListener("place_changed", () => {
+        a.addListener("place_changed", () => {
             this.ngZone.run(() => {
                 //get the place result
                 //noinspection TypeScriptUnresolvedVariable
-                let place: google.maps.places.PlaceResult = this.autoComplete.getPlace();
+                let place: google.maps.places.PlaceResult = a.getPlace();
 
                 //noinspection TypeScriptUnresolvedVariable
                 if (place.geometry === undefined || place.geometry === null) {
@@ -419,8 +420,8 @@ export class SetupComponent implements OnInit{
     checkValidCoordinate(value: string) {
         let splitParts = value.split(",");
 
-        if(splitParts.length == 2) {
-            if(!isNaN(+splitParts[0]) && !isNaN(+splitParts[1])) {
+        if (splitParts.length == 2) {
+            if (!isNaN(+splitParts[0]) && !isNaN(+splitParts[1])) {
                 this.lat = +splitParts[0];
                 this.lng = +splitParts[1];
 
@@ -468,7 +469,7 @@ export class SetupComponent implements OnInit{
                     // needs to run inside zone to update the map
                     this.ngZone.run(() => {
 
-                        if(typeof result === 'string') {
+                        if (typeof result === 'string') {
                             this.locRequest.address = result;
                         } else {
                             this.ns.showError("Unable to get Address")
@@ -479,7 +480,7 @@ export class SetupComponent implements OnInit{
                 },
                 error => {
                     this.locRequest.address = "";
-                    },
+                },
                 () => console.log('Geocoding completed!')
             );
     }
@@ -595,13 +596,13 @@ export class SetupComponent implements OnInit{
     }
 
     validateRadius() {
-        if(this.locRequest.radiusThreshold > 200) {
+        if (this.locRequest.radiusThreshold > 200) {
             this.locRequest.radiusThreshold = 200;
         }
     }
 
     searchMaps() {
-        google.maps.event.trigger(this.autoComplete, 'place_changed');
+        this.checkValidCoordinate(this.searchValue);
     }
 
 }

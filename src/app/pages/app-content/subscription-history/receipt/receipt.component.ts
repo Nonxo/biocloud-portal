@@ -109,11 +109,19 @@ export class ReceiptComponent implements OnInit, OnDestroy {
             }
         });
 
-        doc.setFontSize(12);
-        doc.text('Total', 340, 340);
+        if(this.history.vat > 0 && this.history.currency == 'NGN') {
+            doc.setFontSize(10);
+            doc.text('VAT', 340, 335);
+
+            doc.setFontSize(10);
+            doc.text(this.history.currency + " " + String(this.history.vat), 390, 335);
+        }
 
         doc.setFontSize(12);
-        doc.text(this.history.currency + " " + String(this.history.amountPaid), 390, 340);
+        doc.text('Total', 340, 355);
+
+        doc.setFontSize(12);
+        doc.text(this.history.currency + " " + String(this.history.amountPaid), 390, 355);
 
         doc.setFontSize(11);
         doc.text('Thank you for subscribing', 240, 380);
