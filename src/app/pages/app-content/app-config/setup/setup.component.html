@@ -61,23 +61,23 @@
                                 </div>
 
                                 <!--<div class="col-md-12 mt-4" *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS'">-->
-                                    <!--<p class="mb-2 font-weight-bold">Location Address</p>-->
-                                    <!--<p class="text-secondary">Choose your desired method to add an address to your location.</p>-->
-                                    <!--<mat-radio-group>-->
-                                        <!--<div class="row">-->
-                                            <!--<div class="col-md-12">-->
-                                                <!--<mat-radio-button value="searchAddress">Search for your address or enter coordinates on the map-->
-                                                    <!--<mat-icon class="small">help</mat-icon>-->
-                                                <!--</mat-radio-button>-->
-                                            <!--</div>-->
+                                <!--<p class="mb-2 font-weight-bold">Location Address</p>-->
+                                <!--<p class="text-secondary">Choose your desired method to add an address to your location.</p>-->
+                                <!--<mat-radio-group>-->
+                                <!--<div class="row">-->
+                                <!--<div class="col-md-12">-->
+                                <!--<mat-radio-button value="searchAddress">Search for your address or enter coordinates on the map-->
+                                <!--<mat-icon class="small">help</mat-icon>-->
+                                <!--</mat-radio-button>-->
+                                <!--</div>-->
 
-                                            <!--<div class="col-md-12">-->
-                                                <!--<mat-radio-button value="coordinates">Let my employees get the coordinates-->
-                                                    <!--<mat-icon class="small">help</mat-icon>-->
-                                                <!--</mat-radio-button>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                    <!--</mat-radio-group>-->
+                                <!--<div class="col-md-12">-->
+                                <!--<mat-radio-button value="coordinates">Let my employees get the coordinates-->
+                                <!--<mat-icon class="small">help</mat-icon>-->
+                                <!--</mat-radio-button>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--</mat-radio-group>-->
                                 <!--</div>-->
 
                                 <div class="col-md-12 mt-4" *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS'">
@@ -91,13 +91,10 @@
                                     <!--Map-->
                                     <div class="col-md-12 mt-3 pl-0 pr-0">
 
-                                        <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoomSize"
-                                                 (mapClick)="mapClicked($event)" [mapTypeControl]="true">
-                                            <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="draggable"
-                                                        (dragEnd)="markerDragEnd($event)"></agm-marker>
+                                        <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoomSize" (mapClick)="mapClicked($event)" [mapTypeControl]="true">
+                                            <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="draggable" (dragEnd)="markerDragEnd($event)"></agm-marker>
 
-                                            <agm-circle [latitude]="lat" [longitude]="lng"
-                                                        [radius]="locRequest.radiusThreshold" [fillColor]="'red'">
+                                            <agm-circle [latitude]="lat" [longitude]="lng" [radius]="locRequest.radiusThreshold" [fillColor]="'red'">
                                             </agm-circle>
                                         </agm-map>
                                     </div>
@@ -108,8 +105,7 @@
 
                                         <div class="row">
                                             <div class="col-md-8">
-                                                <mat-slider class="w-100" min="1" max="200" name="radius"
-                                                            [(ngModel)]="locRequest.radiusThreshold"></mat-slider>
+                                                <mat-slider class="w-100" min="1" max="200" name="radius" [(ngModel)]="locRequest.radiusThreshold"></mat-slider>
                                                 <div style="margin-top: -15px">
                                                     <p class="float-left text-secondary">0</p>
                                                     <p class="float-right text-secondary">200</p>
@@ -120,7 +116,7 @@
                                             <div class="col-md-4">
                                                 <form>
                                                     <div class="form-group d-inline-flex">
-                                                        <input type="number" class="form-control w-25" name="rad" [(ngModel)]="locRequest.radiusThreshold" (keyup)="validateRadius()">
+                                                        <input type="number" style="width: 35%" class="form-control" name="rad" [(ngModel)]="locRequest.radiusThreshold" (keyup)="validateRadius()">
                                                         <p class="text-brand my-auto font-weight-bold pl-2">Metres</p>
                                                     </div>
                                                 </form>
@@ -131,11 +127,11 @@
                                 </div>
 
                                 <!--<div class="col-md-12 mt-3">-->
-                                    <!--<p class="mb-2 font-weight-bold">Ask my Employees to confirm address</p>-->
-                                    <!--<p class="text-secondary mb-0">During their first clock in, employees will be prompted to confirm their exact locations. Type below to set the number of employees to check with.</p>-->
-                                    <!--<mat-form-field class="w-50">-->
-                                        <!--<input matInput placeholder="No of employees to confirm address with">-->
-                                    <!--</mat-form-field>-->
+                                <!--<p class="mb-2 font-weight-bold">Ask my Employees to confirm address</p>-->
+                                <!--<p class="text-secondary mb-0">During their first clock in, employees will be prompted to confirm their exact locations. Type below to set the number of employees to check with.</p>-->
+                                <!--<mat-form-field class="w-50">-->
+                                <!--<input matInput placeholder="No of employees to confirm address with">-->
+                                <!--</mat-form-field>-->
                                 <!--</div>-->
 
                                 <div class="col-md-12 mt-4">
@@ -145,17 +141,15 @@
                                     <div>
                                         <p class="mb-0 font-weight-bold">Timezone</p>
                                         <mat-form-field class="w-50 input-field">
-                                            <input type="text" matInput placeholder="Search Timezone"
-                                                   (keydown)="filter()" [matAutocomplete]="auto" name="timezone"
-                                                   [(ngModel)]="locRequest.resumptionTimezoneId">
+                                            <input type="text" matInput placeholder="Search Timezone" (keydown)="filter()" [matAutocomplete]="auto" name="timezone" [(ngModel)]="locRequest.resumptionTimezoneId">
                                             <mat-hint *ngIf="resumptionTime">Required</mat-hint>
                                         </mat-form-field>
 
-                                            <mat-autocomplete #auto="matAutocomplete">
-                                                <mat-option *ngFor="let timezone of filteredTimezones" value="{{timezone.zoneId}}">
-                                                    {{timezone.zoneId}} ({{timezone.offset}})
-                                                </mat-option>
-                                            </mat-autocomplete>
+                                        <mat-autocomplete #auto="matAutocomplete">
+                                            <mat-option *ngFor="let timezone of filteredTimezones" value="{{timezone.zoneId}}">
+                                                {{timezone.zoneId}} ({{timezone.offset}})
+                                            </mat-option>
+                                        </mat-autocomplete>
                                     </div>
 
                                     <div>
@@ -187,14 +181,11 @@
                                         <mat-form-field class="input-field w-50">
                                             <div class="row">
                                                 <div class="col-md-8">
-                                                    <input matInput readonly name="clockoutTime"
-                                                           placeholder="(HH:MM AM/PM)" [(ngModel)]="clockoutTime"
-                                                           [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5">
+                                                    <input matInput readonly name="clockoutTime" placeholder="(HH:MM AM/PM)" [(ngModel)]="clockoutTime" [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5">
                                                     <owl-date-time [pickerType]="'timer'" #dt5></owl-date-time>
                                                 </div>
                                                 <div class="col-md-4 text-right">
-                                                    <button class="btn btn-clear" type="button" *ngIf="clockoutTime"
-                                                            (click)="clearClosingTime()"><i class="material-icons">
+                                                    <button class="btn btn-clear" type="button" *ngIf="clockoutTime" (click)="clearClosingTime()"><i class="material-icons">
                                                         clear
                                                     </i></button>
                                                 </div>
@@ -292,16 +283,16 @@
 
                                     <div class="col-md-12 mt-4" *ngIf="resumptionTime">
                                         <!--<mat-form-field class="input-field">-->
-                                            <!--<input type="text" matInput placeholder="Select Timezone" (keydown)="filter()" [matAutocomplete]="auto" name="timezone" [(ngModel)]="locRequest.resumptionTimezoneId">-->
-                                            <!--<mat-hint *ngIf="resumptionTime">Required</mat-hint>-->
+                                        <!--<input type="text" matInput placeholder="Select Timezone" (keydown)="filter()" [matAutocomplete]="auto" name="timezone" [(ngModel)]="locRequest.resumptionTimezoneId">-->
+                                        <!--<mat-hint *ngIf="resumptionTime">Required</mat-hint>-->
                                         <!--</mat-form-field>-->
 
 
                                         <!--<mat-form-field class="input-field">-->
                                         <!--<mat-autocomplete #auto="matAutocomplete">-->
-                                            <!--<mat-option *ngFor="let timezone of filteredTimezones" value="{{timezone.zoneId}}">-->
-                                                <!--{{timezone.zoneId}} ({{timezone.offset}})-->
-                                            <!--</mat-option>-->
+                                        <!--<mat-option *ngFor="let timezone of filteredTimezones" value="{{timezone.zoneId}}">-->
+                                        <!--{{timezone.zoneId}} ({{timezone.offset}})-->
+                                        <!--</mat-option>-->
                                         <!--</mat-autocomplete>-->
 
                                         <!--</mat-form-field>-->
@@ -323,9 +314,9 @@
 
                                 <!--grace period-->
                                 <!--<div class="col-md-12" *ngIf="locRequest.locationType && resumptionTime">-->
-                                    <!--<mat-form-field class="input-field">-->
-                                        <!--<input matInput type="number" min="0" placeholder="Enter a grace period in minutes" name="gracePeriod" [(ngModel)]="locRequest.gracePeriodInMinutes">-->
-                                    <!--</mat-form-field>-->
+                                <!--<mat-form-field class="input-field">-->
+                                <!--<input matInput type="number" min="0" placeholder="Enter a grace period in minutes" name="gracePeriod" [(ngModel)]="locRequest.gracePeriodInMinutes">-->
+                                <!--</mat-form-field>-->
                                 <!--</div>-->
 
                                 <ng-container *ngIf="!editMode && locRequest.locationType">
@@ -349,8 +340,8 @@
                                     </div>
 
                                     <!--<div class="col-md-12">-->
-                                        <!--<mat-checkbox name="addNew" [(ngModel)]="addNewLoc">Save location and create another-->
-                                        <!--</mat-checkbox>-->
+                                    <!--<mat-checkbox name="addNew" [(ngModel)]="addNewLoc">Save location and create another-->
+                                    <!--</mat-checkbox>-->
                                     <!--</div>-->
                                 </ng-container>
 
@@ -386,4 +377,3 @@
         </div>
     </form>
 </div>
-
