@@ -1,4 +1,4 @@
-import {BrowserModule} from '@angular/platform-browser';
+import {BrowserModule, HAMMER_GESTURE_CONFIG} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule, HttpClient} from '@angular/common/http';
 
@@ -32,6 +32,7 @@ import { FlowOneComponent } from './pages/auth/flow-one/flow-one.component';
 import { FlowTwoComponent } from './pages/auth/flow-two/flow-two.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { GoogleSignInComponent } from './components/auth/google-sign-in/google-sign-in.component';
+import { GestureConfig } from '@angular/material';
 
 @NgModule({
     declarations: [
@@ -75,7 +76,8 @@ import { GoogleSignInComponent } from './components/auth/google-sign-in/google-s
             provide: HTTP_INTERCEPTORS,
             useClass: ApiInterceptor,
             multi: true
-        }
+        },
+        { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
     ],
     entryComponents: [ChangePasswordComponent],
     bootstrap: [AppComponent]
