@@ -103,7 +103,7 @@ export function createTranslateLoader(http: HttpClient) {
         ModalModule.forRoot(),
         PopoverModule.forRoot(),
         CarouselModule.forRoot(),
-        AlertModule.forRoot({maxMessages: 1, timeout: 5000}),
+        AlertModule.forRoot({maxMessages: 1, timeout: 10000}),
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,

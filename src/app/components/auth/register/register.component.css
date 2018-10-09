@@ -1,11 +1,10 @@
-.flag-img {
+/* .flag-img {
     margin-bottom: -80px;
-}
+} */
 
 .flag-col {
-    margin-top: -28px;
+    margin-top: -4px;
 }
-
 
 .sticky-search {
     position: sticky;
@@ -14,8 +13,1496 @@
     background: #fff;
 }
 
+.sprite {
+    background-image: url("/assets/img/spritesheet.png");
+    background-repeat: no-repeat;
+    display: block;
+}
 
+.ad {
+    width: 29px;
+    height: 20px;
+    background-position: -5px -5px;
+}
 
+.ae {
+    width: 40px;
+    height: 20px;
+    background-position: -44px -5px;
+}
 
+.af {
+    width: 30px;
+    height: 20px;
+    background-position: -94px -5px;
+}
 
+.ag {
+    width: 30px;
+    height: 20px;
+    background-position: -134px -5px;
+}
 
+.ai {
+    width: 30px;
+    height: 15px;
+    background-position: -174px -5px;
+}
+
+.al {
+    width: 28px;
+    height: 20px;
+    background-position: -214px -5px;
+}
+
+.am {
+    width: 40px;
+    height: 20px;
+    background-position: -252px -5px;
+}
+
+.an {
+    width: 30px;
+    height: 20px;
+    background-position: -302px -5px;
+}
+
+.ao {
+    width: 30px;
+    height: 20px;
+    background-position: -342px -5px;
+}
+
+.aq {
+    width: 30px;
+    height: 18px;
+    background-position: -382px -5px;
+}
+
+.ar {
+    width: 31px;
+    height: 20px;
+    background-position: -422px -5px;
+}
+
+.as {
+    width: 30px;
+    height: 15px;
+    background-position: -463px -5px;
+}
+
+.at {
+    width: 30px;
+    height: 20px;
+    background-position: -503px -5px;
+}
+
+.au {
+    width: 40px;
+    height: 20px;
+    background-position: -5px -35px;
+}
+
+.aw {
+    width: 30px;
+    height: 19px;
+    background-position: -55px -35px;
+}
+
+.ax {
+    width: 30px;
+    height: 19px;
+    background-position: -95px -35px;
+}
+
+.az {
+    width: 40px;
+    height: 20px;
+    background-position: -135px -35px;
+}
+
+.ba {
+    width: 40px;
+    height: 20px;
+    background-position: -185px -35px;
+}
+
+.bb {
+    width: 30px;
+    height: 20px;
+    background-position: -235px -35px;
+}
+
+.bd {
+    width: 33px;
+    height: 20px;
+    background-position: -275px -35px;
+}
+
+.be {
+    width: 23px;
+    height: 20px;
+    background-position: -318px -35px;
+}
+
+.bf {
+    width: 30px;
+    height: 20px;
+    background-position: -351px -35px;
+}
+
+.bg {
+    width: 33px;
+    height: 20px;
+    background-position: -391px -35px;
+}
+
+.bh {
+    width: 33px;
+    height: 20px;
+    background-position: -434px -35px;
+}
+
+.bi {
+    width: 33px;
+    height: 20px;
+    background-position: -477px -35px;
+}
+
+.bj {
+    width: 30px;
+    height: 20px;
+    background-position: -520px -35px;
+}
+
+.bm {
+    width: 30px;
+    height: 15px;
+    background-position: -5px -65px;
+}
+
+.bn {
+    width: 40px;
+    height: 20px;
+    background-position: -45px -65px;
+}
+
+.bo {
+    width: 29px;
+    height: 20px;
+    background-position: -95px -65px;
+}
+
+.br {
+    width: 29px;
+    height: 20px;
+    background-position: -134px -65px;
+}
+
+.bs {
+    width: 40px;
+    height: 20px;
+    background-position: -173px -65px;
+}
+
+.bt {
+    width: 30px;
+    height: 20px;
+    background-position: -223px -65px;
+}
+
+.bv {
+    width: 30px;
+    height: 16px;
+    background-position: -263px -65px;
+}
+
+.bw {
+    width: 30px;
+    height: 20px;
+    background-position: -303px -65px;
+}
+
+.by {
+    width: 40px;
+    height: 20px;
+    background-position: -343px -65px;
+}
+
+.bz {
+    width: 30px;
+    height: 20px;
+    background-position: -393px -65px;
+}
+
+.ca {
+    width: 40px;
+    height: 20px;
+    background-position: -433px -65px;
+}
+
+.cc {
+    width: 30px;
+    height: 15px;
+    background-position: -483px -65px;
+}
+
+.cd {
+    width: 30px;
+    height: 20px;
+    background-position: -523px -65px;
+}
+
+.cf {
+    width: 30px;
+    height: 20px;
+    background-position: -5px -95px;
+}
+
+.cg {
+    width: 30px;
+    height: 20px;
+    background-position: -45px -95px;
+}
+
+.ch {
+    width: 20px;
+    height: 20px;
+    background-position: -85px -95px;
+}
+
+.ci {
+    width: 30px;
+    height: 20px;
+    background-position: -115px -95px;
+}
+
+.ck {
+    width: 30px;
+    height: 15px;
+    background-position: -155px -95px;
+}
+
+.cl {
+    width: 30px;
+    height: 20px;
+    background-position: -195px -95px;
+}
+
+.cm {
+    width: 30px;
+    height: 20px;
+    background-position: -235px -95px;
+}
+
+.cn {
+    width: 30px;
+    height: 20px;
+    background-position: -275px -95px;
+}
+
+.co {
+    width: 30px;
+    height: 20px;
+    background-position: -315px -95px;
+}
+
+.cr {
+    width: 33px;
+    height: 20px;
+    background-position: -355px -95px;
+}
+
+.cu {
+    width: 40px;
+    height: 20px;
+    background-position: -398px -95px;
+}
+
+.cv {
+    width: 34px;
+    height: 20px;
+    background-position: -448px -95px;
+}
+
+.cw {
+    width: 30px;
+    height: 19px;
+    background-position: -492px -95px;
+}
+
+.cx {
+    width: 30px;
+    height: 15px;
+    background-position: -155px -124px;
+}
+
+.cy {
+    width: 33px;
+    height: 20px;
+    background-position: -492px -124px;
+}
+
+.cz {
+    width: 30px;
+    height: 20px;
+    background-position: -5px -154px;
+}
+
+.de {
+    width: 33px;
+    height: 20px;
+    background-position: -45px -154px;
+}
+
+.dj {
+    width: 30px;
+    height: 20px;
+    background-position: -88px -154px;
+}
+
+.dk {
+    width: 26px;
+    height: 20px;
+    background-position: -128px -154px;
+}
+
+.dm {
+    width: 40px;
+    height: 20px;
+    background-position: -164px -154px;
+}
+
+.do {
+    width: 32px;
+    height: 20px;
+    background-position: -214px -154px;
+}
+
+.dz {
+    width: 30px;
+    height: 20px;
+    background-position: -256px -154px;
+}
+
+.ec {
+    width: 40px;
+    height: 20px;
+    background-position: -296px -154px;
+}
+
+.ee {
+    width: 31px;
+    height: 20px;
+    background-position: -346px -154px;
+}
+
+.eg {
+    width: 30px;
+    height: 20px;
+    background-position: -387px -154px;
+}
+
+.eh {
+    width: 40px;
+    height: 20px;
+    background-position: -427px -154px;
+}
+
+.er {
+    width: 40px;
+    height: 20px;
+    background-position: -477px -154px;
+}
+
+.es {
+    width: 30px;
+    height: 20px;
+    background-position: -5px -184px;
+}
+
+.et {
+    width: 40px;
+    height: 20px;
+    background-position: -45px -184px;
+}
+
+.fi {
+    width: 33px;
+    height: 20px;
+    background-position: -95px -184px;
+}
+
+.fj {
+    width: 40px;
+    height: 20px;
+    background-position: -138px -184px;
+}
+
+.fk {
+    width: 30px;
+    height: 15px;
+    background-position: -188px -184px;
+}
+
+.fm {
+    width: 38px;
+    height: 20px;
+    background-position: -228px -184px;
+}
+
+.fo {
+    width: 30px;
+    height: 21px;
+    background-position: -276px -184px;
+}
+
+.fr {
+    width: 30px;
+    height: 20px;
+    background-position: -316px -184px;
+}
+
+.ga {
+    width: 27px;
+    height: 20px;
+    background-position: -356px -184px;
+}
+
+.gb {
+    width: 40px;
+    height: 20px;
+    background-position: -393px -184px;
+}
+
+.gd {
+    width: 33px;
+    height: 20px;
+    background-position: -443px -184px;
+}
+
+.ge {
+    width: 30px;
+    height: 20px;
+    background-position: -486px -184px;
+}
+
+.gf {
+    width: 30px;
+    height: 20px;
+    background-position: -5px -214px;
+}
+
+.gg {
+    width: 30px;
+    height: 20px;
+    background-position: -45px -214px;
+}
+
+.gh {
+    width: 30px;
+    height: 20px;
+    background-position: -85px -214px;
+}
+
+.gi {
+    width: 30px;
+    height: 15px;
+    background-position: -125px -214px;
+}
+
+.gl {
+    width: 30px;
+    height: 19px;
+    background-position: -165px -214px;
+}
+
+.gm {
+    width: 30px;
+    height: 20px;
+    background-position: -205px -214px;
+}
+
+.gn {
+    width: 30px;
+    height: 20px;
+    background-position: -316px -214px;
+}
+
+.gp {
+    width: 30px;
+    height: 20px;
+    background-position: -356px -214px;
+}
+
+.gq {
+    width: 30px;
+    height: 20px;
+    background-position: -396px -214px;
+}
+
+.gr {
+    width: 30px;
+    height: 20px;
+    background-position: -436px -214px;
+}
+
+.gs {
+    width: 30px;
+    height: 15px;
+    background-position: -476px -214px;
+}
+
+.gt {
+    width: 32px;
+    height: 20px;
+    background-position: -516px -214px;
+}
+
+.gu {
+    width: 30px;
+    height: 16px;
+    background-position: -5px -244px;
+}
+
+.gw {
+    width: 40px;
+    height: 20px;
+    background-position: -45px -244px;
+}
+
+.gy {
+    width: 33px;
+    height: 20px;
+    background-position: -95px -244px;
+}
+
+.hk {
+    width: 30px;
+    height: 19px;
+    background-position: -138px -244px;
+}
+
+.hm {
+    width: 30px;
+    height: 15px;
+    background-position: -178px -244px;
+}
+
+.hn {
+    width: 40px;
+    height: 20px;
+    background-position: -218px -244px;
+}
+
+.hr {
+    width: 40px;
+    height: 20px;
+    background-position: -268px -244px;
+}
+
+.ht {
+    width: 33px;
+    height: 20px;
+    background-position: -318px -244px;
+}
+
+.hu {
+    width: 40px;
+    height: 20px;
+    background-position: -361px -244px;
+}
+
+.id {
+    width: 30px;
+    height: 20px;
+    background-position: -411px -244px;
+}
+
+.ie {
+    width: 40px;
+    height: 20px;
+    background-position: -451px -244px;
+}
+
+.il {
+    width: 28px;
+    height: 20px;
+    background-position: -501px -244px;
+}
+
+.im {
+    width: 30px;
+    height: 15px;
+    background-position: -5px -274px;
+}
+
+.in {
+    width: 30px;
+    height: 20px;
+    background-position: -45px -274px;
+}
+
+.io {
+    width: 30px;
+    height: 15px;
+    background-position: -85px -274px;
+}
+
+.iq {
+    width: 30px;
+    height: 20px;
+    background-position: -125px -274px;
+}
+
+.ir {
+    width: 35px;
+    height: 20px;
+    background-position: -165px -274px;
+}
+
+.is {
+    width: 28px;
+    height: 20px;
+    background-position: -210px -274px;
+}
+
+.it {
+    width: 30px;
+    height: 20px;
+    background-position: -248px -274px;
+}
+
+.je {
+    width: 30px;
+    height: 18px;
+    background-position: -288px -274px;
+}
+
+.jm {
+    width: 40px;
+    height: 20px;
+    background-position: -328px -274px;
+}
+
+.jo {
+    width: 40px;
+    height: 20px;
+    background-position: -378px -274px;
+}
+
+.jp {
+    width: 30px;
+    height: 20px;
+    background-position: -428px -274px;
+}
+
+.ke {
+    width: 30px;
+    height: 20px;
+    background-position: -468px -274px;
+}
+
+.kg {
+    width: 33px;
+    height: 20px;
+    background-position: -508px -274px;
+}
+
+.kh {
+    width: 30px;
+    height: 20px;
+    background-position: -5px -304px;
+}
+
+.ki {
+    width: 40px;
+    height: 20px;
+    background-position: -45px -304px;
+}
+
+.km {
+    width: 33px;
+    height: 20px;
+    background-position: -95px -304px;
+}
+
+.kn {
+    width: 30px;
+    height: 20px;
+    background-position: -138px -304px;
+}
+
+.kp {
+    width: 40px;
+    height: 20px;
+    background-position: -178px -304px;
+}
+
+.kr {
+    width: 30px;
+    height: 20px;
+    background-position: -228px -304px;
+}
+
+.ks {
+    width: 30px;
+    height: 20px;
+    background-position: -268px -304px;
+}
+
+.kw {
+    width: 40px;
+    height: 20px;
+    background-position: -308px -304px;
+}
+
+.ky {
+    width: 30px;
+    height: 15px;
+    background-position: -358px -304px;
+}
+
+.kz {
+    width: 40px;
+    height: 20px;
+    background-position: -398px -304px;
+}
+
+.la {
+    width: 30px;
+    height: 20px;
+    background-position: -448px -304px;
+}
+
+.lb {
+    width: 30px;
+    height: 20px;
+    background-position: -488px -304px;
+}
+
+.lc {
+    width: 40px;
+    height: 20px;
+    background-position: -5px -334px;
+}
+
+.li {
+    width: 33px;
+    height: 20px;
+    background-position: -55px -334px;
+}
+
+.lk {
+    width: 40px;
+    height: 20px;
+    background-position: -98px -334px;
+}
+
+.lr {
+    width: 38px;
+    height: 20px;
+    background-position: -148px -334px;
+}
+
+.ls {
+    width: 30px;
+    height: 20px;
+    background-position: -196px -334px;
+}
+
+.lt {
+    width: 33px;
+    height: 20px;
+    background-position: -236px -334px;
+}
+
+.lu {
+    width: 33px;
+    height: 20px;
+    background-position: -279px -334px;
+}
+
+.lv {
+    width: 40px;
+    height: 20px;
+    background-position: -322px -334px;
+}
+
+.ly {
+    width: 40px;
+    height: 20px;
+    background-position: -372px -334px;
+}
+
+.ma {
+    width: 30px;
+    height: 20px;
+    background-position: -422px -334px;
+}
+
+.mc {
+    width: 30px;
+    height: 24px;
+    background-position: -462px -334px;
+}
+
+.md {
+    width: 40px;
+    height: 20px;
+    background-position: -502px -334px;
+}
+
+.me {
+    width: 40px;
+    height: 20px;
+    background-position: -5px -364px;
+}
+
+.mg {
+    width: 30px;
+    height: 20px;
+    background-position: -55px -364px;
+}
+
+.mh {
+    width: 38px;
+    height: 20px;
+    background-position: -95px -364px;
+}
+
+.mk {
+    width: 40px;
+    height: 20px;
+    background-position: -143px -364px;
+}
+
+.ml {
+    width: 30px;
+    height: 20px;
+    background-position: -193px -364px;
+}
+
+.mm {
+    width: 36px;
+    height: 20px;
+    background-position: -233px -364px;
+}
+
+.mn {
+    width: 40px;
+    height: 20px;
+    background-position: -279px -364px;
+}
+
+.mo {
+    width: 30px;
+    height: 20px;
+    background-position: -329px -364px;
+}
+
+.mp {
+    width: 30px;
+    height: 16px;
+    background-position: -369px -364px;
+}
+
+.mq {
+    width: 30px;
+    height: 19px;
+    background-position: -409px -364px;
+}
+
+.mr {
+    width: 30px;
+    height: 20px;
+    background-position: -502px -364px;
+}
+
+.ms {
+    width: 30px;
+    height: 15px;
+    background-position: -5px -394px;
+}
+
+.mt {
+    width: 30px;
+    height: 20px;
+    background-position: -45px -394px;
+}
+
+.mu {
+    width: 30px;
+    height: 20px;
+    background-position: -85px -394px;
+}
+
+.mv {
+    width: 30px;
+    height: 20px;
+    background-position: -125px -394px;
+}
+
+.mw {
+    width: 30px;
+    height: 20px;
+    background-position: -165px -394px;
+}
+
+.mx {
+    width: 35px;
+    height: 20px;
+    background-position: -205px -394px;
+}
+
+.my {
+    width: 40px;
+    height: 20px;
+    background-position: -250px -394px;
+}
+
+.mz {
+    width: 30px;
+    height: 20px;
+    background-position: -300px -394px;
+}
+
+.na {
+    width: 30px;
+    height: 20px;
+    background-position: -340px -394px;
+}
+
+.nc {
+    width: 30px;
+    height: 20px;
+    background-position: -380px -394px;
+}
+
+.ne {
+    width: 23px;
+    height: 20px;
+    background-position: -527px -154px;
+}
+
+.nf {
+    width: 30px;
+    height: 15px;
+    background-position: -420px -394px;
+}
+
+.ng {
+    width: 40px;
+    height: 20px;
+    background-position: -460px -394px;
+}
+
+.ni {
+    width: 33px;
+    height: 20px;
+    background-position: -510px -394px;
+}
+
+.nl {
+    width: 30px;
+    height: 20px;
+    background-position: -5px -424px;
+}
+
+.no {
+    width: 28px;
+    height: 20px;
+    background-position: -45px -424px;
+}
+
+.np {
+    width: 16px;
+    height: 20px;
+    background-position: -535px -95px;
+}
+
+.nr {
+    width: 40px;
+    height: 20px;
+    background-position: -83px -424px;
+}
+
+.nu {
+    width: 30px;
+    height: 15px;
+    background-position: -133px -424px;
+}
+
+.nz {
+    width: 40px;
+    height: 20px;
+    background-position: -173px -424px;
+}
+
+.om {
+    width: 40px;
+    height: 20px;
+    background-position: -223px -424px;
+}
+
+.pa {
+    width: 30px;
+    height: 20px;
+    background-position: -273px -424px;
+}
+
+.pe {
+    width: 30px;
+    height: 20px;
+    background-position: -313px -424px;
+}
+
+.pf {
+    width: 30px;
+    height: 20px;
+    background-position: -353px -424px;
+}
+
+.pg {
+    width: 27px;
+    height: 20px;
+    background-position: -526px -184px;
+}
+
+.ph {
+    width: 40px;
+    height: 20px;
+    background-position: -393px -424px;
+}
+
+.pk {
+    width: 30px;
+    height: 20px;
+    background-position: -443px -424px;
+}
+
+.pl {
+    width: 32px;
+    height: 20px;
+    background-position: -483px -424px;
+}
+
+.pm {
+    width: 30px;
+    height: 19px;
+    background-position: -5px -454px;
+}
+
+.pn {
+    width: 30px;
+    height: 15px;
+    background-position: -45px -454px;
+}
+
+.pr {
+    width: 30px;
+    height: 20px;
+    background-position: -85px -454px;
+}
+
+.ps {
+    width: 30px;
+    height: 15px;
+    background-position: -125px -454px;
+}
+
+.pt {
+    width: 30px;
+    height: 20px;
+    background-position: -165px -454px;
+}
+
+.pw {
+    width: 32px;
+    height: 20px;
+    background-position: -205px -454px;
+}
+
+.py {
+    width: 33px;
+    height: 20px;
+    background-position: -247px -454px;
+}
+
+.qa {
+    width: 51px;
+    height: 20px;
+    background-position: -290px -454px;
+}
+
+.re {
+    width: 30px;
+    height: 19px;
+    background-position: -351px -454px;
+}
+
+.ro {
+    width: 30px;
+    height: 20px;
+    background-position: -391px -454px;
+}
+
+.rs {
+    width: 30px;
+    height: 20px;
+    background-position: -431px -454px;
+}
+
+.ru {
+    width: 30px;
+    height: 20px;
+    background-position: -471px -454px;
+}
+
+.rw {
+    width: 30px;
+    height: 20px;
+    background-position: -511px -454px;
+}
+
+.sa {
+    width: 30px;
+    height: 20px;
+    background-position: -5px -484px;
+}
+
+.sb {
+    width: 40px;
+    height: 20px;
+    background-position: -45px -484px;
+}
+
+.sc {
+    width: 40px;
+    height: 20px;
+    background-position: -95px -484px;
+}
+
+.sd {
+    width: 40px;
+    height: 20px;
+    background-position: -145px -484px;
+}
+
+.se {
+    width: 32px;
+    height: 20px;
+    background-position: -195px -484px;
+}
+
+.sg {
+    width: 30px;
+    height: 20px;
+    background-position: -237px -484px;
+}
+
+.sh {
+    width: 30px;
+    height: 15px;
+    background-position: -277px -484px;
+}
+
+.si {
+    width: 40px;
+    height: 20px;
+    background-position: -317px -484px;
+}
+
+.sj {
+    width: 30px;
+    height: 21px;
+    background-position: -367px -484px;
+}
+
+.sk {
+    width: 30px;
+    height: 20px;
+    background-position: -407px -484px;
+}
+
+.sl {
+    width: 30px;
+    height: 20px;
+    background-position: -447px -484px;
+}
+
+.sm {
+    width: 27px;
+    height: 20px;
+    background-position: -525px -424px;
+}
+
+.sn {
+    width: 30px;
+    height: 20px;
+    background-position: -487px -484px;
+}
+
+.so {
+    width: 30px;
+    height: 20px;
+    background-position: -5px -514px;
+}
+
+.sr {
+    width: 30px;
+    height: 20px;
+    background-position: -45px -514px;
+}
+
+.ss {
+    width: 30px;
+    height: 15px;
+    background-position: -85px -514px;
+}
+
+.st {
+    width: 40px;
+    height: 20px;
+    background-position: -125px -514px;
+}
+
+.sv {
+    width: 35px;
+    height: 20px;
+    background-position: -175px -514px;
+}
+
+.sx {
+    width: 30px;
+    height: 20px;
+    background-position: -220px -514px;
+}
+
+.sy {
+    width: 30px;
+    height: 20px;
+    background-position: -260px -514px;
+}
+
+.sz {
+    width: 30px;
+    height: 20px;
+    background-position: -300px -514px;
+}
+
+.tc {
+    width: 30px;
+    height: 14px;
+    background-position: -407px -514px;
+}
+
+.td {
+    width: 30px;
+    height: 20px;
+    background-position: -447px -514px;
+}
+
+.tf {
+    width: 30px;
+    height: 19px;
+    background-position: -487px -514px;
+}
+
+.tg {
+    width: 32px;
+    height: 20px;
+    background-position: -543px -5px;
+}
+
+.th {
+    width: 30px;
+    height: 20px;
+    background-position: -560px -35px;
+}
+
+.tj {
+    width: 40px;
+    height: 20px;
+    background-position: -539px -244px;
+}
+
+.tk {
+    width: 30px;
+    height: 15px;
+    background-position: -563px -65px;
+}
+
+.tl {
+    width: 40px;
+    height: 20px;
+    background-position: -551px -274px;
+}
+
+.tm {
+    width: 30px;
+    height: 20px;
+    background-position: -563px -90px;
+}
+
+.tn {
+    width: 30px;
+    height: 20px;
+    background-position: -561px -120px;
+}
+
+.to {
+    width: 40px;
+    height: 20px;
+    background-position: -528px -304px;
+}
+
+.tr {
+    width: 30px;
+    height: 20px;
+    background-position: -560px -150px;
+}
+
+.tt {
+    width: 33px;
+    height: 20px;
+    background-position: -558px -214px;
+}
+
+.tv {
+    width: 40px;
+    height: 20px;
+    background-position: -552px -334px;
+}
+
+.tw {
+    width: 30px;
+    height: 20px;
+    background-position: -563px -180px;
+}
+
+.tz {
+    width: 30px;
+    height: 20px;
+    background-position: -542px -364px;
+}
+
+.ua {
+    width: 30px;
+    height: 20px;
+    background-position: -553px -394px;
+}
+
+.ug {
+    width: 30px;
+    height: 20px;
+    background-position: -562px -424px;
+}
+
+.um {
+    width: 30px;
+    height: 19px;
+    background-position: -551px -454px;
+}
+
+.us {
+    width: 38px;
+    height: 20px;
+    background-position: -551px -483px;
+}
+
+.uy {
+    width: 30px;
+    height: 20px;
+    background-position: -527px -513px;
+}
+
+.uz {
+    width: 40px;
+    height: 20px;
+    background-position: -340px -543px;
+}
+
+.va {
+    width: 20px;
+    height: 20px;
+    background-position: -567px -513px;
+}
+
+.vc {
+    width: 30px;
+    height: 20px;
+    background-position: -85px -543px;
+}
+
+.ve {
+    width: 30px;
+    height: 20px;
+    background-position: -390px -543px;
+}
+
+.vg {
+    width: 30px;
+    height: 15px;
+    background-position: -487px -543px;
+}
+
+.vi {
+    width: 30px;
+    height: 20px;
+    background-position: -527px -543px;
+}
+
+.vn {
+    width: 30px;
+    height: 20px;
+    background-position: -585px -5px;
+}
+
+.vu {
+    width: 33px;
+    height: 20px;
+    background-position: -600px -35px;
+}
+
+.wf {
+    width: 30px;
+    height: 19px;
+    background-position: -603px -65px;
+}
+
+.ws {
+    width: 40px;
+    height: 20px;
+    background-position: -589px -244px;
+}
+
+.ye {
+    width: 30px;
+    height: 20px;
+    background-position: -603px -94px;
+}
+
+.yt {
+    width: 30px;
+    height: 19px;
+    background-position: -601px -124px;
+}
+
+.za {
+    width: 30px;
+    height: 20px;
+    background-position: -603px -153px;
+}
+
+.zm {
+    width: 30px;
+    height: 20px;
+    background-position: -603px -183px;
+}
+
+.zw {
+    width: 40px;
+    height: 20px;
+    background-position: -578px -304px;
+}
