@@ -77,7 +77,12 @@
                 <td>1</td>
                 <td>{{history?.billingCycle == 'MONTHLY'? 'Monthly Subscription':'Annual Subscription'}}, {{history?.planName}} Plan</td>
                 <td>{{history?.currency}}</td>
-                <td>{{history?.amountPaid}}</td>
+                <td>{{history?.amountPaid - history.vat}}</td>
+            </tr>
+            <tr style="border-top: 1px solid #d5d5d5" *ngIf="history?.currency == 'NGN' && history?.vat > 0">
+                <td></td>
+                <td style="text-align: right;"><b>VAT</b></td>
+                <td>{{history.currency }} {{ history.vat}}</td>
             </tr>
             <tr style="border-top: 1px solid #d5d5d5">
                 <td></td>

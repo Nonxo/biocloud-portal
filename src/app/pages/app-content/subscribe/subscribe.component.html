@@ -62,7 +62,9 @@
                         <h2>{{plan.name}}</h2>
                         <h4 class="py-3">
                             <!--{{monthlyPlan? (plan.pricePerMonth | currency:'NGN':'symbol-narrow':'4.0'):(plan.pricePerAnnum | currency:'NGN':'symbol-narrow':'4.0')}}-->
-                            <ng-container *ngIf="plan.maxAttendeeThreshold > 0">{{getPrice(plan) | currency:selectedCurrency:'symbol-narrow':'1.0'}}</ng-container>
+                            <ng-container *ngIf="plan.maxAttendeeThreshold > 0">{{getPrice(plan) |
+                                currency:selectedCurrency:'symbol-narrow':'1.0'}}
+                            </ng-container>
                             <ng-container *ngIf="plan.maxAttendeeThreshold == 0">
                                 <span *ngIf="plan?.maxAttendeeThreshold == 0" class="small" (click)="gotoContactPage()">CONTACT US
                                 </span>
@@ -71,7 +73,9 @@
                         </h4>
 
                         <ul class="list-group mb-4" *ngIf="plan.planId != subscription?.subscriptionPlanId">
-                            <li class="list-group-item  border-0" *ngFor="let features of plan.planFeatures">{{features}}</li>
+                            <li class="list-group-item  border-0" *ngFor="let features of plan.planFeatures">
+                                {{features}}
+                            </li>
                         </ul>
                         <ul class="list-group pt-3" *ngIf="plan.planId == subscription?.subscriptionPlanId">
                             <li class="list-group-item border-0">
@@ -90,13 +94,15 @@
                             <mat-slide-toggle> Yearly (20% OFF)</mat-slide-toggle>
                         </div> -->
                         <ng-container *ngIf="plan.maxAttendeeThreshold > 0">
-                        <button *ngIf="plan.planId != subscription?.subscriptionPlanId || (plan.planId == subscription?.subscriptionPlanId && subscription?.subscriptionStatus == 'EXPIRED')" mat-raised-button
+                            <button
+                                *ngIf="plan.planId != subscription?.subscriptionPlanId || (plan.planId == subscription?.subscriptionPlanId && subscription?.subscriptionStatus == 'EXPIRED')"
+                                mat-raised-button
                                 color="primary" class="px-4 py-2"
                                 (click)="confirmPayment(plan, confirmPaymentTemplate)">SUBSCRIBE
-                        </button>
+                            </button>
                         </ng-container>
                         <p *ngIf="(plan.planId == subscription?.subscriptionPlanId)" mat-raised-button
-                                color="primary" class="px-4 py-2">CURRENT PLAN
+                           color="primary" class="px-4 py-2">CURRENT PLAN
                         </p>
                         <button
                             *ngIf="(plan.planId == subscription?.subscriptionPlanId) && (subscription?.billingCycle == 'MONTHLY' && !monthlyPlan) && subscription?.subscriptionStatus != 'EXPIRED'"
@@ -113,7 +119,7 @@
 
             </div>
             <!--<p class="text-brand text-right font-weight-bold cursor" *ngIf="subscription"><a-->
-                <!--routerLink="/portal/subscription-history">View subscription history</a></p>-->
+            <!--routerLink="/portal/subscription-history">View subscription history</a></p>-->
         </div>
 
     </div>
@@ -148,20 +154,28 @@
                     <p>{{getPrice(selectedPlan) | currency:selectedCurrency:'symbol-narrow':'2.0'}}</p>
                 </div>
                 <ng-container *ngIf="proratedAmount">
-                <div class="col-md-7">
-                    <p class="text-brand font-weight-bold">Prorated amount (Due to switch)</p>
-                </div>
-                <div class="col-md-5">
-                    <p>{{proratedAmount | currency:selectedCurrency:'symbol-narrow':'1.0'}}</p>
-                </div>
+                    <div class="col-md-7">
+                        <p class="text-brand font-weight-bold">Prorated amount (Due to switch)</p>
+                    </div>
+                    <div class="col-md-5">
+                        <p>{{proratedAmount | currency:selectedCurrency:'symbol-narrow':'1.0'}}</p>
+                    </div>
                 </ng-container>
 
                 <div class="col-md-7">
-                    <p class="text-brand font-weight-bold">Special Offer({{monthlyPlan? 0:discountRate}}% off)</p>
+                    <p class="text-brand font-weight-bold">Special Offer ({{ monthlyPlan? 0:discountRate}}% off)</p>
                 </div>
                 <div class="col-md-5">
                     <p>{{discountPrice | currency:selectedCurrency:'symbol-narrow':'1.0'}}</p>
                 </div>
+                <ng-container *ngIf="selectedCurrency == 'NGN'">
+                    <div class="col-md-7">
+                        <p class="text-brand font-weight-bold">VAT ({{ selectedPlan.vat}}%)</p>
+                    </div>
+                    <div class="col-md-5">
+                        <p>{{vat | currency:selectedCurrency:'symbol-narrow':'1.0'}}</p>
+                    </div>
+                </ng-container>
             </div>
 
             <hr>
@@ -200,8 +214,9 @@
         <div class="text-center">
             <img src="assets/img/caution.png" alt="" class="img-fluid" style="max-width: 78px;">
         </div>
-        <p class="text-center pt-2">You are about to subscribe to a service that doesn't support your employees range. You are advised to either
-        <a routerLink="/portal/manage-users">Deactivate</a> some of your employees or choose a suitable plan
+        <p class="text-center pt-2">You are about to subscribe to a service that doesn't support your employees range.
+            You are advised to either
+            <a routerLink="/portal/manage-users">Deactivate</a> some of your employees or choose a suitable plan
         </p>
 
         <div class="col-md-12 text-md-center text-center pt-3 pb-4">

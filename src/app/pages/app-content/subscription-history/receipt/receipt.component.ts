@@ -15,13 +15,14 @@ declare var jsPDF: any;
     templateUrl: './receipt.component.html'
 })
 
-export class ReceiptComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ReceiptComponent implements OnInit, OnDestroy {
 
     public history: any;
     public companyName: string;
     public date: number;
     public base64Img: string;
     public description: string;
+    public vatAmount: number;
 
     constructor(private ds: DataService,
                 private router: Router,
@@ -39,14 +40,11 @@ export class ReceiptComponent implements OnInit, OnDestroy, AfterViewInit {
         this.history = this.ds.getSubHistory();
         this.description = (this.history.billingCycle == 'MONTHLY' ? 'Monthly Subscription, ' : 'Annual Subscription, ') + this.history.planName + ' Plan';
 
+
         this.pictureUtil.imageToBase64('../../../../../assets/img/logos-bc.png', (img) => {
             this.base64Img = img;
             this.download();
         });
-    }
-
-    ngAfterViewInit() {
-
     }
 
     download() {
@@ -61,7 +59,7 @@ export class ReceiptComponent implements OnInit, OnDestroy, AfterViewInit {
                 "qty": 1,
                 "desc": this.description,
                 "currency": this.history.currency,
-                "amount": this.history.amountPaid
+                "amount": (this.history.amountPaid - this.history.vat)
             }
         ];
 
@@ -111,11 +109,19 @@ export class ReceiptComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         });
 
-        doc.setFontSize(12);
-        doc.text('Total', 340, 340);
+        if(this.history.vat > 0 && this.history.currency == 'NGN') {
+            doc.setFontSize(10);
+            doc.text('VAT', 340, 335);
+
+            doc.setFontSize(10);
+            doc.text(this.history.currency + " " + String(this.history.vat), 390, 335);
+        }
 
         doc.setFontSize(12);
-        doc.text(this.history.currency + " " + String(this.history.amountPaid), 390, 340);
+        doc.text('Total', 340, 355);
+
+        doc.setFontSize(12);
+        doc.text(this.history.currency + " " + String(this.history.amountPaid), 390, 355);
 
         doc.setFontSize(11);
         doc.text('Thank you for subscribing', 240, 380);
