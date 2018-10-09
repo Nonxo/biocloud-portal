@@ -196,6 +196,7 @@ export class SubscriptionPlan {
     maxAttendeeThreshold:number;
     autoRenew:boolean;
     planFeatures: string[];
+    vat: number;
 
 }
 

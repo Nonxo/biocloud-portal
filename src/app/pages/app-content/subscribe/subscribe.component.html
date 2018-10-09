@@ -157,10 +157,16 @@
                 </ng-container>
 
                 <div class="col-md-7">
-                    <p class="text-brand font-weight-bold">Special Offer({{monthlyPlan? 0:discountRate}}% off)</p>
+                    <p class="text-brand font-weight-bold">Special Offer ({{ monthlyPlan? 0:discountRate}}% off)</p>
                 </div>
                 <div class="col-md-5">
                     <p>{{discountPrice | currency:selectedCurrency:'symbol-narrow':'1.0'}}</p>
+                </div>
+                <div class="col-md-7">
+                    <p class="text-brand font-weight-bold">VAT ({{ selectedPlan.vat}}%)</p>
+                </div>
+                <div class="col-md-5" *ngIf="selectedCurrency == 'NGN'">
+                    <p>{{vat | currency:selectedCurrency:'symbol-narrow':'1.0'}}</p>
                 </div>
             </div>
 

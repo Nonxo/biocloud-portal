@@ -36,6 +36,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     public renewSub: boolean = true;
     public discountRate:number;
     public discountPrice:number;
+    public vat: number;
     private orgId:string;
     public subscription:any;
     public proratedAmount: number;
@@ -126,6 +127,16 @@ export class SubscribeComponent implements OnInit, OnDestroy {
 
     }
 
+    setVat() {
+        if(this.selectedPlan.vat > 0 && this.selectedCurrency == 'NGN') {
+            this.vat =  Math.round((this.selectedPlan.vat/100) * this.totalAmount);
+            return;
+        }
+
+        this.vat = 0;
+
+    }
+
     getPrice(plan: SubscriptionPlan):number {
         if (this.selectedCurrency == 'NGN') {
             if (this.monthlyPlan) {
@@ -207,7 +218,8 @@ export class SubscribeComponent implements OnInit, OnDestroy {
             this.totalAmount = this.getPrice(plan);
 
             this.setDiscountPrice();
-            this.amountToPay = this.totalAmount - this.discountPrice;
+            this.setVat();
+            this.amountToPay = (this.totalAmount + this.vat) - this.discountPrice;
             this.openModal(template);
         }else {
             this.selectedPlan = plan;
@@ -227,7 +239,8 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                         this.totalAmount = result.amount;
                         this.proratedAmount = result.amount;
                         this.setDiscountPrice();
-                        this.amountToPay = this.proratedAmount - this.discountPrice;
+                        this.setVat()
+                        this.amountToPay = (this.proratedAmount + this.vat) - this.discountPrice;
 
                         this.openModal(this.confirmPaymentTemplate);
                     } else {
