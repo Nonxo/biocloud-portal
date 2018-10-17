@@ -38,6 +38,7 @@ export class SetupComponent implements OnInit {
     filteredTimezones: TimezonePOJO[] = [];
     addNewLoc: boolean;
     inviteEmails: string[] = [];
+    confirmees: string[] = [];
     separatorKeysCodes = [ENTER, COMMA];
     locationTypes = [
         {value: "COUNTRY", name: "Country"},
@@ -48,6 +49,7 @@ export class SetupComponent implements OnInit {
     resumptionTime: Date;
     clockoutTime: Date;
     searchValue:string;
+    verifyLocation: string = 'false';
 
     constructor(private aService: AppConfigService,
                 private modalService: BsModalService,
@@ -181,6 +183,7 @@ export class SetupComponent implements OnInit {
         this.locRequest.address = null;
         this.showMap = false;
         this.searchValue = "";
+        this.confirmees = [];
 
         if (this.locRequest.locationType == 'COUNTRY' || this.locRequest.locationType == 'STATE') {
             this.fetchCountries();
@@ -233,6 +236,8 @@ export class SetupComponent implements OnInit {
             return;
         }
 
+        this.locRequest.verifyLocation = (this.verifyLocation == 'true');
+
         this.loading = true;
         this.editMode ? this.editLocation() : this.saveLocation();
     }
@@ -253,7 +258,7 @@ export class SetupComponent implements OnInit {
             return false;
         }
 
-        if (this.locRequest.locationType == 'SPECIFIC_ADDRESS') {
+        if (this.locRequest.locationType == 'SPECIFIC_ADDRESS' && this.verifyLocation == 'false') {
 
             if (!this.locRequest.address) {
                 this.ns.showError("You must select an Address");
@@ -279,7 +284,13 @@ export class SetupComponent implements OnInit {
         }
 
         if (this.inviteEmails.length > 0) {
-            if (!this.validateEmails()) {
+            if (!this.validateEmails('INVITE')) {
+                return false
+            }
+        }
+
+        if (this.confirmees.length > 0) {
+            if (!this.validateEmails('VERIFY')) {
                 return false
             }
         }
@@ -287,10 +298,11 @@ export class SetupComponent implements OnInit {
         return true;
     }
 
-    validateEmails(): boolean {
+    validateEmails(type: string): boolean {
         let regex = /[^@\s]+@[^@\s]+\.[^@\s]+/;
 
-        for (let a of this.inviteEmails) {
+
+        for (let a of type == 'INVITE'? this.inviteEmails: this.confirmees) {
             if (a) {
                 let res = regex.test(a);
                 if (!res) {
@@ -300,7 +312,7 @@ export class SetupComponent implements OnInit {
             }
         }
 
-        this.locRequest.inviteEmails = this.inviteEmails;
+        type == 'INVITE'? this.locRequest.inviteEmails = this.inviteEmails: this.locRequest.confirmees = this.confirmees;
         return true;
     }
 
@@ -326,6 +338,8 @@ export class SetupComponent implements OnInit {
     }
 
     saveLocation() {
+        console.log(this.locRequest);
+        debugger;
         // noinspection TypeScriptValidateTypes,TypeScriptUnresolvedFunction
         this.aService.saveLocation(this.locRequest)
             .finally(() => {
@@ -527,7 +541,7 @@ export class SetupComponent implements OnInit {
         this.zoomSize = 20;
     }
 
-    addEmails(event) {
+    addEmails(event, type: string) {
         let input, value;
 
         if (event && event.target) {
@@ -543,13 +557,13 @@ export class SetupComponent implements OnInit {
             for (let a of arr) {
                 // Add email
                 if ((a || '').trim()) {
-                    this.inviteEmails.push(a.trim());
+                    type == 'INVITE'? this.inviteEmails.push(a.trim()): this.confirmees.push(a.trim());
                 }
             }
         } else {
             // Add email
             if ((value || '').trim()) {
-                this.inviteEmails.push(value.trim());
+                type == 'INVITE'? this.inviteEmails.push(value.trim()): this.confirmees.push(value.trim());
             }
         }
 
@@ -559,11 +573,11 @@ export class SetupComponent implements OnInit {
         }
     }
 
-    removeEmail(email: any): void {
-        let index = this.inviteEmails.indexOf(email);
+    removeEmail(email: any, type: string): void {
+        let index = type == 'INVITE'? this.inviteEmails.indexOf(email): this.confirmees.indexOf(email);
 
         if (index >= 0) {
-            this.inviteEmails.splice(index, 1);
+            type == 'INVITE'? this.inviteEmails.splice(index, 1): this.confirmees.splice(index, 1);
         }
     }
 
@@ -601,4 +615,6 @@ export class SetupComponent implements OnInit {
         this.checkValidCoordinate(this.searchValue);
     }
 
+    verifyLoc() {
+    }
 }
