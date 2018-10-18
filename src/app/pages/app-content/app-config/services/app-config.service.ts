@@ -106,6 +106,7 @@ export class AppConfigService {
     }
 
     editLocation(model:LocationRequest): Observable<any>{
+      debugger;
         model.orgId = this.ss.getSelectedOrg()? this.ss.getSelectedOrg().orgId:null;
         model.createdBy = this.ss.getLoggedInUserEmail();
 
@@ -130,7 +131,7 @@ export class AppConfigService {
             )
     }
 
-    fetchTimezones(): Observable<any> {        
+    fetchTimezones(): Observable<any> {
         return this.httpClient
                 .get(Endpoints.FETCH_TIMEZONES, {
                 headers: new HttpHeaders()

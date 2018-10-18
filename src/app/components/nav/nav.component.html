@@ -185,8 +185,8 @@
 
         <mat-menu #notify="matMenu" class="p-0">
             <div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications | slice:0:5; let i=index">
-                <img *ngIf="!notif.verifiableImg" class="mr-3 rounded-circle" src="assets/img/1.png" style="max-height:3em;">
-                <img *ngIf="notif.verifiableImg" class="mr-3 rounded-circle " src="data:image/jpg;base64,{{notif.verifiableImg}}" style="max-height:3em;">
+                <img *ngIf="!notif.croppedImg" class="mr-3 rounded-circle" src="assets/img/1.png" style="max-height:3em;">
+                <img *ngIf="notif.croppedImg" class="mr-3 rounded-circle " src="data:image/jpg;base64,{{notif.croppedImg}}" style="max-height:3em;">
                 <div class="media-body">
                     <small><b>{{notif.firstName}} {{notif.lastName}}</b> has requested to join {{notif.orgName}} as an
                         emplo...
@@ -195,7 +195,7 @@
                         <small class="row">
                             <div class="mr-auto">{{notif.created | date:'short'}}</div>
                             <div class="ml-auto pr-3"
-                                 (click)="openAttendeesDetailsModal(notificationTemplate, notif.locIds, notif.inviteId)">
+                                 (click)="openAttendeesDetailsModal(notificationTemplate, notif.locIds, notif.referenceId)">
                                 <span class="badge badge-dark cursor">Details</span></div>
                         </small>
                     </div>
