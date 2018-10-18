@@ -78,7 +78,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.notifications = result.attendees ? result.attendees : [];
+                        this.notifications = result.notif ? result.notif : [];
                     } else {
                         this.ns.showError(result.description)
                     }

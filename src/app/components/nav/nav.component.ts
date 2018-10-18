@@ -275,7 +275,7 @@ export class NavComponent implements OnInit, OnDestroy {
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.notifications = result.attendees ? result.attendees : [];
+                        this.notifications = result.notif ? result.notif : [];
                         this.showNotifBadge();
                     } else {
                         // this.notifications = [];
