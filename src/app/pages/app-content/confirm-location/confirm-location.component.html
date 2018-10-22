@@ -1,0 +1,66 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Confirm Location</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="container py-5">
+    <!--Map-->
+    <div class="col-md-12 mt-3 pl-0 pr-0">
+
+        <agm-map [latitude]="locRequest.suggestedLat" [longitude]="locRequest.suggestedLng" [zoom]="15"
+                  [mapTypeControl]="true">
+            <agm-marker [latitude]="locRequest.suggestedLat" [longitude]="locRequest.suggestedLng" [markerDraggable]="true"
+                        ></agm-marker>
+
+            <agm-circle [latitude]="locRequest.suggestedLat" [longitude]="locRequest.suggestedLng"
+                        [radius]="locRequest.suggestedRadius" [fillColor]="'red'">
+            </agm-circle>
+        </agm-map>
+    </div>
+
+    <div class="col-md-12 mt-3 pl-0 pr-0">
+        <p class="mb-2 font-weight-bold mt-4">Coverage Radius in Meters</p>
+        <p class="text-secondary mb-0">Drag Slider Left to right to set clock in Range
+            for the Location</p>
+
+        <div class="row">
+            <div class="col-md-8">
+                <mat-slider class="w-100" min="1" max="200" name="radius"
+                            [(ngModel)]="locRequest.suggestedRadius"></mat-slider>
+                <div style="margin-top: -15px">
+                    <p class="float-left text-secondary">0</p>
+                    <p class="float-right text-secondary">200</p>
+                    <div class="clear-fix"></div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <form>
+                    <div class="form-group d-inline-flex">
+                        <input type="number" style="width: 35%" class="form-control"
+                               name="rad" [(ngModel)]="locRequest.suggestedRadius"
+                               (keyup)="validateRadius()">
+                        <p class="text-brand my-auto font-weight-bold pl-2">Metres</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-12 text-md-center text-center pt-5">
+        <ng-container>
+
+            <button mat-button class="primary-outline" type="button" (click)="approveCoordinates('DECLINED')">Decline</button>
+
+            <button mat-raised-button color="primary" type="button" (click)="approveCoordinates('APPROVED')" class="primary-outline">
+                Accept
+                <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
+            </button>
+
+        </ng-container>
+    </div>
+
+</div>

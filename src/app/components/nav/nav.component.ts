@@ -1,6 +1,6 @@
 import {Component, OnInit, TemplateRef, HostListener, ViewChild, OnDestroy} from '@angular/core';
 import {Router} from "@angular/router";
-import {BsModalService, BsModalRef} from "ngx-bootstrap/index";
+import {BsModalService, BsModalRef, ModalOptions} from "ngx-bootstrap/index";
 import {StorageService} from "../../service/storage.service";
 import {AppContentService} from "../../pages/app-content/services/app-content.service";
 import {NotifyService} from "../../service/notify.service";
@@ -17,6 +17,7 @@ import {PictureUtil} from "../../util/PictureUtil";
 import {SubscriptionService} from "../../pages/app-content/services/subscription.service";
 import {DateUtil} from "../../util/DateUtil";
 import {SubscriptionMode} from "../../pages/app-content/enums/enums";
+import {ConfirmLocationComponent} from "../../pages/app-content/confirm-location/confirm-location.component";
 declare const gapi: any;
 
 @Component({
@@ -93,6 +94,7 @@ export class NavComponent implements OnInit, OnDestroy {
     showDropdown: boolean;
     range: any[] = [];
     employeeRangeUpperLimit:any;
+    modalOptions:ModalOptions = new ModalOptions();
 
     constructor(private router: Router,
                 private authService: AuthService,
@@ -226,6 +228,18 @@ export class NavComponent implements OnInit, OnDestroy {
         this.callLocationService();
 
 
+    }
+
+    openLocationConfirmationModal(loc:any) {
+            this.modalOptions.class = 'modal-lg mt-0';
+            this.modalOptions.initialState = {
+                locRequest: JSON.parse(JSON.stringify(loc)),
+                editMode: true,
+                lat: loc.latitude? loc.latitude: 9.0820,
+                lng: loc.longitude? loc.longitude: 8.6753
+            }
+            ;
+            this.modalRef = this.modalService.show(ConfirmLocationComponent, this.modalOptions);
     }
 
     onClickedOutside(e: Event) {

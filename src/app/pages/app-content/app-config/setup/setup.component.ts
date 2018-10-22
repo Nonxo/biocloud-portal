@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, NgZone, AfterViewInit, AfterViewChecked} from '@angular/core';
+import {Component, OnInit, TemplateRef, NgZone, AfterViewInit, AfterViewChecked, OnDestroy} from '@angular/core';
 import {LocationRequest, TimezonePOJO} from "../model/app-config.model";
 import {AppConfigService} from "../services/app-config.service";
 import {BsModalService, BsModalRef, ModalOptions} from "ngx-bootstrap/index";
@@ -11,7 +11,6 @@ import {StorageService} from "../../../../service/storage.service";
 import {DateUtil} from "../../../../util/DateUtil";
 import {MessageService} from "../../../../service/message.service";
 import {ENTER, COMMA} from "@angular/cdk/keycodes";
-import {MatChipInputEvent} from "@angular/material/chips";
 import {TranslateService} from "@ngx-translate/core";
 
 @Component({
@@ -19,7 +18,7 @@ import {TranslateService} from "@ngx-translate/core";
     templateUrl: './setup.component.html',
     styleUrls: ['./setup.component.css']
 })
-export class SetupComponent implements OnInit {
+export class SetupComponent implements OnInit, OnDestroy {
 
     locRequest: LocationRequest = new LocationRequest();
     editMode: boolean;
@@ -48,8 +47,8 @@ export class SetupComponent implements OnInit {
     loading: boolean;
     resumptionTime: Date;
     clockoutTime: Date;
-    searchValue:string;
-    verifyLocation: string = 'false';
+    searchValue: string;
+    verifyLocation: string = 'true';
 
     constructor(private aService: AppConfigService,
                 private modalService: BsModalService,
@@ -71,7 +70,9 @@ export class SetupComponent implements OnInit {
 
     ngOnInit() {
 
-        if (this.editMode) {
+        if (this.ss.getLocationObj()) {
+            this.locRequest = this.ss.getLocationObj();
+            this.editMode = true;
             this.setEditMode();
         }
 
@@ -86,6 +87,9 @@ export class SetupComponent implements OnInit {
 
 
     setEditMode() {
+        this.lat = this.locRequest.latitude;
+        this.lng = this.locRequest.longitude;
+
         if (this.locRequest.resumption) {
             this.resumptionTime = this.renderTime(this.locRequest.resumption);
 
@@ -238,6 +242,10 @@ export class SetupComponent implements OnInit {
 
         this.locRequest.verifyLocation = (this.verifyLocation == 'true');
 
+        if (this.locRequest.confirmees.length > 0) {
+            this.locRequest.verificationThreshold = this.locRequest.confirmees.length;
+        }
+
         this.loading = true;
         this.editMode ? this.editLocation() : this.saveLocation();
     }
@@ -284,12 +292,14 @@ export class SetupComponent implements OnInit {
         }
 
         if (this.inviteEmails.length > 0) {
+            this.inviteEmails = this.removeDuplicate(this.inviteEmails);
             if (!this.validateEmails('INVITE')) {
                 return false
             }
         }
 
         if (this.confirmees.length > 0) {
+            this.confirmees = this.removeDuplicate(this.confirmees);
             if (!this.validateEmails('VERIFY')) {
                 return false
             }
@@ -298,11 +308,17 @@ export class SetupComponent implements OnInit {
         return true;
     }
 
+    removeDuplicate(arr: string[]): string[] {
+        let set = new Set(arr);
+
+        return Array.from(set);
+    }
+
     validateEmails(type: string): boolean {
         let regex = /[^@\s]+@[^@\s]+\.[^@\s]+/;
 
 
-        for (let a of type == 'INVITE'? this.inviteEmails: this.confirmees) {
+        for (let a of type == 'INVITE' ? this.inviteEmails : this.confirmees) {
             if (a) {
                 let res = regex.test(a);
                 if (!res) {
@@ -312,7 +328,7 @@ export class SetupComponent implements OnInit {
             }
         }
 
-        type == 'INVITE'? this.locRequest.inviteEmails = this.inviteEmails: this.locRequest.confirmees = this.confirmees;
+        type == 'INVITE' ? this.locRequest.inviteEmails = this.inviteEmails : this.locRequest.confirmees = this.confirmees;
         return true;
     }
 
@@ -326,7 +342,8 @@ export class SetupComponent implements OnInit {
                     if (result.code == 0) {
                         this.ns.showSuccess("Location was successfully updated");
                         this.mService.setEditLocation(true);
-                        this.modalRef.hide();
+                        this.router.navigate(['/portal'])
+                        // this.modalRef.hide();
                     } else {
                         this.ns.showError(result.description);
                     }
@@ -338,8 +355,6 @@ export class SetupComponent implements OnInit {
     }
 
     saveLocation() {
-        console.log(this.locRequest);
-        debugger;
         // noinspection TypeScriptValidateTypes,TypeScriptUnresolvedFunction
         this.aService.saveLocation(this.locRequest)
             .finally(() => {
@@ -557,15 +572,26 @@ export class SetupComponent implements OnInit {
             for (let a of arr) {
                 // Add email
                 if ((a || '').trim()) {
-                    type == 'INVITE'? this.inviteEmails.push(a.trim()): this.confirmees.push(a.trim());
+                    if(type == 'INVITE') {
+                        this.inviteEmails.push(a.trim())
+                    }else {
+                        this.confirmees.push(a.trim());
+                        this.inviteEmails.push(a.trim());
+                    }
                 }
             }
         } else {
             // Add email
             if ((value || '').trim()) {
-                type == 'INVITE'? this.inviteEmails.push(value.trim()): this.confirmees.push(value.trim());
+                if(type == 'INVITE') {
+                    this.inviteEmails.push(value.trim())
+                }else {
+                    this.confirmees.push(value.trim());
+                    this.inviteEmails.push(value.trim());
+                }
             }
         }
+
 
         // Reset the input value
         if (input) {
@@ -574,10 +600,10 @@ export class SetupComponent implements OnInit {
     }
 
     removeEmail(email: any, type: string): void {
-        let index = type == 'INVITE'? this.inviteEmails.indexOf(email): this.confirmees.indexOf(email);
+        let index = type == 'INVITE' ? this.inviteEmails.indexOf(email) : this.confirmees.indexOf(email);
 
         if (index >= 0) {
-            type == 'INVITE'? this.inviteEmails.splice(index, 1): this.confirmees.splice(index, 1);
+            type == 'INVITE' ? this.inviteEmails.splice(index, 1) : this.confirmees.splice(index, 1);
         }
     }
 
@@ -615,6 +641,7 @@ export class SetupComponent implements OnInit {
         this.checkValidCoordinate(this.searchValue);
     }
 
-    verifyLoc() {
+    ngOnDestroy() {
+        this.ss.clearLocationObj();
     }
 }

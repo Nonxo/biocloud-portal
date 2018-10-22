@@ -649,4 +649,19 @@ export class AppContentService {
         )
     }
 
+    approveCoordinates(model: any): Observable<any> {
+        return this.httpClient
+            .post(Endpoints.APPROVE_COORDINATES, JSON.stringify(model), {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            }).pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
 }
