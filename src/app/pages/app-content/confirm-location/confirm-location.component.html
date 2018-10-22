@@ -9,7 +9,7 @@
     <!--Map-->
 
     <div class="col-md-12 pt-4">
-        <p class="text-center">Based on the recent confirmation of <span class="text-brand">Headquarters Location</span> by your employees, here is the suggested coordinate and coverage radius for the Location</p>
+        <p class="text-center">Based on the recent confirmation of <span class="text-brand">{{locRequest.locName}}</span> by your employees, here is the suggested coordinate and coverage radius for the Location</p>
     </div>
     <div class="col-md-12 mt-3 px-lg-5 px-2">
 
@@ -25,11 +25,11 @@
         <p class="mb-2 font-weight-bold">Suggested Coordinates</p>
         <div class="row">
             <div class="col-md-3">
-                <p class="font-weight-bold">Latitude : <span class="font-weight-normal">6.4381</span></p>
+                <p class="font-weight-bold">Latitude : <span class="font-weight-normal">{{locRequest.suggestedLat}}</span></p>
             </div>
 
             <div class="col-md-3">
-                <p class="font-weight-bold">Longitude : <span class="font-weight-normal">3.4718</span></p>
+                <p class="font-weight-bold">Longitude : <span class="font-weight-normal">{{locRequest.suggestedLng}}</span></p>
             </div>
         </div>
     </div>

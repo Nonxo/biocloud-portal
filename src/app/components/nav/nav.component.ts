@@ -233,10 +233,7 @@ export class NavComponent implements OnInit, OnDestroy {
     openLocationConfirmationModal(loc:any) {
             this.modalOptions.class = 'modal-lg mt-0';
             this.modalOptions.initialState = {
-                locRequest: JSON.parse(JSON.stringify(loc)),
-                editMode: true,
-                lat: loc.latitude? loc.latitude: 9.0820,
-                lng: loc.longitude? loc.longitude: 8.6753
+                locRequest: JSON.parse(JSON.stringify(loc))
             }
             ;
             this.modalRef = this.modalService.show(ConfirmLocationComponent, this.modalOptions);
