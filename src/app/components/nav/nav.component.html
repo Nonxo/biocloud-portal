@@ -3,9 +3,8 @@
     <mat-sidenav #sidenav mode="{{sideNavMode}}" [opened]="opener" [ngStyle]="{ 'width.em': sidenavWidth }">
         <div class="nav-header d-md-block d-none">
             <div class="py-4 pb-0 px-3">
-                <img src="assets/img/logo-img.png" class="img-fluid logo-icon" *ngIf="sidenavWidth >= 15"
-                     style="max-height:50px;"/>
-                <img src="assets/img/logo-icon.png" class="img-fluid logo-icon" *ngIf="sidenavWidth < 15"/>
+                <img src="assets/img/logo-img.png" class="img-fluid logo-icon" *ngIf="sidenavWidth >= 15" style="max-height:50px;" />
+                <img src="assets/img/logo-icon.png" class="img-fluid logo-icon" *ngIf="sidenavWidth < 15" />
             </div>
         </div>
 
@@ -26,10 +25,8 @@
 
             <div class=" text-center my-3 px-3 pb-3 border-0" *ngIf="orgs.length > 0 || selectedOrg.orgId">
                 <div class="mx-auto mb-2 container-img-hover">
-                    <img *ngIf="!selectedOrg.logo" src=" assets/img/1.png"
-                         class="image-hover mx-auto img-fluid rounded-circle logo-icon"/>
-                    <img *ngIf="selectedOrg.logo" src="data:image/jpg;base64,{{selectedOrg.logo}}"
-                         class="image-hover mx-auto img-fluid rounded-circle logo-icon"/>
+                    <img *ngIf="!selectedOrg.logo" src=" assets/img/1.png" class="image-hover mx-auto img-fluid rounded-circle logo-icon" />
+                    <img *ngIf="selectedOrg.logo" src="data:image/jpg;base64,{{selectedOrg.logo}}" class="image-hover mx-auto img-fluid rounded-circle logo-icon" />
                     <div class="middle" *hasAuthority="'GENERAL_ADMIN'">
                         <span class="fileUpload btn">
                             <span><mat-icon class="float-left text-white upload-icon">camera_enhance</mat-icon></span>
@@ -64,12 +61,9 @@
                     <!--</li>-->
 
                     <ng-container *ngFor="let org of orgs">
-                        <li *ngIf="org.orgId != selectedOrg.orgId" class="media my-3 cursor d-flex align-items-center"
-                            (click)="selectOrg(org)">
-                            <img *ngIf="!org.logo" class="mr-3 rounded-circle" src="assets/img/2.jpg"
-                                 style="max-height:2.5em;">
-                            <img *ngIf="org.logo" class="mr-3 rounded-circle" src="data:image/jpg;base64,{{org.logo}}"
-                                 style="max-height:2.5em;">
+                        <li *ngIf="org.orgId != selectedOrg.orgId" class="media my-3 cursor d-flex align-items-center" (click)="selectOrg(org)">
+                            <img *ngIf="!org.logo" class="mr-3 rounded-circle" src="assets/img/2.jpg" style="max-height:2.5em;">
+                            <img *ngIf="org.logo" class="mr-3 rounded-circle" src="data:image/jpg;base64,{{org.logo}}" style="max-height:2.5em;">
                             <div class="media-body text-white">
                                 <b class="mt-0 mb-1 text-capitalize">{{org.name}}</b>
                                 <!--<small>123 Attendees</small>-->
@@ -104,8 +98,7 @@
                     </a>
                 </li>
                 <ng-container *ngFor="let view of views">
-                    <li routerLinkActive="active" id="view.route" *hasAuthority="view.authority"
-                        (click)="toggleClass(false)">
+                    <li routerLinkActive="active" id="view.route" *hasAuthority="view.authority" (click)="toggleClass(false)">
                         <a routerLink="{{view.url}}" mat-list-item>
                             <mat-icon mat-list-icon>{{view.icon}}</mat-icon>
                             <span mat-line>{{view.route}}</span>
@@ -136,8 +129,7 @@
                 </ul>
             </ul>
             <ul>
-                <li routerLinkActive="active" id="admin" *hasAuthority="['GENERAL_ADMIN','LOCATION_ADMIN']"
-                    (click)="activeClass = ''">
+                <li routerLinkActive="active" id="admin" *hasAuthority="['GENERAL_ADMIN','LOCATION_ADMIN']" (click)="activeClass = ''">
                     <a routerLink="/portal/manage-admins" mat-list-item class="text-white">
                         <mat-icon mat-list-icon>group</mat-icon>
                         <span mat-line>Admins</span>
@@ -159,13 +151,11 @@
   <img src="assets/img/logo-icon.svg" class="img-fluid logo-icon" *ngIf="sidenavWidth < 15"/>
 </div>-->
 
-        <button mat-icon-button (click)="toggleNavFromHam(false)" class="d-none d-md-block" *ngIf="sidenavWidth >= 15"
-                matTooltip="Minimize navigation">
+        <button mat-icon-button (click)="toggleNavFromHam(false)" class="d-none d-md-block" *ngIf="sidenavWidth >= 15" matTooltip="Minimize navigation">
             <mat-icon>fullscreen_exit</mat-icon>
         </button>
 
-        <button mat-icon-button (click)="toggleNavFromHam(true)" class="d-none d-md-block" *ngIf="sidenavWidth < 15"
-                matTooltip="Maximize navigation">
+        <button mat-icon-button (click)="toggleNavFromHam(true)" class="d-none d-md-block" *ngIf="sidenavWidth < 15" matTooltip="Maximize navigation">
             <mat-icon>fullscreen</mat-icon>
         </button>
 
@@ -174,14 +164,12 @@
         <span class="example-spacer"></span>
 
         <ng-container *hasAuthority="'GENERAL_ADMIN'">
-            <div *ngIf="subscription?.subscriptionMode.toLowerCase() == 'TRIAL'.toLowerCase() && daysLeft > 0"
-                 class="trial-div-success d-xl-inline-flex d-none">
+            <div *ngIf="subscription?.subscriptionMode.toLowerCase() == 'TRIAL'.toLowerCase() && daysLeft > 0" class="trial-div-success d-xl-inline-flex d-none">
                 <p (click)="goToSubscription()" class="small trial-p cursor">Trial Expires in: {{daysLeft}} day(s)</p>
                 <button (click)="goToSubscription()" class="btn btn-trial-subscribe cursor">Subscribe Now</button>
             </div>
 
-            <div *ngIf="subscription?.subscriptionStatus.toLowerCase() == 'EXPIRED'.toLowerCase()"
-                 class="trial-div-danger d-xl-inline-flex d-none">
+            <div *ngIf="subscription?.subscriptionStatus.toLowerCase() == 'EXPIRED'.toLowerCase()" class="trial-div-danger d-xl-inline-flex d-none">
                 <p (click)="goToSubscription()" class="small trial-p cursor">Subscription Plan Expired</p>
                 <button (click)="goToSubscription()" class="btn btn-trial-danger cursor">Subscribe Now</button>
             </div>
@@ -190,8 +178,7 @@
         <!--<button mat-icon-button class="pr-5" matTooltip="Switch to bioregistra">-->
         <!--<mat-icon class="example-icon">apps</mat-icon>-->
         <!--</button>-->
-        <button mat-icon-button class="pr-5" [matMenuTriggerFor]="notify" *hasAuthority="'GENERAL_ADMIN'"
-                (click)="notifService()">
+        <button mat-icon-button class="pr-5" [matMenuTriggerFor]="notify" *hasAuthority="'GENERAL_ADMIN'" (click)="notifService()">
             <mat-icon class="example-icon">notifications</mat-icon>
             <span class="badge badge-danger free-flows" *ngIf="notifAlert">{{notificationLength}}</span>
         </button>
@@ -200,10 +187,8 @@
             <div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications | slice:0:5; let i=index">
 
                 <ng-container *ngIf="notif.notifType == 'USER_INVITE'">
-                    <img *ngIf="!notif.croppedImg" class="mr-3 rounded-circle" src="assets/img/1.png"
-                         style="max-height:3em;">
-                    <img *ngIf="notif.croppedImg" class="mr-3 rounded-circle "
-                         src="data:image/jpg;base64,{{notif.croppedImg}}" style="max-height:3em;">
+                    <img *ngIf="!notif.croppedImg" class="mr-3 rounded-circle" src="assets/img/1.png" style="max-height:3em;">
+                    <img *ngIf="notif.croppedImg" class="mr-3 rounded-circle " src="data:image/jpg;base64,{{notif.croppedImg}}" style="max-height:3em;">
                     <div class="media-body">
                         <small><b>{{notif.firstName}} {{notif.lastName}}</b> has requested to join {{notif.orgName}} as
                             an
@@ -221,8 +206,7 @@
                 </ng-container>
 
                 <ng-container *ngIf="notif.notifType == 'LOCATION_CONFIRMATION'">
-                    <img class="mr-3 rounded-circle" src="assets/img/1.png"
-                         style="max-height:3em;">
+                    <img class="mr-3 rounded-circle" src="assets/img/location-notification.png" style="max-height:3em;">
                     <div class="media-body">
                         <small>Estimated Coordinates for {{notif.locName}} is now Available. Click to accept</small>
                         <div class="container-fluid">
@@ -290,24 +274,20 @@
         <form (ngSubmit)="saveOrg()" name="orgCreationForm" #orgCreationForm="ngForm" ngNativeValidate>
             <div class="col-md-12">
                 <mat-form-field class="input-field">
-                    <input matInput placeholder="Company Name" name="orgName" #orgName="ngModel"
-                           [(ngModel)]="orgRequest.name" required>
+                    <input matInput placeholder="Company Name" name="orgName" #orgName="ngModel" [(ngModel)]="orgRequest.name" required>
                 </mat-form-field>
             </div>
             <div class="col-md-12">
                 <mat-form-field class="input-field">
-                    <mat-select placeholder="Company Type" name="orgType" #orgType="ngModel"
-                                [(ngModel)]="orgRequest.type" [required]="true">
+                    <mat-select placeholder="Company Type" name="orgType" #orgType="ngModel" [(ngModel)]="orgRequest.type" [required]="true">
                         <mat-option *ngFor="let type of orgTypes" value="{{type.name}}">{{type.name}}</mat-option>
                     </mat-select>
                     <mat-error *ngIf="orgType.errors?.required">You must make a selection</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="input-field">
-                    <mat-select placeholder="Company Size" name="employeeRange" #employeeRange="ngModel"
-                                [(ngModel)]="employeeRangeUpperLimit" [required]="true">
-                        <mat-option *ngFor="let r of range" value="{{r.upperLimit}}">{{r.lowerLimit}} -
-                            {{r.upperLimit}}
+                    <mat-select placeholder="Company Size" name="employeeRange" #employeeRange="ngModel" [(ngModel)]="employeeRangeUpperLimit" [required]="true">
+                        <mat-option *ngFor="let r of range" value="{{r.upperLimit}}">{{r.lowerLimit}} - {{r.upperLimit}}
                         </mat-option>
                     </mat-select>
                     <mat-error *ngIf="employeeRange.errors?.required">You must make a selection</mat-error>
@@ -353,10 +333,8 @@
         <p class="pl-lg-3 pr-lg-3 text-center">Approve or Decline Request to proceed...</p>
 
         <div class="pt-3">
-            <img *ngIf="!details.verifiableImg" src="assets/img/1.png" class="w-25 rounded-circle mx-auto d-block"
-                 alt="Profile picture" style="height: 100px;">
-            <img *ngIf="details.verifiableImg" src="data:image/jpg;base64,{{details.verifiableImg}}"
-                 class=" w-25 rounded-circle mx-auto d-block" alt="Profile pciture" style="height: 100px;">
+            <img *ngIf="!details.verifiableImg" src="assets/img/1.png" class="w-25 rounded-circle mx-auto d-block" alt="Profile picture" style="height: 100px;">
+            <img *ngIf="details.verifiableImg" src="data:image/jpg;base64,{{details.verifiableImg}}" class=" w-25 rounded-circle mx-auto d-block" alt="Profile pciture" style="height: 100px;">
 
         </div>
 
@@ -368,11 +346,9 @@
         </div>
 
         <div class="text-center pt-4 pb-5">
-            <button mat-raised-button color="primary" class="primary-outline mr-2"
-                    (click)="approveNotifications(details.email, details.inviteId, 'APPROVED')">Approve
+            <button mat-raised-button color="primary" class="primary-outline mr-2" (click)="approveNotifications(details.email, details.inviteId, 'APPROVED')">Approve
             </button>
-            <button mat-raised-button class="primary-outline"
-                    (click)="rejectNotifications(details.email, details.inviteId,  'REJECTED')" data-dismiss="modal">
+            <button mat-raised-button class="primary-outline" (click)="rejectNotifications(details.email, details.inviteId,  'REJECTED')" data-dismiss="modal">
                 Decline
             </button>
         </div>
@@ -382,14 +358,12 @@
 <ng-template #assignLocation>
     <div class=" modal-header">
         <h4 class="modal-title pull-center text-brand">Assign To Location</h4>
-        <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close"
-                (click)="modalRef.hide()">
+        <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">
-        <p class="text-center">Assign <span class="font-weight-bold">{{details.firstName}} {{details.lastName}}</span>
-            to a location</p>
+        <p class="text-center">Assign <span class="font-weight-bold">{{details.firstName}} {{details.lastName}}</span> to a location</p>
         <div class="container pl-lg-4 pl-2 pt-4">
             <div class="text-center pl-lg-5 pl-4">
                 <mat-form-field class="form-width-70">
