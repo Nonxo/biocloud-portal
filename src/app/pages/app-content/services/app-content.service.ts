@@ -4,7 +4,7 @@ import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../util/endpoints";
 import {
     CreateOrgRequest, AssignUserRequest, ApproveRequest, AdminRemovalRequest, UpdateProfile,
-    AttendeesPOJO, HistoryPojo, UserPaginationPojo
+    AttendeesPOJO, HistoryPojo, UserPaginationPojo, ApproveCoordinate
 } from "../model/app-content.model";
 import {StorageService} from "../../../service/storage.service";
 import {MediaType} from "../../../util/constants";
@@ -649,7 +649,7 @@ export class AppContentService {
         )
     }
 
-    approveCoordinates(model: any): Observable<any> {
+    approveCoordinates(model: ApproveCoordinate): Observable<any> {
         return this.httpClient
             .post(Endpoints.APPROVE_COORDINATES, JSON.stringify(model), {
                 headers: new HttpHeaders()

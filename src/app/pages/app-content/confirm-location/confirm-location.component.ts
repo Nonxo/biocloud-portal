@@ -4,6 +4,7 @@ import {MapsAPILoader} from "@agm/core";
 import {AppContentService} from "../services/app-content.service";
 import {BsModalRef} from "ngx-bootstrap";
 import {NotifyService} from "../../../service/notify.service";
+import {ApproveCoordinate} from "../model/app-content.model";
 
 @Component({
     selector: 'app-confirm-location',
@@ -28,8 +29,8 @@ export class ConfirmLocationComponent implements OnInit {
     }
 
     approveCoordinates(status) {
-        let model = {latitude : this.locRequest.suggestedLat, longitude : this.locRequest.suggestedLng,
-            radius : this.locRequest.suggestedRadius, status, refId: this.locRequest.referenceId, locId: this.locRequest.locId};
+        let model = new ApproveCoordinate(this.locRequest.suggestedLat, this.locRequest.suggestedLng,
+            this.locRequest.suggestedRadius, status, this.locRequest.referenceId, this.locRequest.locId);
 
         this.contentService.approveCoordinates(model)
             .subscribe(

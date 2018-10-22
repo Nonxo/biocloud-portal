@@ -49,6 +49,7 @@ export class SetupComponent implements OnInit, OnDestroy {
     clockoutTime: Date;
     searchValue: string;
     verifyLocation: string = 'true';
+    changeAddress: boolean = false;
 
     constructor(private aService: AppConfigService,
                 private modalService: BsModalService,
@@ -242,7 +243,7 @@ export class SetupComponent implements OnInit, OnDestroy {
 
         this.locRequest.verifyLocation = (this.verifyLocation == 'true');
 
-        if (this.locRequest.confirmees.length > 0) {
+        if (this.locRequest.confirmees && this.locRequest.confirmees.length > 0) {
             this.locRequest.verificationThreshold = this.locRequest.confirmees.length;
         }
 
@@ -639,6 +640,10 @@ export class SetupComponent implements OnInit, OnDestroy {
 
     searchMaps() {
         this.checkValidCoordinate(this.searchValue);
+    }
+
+    onChangeAddress() {
+        this.changeAddress = this.changeAddress? false:true;
     }
 
     ngOnDestroy() {
