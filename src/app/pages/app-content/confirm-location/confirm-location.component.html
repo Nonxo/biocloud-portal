@@ -1,34 +1,46 @@
-<div class="modal-header">
-    <h4 class="modal-title pull-left">Confirm Location</h4>
+<div class="modal-header text-center">
+    <h4 class="text-center text-brand">Confirm Location</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
 
-<div class="container py-5">
+<div class="container">
     <!--Map-->
-    <div class="col-md-12 mt-3 pl-0 pr-0">
 
-        <agm-map [latitude]="locRequest.suggestedLat" [longitude]="locRequest.suggestedLng" [zoom]="15"
-                  [mapTypeControl]="true">
-            <agm-marker [latitude]="locRequest.suggestedLat" [longitude]="locRequest.suggestedLng" [markerDraggable]="true"
-                        ></agm-marker>
+    <div class="col-md-12 pt-4">
+        <p class="text-center">Based on the recent confirmation of <span class="text-brand">Headquarters Location</span> by your employees, here is the suggested coordinate and coverage radius for the Location</p>
+    </div>
+    <div class="col-md-12 mt-3 px-lg-5 px-2">
 
-            <agm-circle [latitude]="locRequest.suggestedLat" [longitude]="locRequest.suggestedLng"
-                        [radius]="locRequest.suggestedRadius" [fillColor]="'red'">
+        <agm-map [latitude]="locRequest.suggestedLat" [longitude]="locRequest.suggestedLng" [zoom]="15" [mapTypeControl]="true">
+            <agm-marker [latitude]="locRequest.suggestedLat" [longitude]="locRequest.suggestedLng" [markerDraggable]="true"></agm-marker>
+
+            <agm-circle [latitude]="locRequest.suggestedLat" [longitude]="locRequest.suggestedLng" [radius]="locRequest.suggestedRadius" [fillColor]="'red'">
             </agm-circle>
         </agm-map>
     </div>
 
-    <div class="col-md-12 mt-3 pl-0 pr-0">
+    <div class="px-lg-5 px-2 pt-4">
+        <p class="mb-2 font-weight-bold">Suggested Coordinates</p>
+        <div class="row">
+            <div class="col-md-3">
+                <p class="font-weight-bold">Latitude : <span class="font-weight-normal">6.4381</span></p>
+            </div>
+
+            <div class="col-md-3">
+                <p class="font-weight-bold">Longitude : <span class="font-weight-normal">3.4718</span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 px-lg-5 px-2">
         <p class="mb-2 font-weight-bold mt-4">Coverage Radius in Meters</p>
-        <p class="text-secondary mb-0">Drag Slider Left to right to set clock in Range
-            for the Location</p>
+        <p class="text-secondary mb-0">Drag Slider Left to right to set clock in Range for the Location</p>
 
         <div class="row">
             <div class="col-md-8">
-                <mat-slider class="w-100" min="1" max="200" name="radius"
-                            [(ngModel)]="locRequest.suggestedRadius"></mat-slider>
+                <mat-slider class="w-100" min="1" max="200" name="radius" [(ngModel)]="locRequest.suggestedRadius"></mat-slider>
                 <div style="margin-top: -15px">
                     <p class="float-left text-secondary">0</p>
                     <p class="float-right text-secondary">200</p>
@@ -39,9 +51,7 @@
             <div class="col-md-4">
                 <form>
                     <div class="form-group d-inline-flex">
-                        <input type="number" style="width: 35%" class="form-control"
-                               name="rad" [(ngModel)]="locRequest.suggestedRadius"
-                               (keyup)="validateRadius()">
+                        <input type="number" style="width: 35%" class="form-control" name="rad" [(ngModel)]="locRequest.suggestedRadius" (keyup)="validateRadius()">
                         <p class="text-brand my-auto font-weight-bold pl-2">Metres</p>
                     </div>
                 </form>
@@ -50,7 +60,7 @@
 
     </div>
 
-    <div class="col-md-12 text-md-center text-center pt-5">
+    <div class="col-md-12 text-right px-lg-5 px-2 pt-4 pb-5">
         <ng-container>
 
             <button mat-button class="primary-outline" type="button" (click)="approveCoordinates('DECLINED')">Decline</button>
