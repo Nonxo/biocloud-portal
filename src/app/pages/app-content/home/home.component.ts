@@ -97,6 +97,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 result => {
                     if (result.code == 0) {
                         this.locations = result.locations ? result.locations : [];
+                        this.locations.sort((a,b) => b.created - a.created);
                         this.mService.setDisplay(false);
                         this.fetchTotalClockIns();
                         this.fetchClockInsHistory();
