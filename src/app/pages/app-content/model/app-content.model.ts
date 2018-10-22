@@ -289,6 +289,23 @@ export class DaysPresentRequest {
     }
 }
 
+export class ApproveCoordinate {
+    latitude: number;
+    longitude: number;
+    radius: number;
+    status: string;
+    refId: string;
+    locId: string;
+
+    constructor(lat: number, lng: number, rad: number, status: string, refId: string, locId: string) {
+        this.latitude = lat;
+        this.longitude  = lng;
+        this.radius = rad;
+        this.status = status;
+        this.refId = refId;
+        this.locId = locId;
+    }
+}
 
 
 

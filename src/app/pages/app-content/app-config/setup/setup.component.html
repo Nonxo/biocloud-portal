@@ -1,8 +1,8 @@
 <!--<div *ngIf="editMode" class="modal-header">-->
-    <!--<h4 class="modal-title pull-left">{{title}}</h4>-->
-    <!--<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">-->
-        <!--<span aria-hidden="true">&times;</span>-->
-    <!--</button>-->
+<!--<h4 class="modal-title pull-left">{{title}}</h4>-->
+<!--<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">-->
+<!--<span aria-hidden="true">&times;</span>-->
+<!--</button>-->
 <!--</div>-->
 
 <div class="container py-5">
@@ -15,8 +15,10 @@
                         <div class="col-md-10">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h5 class="text-brand mb-3" *ngIf="!editMode">{{ 'ADD_LOCATION.TITLE' | translate}}</h5>
-                                    <h5 class="text-brand mb-3" *ngIf="editMode">{{ 'EDIT_LOCATION.TITLE' | translate}}</h5>
+                                    <h5 class="text-brand mb-3" *ngIf="!editMode">{{ 'ADD_LOCATION.TITLE' |
+                                        translate}}</h5>
+                                    <h5 class="text-brand mb-3" *ngIf="editMode">{{ 'EDIT_LOCATION.TITLE' |
+                                        translate}}</h5>
                                     <h5 class="font-weight-normal">Welcome! It’s time you set where your employees are
                                         to clock in from? </h5>
                                 </div>
@@ -32,154 +34,166 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-12 mt-4">
-                                    <p class="mb-2 font-weight-bold">Location Type</p>
-                                    <p class="text-secondary">Select the type of Location you will like your employees
-                                        to clock in from</p>
-                                    <mat-radio-group name="locType" [(ngModel)]="locRequest.locationType"
-                                                     (change)="clearData()">
-                                        <mat-radio-button class="pr-2" value="SPECIFIC_ADDRESS">Specific Address
-                                        </mat-radio-button>
-                                        <mat-radio-button class="pr-2" value="STATE">Specific State In A Country
-                                        </mat-radio-button>
-                                        <mat-radio-button value="COUNTRY">Specific Country</mat-radio-button>
-                                    </mat-radio-group>
+                                <div class="col-md-12 mt-4" *ngIf="editMode">
+                                    <p class="badge cursor" (click)="onChangeAddress()">Change address</p>
                                 </div>
 
-                                <div class="col-md-12"
-                                     *ngIf="locRequest.locationType == 'COUNTRY' || locRequest.locationType == 'STATE'">
-                                    <mat-form-field class="input-field w-50">
-                                        <mat-select placeholder="Select Country" name="country"
-                                                    [(ngModel)]="locRequest.countryId"
-                                                    (change)="fetchStates(locRequest.countryId)"
-                                                    [required]="locRequest.locationType == 'COUNTRY' || locRequest.locationType == 'STATE'">
-                                            <mat-option value="0">--</mat-option>
-                                            <mat-option *ngFor="let country of countries" value="{{country.countryId}}">
-                                                {{country.name}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-                                <div class="col-md-12" *ngIf="locRequest.locationType == 'STATE'">
-                                    <mat-form-field class="input-field w-50">
-                                        <mat-select placeholder="Select State" name="states"
-                                                    [(ngModel)]="locRequest.stateId"
-                                                    [required]="locRequest.locationType == 'STATE'">
-                                            <mat-option value="0">--</mat-option>
-                                            <mat-option *ngFor="let state of states" value="{{state.stateId}}">
-                                                {{state.name}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-
-                                <div class="col-md-12 mt-4" *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS'">
-                                    <p class="mb-2 font-weight-bold">Location Address</p>
-                                    <p class="text-secondary">Choose your desired method to add an address to your
-                                        location.</p>
-                                    <mat-radio-group name="verifyLocation" [(ngModel)]="verifyLocation">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <mat-radio-button value=true>Let my employees get the
-                                                    coordinates
-                                                    <mat-icon class="small">help</mat-icon>
-                                                </mat-radio-button>
-                                            </div>
-
-                                            <div class="col-md-12">
-                                                <mat-radio-button value=false>Search for your address or enter
-                                                    coordinates on the map
-                                                    <mat-icon class="small">help</mat-icon>
-                                                </mat-radio-button>
-                                            </div>
-                                        </div>
-                                    </mat-radio-group>
-                                </div>
-
-                                <div class="col-md-12 mt-4"
-                                     *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS' && verifyLocation == 'false'">
-                                    <p class="mb-2 font-weight-bold">Search for Address</p>
-                                    <p class="text-secondary mb-0">Type in the field below to search for your address or
-                                        move the pin on the Map to set address</p>
-                                    <mat-form-field class="w-50">
-                                        <input matInput placeholder="Search address or enter location coordinates"
-                                               name="search" [(ngModel)]="searchValue" id="autocompleteInput"
-                                               (keydown.enter)="$event.preventDefault()">
-                                        <mat-icon matSuffix (click)="searchMaps($event)" class="cursor">search
-                                        </mat-icon>
-                                    </mat-form-field>
-
-
-                                    <!--Map-->
-                                    <div class="col-md-12 mt-3 pl-0 pr-0">
-
-                                        <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoomSize"
-                                                 (mapClick)="mapClicked($event)" [mapTypeControl]="true">
-                                            <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="draggable"
-                                                        (dragEnd)="markerDragEnd($event)"></agm-marker>
-
-                                            <agm-circle [latitude]="lat" [longitude]="lng"
-                                                        [radius]="locRequest.radiusThreshold" [fillColor]="'red'">
-                                            </agm-circle>
-                                        </agm-map>
+                                <ng-container *ngIf="!editMode || editMode && changeAddress">
+                                    <div class="col-md-12 mt-4">
+                                        <p class="mb-2 font-weight-bold">Location Type</p>
+                                        <p class="text-secondary">Select the type of Location you will like your
+                                            employees
+                                            to clock in from</p>
+                                        <mat-radio-group name="locType" [(ngModel)]="locRequest.locationType"
+                                                         (change)="clearData()">
+                                            <mat-radio-button class="pr-2" value="SPECIFIC_ADDRESS">Specific Address
+                                            </mat-radio-button>
+                                            <mat-radio-button class="pr-2" value="STATE">Specific State In A Country
+                                            </mat-radio-button>
+                                            <mat-radio-button value="COUNTRY">Specific Country</mat-radio-button>
+                                        </mat-radio-group>
                                     </div>
 
-                                    <div class="col-md-12 mt-3 pl-0 pr-0">
-                                        <p class="mb-2 font-weight-bold mt-4">Coverage Radius in Meters</p>
-                                        <p class="text-secondary mb-0">Drag Slider Left to right to set clock in Range
-                                            for the Location</p>
+                                    <div class="col-md-12"
+                                         *ngIf="locRequest.locationType == 'COUNTRY' || locRequest.locationType == 'STATE'">
+                                        <mat-form-field class="input-field w-50">
+                                            <mat-select placeholder="Select Country" name="country"
+                                                        [(ngModel)]="locRequest.countryId"
+                                                        (change)="fetchStates(locRequest.countryId)"
+                                                        [required]="locRequest.locationType == 'COUNTRY' || locRequest.locationType == 'STATE'">
+                                                <mat-option value="0">--</mat-option>
+                                                <mat-option *ngFor="let country of countries"
+                                                            value="{{country.countryId}}">
+                                                    {{country.name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-12" *ngIf="locRequest.locationType == 'STATE'">
+                                        <mat-form-field class="input-field w-50">
+                                            <mat-select placeholder="Select State" name="states"
+                                                        [(ngModel)]="locRequest.stateId"
+                                                        [required]="locRequest.locationType == 'STATE'">
+                                                <mat-option value="0">--</mat-option>
+                                                <mat-option *ngFor="let state of states" value="{{state.stateId}}">
+                                                    {{state.name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
 
-                                        <div class="row">
-                                            <div class="col-md-8">
-                                                <mat-slider class="w-100" min="1" max="200" name="radius"
-                                                            [(ngModel)]="locRequest.radiusThreshold"></mat-slider>
-                                                <div style="margin-top: -15px">
-                                                    <p class="float-left text-secondary">0</p>
-                                                    <p class="float-right text-secondary">200</p>
-                                                    <div class="clear-fix"></div>
+                                    <div class="col-md-12 mt-4" *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS'">
+                                        <p class="mb-2 font-weight-bold">Location Address</p>
+                                        <p class="text-secondary">Choose your desired method to add an address to your
+                                            location.</p>
+                                        <mat-radio-group name="verifyLocation" [(ngModel)]="verifyLocation">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <mat-radio-button value=true>Let my employees get the
+                                                        coordinates
+                                                        <mat-icon class="small">help</mat-icon>
+                                                    </mat-radio-button>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <mat-radio-button value=false>Search for your address or enter
+                                                        coordinates on the map
+                                                        <mat-icon class="small">help</mat-icon>
+                                                    </mat-radio-button>
+                                                </div>
+                                            </div>
+                                        </mat-radio-group>
+                                    </div>
+
+                                    <div class="col-md-12 mt-4"
+                                         *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS' && verifyLocation == 'false'">
+                                        <p class="mb-2 font-weight-bold">Search for Address</p>
+                                        <p class="text-secondary mb-0">Type in the field below to search for your
+                                            address or
+                                            move the pin on the Map to set address</p>
+                                        <mat-form-field class="w-50">
+                                            <input matInput placeholder="Search address or enter location coordinates"
+                                                   name="search" [(ngModel)]="searchValue" id="autocompleteInput"
+                                                   (keydown.enter)="$event.preventDefault()">
+                                            <mat-icon matSuffix (click)="searchMaps($event)" class="cursor">search
+                                            </mat-icon>
+                                        </mat-form-field>
+
+
+                                        <!--Map-->
+                                        <div class="col-md-12 mt-3 pl-0 pr-0">
+
+                                            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoomSize"
+                                                     (mapClick)="mapClicked($event)" [mapTypeControl]="true">
+                                                <agm-marker [latitude]="lat" [longitude]="lng"
+                                                            [markerDraggable]="draggable"
+                                                            (dragEnd)="markerDragEnd($event)"></agm-marker>
+
+                                                <agm-circle [latitude]="lat" [longitude]="lng"
+                                                            [radius]="locRequest.radiusThreshold" [fillColor]="'red'">
+                                                </agm-circle>
+                                            </agm-map>
+                                        </div>
+
+                                        <div class="col-md-12 mt-3 pl-0 pr-0">
+                                            <p class="mb-2 font-weight-bold mt-4">Coverage Radius in Meters</p>
+                                            <p class="text-secondary mb-0">Drag Slider Left to right to set clock in
+                                                Range
+                                                for the Location</p>
+
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <mat-slider class="w-100" min="1" max="200" name="radius"
+                                                                [(ngModel)]="locRequest.radiusThreshold"></mat-slider>
+                                                    <div style="margin-top: -15px">
+                                                        <p class="float-left text-secondary">0</p>
+                                                        <p class="float-right text-secondary">200</p>
+                                                        <div class="clear-fix"></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <form>
+                                                        <div class="form-group d-inline-flex">
+                                                            <input type="number" style="width: 35%" class="form-control"
+                                                                   name="rad" [(ngModel)]="locRequest.radiusThreshold"
+                                                                   (keyup)="validateRadius()">
+                                                            <p class="text-brand my-auto font-weight-bold pl-2">
+                                                                Metres</p>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-4">
-                                                <form>
-                                                    <div class="form-group d-inline-flex">
-                                                        <input type="number" style="width: 35%" class="form-control"
-                                                               name="rad" [(ngModel)]="locRequest.radiusThreshold"
-                                                               (keyup)="validateRadius()">
-                                                        <p class="text-brand my-auto font-weight-bold pl-2">Metres</p>
-                                                    </div>
-                                                </form>
-                                            </div>
                                         </div>
-
                                     </div>
-                                </div>
 
-                                <div class="col-md-12 mt-3"
-                                     *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS' && verifyLocation == 'true'">
-                                    <p class="mb-2 font-weight-bold">Ask my Employees to confirm address</p>
-                                    <p class="text-secondary mb-0">During their first clock in, employees will be
-                                        prompted to confirm their exact locations. Type below to set the number of
-                                        employees to check with.</p>
-                                    <mat-form-field class="w-50 input-field demo-chip-list">
-                                        <mat-chip-list #chippList>
-                                            <mat-chip *ngFor="let email of confirmees" [selectable]="true"
-                                                      [removable]="true" (remove)="removeEmail(email, 'VERIFY')">
-                                                {{email}}
-                                                <mat-icon matChipRemove>cancel</mat-icon>
-                                            </mat-chip>
-                                            <input placeholder="Enter Email Address (es)"
-                                                   name="confirmees"
-                                                   (focusout)="addEmails($event, 'VERIFY')"
-                                                   [matChipInputFor]="chippList"
-                                                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                                   [matChipInputAddOnBlur]="addOnBlur"
-                                                   (matChipInputTokenEnd)="addEmails($event, 'VERIFY')"/>
-                                        </mat-chip-list>
-                                        <mat-hint>Separate Multiple entries with comma
-                                        </mat-hint>
-                                    </mat-form-field>
-                                </div>
+                                    <div class="col-md-12 mt-3"
+                                         *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS' && verifyLocation == 'true'">
+                                        <p class="mb-2 font-weight-bold">Ask my Employees to confirm address</p>
+                                        <p class="text-secondary mb-0">During their first clock in, employees will be
+                                            prompted to confirm their exact locations. Type below to set the number of
+                                            employees to check with.</p>
+                                        <mat-form-field class="w-50 input-field demo-chip-list">
+                                            <mat-chip-list #chippList>
+                                                <mat-chip *ngFor="let email of confirmees" [selectable]="true"
+                                                          [removable]="true" (remove)="removeEmail(email, 'VERIFY')">
+                                                    {{email}}
+                                                    <mat-icon matChipRemove>cancel</mat-icon>
+                                                </mat-chip>
+                                                <input placeholder="Enter Email Address (es)"
+                                                       name="confirmees"
+                                                       (focusout)="addEmails($event, 'VERIFY')"
+                                                       [matChipInputFor]="chippList"
+                                                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                       [matChipInputAddOnBlur]="addOnBlur"
+                                                       (matChipInputTokenEnd)="addEmails($event, 'VERIFY')"/>
+                                            </mat-chip-list>
+                                            <mat-hint>Separate Multiple entries with comma
+                                            </mat-hint>
+                                        </mat-form-field>
+                                    </div>
+                                </ng-container>
 
                                 <div class="col-md-12 mt-4">
                                     <h5 class="text-brand mb-3">Timing Setup</h5>

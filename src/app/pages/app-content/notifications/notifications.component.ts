@@ -43,8 +43,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         if (this.ss.getSelectedOrg()) {
             this.orgId = this.ss.getSelectedOrg().orgId;
             this.callNotificationService();
-
-
         }
 
     }
