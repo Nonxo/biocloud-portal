@@ -1,9 +1,9 @@
-<div *ngIf="editMode" class="modal-header">
-    <h4 class="modal-title pull-left">{{title}}</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
+<!--<div *ngIf="editMode" class="modal-header">-->
+    <!--<h4 class="modal-title pull-left">{{title}}</h4>-->
+    <!--<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">-->
+        <!--<span aria-hidden="true">&times;</span>-->
+    <!--</button>-->
+<!--</div>-->
 
 <div class="container py-5">
     <form (ngSubmit)="submit()" name="addLocationForm" #addLocationForm="ngForm" ngNativeValidate>
@@ -15,7 +15,8 @@
                         <div class="col-md-10">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h5 class="text-brand mb-3">{{ 'ADD_LOCATION.TITLE' | translate}}</h5>
+                                    <h5 class="text-brand mb-3" *ngIf="!editMode">{{ 'ADD_LOCATION.TITLE' | translate}}</h5>
+                                    <h5 class="text-brand mb-3" *ngIf="editMode">{{ 'EDIT_LOCATION.TITLE' | translate}}</h5>
                                     <h5 class="font-weight-normal">Welcome! It’s time you set where your employees are
                                         to clock in from? </h5>
                                 </div>
@@ -76,19 +77,18 @@
                                     <p class="mb-2 font-weight-bold">Location Address</p>
                                     <p class="text-secondary">Choose your desired method to add an address to your
                                         location.</p>
-                                    <mat-radio-group name="verifyLocation" [(ngModel)]="verifyLocation"
-                                                     (change)="verifyLoc()">
+                                    <mat-radio-group name="verifyLocation" [(ngModel)]="verifyLocation">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <mat-radio-button value=false>Search for your address or enter
-                                                    coordinates on the map
+                                                <mat-radio-button value=true>Let my employees get the
+                                                    coordinates
                                                     <mat-icon class="small">help</mat-icon>
                                                 </mat-radio-button>
                                             </div>
 
                                             <div class="col-md-12">
-                                                <mat-radio-button value=true>Let my employees get the
-                                                    coordinates
+                                                <mat-radio-button value=false>Search for your address or enter
+                                                    coordinates on the map
                                                     <mat-icon class="small">help</mat-icon>
                                                 </mat-radio-button>
                                             </div>

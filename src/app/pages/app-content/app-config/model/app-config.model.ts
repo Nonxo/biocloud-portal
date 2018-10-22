@@ -20,6 +20,7 @@ export class LocationRequest {
     createdBy:string;
     inviteEmails:string[];
     verifyLocation: boolean;
+    verificationThreshold: number;
     confirmees: string[];
 
     constructor() {

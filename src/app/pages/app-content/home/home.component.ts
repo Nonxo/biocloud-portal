@@ -117,7 +117,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 
     editLocation(loc:LocationRequest) {
-        this.openLocationModal(loc);
+        this.ss.setLocationObj(loc);
+        this.router.navigate(['/portal/config']);
+        // this.openLocationModal(loc);
     }
 
     invite(locId:string) {

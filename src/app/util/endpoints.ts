@@ -67,4 +67,5 @@ export class Endpoints {
     public static SET_AUTO_RENEW = `${Endpoints.BASE_URL}/users/api/subscriptions/set-auto-renew`;
     public static GET_AB_TEST_STATUS = `${Endpoints.BASE_URL}/access/api/abtest/get-status`;
     public static VERIFY_SOCIAL_MEDIA_SIGN_IN = `${Endpoints.BASE_URL}/users/api/social/login`;
+    public static APPROVE_COORDINATES = `${Endpoints.BASE_URL}/users/api/locations/approve`;
 }

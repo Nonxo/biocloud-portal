@@ -22,6 +22,7 @@ import {SubscriptionCardDetailsComponent} from './subscribe/subscription-card-de
 import {EmployeesReportComponent} from "./report-dashboard/employees-report/employees-report.component";
 import {QuickReportComponent} from "./report-dashboard/quick-report/quick-report.component";
 import {MetabaseReportComponent} from "./report-dashboard/analytics/analytics.component";
+import {ConfirmLocationComponent} from "./confirm-location/confirm-location.component";
 
 const routes: Routes = [
     {
@@ -36,6 +37,10 @@ const routes: Routes = [
             {
                 path: 'config',
                 loadChildren: 'app/pages/app-content/app-config/app-config.module#AppConfigModule'
+            },
+            {
+                path: 'map',
+                component: ConfirmLocationComponent
             },
             {
                 path: 'subscribe',

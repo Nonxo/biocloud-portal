@@ -31,6 +31,7 @@ import { EmployeesReportComponent } from './report-dashboard/employees-report/em
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import { QuickReportComponent } from './report-dashboard/quick-report/quick-report.component';
 import { MetabaseReportComponent } from './report-dashboard/analytics/analytics.component';
+import { ConfirmLocationComponent } from './confirm-location/confirm-location.component';
 
 @NgModule({
     imports: [
@@ -59,9 +60,10 @@ import { MetabaseReportComponent } from './report-dashboard/analytics/analytics.
         SubscriptionCardDetailsComponent,
         EmployeesReportComponent,
         QuickReportComponent,
-        MetabaseReportComponent
+        MetabaseReportComponent,
+        ConfirmLocationComponent
     ],
     providers: [MessageService, AppConfigService, GeoMapService, SearchService, ReportService, SubscriptionService, BsModalRef],
-    entryComponents: [SetupComponent, AddAttendeesComponent]
+    entryComponents: [SetupComponent, AddAttendeesComponent, ConfirmLocationComponent]
 })
 export class AppContentModule { }
