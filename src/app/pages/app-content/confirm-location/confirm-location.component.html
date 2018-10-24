@@ -51,7 +51,7 @@
             <div class="col-md-4">
                 <form>
                     <div class="form-group d-inline-flex">
-                        <input type="number" style="width: 35%" class="form-control" name="rad" [(ngModel)]="locRequest.suggestedRadius" (keyup)="validateRadius()">
+                        <input type="number" style="width: 35%" class="form-control" name="rad" [(ngModel)]="locRequest.suggestedRadius">
                         <p class="text-brand my-auto font-weight-bold pl-2">Metres</p>
                     </div>
                 </form>
@@ -67,7 +67,7 @@
 
             <button mat-raised-button color="primary" type="button" (click)="approveCoordinates('APPROVED')" class="primary-outline">
                 Accept
-                <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
+                <!--<img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>-->
             </button>
 
         </ng-container>

@@ -51,6 +51,13 @@ export class HomeComponent implements OnInit, OnDestroy {
                 private router:Router,
                 private dataService:DataService) {
         this.userId = this.ss.getUserId();
+
+        this.mService.getUpdateLocation()
+            .subscribe(
+                result => {
+                    result == true? this.callLocationService():'';
+                }
+            )
     }
 
     ngOnInit() {
