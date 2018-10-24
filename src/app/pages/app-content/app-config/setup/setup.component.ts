@@ -90,6 +90,7 @@ export class SetupComponent implements OnInit, OnDestroy {
     setEditMode() {
         this.lat = this.locRequest.latitude;
         this.lng = this.locRequest.longitude;
+        this.verifyLocation = String(this.locRequest.verifyLocation);
 
         if (this.locRequest.resumption) {
             this.resumptionTime = this.renderTime(this.locRequest.resumption);
@@ -192,6 +193,7 @@ export class SetupComponent implements OnInit, OnDestroy {
 
         if (this.locRequest.locationType == 'COUNTRY' || this.locRequest.locationType == 'STATE') {
             this.fetchCountries();
+            this.verifyLocation = 'false';
         }
 
         if (this.locRequest.locationType == 'SPECIFIC_ADDRESS') {

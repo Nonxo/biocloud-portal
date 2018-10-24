@@ -47,7 +47,6 @@ export class ApproveCoordinatesComponent implements OnInit {
       this.contentService.approveCoordinates(model)
           .subscribe(
               result => {
-                  debugger;
               },
               error => {
                   this.ns.showError("An Error Occurred.");

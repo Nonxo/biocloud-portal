@@ -165,6 +165,13 @@ export class NavComponent implements OnInit, OnDestroy {
                 }
             )
 
+        this.mService.getUpdateNotif()
+            .subscribe(
+                result => {
+                    result == true? this.callNotificationService():'';
+                }
+            )
+
     }
 
     ngOnInit() {
