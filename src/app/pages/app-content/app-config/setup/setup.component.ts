@@ -73,7 +73,6 @@ export class SetupComponent implements OnInit, OnDestroy {
 
         if (this.ss.getLocationObj()) {
             this.locRequest = this.ss.getLocationObj();
-            debugger;
             this.editMode = true;
             this.setEditMode();
         }
