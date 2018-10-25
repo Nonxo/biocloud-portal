@@ -1,1 +1,31 @@
+<div id="bg-color">
 
+    <!-- successful request -->
+    <div class="container">
+        <img src="../assets/img/logos-bc.png" alt="" class="img-fluid py-5 logo" style="max-width: 160px">
+        <div class="row text-xl-left text-center py-xl-0 py-lg-5 py-0">
+            <div class="col-xl-5 my-auto">
+
+                <div *ngIf="status === 'APPROVED'">
+                    <h1 class="font-weight-bold">Your request <br> was <span class="text-brand">successful</span></h1>
+                    <p class="font-weight-bold small pb-2 pt-1">Your location is now active and employees can clock-in to the location</p>
+                </div>
+
+                <div *ngIf="status === 'DECLINED'">
+                    <h1 class="font-weight-bold">Suggested Location <br> was <span class="text-danger">Rejected</span></h1>
+                    <p class="font-weight-bold small pb-2 pt-1">Your location is still inactive. You can try out the other options to activate your location.</p>
+                </div>
+
+                <button type="submit" mat-raised-button color="primary" class="btn-primary px-4 py-1 text-white" (click)="gotoLogin()">
+                    GO TO DASHBOARD
+                </button>
+            </div>
+
+            <div class="col-xl-7 pt-xl-0 pt-5">
+                <img src="../assets/img/bg-illustration.svg" alt="" class="img-fluid">
+            </div>
+        </div>
+    </div>
+
+    <!-- rejected request -->
+</div>

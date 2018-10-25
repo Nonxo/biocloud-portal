@@ -17,6 +17,7 @@ export class ApproveCoordinatesComponent implements OnInit {
     lng: number;
     status: string;
     id: string;
+    successfullState: boolean
 
     constructor(private route:ActivatedRoute,
                 private contentService:AppContentService,
@@ -53,5 +54,9 @@ export class ApproveCoordinatesComponent implements OnInit {
               }
           )
   }
+
+  gotoLogin() {
+    this.router.navigate(['/auth'], {queryParams: {login: true}});
+    }
 
 }
