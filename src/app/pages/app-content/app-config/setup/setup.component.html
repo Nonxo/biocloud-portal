@@ -79,7 +79,7 @@
                                         <p class="mb-2 font-weight-bold">Location Address</p>
                                         <p class="text-secondary">Choose your desired method to add an address to your location.
                                         </p>
-                                        <mat-radio-group name="verifyLocation" [(ngModel)]="verifyLocation">
+                                        <mat-radio-group name="verifyLocation" [(ngModel)]="verifyLocation" (change)="onLocationOptionChange()">
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <mat-radio-button value=true>Let my employees get the coordinates

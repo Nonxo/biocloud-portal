@@ -38,6 +38,13 @@ export class ConfirmLocationComponent implements OnInit {
             .subscribe(
                 result => {
                     this.modalRef.hide();
+
+                    if (status == 'APPROVED') {
+                        this.ns.showSuccess("Your request was successful. Your Location is now active and employees can clock-in to the location");
+
+                    } else {
+                        this.ns.showSuccess("Suggested Location Rejected. Your Location is still inactive. you can try out other options to activate your location");
+                    }
                     this.mService.setUpdateNotif(true);
                     this.mService.setUpdateLocation(true);
                 },
