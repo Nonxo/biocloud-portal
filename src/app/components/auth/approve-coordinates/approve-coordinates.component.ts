@@ -17,7 +17,7 @@ export class ApproveCoordinatesComponent implements OnInit {
     lng: number;
     status: string;
     id: string;
-    successfullState: boolean
+    successResponse: boolean;
 
     constructor(private route:ActivatedRoute,
                 private contentService:AppContentService,
@@ -48,6 +48,7 @@ export class ApproveCoordinatesComponent implements OnInit {
       this.contentService.approveCoordinates(model)
           .subscribe(
               result => {
+                  this.successResponse = true;
               },
               error => {
                   this.ns.showError("An Error Occurred.");

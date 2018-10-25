@@ -1,7 +1,7 @@
 <div id="bg-color">
 
     <!-- successful request -->
-    <div class="container">
+    <div class="container" *ngIf="successResponse">
         <img src="../assets/img/logos-bc.png" alt="" class="img-fluid py-5 logo" style="max-width: 160px">
         <div class="row text-xl-left text-center py-xl-0 py-lg-5 py-0">
             <div class="col-xl-5 my-auto">
@@ -26,6 +26,4 @@
             </div>
         </div>
     </div>
-
-    <!-- rejected request -->
 </div>
