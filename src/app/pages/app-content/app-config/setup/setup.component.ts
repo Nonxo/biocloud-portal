@@ -70,6 +70,7 @@ export class SetupComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
 
         if (this.ss.getLocationObj()) {
             this.locRequest = this.ss.getLocationObj();
@@ -82,7 +83,6 @@ export class SetupComponent implements OnInit, OnDestroy {
 
         //noinspection TypeScriptUnresolvedFunction
         this.loader.load().then(() => {
-            this.show();
         });
     }
 
@@ -474,7 +474,7 @@ export class SetupComponent implements OnInit, OnDestroy {
                         this.lng = result.lng();
 
                         this.locRequest.address = address;
-                        (<HTMLInputElement>document.getElementById("autocompleteInput")).value = " ";
+                        // (<HTMLInputElement>document.getElementById("autocompleteInput")).value = " ";
 
 
                         // if(typeof result === 'string') {
@@ -503,7 +503,7 @@ export class SetupComponent implements OnInit, OnDestroy {
                             this.ns.showError("Unable to get Address")
                         }
 
-                        (<HTMLInputElement>document.getElementById("autocompleteInput")).value = " ";
+                        // (<HTMLInputElement>document.getElementById("autocompleteInput")).value = " ";
                     });
                 },
                 error => {
@@ -645,10 +645,31 @@ export class SetupComponent implements OnInit, OnDestroy {
     }
 
     onChangeAddress() {
-        this.changeAddress = this.changeAddress? false:true;
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
+        this.changeAddress = !this.changeAddress;
+
+        if(this.changeAddress) {
+            this.verifyLocation == 'false'? this.show():'';
+        }
     }
 
     ngOnDestroy() {
         this.ss.clearLocationObj();
+    }
+
+    onLocationOptionChange() {
+        if (this.verifyLocation == 'false') {
+            this.show();
+        }
+    }
+
+    getCountryName(id: number) {
+        let obj = this.countries.filter( obj => obj.countryId == id)[0];
+        return obj? obj.name:'';
+    }
+
+    getStateName(id: number) {
+        let obj = this.states.filter( obj => obj.stateId == id)[0];
+        return obj? obj.name:'';
     }
 }
