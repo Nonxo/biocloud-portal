@@ -8,6 +8,7 @@ import {InviteUserComponent} from "./components/auth/invite-user/invite-user.com
 import {ReceiptComponent} from "./pages/app-content/subscription-history/receipt/receipt.component";
 import {FlowTwoComponent} from "./pages/auth/flow-two/flow-two.component";
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import {ApproveCoordinatesComponent} from "./components/auth/approve-coordinates/approve-coordinates.component";
 
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
     {path: 'auth', component: FlowTwoComponent, canActivate: [SessionGuard]},
     {path: 'invite', component: AddAdminAuthComponent},
     {path: 'inviteuser', component: InviteUserComponent},
+    {path: 'approve-coord', component: ApproveCoordinatesComponent},
     {path: 'change-password', component: ChangePasswordComponent},
     {path: 'sign-up-as', component: SignUpAsComponent},
     {path: 'receipt', component: ReceiptComponent},

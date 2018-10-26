@@ -33,6 +33,8 @@ import { FlowTwoComponent } from './pages/auth/flow-two/flow-two.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { GoogleSignInComponent } from './components/auth/google-sign-in/google-sign-in.component';
 import { GestureConfig } from '@angular/material';
+import { ApproveCoordinatesComponent } from './components/auth/approve-coordinates/approve-coordinates.component';
+import {GeoMapService} from './service/geo-map.service';
 
 @NgModule({
     declarations: [
@@ -47,7 +49,8 @@ import { GestureConfig } from '@angular/material';
         FlowOneComponent,
         FlowTwoComponent,
         LandingPageComponent,
-        GoogleSignInComponent
+        GoogleSignInComponent,
+        ApproveCoordinatesComponent
     ],
     imports: [
         HttpClientModule,
@@ -71,6 +74,7 @@ import { GestureConfig } from '@angular/material';
         NotifyService,
         DateUtil,
         PictureUtil,
+        GeoMapService,
         AppContentService,
         {
             provide: HTTP_INTERCEPTORS,

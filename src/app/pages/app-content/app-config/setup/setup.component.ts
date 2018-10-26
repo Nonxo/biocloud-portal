@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, NgZone, AfterViewInit, AfterViewChecked} from '@angular/core';
+import {Component, OnInit, TemplateRef, NgZone, AfterViewInit, AfterViewChecked, OnDestroy} from '@angular/core';
 import {LocationRequest, TimezonePOJO} from "../model/app-config.model";
 import {AppConfigService} from "../services/app-config.service";
 import {BsModalService, BsModalRef, ModalOptions} from "ngx-bootstrap/index";
@@ -11,7 +11,6 @@ import {StorageService} from "../../../../service/storage.service";
 import {DateUtil} from "../../../../util/DateUtil";
 import {MessageService} from "../../../../service/message.service";
 import {ENTER, COMMA} from "@angular/cdk/keycodes";
-import {MatChipInputEvent} from "@angular/material/chips";
 import {TranslateService} from "@ngx-translate/core";
 
 @Component({
@@ -19,7 +18,7 @@ import {TranslateService} from "@ngx-translate/core";
     templateUrl: './setup.component.html',
     styleUrls: ['./setup.component.css']
 })
-export class SetupComponent implements OnInit {
+export class SetupComponent implements OnInit, OnDestroy {
 
     locRequest: LocationRequest = new LocationRequest();
     editMode: boolean;
@@ -38,6 +37,7 @@ export class SetupComponent implements OnInit {
     filteredTimezones: TimezonePOJO[] = [];
     addNewLoc: boolean;
     inviteEmails: string[] = [];
+    confirmees: string[] = [];
     separatorKeysCodes = [ENTER, COMMA];
     locationTypes = [
         {value: "COUNTRY", name: "Country"},
@@ -47,7 +47,9 @@ export class SetupComponent implements OnInit {
     loading: boolean;
     resumptionTime: Date;
     clockoutTime: Date;
-    searchValue:string;
+    searchValue: string;
+    verifyLocation: string = 'true';
+    changeAddress: boolean = false;
 
     constructor(private aService: AppConfigService,
                 private modalService: BsModalService,
@@ -68,8 +70,11 @@ export class SetupComponent implements OnInit {
     }
 
     ngOnInit() {
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
 
-        if (this.editMode) {
+        if (this.ss.getLocationObj()) {
+            this.locRequest = this.ss.getLocationObj();
+            this.editMode = true;
             this.setEditMode();
         }
 
@@ -78,12 +83,15 @@ export class SetupComponent implements OnInit {
 
         //noinspection TypeScriptUnresolvedFunction
         this.loader.load().then(() => {
-            this.show();
         });
     }
 
 
     setEditMode() {
+        this.lat = this.locRequest.latitude;
+        this.lng = this.locRequest.longitude;
+        this.verifyLocation = String(this.locRequest.verifyLocation);
+
         if (this.locRequest.resumption) {
             this.resumptionTime = this.renderTime(this.locRequest.resumption);
 
@@ -181,9 +189,11 @@ export class SetupComponent implements OnInit {
         this.locRequest.address = null;
         this.showMap = false;
         this.searchValue = "";
+        this.confirmees = [];
 
         if (this.locRequest.locationType == 'COUNTRY' || this.locRequest.locationType == 'STATE') {
             this.fetchCountries();
+            this.verifyLocation = 'false';
         }
 
         if (this.locRequest.locationType == 'SPECIFIC_ADDRESS') {
@@ -233,6 +243,12 @@ export class SetupComponent implements OnInit {
             return;
         }
 
+        this.locRequest.verifyLocation = (this.verifyLocation == 'true');
+
+        if (this.locRequest.confirmees && this.locRequest.confirmees.length > 0) {
+            this.locRequest.verificationThreshold = this.locRequest.confirmees.length;
+        }
+
         this.loading = true;
         this.editMode ? this.editLocation() : this.saveLocation();
     }
@@ -253,7 +269,7 @@ export class SetupComponent implements OnInit {
             return false;
         }
 
-        if (this.locRequest.locationType == 'SPECIFIC_ADDRESS') {
+        if (this.locRequest.locationType == 'SPECIFIC_ADDRESS' && this.verifyLocation == 'false') {
 
             if (!this.locRequest.address) {
                 this.ns.showError("You must select an Address");
@@ -279,7 +295,15 @@ export class SetupComponent implements OnInit {
         }
 
         if (this.inviteEmails.length > 0) {
-            if (!this.validateEmails()) {
+            this.inviteEmails = this.removeDuplicate(this.inviteEmails);
+            if (!this.validateEmails('INVITE')) {
+                return false
+            }
+        }
+
+        if (this.confirmees.length > 0) {
+            this.confirmees = this.removeDuplicate(this.confirmees);
+            if (!this.validateEmails('VERIFY')) {
                 return false
             }
         }
@@ -287,10 +311,17 @@ export class SetupComponent implements OnInit {
         return true;
     }
 
-    validateEmails(): boolean {
+    removeDuplicate(arr: string[]): string[] {
+        let set = new Set(arr);
+
+        return Array.from(set);
+    }
+
+    validateEmails(type: string): boolean {
         let regex = /[^@\s]+@[^@\s]+\.[^@\s]+/;
 
-        for (let a of this.inviteEmails) {
+
+        for (let a of type == 'INVITE' ? this.inviteEmails : this.confirmees) {
             if (a) {
                 let res = regex.test(a);
                 if (!res) {
@@ -300,7 +331,7 @@ export class SetupComponent implements OnInit {
             }
         }
 
-        this.locRequest.inviteEmails = this.inviteEmails;
+        type == 'INVITE' ? this.locRequest.inviteEmails = this.inviteEmails : this.locRequest.confirmees = this.confirmees;
         return true;
     }
 
@@ -314,7 +345,8 @@ export class SetupComponent implements OnInit {
                     if (result.code == 0) {
                         this.ns.showSuccess("Location was successfully updated");
                         this.mService.setEditLocation(true);
-                        this.modalRef.hide();
+                        this.router.navigate(['/portal'])
+                        // this.modalRef.hide();
                     } else {
                         this.ns.showError(result.description);
                     }
@@ -326,6 +358,8 @@ export class SetupComponent implements OnInit {
     }
 
     saveLocation() {
+        this.locRequest.createdBy = this.ss.getLoggedInUserEmail();
+
         // noinspection TypeScriptValidateTypes,TypeScriptUnresolvedFunction
         this.aService.saveLocation(this.locRequest)
             .finally(() => {
@@ -343,6 +377,7 @@ export class SetupComponent implements OnInit {
                             this.showMap = false;
                             this.clearResumptionTime();
                             this.countryCode = "";
+                            this.confirmees = [];
                         } else {
                             this.router.navigate(['/portal']);
                         }
@@ -442,7 +477,7 @@ export class SetupComponent implements OnInit {
                         this.lng = result.lng();
 
                         this.locRequest.address = address;
-                        (<HTMLInputElement>document.getElementById("autocompleteInput")).value = " ";
+                        // (<HTMLInputElement>document.getElementById("autocompleteInput")).value = " ";
 
 
                         // if(typeof result === 'string') {
@@ -471,7 +506,7 @@ export class SetupComponent implements OnInit {
                             this.ns.showError("Unable to get Address")
                         }
 
-                        (<HTMLInputElement>document.getElementById("autocompleteInput")).value = " ";
+                        // (<HTMLInputElement>document.getElementById("autocompleteInput")).value = " ";
                     });
                 },
                 error => {
@@ -527,7 +562,7 @@ export class SetupComponent implements OnInit {
         this.zoomSize = 20;
     }
 
-    addEmails(event) {
+    addEmails(event, type: string) {
         let input, value;
 
         if (event && event.target) {
@@ -543,15 +578,26 @@ export class SetupComponent implements OnInit {
             for (let a of arr) {
                 // Add email
                 if ((a || '').trim()) {
-                    this.inviteEmails.push(a.trim());
+                    if(type == 'INVITE') {
+                        this.inviteEmails.push(a.trim())
+                    }else {
+                        this.confirmees.push(a.trim());
+                        this.inviteEmails.push(a.trim());
+                    }
                 }
             }
         } else {
             // Add email
             if ((value || '').trim()) {
-                this.inviteEmails.push(value.trim());
+                if(type == 'INVITE') {
+                    this.inviteEmails.push(value.trim())
+                }else {
+                    this.confirmees.push(value.trim());
+                    this.inviteEmails.push(value.trim());
+                }
             }
         }
+
 
         // Reset the input value
         if (input) {
@@ -559,11 +605,11 @@ export class SetupComponent implements OnInit {
         }
     }
 
-    removeEmail(email: any): void {
-        let index = this.inviteEmails.indexOf(email);
+    removeEmail(email: any, type: string): void {
+        let index = type == 'INVITE' ? this.inviteEmails.indexOf(email) : this.confirmees.indexOf(email);
 
         if (index >= 0) {
-            this.inviteEmails.splice(index, 1);
+            type == 'INVITE' ? this.inviteEmails.splice(index, 1) : this.confirmees.splice(index, 1);
         }
     }
 
@@ -601,4 +647,32 @@ export class SetupComponent implements OnInit {
         this.checkValidCoordinate(this.searchValue);
     }
 
+    onChangeAddress() {
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
+        this.changeAddress = !this.changeAddress;
+
+        if(this.changeAddress) {
+            this.verifyLocation == 'false'? this.show():'';
+        }
+    }
+
+    ngOnDestroy() {
+        this.ss.clearLocationObj();
+    }
+
+    onLocationOptionChange() {
+        if (this.verifyLocation == 'false') {
+            this.show();
+        }
+    }
+
+    getCountryName(id: number) {
+        let obj = this.countries.filter( obj => obj.countryId == id)[0];
+        return obj? obj.name:'';
+    }
+
+    getStateName(id: number) {
+        let obj = this.states.filter( obj => obj.stateId == id)[0];
+        return obj? obj.name:'';
+    }
 }

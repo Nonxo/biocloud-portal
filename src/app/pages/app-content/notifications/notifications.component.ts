@@ -6,6 +6,8 @@ import {AppContentService} from "../services/app-content.service";
 import {StorageService} from "../../../service/storage.service";
 import {ApproveRequest, Invitation} from "../model/app-content.model";
 import {MessageService} from "../../../service/message.service";
+import {ConfirmLocationComponent} from "../confirm-location/confirm-location.component";
+import {ModalOptions} from "ngx-bootstrap";
 
 
 @Component({
@@ -25,6 +27,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     created: Date = new Date();
     @ViewChild("assignLocation") public assignLocation: TemplateRef<any>;
     selectedEmail: string;
+    modalOptions:ModalOptions = new ModalOptions();
 
 
     constructor(private modalService: BsModalService,
@@ -40,10 +43,20 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         if (this.ss.getSelectedOrg()) {
             this.orgId = this.ss.getSelectedOrg().orgId;
             this.callNotificationService();
-
-
         }
 
+    }
+
+    openLocationConfirmationModal(loc:any) {
+        this.modalOptions.class = 'modal-lg mt-0';
+        this.modalOptions.initialState = {
+            locRequest: JSON.parse(JSON.stringify(loc)),
+            editMode: true,
+            lat: loc.latitude? loc.latitude: 9.0820,
+            lng: loc.longitude? loc.longitude: 8.6753
+        }
+        ;
+        this.modalRef = this.modalService.show(ConfirmLocationComponent, this.modalOptions);
     }
 
 
@@ -78,7 +91,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.notifications = result.attendees ? result.attendees : [];
+                        this.notifications = result.notif ? result.notif : [];
                     } else {
                         this.ns.showError(result.description)
                     }

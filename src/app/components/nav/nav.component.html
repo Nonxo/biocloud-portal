@@ -44,7 +44,7 @@
                 <h6 class="text-white">{{selectedOrg.orgCode}}</h6>
                 <ng-container *ngIf="openDropdown">
                     <small *hasAuthority="'GENERAL_ADMIN'" class="text-white" style="font-size: 0.6em"><span
-                            (click)="editOrg(template)" class="cursor">EDIT</span></small>
+                        (click)="editOrg(template)" class="cursor">EDIT</span></small>
                 </ng-container>
             </div>
 
@@ -164,15 +164,15 @@
         <span class="example-spacer"></span>
 
         <ng-container *hasAuthority="'GENERAL_ADMIN'">
-        <div *ngIf="subscription?.subscriptionMode.toLowerCase() == 'TRIAL'.toLowerCase() && daysLeft > 0" class="trial-div-success d-xl-inline-flex d-none">
-            <p (click)="goToSubscription()" class="small trial-p cursor">Trial Expires in: {{daysLeft}} day(s)</p>
-            <button (click)="goToSubscription()" class="btn btn-trial-subscribe cursor">Subscribe Now</button>
-        </div>
+            <div *ngIf="subscription?.subscriptionMode.toLowerCase() == 'TRIAL'.toLowerCase() && daysLeft > 0" class="trial-div-success d-xl-inline-flex d-none">
+                <p (click)="goToSubscription()" class="small trial-p cursor">Trial Expires in: {{daysLeft}} day(s)</p>
+                <button (click)="goToSubscription()" class="btn btn-trial-subscribe cursor">Subscribe Now</button>
+            </div>
 
-        <div *ngIf="subscription?.subscriptionStatus.toLowerCase() == 'EXPIRED'.toLowerCase()" class="trial-div-danger d-xl-inline-flex d-none">
-            <p (click)="goToSubscription()" class="small trial-p cursor">Subscription Plan Expired</p>
-            <button (click)="goToSubscription()" class="btn btn-trial-danger cursor">Subscribe Now</button>
-        </div>
+            <div *ngIf="subscription?.subscriptionStatus.toLowerCase() == 'EXPIRED'.toLowerCase()" class="trial-div-danger d-xl-inline-flex d-none">
+                <p (click)="goToSubscription()" class="small trial-p cursor">Subscription Plan Expired</p>
+                <button (click)="goToSubscription()" class="btn btn-trial-danger cursor">Subscribe Now</button>
+            </div>
         </ng-container>
 
         <!--<button mat-icon-button class="pr-5" matTooltip="Switch to bioregistra">-->
@@ -185,52 +185,46 @@
 
         <mat-menu #notify="matMenu" class="p-0">
             <div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications | slice:0:5; let i=index">
-                <img *ngIf="!notif.verifiableImg" class="mr-3 rounded-circle" src="assets/img/1.png" style="max-height:3em;">
-                <img *ngIf="notif.verifiableImg" class="mr-3 rounded-circle " src="data:image/jpg;base64,{{notif.verifiableImg}}" style="max-height:3em;">
-                <div class="media-body">
-                    <small><b>{{notif.firstName}} {{notif.lastName}}</b> has requested to join {{notif.orgName}} as an
-                        emplo...
-                    </small>
-                    <div class="container-fluid">
-                        <small class="row">
-                            <div class="mr-auto">{{notif.created | date:'short'}}</div>
-                            <div class="ml-auto pr-3"
-                                 (click)="openAttendeesDetailsModal(notificationTemplate, notif.locIds, notif.inviteId)">
-                                <span class="badge badge-dark cursor">Details</span></div>
+
+                <ng-container *ngIf="notif.notifType == 'USER_INVITE'">
+                    <img *ngIf="!notif.croppedImg" class="mr-3 rounded-circle" src="assets/img/1.png" style="max-height:3em;">
+                    <img *ngIf="notif.croppedImg" class="mr-3 rounded-circle " src="data:image/jpg;base64,{{notif.croppedImg}}" style="max-height:3em;">
+                    <div class="media-body">
+                        <small><b>{{notif.firstName}} {{notif.lastName}}</b> has requested to join {{notif.orgName}} as
+                            an
+                            emplo...
                         </small>
+                        <div class="container-fluid">
+                            <small class="row">
+                                <div class="mr-auto">{{notif.created | date:'short'}}</div>
+                                <div class="ml-auto pr-3"
+                                     (click)="openAttendeesDetailsModal(notificationTemplate, notif.locIds, notif.referenceId)">
+                                    <span class="badge badge-dark cursor">Details</span></div>
+                            </small>
+                        </div>
                     </div>
-                </div>
+                </ng-container>
+
+                <ng-container *ngIf="notif.notifType == 'LOCATION_CONFIRMATION'">
+                    <img class="mr-3 rounded-circle" src="assets/img/location-notification.png" style="max-height:3em;">
+                    <div class="media-body">
+                        <small>Estimated Coordinates for {{notif.locName}} is now Available. Click to accept</small>
+                        <div class="container-fluid">
+                            <small class="row">
+                                <div class="mr-auto">{{notif.created | date:'short'}}</div>
+                                <div class="ml-auto pr-3"
+                                     (click)="openLocationConfirmationModal(notif)">
+                                    <span class="badge badge-dark cursor">Details</span></div>
+                            </small>
+                        </div>
+                    </div>
+                </ng-container>
+
             </div>
             <mat-divider></mat-divider>
-            <!-- <div class="media pt-2 pl-2 pb-2">
-     <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
-     <div class="media-body">
-       <small><b>{{details.firstName}} {{details.lastName}}</b> has requested to join {{details.orgName}} as an emplo...</small>
-       <div class="container-fluid">
-         <small class="row">
-           <div class="mr-auto">3 Hours</div>
-              <div class="ml-auto pr-3"><span class="badge badge-dark cursor" (click)="notificationModal(notificationTemplate)">Details</span></div>
-            </small>
-          </div>
-        </div>
-      </div>
-      <mat-divider></mat-divider>
-      <div class="media pt-2 pl-2 pb-2">
-        <img class="mr-3 rounded-circle " src="assets/img/1.png" style="max-height:3em;">
-        <div class="media-body">
-          <small><b>{{details.firstName}} {{details.lastName}}</b> has requested to join {{details.orgName}} as an emplo...</small>
-          <div class="container-fluid">
-            <small class="row">
-              <div class="mr-auto">3 Hours</div>
-              <div class="ml-auto pr-3"><span class="badge badge-dark cursor">Details</span></div>
-            </small>
-          </div>
-        </div>
-      </div>
-      <mat-divider></mat-divider> -->
             <small class="cursor" *ngIf="notifications.length == 0">
-            <a class="float-right p-3 text-danger">No New Notifications..</a>
-          </small>
+                <a class="float-right p-3 text-danger">No New Notifications..</a>
+            </small>
             <small class="" *ngIf="notifications.length > 0">
                 <a routerLink="/portal/notification" class="float-right p-3">See all notifications..</a>
             </small>
@@ -246,8 +240,9 @@
                     <div class="col-auto">
                         <img *ngIf="!userImage" src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon"
                              style="max-height:3em;"/>
-                      <img *ngIf="userImage" src="data:image/jpg;base64,{{userImage}}" class="img-fluid rounded-circle logo-icon"
-                           style="max-height:3em;"/>
+                        <img *ngIf="userImage" src="data:image/jpg;base64,{{userImage}}"
+                             class="img-fluid rounded-circle logo-icon"
+                             style="max-height:3em;"/>
                     </div>
                     <div class="col-auto  pt-3 pl-0">
                         <p>{{username}}</p>
@@ -292,7 +287,8 @@
 
                 <mat-form-field class="input-field">
                     <mat-select placeholder="Company Size" name="employeeRange" #employeeRange="ngModel" [(ngModel)]="employeeRangeUpperLimit" [required]="true">
-                        <mat-option *ngFor="let r of range" value="{{r.upperLimit}}">{{r.lowerLimit}} - {{r.upperLimit}}</mat-option>
+                        <mat-option *ngFor="let r of range" value="{{r.upperLimit}}">{{r.lowerLimit}} - {{r.upperLimit}}
+                        </mat-option>
                     </mat-select>
                     <mat-error *ngIf="employeeRange.errors?.required">You must make a selection</mat-error>
                 </mat-form-field>
@@ -314,7 +310,8 @@
 
             </div>
             <div class="col-md-12 text-center pt-3 pb-3">
-                <button mat-raised-button color="primary" class="auth-btn" type="submit" [disabled]="loading">PROCEED</button>
+                <button mat-raised-button color="primary" class="auth-btn" type="submit" [disabled]="loading">PROCEED
+                </button>
             </div>
         </form>
     </div>
@@ -362,8 +359,8 @@
     <div class=" modal-header">
         <h4 class="modal-title pull-center text-brand">Assign To Location</h4>
         <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="modal-body">
         <p class="text-center">Assign <span class="font-weight-bold">{{details.firstName}} {{details.lastName}}</span> to a location</p>
@@ -384,7 +381,9 @@
         </div>
 
         <div class="text-center pt-4 pb-5">
-            <button mat-raised-button color="primary" class="mr-2" (click)="confirmAssignment(details.inviteId)">Approve</button>
+            <button mat-raised-button color="primary" class="mr-2" (click)="confirmAssignment(details.inviteId)">
+                Approve
+            </button>
         </div>
     </div>
 </ng-template>

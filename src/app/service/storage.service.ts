@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {TimezonePOJO} from "../pages/app-content/app-config/model/app-config.model";
+import {LocationRequest, TimezonePOJO} from "../pages/app-content/app-config/model/app-config.model";
 
 @Injectable()
 export class StorageService {
@@ -216,6 +216,20 @@ export class StorageService {
 
     clearAuthRoute() {
         localStorage.removeItem('authRoute');
+    }
+
+    setLocationObj(locRequest: LocationRequest) {
+        localStorage.setItem('_l', JSON.stringify(locRequest));
+    }
+
+    getLocationObj() {
+        let obj: LocationRequest = JSON.parse(localStorage.getItem('_l'));
+
+        return obj? obj:null;
+    }
+
+    clearLocationObj() {
+        localStorage.removeItem("_l");
     }
 
 }

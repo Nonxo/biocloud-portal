@@ -24,7 +24,7 @@ export class Endpoints {
     public static FETCH_COUNT_ATTENDEES = `${Endpoints.BASE_URL}/users/api/attendees/count?`;
     public static ASSIGN_USERS = `${Endpoints.BASE_URL}/users/api/attendees`;
     public static DEACTIVATE_ACTIVATE_LOCATION = `${Endpoints.BASE_URL}/users/api/locations/`;
-    public static FETCH_NOTIFICATION = `${Endpoints.BASE_URL}/users/api/org/invites?`;
+    public static FETCH_NOTIFICATION = `${Endpoints.BASE_URL}/users/api/notifications/admin/fetch?`;
     public static FETCH_NOTIFICATION_DETAILS = `${Endpoints.BASE_URL}/users/api/org/invites/`;
     public static APPROVE_REJECT_NOTIFICATION = `${Endpoints.BASE_URL}/users/api/org/invites/`;
     public static APPROVE_ADMIN_NOTIFICATION = `${Endpoints.BASE_URL}/users/api/org/invites/web/`;
@@ -67,4 +67,5 @@ export class Endpoints {
     public static SET_AUTO_RENEW = `${Endpoints.BASE_URL}/users/api/subscriptions/set-auto-renew`;
     public static GET_AB_TEST_STATUS = `${Endpoints.BASE_URL}/access/api/abtest/get-status`;
     public static VERIFY_SOCIAL_MEDIA_SIGN_IN = `${Endpoints.BASE_URL}/users/api/social/login`;
+    public static APPROVE_COORDINATES = `${Endpoints.BASE_URL}/users/api/locations/approve`;
 }

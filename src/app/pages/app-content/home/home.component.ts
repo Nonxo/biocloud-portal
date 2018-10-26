@@ -51,6 +51,13 @@ export class HomeComponent implements OnInit, OnDestroy {
                 private router:Router,
                 private dataService:DataService) {
         this.userId = this.ss.getUserId();
+
+        this.mService.getUpdateLocation()
+            .subscribe(
+                result => {
+                    result == true? this.callLocationService():'';
+                }
+            )
     }
 
     ngOnInit() {
@@ -97,6 +104,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 result => {
                     if (result.code == 0) {
                         this.locations = result.locations ? result.locations : [];
+                        this.locations.sort((a,b) => b.created - a.created);
                         this.mService.setDisplay(false);
                         this.fetchTotalClockIns();
                         this.fetchClockInsHistory();
@@ -117,7 +125,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 
     editLocation(loc:LocationRequest) {
-        this.openLocationModal(loc);
+        this.ss.setLocationObj(loc);
+        this.router.navigate(['/portal/config']);
+        // this.openLocationModal(loc);
     }
 
     invite(locId:string) {

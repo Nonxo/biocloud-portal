@@ -19,11 +19,17 @@ export class LocationRequest {
     orgId:string;
     createdBy:string;
     inviteEmails:string[];
+    verifyLocation: boolean;
+    verificationThreshold: number;
+    confirmees: string[];
 
     constructor() {
+        this.verifyLocation = false;
         this.inviteEmails = [];
+        this.confirmees = [];
         this.radiusThreshold = 32;
         this.locationType = 'SPECIFIC_ADDRESS';
+        this.address = 'Unnamed Road'
     }
 }
 
