@@ -34,6 +34,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { GoogleSignInComponent } from './components/auth/google-sign-in/google-sign-in.component';
 import { GestureConfig } from '@angular/material';
 import { ApproveCoordinatesComponent } from './components/auth/approve-coordinates/approve-coordinates.component';
+import {GeoMapService} from './service/geo-map.service';
 
 @NgModule({
     declarations: [
@@ -73,6 +74,7 @@ import { ApproveCoordinatesComponent } from './components/auth/approve-coordinat
         NotifyService,
         DateUtil,
         PictureUtil,
+        GeoMapService,
         AppContentService,
         {
             provide: HTTP_INTERCEPTORS,

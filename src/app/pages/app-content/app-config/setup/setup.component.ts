@@ -358,6 +358,8 @@ export class SetupComponent implements OnInit, OnDestroy {
     }
 
     saveLocation() {
+        this.locRequest.createdBy = this.ss.getLoggedInUserEmail();
+
         // noinspection TypeScriptValidateTypes,TypeScriptUnresolvedFunction
         this.aService.saveLocation(this.locRequest)
             .finally(() => {
@@ -375,6 +377,7 @@ export class SetupComponent implements OnInit, OnDestroy {
                             this.showMap = false;
                             this.clearResumptionTime();
                             this.countryCode = "";
+                            this.confirmees = [];
                         } else {
                             this.router.navigate(['/portal']);
                         }

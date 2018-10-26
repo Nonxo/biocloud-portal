@@ -6,6 +6,7 @@ import {BsModalRef} from "ngx-bootstrap";
 import {NotifyService} from "../../../service/notify.service";
 import {ApproveCoordinate} from "../model/app-content.model";
 import {MessageService} from "../../../service/message.service";
+import {GeoMapService} from "../../../service/geo-map.service";
 
 @Component({
     selector: 'app-confirm-location',
@@ -15,12 +16,14 @@ import {MessageService} from "../../../service/message.service";
 export class ConfirmLocationComponent implements OnInit {
 
     locRequest: any = {suggestedLat: 6.4, suggestedLng: 3.4, suggestedRadius: 32};
+    address: string;
 
     constructor(private loader: MapsAPILoader,
                 private contentService: AppContentService,
                 public modalRef: BsModalRef,
                 private ns: NotifyService,
-                private mService: MessageService) {
+                private mService: MessageService,
+                private mapService: GeoMapService) {
     }
 
     ngOnInit() {
@@ -28,11 +31,31 @@ export class ConfirmLocationComponent implements OnInit {
         this.loader.load().then(() => {
 
         });
+
     }
 
     approveCoordinates(status) {
+        this.mapService.getAddress(this.locRequest.suggestedLat, this.locRequest.suggestedLng)
+            .subscribe(
+                result => {
+                    if (typeof result === 'string') {
+                        this.address = result;
+                    } else {
+                        this.address = "Unknown Address";
+                    }
+
+                },
+                error => {
+                    this.address = "Unknown Address";
+                },
+                () => this.callApproveService(status)
+            );
+    }
+
+
+    callApproveService(status) {
         let model = new ApproveCoordinate(this.locRequest.suggestedLat, this.locRequest.suggestedLng,
-            this.locRequest.suggestedRadius, status, this.locRequest.referenceId, this.locRequest.locId);
+            this.locRequest.suggestedRadius, status, this.locRequest.referenceId, this.locRequest.locId, this.address);
 
         this.contentService.approveCoordinates(model)
             .subscribe(

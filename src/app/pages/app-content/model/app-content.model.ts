@@ -296,14 +296,16 @@ export class ApproveCoordinate {
     status: string;
     refId: string;
     locId: string;
+    address: string;
 
-    constructor(lat: number, lng: number, rad: number, status: string, refId: string, locId: string) {
+    constructor(lat: number, lng: number, rad: number, status: string, refId: string, locId: string, address: string) {
         this.latitude = lat;
         this.longitude  = lng;
         this.radius = rad;
         this.status = status;
         this.refId = refId;
         this.locId = locId;
+        this.address = address;
     }
 }
 
