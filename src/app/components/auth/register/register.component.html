@@ -47,8 +47,9 @@
                         <mat-form-field class="input-field">
                             <mat-select placeholder="" name="phoneCode" formControlName="phoneCode" (change)="onSelectChange()" (openedChange)="openc($event)">
 
-                                <mat-form-field class="input-field sticky-search">
-                                    <input class="myInput" (keydown)="$event.stopPropagation()" #myInput matInput focused="'true'" type="text" (keyup)="search($event.target.value)" autocomplete="off" placeholder="Search">
+                                <mat-form-field class="input-field sticky-search" floatPlaceholder="never">
+                                    <input class="myInput pl-2" (keydown)="$event.stopPropagation()" #myInput matInput focused="'true'" type="text" (keyup)="search($event.target.value)" autocomplete="off" placeholder="Search">
+                                    <mat-icon matSuffix>search</mat-icon>
                                 </mat-form-field>
 
                                 <mat-option [hidden]="true" value=""></mat-option>
