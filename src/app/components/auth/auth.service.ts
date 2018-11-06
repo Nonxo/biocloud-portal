@@ -195,4 +195,25 @@ export class AuthService {
             this.router.navigate(['/auth']);
         }
     }
+
+    public setTawktoUserName(email: string, name: string, hash: string) {
+        const Tawk_API = (<any>window).Tawk_API;
+
+        if (typeof Tawk_API === 'undefined' || !Tawk_API) return;
+        debugger;
+
+        // Tawk_API.visitor = {
+        //     name: name,
+        //     email: email
+        // }
+
+        Tawk_API.setAttributes({
+            name: name,
+            email: email,
+            hash: hash
+            // hash: '65a8c643f6737f2ad76ed80875cbada27ba2bdf438a3c1f5d9aef4f8b372f240'
+            // hash: 'c2026d6d531107a6ffe51542d6b5ab537e3492370ecdb643af0972416c8fd82d'
+            // hash: 'c2026d6d531107a6ffe51542d6b5ab537e3492370ecdb643af0972416c8fd82d'
+        }, function (error) {});
+    }
 }
