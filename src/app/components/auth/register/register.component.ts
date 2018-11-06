@@ -170,6 +170,7 @@ export class RegisterComponent implements OnInit {
                     if (res.code == 0) {
                         this.ss.authToken = res.token;
                         this.ss.loggedInUser = res.bioUser;
+                        this.authService.setTawktoUserName(res.bioUser.email, res.bioUser.fName + ' ' + res.bioUser.lName, res.tawkHash);
                         this.router.navigate(['/sign-up-as']);
                     } else {
                         this.ns.showError(res.description);
