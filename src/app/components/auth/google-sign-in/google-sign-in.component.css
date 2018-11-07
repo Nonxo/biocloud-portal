@@ -1,19 +1,12 @@
-button.googleBtn {
+.btn2 {
+    width: 45%;
     background: transparent;
-    border: 1px solid #707070;
-    color: #707070;
-    outline: none;
+    background: transparent;
+    text-decoration: none !important;
+    border: 1px solid #d6d3d3;
+    box-shadow: rgba(214, 211, 211, 0.7) 1px 1px 8px;
 }
 
-
-@media only screen and (min-device-width : 1024px) {
-    .or {
-        max-width: 286px
-    }
-}
-
-@media only screen and (max-device-width : 812px) {
-    .or {
-        max-width: 243px
-    }
+.btn2:hover {
+    box-shadow: rgba(0, 0, 0, 0.2) 3px 3px 8px;
 }

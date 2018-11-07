@@ -1,47 +1,40 @@
+<h3 class="">Create an Iclocker Account</h3>
+<p class="text-success font-weight-bold">14-day Free Trial</p>
+<p class="small">To create an iClocker account, Please confirm your e-mail address</p>
+
 <form class="pt-4" [formGroup]="form" (submit)="register()" ngNativeValidate>
 
     <div class="container-fluid">
         <div class="row">
 
-            <!--<div class="col-md-12">
-        <div>
-          <small>Register As:</small>
-        </div>
-        <div class="btn-group curve mb-3">
-          <label class="btn btn-md" *ngFor="let userType of userTypes; let idx=index"
-                 [ngClass]="{'btn-primary': userType.checked}">
-            <input type="radio" autocomplete="off" name="whoToggle" [checked]="userType.checked" [value]="userType.name" (click)="changeUserType(idx)">
-            {{userType.name}}
-          </label>
-        </div>
-      </div>-->
 
-            <div class="col-12" *ngIf="company">
+            <!-- old changes -->
+            <!-- <div class="col-12" *ngIf="company">
                 <mat-form-field class="input-field">
                     <input matInput placeholder="Company Name" formControlName="companyName">
                 </mat-form-field>
-            </div>
+            </div> -->
 
-            <div class="col-6">
+            <!-- <div class="col-6">
                 <mat-form-field class="input-field">
                     <input matInput placeholder="First Name" pattern="[A-Za-z0-9\-]*" formControlName="fName" required>
                     <mat-error *ngIf="form.get('fName')?.errors"><small>No special characters allowed</small></mat-error>
                 </mat-form-field>
-            </div>
+            </div> -->
 
-            <div class="col-6">
+            <!-- <div class="col-6">
                 <mat-form-field class="input-field">
                     <input matInput placeholder="Last Name" pattern="[A-Za-z0-9\-]*" formControlName="lName" required>
                     <mat-error *ngIf="form.get('lName')?.errors"><small>No special characters allowed</small></mat-error>
                 </mat-form-field>
-            </div>
+            </div> -->
 
-            <div class="col-12">
+            <!-- <div class="col-12">
                 <div class="row">
                     <div class="{{selectedCountryCode? 'col-md-3 col-6 flag-col':'col-md-3'}}">
                         <div class="position-absolute pt-3">
                             <i *ngIf="selectedCountryCode" class="sprite {{selectedCountryCode.toLowerCase()}}">
-                            <!-- <img class="flag-img"  src="{{baseUrl}}/as/flags/{{selectedCountryCode.toLowerCase()}}.png"> -->
+                            <img class="flag-img"  src="{{baseUrl}}/as/flags/{{selectedCountryCode.toLowerCase()}}.png">
                         </i>
                         </div>
                         <mat-form-field class="input-field">
@@ -55,7 +48,7 @@
                                 <mat-option [hidden]="true" value=""></mat-option>
 
                                 <mat-option *ngFor="let country of filteredCountries" value="{{country.code}}">
-                                    <!-- <img style="width: 40px; height: 30px" src="{{baseUrl}}/as/flags/{{country.code.toLowerCase()}}.png"> {{country.name}} -->
+                                    <img style="width: 40px; height: 30px" src="{{baseUrl}}/as/flags/{{country.code.toLowerCase()}}.png"> {{country.name}}
                                     <div><i class="sprite {{country.code.toLowerCase()}} d-inline-flex mr-2"></i>{{country.name}}</div>
                                 </mat-option>
 
@@ -101,24 +94,34 @@
 
             <div class="col-md-6 col-12">
                 <re-captcha #cap (resolved)="resolved($event)" siteKey="{{recaptchaSiteKey}}"></re-captcha>
-            </div>
+            </div> -->
+
+            <!-- old changes -->
 
 
+            <div class="col-12">
+                <mat-form-field appearance="outline " class="input-field  float-left" style="margin-top:-12px;">
+                    <mat-label>Email</mat-label>
+                    <input matInput class="small" placeholder="you@emailprovider.com">
 
-            <div class="col-md-12 mt-3">
+                </mat-form-field>
+
                 <button mat-raised-button color="primary" class="px-4 py-1" type="submit">
                     REGISTER
                     <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;" />
                 </button>
+
             </div>
         </div>
     </div>
 
 </form>
 
-<div class="col-12 text-xl-left text-center">
+<div class="col-12 mt-5 text-center">
     <!--<div class="cursor" id="googleBtn">Google</div>-->
     <!--<p class="hr">or</p>-->
-    <img src="assets/img/or.png" class="img-fluid or w-75" />
+    <p class="text-center textDecor smaller fontWeight mb-3"> <span> or
+        continue with</span>
+    </p>
 
 </div>

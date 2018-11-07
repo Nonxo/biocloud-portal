@@ -1,5 +1,43 @@
+.hero-section {
+    /* background: #ff000014 !important; */
+    background: #60348499 !important;
+    height: 100vh;
+}
+
+.bg-color {
+    /* background: #603484 !important; */
+    background-image: url(/assets/img/bg-img.png) !important;
+    background-position: center;
+    height: 100vh;
+}
+
+.purpleBorder {
+    border: 1px solid #714B90;
+}
+
+.purple {
+    color: #714B90;
+}
+
+.fontWeight {
+    font-weight: 600;
+}
+
+.smaller {
+    font-size: 13px;
+}
+
+.logo-form {
+    width: 120px;
+}
+
 .logo {
-    max-width: 180px;
+    max-width: 150px;
+}
+
+.text-header {
+    position: absolute;
+    top: 68%
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 823px) {
