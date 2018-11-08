@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import 'rxjs/add/operator/finally';
 import {NotifyService} from '../../../service/notify.service';
@@ -31,6 +31,16 @@ export class RegisterComponent implements OnInit {
     baseUrl: string = environment.baseUrl;
     filteredCountries: any = [];
 
+    @Input()
+    step: number;
+
+    @Input()
+    email: string;
+
+    @Output()
+    getStep = new EventEmitter<number>();
+
+
     @ViewChild('myInput') myInput: ElementRef;
 
     userTypes: Array<{ name, checked }> = [
@@ -46,8 +56,9 @@ export class RegisterComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.fetchCountries();
+        // this.fetchCountries();
 
+        this.getStep.emit(this.step);
 
         this.form = this.fb.group({
             companyName: ['', Validators.required],
@@ -71,6 +82,24 @@ export class RegisterComponent implements OnInit {
                     this.form.get('phone').setValue(val.trim());
                 }
             })
+    }
+
+    changeStep() {
+        switch(this.step) {
+            case 1: {
+                this.router.navigate(['/reg-message']);
+            }
+            case 2: {
+                this.step += 1;
+                this.getStep.emit(this.step)
+            }
+            case 3: {
+
+            }
+            default: {
+
+            }
+        }
     }
 
     changeUserType(index) {

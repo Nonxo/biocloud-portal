@@ -9,6 +9,9 @@ import {ActivatedRoute} from "@angular/router";
 export class FlowTwoComponent implements OnInit {
 
     loginFlag: boolean = false;
+    email: string;
+    token: string;
+    step: number = 1;
 
     constructor(private route: ActivatedRoute) {
         this.route
@@ -16,6 +19,16 @@ export class FlowTwoComponent implements OnInit {
             .subscribe(params => {
                     // Defaults to null if no query param provided.
                     this.loginFlag = (params['login'] == 'true') || false;
+                    this.email = params['email'] || null;
+                    this.token = params['token'] || null;
+
+                    if(this.email && this.token) {
+                        //cal service to verify email and token
+
+                        //display message if token is invalid
+                        //set step to 2
+                        this.step = 2;
+                    }
                 }
             )
     }
@@ -27,4 +40,7 @@ export class FlowTwoComponent implements OnInit {
         this.loginFlag = value;
     }
 
+    getSignupStep(event) {
+        this.step = event;
+    }
 }
