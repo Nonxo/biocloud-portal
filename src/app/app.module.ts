@@ -1,3 +1,7 @@
+import { MessageService } from './service/message.service';
+import { BsModalRef } from 'ngx-bootstrap';
+import { AppConfigService } from './pages/app-content/app-config/services/app-config.service';
+import { WizardStepperComponent } from './components/wizard-stepper/wizard-stepper.component';
 import {BrowserModule, HAMMER_GESTURE_CONFIG} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule, HttpClient} from '@angular/common/http';
@@ -57,6 +61,7 @@ import { PersonalDetailsComponent } from './components/auth/personal-details/per
         RegEmailNotificationComponent,
         CreatePasswordComponent,
         PersonalDetailsComponent,
+        WizardStepperComponent,
     ],
     imports: [
         HttpClientModule,
@@ -82,6 +87,9 @@ import { PersonalDetailsComponent } from './components/auth/personal-details/per
         PictureUtil,
         GeoMapService,
         AppContentService,
+        AppConfigService,
+        BsModalRef,
+        MessageService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: ApiInterceptor,
