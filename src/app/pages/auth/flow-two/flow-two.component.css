@@ -1,6 +1,6 @@
 .hero-section {
     /* background: #ff000014 !important; */
-    background: #60348499 !important;
+    background: #603484bf !important;
     height: 100vh;
 }
 
@@ -45,6 +45,11 @@
     mat-card.auth.equal-row.h-100.mat-card {
         height: 135vh !important;
     }
+    .responsive-auth {
+        height: 100vh;
+        position: absolute;
+        top: 7%;
+    }
 }
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
@@ -56,5 +61,10 @@
     }
     .row.justify-content-center.pb-4.pt-4.h-100.align-items-md-center {
         padding-top: 100px !important;
+    }
+    .responsive-auth {
+        height: 100vh;
+        position: absolute;
+        top: 28%;
     }
 }
