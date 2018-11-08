@@ -94,6 +94,7 @@ export class SubscriptionService {
     }
 
     verifyPayment(model: VerifyPaymentRequest): Observable<any> {
+        debugger;
         return this.httpClient
             .post(Endpoints.VERIFY_PAYMENT, JSON.stringify(model), {
                 headers: new HttpHeaders()
