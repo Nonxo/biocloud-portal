@@ -2,7 +2,7 @@
 <p class="text-success font-weight-bold">14-day Free Trial</p>
 <p class="small">To create an iClocker account, Please confirm your e-mail address</p>
 
-<form class="pt-4" [formGroup]="form" (submit)="register()" ngNativeValidate>
+<form class="pt-4 form-inline" [formGroup]="form" (submit)="register()" ngNativeValidate>
 
     <div class="container-fluid">
         <div class="row">
@@ -99,18 +99,22 @@
             <!-- old changes -->
 
 
-            <div class="col-12">
-                <mat-form-field appearance="outline " class="input-field  float-left" style="margin-top:-12px;">
-                    <mat-label>Email</mat-label>
-                    <input matInput class="small" placeholder="you@emailprovider.com">
+            <div class="col-12 d-inline-flex px-0">
+                <div class="row">
+                    <div class="col-md-10 pr-0">
+                        <div class="form-group">
+                            <!-- <label>Email address</label> -->
+                            <input type="email" class="form-control w-100" placeholder="you@emailprovider.com">
+                        </div>
+                    </div>
 
-                </mat-form-field>
-
-                <button mat-raised-button color="primary" class="px-4 py-1" type="submit">
-                    REGISTER
+                    <div class="col-md-2">
+                        <button mat-raised-button color="primary" class="rounded px-5" type="submit" routerLink="/reg-message">
+                    <span *ngIf="!loading">Confirm</span>
                     <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;" />
                 </button>
-
+                    </div>
+                </div>
             </div>
         </div>
     </div>

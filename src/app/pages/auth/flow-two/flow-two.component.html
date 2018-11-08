@@ -48,7 +48,7 @@
 </div> -->
 
 <div class="row m-0 bg-white">
-    <div class="col-md-7 bg-color pl-0 pr-0">
+    <div class="col-lg-7 bg-color pl-0 pr-0 d-lg-block d-none">
         <div class="hero-section">
             <div class="container">
                 <div class="row py-4 px-4">
@@ -67,7 +67,7 @@
 
         </div>
     </div>
-    <div class="col-md-5 my-auto">
+    <div class="col-lg-5 my-auto">
         <div class="px-5">
             <ng-container *ngIf="!loginFlag">
 
@@ -87,13 +87,21 @@
             </ng-container>
 
             <ng-container *ngIf="loginFlag">
-                <h3 class="pl-2 text-brand text-center">Login to your account</h3>
+                <!-- <h3 class="pl-2 text-brand text-center">Login to your account</h3> -->
                 <app-login></app-login>
                 <app-google-sign-in [isSignIn]="loginFlag"></app-google-sign-in>
 
                 <hr>
 
-                <p class="text-center">Don't have an account? <span class="cursor text-brand font-weight-bold" (click)="viewLoginPage(false)">Sign up</span></p>
+                <p class="text-center">Don't have an account? <span class="cursor text-brand font-weight-bold" (click)="viewLoginPage(false)">Sign Up Here</span></p>
+            </ng-container>
+
+            <ng-container>
+                <app-create-password></app-create-password>
+            </ng-container>
+
+            <ng-container>
+                <app-personal-details></app-personal-details>
             </ng-container>
         </div>
     </div>

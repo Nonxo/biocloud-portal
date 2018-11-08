@@ -1,0 +1,27 @@
+.msg {
+    position: absolute;
+}
+
+.fontSize {
+    font-size: 14px;
+}
+
+.fontWeight {
+    font-weight: 600;
+}
+
+.highlight {
+    font-weight: 700;
+}
+
+.text-color {
+    color: #1D1D1D;
+}
+
+.textHlght {
+    color: black;
+}
+
+.purple {
+    color: #603484;
+}
