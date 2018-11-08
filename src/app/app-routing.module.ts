@@ -1,3 +1,4 @@
+import { RegEmailNotificationComponent } from './components/auth/register/reg-email-notification/reg-email-notification.component';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import {ChangePasswordComponent} from "./pages/change-password/change-password.component";
@@ -21,6 +22,7 @@ const routes: Routes = [
     {path: 'change-password', component: ChangePasswordComponent},
     {path: 'sign-up-as', component: SignUpAsComponent},
     {path: 'receipt', component: ReceiptComponent},
+    {path: 'reg-message', component: RegEmailNotificationComponent},
     {
         path: 'portal',
         loadChildren: 'app/pages/app-content/app-content.module#AppContentModule'

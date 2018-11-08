@@ -1,0 +1,32 @@
+<h3 class="">Complete your personal <br>details</h3>
+<p class="small">Please fill details you can be recognised with by your <br> Teammates</p>
+
+
+<form class="pt-2">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-12 px-0">
+
+                <div class="form-group">
+                    <!-- <label class="text-success small font-weight-bold">You@emailprovider.com</label> -->
+                    <input type="text" class="form-control w-100" placeholder="Full Name *">
+                </div>
+
+                <div class="form-group">
+                    <!-- <label class="text-success small font-weight-bold">You@emailprovider.com</label> -->
+                    <input type="text" class="form-control w-100" placeholder="Phone Number">
+                </div>
+            </div>
+
+            <div class="col-md-12 text-center pt-3">
+                <button type="submit" mat-raised-button color="primary" class="rounded px-5">
+                    <span>Complete account creation <span><i class="material-icons mt-2 pl-2 position-absolute">
+                            arrow_right_alt
+                            </i></span></span>
+                    <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
