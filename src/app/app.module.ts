@@ -36,8 +36,6 @@ import { GestureConfig } from '@angular/material';
 import { ApproveCoordinatesComponent } from './components/auth/approve-coordinates/approve-coordinates.component';
 import {GeoMapService} from './service/geo-map.service';
 import { RegEmailNotificationComponent } from './components/auth/register/reg-email-notification/reg-email-notification.component';
-import { CreatePasswordComponent } from './components/auth/create-password/create-password.component';
-import { PersonalDetailsComponent } from './components/auth/personal-details/personal-details.component';
 
 @NgModule({
     declarations: [
@@ -54,9 +52,7 @@ import { PersonalDetailsComponent } from './components/auth/personal-details/per
         LandingPageComponent,
         GoogleSignInComponent,
         ApproveCoordinatesComponent,
-        RegEmailNotificationComponent,
-        CreatePasswordComponent,
-        PersonalDetailsComponent,
+        RegEmailNotificationComponent
     ],
     imports: [
         HttpClientModule,
