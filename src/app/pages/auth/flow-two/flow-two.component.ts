@@ -11,7 +11,7 @@ export class FlowTwoComponent implements OnInit {
     loginFlag: boolean = false;
     email: string;
     token: string;
-    step: number = 1;
+    step: number = 3;
 
     constructor(private route: ActivatedRoute) {
         this.route
