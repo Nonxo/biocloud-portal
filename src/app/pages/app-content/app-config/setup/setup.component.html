@@ -109,7 +109,7 @@
 
 
                             <ng-container *ngIf="!editMode || editMode && changeAddress">
-                                <div class="col-md-12 mt-3">
+                                <div class="col-md-12 pl-0 mt-3">
                                     <p class="mb-2 font-weight-bold">Location Type</p>
                                     <p class="text-secondary">My employees will clock in from ...</p>
                                     <mat-radio-group name="locType" [(ngModel)]="locRequest.locationType" (change)="clearData()">
@@ -123,7 +123,7 @@
                                     </mat-radio-group>
                                 </div>
 
-                                <div class="col-md-12" *ngIf="locRequest.locationType == 'COUNTRY' || locRequest.locationType == 'STATE'">
+                                <div class="col-md-12 pl-0" *ngIf="locRequest.locationType == 'COUNTRY' || locRequest.locationType == 'STATE'">
                                     <!-- <mat-form-field class="input-field w-50">
                                         <mat-select placeholder="Select Country" name="country" [(ngModel)]="locRequest.countryId" (change)="fetchStates(locRequest.countryId)" [required]="locRequest.locationType == 'COUNTRY' || locRequest.locationType == 'STATE'">
                                             <mat-option value="0">--</mat-option>
@@ -141,7 +141,7 @@
                                                 </select>
                                     </div>
                                 </div>
-                                <div class="col-md-12" *ngIf="locRequest.locationType == 'STATE'">
+                                <div class="col-md-12 pl-0" *ngIf="locRequest.locationType == 'STATE'">
                                     <!-- <mat-form-field class="input-field w-50">
                                         <mat-select placeholder="Select State" name="states" [(ngModel)]="locRequest.stateId" [required]="locRequest.locationType == 'STATE'">
                                             <mat-option value="0">--</mat-option>
@@ -161,7 +161,7 @@
 
                                 </div>
 
-                                <div class="col-md-12 mt-4" *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS'">
+                                <div class="col-md-12 pl-0 mt-4" *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS'">
                                     <p class="mb-2 font-weight-bold">Clock-in Location</p>
                                     <p class="text-secondary">I will activate my location by ...
                                     </p>
@@ -183,7 +183,7 @@
                                     </mat-radio-group>
                                 </div>
 
-                                <div class="col-md-12 mt-4" *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS' && verifyLocation == 'false'">
+                                <div class="col-md-12 pl-0 mt-4" *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS' && verifyLocation == 'false'">
                                     <p class="mb-2 font-weight-bold">Search for Address</p>
                                     <p class="text-secondary small mb-2">Type in the field below to search for location or move the pin on the Map</p>
                                     <!-- <mat-form-field class="w-50">
@@ -237,7 +237,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-12 mt-3" *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS' && verifyLocation == 'true'">
+                                <div class="col-md-12 pl-0 mt-3" *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS' && verifyLocation == 'true'">
                                     <p class="mb-2 font-weight-bold text-brand">Get location coordinates from specific employees</p>
                                     <!-- <p class="text-secondary mb-0">During their first clock in, employees will be prompted to confirm their exact locations. Type below to set the number of employees to check with.</p> -->
                                     <mat-form-field class="w-50 input-field demo-chip-list" floatPlaceholder="never">
@@ -282,7 +282,7 @@
                                             </mat-option>
                                         </mat-autocomplete>
 
-                                        <div class="col-md-3">
+                                        <div class="col-xl-3 col-md-6">
                                             <!-- <p class="mb-0 font-weight-bold">Clock-in Time</p>
                                             <mat-form-field class="input-field w-50">
                                                 <div class="row">
@@ -304,7 +304,7 @@
                                                 <input type="text" name="resumptionTime" class="form-control w-100" [(ngModel)]="resumptionTime" placeholder="(HH:MM AM/PM)" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4">
                                                 <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
 
-                                                <div class="col-md-4 text-right">
+                                                <div class="col-md-4 text-right x-icon">
                                                     <button class="btn btn-clear" type="button" *ngIf="resumptionTime" (click)="clearResumptionTime()"><i
                                                                     class="material-icons">
                                                                     clear
@@ -316,7 +316,7 @@
 
                                         </div>
 
-                                        <div class="col-md-3" *ngIf="resumptionTime">
+                                        <div class="col-xl-3 col-md-6" *ngIf="resumptionTime">
                                             <!-- <p class="mb-0 font-weight-bold">Clock-out Time</p>
                                             <mat-form-field class="input-field w-50">
                                                 <div class="row">
@@ -338,7 +338,7 @@
                                                 <input type="text" class="form-control w-100" name="clockoutTime" placeholder="(HH:MM AM/PM)" [(ngModel)]="clockoutTime" [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5">
                                                 <owl-date-time [pickerType]="'timer'" #dt5></owl-date-time>
 
-                                                <div class="col-md-4 text-right">
+                                                <div class="col-md-4 text-right x-icon">
                                                     <button class="btn btn-clear" type="button" *ngIf="clockoutTime" (click)="clearClosingTime()"><i
                                                                     class="material-icons">
                                                                     clear
@@ -388,7 +388,7 @@
                                         <mat-divider class="w-50 mb-3"></mat-divider>
                                     </div>
 
-                                    <div class="col-md-12 pt-3">
+                                    <div class="col-md-12 pl-0 pt-3">
                                         <mat-form-field class="w-50 input-field mb-4 demo-chip-list" floatPlaceholder="never">
                                             <mat-chip-list #chipList>
                                                 <mat-chip *ngFor="let email of inviteEmails" [selectable]="true" [removable]="true" (remove)="removeEmail(email, 'INVITE')">

@@ -17,3 +17,17 @@
     left: 100%;
     top: calc(50% - 2px);
 }
+
+.active-tab {
+    background: #603484;
+    color: #fff;
+}
+
+.tab {
+    padding: 10px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #b4b4b4;
+    color: #fff;
+}
