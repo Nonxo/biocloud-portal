@@ -50,7 +50,6 @@ export class GoogleSignInComponent implements OnInit, AfterViewInit {
     }
 
     public attachSignin(element) {
-        debugger;
         this.auth2.attachClickHandler(element, {},
             (googleUser) => {
 

@@ -7,7 +7,7 @@
             <img src="assets/img/logos-bc.png" class="img-fluid pb-4 pt-3" style="max-width: 150px" />
 
             <div class="d-flex align-items-center">
-                <div class="tablinks" (click)="switcher('tab1')" style="padding:10px; width:45px; height:45px; border-radius:50%; background:#b4b4b4; color: #fff;" class="text-center float-left mr-3">1</div> Add company Info
+                <div class="tablinks" style="padding:10px; width:45px; height:45px; border-radius:50%; background:#b4b4b4; color: #fff;" class="text-center float-left mr-3">1</div> Add company Info
             </div>
             <div style="border-right: 1px solid #b4b4b4; height: 20px; width: 22px; margin: 3px 0px !important;
         ">
@@ -18,19 +18,9 @@
 
         </div>
         <div class="col-xl-10 col-md-8" style="max-height: 100vh;overflow-y: auto;">
+            <app-sign-up-as *ngIf="tab == 1" (onOrgSave)="saveOrg($event)"></app-sign-up-as>
 
-            <app-sign-up-as *ngIf="tab1"></app-sign-up-as>
-            <div *ngIf="tab1" style="margin-top: -150px;">
-                <!-- <button (click)="switcher('tab2')">Proceed</button> -->
-                <button type="submit" mat-raised-button color="primary" class="py-1 px-4" (click)="switcher('tab2')" style="margin-top: -150px;">CONTINUE
-                    <img *ngIf="loading" src="assets/img/loading.gif">
-                </button>
-            </div>
-
-            <app-setup *ngIf="tab2"></app-setup>
-            <div *ngIf="tab2">
-                <!-- <button>Proceed</button> -->
-            </div>
+            <app-setup *ngIf="tab == 2"></app-setup>
         </div>
     </div>
 </div>
