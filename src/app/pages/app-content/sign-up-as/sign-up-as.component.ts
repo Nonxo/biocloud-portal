@@ -183,6 +183,7 @@ export class SignUpAsComponent implements OnInit {
     }
 
     clearImage() {
+        this.croppedImage = '';
         this.uploadedFileName = "";
         this.bsModalRef.hide();
     }

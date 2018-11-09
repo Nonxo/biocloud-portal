@@ -57,7 +57,8 @@
 
                             <div class="row">
                                 <div class=" col-md-3">
-                                    <img class="w-100 rounded-circle h-120 mx-auto pt-lg-0 pt-4 image-hover" src="/assets/img/1.png" alt="Profile picture" style="max-width: 120px">
+                                    <img *ngIf="!croppedImage" class="w-100 rounded-circle h-120 mx-auto pt-lg-0 pt-4 image-hover" src="/assets/img/1.png" alt="Profile picture" style="max-width: 120px">
+                                    <img *ngIf="croppedImage" class="w-100 rounded-circle h-120 mx-auto pt-lg-0 pt-4 image-hover" [src]="croppedImage" alt="Profile picture" style="max-width: 120px">
                                     <!-- <div class="middle">
                                     <span class="fileUpload btn">
                           <span><mat-icon class="float-left upload-icon">camera_enhance</mat-icon></span>
@@ -67,8 +68,8 @@
                                 </div>
 
                                 <div class="col-md-4 my-auto">
-                                    <p class="text-success mb-2">Up to 2MB in size</p>
-                                    <button type="button" class="btn btn-outline-dark px-3 upload" style="border-radius: 25px" accept="image/*" #input (change)="fileChange($event)">Upload Image</button>
+                                    <p class="text-success mb-2">Up to 100KB in size</p>
+                                    <input type="file" class="btn btn-outline-dark px-3 upload" style="border-radius: 25px" accept="image/*" #input (change)="fileChange($event)">Upload Image
                                 </div>
 
                             </div>

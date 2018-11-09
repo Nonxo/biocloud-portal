@@ -19,7 +19,7 @@
 }
 
 .active-tab {
-    background: #603484;
+    background: #603484 !important;
     color: #fff;
 }
 
