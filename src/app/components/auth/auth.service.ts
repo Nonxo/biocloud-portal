@@ -67,6 +67,12 @@ export class AuthService {
         });
     }
 
+    verifyEmail(email: string): Observable<any> {
+        return this.httpClient.post(Endpoints.VERIFY_EMAIL + email + "/email", null, {
+            headers: this.urlEncodeHeader
+        });
+    }
+
     test() {
         this.httpClient.get('https://jsonplaceholder.typicode.com/posts')
             .subscribe(

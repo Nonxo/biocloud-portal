@@ -50,6 +50,7 @@ export class SetupComponent implements OnInit, OnDestroy {
     searchValue: string;
     verifyLocation: string = 'true';
     changeAddress: boolean = false;
+    tempName: string = "";
 
     constructor(private aService: AppConfigService,
                 private modalService: BsModalService,
@@ -674,5 +675,18 @@ export class SetupComponent implements OnInit, OnDestroy {
     getStateName(id: number) {
         let obj = this.states.filter( obj => obj.stateId == id)[0];
         return obj? obj.name:'';
+    }
+
+    validateLocName() {
+        if(this.locRequest.name.length < 50) {
+            return;
+        }
+
+        if(this.tempName.length > 49) {
+            this.locRequest.name = this.tempName;
+            return;
+        }
+
+        this.tempName = this.locRequest.name;
     }
 }

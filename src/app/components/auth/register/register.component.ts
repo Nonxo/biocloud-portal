@@ -87,11 +87,13 @@ export class RegisterComponent implements OnInit {
     changeStep() {
         switch(this.step) {
             case 1: {
-                this.router.navigate(['/reg-message']);
+                this.verifyEmail();
+                break;
             }
             case 2: {
                 this.step += 1;
                 this.getStep.emit(this.step)
+                break;
             }
             case 3: {
 
@@ -100,6 +102,17 @@ export class RegisterComponent implements OnInit {
 
             }
         }
+    }
+
+    verifyEmail() {
+       this.authService.verifyEmail(this.form.get('email').value)
+           .subscribe(
+               result => {
+               this.router.navigate(['/reg-message'],{queryParams: {email: this.form.get('email').value.toLowerCase()}});},
+               error => {
+                   this.ns.showError("An Error Occurred");
+               }
+           )
     }
 
     changeUserType(index) {

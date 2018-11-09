@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-wizard-stepper',
@@ -7,24 +8,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WizardStepperComponent implements OnInit {
 
-
-    tab1: boolean = true;
-    tab2: boolean = false;
+    tab: number = 1;
 
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
-  switcher(choosenTab){
-      if(choosenTab === 'tab2'){
-          this.tab1 = false;
-          this.tab2 = true;
-      }
-      else{
-        this.tab1 = true;
-        this.tab2 = false;
+  saveOrg(event) {
+      this.switcher();
+  }
+
+  switcher(){
+      switch(this.tab) {
+          case 1: {
+              this. tab += 1;
+              break;
+          }
+          case 2: {
+              this.router.navigate(['/portal']);
+              break;
+          }
       }
   }
 
