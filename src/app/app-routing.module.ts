@@ -1,3 +1,4 @@
+import { WizardStepperComponent } from './components/wizard-stepper/wizard-stepper.component';
 import { RegEmailNotificationComponent } from './components/auth/register/reg-email-notification/reg-email-notification.component';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
@@ -23,6 +24,7 @@ const routes: Routes = [
     {path: 'sign-up-as', component: SignUpAsComponent},
     {path: 'receipt', component: ReceiptComponent},
     {path: 'reg-message', component: RegEmailNotificationComponent},
+    {path: 'wizard', component: WizardStepperComponent},
     {
         path: 'portal',
         loadChildren: 'app/pages/app-content/app-content.module#AppContentModule'
