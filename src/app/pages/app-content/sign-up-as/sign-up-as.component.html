@@ -55,17 +55,35 @@
 
                             <p class="small">Upload Company Logo</p>
 
-                            <span class="fileUpload btn btn-accent">
+                            <div class="row">
+                                <div class=" col-md-3">
+                                    <img class="w-100 rounded-circle h-120 mx-auto pt-lg-0 pt-4 image-hover" src="/assets/img/1.png" alt="Profile picture" style="max-width: 120px">
+                                    <!-- <div class="middle">
+                                    <span class="fileUpload btn">
+                          <span><mat-icon class="float-left upload-icon">camera_enhance</mat-icon></span>
+                                    <input type="file" class="upload" accept="image/*" #input (change)="fileChange($event)">
+                                    </span>
+                                </div> -->
+                                </div>
+
+                                <div class="col-md-4 my-auto">
+                                    <p class="text-success mb-2">Up to 2MB in size</p>
+                                    <button type="button" class="btn btn-outline-dark px-3 upload" style="border-radius: 25px" accept="image/*" #input (change)="fileChange($event)">Upload Image</button>
+                                </div>
+
+                            </div>
+
+                            <!-- <span class="fileUpload btn btn-accent">
                                    <span><mat-icon>attachment</mat-icon></span>
                             <input type="file" class="upload" accept="image/*" #input (change)="fileChange($event)">
                             </span>
-                            <p>{{uploadedFileName}}</p>
+                            <p>{{uploadedFileName}}</p> -->
 
-                            <div>
+                            <!-- <div>
                                 <small>
                                         Upload company's logo
                                     </small>
-                            </div>
+                            </div> -->
                         </div>
 
                          <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1" [disabled]="loading">CONTINUE
