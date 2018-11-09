@@ -10,3 +10,9 @@
 .btn2:hover {
     box-shadow: rgba(0, 0, 0, 0.2) 3px 3px 8px;
 }
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 823px) {
+    .btn2 {
+        width: 100% !important;
+    }
+}
