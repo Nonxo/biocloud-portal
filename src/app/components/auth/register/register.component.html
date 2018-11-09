@@ -1,5 +1,5 @@
 <ng-container *ngIf="step == 1">
-    <h3 class="">Create an Iclocker Account</h3>
+    <h3 class="">Create an iClocker Account</h3>
     <p class="text-success font-weight-bold">14-days Free Trial</p>
     <p class="small">To create an iClocker account, Please confirm your e-mail address</p>
 
@@ -12,7 +12,8 @@
                         <div class="col-md-10 pr-0">
                             <div class="form-group">
                                 <!-- <label>Email address</label> -->
-                                <input type="email" class="form-control w-100" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" placeholder="you@emailprovider.com" required>
+                                <input type="email" class="form-control w-100" pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+                                       placeholder="you@emailprovider.com" formControlName="email" required>
                             </div>
                         </div>
 
@@ -33,7 +34,7 @@
 
 <ng-container *ngIf="step == 2">
     <h3 class="">Create Password</h3>
-    <p class="small">Create a password for your account with at least 6 <br> characters long</p>
+    <p class="small">Create a password for your account with at least 6 <br> characters</p>
 
 
     <form class="pt-2" [formGroup]="form" (submit)="changeStep()" ngNativeValidate>
