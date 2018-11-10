@@ -12,16 +12,15 @@
                         <div class="col-md-10 pr-0">
                             <div class="form-group">
                                 <!-- <label>Email address</label> -->
-                                <input type="email" class="form-control w-100" pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
-                                       placeholder="you@emailprovider.com" formControlName="email" required>
+                                <input type="email" class="form-control w-100" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" placeholder="you@emailprovider.com" formControlName="email" required>
                             </div>
                         </div>
 
                         <div class="col-md-2">
                             <button mat-raised-button color="primary" class="rounded px-5" type="submit">
-                                <span *ngIf="!loading">Confirm</span>
-                                <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
-                            </button>
+                                    <span *ngIf="!loading">Confirm</span>
+                                    <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
+                                </button>
                         </div>
                     </div>
                 </div>
@@ -51,9 +50,9 @@
 
                 <div class="col-md-12 text-center pt-3">
                     <button type="submit" mat-raised-button color="primary" class="rounded px-5">
-                        <span>Continue</span>
-                        <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
-                    </button>
+                            <span>Continue</span>
+                            <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
+                        </button>
                 </div>
 
                 <div class="col-md-12 text-center py-3">
@@ -81,6 +80,44 @@
                         <input type="text" class="form-control w-100" placeholder="Full Name *" required>
                     </div>
 
+                    <!-- <div class="form-group">
+                            <label class="text-success small font-weight-bold">You@emailprovider.com</label>
+                            <input type="text" class="form-control w-100" placeholder="Phone Number" required>
+                        </div> -->
+                </div>
+
+                <div class="col-md-3 pl-0">
+                    <div class="cursor text-center form-control py-2" (click)="showDd()">
+                        <i *ngIf="selectedCountryCode" class="form-control sprite {{selectedCountryCode.toLowerCase()}}"></i>
+                    </div>
+
+                    <div *ngIf="openDropdown" class="font-12 box-shadow mt-2">
+
+                        <ul class="list-unstyled">
+                            <li class="media">
+                                <!-- <mat-form-field class="w-100">
+                                        <input matInput placeholder="Search Company" class="text-white company-search" type="text" name="searchField" [(ngModel)]="searchField" (keyup)="search('ORG',$event.target.value)">
+                                        <mat-icon matSuffix class="cursor">search</mat-icon>
+                                    </mat-form-field> -->
+
+                                <div class="form-group w-100">
+                                    <!-- <label class="text-success small font-weight-bold">You@emailprovider.com</label> -->
+                                    <input type="text" class="form-control w-100 company-search" style="border-top: none !important; border-right:none !important; border-left: none !important" placeholder="Search Company" name="searchField" [(ngModel)]="searchField" (keyup)="search('ORG',$event.target.value)">
+                                    <i class="fa fa-search"></i>
+                                    <mat-icon matSuffix class="cursor search-style">search</mat-icon>
+                                </div>
+                            </li>
+                            <li class="media" *ngFor="let country of filteredCountries" value="{{country.code}}">
+                                <i class="sprite {{country.code.toLowerCase()}} d-inline-flex mr-2">{{country.name}}</i>
+                            </li>
+
+                            <p *ngIf="filteredCountries.length == 0" class="text-center small text-muted">No result(s) found</p>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <div class="col-md-9">
                     <div class="form-group">
                         <!-- <label class="text-success small font-weight-bold">You@emailprovider.com</label> -->
                         <input type="text" class="form-control w-100" placeholder="Phone Number" required>
@@ -89,11 +126,11 @@
 
                 <div class="col-md-12 text-center pt-3">
                     <button type="submit" mat-raised-button color="primary" class="rounded px-5">
-                    <span>Complete account creation <span><i class="material-icons mt-2 pl-2 position-absolute">
-                            arrow_right_alt
-                            </i></span></span>
-                        <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
-                    </button>
+                        <span>Complete account creation <span><i class="material-icons mt-2 pl-2 position-absolute">
+                                arrow_right_alt
+                                </i></span></span>
+                                    <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;" />
+                                    </button>
                 </div>
             </div>
         </div>
@@ -105,7 +142,7 @@
     <!--<div class="cursor" id="googleBtn">Google</div>-->
     <!--<p class="hr">or</p>-->
     <p class="text-center textDecor smaller fontWeight mb-3"> <span> or
-        continue with</span>
+            continue with</span>
     </p>
 
 </div>

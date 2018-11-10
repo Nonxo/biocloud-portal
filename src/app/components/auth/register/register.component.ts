@@ -30,6 +30,7 @@ export class RegisterComponent implements OnInit {
     selectedCountryCode: string = "NG";
     baseUrl: string = environment.baseUrl;
     filteredCountries: any = [];
+    openDropdown: boolean;
 
     @Input()
     step: number;
@@ -82,6 +83,14 @@ export class RegisterComponent implements OnInit {
                     this.form.get('phone').setValue(val.trim());
                 }
             })
+    }
+
+    showDd() {
+        !this.openDropdown ? this.openDropdown = true : this.openDropdown = false;
+    }
+
+    onClickedOutside(e: Event) {
+        this.openDropdown = false;
     }
 
     changeStep() {
