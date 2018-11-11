@@ -31,12 +31,14 @@ export class RegisterComponent implements OnInit {
     baseUrl: string = environment.baseUrl;
     filteredCountries: any = [];
     openDropdown: boolean;
+    fullName: string;
+    phone: string;
 
     @Input()
     step: number;
 
     @Input()
-    email: string;
+    email: string = "";
 
     @Output()
     getStep = new EventEmitter<number>();
@@ -49,7 +51,7 @@ export class RegisterComponent implements OnInit {
         {name: 'CORPORATE', checked: false}
     ];
 
-   constructor(private authService: AuthService,
+    constructor(private authService: AuthService,
                 private router: Router,
                 private ns: NotifyService,
                 private fb: FormBuilder,
@@ -57,7 +59,7 @@ export class RegisterComponent implements OnInit {
     }
 
     ngOnInit() {
-        // this.fetchCountries();
+        this.fetchCountries();
 
         this.getStep.emit(this.step);
 
@@ -67,9 +69,8 @@ export class RegisterComponent implements OnInit {
             lName: ['', Validators.required],
             phoneCode: [''],
             phone: ['', Validators.required],
-            email: ['', Validators.email],
-            password: ['', Validators.required],
-            gdprCompliance: ['', Validators.requiredTrue]
+            email: [this.email, Validators.email],
+            password: ['', Validators.required]
         });
 
         // disable validation for company name when it is invisible initially
@@ -94,18 +95,19 @@ export class RegisterComponent implements OnInit {
     }
 
     changeStep() {
-        switch(this.step) {
+        switch (this.step) {
             case 1: {
                 this.verifyEmail();
                 break;
             }
             case 2: {
                 this.step += 1;
-                this.getStep.emit(this.step)
+                this.getStep.emit(this.step);
                 break;
             }
             case 3: {
-
+                this.register();
+                break;
             }
             default: {
 
@@ -114,14 +116,15 @@ export class RegisterComponent implements OnInit {
     }
 
     verifyEmail() {
-       this.authService.verifyEmail(this.form.get('email').value)
-           .subscribe(
-               result => {
-               this.router.navigate(['/reg-message'],{queryParams: {email: this.form.get('email').value.toLowerCase()}});},
-               error => {
-                   this.ns.showError("An Error Occurred");
-               }
-           )
+        this.authService.verifyEmail(this.form.get('email').value)
+            .subscribe(
+                result => {
+                    this.router.navigate(['/reg-message'], {queryParams: {email: this.form.get('email').value.toLowerCase()}});
+                },
+                error => {
+                    this.ns.showError("An Error Occurred");
+                }
+            )
     }
 
     changeUserType(index) {
@@ -150,6 +153,12 @@ export class RegisterComponent implements OnInit {
         //set Device Type
         this.payload['deviceType'] = 'WEB';
 
+        //Get firstname and lastname
+        this.setName();
+        this.payload.phone = this.phone;
+
+        this.payload.gdprCompliance = true;
+
         //set Flow id
         this.setFlowId();
 
@@ -162,24 +171,23 @@ export class RegisterComponent implements OnInit {
 
         this.trimValues();
 
-        if (this.captchaResponse) {
-            this.validateCaptcha();
-        } else {
-            this.resetCaptcha();
-            this.loading = false;
-            this.ns.showError("Error Validating Captcha");
-        }
+        this.registerUser();
+    }
 
+    setName() {
+        let names = this.fullName.split(" ");
+        this.payload.fName = names[0];
+        this.payload.lName = names[1];
     }
 
     setFlowId() {
-        if(this.ss.getAuthRoute()) {
-            if(this.ss.getAuthRoute() == '/auth/register') {
+        if (this.ss.getAuthRoute()) {
+            if (this.ss.getAuthRoute() == '/auth/register') {
                 this.payload['flowId'] = 2;
                 return;
             }
         }
-            this.payload['flowId'] = 1;
+        this.payload['flowId'] = 1;
     }
 
     trimValues() {
@@ -221,7 +229,7 @@ export class RegisterComponent implements OnInit {
                     if (res.code == 0) {
                         this.ss.authToken = res.token;
                         this.ss.loggedInUser = res.bioUser;
-                        this.router.navigate(['/sign-up-as']);
+                        this.router.navigate(['/wizard']);
                     } else {
                         this.ns.showError(res.description);
                         this.resetCaptcha();
@@ -247,19 +255,18 @@ export class RegisterComponent implements OnInit {
             )
     }
 
-    onSelectChange() {
-        this.selectCountryCode();
+    onSelectChange(country: any) {
+        this.selectCountryCode(country.code);
         this.selectPhoneCode();
     }
 
-    selectCountryCode() {
-        this.selectedCountryCode = this.form.get('phoneCode').value;
-        this.form.get('phoneCode').setValue('');
+    selectCountryCode(code: any) {
+        this.selectedCountryCode = code;
+        // this.form.get('phoneCode').setValue('');
     }
 
     selectPhoneCode() {
         let obj = this.countries.filter((obj) => obj.code == this.selectedCountryCode)[0];
-
         if (obj) {
             this.selectedPhoneCode = obj.phoneCode;
         }

@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
+import {AuthService} from "../../../components/auth/auth.service";
+import {NotifyService} from "../../../service/notify.service";
 
 @Component({
     selector: 'app-flow-two',
@@ -11,9 +13,9 @@ export class FlowTwoComponent implements OnInit {
     loginFlag: boolean = false;
     email: string;
     token: string;
-    step: number = 3;
+    step: number = 1;
 
-    constructor(private route: ActivatedRoute) {
+    constructor(private route: ActivatedRoute, private authService: AuthService, private ns: NotifyService) {
         this.route
             .queryParams
             .subscribe(params => {
@@ -22,18 +24,36 @@ export class FlowTwoComponent implements OnInit {
                     this.email = params['email'] || null;
                     this.token = params['token'] || null;
 
-                    if(this.email && this.token) {
+                    if (this.email && this.token) {
                         //cal service to verify email and token
+                        this.verifyToken();
 
                         //display message if token is invalid
                         //set step to 2
-                        this.step = 2;
                     }
                 }
             )
     }
 
     ngOnInit() {
+    }
+
+    verifyToken() {
+        this.authService.verifyUserToken(this.email, this.token)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.step = 2;
+
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+
+                },
+                error => {
+                    this.ns.showError("An Error Occurred");
+                }
+            )
     }
 
     viewLoginPage(value: boolean) {
