@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {AuthService} from "../../../components/auth/auth.service";
 import {NotifyService} from "../../../service/notify.service";
+import {MessageService} from "../../../service/message.service";
 
 @Component({
     selector: 'app-flow-two',
@@ -15,7 +16,7 @@ export class FlowTwoComponent implements OnInit {
     token: string;
     step: number = 1;
 
-    constructor(private route: ActivatedRoute, private authService: AuthService, private ns: NotifyService) {
+    constructor(private route: ActivatedRoute, private authService: AuthService, private ns: NotifyService, private mService: MessageService) {
         this.route
             .queryParams
             .subscribe(params => {
@@ -27,9 +28,6 @@ export class FlowTwoComponent implements OnInit {
                     if (this.email && this.token) {
                         //cal service to verify email and token
                         this.verifyToken();
-
-                        //display message if token is invalid
-                        //set step to 2
                     }
                 }
             )
@@ -39,6 +37,8 @@ export class FlowTwoComponent implements OnInit {
     }
 
     verifyToken() {
+        this.mService.setDisplay(true);
+
         this.authService.verifyUserToken(this.email, this.token)
             .subscribe(
                 result => {
@@ -48,10 +48,13 @@ export class FlowTwoComponent implements OnInit {
                     } else {
                         this.ns.showError(result.description);
                     }
+                        this.mService.setDisplay(false);
+
 
                 },
                 error => {
                     this.ns.showError("An Error Occurred");
+                    this.mService.setDisplay(false);
                 }
             )
     }
