@@ -192,7 +192,6 @@ export class SignUpAsComponent implements OnInit {
         let splitParts = this.croppedImage.split(",");
 
         this.orgRequest.logo = splitParts[1];
-        this.croppedImage = "";
         this.bsModalRef.hide();
     }
 
