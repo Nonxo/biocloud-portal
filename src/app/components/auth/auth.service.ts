@@ -60,7 +60,7 @@ export class AuthService {
 
     validateCaptcha(token): Observable<any> {
         let params = new HttpParams()
-            .set('resp', token)
+            .set('resp', token);
 
         return this.httpClient.post(Endpoints.VERIFY_CAPTCHA, params.toString(), {
             headers: this.urlEncodeHeader
@@ -69,6 +69,16 @@ export class AuthService {
 
     verifyEmail(email: string): Observable<any> {
         return this.httpClient.post(Endpoints.VERIFY_EMAIL + email + "/email", null, {
+            headers: this.urlEncodeHeader
+        });
+    }
+
+    verifyUserToken(email: string, token: string): Observable<any> {
+        let params = new HttpParams()
+            .set('email', email)
+            .set('token', token);
+
+        return this.httpClient.post(Endpoints.VERIFY_USER_TOKEN + params, null, {
             headers: this.urlEncodeHeader
         });
     }

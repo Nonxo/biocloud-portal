@@ -69,4 +69,5 @@ export class Endpoints {
     public static VERIFY_SOCIAL_MEDIA_SIGN_IN = `${Endpoints.BASE_URL}/users/api/social/login`;
     public static APPROVE_COORDINATES = `${Endpoints.BASE_URL}/users/api/locations/approve`;
     public static VERIFY_EMAIL = `${Endpoints.BASE_URL}/users/api/verify/`;
+    public static VERIFY_USER_TOKEN = `${Endpoints.BASE_URL}/users/api/verify?`;
 }
