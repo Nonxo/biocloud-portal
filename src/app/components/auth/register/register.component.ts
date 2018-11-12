@@ -1,12 +1,12 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import 'rxjs/add/operator/finally';
-import {NotifyService} from '../../../service/notify.service';
-import {AuthService} from '../auth.service';
-import {Constants} from "../../../util/constants";
-import {Router} from "@angular/router";
-import {StorageService} from "../../../service/storage.service";
-import {environment} from "../../../../environments/environment";
+import { NotifyService } from '../../../service/notify.service';
+import { AuthService } from '../auth.service';
+import { Constants } from "../../../util/constants";
+import { Router } from "@angular/router";
+import { StorageService } from "../../../service/storage.service";
+import { environment } from "../../../../environments/environment";
 
 
 @Component({
@@ -47,15 +47,15 @@ export class RegisterComponent implements OnInit {
     @ViewChild('myInput') myInput: ElementRef;
 
     userTypes: Array<{ name, checked }> = [
-        {name: 'INDIVIDUAL', checked: true},
-        {name: 'CORPORATE', checked: false}
+        { name: 'INDIVIDUAL', checked: true },
+        { name: 'CORPORATE', checked: false }
     ];
 
     constructor(private authService: AuthService,
-                private router: Router,
-                private ns: NotifyService,
-                private fb: FormBuilder,
-                private ss: StorageService) {
+        private router: Router,
+        private ns: NotifyService,
+        private fb: FormBuilder,
+        private ss: StorageService) {
     }
 
     ngOnInit() {
@@ -87,14 +87,12 @@ export class RegisterComponent implements OnInit {
     }
 
     showDd() {
-        // !this.openDropdown ? this.openDropdown = true : this.openDropdown = false;
-
-        if(!this.openDropdown){
+        if (!this.openDropdown) {
             //first load filteredCountries afresh else the old searched countries will still be displayed
             this.filteredCountries = this.countries;
 
             this.openDropdown = true;
-        }else{
+        } else {
             this.openDropdown = false;
         }
     }
@@ -131,7 +129,7 @@ export class RegisterComponent implements OnInit {
         this.authService.verifyEmail(this.form.get('email').value)
             .subscribe(
                 result => {
-                    this.router.navigate(['/reg-message'], {queryParams: {email: this.form.get('email').value.toLowerCase()}});
+                    this.router.navigate(['/reg-message'], { queryParams: { email: this.form.get('email').value.toLowerCase() } });
                 },
                 error => {
                     this.ns.showError("An Error Occurred");
