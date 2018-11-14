@@ -394,10 +394,8 @@ export class SubscribeComponent implements OnInit, OnDestroy {
             },
             callback: (response) => {
                 if (this.renewSub) {
-                    debugger;
                     this.verifyPayment(response.reference, true);
                 } else {
-                    debugger;
                     this.verifyPayment(response.reference, false);
                 }
             }
