@@ -86,6 +86,7 @@ export class LoginComponent implements OnInit,OnDestroy {
             this.ss.authToken = res.token;
             this.ss.loggedInUser = res.bioUser;
             this.ss.setOrgRoles(res.bioUser.orgRoles);
+            this.authService.setTawktoUserName(res.bioUser.email, res.bioUser.fName + ' ' + res.bioUser.lName, res.tawkHash);
 
             //check support role
             if(res.bioUser.role == "BASE_ADMIN") {
