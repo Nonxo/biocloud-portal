@@ -129,10 +129,14 @@ export class RegisterComponent implements OnInit {
         this.authService.verifyEmail(this.form.get('email').value)
             .subscribe(
                 result => {
-                    this.router.navigate(['/reg-message'], { queryParams: { email: this.form.get('email').value.toLowerCase() } });
+                    if (result.code == 0) {
+                        this.router.navigate(['/reg-message'], { queryParams: { email: this.form.get('email').value.toLowerCase() } });
+                    } else {
+                        this.ns.showError(result.description);
+                    }
                 },
                 error => {
-                    this.ns.showError("This email already exists"); 
+                    this.ns.showError("An Error Occurred");
                 }
             )
     }
@@ -240,8 +244,6 @@ export class RegisterComponent implements OnInit {
                         this.ss.authToken = res.token;
                         this.ss.loggedInUser = res.bioUser;
                         this.router.navigate(['/wizard']);
-                        // this.authService.setTawktoUserName(res.bioUser.email, res.bioUser.fName + ' ' + res.bioUser.lName, res.tawkHash);
-                        // this.router.navigate(['/sign-up-as']);
                     } else {
                         this.ns.showError(res.description);
                         this.resetCaptcha();
