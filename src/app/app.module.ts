@@ -1,3 +1,7 @@
+import { MessageService } from './service/message.service';
+import { BsModalRef } from 'ngx-bootstrap';
+import { AppConfigService } from './pages/app-content/app-config/services/app-config.service';
+import { WizardStepperComponent } from './components/wizard-stepper/wizard-stepper.component';
 import {BrowserModule, HAMMER_GESTURE_CONFIG} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule, HttpClient} from '@angular/common/http';
@@ -35,6 +39,7 @@ import { GoogleSignInComponent } from './components/auth/google-sign-in/google-s
 import { GestureConfig } from '@angular/material';
 import { ApproveCoordinatesComponent } from './components/auth/approve-coordinates/approve-coordinates.component';
 import {GeoMapService} from './service/geo-map.service';
+import { RegEmailNotificationComponent } from './components/auth/register/reg-email-notification/reg-email-notification.component';
 
 @NgModule({
     declarations: [
@@ -50,7 +55,12 @@ import {GeoMapService} from './service/geo-map.service';
         FlowTwoComponent,
         LandingPageComponent,
         GoogleSignInComponent,
-        ApproveCoordinatesComponent
+        ApproveCoordinatesComponent,
+        RegEmailNotificationComponent,
+        // CreatePasswordComponent,
+        // PersonalDetailsComponent,
+        WizardStepperComponent,
+        RegEmailNotificationComponent
     ],
     imports: [
         HttpClientModule,
@@ -76,6 +86,9 @@ import {GeoMapService} from './service/geo-map.service';
         PictureUtil,
         GeoMapService,
         AppContentService,
+        AppConfigService,
+        BsModalRef,
+        MessageService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: ApiInterceptor,
