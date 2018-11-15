@@ -1619,3 +1619,6 @@ fileUpload {
     height: 20px;
     background-position: -578px -304px;
 }
+.break-word {
+    word-break: break-all;
+}
