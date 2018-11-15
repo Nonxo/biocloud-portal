@@ -8,7 +8,7 @@
 <div class="container py-5">
     <form (ngSubmit)="submit()" name="addLocationForm" #addLocationForm="ngForm" ngNativeValidate>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 px-xl-0 px-5">
                 <div class="row">
 
                     <div class="col-md-10">
@@ -305,9 +305,9 @@
                                                 <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
 
                                                 <div class="col-md-4 text-right x-icon">
-                                                    <button class="btn btn-clear" type="button" *ngIf="resumptionTime" (click)="clearResumptionTime()"><i
+                                                    <button class="btn btn-clear cursor" type="button" *ngIf="resumptionTime" (click)="clearResumptionTime()"><i
                                                                     class="material-icons">
-                                                                    clear
+                                                                    cancel
                                                                 </i></button>
                                                 </div>
                                             </div>
@@ -339,9 +339,9 @@
                                                 <owl-date-time [pickerType]="'timer'" #dt5></owl-date-time>
 
                                                 <div class="col-md-4 text-right x-icon">
-                                                    <button class="btn btn-clear" type="button" *ngIf="clockoutTime" (click)="clearClosingTime()"><i
+                                                    <button class="btn btn-clear cursor" type="button" *ngIf="clockoutTime" (click)="clearClosingTime()"><i
                                                                     class="material-icons">
-                                                                    clear
+                                                                    cancel
                                                                 </i></button>
                                                 </div>
                                             </div>
