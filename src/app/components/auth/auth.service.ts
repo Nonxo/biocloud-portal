@@ -211,4 +211,16 @@ export class AuthService {
             this.router.navigate(['/auth']);
         }
     }
+
+    public setTawktoUserName(email: string, name: string, hash: string) {
+        const Tawk_API = (<any>window).Tawk_API;
+
+        if (typeof Tawk_API === 'undefined' || !Tawk_API) return;
+
+        Tawk_API.setAttributes({
+            name: name,
+            email: email,
+            hash: hash
+        }, function (error) {});
+    }
 }

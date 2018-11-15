@@ -1,7 +1,7 @@
 <ng-container *ngIf="step == 1">
     <h3 class="">Create an iClocker Account</h3>
-    <p class="text-success font-weight-bold">14-days Free Trial</p>
-    <p class="small">To create an iClocker account, Please confirm your e-mail address</p>
+    <p class="text-success font-weight-bold">Start your 14-day Free Trial</p>
+    <p class="small">To create an iClocker account, please confirm your e-mail address</p>
 
     <form class="pt-4 form-inline" [formGroup]="form" (submit)="changeStep()" ngNativeValidate>
 
@@ -87,31 +87,32 @@
                 </div>
 
                 <div class="col-md-3 pl-0" (clickOutside)="onClickedOutside($event)">
-                    <div class="cursor text-center form-control py-2" (click)="showDd()">
-                        <i *ngIf="selectedCountryCode" class="form-control sprite {{selectedCountryCode.toLowerCase()}}">{{selectedPhoneCode.charAt(0) == "+"? selectedPhoneCode: "+" + selectedPhoneCode}}</i>
+                    <div class="cursor text-center form-control py-2 d-inline-flex" (click)="showDd()">
+                        <i *ngIf="selectedCountryCode" class="form-control d-inline-flex cursor sprite {{selectedCountryCode.toLowerCase()}}"></i>
+                        <p class="small mb-0 pl-2">{{selectedPhoneCode.charAt(0) == "+"? selectedPhoneCode: "+" + selectedPhoneCode}}</p>
                     </div>
 
                     <div *ngIf="openDropdown" class="font-12 box-shadow mt-2">
 
                         <ul class="list-unstyled">
                             <li class="media">
-                                <!-- <mat-form-field class="w-100">
-                                        <input matInput placeholder="Search Company" class="text-white company-search" type="text" name="searchField" [(ngModel)]="searchField" (keyup)="search('ORG',$event.target.value)">
-                                        <mat-icon matSuffix class="cursor">search</mat-icon>
-                                    </mat-form-field> -->
+                                <mat-form-field class="w-100">
+                                    <input matInput placeholder="Search Company" class="company-search" type="text" name="searchField" [(ngModel)]="searchField" (keyup)="search($event.target.value)">
+                                    <mat-icon matSuffix class="cursor">search</mat-icon>
+                                </mat-form-field>
 
-                                <div class="form-group w-100">
-                                    <!-- <label class="text-success small font-weight-bold">You@emailprovider.com</label> -->
+                                <!-- <div class="form-group w-100">
+                                    <label class="text-success small font-weight-bold">You@emailprovider.com</label>
                                     <input type="text" class="form-control w-100 company-search" (keyup)="search($event.target.value)" style="border-top: none !important; border-right:none !important; border-left: none !important" placeholder="Search Company" name="searchField">
                                     <i class="fa fa-search"></i>
                                     <mat-icon matSuffix class="cursor search-style">search</mat-icon>
-                                </div>
+                                </div> -->
                             </li>
-                            <li class="media" *ngFor="let country of filteredCountries" value="{{country.code}}" (click)="onSelectChange(country)">
-                                <i class="sprite {{country.code.toLowerCase()}} d-inline-flex mr-2">{{country.name}}</i>
+                            <li class="media pb-2 cursor" *ngFor="let country of filteredCountries" value="{{country.code}}" (click)="onSelectChange(country)">
+                                <i class="sprite {{country.code.toLowerCase()}} d-inline-flex mr-3"></i> {{country.name}}
                             </li>
 
-                            <p *ngIf="filteredCountries.length == 0" class="text-center small text-muted">No result(s) found</p>
+                            <p *ngIf="filteredCountries.length == 0" class="text-center small text-muted">No result(s) found </p>
                         </ul>
                     </div>
                 </div>
