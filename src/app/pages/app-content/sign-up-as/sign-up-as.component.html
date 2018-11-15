@@ -74,7 +74,7 @@
 
                                 <div class="col-md-4 my-auto fileUpload btn btn-outline-dark cursor" style="border-radius: 25px">
                                     <span>Upload</span>
-                                    <input type="file" class="btn btn-outline-dark px-3 upload" style="border-radius: 25px" accept="image/*" #input (change)="fileChange($event)" />
+                                    <input type="file" class="btn btn-outline-dark px-3 upload" style="border-radius: 25px" accept="image/*" #input (click)="fileChange($event)" (change)="fileChange($event)" />
                                 </div>
 
                             </div>

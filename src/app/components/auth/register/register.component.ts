@@ -132,7 +132,7 @@ export class RegisterComponent implements OnInit {
                     this.router.navigate(['/reg-message'], { queryParams: { email: this.form.get('email').value.toLowerCase() } });
                 },
                 error => {
-                    this.ns.showError("This email already exists");
+                    this.ns.showError("This email already exists"); 
                 }
             )
     }
