@@ -49,7 +49,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.mService.setTitle("Profile");
         this.userId = this.ss.getUserId();
         this.email = this.ss.getLoggedInUserEmail();
-        // this.fetchBio();
+        this.fetchBio();
         this.fetchUser();
         this.workStatus();
         this.changePasswordForm = this.fb.group({
@@ -78,7 +78,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.fetchCountries();
 
     }
-
+cancel() {
+   // this.fetchUser();
+    this.modalRef.hide();
+}
 
     fileChange(event) {
         if (this.pictureUtil.restrictFilesSize(event.target.files[0].size)) {
@@ -128,7 +131,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     fetchUser() {
-        this.mService.setDisplay(true)
+        this.mService.setDisplay(true);
         this.contentService.retrieveUser(this.userId)
             .finally(() => {
                 this.mService.setDisplay(false)
@@ -137,8 +140,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
                 result => {
                     if (result.code == 0) {
                         this.retrieveStatus = true;
-                        this.transformUserObj(result.user, result.bio);
-
+                        this.transformUserObj(result.user, result.user.bio);
                     } else {
                         // this.ns.showError(result.description);
                     }
@@ -146,19 +148,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
             )
     }
 
-    // fetchBio(){
-    // this.contentService.retrieveUser(this.userId)
-    //   .subscribe(
-    //     result => {
-    //       if (result.code == 0) {
-    //         this.retrieveStatus = true;
-    //         this.bio = result.bio;
-    //       } else {
-    //
-    //       }
-    //     },
-    //   )
-    // }
+    fetchBio(){
+    this.contentService.retrieveUser(this.userId)
+      .subscribe(
+         result => {
+          if (result.code == 0) {
+            this.retrieveStatus = true;
+            this.bio = result.user.bio;
+          } else {
+          }
+        },
+       )
+    }
 
     transformUserObj(userObj: any, bio: string) {
         this.model.fName = userObj.fName;
@@ -219,8 +220,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.userId = this.ss.getUserId();
         this.submitted = true;
         this.loading = true;
+
         this.contentService.updateProfile(this.userId, this.tmpModel)
             .finally(() => {
+
                 this.loading = false;
             })
             .subscribe(
@@ -229,6 +232,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
                         this.model = this.tmpModel;
                         this.ns.showSuccess(result.description);
                         this.modalRef ? this.modalRef.hide() : '';
+                        this.fetchBio();
                     } else {
                         this.ns.showError(result.description)
                     }
