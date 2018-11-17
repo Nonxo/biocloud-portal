@@ -125,8 +125,17 @@
                     </div>
                 </div>
 
+                <div class="col-md-12">
+                    <div class="form-group">
+                    <mat-checkbox name="gdprCompliance" [(ngModel)]="gdprCompliance" required>
+                    </mat-checkbox>
+                    <span class="small pl-2">I agree to the <span (click)="goToTerms()" class="cursor text-brand">Terms of
+                            Service</span> and Privacy Policy</span>
+                            </div>
+                </div>
+    
                 <div class="col-md-12 text-center pt-3">
-                    <button mat-raised-button color="primary" class="rounded px-5">
+                    <button mat-raised-button color="primary" class="rounded px-5"  [disabled]="!registerForm.valid">
                         <span>Complete account creation <span><i class="material-icons mt-2 pl-2 position-absolute">
                                 arrow_right_alt
                                 </i></span></span>
