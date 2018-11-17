@@ -1,10 +1,54 @@
+.hero-section {
+    /* background: #ff000014 !important; */
+    background-color: #603484bf !important;
+    height: 100vh;
+}
+
+.bg-color {
+    /* background: #603484 !important; */
+    background-image: url(/assets/img/bg-img.png) !important;
+    background-position: center;
+    height: 100vh;
+    background-repeat: no-repeat;
+}
+
+.purpleBorder {
+    border: 1px solid #714B90;
+}
+
+.purple {
+    color: #714B90;
+}
+
+.fontWeight {
+    font-weight: 600;
+}
+
+.smaller {
+    font-size: 13px;
+}
+
+.logo-form {
+    width: 120px;
+}
+
 .logo {
-    max-width: 180px;
+    max-width: 150px;
+}
+
+.text-header {
+    position: absolute;
+    top: 68%
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 823px) {
     mat-card.auth.equal-row.h-100.mat-card {
         height: 135vh !important;
+    }
+    .responsive-auth {
+        height: 100vh;
+        position: absolute;
+        top: 7%;
     }
 }
 
@@ -17,5 +61,10 @@
     }
     .row.justify-content-center.pb-4.pt-4.h-100.align-items-md-center {
         padding-top: 100px !important;
+    }
+    .responsive-auth {
+        height: 100vh;
+        position: absolute;
+        top: 28%;
     }
 }

@@ -102,8 +102,8 @@
                                     <h5 class="pb-2 text-brand">About me</h5>
                                 </div>
 
-                                <div class="pt-3">
-                                    <p>{{model.bio}}</p>
+                                <div class="pt-3 break-word">
+                                    <p>{{bio}}</p>
                                 </div>
                                 <!--empty state-->
                                 <!--  <div *ngIf="!model.bio || model.bio == null" class="text-center pt-5 pb-5">
@@ -240,7 +240,7 @@
 <ng-template #aboutMe>
     <div class="modal-header">
         <h5 class="modal-title pull-left text-brand">About Me</h5>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="cancel()">
       <span aria-hidden="true">&times;</span>
     </button>
     </div>
@@ -250,7 +250,7 @@
         </mat-form-field>
 
         <div class="col-md-12 text-md-center text-center pt-5">
-            <button mat-raised-button class="px-4 primary-outline py-1" type="button" (click)="modalRef.hide()">CANCEL</button>
+            <button mat-raised-button class="px-4 primary-outline py-1" type="button" (click)="cancel()">CANCEL</button>
             <button mat-raised-button color="primary" class="px-4 primary-outline py-1 mr-2" (click)="onSubmit()">SAVE <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/></button>
 
         </div>

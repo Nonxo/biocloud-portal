@@ -60,9 +60,25 @@ export class AuthService {
 
     validateCaptcha(token): Observable<any> {
         let params = new HttpParams()
-            .set('resp', token)
+            .set('resp', token);
 
         return this.httpClient.post(Endpoints.VERIFY_CAPTCHA, params.toString(), {
+            headers: this.urlEncodeHeader
+        });
+    }
+
+    verifyEmail(email: string): Observable<any> {
+        return this.httpClient.post(Endpoints.VERIFY_EMAIL + email + "/email", null, {
+            headers: this.urlEncodeHeader
+        });
+    }
+
+    verifyUserToken(email: string, token: string): Observable<any> {
+        let params = new HttpParams()
+            .set('email', email)
+            .set('token', token);
+
+        return this.httpClient.post(Endpoints.VERIFY_USER_TOKEN + params, null, {
             headers: this.urlEncodeHeader
         });
     }
@@ -194,5 +210,17 @@ export class AuthService {
             this.logout();
             this.router.navigate(['/auth']);
         }
+    }
+
+    public setTawktoUserName(email: string, name: string, hash: string) {
+        const Tawk_API = (<any>window).Tawk_API;
+
+        if (typeof Tawk_API === 'undefined' || !Tawk_API) return;
+
+        Tawk_API.setAttributes({
+            name: name,
+            email: email,
+            hash: hash
+        }, function (error) {});
     }
 }

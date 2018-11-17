@@ -1,12 +1,12 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import 'rxjs/add/operator/finally';
-import {NotifyService} from '../../../service/notify.service';
-import {AuthService} from '../auth.service';
-import {Constants} from "../../../util/constants";
-import {Router} from "@angular/router";
-import {StorageService} from "../../../service/storage.service";
-import {environment} from "../../../../environments/environment";
+import { NotifyService } from '../../../service/notify.service';
+import { AuthService } from '../auth.service';
+import { Constants } from "../../../util/constants";
+import { Router } from "@angular/router";
+import { StorageService } from "../../../service/storage.service";
+import { environment } from "../../../../environments/environment";
 
 
 @Component({
@@ -30,24 +30,39 @@ export class RegisterComponent implements OnInit {
     selectedCountryCode: string = "NG";
     baseUrl: string = environment.baseUrl;
     filteredCountries: any = [];
+    openDropdown: boolean;
+    fullName: string;
+    phone: string;
+    iAgree: boolean;
+
+    @Input()
+    step: number;
+
+    @Input()
+    email: string = "";
+
+    @Output()
+    getStep = new EventEmitter<number>();
+
 
     @ViewChild('myInput') myInput: ElementRef;
 
     userTypes: Array<{ name, checked }> = [
-        {name: 'INDIVIDUAL', checked: true},
-        {name: 'CORPORATE', checked: false}
+        { name: 'INDIVIDUAL', checked: true },
+        { name: 'CORPORATE', checked: false }
     ];
 
-   constructor(private authService: AuthService,
-                private router: Router,
-                private ns: NotifyService,
-                private fb: FormBuilder,
-                private ss: StorageService) {
+    constructor(private authService: AuthService,
+        private router: Router,
+        private ns: NotifyService,
+        private fb: FormBuilder,
+        private ss: StorageService) {
     }
 
     ngOnInit() {
         this.fetchCountries();
 
+        this.getStep.emit(this.step);
 
         this.form = this.fb.group({
             companyName: ['', Validators.required],
@@ -55,9 +70,9 @@ export class RegisterComponent implements OnInit {
             lName: ['', Validators.required],
             phoneCode: [''],
             phone: ['', Validators.required],
-            email: ['', Validators.email],
+            email: [this.email, Validators.email],
             password: ['', Validators.required],
-            gdprCompliance: ['', Validators.requiredTrue]
+            gdprCompliance: ['',Validators.requiredTrue]
         });
 
         // disable validation for company name when it is invisible initially
@@ -71,6 +86,61 @@ export class RegisterComponent implements OnInit {
                     this.form.get('phone').setValue(val.trim());
                 }
             })
+    }
+
+    showDd() {
+        if (!this.openDropdown) {
+            //first load filteredCountries afresh else the old searched countries will still be displayed
+            this.filteredCountries = this.countries;
+
+            this.openDropdown = true;
+        } else {
+            this.openDropdown = false;
+        }
+    }
+
+    onClickedOutside(e: Event) {
+        this.openDropdown = false;
+
+        //load filteredCountries afresh else the old searched countries will still be displayed
+        this.filteredCountries = this.countries;
+    }
+
+    changeStep() {
+        switch (this.step) {
+            case 1: {
+                this.verifyEmail();
+                break;
+            }
+            case 2: {
+                this.step += 1;
+                this.getStep.emit(this.step);
+                break;
+            }
+            case 3: {
+                this.register();
+                break;
+            }
+            default: {
+
+            }
+        }
+    }
+
+    verifyEmail() {
+        this.authService.verifyEmail(this.form.get('email').value)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.router.navigate(['/reg-message'], { queryParams: { email: this.form.get('email').value.toLowerCase() } });
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {
+                    this.ns.showError("An Error Occurred");
+                }
+            )
     }
 
     changeUserType(index) {
@@ -99,6 +169,12 @@ export class RegisterComponent implements OnInit {
         //set Device Type
         this.payload['deviceType'] = 'WEB';
 
+        //Get firstname and lastname
+        this.setName();
+        this.payload.phone = this.phone;
+
+        this.payload.gdprCompliance = true;
+
         //set Flow id
         this.setFlowId();
 
@@ -111,24 +187,23 @@ export class RegisterComponent implements OnInit {
 
         this.trimValues();
 
-        if (this.captchaResponse) {
-            this.validateCaptcha();
-        } else {
-            this.resetCaptcha();
-            this.loading = false;
-            this.ns.showError("Error Validating Captcha");
-        }
+        this.registerUser();
+    }
 
+    setName() {
+        let names = this.fullName.split(" ");
+        this.payload.fName = names[0];
+        this.payload.lName = names[1];
     }
 
     setFlowId() {
-        if(this.ss.getAuthRoute()) {
-            if(this.ss.getAuthRoute() == '/auth/register') {
+        if (this.ss.getAuthRoute()) {
+            if (this.ss.getAuthRoute() == '/auth/register') {
                 this.payload['flowId'] = 2;
                 return;
             }
         }
-            this.payload['flowId'] = 1;
+        this.payload['flowId'] = 1;
     }
 
     trimValues() {
@@ -170,7 +245,7 @@ export class RegisterComponent implements OnInit {
                     if (res.code == 0) {
                         this.ss.authToken = res.token;
                         this.ss.loggedInUser = res.bioUser;
-                        this.router.navigate(['/sign-up-as']);
+                        this.router.navigate(['/wizard']);
                     } else {
                         this.ns.showError(res.description);
                         this.resetCaptcha();
@@ -196,19 +271,18 @@ export class RegisterComponent implements OnInit {
             )
     }
 
-    onSelectChange() {
-        this.selectCountryCode();
+    onSelectChange(country: any) {
+        this.selectCountryCode(country.code);
         this.selectPhoneCode();
     }
 
-    selectCountryCode() {
-        this.selectedCountryCode = this.form.get('phoneCode').value;
-        this.form.get('phoneCode').setValue('');
+    selectCountryCode(code: any) {
+        this.selectedCountryCode = code;
+        // this.form.get('phoneCode').setValue('');
     }
 
     selectPhoneCode() {
         let obj = this.countries.filter((obj) => obj.code == this.selectedCountryCode)[0];
-
         if (obj) {
             this.selectedPhoneCode = obj.phoneCode;
         }
