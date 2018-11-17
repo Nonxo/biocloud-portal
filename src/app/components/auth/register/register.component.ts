@@ -33,6 +33,7 @@ export class RegisterComponent implements OnInit {
     openDropdown: boolean;
     fullName: string;
     phone: string;
+    iAgree: boolean;
 
     @Input()
     step: number;
@@ -70,7 +71,8 @@ export class RegisterComponent implements OnInit {
             phoneCode: [''],
             phone: ['', Validators.required],
             email: [this.email, Validators.email],
-            password: ['', Validators.required]
+            password: ['', Validators.required],
+            gdprCompliance: ['',Validators.requiredTrue]
         });
 
         // disable validation for company name when it is invisible initially
