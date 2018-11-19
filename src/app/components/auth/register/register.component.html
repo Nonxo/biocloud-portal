@@ -1,33 +1,35 @@
 <ng-container *ngIf="step == 1">
-    <h3 class="">Create an iClocker Account</h3>
-    <p class="text-success font-weight-bold">Start your 14-day Free Trial</p>
-    <p class="small">To create an iClocker account, please confirm your e-mail address</p>
+    <div class="text-xl-left text-center">
+        <h3 class="">Create an iClocker Account</h3>
+        <p class="text-success font-weight-bold">Start your 14-day Free Trial</p>
+        <p class="small">To create an iClocker account, please confirm your e-mail address</p>
 
-    <form class="pt-4 form-inline" [formGroup]="form" (submit)="changeStep()" ngNativeValidate>
+        <form class="pt-4 form-inline" [formGroup]="form" (submit)="changeStep()" ngNativeValidate>
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 d-inline-flex px-0">
-                    <div class="row">
-                        <div class="col-md-10 pr-0">
-                            <div class="form-group">
-                                <!-- <label>Email address</label> -->
-                                <input type="email" class="form-control w-100" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" placeholder="you@emailprovider.com" formControlName="email" required>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 d-inline-flex px-0 col-xl-12 offset-xl-0 offset-md-2 offset-lg-3">
+                        <div class="row">
+                            <div class="col-md-10 pr-0">
+                                <div class="form-group">
+                                    <!-- <label>Email address</label> -->
+                                    <input type="email" class="form-control w-100" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" placeholder="you@emailprovider.com" formControlName="email" required>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col-md-2">
-                            <button mat-raised-button color="primary" class="rounded px-5" type="submit">
+                            <div class="col-md-2">
+                                <button mat-raised-button color="primary" class="rounded px-5" type="submit">
                                     <span *ngIf="!loading">Confirm</span>
                                     <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
                                 </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-    </form>
+        </form>
+    </div>
 </ng-container>
 
 
@@ -127,15 +129,15 @@
 
                 <div class="col-md-12">
                     <div class="form-group">
-                    <mat-checkbox name="gdprCompliance" [(ngModel)]="gdprCompliance" required>
-                    </mat-checkbox>
-                    <span class="small pl-2">I agree to the <span (click)="goToTerms()" class="cursor text-brand">Terms of
+                        <mat-checkbox name="gdprCompliance" [(ngModel)]="gdprCompliance" required>
+                        </mat-checkbox>
+                        <span class="small pl-2">I agree to the <span (click)="goToTerms()" class="cursor text-brand">Terms of
                             Service</span> and Privacy Policy</span>
-                            </div>
+                    </div>
                 </div>
-    
+
                 <div class="col-md-12 text-center pt-3">
-                    <button mat-raised-button color="primary" class="rounded px-5"  [disabled]="!registerForm.valid">
+                    <button mat-raised-button color="primary" class="rounded px-5" [disabled]="!registerForm.valid">
                         <span>Complete account creation <span><i class="material-icons mt-2 pl-2 position-absolute">
                                 arrow_right_alt
                                 </i></span></span>
