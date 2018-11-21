@@ -1,59 +1,86 @@
-<div class="container  h-100">
+<app-loading></app-loading>
+<div class="row m-0 bg-white">
+    <div class="col-xl-7 bg-color pl-0 pr-0 d-xl-block d-none">
+        <div class="hero-section">
+            <div class="container">
+                <div class="row py-4 px-4">
+                    <div class="col-md-6">
+                        <img src="assets/img/logo-white.png" class="img-fluid logo" />
+                    </div>
+                    <div *ngIf="!loginFlag" class="col-md-6 text-right d-xl-block d-none">
+                        <div class="d-inline-flex">
+                            <p class="small text-white my-auto">Already have an account?</p>
+                            <a class="btn ml-3 btn1 bg-white font-weight-bold purpleBorder smaller cursor mt-md-0 mt-3" style="border: 1px solid #fff; background: transparent !important" (click)="viewLoginPage(true)">
+                                <span class="text-white font-weight-normal"> Log in here</span>
+                            </a>
+                        </div>
+                    </div>
 
-    <div class="row justify-content-center pb-4 pt-4 h-100 align-items-md-center">
+                    <div *ngIf="loginFlag" class="col-md-6 text-right d-xl-block d-none">
+                        <div class="d-inline-flex">
+                            <p class="small text-white my-auto">Don't have an account?</p>
+                            <a class="btn ml-3 btn1 bg-white font-weight-bold purpleBorder smaller cursor mt-md-0 mt-3" style="border: 1px solid #fff; background: transparent !important" (click)="viewLoginPage(false)">
+                                <span class="text-white font-weight-normal"> Sign Up</span>
+                            </a>
+                        </div>
+                    </div>
 
-        <div class="col-md-4 d-none d-md-block pr-md-0 h-100">
-            <mat-card class="logo-carousel equal-row h-100">
-                <div>
-                    <img src="assets/img/logo-white.png" class="img-fluid logo mb-5" />
+                    <div class="col-md-8 text-header" *ngIf="step == 1">
+                        <h2 class="text-white pb-4">Time and Attendance <br> The Selfie Style</h2>
+                        <p class="text-white small">Say goodbye to the rigid methods of supervising employees’ time and attendance, and a cheery hello to a trendy and more efficient method that prompts a smile everyday.
+                        </p>
+                    </div>
+
+                    <div class="col-md-8 text-header" *ngIf="step == 2">
+                        <h2 class="text-white pb-4">Real-time reports with no human <br> interference</h2>
+                        <p class="text-white small">Paper time sheets? No way. Your job is already demanding enough and that's why we simplified the process so you can get detailed reports and logs of your employees attendance behaviors in real-time.</p>
+                    </div>
+
+                    <div class="col-md-8 text-header" *ngIf="step == 3">
+                        <h2 class="text-white pb-4">Multiple Locations, <br>One Digital HR</h2>
+                        <p class="text-white small">Supervise your employees attendance across numerous locations, from your swivelling chair anywhere and anytime.</p>
+                    </div>
+
                 </div>
+            </div>
 
-                <h3 class="font-weight-bold text-white mt-5">Time and Attendance, Selfie Style</h3>
 
-                <p class="mt-4 pr-5 text-white">
-                    <small>A Fun and Productive App for employees to clock in</small>
-                </p>
-            </mat-card>
         </div>
-
-        <div class="col-md-6 col-lg-5 my-5 my-md-0 pl-md-0 h-100">
-            <mat-card class="auth equal-row h-100">
-
-                <ng-container *ngIf="!loginFlag">
-
-                    <h3 class="pl-2 text-brand text-center">Start your 14 days free trial</h3>
-                    <app-register></app-register>
-                    <app-google-sign-in [isSignIn]="loginFlag"></app-google-sign-in>
-
-                    <hr>
-
-                    <p class="text-center">Already have an account? <span class="cursor text-brand font-weight-bold" (click)="viewLoginPage(true)">Sign in</span></p>
-                </ng-container>
-
-                <ng-container *ngIf="loginFlag">
-                    <h3 class="pl-2 text-brand text-center">Login to your account</h3>
-                    <app-login></app-login>
-                    <app-google-sign-in [isSignIn]="loginFlag"></app-google-sign-in>
-
-                    <hr>
-
-                    <p class="text-center">Don't have an account? <span class="cursor text-brand font-weight-bold" (click)="viewLoginPage(false)">Sign up</span></p>
-                </ng-container>
-
-                <!--<mat-tab-group (selectedTabChange)="onTabChange($event)" [selectedIndex]="currentTab">-->
-                <!--<mat-tab label="LOGIN">-->
-                <!--<app-login></app-login>-->
-                <!--</mat-tab>-->
-                <!--<mat-tab label="REGISTER">-->
-                <!--<ng-container *ngIf="register">-->
-                <!--<app-register></app-register>-->
-                <!--</ng-container>-->
-                <!--</mat-tab>-->
-                <!--</mat-tab-group>-->
-
-            </mat-card>
-        </div>
-
     </div>
+    <div class="col-xl-5 my-auto responsive-auth">
+        <div class="px-5">
 
+            <div class="text-md-left text-center d-md-none d-block pb-lg-0 pb-4">
+                <img src="assets/img/logos-bc.png" class="img-fluid" alt="" style="max-width: 160px">
+            </div>
+            <ng-container *ngIf="!loginFlag">
+
+                <!-- <h3 class="">Create an Iclocker Account</h3> -->
+                <app-register [step]="step" [email]="email" (getStep)="getSignupStep($event)"></app-register>
+                <app-google-sign-in *ngIf="step == 1" [isSignIn]="loginFlag"></app-google-sign-in>
+
+                <ng-container *ngIf="step == 1">
+                    <hr class="d-xl-none d-block">
+                    <div class="mt-4  mb-5 text-center d-xl-none d-block">
+                        <p class=" fontWeight smaller mt-1 text-secondary">Already have an account?
+                            <a class="btn ml-3 btn1 bg-white font-weight-bold purpleBorder smaller cursor mt-md-0 mt-3" (click)="viewLoginPage(true)">
+                                <span class="purple"> Log in here</span>
+                            </a>
+                        </p>
+                    </div>
+                </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="loginFlag">
+                <!-- <h3 class="pl-2 text-brand text-center">Login to your account</h3> -->
+                <app-login></app-login>
+                <app-google-sign-in [isSignIn]="loginFlag"></app-google-sign-in>
+
+                <hr class="d-xl-none d-block">
+
+                <p class="text-center d-xl-none d-block">Don't have an account? <span class="cursor text-brand font-weight-bold" (click)="viewLoginPage(false)">Sign Up Here</span>
+                </p>
+            </ng-container>
+        </div>
+    </div>
 </div>

@@ -1,61 +1,77 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
 import {CreateOrgRequest} from "../model/app-content.model";
 import {AppContentService} from "../services/app-content.service";
 import {NotifyService} from "../../../service/notify.service";
 import {StorageService} from "../../../service/storage.service";
 import {Router} from "@angular/router";
 import {PictureUtil} from "../../../util/PictureUtil";
+import {BsModalRef, BsModalService} from "ngx-bootstrap";
+import {ImageCroppedEvent} from 'ngx-image-cropper/src/image-cropper.component';
 
 @Component({
-  selector: 'app-sign-up-as',
-  templateUrl: './sign-up-as.component.html',
-  styleUrls: ['./sign-up-as.component.css']
+    selector: 'app-sign-up-as',
+    templateUrl: './sign-up-as.component.html',
+    styleUrls: ['./sign-up-as.component.css']
 })
 export class SignUpAsComponent implements OnInit {
 
     orgTypes: string[] = [];
-    orgRequest:CreateOrgRequest = new CreateOrgRequest();
-    uploadedFileName:string;
+    orgRequest: CreateOrgRequest = new CreateOrgRequest();
+    uploadedFileName: string;
     loading: boolean;
     range: any[] = [];
     employeeRangeUpperLimit: string;
+    bsModalRef: BsModalRef;
+    @ViewChild("cropImageTemplate") public cropImageTemplate: TemplateRef<any>;
+    imageChangedEvent: any = '';
+    croppedImage: any = '';
+    cropperReady = false;
 
-  constructor(private contentService: AppContentService,
-              private ns: NotifyService,
-              private ss: StorageService,
-              private router: Router,
-              private pictureUtil: PictureUtil) { }
 
-  ngOnInit() {
-      this.fetchEmployeeRange();
-      this.fetchCompanyType();
-  }
+    @Output()
+    onOrgSave = new EventEmitter<boolean>();
+
+    constructor(private contentService: AppContentService,
+                private ns: NotifyService,
+                private ss: StorageService,
+                private router: Router,
+                private pictureUtil: PictureUtil,
+                private modalService: BsModalService) {
+    }
+
+    ngOnInit() {
+        this.fetchEmployeeRange();
+        this.fetchCompanyType();
+    }
 
     fetchCompanyType() {
-        if(this.ss.getCompanyType() && this.ss.getCompanyType().length > 0) {
+        if (this.ss.getCompanyType() && this.ss.getCompanyType().length > 0) {
             this.orgTypes = this.ss.getCompanyType();
         } else {
             this.contentService.fetchCompanyType()
                 .subscribe(
                     result => {
-                        if(result.code == 0) {
+                        if (result.code == 0) {
                             this.orgTypes = result.orgTypes;
                             this.ss.setCompanyType(this.orgTypes);
                         }
                     },
-                    error => {}
+                    error => {
+                    }
                 )
         }
     }
 
     fetchEmployeeRange() {
-      this.contentService.fetchEmployeeRange()
-          .subscribe(
-              result => {
-                  this.range = result.range? result.range: [];
-              },
-              error => {}
-          )
+        this.contentService.fetchEmployeeRange()
+            .subscribe(
+                result => {
+                    this.range = result.range ? result.range : [];
+                },
+                error => {
+
+                }
+            )
     }
 
     getOrgRequestObject() {
@@ -63,10 +79,10 @@ export class SignUpAsComponent implements OnInit {
     }
 
     saveOrg() {
-      this.transformEmployeeRangeObj();
-      if(!this.isFormValid()) {
-          return;
-      }
+        this.transformEmployeeRangeObj();
+        if (!this.isFormValid()) {
+            return;
+        }
 
         this.loading = true;
         this.getOrgRequestObject();
@@ -74,29 +90,31 @@ export class SignUpAsComponent implements OnInit {
     }
 
     transformEmployeeRangeObj() {
-      if(this.range.length > 0) {
-          for(let r of this.range) {
-              if(r.upperLimit == this.employeeRangeUpperLimit) {
-                  this.orgRequest.employeeRange = r;
-                  break;
-              }
+        if (this.range.length > 0) {
+            for (let r of this.range) {
+                if (r.upperLimit == this.employeeRangeUpperLimit) {
+                    this.orgRequest.employeeRange = r;
+                    break;
+                }
 
-          }
-      }
+            }
+        }
     }
 
     isFormValid(): boolean {
-      if(!this.orgRequest.type) {
-          this.ns.showError('Company Type is required');
-          return false;
-      }
+        if (!this.orgRequest.type) {
+            this.ns.showError('Company Type is required');
+            return false;
+        }
 
-      return true;
+        return true;
     }
 
     callOrgCreationService() {
         this.contentService.createOrg(this.orgRequest)
-            .finally(() => {this.loading = false;})
+            .finally(() => {
+                this.loading = false;
+            })
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -105,11 +123,13 @@ export class SignUpAsComponent implements OnInit {
                         this.ss.setSelectedOrg(result.organisation);
 
                         //if orgs exist already in cache, update cache
-                        if(this.ss.getUsersOrg()) {
+                        if (this.ss.getUsersOrg()) {
                             this.ss.updateUsersOrg(result.organisation);
                         }
 
-                        this.router.navigate(['/portal/config']);
+                        // this.router.navigate(['/portal/config']);
+                        this.onOrgSave.emit(true);
+
                     } else {
                         this.ns.showError(result.description);
                     }
@@ -120,16 +140,18 @@ export class SignUpAsComponent implements OnInit {
             )
     }
 
-    updateOrgRoles(org:any) {
+    updateOrgRoles(org: any) {
         let arr = [{orgId: org.orgId, role: "GENERAL_ADMIN"}];
 
         this.ss.setOrgRoles(arr);
     }
 
-    fileChange(event){
+    fileChange(event) {
         if (this.pictureUtil.restrictFilesSize(event.target.files[0].size)) {
-          this.uploadedFileName = event.target.files[0].name;
-            this.readFiles(event.target.files);
+            this.uploadedFileName = event.target.files[0].name;
+            this.imageChangedEvent = event;
+            this.openModal();
+            // this.readFiles(event.target.files);
         } else {
             this.ns.showError('Picture size is more than 100kb. Select another');
             this.uploadedFileName = "";
@@ -144,15 +166,44 @@ export class SignUpAsComponent implements OnInit {
         reader.readAsDataURL(file);
     }
 
-    readFiles(files, index = 0){
+    openModal() {
+        this.bsModalRef = this.modalService.show(this.cropImageTemplate);
+    }
+
+    imageCropped(event: ImageCroppedEvent) {
+        this.croppedImage = event.base64;
+    }
+
+    imageLoaded() {
+        this.cropperReady = true;
+    }
+
+    loadImageFailed() {
+        console.log('Load failed');
+    }
+
+    clearImage() {
+        this.croppedImage = '';
+        this.uploadedFileName = "";
+        this.bsModalRef.hide();
+    }
+
+    saveImage() {
+        let splitParts = this.croppedImage.split(",");
+
+        this.orgRequest.logo = splitParts[1];
+        this.bsModalRef.hide();
+    }
+
+    readFiles(files, index = 0) {
         let reader = new FileReader();
 
         if (index in files) {
-            this.readFile(files[index], reader,(result) => {
+            this.readFile(files[index], reader, (result) => {
                 var img = document.createElement("img");
                 img.src = result;
 
-                this.pictureUtil.resize(img, 250, 250, (resized_jpeg, before, after)=> {
+                this.pictureUtil.resize(img, 250, 250, (resized_jpeg, before, after) => {
                     this.orgRequest.logo = resized_jpeg;
                     this.readFiles(files, index + 1);
 

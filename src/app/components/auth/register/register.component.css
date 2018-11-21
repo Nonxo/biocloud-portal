@@ -1,9 +1,40 @@
-/* .flag-img {
-    margin-bottom: -80px;
-} */
+.textDecor :before,
+.textDecor :after {
+    content: " ";
+    position: absolute;
+    width: 30%;
+    height: 1px;
+    background-color: #d6d3d3;
+    /* box-shadow: rgba(214, 211, 211, 0.7) 1px 1px 8px; */
+    margin-top: 10px;
+}
+
+.textDecor :before {
+    margin-left: -35%;
+}
+
+.textDecor :after {
+    margin-left: 5%;
+}
 
 .flag-col {
     margin-top: -4px;
+}
+
+.search-style {
+    position: absolute;
+    top: 40%;
+    color: #9fa9b5;
+    left: 119%;
+}
+
+.box-shadow {
+    -webkit-box-shadow: 4px 4px 33px -4px rgba(163, 163, 163, 0.75);
+    -moz-box-shadow: 4px 4px 33px -4px rgba(163, 163, 163, 0.75);
+    box-shadow: 4px 4px 33px -4px rgba(163, 163, 163, 0.75);
+    width: 185px;
+    max-height: 165px;
+    overflow: auto;
 }
 
 .sticky-search {

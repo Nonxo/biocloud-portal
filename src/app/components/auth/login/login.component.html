@@ -1,7 +1,12 @@
+<h3 class="text-md-left text-center">Sign in to your iClocker account</h3>
+
+
 <form class="pt-5" [formGroup]="loginForm" (submit)="login()">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
+
+            <!-- old changes -->
+            <!-- <div class="col-12">
                 <mat-form-field class="input-field">
                     <input matInput placeholder="Email" formControlName="email" autofocus>
                 </mat-form-field>
@@ -12,18 +17,29 @@
                     <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" formControlName="pw">
                     <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
                 </mat-form-field>
+            </div> -->
+            <!-- old changes -->
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="text-secondary small">Email address</label>
+                    <input type="email" class="form-control w-100" placeholder="you@emailprovider.com" formControlName="email" autofocus>
+                </div>
+
+                <div class="form-group">
+                    <label class="text-secondary small">Password</label>
+                    <input type="password" class="form-control w-100" placeholder="Password" [type]="hide ? 'password' : 'text'" formControlName="pw">
+                </div>
             </div>
 
-
-
-            <div class="col-12 text-right pt-3 pb-4">
+            <div class="col-md-6 text-md-left text-center my-auto">
                 <small (click)="openModal(template)" class="cursor">{{ 'LOGIN_COMPONENT.FORGOT_PASSWORD' | translate}}
                 </small>
             </div>
 
-            <div class="col-md-12">
-                <button type="submit" mat-raised-button color="primary" class="px-4 py-1" [disabled]="loginForm.invalid || loading">
-                    LOGIN
+            <div class="col-md-6 text-md-right text-center mt-md-0 mt-2">
+                <button type="submit" mat-raised-button color="primary" class="rounded px-5" [disabled]="loginForm.invalid || loading">
+                    <span *ngIf="!loading">LOGIN</span>
                     <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
                 </button>
             </div>
@@ -32,10 +48,12 @@
     </div>
 </form>
 
-<div class="col-12 pt-4 text-xl-left text-center">
+<div class="col-12 mt-5 text-center">
     <!--<div class="cursor" id="googleBtn">Google</div>-->
     <!--<p class="hr">or</p>-->
-    <img src="assets/img/or.png" class="img-fluid or w-75" style="" />
+    <p class="text-center textDecor smaller fontWeight mb-3"> <span> or
+            Sign in with</span>
+    </p>
 
 </div>
 

@@ -262,9 +262,10 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     }
 
     getSelectedUsersId(status: boolean) {
+console.log('ssssssssss');
 
         if (this.selectedLocId) {
-            this.adr.orgId = "";
+            this.adr.orgId = this.orgId;
             this.adr.locId = this.selectedLocId;
         } else {
             this.adr.orgId = this.orgId;
