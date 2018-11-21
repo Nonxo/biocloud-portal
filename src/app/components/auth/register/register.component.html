@@ -97,7 +97,7 @@
                         <ul class="list-unstyled">
                             <li class="media">
                                 <mat-form-field class="w-100">
-                                    <input matInput placeholder="Search Company" class="company-search" type="text" name="searchField" [(ngModel)]="searchField" (keyup)="search($event.target.value)">
+                                    <input matInput placeholder="Search Country" class="company-search" type="text" name="searchField" [(ngModel)]="searchField" (keyup)="search($event.target.value)">
                                     <mat-icon matSuffix class="cursor">search</mat-icon>
                                 </mat-form-field>
 
@@ -125,15 +125,6 @@
                     </div>
                 </div>
 
-                <div class="col-md-12">
-                    <div class="form-group">
-                    <mat-checkbox name="gdprCompliance" [(ngModel)]="gdprCompliance" required>
-                    </mat-checkbox>
-                    <span class="small pl-2">I agree to the <span (click)="goToTerms()" class="cursor text-brand">Terms of
-                            Service</span> and Privacy Policy</span>
-                            </div>
-                </div>
-    
                 <div class="col-md-12 text-center pt-3">
                     <button mat-raised-button color="primary" class="rounded px-5"  [disabled]="!registerForm.valid">
                         <span>Complete account creation <span><i class="material-icons mt-2 pl-2 position-absolute">
