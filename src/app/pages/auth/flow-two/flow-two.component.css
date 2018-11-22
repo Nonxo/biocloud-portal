@@ -1,6 +1,7 @@
 .hero-section {
     /* background: #ff000014 !important; */
     background-color: #603484bf !important;
+    background: #603484;
     height: 100vh;
 }
 
@@ -37,8 +38,9 @@
 }
 
 .text-header {
-    position: absolute;
-    top: 68%
+    /* position: absolute;
+    top: 68% */
+    padding-top: 50%;
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 823px) {

@@ -10,7 +10,7 @@
                     <div *ngIf="!loginFlag" class="col-md-6 text-right d-xl-block d-none">
                         <div class="d-inline-flex">
                             <p class="small text-white my-auto">Already have an account?</p>
-                            <a class="btn ml-3 btn1 bg-white font-weight-bold purpleBorder smaller cursor" style="border: 1px solid #fff; background: transparent !important" (click)="viewLoginPage(true)">
+                            <a class="btn ml-3 btn1 bg-white font-weight-bold purpleBorder smaller cursor mt-md-0 mt-3" style="border: 1px solid #fff; background: transparent !important" (click)="viewLoginPage(true)">
                                 <span class="text-white font-weight-normal"> Log in here</span>
                             </a>
                         </div>
@@ -19,7 +19,7 @@
                     <div *ngIf="loginFlag" class="col-md-6 text-right d-xl-block d-none">
                         <div class="d-inline-flex">
                             <p class="small text-white my-auto">Don't have an account?</p>
-                            <a class="btn ml-3 btn1 bg-white font-weight-bold purpleBorder smaller cursor" style="border: 1px solid #fff; background: transparent !important" (click)="viewLoginPage(false)">
+                            <a class="btn ml-3 btn1 bg-white font-weight-bold purpleBorder smaller cursor mt-md-0 mt-3" style="border: 1px solid #fff; background: transparent !important" (click)="viewLoginPage(false)">
                                 <span class="text-white font-weight-normal"> Sign Up</span>
                             </a>
                         </div>
@@ -33,15 +33,12 @@
 
                     <div class="col-md-8 text-header" *ngIf="step == 2">
                         <h2 class="text-white pb-4">Real-time reports with no human <br> interference</h2>
-                        <p class="text-white small">Paper time sheets? No way. Your job is already demanding
-                         enough and that's why we simplified the process so you can get detailed reports and logs of
-                         your employees attendance behaviors in real-time.</p>
+                        <p class="text-white small">Paper time sheets? No way. Your job is already demanding enough and that's why we simplified the process so you can get detailed reports and logs of your employees attendance behaviors in real-time.</p>
                     </div>
 
                     <div class="col-md-8 text-header" *ngIf="step == 3">
                         <h2 class="text-white pb-4">Multiple Locations, <br>One Digital HR</h2>
-                        <p class="text-white small">Supervise your employees attendance across numerous locations,
-                         from your swivelling chair anywhere and anytime.</p>
+                        <p class="text-white small">Supervise your employees attendance across numerous locations, from your swivelling chair anywhere and anytime.</p>
                     </div>
 
                 </div>
@@ -52,6 +49,10 @@
     </div>
     <div class="col-xl-5 my-auto responsive-auth">
         <div class="px-5">
+
+            <div class="text-md-left text-center d-md-none d-block pb-lg-0 pb-4">
+                <img src="assets/img/logos-bc.png" class="img-fluid" alt="" style="max-width: 160px">
+            </div>
             <ng-container *ngIf="!loginFlag">
 
                 <!-- <h3 class="">Create an Iclocker Account</h3> -->
@@ -62,7 +63,7 @@
                     <hr class="d-xl-none d-block">
                     <div class="mt-4  mb-5 text-center d-xl-none d-block">
                         <p class=" fontWeight smaller mt-1 text-secondary">Already have an account?
-                            <a class="btn ml-3 btn1 bg-white font-weight-bold purpleBorder smaller cursor" (click)="viewLoginPage(true)">
+                            <a class="btn ml-3 btn1 bg-white font-weight-bold purpleBorder smaller cursor mt-md-0 mt-3" (click)="viewLoginPage(true)">
                                 <span class="purple"> Log in here</span>
                             </a>
                         </p>
