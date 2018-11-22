@@ -147,6 +147,12 @@ export class SignUpAsComponent implements OnInit {
     }
 
     fileChange(event) {
+
+        if(!this.validateImageFile(event.target.files[0].name)) {
+            this.ns.showError('File format not supported');
+            event.target.value = '';
+            return;
+        }
         if (this.pictureUtil.restrictFilesSize(event.target.files[0].size)) {
             this.uploadedFileName = event.target.files[0].name;
             this.imageChangedEvent = event;
@@ -157,6 +163,12 @@ export class SignUpAsComponent implements OnInit {
             this.uploadedFileName = "";
             this.orgRequest.logo = "";
         }
+
+        event.target.value = '';
+    }
+
+    validateImageFile(fileName: string) {
+        return /([a-zA-Z0-9\s_\\.\-\(\):])+(.bmp|.jpeg|.jpg|.png)$/i.test(fileName);
     }
 
     readFile(file, reader, callback) {

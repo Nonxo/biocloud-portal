@@ -84,6 +84,11 @@ cancel() {
 }
 
     fileChange(event) {
+        if(!this.validateImageFile(event.target.files[0].name)) {
+            this.ns.showError('File format not supported');
+            event.target.value = '';
+            return;
+        }
         if (this.pictureUtil.restrictFilesSize(event.target.files[0].size)) {
             this.readFiles(event.target.files);
         } else {
@@ -208,6 +213,11 @@ cancel() {
         this.openModal(template);
     }
 
+    closeAboutMeModal() {
+        this.tmpModel.bio = this.bio;
+        this.modalRef.hide();
+    }
+
 
     onSubmit() {
         this.tmpModel.phoneCode = this.selectedPhoneCode;
@@ -230,6 +240,8 @@ cancel() {
                 result => {
                     if (result.code == 0) {
                         this.model = this.tmpModel;
+                        this.bio = this.tmpModel.bio;
+
                         this.ns.showSuccess(result.description);
                         this.modalRef ? this.modalRef.hide() : '';
                         this.fetchBio();
@@ -328,6 +340,10 @@ cancel() {
     onKeyUp() {
         let str = this.tmpModel.phone.toString();
         this.tmpModel.phone = +str.replace(/[^0-9]/g, "");
+    }
+
+    validateImageFile(fileName: string) {
+        return /([a-zA-Z0-9\s_\\.\-\(\):])+(.bmp|.jpeg|.jpg|.png)$/i.test(fileName);
     }
 
     ngOnDestroy() {

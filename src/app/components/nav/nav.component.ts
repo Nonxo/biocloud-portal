@@ -685,6 +685,12 @@ export class NavComponent implements OnInit, OnDestroy {
     fileChange(event: any, hoverState: boolean) {
         this.hoverState = hoverState;
 
+        if(!this.validateImageFile(event.target.files[0].name)) {
+            this.ns.showError('File format not supported');
+            event.target.value = '';
+            return;
+        }
+
         if (this.pictureUtil.restrictFilesSize(event.target.files[0].size)) {
             this.uploadedFileName = event.target.files[0].name;
             this.readFiles(event.target.files);
@@ -693,6 +699,12 @@ export class NavComponent implements OnInit, OnDestroy {
             this.uploadedFileName = "";
             this.orgRequest.logo = "";
         }
+
+        event.target.value = '';
+    }
+
+    validateImageFile(fileName: string) {
+        return /([a-zA-Z0-9\s_\\.\-\(\):])+(.bmp|.jpeg|.jpg|.png)$/i.test(fileName);
     }
 
     readFile(file, reader, callback) {

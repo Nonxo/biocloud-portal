@@ -240,17 +240,17 @@
 <ng-template #aboutMe>
     <div class="modal-header">
         <h5 class="modal-title pull-left text-brand">About Me</h5>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="cancel()">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="closeAboutMeModal()">
       <span aria-hidden="true">&times;</span>
     </button>
     </div>
     <mat-card>
         <mat-form-field class="example-full-width">
-            <textarea matInput placeholder="Leave a comment" [(ngModel)]="model.bio"></textarea>
+            <textarea matInput placeholder="My info" [(ngModel)]="tmpModel.bio"></textarea>
         </mat-form-field>
 
         <div class="col-md-12 text-md-center text-center pt-5">
-            <button mat-raised-button class="px-4 primary-outline py-1" type="button" (click)="cancel()">CANCEL</button>
+            <button mat-raised-button class="px-4 primary-outline py-1" type="button" (click)="closeAboutMeModal()">CANCEL</button>
             <button mat-raised-button color="primary" class="px-4 primary-outline py-1 mr-2" (click)="onSubmit()">SAVE <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/></button>
 
         </div>
