@@ -8,16 +8,16 @@
 
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-12 d-inline-flex px-0 col-xl-12 offset-xl-0 offset-md-2 offset-lg-3">
+                    <div class="col-12 px-0 col-xl-12 offset-xl-0 offset-md-2 offset-lg-3">
                         <div class="row">
-                            <div class="col-md-10 pr-0">
+                            <div class="col-xl col-lg-4 col-md-5 pr-0">
                                 <div class="form-group">
                                     <!-- <label>Email address</label> -->
                                     <input type="email" class="form-control w-100" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" placeholder="you@emailprovider.com" formControlName="email" required>
                                 </div>
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="col-xl-auto col-lg-2 col-md-2">
                                 <button mat-raised-button color="primary" class="rounded px-5" type="submit">
                                     <span *ngIf="!loading">Confirm</span>
                                     <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
@@ -99,14 +99,14 @@
                     <div *ngIf="openDropdown" class="font-12 box-shadow mt-2">
 
                         <ul class="list-unstyled">
-                            <li class="media">
+                            <li class="media sticky-search">
                                 <mat-form-field class="w-100">
                                     <input matInput placeholder="Search Country" class="company-search" autocomplete="nope" type="text" name="searchField" [(ngModel)]="searchField" (keyup)="search($event.target.value)">
                                     <mat-icon matSuffix class="cursor">search</mat-icon>
                                 </mat-form-field>
                             </li>
                             <li class="media pb-2 cursor" *ngFor="let country of filteredCountries" value="{{country.code}}" (click)="onSelectChange(country)">
-                                <i class="sprite {{country.code.toLowerCase()}} d-inline-flex mr-3"></i> {{country.name}}
+                                <i class="sprite {{country.code.toLowerCase()}} d-inline-flex mr-3 ml-2" style="max-width: 33px"></i> {{country.name}}
                             </li>
 
                             <p *ngIf="filteredCountries.length == 0" class="text-center small text-muted">No result(s) found </p>
@@ -115,7 +115,7 @@
                 </div>
 
 
-                <div class="col-md-9">
+                <div class="col-md-9 pr-0">
                     <div class="form-group">
                         <!-- <label class="text-success small font-weight-bold">You@emailprovider.com</label> -->
                         <input type="text" class="form-control w-100" #phoneNumber="ngModel" name="phone" [(ngModel)]="phone" placeholder="Phone Number *" pattern="[0-9]{5,20}" (keyup)="validatePhoneField()" required>
