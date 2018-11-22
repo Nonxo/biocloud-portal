@@ -103,7 +103,12 @@ export class SignUpAsComponent implements OnInit {
 
     isFormValid(): boolean {
         if (!this.orgRequest.type) {
-            this.ns.showError('Company Type is required');
+            this.ns.showError('Company type is required');
+            return false;
+        }
+
+        if (!this.orgRequest.employeeRange) {
+            this.ns.showError('Company size is required');
             return false;
         }
 

@@ -477,6 +477,8 @@ export class NavComponent implements OnInit, OnDestroy {
     }
 
     saveOrg() {
+        this.transformEmployeeRangeObj();
+
         if (!this.isFormValid()) {
             return;
         }
@@ -484,7 +486,6 @@ export class NavComponent implements OnInit, OnDestroy {
         this.loading = true;
         this.getOrgRequestObject();
 
-        this.transformEmployeeRangeObj();
         this.editOrgMode ? this.callOrgEditService() : this.callOrgCreationService();
     }
 
@@ -502,7 +503,12 @@ export class NavComponent implements OnInit, OnDestroy {
 
     isFormValid(): boolean {
         if (!this.orgRequest.type) {
-            this.ns.showError('Company Type is required');
+            this.ns.showError('Company type is required');
+            return false;
+        }
+
+        if (!this.orgRequest.employeeRange) {
+            this.ns.showError('Company size is required');
             return false;
         }
 
