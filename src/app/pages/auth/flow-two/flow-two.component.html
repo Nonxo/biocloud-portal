@@ -1,6 +1,6 @@
 <app-loading></app-loading>
 <div class="row m-0 bg-white">
-    <div class="col-xl-7 bg-color pl-0 pr-0 d-xl-block d-none">
+    <div class="col-xl-7 {{step == 1? 'bg-email': step == 2? 'bg-create-pwd': 'bg-personal-details'}} bg-color pl-0 pr-0 d-xl-block d-none">
         <div class="hero-section">
             <div class="container">
                 <div class="row py-4 px-4">
@@ -10,8 +10,8 @@
                     <div *ngIf="!loginFlag" class="col-md-6 text-right d-xl-block d-none">
                         <div class="d-inline-flex">
                             <p class="small text-white my-auto">Already have an account?</p>
-                            <a class="btn ml-3 btn1 bg-white font-weight-bold purpleBorder smaller cursor mt-md-0 mt-3" style="border: 1px solid #fff; background: transparent !important" (click)="viewLoginPage(true)">
-                                <span class="text-white font-weight-normal"> Log in here</span>
+                            <a class="btn ml-3 btn1 bg-white font-weight-bold purpleBorder smaller cursor mt-md-0 mt-3 login-btn hover-text" (click)="viewLoginPage(true)">
+                                <span class="text-white font-weight-normal hover-text"> Log in here</span>
                             </a>
                         </div>
                     </div>
@@ -19,8 +19,8 @@
                     <div *ngIf="loginFlag" class="col-md-6 text-right d-xl-block d-none">
                         <div class="d-inline-flex">
                             <p class="small text-white my-auto">Don't have an account?</p>
-                            <a class="btn ml-3 btn1 bg-white font-weight-bold purpleBorder smaller cursor mt-md-0 mt-3" style="border: 1px solid #fff; background: transparent !important" (click)="viewLoginPage(false)">
-                                <span class="text-white font-weight-normal"> Sign Up</span>
+                            <a class="btn ml-3 btn1 bg-white font-weight-bold purpleBorder smaller cursor mt-md-0 mt-3 login-btn hover-text" (click)="viewLoginPage(false)">
+                                <span class="text-white font-weight-normal hover-text"> Sign Up</span>
                             </a>
                         </div>
                     </div>
