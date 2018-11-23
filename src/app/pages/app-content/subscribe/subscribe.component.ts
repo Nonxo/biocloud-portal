@@ -17,6 +17,7 @@ declare function getpaidSetup(data): void;
 })
 export class SubscribeComponent implements OnInit, OnDestroy {
 
+    private couponCode: string;
     public subscriptionPlans: SubscriptionPlan[] = [];
     public monthlyPlan: boolean = true;
     public selectedCurrency: string = 'NGN';
@@ -35,7 +36,10 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     public modalRef: BsModalRef;
     public renewSub: boolean = true;
     public discountRate:number;
-    public discountPrice:number;
+    private discountPrice:number;
+    public discountPriceFromCoupon : number = 0;
+    private discountValue : number;
+    private flatRate : boolean;
     public vat: number;
     private orgId:string;
     public subscription:any;
@@ -127,6 +131,11 @@ export class SubscribeComponent implements OnInit, OnDestroy {
 
     }
 
+    setDiscountPriceFromCoupon(discountValue: number, flatRate: boolean){
+        this.discountValue = discountValue;
+        this.discountPriceFromCoupon =  Math.round(flatRate ? discountValue : discountValue/100 * this.totalAmount);       
+    }
+
     setVat() {
         if(this.selectedPlan.vat > 0 && this.selectedCurrency == 'NGN') {
             this.vat =  Math.round((this.selectedPlan.vat/100) * this.totalAmount);
@@ -134,7 +143,6 @@ export class SubscribeComponent implements OnInit, OnDestroy {
         }
 
         this.vat = 0;
-
     }
 
     getPrice(plan: SubscriptionPlan):number {
@@ -151,6 +159,25 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                 return Math.round(plan.pricePerAnnum / this.exchangeRate);
             }
         }
+    }
+
+    getCouponDiscount(){
+        this.subService.getCouponDiscount(this.orgId, this.monthlyPlan ? BillingCycle.MONTHLY.toUpperCase() : BillingCycle.YEARLY.toUpperCase(), this.couponCode)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.discountPriceFromCoupon = result.discountValue;
+                        this.flatRate = result.useFlatRate;
+                    } else if (result.code == -1) {
+                        this.openModal(this.warningTemplate);
+                    }else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {
+                    this.ns.showError("An Error Occurred");
+                }
+            )
     }
 
     generateTransactionRef() {
@@ -219,7 +246,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
 
             this.setDiscountPrice();
             this.setVat();
-            this.amountToPay = (this.totalAmount + this.vat) - this.discountPrice;
+            this.amountToPay = (this.totalAmount + this.vat) - this.discountPrice - this.discountPriceFromCoupon;
             this.openModal(template);
         }else {
             this.selectedPlan = plan;
@@ -240,7 +267,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                         this.proratedAmount = result.amount;
                         this.setDiscountPrice();
                         this.setVat();
-                        this.amountToPay = (this.proratedAmount + this.vat) - this.discountPrice;
+                        this.amountToPay = (this.proratedAmount + this.vat) - this.discountPrice - this.discountPriceFromCoupon;
 
                         this.openModal(this.confirmPaymentTemplate);
                     } else {
@@ -250,6 +277,12 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                 },
                 error => {this.ns.showError("An Error Occurred")}
             )
+    }
+
+    applyCoupon(couponCode){
+        this.couponCode = couponCode;
+        this.getCouponDiscount();
+        this.setDiscountPriceFromCoupon(this.discountPriceFromCoupon, this.flatRate);
     }
 
     subscribe(plan) {
