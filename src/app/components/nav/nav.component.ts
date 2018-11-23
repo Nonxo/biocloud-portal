@@ -477,6 +477,8 @@ export class NavComponent implements OnInit, OnDestroy {
     }
 
     saveOrg() {
+        this.transformEmployeeRangeObj();
+
         if (!this.isFormValid()) {
             return;
         }
@@ -484,7 +486,6 @@ export class NavComponent implements OnInit, OnDestroy {
         this.loading = true;
         this.getOrgRequestObject();
 
-        this.transformEmployeeRangeObj();
         this.editOrgMode ? this.callOrgEditService() : this.callOrgCreationService();
     }
 
@@ -502,7 +503,12 @@ export class NavComponent implements OnInit, OnDestroy {
 
     isFormValid(): boolean {
         if (!this.orgRequest.type) {
-            this.ns.showError('Company Type is required');
+            this.ns.showError('Company type is required');
+            return false;
+        }
+
+        if (!this.orgRequest.employeeRange) {
+            this.ns.showError('Company size is required');
             return false;
         }
 
@@ -685,6 +691,12 @@ export class NavComponent implements OnInit, OnDestroy {
     fileChange(event: any, hoverState: boolean) {
         this.hoverState = hoverState;
 
+        if(!this.validateImageFile(event.target.files[0].name)) {
+            this.ns.showError('File format not supported');
+            event.target.value = '';
+            return;
+        }
+
         if (this.pictureUtil.restrictFilesSize(event.target.files[0].size)) {
             this.uploadedFileName = event.target.files[0].name;
             this.readFiles(event.target.files);
@@ -693,6 +705,12 @@ export class NavComponent implements OnInit, OnDestroy {
             this.uploadedFileName = "";
             this.orgRequest.logo = "";
         }
+
+        event.target.value = '';
+    }
+
+    validateImageFile(fileName: string) {
+        return /([a-zA-Z0-9\s_\\.\-\(\):])+(.bmp|.jpeg|.jpg|.png)$/i.test(fileName);
     }
 
     readFile(file, reader, callback) {

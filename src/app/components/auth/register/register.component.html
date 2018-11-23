@@ -1,33 +1,35 @@
 <ng-container *ngIf="step == 1">
-    <h3 class="">Create an iClocker Account</h3>
-    <p class="text-success font-weight-bold">Start your 14-day Free Trial</p>
-    <p class="small">To create an iClocker account, please confirm your e-mail address</p>
+    <div class="text-xl-left text-center">
+        <h3 class="">Create an iClocker Account</h3>
+        <p class="text-success font-weight-bold">Start your 14-day Free Trial</p>
+        <p class="small">To create an iClocker account, please confirm your e-mail address</p>
 
-    <form class="pt-4 form-inline" [formGroup]="form" (submit)="changeStep()" ngNativeValidate>
+        <form class="pt-4 form-inline" [formGroup]="form" (submit)="changeStep()" ngNativeValidate>
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 d-inline-flex px-0">
-                    <div class="row">
-                        <div class="col-md-10 pr-0">
-                            <div class="form-group">
-                                <!-- <label>Email address</label> -->
-                                <input type="email" class="form-control w-100" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" placeholder="you@emailprovider.com" formControlName="email" required>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 px-0 col-xl-12 offset-xl-0 offset-md-2 offset-lg-3">
+                        <div class="row">
+                            <div class="col-xl col-lg-4 col-md-5 pr-0">
+                                <div class="form-group">
+                                    <!-- <label>Email address</label> -->
+                                    <input type="email" class="form-control w-100" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" placeholder="you@emailprovider.com" formControlName="email" required>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col-md-2">
-                            <button mat-raised-button color="primary" class="rounded px-5" type="submit">
+                            <div class="col-xl-auto col-lg-2 col-md-2">
+                                <button mat-raised-button color="primary" class="rounded px-5" type="submit">
                                     <span *ngIf="!loading">Confirm</span>
                                     <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
                                 </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-    </form>
+        </form>
+    </div>
 </ng-container>
 
 
@@ -45,6 +47,7 @@
                     <div class="form-group">
                         <label class="text-success small font-weight-bold">{{email}}</label>
                         <input type="password" pattern="^([a-zA-Z0-9 @*#]{6,20})" class="form-control w-100" placeholder="Enter password here" [type]="show ? 'text' : 'password'" formControlName="password" required>
+                        <!--<p class="small text-danger px-1 pt-1" *ngIf="form.controls['password'].errors && form.touched">Must be at least 6 characters and no special characters allowed</p>-->
                     </div>
                 </div>
 
@@ -77,7 +80,8 @@
 
                     <div class="form-group">
                         <!-- <label class="text-success small font-weight-bold">You@emailprovider.com</label> -->
-                        <input type="text" class="form-control w-100" placeholder="Full Name *" name="fullName" [(ngModel)]="fullName" pattern="^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)" required>
+                        <input type="text" class="form-control w-100" #fName="ngModel" placeholder="Full Name *" name="fullName" [(ngModel)]="fullName" (keyup)="validateNameField()" pattern="^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}?)" required>
+                        <p class="small text-danger px-1 pt-1" *ngIf="nameError">{{nameError}}</p>
                     </div>
 
                     <!-- <div class="form-group">
@@ -95,21 +99,14 @@
                     <div *ngIf="openDropdown" class="font-12 box-shadow mt-2">
 
                         <ul class="list-unstyled">
-                            <li class="media">
+                            <li class="media sticky-search">
                                 <mat-form-field class="w-100">
-                                    <input matInput placeholder="Search Company" class="company-search" type="text" name="searchField" [(ngModel)]="searchField" (keyup)="search($event.target.value)">
+                                    <input matInput placeholder="Search Country" class="company-search" autocomplete="nope" type="text" name="searchField" [(ngModel)]="searchField" (keyup)="search($event.target.value)">
                                     <mat-icon matSuffix class="cursor">search</mat-icon>
                                 </mat-form-field>
-
-                                <!-- <div class="form-group w-100">
-                                    <label class="text-success small font-weight-bold">You@emailprovider.com</label>
-                                    <input type="text" class="form-control w-100 company-search" (keyup)="search($event.target.value)" style="border-top: none !important; border-right:none !important; border-left: none !important" placeholder="Search Company" name="searchField">
-                                    <i class="fa fa-search"></i>
-                                    <mat-icon matSuffix class="cursor search-style">search</mat-icon>
-                                </div> -->
                             </li>
                             <li class="media pb-2 cursor" *ngFor="let country of filteredCountries" value="{{country.code}}" (click)="onSelectChange(country)">
-                                <i class="sprite {{country.code.toLowerCase()}} d-inline-flex mr-3"></i> {{country.name}}
+                                <i class="sprite {{country.code.toLowerCase()}} d-inline-flex mr-3 ml-2" style="max-width: 33px"></i> {{country.name}}
                             </li>
 
                             <p *ngIf="filteredCountries.length == 0" class="text-center small text-muted">No result(s) found </p>
@@ -118,22 +115,14 @@
                 </div>
 
 
-                <div class="col-md-9">
+                <div class="col-md-9 pr-0">
                     <div class="form-group">
                         <!-- <label class="text-success small font-weight-bold">You@emailprovider.com</label> -->
-                        <input type="text" class="form-control w-100" name="phone" [(ngModel)]="phone" placeholder="Phone Number" pattern="[0-9]{5,20}" required>
+                        <input type="text" class="form-control w-100" #phoneNumber="ngModel" name="phone" [(ngModel)]="phone" placeholder="Phone Number *" pattern="[0-9]{5,20}" (keyup)="validatePhoneField()" required>
+                        <p class="small text-danger px-1 pt-1" *ngIf="phoneError">{{phoneError}}</p>
                     </div>
                 </div>
 
-                <div class="col-md-12">
-                    <div class="form-group">
-                    <mat-checkbox name="gdprCompliance" [(ngModel)]="gdprCompliance" required>
-                    </mat-checkbox>
-                    <span class="small pl-2">I agree to the <span (click)="goToTerms()" class="cursor text-brand">Terms of
-                            Service</span> and Privacy Policy</span>
-                            </div>
-                </div>
-    
                 <div class="col-md-12 text-center pt-3">
                     <button mat-raised-button color="primary" class="rounded px-5"  [disabled]="!registerForm.valid">
                         <span>Complete account creation <span><i class="material-icons mt-2 pl-2 position-absolute">

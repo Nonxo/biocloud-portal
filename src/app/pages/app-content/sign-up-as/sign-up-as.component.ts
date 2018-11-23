@@ -103,7 +103,12 @@ export class SignUpAsComponent implements OnInit {
 
     isFormValid(): boolean {
         if (!this.orgRequest.type) {
-            this.ns.showError('Company Type is required');
+            this.ns.showError('Company type is required');
+            return false;
+        }
+
+        if (!this.orgRequest.employeeRange) {
+            this.ns.showError('Company size is required');
             return false;
         }
 
@@ -147,6 +152,12 @@ export class SignUpAsComponent implements OnInit {
     }
 
     fileChange(event) {
+
+        if(!this.validateImageFile(event.target.files[0].name)) {
+            this.ns.showError('File format not supported');
+            event.target.value = '';
+            return;
+        }
         if (this.pictureUtil.restrictFilesSize(event.target.files[0].size)) {
             this.uploadedFileName = event.target.files[0].name;
             this.imageChangedEvent = event;
@@ -157,6 +168,12 @@ export class SignUpAsComponent implements OnInit {
             this.uploadedFileName = "";
             this.orgRequest.logo = "";
         }
+
+        event.target.value = '';
+    }
+
+    validateImageFile(fileName: string) {
+        return /([a-zA-Z0-9\s_\\.\-\(\):])+(.bmp|.jpeg|.jpg|.png)$/i.test(fileName);
     }
 
     readFile(file, reader, callback) {
