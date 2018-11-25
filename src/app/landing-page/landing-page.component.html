@@ -17,8 +17,8 @@
                 </div>
                 <div class="col-xl-4 col-md-8 p-md-0 p-3 d-flex align-items-center">
                     <mat-card class="w-100">
-                        <span class="text-brand">Start today with our 14 days free trial</span>
-                        <app-register></app-register>
+                        <app-register [step]="1"></app-register>
+                        <app-google-sign-in></app-google-sign-in>
                         <hr>
                         <p class="text-center">Already have an account? <span class="cursor text-brand font-weight-bold" (click)="gotoLogin()">Sign in</span></p>
                     </mat-card>
