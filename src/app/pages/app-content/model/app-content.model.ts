@@ -231,14 +231,18 @@ export class SubscriptionChangeRequest {
     currency: string;
     amount: number;
     vat: number;
+    couponCode: string;
+    couponAmount: number;
 
-    constructor(billingCycle: string, orgId: string, planId: string, currency: string, amount: number, vat: number) {
+    constructor(billingCycle: string, orgId: string, planId: string, currency: string, amount: number, vat: number, code: string, couponAmount: number) {
         this.billingCycle = billingCycle;
         this.orgId = orgId;
         this.planId = planId;
         this.currency = currency;
         this.amount = amount;
         this.vat = vat;
+        this.couponCode = code;
+        this.couponAmount = couponAmount;
     }
 }
 

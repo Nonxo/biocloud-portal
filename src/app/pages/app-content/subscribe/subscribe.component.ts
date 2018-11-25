@@ -181,7 +181,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                         this.resetCouponOffer();
                         this.getCouponOffer(result);
                     } else {
-                        this.couponError = "This voucher is invalid";
+                        this.couponError = result.description;
                     }
                 },
                 error => {
@@ -306,7 +306,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
 
     getProratedCost() {
         this.mService.setDisplay(true);
-        this.subService.getProratedCost(new SubscriptionChangeRequest(this.monthlyPlan ? 'MONTHLY' : 'ANNUAL', this.orgId, this.selectedPlan.planId, this.selectedCurrency, 0, 0))
+        this.subService.getProratedCost(new SubscriptionChangeRequest(this.monthlyPlan ? 'MONTHLY' : 'ANNUAL', this.orgId, this.selectedPlan.planId, this.selectedCurrency, 0, 0, null, 0))
             ._finally(() => {
                 this.mService.setDisplay(false)
             })
@@ -405,7 +405,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
 
     changePlan() {
         this.mService.setDisplay(true);
-        this.subService.changePlan(new SubscriptionChangeRequest(this.monthlyPlan ? 'MONTHLY' : 'ANNUAL', this.orgId, this.selectedPlan.planId, this.selectedCurrency, this.amountToPay, this.vat))
+        this.subService.changePlan(new SubscriptionChangeRequest(this.monthlyPlan ? 'MONTHLY' : 'ANNUAL', this.orgId, this.selectedPlan.planId, this.selectedCurrency, this.amountToPay, this.vat, this.couponCode, this.couponDiscount))
             .finally(() => {
                 this.mService.setDisplay(false)
             })
@@ -423,13 +423,6 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                         this.transactionRef = result.transactionRef;
 
                         //dont get transaction ref from here
-
-                        // this.totalAmount = result.amount;
-                        // this.setDiscountPrice();
-                        // this.amountToPay = this.totalAmount - this.discountPrice;
-
-
-                        // this.openModal(this.confirmPaymentTemplate);
                         this.callRave();
                     } else if (result.code == -16) {
                         this.openModal(this.warningTemplate);
