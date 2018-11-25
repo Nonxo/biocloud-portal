@@ -176,33 +176,33 @@
                         <p>{{vat | currency:selectedCurrency:'symbol-narrow':'1.0'}}</p>
                     </div>
                 </ng-container>
-                <ng-container *ngIf="discountPriceFromCoupon != 0">
+                <ng-container *ngIf="couponDiscount">
                     <div class="col-md-7">
                         <p class="text-brand font-weight-bold">Coupon Discount</p>
                     </div>
                     <div class="col-md-5">
-                        <p>{{ flatRate ? "=N=" + discountValue : discountValue+"%"}} off</p>
+                        <p>{{couponDiscount | currency:selectedCurrency:'symbol-narrow':'1.0'}}</p>
                     </div>
                 </ng-container>
                 <ng-container>
                     <form #f="ngForm" (ngSubmit)="applyCoupon(coupon.value)">
-                    <div class="row px-3 py-3">
-                        <div class="col-md-9 pr-0">
-                            <input type="text" class="form-control w-100" ngModel #coupon="ngModel" placeholder="Enter Coupon" name="coupon" id="coupon" required>
-                            
-          <!-- <mat-error *ngIf="coupon.errors.required" class="text-danger small pl-1">Invalide coupon</mat-error></div> -->
-                        <div class="col-md-3">
-                            <button mat-raised-button class="primary-outline" type="submit" style="line-height: 33px;">
-                                <span *ngIf="!loading">Apply Coupon</span>
-                                <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;" />
-                            </button>
+                        <div class="row px-3 py-3">
+                            <div class="col-md-9 pr-0">
+                                <input type="text" class="form-control w-100" ngModel #coupon="ngModel"
+                                       placeholder="Enter Coupon" name="coupon" id="coupon" required>
+                                <mat-error *ngIf="couponError" class="text-danger small pl-1">{{couponError}}</mat-error>
+                            </div>
+                            <div class="col-md-3">
+                                <button mat-raised-button class="primary-outline" type="submit"
+                                        style="line-height: 33px;">
+                                    <span *ngIf="!loading">Apply Coupon</span>
+                                    <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
                 </ng-container>
             </div>
-
-
 
 
             <hr>

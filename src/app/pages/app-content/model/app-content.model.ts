@@ -208,8 +208,10 @@ export class VerifyPaymentRequest {
     conversionRate:number;
     transactionMode:string;
     vatAmount: number;
+    couponCode: string;
+    couponAmount: number;
 
-    constructor(txRef:string, billingCycle:string, autoRenewal:boolean, orgId:string, conversionRate:number, transactionMode:string, vatAmount: number) {
+    constructor(txRef:string, billingCycle:string, autoRenewal:boolean, orgId:string, conversionRate:number, transactionMode:string, vatAmount: number, code: string, couponAmount: number) {
         this.billingCycle = billingCycle;
         this.txRef = txRef;
         this.autoRenewal = autoRenewal;
@@ -217,6 +219,8 @@ export class VerifyPaymentRequest {
         this.conversionRate = conversionRate;
         this.transactionMode = transactionMode;
         this.vatAmount = vatAmount;
+        this.couponCode = code;
+        this.couponAmount = couponAmount;
     }
 }
 
