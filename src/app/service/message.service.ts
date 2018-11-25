@@ -15,6 +15,8 @@ export class MessageService {
     private display = new Subject<boolean>();
     private userImage = new Subject<string>();
     private updateSub = new Subject<any>();
+    private updateNotif = new Subject<boolean>();
+    private updateLocation = new Subject<boolean>();
 
     constructor() {}
 
@@ -72,6 +74,22 @@ export class MessageService {
 
     getUpdateSub(): Observable<any> {
         return this.updateSub.asObservable();
+    }
+
+    setUpdateNotif(value: boolean) {
+        this.updateNotif.next(value);
+    }
+
+    getUpdateNotif(): Observable<boolean> {
+        return this.updateNotif.asObservable();
+    }
+
+    setUpdateLocation(value: boolean) {
+        this.updateLocation.next(value);
+    }
+
+    getUpdateLocation(): Observable<boolean> {
+        return this.updateLocation.asObservable();
     }
 
 }

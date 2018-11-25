@@ -39,15 +39,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
     retrieveStatus: boolean = true;
     loading: boolean;
     @ViewChild('changePassword') changePassword;
-    countries: any[];
+    countries: any[] = [];
+    filteredCountries: any[] = [];
     baseUrl: string = environment.baseUrl;
+    searchParam: string;
 
 
     ngOnInit() {
         this.mService.setTitle("Profile");
         this.userId = this.ss.getUserId();
         this.email = this.ss.getLoggedInUserEmail();
-        // this.fetchBio();
+        this.fetchBio();
         this.fetchUser();
         this.workStatus();
         this.changePasswordForm = this.fb.group({
@@ -76,9 +78,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.fetchCountries();
 
     }
-
+cancel() {
+   // this.fetchUser();
+    this.modalRef.hide();
+}
 
     fileChange(event) {
+        if(!this.validateImageFile(event.target.files[0].name)) {
+            this.ns.showError('File format not supported');
+            event.target.value = '';
+            return;
+        }
         if (this.pictureUtil.restrictFilesSize(event.target.files[0].size)) {
             this.readFiles(event.target.files);
         } else {
@@ -126,7 +136,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     fetchUser() {
-        this.mService.setDisplay(true)
+        this.mService.setDisplay(true);
         this.contentService.retrieveUser(this.userId)
             .finally(() => {
                 this.mService.setDisplay(false)
@@ -135,8 +145,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
                 result => {
                     if (result.code == 0) {
                         this.retrieveStatus = true;
-                        this.transformUserObj(result.user, result.bio);
-
+                        this.transformUserObj(result.user, result.user.bio);
                     } else {
                         // this.ns.showError(result.description);
                     }
@@ -144,19 +153,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
             )
     }
 
-    // fetchBio(){
-    // this.contentService.retrieveUser(this.userId)
-    //   .subscribe(
-    //     result => {
-    //       if (result.code == 0) {
-    //         this.retrieveStatus = true;
-    //         this.bio = result.bio;
-    //       } else {
-    //
-    //       }
-    //     },
-    //   )
-    // }
+    fetchBio(){
+    this.contentService.retrieveUser(this.userId)
+      .subscribe(
+         result => {
+          if (result.code == 0) {
+            this.retrieveStatus = true;
+            this.bio = result.user.bio;
+          } else {
+          }
+        },
+       )
+    }
 
     transformUserObj(userObj: any, bio: string) {
         this.model.fName = userObj.fName;
@@ -166,7 +174,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.model.email = userObj.email;
         this.model.address = userObj.address;
         this.model.img = userObj.img;
-        this.model.phoneCode = userObj.phoneCode;
+        this.model.phoneCode = userObj.phoneCode? userObj.phoneCode: "234";
         this.model.bio = bio;
 
         if (this.model.img) {
@@ -174,11 +182,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
             this.model.img = str
         }
 
-        this.tmpModel = this.model;
+        this.tmpModel = JSON.parse(JSON.stringify(this.model));
 
-        if(this.model.phoneCode) {
+        if (this.model.phoneCode) {
             this.selectPhoneCode();
-            this.selectCountryCode();
+            this.selectCountryCode(this.model.phoneCode);
         }
         // else {
         //     //legacy
@@ -189,6 +197,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     openeditProfileModal(template: TemplateRef<any>) {
         this.tmpModel = JSON.parse(JSON.stringify(this.model));
+
+        this.selectCountryCode(this.tmpModel.phoneCode);
+        this.selectPhoneCode();
+
+
         this.openModal(template);
     }
 
@@ -200,11 +213,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.openModal(template);
     }
 
+    closeAboutMeModal() {
+        this.tmpModel.bio = this.bio;
+        this.modalRef.hide();
+    }
+
 
     onSubmit() {
         this.tmpModel.phoneCode = this.selectedPhoneCode;
 
-        if(!this.tmpModel.phoneCode) {
+        if (!this.tmpModel.phoneCode) {
             this.ns.showError("Please select a country code for phone number");
             return;
         }
@@ -212,22 +230,28 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.userId = this.ss.getUserId();
         this.submitted = true;
         this.loading = true;
+
         this.contentService.updateProfile(this.userId, this.tmpModel)
             .finally(() => {
+
                 this.loading = false;
-                this.tmpModel.phoneCode = "";
             })
             .subscribe(
                 result => {
                     if (result.code == 0) {
                         this.model = this.tmpModel;
+                        this.bio = this.tmpModel.bio;
+
                         this.ns.showSuccess(result.description);
-                        this.modalRef? this.modalRef.hide():'';
+                        this.modalRef ? this.modalRef.hide() : '';
+                        this.fetchBio();
                     } else {
                         this.ns.showError(result.description)
                     }
                 },
-                error => {this.ns.showError("An Error Occurred.")}
+                error => {
+                    this.ns.showError("An Error Occurred.")
+                }
             )
     }
 
@@ -264,6 +288,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
                 result => {
                     if (result.code == 0) {
                         this.countries = result.countries ? result.countries : [];
+                        this.filteredCountries = this.countries;
                     }
                 },
                 error => {
@@ -272,23 +297,53 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     onSelectChange() {
-        this.selectPhoneCode();
-        this.selectCountryCode();
-    }
-
-    selectPhoneCode() {
-        this.selectedPhoneCode = this.tmpModel.phoneCode;
+        this.selectedCountryCode = this.tmpModel.phoneCode;
         setTimeout(() => {
             this.tmpModel.phoneCode = "";
-        },200);
+        }, 200);
+        this.selectPhoneCode();
     }
 
-    selectCountryCode() {
-        let obj = this.countries.filter((obj) => obj.phoneCode? obj.phoneCode.includes(this.selectedPhoneCode):'')[0];
+    selectCountryCode(phoneCode: string) {
+        let obj = this.countries.filter((obj) => obj.phoneCode == phoneCode)[0];
 
         if (obj) {
             this.selectedCountryCode = obj.code;
         }
+    }
+
+    selectPhoneCode() {
+        let obj = this.countries.filter((obj) => obj.code == this.selectedCountryCode)[0];
+
+        if (obj) {
+            this.selectedPhoneCode = obj.phoneCode;
+        }
+    }
+
+
+    search(searchParam: string) {
+        if (searchParam) {
+            this.filteredCountries = this.countries.filter(obj => obj.name.toLowerCase().includes(searchParam.toLowerCase()));
+        } else {
+            this.filteredCountries = this.countries;
+        }
+
+    }
+
+    openc(event) {
+        if (!event) {
+            this.searchParam = '';
+            this.filteredCountries = this.countries;
+        }
+    }
+
+    onKeyUp() {
+        let str = this.tmpModel.phone.toString();
+        this.tmpModel.phone = +str.replace(/[^0-9]/g, "");
+    }
+
+    validateImageFile(fileName: string) {
+        return /([a-zA-Z0-9\s_\\.\-\(\):])+(.bmp|.jpeg|.jpg|.png)$/i.test(fileName);
     }
 
     ngOnDestroy() {

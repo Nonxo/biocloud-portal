@@ -1,8 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {AuthService} from "../../components/auth/auth.service";
 import {StorageService} from "../../service/storage.service";
 import {Router} from "@angular/router";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {NotifyService} from "../../service/notify.service";
 import {BsModalRef} from "ngx-bootstrap";
 import {TranslateService} from "@ngx-translate/core";
@@ -23,6 +23,7 @@ export class ChangePasswordComponent implements OnInit {
     loading = false;
     email: string = this.ss.getLoggedInUserEmail();
     response: any;
+    @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
     @Input()
     profilePage: boolean;
@@ -55,11 +56,15 @@ export class ChangePasswordComponent implements OnInit {
     passwordChange() {
         this.loading = true;
         const payload = this.changePasswordForm.value;
+        this.formGroupDirective.resetForm();
+
         this.authService.changePassword(this.email, payload.oldPw, payload.newPw)
-            .finally(() => this.loading = false)
+            .finally(() => {this.loading = false;})
             .subscribe(
                 res => {
                     if (this.profilePage) {
+                        this.changePasswordForm.markAsPristine();
+                        this.changePasswordForm.markAsUntouched();
                         this.changePasswordResponse.emit(res)
                     } else {
                         if (res.code == 0) {

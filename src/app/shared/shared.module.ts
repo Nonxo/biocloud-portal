@@ -55,6 +55,7 @@ import {HasAuthorityDirective} from "../directives/has-authority.directive";
 import {LoadingComponent} from '../components/loading/loading.component';
 import {ChangePasswordComponent} from "../pages/change-password/change-password.component";
 import {OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
+import {ImageCropperModule} from "ngx-image-cropper";
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -103,7 +104,7 @@ export function createTranslateLoader(http: HttpClient) {
         ModalModule.forRoot(),
         PopoverModule.forRoot(),
         CarouselModule.forRoot(),
-        AlertModule.forRoot({maxMessages: 1, timeout: 5000}),
+        AlertModule.forRoot({maxMessages: 1, timeout: 10000}),
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -114,7 +115,8 @@ export function createTranslateLoader(http: HttpClient) {
         ClickOutsideModule,
         AgmCoreModule,
         OwlDateTimeModule,
-        OwlNativeDateTimeModule
+        OwlNativeDateTimeModule,
+        ImageCropperModule
     ],
     exports: [
         CdkTableModule,
@@ -168,7 +170,8 @@ export function createTranslateLoader(http: HttpClient) {
         LoadingComponent,
         ChangePasswordComponent,
         OwlDateTimeModule,
-        OwlNativeDateTimeModule
+        OwlNativeDateTimeModule,
+        ImageCropperModule
 
     ],
     declarations: [NavComponent, SetupComponent, EllipsisPipe, AddAttendeesComponent, HasAuthorityDirective, LoadingComponent, ChangePasswordComponent]

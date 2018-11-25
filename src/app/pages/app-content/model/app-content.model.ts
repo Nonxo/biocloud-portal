@@ -196,6 +196,7 @@ export class SubscriptionPlan {
     maxAttendeeThreshold:number;
     autoRenew:boolean;
     planFeatures: string[];
+    vat: number;
 
 }
 
@@ -206,14 +207,16 @@ export class VerifyPaymentRequest {
     orgId:string;
     conversionRate:number;
     transactionMode:string;
+    vatAmount: number;
 
-    constructor(txRef:string, billingCycle:string, autoRenewal:boolean, orgId:string, conversionRate:number, transactionMode:string) {
+    constructor(txRef:string, billingCycle:string, autoRenewal:boolean, orgId:string, conversionRate:number, transactionMode:string, vatAmount: number) {
         this.billingCycle = billingCycle;
         this.txRef = txRef;
         this.autoRenewal = autoRenewal;
         this.orgId = orgId;
         this.conversionRate = conversionRate;
         this.transactionMode = transactionMode;
+        this.vatAmount = vatAmount;
     }
 }
 
@@ -223,13 +226,15 @@ export class SubscriptionChangeRequest {
     planId: string;
     currency: string;
     amount: number;
+    vat: number;
 
-    constructor(billingCycle: string, orgId: string, planId: string, currency: string, amount: number) {
+    constructor(billingCycle: string, orgId: string, planId: string, currency: string, amount: number, vat: number) {
         this.billingCycle = billingCycle;
         this.orgId = orgId;
         this.planId = planId;
         this.currency = currency;
         this.amount = amount;
+        this.vat = vat;
     }
 }
 
@@ -284,6 +289,25 @@ export class DaysPresentRequest {
     }
 }
 
+export class ApproveCoordinate {
+    latitude: number;
+    longitude: number;
+    radius: number;
+    status: string;
+    refId: string;
+    locId: string;
+    address: string;
+
+    constructor(lat: number, lng: number, rad: number, status: string, refId: string, locId: string, address: string) {
+        this.latitude = lat;
+        this.longitude  = lng;
+        this.radius = rad;
+        this.status = status;
+        this.refId = refId;
+        this.locId = locId;
+        this.address = address;
+    }
+}
 
 
 

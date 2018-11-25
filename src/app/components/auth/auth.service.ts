@@ -2,7 +2,6 @@ import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Endpoints} from '../../util/endpoints';
-import {ApproveRequest} from "../../pages/app-content/model/app-content.model";
 import {MediaType} from "../../util/constants";
 import {StorageService} from "../../service/storage.service";
 import {DataService} from "../../service/data.service";
@@ -52,7 +51,7 @@ export class AuthService {
 
     forgotPassword(email): Observable<any> {
         let params = new HttpParams()
-            .set('email', email)
+            .set('email', email);
 
         return this.httpClient.post(Endpoints.FORGOT_PASSWORD, params.toString(), {
             headers: this.urlEncodeHeader
@@ -61,9 +60,25 @@ export class AuthService {
 
     validateCaptcha(token): Observable<any> {
         let params = new HttpParams()
-            .set('resp', token)
+            .set('resp', token);
 
         return this.httpClient.post(Endpoints.VERIFY_CAPTCHA, params.toString(), {
+            headers: this.urlEncodeHeader
+        });
+    }
+
+    verifyEmail(email: string): Observable<any> {
+        return this.httpClient.post(Endpoints.VERIFY_EMAIL + email + "/email", null, {
+            headers: this.urlEncodeHeader
+        });
+    }
+
+    verifyUserToken(email: string, token: string): Observable<any> {
+        let params = new HttpParams()
+            .set('email', email)
+            .set('token', token);
+
+        return this.httpClient.post(Endpoints.VERIFY_USER_TOKEN + params, null, {
             headers: this.urlEncodeHeader
         });
     }
@@ -122,7 +137,43 @@ export class AuthService {
             .pipe(
                 timeout(50000),
                 map(response => {
-                    let res:any = response;
+                    let res: any = response;
+                    return res
+                })
+            )
+    }
+
+    getAbTestMode(): Observable<any> {
+        return this.httpClient
+            .get(Endpoints.GET_AB_TEST_STATUS, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    return res
+                })
+            )
+    }
+
+    verifySocialLogin(medium: string, token: string): Observable<any> {
+        const params = new HttpParams()
+            .set('medium', medium)
+            .set('deviceType', 'WEB')
+            .set('token', token);
+
+        return this.httpClient
+            .post(Endpoints.VERIFY_SOCIAL_MEDIA_SIGN_IN, params.toString(),
+                {
+                    headers: new HttpHeaders()
+                        .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+                })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
                     return res
                 })
             )
@@ -159,5 +210,17 @@ export class AuthService {
             this.logout();
             this.router.navigate(['/auth']);
         }
+    }
+
+    public setTawktoUserName(email: string, name: string, hash: string) {
+        const Tawk_API = (<any>window).Tawk_API;
+
+        if (typeof Tawk_API === 'undefined' || !Tawk_API) return;
+
+        Tawk_API.setAttributes({
+            name: name,
+            email: email,
+            hash: hash
+        }, function (error) {});
     }
 }

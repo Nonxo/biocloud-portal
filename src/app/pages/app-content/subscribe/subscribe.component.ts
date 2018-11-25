@@ -36,6 +36,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     public renewSub: boolean = true;
     public discountRate:number;
     public discountPrice:number;
+    public vat: number;
     private orgId:string;
     public subscription:any;
     public proratedAmount: number;
@@ -126,6 +127,16 @@ export class SubscribeComponent implements OnInit, OnDestroy {
 
     }
 
+    setVat() {
+        if(this.selectedPlan.vat > 0 && this.selectedCurrency == 'NGN') {
+            this.vat =  Math.round((this.selectedPlan.vat/100) * this.totalAmount);
+            return;
+        }
+
+        this.vat = 0;
+
+    }
+
     getPrice(plan: SubscriptionPlan):number {
         if (this.selectedCurrency == 'NGN') {
             if (this.monthlyPlan) {
@@ -207,7 +218,8 @@ export class SubscribeComponent implements OnInit, OnDestroy {
             this.totalAmount = this.getPrice(plan);
 
             this.setDiscountPrice();
-            this.amountToPay = this.totalAmount - this.discountPrice;
+            this.setVat();
+            this.amountToPay = (this.totalAmount + this.vat) - this.discountPrice;
             this.openModal(template);
         }else {
             this.selectedPlan = plan;
@@ -219,7 +231,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
 
     getProratedCost() {
         this.mService.setDisplay(true);
-        this.subService.getProratedCost(new SubscriptionChangeRequest(this.monthlyPlan? 'MONTHLY':'ANNUAL',this.orgId, this.selectedPlan.planId, this.selectedCurrency, 0))
+        this.subService.getProratedCost(new SubscriptionChangeRequest(this.monthlyPlan? 'MONTHLY':'ANNUAL',this.orgId, this.selectedPlan.planId, this.selectedCurrency, 0, 0))
             ._finally(() => {this.mService.setDisplay(false)})
             .subscribe(
                 result => {
@@ -227,7 +239,8 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                         this.totalAmount = result.amount;
                         this.proratedAmount = result.amount;
                         this.setDiscountPrice();
-                        this.amountToPay = this.proratedAmount - this.discountPrice;
+                        this.setVat();
+                        this.amountToPay = (this.proratedAmount + this.vat) - this.discountPrice;
 
                         this.openModal(this.confirmPaymentTemplate);
                     } else {
@@ -282,7 +295,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
 
     verifyPayment(txRef, autoRenew:boolean) {
         this.mService.setDisplay(true);
-        this.subService.verifyPayment(new VerifyPaymentRequest(txRef, this.monthlyPlan? 'MONTHLY':'ANNUAL', autoRenew, this.orgId, this.exchangeRate, "SUBSCRIPTION"))
+        this.subService.verifyPayment(new VerifyPaymentRequest(txRef, this.monthlyPlan? 'MONTHLY':'ANNUAL', autoRenew, this.orgId, this.exchangeRate, "SUBSCRIPTION", this.vat))
             ._finally(() => {this.mService.setDisplay(false);})
             .subscribe(
                 result => {
@@ -301,7 +314,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
 
     changePlan() {
         this.mService.setDisplay(true);
-        this.subService.changePlan(new SubscriptionChangeRequest(this.monthlyPlan? 'MONTHLY':'ANNUAL',this.orgId, this.selectedPlan.planId, this.selectedCurrency, this.amountToPay))
+        this.subService.changePlan(new SubscriptionChangeRequest(this.monthlyPlan? 'MONTHLY':'ANNUAL',this.orgId, this.selectedPlan.planId, this.selectedCurrency, this.amountToPay, this.vat))
             .finally(() => {this.mService.setDisplay(false)})
             .subscribe(
                 result => {

@@ -1,4 +1,8 @@
-import {BrowserModule} from '@angular/platform-browser';
+import { MessageService } from './service/message.service';
+import { BsModalRef } from 'ngx-bootstrap';
+import { AppConfigService } from './pages/app-content/app-config/services/app-config.service';
+import { WizardStepperComponent } from './components/wizard-stepper/wizard-stepper.component';
+import {BrowserModule, HAMMER_GESTURE_CONFIG} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule, HttpClient} from '@angular/common/http';
 
@@ -28,6 +32,14 @@ import {AppContentService} from "./pages/app-content/services/app-content.servic
 import {InviteUserComponent} from "./components/auth/invite-user/invite-user.component";
 import {ReceiptComponent} from "./pages/app-content/subscription-history/receipt/receipt.component";
 import {Angulartics2Facebook, Angulartics2GoogleTagManager, Angulartics2Module} from "angulartics2";
+import { FlowOneComponent } from './pages/auth/flow-one/flow-one.component';
+import { FlowTwoComponent } from './pages/auth/flow-two/flow-two.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { GoogleSignInComponent } from './components/auth/google-sign-in/google-sign-in.component';
+import { GestureConfig } from '@angular/material';
+import { ApproveCoordinatesComponent } from './components/auth/approve-coordinates/approve-coordinates.component';
+import {GeoMapService} from './service/geo-map.service';
+import { RegEmailNotificationComponent } from './components/auth/register/reg-email-notification/reg-email-notification.component';
 
 @NgModule({
     declarations: [
@@ -38,7 +50,17 @@ import {Angulartics2Facebook, Angulartics2GoogleTagManager, Angulartics2Module} 
         SignUpAsComponent,
         InviteUserComponent,
         LoginComponent,
-        ReceiptComponent
+        ReceiptComponent,
+        FlowOneComponent,
+        FlowTwoComponent,
+        LandingPageComponent,
+        GoogleSignInComponent,
+        ApproveCoordinatesComponent,
+        RegEmailNotificationComponent,
+        // CreatePasswordComponent,
+        // PersonalDetailsComponent,
+        WizardStepperComponent,
+        RegEmailNotificationComponent
     ],
     imports: [
         HttpClientModule,
@@ -62,12 +84,17 @@ import {Angulartics2Facebook, Angulartics2GoogleTagManager, Angulartics2Module} 
         NotifyService,
         DateUtil,
         PictureUtil,
+        GeoMapService,
         AppContentService,
+        AppConfigService,
+        BsModalRef,
+        MessageService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: ApiInterceptor,
             multi: true
-        }
+        },
+        { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
     ],
     entryComponents: [ChangePasswordComponent],
     bootstrap: [AppComponent]

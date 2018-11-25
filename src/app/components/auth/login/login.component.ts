@@ -1,4 +1,11 @@
-import {Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewChildren} from '@angular/core';
+import {
+    Component,
+    OnDestroy,
+    OnInit,
+    TemplateRef,
+    ViewChild,
+    ViewChildren
+} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {BsModalRef, BsModalService, ModalOptions} from 'ngx-bootstrap';
@@ -16,7 +23,7 @@ import {DataService} from "../../../service/data.service";
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit,OnDestroy {
 
     hide = true;
     loginForm: FormGroup;
@@ -28,6 +35,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     @ViewChildren('loginEmail') loginEmail;
     @ViewChild
     ("complianceTemplate") private complianceTemplate: TemplateRef<any>;
+
 
     constructor(private authService: AuthService,
                 private ss: StorageService,
@@ -41,6 +49,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         translate.use('en/login');
 
     }
+
 
     openModal(template: TemplateRef<any>) {
         this.modalRef = this.modalService.show(template);
@@ -61,12 +70,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
         this.loginForm.get('email').valueChanges
             .subscribe((value) => {
-            if(value.length > value.trim().length) {
-                this.loginForm.get('email').setValue(value.trim());
-            }
+                if(value.length > value.trim().length) {
+                    this.loginForm.get('email').setValue(value.trim());
+                }
             })
 
     }
+
 
     resetPasswordCheck(res: any) {
 
@@ -76,6 +86,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.ss.authToken = res.token;
             this.ss.loggedInUser = res.bioUser;
             this.ss.setOrgRoles(res.bioUser.orgRoles);
+            this.authService.setTawktoUserName(res.bioUser.email, res.bioUser.fName + ' ' + res.bioUser.lName, res.tawkHash);
 
             //check support role
             if(res.bioUser.role == "BASE_ADMIN") {
@@ -173,6 +184,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                 error => {this.ns.showError("An Error Occurred");}
             )
     }
+
 
     goToTerms() {
         window.open("https://seamfix.com/privacy/privacy-policy-iclocker/");

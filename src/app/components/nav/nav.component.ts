@@ -1,6 +1,6 @@
 import {Component, OnInit, TemplateRef, HostListener, ViewChild, OnDestroy} from '@angular/core';
 import {Router} from "@angular/router";
-import {BsModalService, BsModalRef} from "ngx-bootstrap/index";
+import {BsModalService, BsModalRef, ModalOptions} from "ngx-bootstrap/index";
 import {StorageService} from "../../service/storage.service";
 import {AppContentService} from "../../pages/app-content/services/app-content.service";
 import {NotifyService} from "../../service/notify.service";
@@ -17,6 +17,8 @@ import {PictureUtil} from "../../util/PictureUtil";
 import {SubscriptionService} from "../../pages/app-content/services/subscription.service";
 import {DateUtil} from "../../util/DateUtil";
 import {SubscriptionMode} from "../../pages/app-content/enums/enums";
+import {ConfirmLocationComponent} from "../../pages/app-content/confirm-location/confirm-location.component";
+declare const gapi: any;
 
 @Component({
     selector: 'app-nav',
@@ -92,6 +94,7 @@ export class NavComponent implements OnInit, OnDestroy {
     showDropdown: boolean;
     range: any[] = [];
     employeeRangeUpperLimit:any;
+    modalOptions:ModalOptions = new ModalOptions();
 
     constructor(private router: Router,
                 private authService: AuthService,
@@ -162,6 +165,13 @@ export class NavComponent implements OnInit, OnDestroy {
                 }
             )
 
+        this.mService.getUpdateNotif()
+            .subscribe(
+                result => {
+                    result == true? this.callNotificationService():'';
+                }
+            )
+
     }
 
     ngOnInit() {
@@ -227,6 +237,15 @@ export class NavComponent implements OnInit, OnDestroy {
 
     }
 
+    openLocationConfirmationModal(loc:any) {
+            this.modalOptions.class = 'modal-lg mt-0';
+            this.modalOptions.initialState = {
+                locRequest: JSON.parse(JSON.stringify(loc))
+            }
+            ;
+            this.modalRef = this.modalService.show(ConfirmLocationComponent, this.modalOptions);
+    }
+
     onClickedOutside(e: Event) {
         this.openDropdown = false;
 
@@ -274,7 +293,7 @@ export class NavComponent implements OnInit, OnDestroy {
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.notifications = result.attendees ? result.attendees : [];
+                        this.notifications = result.notif ? result.notif : [];
                         this.showNotifBadge();
                     } else {
                         // this.notifications = [];
@@ -458,6 +477,8 @@ export class NavComponent implements OnInit, OnDestroy {
     }
 
     saveOrg() {
+        this.transformEmployeeRangeObj();
+
         if (!this.isFormValid()) {
             return;
         }
@@ -465,7 +486,6 @@ export class NavComponent implements OnInit, OnDestroy {
         this.loading = true;
         this.getOrgRequestObject();
 
-        this.transformEmployeeRangeObj();
         this.editOrgMode ? this.callOrgEditService() : this.callOrgCreationService();
     }
 
@@ -483,7 +503,12 @@ export class NavComponent implements OnInit, OnDestroy {
 
     isFormValid(): boolean {
         if (!this.orgRequest.type) {
-            this.ns.showError('Company Type is required');
+            this.ns.showError('Company type is required');
+            return false;
+        }
+
+        if (!this.orgRequest.employeeRange) {
+            this.ns.showError('Company size is required');
             return false;
         }
 
@@ -592,7 +617,7 @@ export class NavComponent implements OnInit, OnDestroy {
 
     logout() {
         this.authService.logout();
-        this.router.navigate(['/auth']);
+        this.router.navigate(['/auth'], {queryParams: {login: true}});
     }
 
     onResizeByWindowScreen() {
@@ -666,6 +691,12 @@ export class NavComponent implements OnInit, OnDestroy {
     fileChange(event: any, hoverState: boolean) {
         this.hoverState = hoverState;
 
+        if(!this.validateImageFile(event.target.files[0].name)) {
+            this.ns.showError('File format not supported');
+            event.target.value = '';
+            return;
+        }
+
         if (this.pictureUtil.restrictFilesSize(event.target.files[0].size)) {
             this.uploadedFileName = event.target.files[0].name;
             this.readFiles(event.target.files);
@@ -674,6 +705,12 @@ export class NavComponent implements OnInit, OnDestroy {
             this.uploadedFileName = "";
             this.orgRequest.logo = "";
         }
+
+        event.target.value = '';
+    }
+
+    validateImageFile(fileName: string) {
+        return /([a-zA-Z0-9\s_\\.\-\(\):])+(.bmp|.jpeg|.jpg|.png)$/i.test(fileName);
     }
 
     readFile(file, reader, callback) {
