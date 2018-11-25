@@ -168,8 +168,6 @@ export class SignUpAsComponent implements OnInit {
             this.uploadedFileName = "";
             this.orgRequest.logo = "";
         }
-
-        event.target.value = '';
     }
 
     validateImageFile(fileName: string) {
