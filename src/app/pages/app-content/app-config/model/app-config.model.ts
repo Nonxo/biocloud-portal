@@ -29,7 +29,6 @@ export class LocationRequest {
         this.confirmees = [];
         this.radiusThreshold = 32;
         this.locationType = 'SPECIFIC_ADDRESS';
-        this.address = 'Unnamed Road'
     }
 }
 
