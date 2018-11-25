@@ -336,6 +336,13 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                         this.cipher = result.cipher;
                         this.PUBKey = result.ravePayPublicKey;
                         this.transactionRef = result.transactionRef;
+                        this.paymentGateway = result.paymentGateway;
+
+                        if(this.paymentGateway == 'PAYSTACK') {
+                            this.payWithPaystack();
+                        } else {
+                            this.callRave();
+                        }
 
                         //dont get transaction ref from here
 
@@ -345,7 +352,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
 
 
                         // this.openModal(this.confirmPaymentTemplate);
-                        this.callRave();
+                        // this.callRave();
                     } else if (result.code == -16) {
                         this.openModal(this.warningTemplate);
                     }else {
