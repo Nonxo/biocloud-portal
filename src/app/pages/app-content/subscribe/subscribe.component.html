@@ -141,7 +141,7 @@
             <p class=""><span class="text-brand font-weight-bold">Subscription Type</span><br>{{monthlyPlan?
                 'Monthly':'Yearly'}}</p>
             <p class=""><span class="text-brand font-weight-bold">Amount</span><br>{{getPrice(selectedPlan) |
-                currency:selectedCurrency:'symbol-narrow':'2.0'}}</p>
+                currency:selectedCurrency:'symbol-narrow':'1.0'}}</p>
 
             <hr>
 
@@ -150,7 +150,7 @@
                     <p class="text-brand font-weight-bold">Sub Total</p>
                 </div>
                 <div class="col-md-5">
-                    <p>{{getPrice(selectedPlan) | currency:selectedCurrency:'symbol-narrow':'2.0'}}</p>
+                    <p>{{getPrice(selectedPlan) | currency:selectedCurrency:'symbol-narrow':'1.0'}}</p>
                 </div>
                 <ng-container *ngIf="proratedAmount">
                     <div class="col-md-7">

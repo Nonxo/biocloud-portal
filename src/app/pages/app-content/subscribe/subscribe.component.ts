@@ -378,10 +378,10 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     }
 
     payWithPaystack() {
-        var amount = Math.round(this.amountToPay * 100);
+        let amount = Math.round(this.amountToPay * 100);
 
-        var handler = PaystackPop.setup({
-            key: 'pk_test_cd259544d22278768dc49fd0d4bcea823458c69f',
+        let handler = PaystackPop.setup({
+            key: this.PUBKey,
             email: this.userEmail,
             amount: amount,
             currency: this.selectedCurrency,
