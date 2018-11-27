@@ -311,8 +311,3 @@
     font-weight: normal;
     cursor: pointer;
 }
-
-.mat-tab-labels {
-    display: flex;
-    background: #fff !important;
-}
