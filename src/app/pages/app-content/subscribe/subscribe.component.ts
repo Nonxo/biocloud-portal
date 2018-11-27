@@ -9,6 +9,7 @@ import {BillingCycle, SubscriptionMode} from "../enums/enums";
 import {DomSanitizer} from "@angular/platform-browser";
 
 declare function getpaidSetup(data): void;
+declare var PaystackPop: any;
 
 @Component({
     selector: 'app-subscribe',
@@ -44,8 +45,9 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     private orgId: string;
     public subscription: any;
     public proratedAmount: number;
-    @ViewChild("confirmPaymentTemplate") private confirmPaymentTemplate: TemplateRef<any>;
-    @ViewChild("warningTemplate") private warningTemplate: TemplateRef<any>;
+    public paymentGateway: string;
+    @ViewChild("confirmPaymentTemplate")private confirmPaymentTemplate: TemplateRef<any>;
+    @ViewChild("warningTemplate")private warningTemplate: TemplateRef<any>;
     modalOptions: ModalOptions = new ModalOptions();
     public couponError: string;
     public loading: boolean;
@@ -244,8 +246,14 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                         this.cipher = result.cipher;
                         this.PUBKey = result.ravePayPublicKey;
                         this.transactionRef = result.transactionRef;
+                        this.paymentGateway = result.paymentGateway;
 
-                        this.callRave();
+                        if(this.paymentGateway == 'PAYSTACK') {
+                            this.payWithPaystack();
+                        } else {
+                            this.callRave();
+                        }
+
                     } else if (result.code == -16) {
                         this.openModal(this.warningTemplate);
                     } else {
@@ -433,9 +441,14 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                         this.cipher = result.cipher;
                         this.PUBKey = result.ravePayPublicKey;
                         this.transactionRef = result.transactionRef;
+                        this.paymentGateway = result.paymentGateway;
 
-                        //dont get transaction ref from here
-                        this.callRave();
+                        if(this.paymentGateway == 'PAYSTACK') {
+                            this.payWithPaystack();
+                        } else {
+                            this.callRave();
+                        }
+
                     } else if (result.code == -16) {
                         this.openModal(this.warningTemplate);
                     } else {
@@ -462,4 +475,36 @@ export class SubscribeComponent implements OnInit, OnDestroy {
         this.modalRef ? this.modalRef.hide() : '';
     }
 
+    payWithPaystack() {
+        let amount = Math.round(this.amountToPay * 100);
+
+        let handler = PaystackPop.setup({
+            key: this.PUBKey,
+            email: this.userEmail,
+            amount: amount,
+            currency: this.selectedCurrency,
+            ref: this.transactionRef , // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+            firstname: '',
+            lastname: '',
+            // label: "Optional string that replaces customer email"
+            metadata: {
+                metaname: 'brcrypt', metavalue: this.cipher,
+                custom_fields: [
+                    {
+                        display_name: "Mobile Number",
+                        variable_name: "mobile_number",
+                        value: "+2348012345678"
+                    }
+                ]
+            },
+            callback: (response) => {
+                if (this.renewSub) {
+                    this.verifyPayment(response.reference, true);
+                } else {
+                    this.verifyPayment(response.reference, false);
+                }
+            }
+        });
+        handler.openIframe();
+    }
 }
