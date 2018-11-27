@@ -199,7 +199,7 @@ export class SubscriptionCardDetailsComponent implements OnInit {
 
     verifyPayment(txRef, autoRenew: boolean) {
         this.mService.setDisplay(true);
-        this.subService.verifyPayment(new VerifyPaymentRequest(txRef, null, autoRenew, this.orgId, null, "ADD_CARD",0))
+        this.subService.verifyPayment(new VerifyPaymentRequest(txRef, null, autoRenew, this.orgId, null, "ADD_CARD",0, null, 0))
             .finally(() => {
                 this.mService.setDisplay(false);
             })

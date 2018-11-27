@@ -3,7 +3,7 @@ import {SubscriptionChangeRequest, SubscriptionPlan, VerifyPaymentRequest} from 
 import {SubscriptionService} from "../services/subscription.service";
 import {NotifyService} from "../../../service/notify.service";
 import {StorageService} from "../../../service/storage.service";
-import {BsModalRef, BsModalService} from "ngx-bootstrap";
+import {BsModalRef, BsModalService, ModalOptions} from "ngx-bootstrap";
 import {MessageService} from "../../../service/message.service";
 import {BillingCycle, SubscriptionMode} from "../enums/enums";
 import {DomSanitizer} from "@angular/platform-browser";
@@ -18,6 +18,7 @@ declare var PaystackPop: any;
 })
 export class SubscribeComponent implements OnInit, OnDestroy {
 
+    private couponCode: string;
     public subscriptionPlans: SubscriptionPlan[] = [];
     public monthlyPlan: boolean = true;
     public selectedCurrency: string = 'NGN';
@@ -35,15 +36,22 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     private userPhoneNumber: string;
     public modalRef: BsModalRef;
     public renewSub: boolean = true;
-    public discountRate:number;
-    public discountPrice:number;
+    public discountRate: number;
+    public discountPrice: number;
+    public discountPriceFromCoupon: number = 0;
+    public couponDiscount: number;
+    private flatRate: boolean;
     public vat: number;
-    private orgId:string;
-    public subscription:any;
+    private orgId: string;
+    public subscription: any;
     public proratedAmount: number;
     public paymentGateway: string;
     @ViewChild("confirmPaymentTemplate")private confirmPaymentTemplate: TemplateRef<any>;
     @ViewChild("warningTemplate")private warningTemplate: TemplateRef<any>;
+    modalOptions: ModalOptions = new ModalOptions();
+    public couponError: string;
+    public loading: boolean;
+    public loadedVoucher: string;
 
     constructor(private subService: SubscriptionService,
                 private modalService: BsModalService,
@@ -52,7 +60,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                 private mService: MessageService,
                 public sanitizer: DomSanitizer) {
         this.userEmail = this.ss.getLoggedInUserEmail();
-        this.userPhoneNumber = (this.ss.loggedInUser.phoneCode? this.ss.loggedInUser.phoneCode:'') + this.ss.loggedInUser.phone;
+        this.userPhoneNumber = (this.ss.loggedInUser.phoneCode ? this.ss.loggedInUser.phoneCode : '') + this.ss.loggedInUser.phone;
         this.orgId = this.ss.getSelectedOrg().orgId;
 
     }
@@ -68,38 +76,45 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     }
 
     openModal(template: TemplateRef<any>) {
-        this.modalRef = this.modalService.show(template);
+        this.modalOptions.class = 'modal-lg mt-0';
+        this.modalRef = this.modalService.show(template, this.modalOptions);
     }
 
     fetchSubscriptionDetails() {
         this.subService.fetchSubscriptionDetails(this.orgId)
-            .finally(() => {this.fetchPlans()})
+            .finally(() => {
+                this.fetchPlans()
+            })
             .subscribe(
                 result => {
-                    if(result.code == 0) {
+                    if (result.code == 0) {
                         this.subscription = result.subscription;
-                        this.selectedCurrency = this.subscription.currency == '---'? 'NGN': this.subscription.currency;
+                        this.selectedCurrency = this.subscription.currency == '---' ? 'NGN' : this.subscription.currency;
                         this.fetchSpecificExchangeRate();
 
                         this.mService.setUpdateSub(this.subscription);
 
                         //set billing cycle flag
-                        if(this.subscription && this.subscription.billingCycle) {
-                            this.subscription.billingCycle.toLowerCase() == BillingCycle.MONTHLY.toLowerCase()? this.monthlyPlan = true: this.monthlyPlan = false;
+                        if (this.subscription && this.subscription.billingCycle) {
+                            this.subscription.billingCycle.toLowerCase() == BillingCycle.MONTHLY.toLowerCase() ? this.monthlyPlan = true : this.monthlyPlan = false;
                         }
 
                     } else {
                         this.ns.showError(result.description);
                     }
                 },
-                error => {this.ns.showError("An Error Occurred");}
+                error => {
+                    this.ns.showError("An Error Occurred");
+                }
             )
     }
 
     fetchPlans() {
         this.mService.setDisplay(true);
         this.subService.fetchPlans()
-            .finally(() => {this.mService.setDisplay(false);})
+            .finally(() => {
+                this.mService.setDisplay(false);
+            })
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -120,8 +135,8 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     }
 
     setDiscountPrice() {
-        if(this.discountRate > 0 && !this.monthlyPlan) {
-            this.discountPrice =  Math.round((this.discountRate/100) * this.totalAmount);
+        if (this.discountRate > 0 && !this.monthlyPlan) {
+            this.discountPrice = Math.round((this.discountRate / 100) * this.totalAmount);
             return;
         }
 
@@ -130,16 +145,15 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     }
 
     setVat() {
-        if(this.selectedPlan.vat > 0 && this.selectedCurrency == 'NGN') {
-            this.vat =  Math.round((this.selectedPlan.vat/100) * this.totalAmount);
+        if (this.selectedPlan.vat > 0 && this.selectedCurrency == 'NGN') {
+            this.vat = Math.round((this.selectedPlan.vat / 100) * this.totalAmount);
             return;
         }
 
         this.vat = 0;
-
     }
 
-    getPrice(plan: SubscriptionPlan):number {
+    getPrice(plan: SubscriptionPlan): number {
         if (this.selectedCurrency == 'NGN') {
             if (this.monthlyPlan) {
                 return Math.round(plan.pricePerMonth);
@@ -152,6 +166,63 @@ export class SubscribeComponent implements OnInit, OnDestroy {
             } else {
                 return Math.round(plan.pricePerAnnum / this.exchangeRate);
             }
+        }
+    }
+
+    getCouponDiscount() {
+        this.couponError = "";
+        this.loading = true;
+
+        this.subService.getCouponDiscount(this.orgId, this.monthlyPlan ? BillingCycle.MONTHLY.toUpperCase() : BillingCycle.YEARLY.toUpperCase(), this.couponCode)
+            .finally(() => {
+                this.loading = false;
+            })
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.resetCouponOffer();
+                        this.getCouponOffer(result);
+                    } else {
+                        this.couponError = result.description;
+                    }
+                },
+                error => {
+                    this.ns.showError("An Error Occurred");
+                }
+            )
+    }
+
+    resetCouponOffer() {
+        if(this.couponDiscount) {
+            this.amountToPay += this.couponDiscount;
+        }
+    }
+
+    getCouponOffer(response: any) {
+
+        switch (response.discountType) {
+
+            case "PERCENTAGE": {
+                this.couponDiscount = Math.round((response.discount / 100) * this.totalAmount);
+                this.amountToPay -= this.couponDiscount;
+                break;
+            }
+
+            case "AMOUNT": {
+                if (this.selectedCurrency == "NGN") {
+                    this.couponDiscount = response.discount;
+                    this.amountToPay -= this.couponDiscount;
+                } else {
+                    this.couponDiscount = Math.round(response.discount / this.exchangeRate);
+                    this.amountToPay -= this.couponDiscount;
+                }
+
+                break;
+            }
+        }
+
+        if (this.amountToPay < 0) {
+            this.amountToPay = 1;
         }
     }
 
@@ -173,7 +244,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
 
                     } else if (result.code == -16) {
                         this.openModal(this.warningTemplate);
-                    }else {
+                    } else {
                         this.ns.showError(result.description);
                     }
                 },
@@ -220,7 +291,11 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     }
 
     confirmPayment(plan: SubscriptionPlan, template: TemplateRef<any>) {
-        if(!this.subscription || this.subscription.subscriptionPlanId.toLowerCase().startsWith(SubscriptionMode.TRIAL.toLowerCase())) {
+        this.couponDiscount = 0;
+        this.couponCode = "";
+        this.couponError = "";
+
+        if (!this.subscription || this.subscription.subscriptionPlanId.toLowerCase().startsWith(SubscriptionMode.TRIAL.toLowerCase())) {
             this.selectedPlan = plan;
             // this.renewSub = false;
             this.totalAmount = this.getPrice(plan);
@@ -229,7 +304,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
             this.setVat();
             this.amountToPay = (this.totalAmount + this.vat) - this.discountPrice;
             this.openModal(template);
-        }else {
+        } else {
             this.selectedPlan = plan;
             // this.totalAmount = this.getPrice(plan);
             this.getProratedCost();
@@ -239,16 +314,18 @@ export class SubscribeComponent implements OnInit, OnDestroy {
 
     getProratedCost() {
         this.mService.setDisplay(true);
-        this.subService.getProratedCost(new SubscriptionChangeRequest(this.monthlyPlan? 'MONTHLY':'ANNUAL',this.orgId, this.selectedPlan.planId, this.selectedCurrency, 0, 0))
-            ._finally(() => {this.mService.setDisplay(false)})
+        this.subService.getProratedCost(new SubscriptionChangeRequest(this.monthlyPlan ? 'MONTHLY' : 'ANNUAL', this.orgId, this.selectedPlan.planId, this.selectedCurrency, 0, 0, null, 0))
+            ._finally(() => {
+                this.mService.setDisplay(false)
+            })
             .subscribe(
                 result => {
-                    if(result.code == 0) {
+                    if (result.code == 0) {
                         this.totalAmount = result.amount;
                         this.proratedAmount = result.amount;
                         this.setDiscountPrice();
                         this.setVat();
-                        this.amountToPay = (this.proratedAmount + this.vat) - this.discountPrice;
+                        this.amountToPay = (this.proratedAmount + this.vat) - this.discountPrice
 
                         this.openModal(this.confirmPaymentTemplate);
                     } else {
@@ -256,17 +333,29 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                     }
 
                 },
-                error => {this.ns.showError("An Error Occurred")}
+                error => {
+                    this.ns.showError("An Error Occurred")
+                }
             )
+    }
+
+    applyCoupon(couponCode: string) {
+
+        if (couponCode != this.couponCode) {
+            this.couponCode = couponCode;
+            this.getCouponDiscount();
+            // this.setDiscountPriceFromCoupon(this.discountPriceFromCoupon, this.flatRate);
+        }
+
     }
 
     subscribe(plan) {
         this.modalRef.hide();
         this.planId = plan.planId;
 
-        if(!this.subscription || this.subscription.subscriptionPlanId.toLowerCase().startsWith(SubscriptionMode.TRIAL.toLowerCase())) {
+        if (!this.subscription || this.subscription.subscriptionPlanId.toLowerCase().startsWith(SubscriptionMode.TRIAL.toLowerCase())) {
             this.generateTransactionRef();
-        }else {
+        } else {
             this.changePlan();
             // this.callRave();
         }
@@ -301,16 +390,18 @@ export class SubscribeComponent implements OnInit, OnDestroy {
             )
     }
 
-    verifyPayment(txRef, autoRenew:boolean) {
+    verifyPayment(txRef, autoRenew: boolean) {
         this.mService.setDisplay(true);
-        this.subService.verifyPayment(new VerifyPaymentRequest(txRef, this.monthlyPlan? 'MONTHLY':'ANNUAL', autoRenew, this.orgId, this.exchangeRate, "SUBSCRIPTION", this.vat))
-            ._finally(() => {this.mService.setDisplay(false);})
+        this.subService.verifyPayment(new VerifyPaymentRequest(txRef, this.monthlyPlan ? 'MONTHLY' : 'ANNUAL', autoRenew, this.orgId, this.exchangeRate, "SUBSCRIPTION", this.vat, this.couponCode, this.couponDiscount))
+            ._finally(() => {
+                this.mService.setDisplay(false);
+            })
             .subscribe(
                 result => {
-                    if(result.code == 0) {
+                    if (result.code == 0) {
                         this.ns.showSuccess(result.description);
                         this.fetchSubscriptionDetails();
-                    }else {
+                    } else {
                         this.ns.showError(result.description);
                     }
                 },
@@ -322,11 +413,13 @@ export class SubscribeComponent implements OnInit, OnDestroy {
 
     changePlan() {
         this.mService.setDisplay(true);
-        this.subService.changePlan(new SubscriptionChangeRequest(this.monthlyPlan? 'MONTHLY':'ANNUAL',this.orgId, this.selectedPlan.planId, this.selectedCurrency, this.amountToPay, this.vat))
-            .finally(() => {this.mService.setDisplay(false)})
+        this.subService.changePlan(new SubscriptionChangeRequest(this.monthlyPlan ? 'MONTHLY' : 'ANNUAL', this.orgId, this.selectedPlan.planId, this.selectedCurrency, this.amountToPay, this.vat, this.couponCode, this.couponDiscount))
+            .finally(() => {
+                this.mService.setDisplay(false)
+            })
             .subscribe(
                 result => {
-                    if(result.code == 0) {
+                    if (result.code == 0) {
                         //successfully debited card
                         this.ns.showSuccess(result.description);
                         this.fetchSubscriptionDetails();
@@ -344,22 +437,15 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                             this.callRave();
                         }
 
-                        //dont get transaction ref from here
-
-                        // this.totalAmount = result.amount;
-                        // this.setDiscountPrice();
-                        // this.amountToPay = this.totalAmount - this.discountPrice;
-
-
-                        // this.openModal(this.confirmPaymentTemplate);
-                        // this.callRave();
                     } else if (result.code == -16) {
                         this.openModal(this.warningTemplate);
-                    }else {
+                    } else {
                         this.ns.showError(result.description);
                     }
                 },
-                error => { this.ns.showError("An Error Occurred");}
+                error => {
+                    this.ns.showError("An Error Occurred");
+                }
             )
     }
 
@@ -374,7 +460,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.modalRef? this.modalRef.hide():'';
+        this.modalRef ? this.modalRef.hide() : '';
     }
 
     payWithPaystack() {

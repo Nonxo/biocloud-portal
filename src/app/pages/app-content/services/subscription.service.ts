@@ -93,6 +93,27 @@ export class SubscriptionService {
             )
     }
 
+    getCouponDiscount(orgId:string, billingCycle:string, code:string): Observable<any> {
+        const params = new HttpParams()
+            .set('billingCycle', billingCycle)
+            .set('code', code)
+            .set('orgId', orgId);
+
+        return this.httpClient
+            .post(Endpoints.GET_COUPON_DISCOUNT, params.toString(), {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res;
+                })
+            )
+    }
+
     verifyPayment(model: VerifyPaymentRequest): Observable<any> {
         return this.httpClient
             .post(Endpoints.VERIFY_PAYMENT, JSON.stringify(model), {

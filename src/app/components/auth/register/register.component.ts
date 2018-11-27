@@ -34,6 +34,9 @@ export class RegisterComponent implements OnInit {
     fullName: string;
     phone: string;
     iAgree: boolean;
+    searchField: string;
+    nameError: string;
+    phoneError: string;
 
     @Input()
     step: number;
@@ -101,6 +104,7 @@ export class RegisterComponent implements OnInit {
 
     onClickedOutside(e: Event) {
         this.openDropdown = false;
+        this.searchField = "";
 
         //load filteredCountries afresh else the old searched countries will still be displayed
         this.filteredCountries = this.countries;
@@ -272,6 +276,8 @@ export class RegisterComponent implements OnInit {
     }
 
     onSelectChange(country: any) {
+        this.searchField = "";
+        this.openDropdown = false;
         this.selectCountryCode(country.code);
         this.selectPhoneCode();
     }
@@ -311,6 +317,22 @@ export class RegisterComponent implements OnInit {
             this.filteredCountries = this.countries;
         } else {
             this.myInput.nativeElement.focus();
+        }
+    }
+
+    validateNameField() {
+        if(/[^A-Za-z \-']/.test(this.fullName)) {
+            this.nameError = "Numbers and special characters not allowed";
+        }else{
+            this.nameError = "";
+        }
+    }
+
+    validatePhoneField() {
+        if(/[^0-9]/.test(this.phone)) {
+            this.phoneError = "Only numbers allowed"
+        } else {
+            this.phoneError = "";
         }
     }
 
