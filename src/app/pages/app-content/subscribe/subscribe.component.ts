@@ -69,6 +69,18 @@ export class SubscribeComponent implements OnInit, OnDestroy {
         this.fetchAllExchangeRates();
     }
 
+    toggleSubscriptionType(isMonthly: boolean){
+        this.monthlyPlan = isMonthly;
+    }
+        
+    setPlan(plan: SubscriptionPlan){
+        this.selectedPlan = plan.maxAttendeeThreshold > 0 ? plan : null;
+        console.log(plan);
+    }
+
+    getPlanMaximumEmployees(){
+        // for()
+    }
     onChange() {
         this.fetchSpecificExchangeRate();
     }
@@ -282,22 +294,22 @@ export class SubscribeComponent implements OnInit, OnDestroy {
         });
     }
 
-    confirmPayment(plan: SubscriptionPlan, template: TemplateRef<any>) {
+    confirmPayment(template: TemplateRef<any>) {
         this.couponDiscount = 0;
         this.couponCode = "";
         this.couponError = "";
 
         if (!this.subscription || this.subscription.subscriptionPlanId.toLowerCase().startsWith(SubscriptionMode.TRIAL.toLowerCase())) {
-            this.selectedPlan = plan;
+            // this.selectedPlan = plan;
             // this.renewSub = false;
-            this.totalAmount = this.getPrice(plan);
+            this.totalAmount = this.getPrice(this.selectedPlan);
 
             this.setDiscountPrice();
             this.setVat();
             this.amountToPay = (this.totalAmount + this.vat) - this.discountPrice;
             this.openModal(template);
         } else {
-            this.selectedPlan = plan;
+            // this.selectedPlan = plan;
             // this.totalAmount = this.getPrice(plan);
             this.getProratedCost();
             // this.changePlan();
