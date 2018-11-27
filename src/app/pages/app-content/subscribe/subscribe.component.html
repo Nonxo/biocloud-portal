@@ -263,7 +263,6 @@
 
     </div>
 </div>
-
 <ng-template #confirmPaymentTemplate>
     <div class="modal-body">
         <h5 class="modal-title text-dark text-center pb-2">Subscription Details</h5>
@@ -420,7 +419,7 @@
                     <p class="text-brand font-weight-bold">Sub Total</p>
                 </div>
                 <div class="col-md-5">
-                    <p>{{getPrice(selectedPlan) | currency:selectedCurrency:'symbol-narrow':'2.0'}}</p>
+                    <p>{{getPrice(selectedPlan) | currency:selectedCurrency:'symbol-narrow':'1.0'}}</p>
                 </div>
                 <ng-container *ngIf="proratedAmount">
                     <div class="col-md-7">
