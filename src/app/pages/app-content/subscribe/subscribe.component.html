@@ -13,8 +13,8 @@
                                         <div class="col-md-3"></div>
                                         <div class="col-md-6 text-center">
                                             <div class="btn-group">
-                                                <button class="btn-annual btn-active px-5">Annual</button>
-                                                <button class="btn-monthly px-5">Monthly</button>
+                                                <button [ngClass]="{'btn-annual':true, 'btn-active':!monthlyPlan, 'px-5':true}" (click)="toggleSubscriptionType(false)">Annual</button>
+                                                <button [ngClass]="{'btn-annual':true, 'btn-active':monthlyPlan, 'px-5':true}" (click)="toggleSubscriptionType(true)">Monthly</button>
                                             </div>
                                             <p class="pt-2">Flexible month-to-month payment plan, cancel anytime</p>
                                         </div>
@@ -49,9 +49,9 @@
                                             <div class="container">
                                                 <div class="row" *ngFor="let plan of subscriptionPlans">
                                                     <div class="col-md-8 form-check">
-                                                        <input class="form-check-input" type="radio" name="subscription" id="{{plan.name}}" value="{{plan.name}}" checked>
+                                                        <input class="form-check-input" (change)="setPlan(plan)" type="radio" name="subscription" id="{{plan.name}}" value="{{plan.name}}" checked>
                                                         <label class="form-check-label" for="{{plan.name}}">
-                                                            0 - 10 Employees <br> <span class="small text-brand font-weight-bold">{{plan.name}}</span>
+                                                            {{plan.maxAttendeeThreshold ? "0 - " + plan.maxAttendeeThreshold : "Over 100 "}} Employees <br> <span class="small text-brand font-weight-bold">{{plan.name}}</span>
                                                             </label>
                                                     </div>
                                                     <div class="col-md-4">
@@ -61,7 +61,7 @@
                                                         </ng-container>
 
                                                         <ng-container *ngIf="plan.maxAttendeeThreshold == 0">
-                                                            <h6 *ngIf="plan?.maxAttendeeThreshold == 0" (click)="gotoContactPage()" class="font-weight-bold text-brand mb-0">CONTACT US
+                                                            <h6 *ngIf="plan?.maxAttendeeThreshold == 0" (click)="gotoContactPage()" class="font-weight-bold text-brand mb-0" style="cursor: pointer;">CONTACT US
                                                             </h6>
 
                                                         </ng-container>
@@ -156,7 +156,7 @@
 
                                         <div class="col-md-5"></div>
                                         <div class="col-md-7">
-                                            <button mat-raised-button color="primary" class="px-5 py-2 subscribe-btn"> Subscribe Now </button>
+                                            <button mat-raised-button color="primary" disabled="{{!selectedPlan}}" class="px-5 py-2 subscribe-btn" (click)="confirmPayment(confirmPaymentTemplate)"> Subscribe Now </button>
                                         </div>
                                     </div>
                                 </mat-card-content>
@@ -263,7 +263,6 @@
 
     </div>
 </div>
-
 <ng-template #confirmPaymentTemplate>
     <div class="modal-body">
         <h5 class="modal-title text-dark text-center pb-2">Subscription Details</h5>
@@ -278,9 +277,9 @@
                     <div class="form-group w-100">
                         <label>Bandwidth</label>
                         <select name="" class="form-control">
-                            <option>Micro(0 - 10 employees)</option>
-                            <option>Starter(10 - 20 employees)</option>
-                            <option>No</option>
+                            <option [selected]="selectedPlan == plan" *ngFor="let plan of subscriptionPlans">
+                                {{plan.name}} (0 - {{plan.maxAttendeeThreshold}} employees)
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -295,8 +294,8 @@
                     <div class="form-group w-100">
                         <label>Commitment Type</label>
                         <select name="" class="form-control">
-                                <option>Annual Plan (10% off)</option>
-                                <option>Monthly</option>
+                                <option [selected]="!monthlyPlan">Annual Plan (10% off)</option>
+                                <option [selected]="monthlyPlan">Monthly</option>
                             </select>
                     </div>
                 </div>
@@ -420,7 +419,7 @@
                     <p class="text-brand font-weight-bold">Sub Total</p>
                 </div>
                 <div class="col-md-5">
-                    <p>{{getPrice(selectedPlan) | currency:selectedCurrency:'symbol-narrow':'2.0'}}</p>
+                    <p>{{getPrice(selectedPlan) | currency:selectedCurrency:'symbol-narrow':'1.0'}}</p>
                 </div>
                 <ng-container *ngIf="proratedAmount">
                     <div class="col-md-7">
