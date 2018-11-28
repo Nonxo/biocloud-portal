@@ -77,12 +77,18 @@ export class SubscribeComponent implements OnInit, OnDestroy {
         
     setPlan(plan: SubscriptionPlan){
         this.selectedPlan = plan.maxAttendeeThreshold > 0 ? plan : null;
-        console.log(plan);
     }
 
-    getPlanMaximumEmployees(){
-        // for()
+    setPlanFromDropdown(event: any) {
+        this.selectedPlan = this.subscriptionPlans.find(plan => plan.name == event.target.value.split(' ')[0]);
     }
+
+    setSubscriptionFromDropdown(event: any) {
+        var selectedSubscription: string = event.target.value;
+        this.monthlyPlan = selectedSubscription.toLowerCase().search('month') != -1;
+        console.log(this.monthlyPlan)
+    }
+
     onChange() {
         this.fetchSpecificExchangeRate();
     }

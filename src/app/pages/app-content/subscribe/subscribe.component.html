@@ -49,7 +49,7 @@
                                             <div class="container">
                                                 <div class="row" *ngFor="let plan of subscriptionPlans">
                                                     <div class="col-md-8 form-check">
-                                                        <input class="form-check-input" (change)="setPlan(plan)" type="radio" name="subscription" id="{{plan.name}}" value="{{plan.name}}" checked>
+                                                        <input class="form-check-input" (change)="setPlan(plan)" type="radio" name="subscription" id="{{plan.name}}" value="{{plan.name}}" [checked]="plan.planId == subscription?.subscriptionPlanId">
                                                         <label class="form-check-label" for="{{plan.name}}">
                                                             {{plan.maxAttendeeThreshold ? "0 - " + plan.maxAttendeeThreshold : "Over 100 "}} Employees <br> <span class="small text-brand font-weight-bold">{{plan.name}}</span>
                                                             </label>
@@ -276,7 +276,7 @@
                 <div class="col-md-8">
                     <div class="form-group w-100">
                         <label>Bandwidth</label>
-                        <select name="" class="form-control">
+                        <select name="" class="form-control" (change)="setPlanFromDropdown($event)">
                             <option [selected]="selectedPlan == plan" *ngFor="let plan of subscriptionPlans">
                                 {{plan.name}} (0 - {{plan.maxAttendeeThreshold}} employees)
                             </option>
@@ -292,8 +292,8 @@
 
                 <div class="col-md-8">
                     <div class="form-group w-100">
-                        <label>Commitment Type</label>
-                        <select name="" class="form-control">
+                        <label>Subscription Type</label>
+                        <select name="" class="form-control" (change)="setSubscriptionFromDropdown($event)">
                                 <option [selected]="!monthlyPlan">Annual Plan (10% off)</option>
                                 <option [selected]="monthlyPlan">Monthly</option>
                             </select>
