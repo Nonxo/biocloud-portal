@@ -110,7 +110,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                 result => {
                     if (result.code == 0) {
                         this.ns.showSuccess(result.description);
-                        alert(this.subscription.autoRenew)
+                        //alert(this.subscription.autoRenew)
                     } else {
                         this.ns.showError("An Error Occurred");
                     }
