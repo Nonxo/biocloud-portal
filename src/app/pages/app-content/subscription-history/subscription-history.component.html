@@ -3,7 +3,7 @@
 
         <div class="col-md-12 py-md-4 py-md-3 pt-3">
             <div class="container-fluid">
-                <h5 class="text-brand pb-3">Subscription History</h5>
+                <!-- <h5 class="text-brand pb-3">Subscription History</h5>
 
                 <!-- <div class="row">
                     <div class="col-md-6">
@@ -13,6 +13,21 @@
                         <p class="text-brand text-right cursor" (click)="viewCardDetails()">View/update card details</p>
                     </div>
                 </div> -->
+
+                <div class="row">
+                    <div class="col-md-8 my-auto">
+                        <p>Hello, review your billing history , see details, and download invoices.
+                        </p>
+                    </div>
+                    <div class="col-md-4 text-right">
+                        <mat-form-field>
+                            <div class="d-inline-flex">
+                                <input matInput placeholder="Search" name="search">
+                                <mat-icon class="cursor">search</mat-icon>
+                            </div>
+                        </mat-form-field>
+                    </div>
+                </div>
 
                 <div class="table-responsive">
                     <table class="table table-striped" [mfData]="histories" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
