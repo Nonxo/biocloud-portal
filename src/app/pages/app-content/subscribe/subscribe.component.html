@@ -175,7 +175,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
-                                                <button mat-raised-button color="primary" disabled="{{!selectedPlan}}" class="px-5 py-2 subscribe-btn" (click)="confirmPayment(confirmPaymentTemplate)"> Upgrade Plan </button>
+                                                <button mat-raised-button color="primary" disabled="{{selectedPlan?.planId == subscription.subscriptionPlanId || subscription.active && !selectedPlan}}" class="px-5 py-2 subscribe-btn" (click)="confirmPayment(confirmPaymentTemplate)"> Upgrade Plan </button>
                                             </div>
                                         </div>
                                     </mat-card-content>

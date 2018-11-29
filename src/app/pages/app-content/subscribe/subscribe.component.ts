@@ -87,7 +87,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     }
         
     setPlan(plan: SubscriptionPlan){
-        this.selectedPlan = plan.maxAttendeeThreshold > 0 && this.subscription.subscriptionPlanId != plan.planId? plan : null;
+        this.selectedPlan = plan.maxAttendeeThreshold > 0 && this.subscription.subscriptionPlanId != plan.planId ? plan : null;
         this.selectedPlan.autoRenew = true;
     }
 
