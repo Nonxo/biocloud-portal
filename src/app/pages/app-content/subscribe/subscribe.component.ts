@@ -16,7 +16,6 @@ import {DateUtil} from "../../../util/DateUtil";
 import {getDate} from 'ngx-bootstrap/chronos/utils/date-getters';
 
 declare function getpaidSetup(data): void;
-
 declare var PaystackPop: any;
 
 @Component({
@@ -91,9 +90,8 @@ export class SubscribeComponent implements OnInit, OnDestroy {
         this.monthlyPlan = isMonthly;
     }
 
-    setPlan(plan: SubscriptionPlan) {
-        this.selectedPlan = plan.maxAttendeeThreshold > 0 ? plan : null;
-        debugger;
+    setPlan(plan: SubscriptionPlan){
+        this.selectedPlan = plan.maxAttendeeThreshold > 0 && this.subscription.subscriptionPlanId != plan.planId? plan : null;
         this.selectedPlan.autoRenew = true;
     }
 
@@ -104,7 +102,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
         this.confirmPayment(null, true);
     }
 
-    getCurrentSubscriptionPlan() {
+    getCurrentSubscriptionPlan(): SubscriptionPlan{
         return this.subscriptionPlans.find(plan => plan.planId == this.subscription.subscriptionPlanId);
     }
 
