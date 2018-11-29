@@ -317,7 +317,30 @@ export class ApproveCoordinate {
     }
 }
 
-
-
+export class Subscription {
+    constructor(
+        public activatedBy: string,
+        public active: boolean,
+        public amountPaid: number,
+        public authToken: any,
+        public autoRenew: boolean,
+        public billingCycle: string,
+        public couponAmount: number,
+        public couponCode: string,
+        public created: number,
+        public currency: string,
+        public endDate: number,
+        public id: any,
+        public lastModified: number,
+        public orderRequestId: any,
+        public orgId: string,
+        public paymentMode: string,
+        public subscriptionMode: string,
+        public subscriptionPlanId: string,
+        public subscriptionStatus: string,
+        public totalAmount: number,
+        public vat: number
+    ) { }
+}
 
 
