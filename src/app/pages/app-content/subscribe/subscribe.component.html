@@ -5,84 +5,84 @@
             <mat-tab label="Subscription Plans">
                 <div class="container">
                     <div class="col-lg-12 col-md-12 p-0 mt-3">
-                        
-            <ng-container *ngIf="!justSubscribed">
-                        <div class="row m-3 justify-content-center">
-                            <mat-card class="col-lg-12 py-md-4">
 
-                                <mat-card-content>
-                                    <div class="row">
-                                        <div class="col-md-3"></div>
-                                        <div class="col-md-6 text-center">
-                                            <div class="btn-group">
-                                                <button [ngClass]="{'btn-annual':true, 'btn-active':!monthlyPlan, 'px-5':true}" (click)="toggleSubscriptionType(false)">Annual</button>
-                                                <button [ngClass]="{'btn-annual':true, 'btn-active':monthlyPlan, 'px-5':true}" (click)="toggleSubscriptionType(true)">Monthly</button>
+                        <ng-container *ngIf="!justSubscribed">
+                            <div class="row m-3 justify-content-center">
+                                <mat-card class="col-lg-12 py-md-4">
+
+                                    <mat-card-content>
+                                        <div class="row">
+                                            <div class="col-md-3"></div>
+                                            <div class="col-md-6 text-center">
+                                                <div class="btn-group">
+                                                    <button [ngClass]="{'btn-annual':true, 'btn-active':!monthlyPlan, 'px-5':true}" (click)="toggleSubscriptionType(false)">Annual</button>
+                                                    <button [ngClass]="{'btn-annual':true, 'btn-active':monthlyPlan, 'px-5':true}" (click)="toggleSubscriptionType(true)">Monthly</button>
+                                                </div>
+                                                <p class="pt-2">Flexible month-to-month payment plan, cancel anytime</p>
                                             </div>
-                                            <p class="pt-2">Flexible month-to-month payment plan, cancel anytime</p>
-                                        </div>
-                                        <div class="col-md-3 text-center">
-                                            <mat-form-field>
-                                                <mat-select placeholder="Select Currency" name="selectedCurrency" [(ngModel)]="selectedCurrency" (change)="onChange()">
-                                                    <mat-option select value="NGN">NGN</mat-option>
-                                                    <mat-option select *ngFor="let e of exchangeRates" value="{{e.target}}">
-                                                        {{e.target}}
-                                                    </mat-option>
-                                                </mat-select>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-
-                                    <div class="row my-4">
-                                        <div class="col-md-5 my-auto border-right">
-                                            <h5 class="text-brand">Choose A Plan That Works For You</h5>
-                                            <p class="text-dark font-weight-bold small">Flexible subscription plans tailored for all organization sizes.</p>
-
-                                            <div class="my-4">
-                                                <p><img class="pr-2" src="assets/img/tick.svg" alt="" style="max-width: 22px">Multiple Location management</p>
-
-                                                <p><img class="pr-2" src="assets/img/tick.svg" alt="" style="max-width: 22px">Punctuality and Attendance report</p>
-
-                                                <p><img class="pr-2" src="assets/img/tick.svg" alt="" style="max-width: 22px">Offline clock-in & clock-out</p>
-
-                                                <p><img class="pr-2" src="assets/img/tick.svg" alt="" style="max-width: 22px">Single device Multiple Clock in</p>
+                                            <div class="col-lg-3 text-center">
+                                                <mat-form-field>
+                                                    <mat-select placeholder="Select Currency" name="selectedCurrency" [(ngModel)]="selectedCurrency" (change)="onChange()">
+                                                        <mat-option select value="NGN">NGN</mat-option>
+                                                        <mat-option select *ngFor="let e of exchangeRates" value="{{e.target}}">
+                                                            {{e.target}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
                                             </div>
                                         </div>
-                                        <div class="col-md-7">
-                                            <div class="container">
-                                                <div class="row" *ngFor="let plan of subscriptionPlans">
-                                                    <div class="col-md-8 form-check">
-                                                        <input class="form-check-input" (change)="setPlan(plan)" type="radio" name="subscription" id="{{plan.name}}" value="{{plan.name}}" [checked]="plan.planId == subscription?.subscriptionPlanId">
-                                                        <label class="form-check-label" for="{{plan.name}}">
+
+                                        <div class="row my-4">
+                                            <div class="col-md-5 my-auto border-right d-md-block d-none">
+                                                <h5 class="text-brand">Choose A Plan That Works For You</h5>
+                                                <p class="text-dark font-weight-bold small">Flexible subscription plans tailored for all organization sizes.</p>
+
+                                                <div class="my-4">
+                                                    <p><img class="pr-2" src="assets/img/tick.svg" alt="" style="max-width: 22px">Multiple Location management</p>
+
+                                                    <p><img class="pr-2" src="assets/img/tick.svg" alt="" style="max-width: 22px">Punctuality and Attendance report</p>
+
+                                                    <p><img class="pr-2" src="assets/img/tick.svg" alt="" style="max-width: 22px">Offline clock-in & clock-out</p>
+
+                                                    <p><img class="pr-2" src="assets/img/tick.svg" alt="" style="max-width: 22px">Single device Multiple Clock in</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div class="container">
+                                                    <div class="row" *ngFor="let plan of subscriptionPlans">
+                                                        <div class="col-md-8 form-check">
+                                                            <input class="form-check-input" (change)="setPlan(plan)" type="radio" name="subscription" id="{{plan.name}}" value="{{plan.name}}" [checked]="plan.planId == subscription?.subscriptionPlanId">
+                                                            <label class="form-check-label" for="{{plan.name}}">
                                                             {{plan.maxAttendeeThreshold ? "0 - " + plan.maxAttendeeThreshold : "Over 100 "}} Employees <br> <span class="small text-brand font-weight-bold">{{plan.name}}</span>
                                                             </label>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <ng-container *ngIf="plan.maxAttendeeThreshold > 0">
-                                                            <h5 class="font-weight-bold text-dark mb-0">{{getPrice(plan) | currency:selectedCurrency:'symbol-narrow':'1.0'}}</h5>
-                                                            <p class="small text-brand pt-0 font-weight-bold">Per {{monthlyPlan ? "month" : "year"}}</p>
-                                                        </ng-container>
+                                                        </div>
+                                                        <div class="col-md-4 mb-md-0 mb-3">
+                                                            <ng-container *ngIf="plan.maxAttendeeThreshold > 0">
+                                                                <h5 class="font-weight-bold text-dark mb-0">{{getPrice(plan) | currency:selectedCurrency:'symbol-narrow':'1.0'}}</h5>
+                                                                <p class="small text-brand pt-0 font-weight-bold">Per {{monthlyPlan ? "month" : "year"}}</p>
+                                                            </ng-container>
 
-                                                        <ng-container *ngIf="plan.maxAttendeeThreshold == 0">
-                                                            <h6 *ngIf="plan?.maxAttendeeThreshold == 0" (click)="gotoContactPage()" class="font-weight-bold text-brand mb-0" style="cursor: pointer;">CONTACT US
-                                                            </h6>
+                                                            <ng-container *ngIf="plan.maxAttendeeThreshold == 0">
+                                                                <h6 *ngIf="plan?.maxAttendeeThreshold == 0" (click)="gotoContactPage()" class="font-weight-bold text-brand mb-0" style="cursor: pointer;">CONTACT US
+                                                                </h6>
 
-                                                        </ng-container>
-                                                        <!-- <h5 class="font-weight-bold text-dark mb-0">$20.00</h5>
+                                                            </ng-container>
+                                                            <!-- <h5 class="font-weight-bold text-dark mb-0">$20.00</h5>
                                                         <p class="small text-brand pt-0 font-weight-bold">Per month</p> -->
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-md-5"></div>
-                                        <div class="col-md-7">
-                                            <button mat-raised-button color="primary" disabled="{{!selectedPlan}}" class="px-5 py-2 subscribe-btn" (click)="confirmPayment(confirmPaymentTemplate)"> Subscribe Now </button>
+                                            <div class="col-md-5"></div>
+                                            <div class="col-md-7 text-center mt-md-0 mt-4">
+                                                <button mat-raised-button color="primary" disabled="{{!selectedPlan}}" class="px-5 py-2 subscribe-btn" (click)="confirmPayment(confirmPaymentTemplate)"> Subscribe Now </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </mat-card-content>
-                            </mat-card>
-                        </div>
-            </ng-container>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                        </ng-container>
 
                         <!-- success state-->
                         <!-- <div class="row py-5">
@@ -96,94 +96,94 @@
                         </div> -->
 
                         <ng-container *ngIf="justSubscribed">
-                        <div class="row">
-                            <div class="col-md-5">
-                                <h4>Current Plan</h4>
-                                <mat-card class="col-lg-12 py-md-4">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <h4>Current Plan</h4>
+                                    <mat-card class="col-lg-12 py-md-4">
 
-                                    <mat-card-content>
-                                        <p class="font-weight-bold">Monthly Subscription</p>
-                                        <p class="text-brand">0 - {{getCurrentSubscriptionPlan().maxAttendeeThreshold}} Employees</p>
+                                        <mat-card-content>
+                                            <p class="font-weight-bold">Monthly Subscription</p>
+                                            <p class="text-brand">0 - {{getCurrentSubscriptionPlan().maxAttendeeThreshold}} Employees</p>
 
-                                        <h4 class="text-secondary">{{getPrice(getCurrentSubscriptionPlan()) | currency:selectedCurrency:'symbol-narrow':'1.0'}}/{{monthlyPlan ? "mo" : "yr"}}</h4>
+                                            <h4 class="text-secondary">{{getPrice(getCurrentSubscriptionPlan()) | currency:selectedCurrency:'symbol-narrow':'1.0'}}/{{monthlyPlan ? "mo" : "yr"}}</h4>
 
-                                        <p class="font-weight-bold">Plan Expires: {{getDaysBeforeExpiry()}} days</p>
+                                            <p class="font-weight-bold">Plan Expires: {{getDaysBeforeExpiry()}} days</p>
 
-                                        <div class="row mt-3">
-                                            <div class="col-md-9">
-                                                <p class="font-weight-bold">Auto renew my subscription</p>
-                                                <p class="small">Never miss a day of tracking employee attendance</p>
-                                            </div>
-                                            <div class="col-md-2 my-auto">
-                                                <label class="label-switch switch-color">
+                                            <div class="row mt-3">
+                                                <div class="col-md-9">
+                                                    <p class="font-weight-bold">Auto renew my subscription</p>
+                                                    <p class="small">Never miss a day of tracking employee attendance</p>
+                                                </div>
+                                                <div class="col-md-2 my-auto">
+                                                    <label class="label-switch switch-color">
                                                                 <input type="checkbox" class="switch-rounded switch-bootstrap on-off  " (change)="updateAutoRenewal()" [checked]="getCurrentSubscriptionPlan().autoRenew">
                                                                 <span class="lable"></span></label>
-                                            </div>
-                                        </div>
-                                    </mat-card-content>
-                                </mat-card>
-                            </div>
-                            <div class="col-md-7">
-                                <h4>Upgrade Plan</h4>
-
-                                <mat-card class="col-lg-12 py-md-4">
-
-                                    <mat-card-content>
-                                        <div class="row">
-                                            <div class="col-md-8 text-center">
-                                                <div class="btn-group">
-                                                    <button [ngClass]="{'btn-annual':true, 'btn-active':!monthlyPlan, 'px-5':true}" (click)="toggleSubscriptionType(false)">Annual</button>
-                                                    <button [ngClass]="{'btn-annual':true, 'btn-active':monthlyPlan, 'px-5':true}" (click)="toggleSubscriptionType(true)">Monthly</button>
                                                 </div>
-                                                <p class="pt-2 px-5">Flexible month-to-month payment plan, cancel anytime</p>
                                             </div>
-                                            <div class="col-md-3 text-center">
-                                                <mat-form-field>
-                                                    <mat-select placeholder="Select Currency" name="selectedCurrency" [(ngModel)]="selectedCurrency" (change)="onChange()">
-                                                        <mat-option select value="NGN">NGN</mat-option>
-                                                        <mat-option select *ngFor="let e of exchangeRates" value="{{e.target}}">
-                                                            {{e.target}}
-                                                        </mat-option>
-                                                    </mat-select>
-                                                </mat-form-field>
-                                            </div>
-                                        </div>
+                                        </mat-card-content>
+                                    </mat-card>
+                                </div>
+                                <div class="col-md-7 mt-md-0 mt-4">
+                                    <h4>Upgrade Plan</h4>
 
-                                        <div class="row my-4">
-                                            <div class="col-md-12">
-                                                <div class="container">
-                                                    <div class="row" *ngFor="let plan of subscriptionPlans">
-                                                        <div class="col-md-8 form-check">
-                                                            <input class="form-check-input" (change)="setPlan(plan)" type="radio" name="upgradeSubscription" id="{{plan.name}}" value="{{plan.name}}" [checked]="plan.planId == subscription?.subscriptionPlanId">
-                                                            <label class="form-check-label" for="{{plan.name}}">
+                                    <mat-card class="col-lg-12 py-md-4">
+
+                                        <mat-card-content>
+                                            <div class="row">
+                                                <div class="col-xl-8 text-center">
+                                                    <div class="btn-group">
+                                                        <button [ngClass]="{'btn-annual':true, 'btn-active':!monthlyPlan, 'px-5':true}" (click)="toggleSubscriptionType(false)">Annual</button>
+                                                        <button [ngClass]="{'btn-annual':true, 'btn-active':monthlyPlan, 'px-5':true}" (click)="toggleSubscriptionType(true)">Monthly</button>
+                                                    </div>
+                                                    <p class="pt-2 px-5">Flexible month-to-month payment plan, cancel anytime</p>
+                                                </div>
+                                                <div class="col-xl-3 text-center">
+                                                    <mat-form-field>
+                                                        <mat-select placeholder="Select Currency" name="selectedCurrency" [(ngModel)]="selectedCurrency" (change)="onChange()">
+                                                            <mat-option select value="NGN">NGN</mat-option>
+                                                            <mat-option select *ngFor="let e of exchangeRates" value="{{e.target}}">
+                                                                {{e.target}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+
+                                            <div class="row my-4">
+                                                <div class="col-md-12">
+                                                    <div class="container">
+                                                        <div class="row" *ngFor="let plan of subscriptionPlans">
+                                                            <div class="col-md-8 form-check">
+                                                                <input class="form-check-input" (change)="setPlan(plan)" type="radio" name="upgradeSubscription" id="{{plan.name}}" value="{{plan.name}}" [checked]="plan.planId == subscription?.subscriptionPlanId">
+                                                                <label class="form-check-label" for="{{plan.name}}">
                                                                 {{plan.maxAttendeeThreshold ? "0 - " + plan.maxAttendeeThreshold : "Over 100 "}} Employees <br> <span class="small text-brand font-weight-bold">{{plan.name}}</span>
                                                                 </label>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <ng-container *ngIf="plan.maxAttendeeThreshold > 0">
-                                                                <h5 class="font-weight-bold text-dark mb-0">{{getPrice(plan) | currency:selectedCurrency:'symbol-narrow':'1.0'}}</h5>
-                                                                <p class="small text-brand pt-0 font-weight-bold">Per {{monthlyPlan ? "month" : "year"}}</p>
-                                                            </ng-container>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <ng-container *ngIf="plan.maxAttendeeThreshold > 0">
+                                                                    <h5 class="font-weight-bold text-dark mb-0">{{getPrice(plan) | currency:selectedCurrency:'symbol-narrow':'1.0'}}</h5>
+                                                                    <p class="small text-brand pt-0 font-weight-bold">Per {{monthlyPlan ? "month" : "year"}}</p>
+                                                                </ng-container>
 
-                                                            <ng-container *ngIf="plan.maxAttendeeThreshold == 0">
-                                                                <h6 *ngIf="plan?.maxAttendeeThreshold == 0" (click)="gotoContactPage()" class="font-weight-bold text-brand mb-0" style="cursor: pointer;">CONTACT US
-                                                                </h6>
+                                                                <ng-container *ngIf="plan.maxAttendeeThreshold == 0">
+                                                                    <h6 *ngIf="plan?.maxAttendeeThreshold == 0" (click)="gotoContactPage()" class="font-weight-bold text-brand mb-0" style="cursor: pointer;">CONTACT US
+                                                                    </h6>
 
-                                                            </ng-container>
+                                                                </ng-container>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="col-md-12 md-0 mt-4 text-center">
+                                                    <button mat-raised-button color="primary" disabled="{{!selectedPlan}}" class="px-5 py-2 subscribe-btn" (click)="confirmPayment(confirmPaymentTemplate)"> Upgrade Plan </button>
+                                                </div>
                                             </div>
-                                            <div class="col-md-12">
-                                                <button mat-raised-button color="primary" disabled="{{!selectedPlan}}" class="px-5 py-2 subscribe-btn" (click)="confirmPayment(confirmPaymentTemplate)"> Upgrade Plan </button>
-                                            </div>
-                                        </div>
-                                    </mat-card-content>
-                                </mat-card>
-                            </div>
-                            <div class="col-md-2"></div>
+                                        </mat-card-content>
+                                    </mat-card>
+                                </div>
+                                <div class="col-md-2"></div>
 
-                        </div>
+                            </div>
                         </ng-container>
                     </div>
                 </div>
@@ -209,8 +209,7 @@
 <ng-template #confirmPaymentTemplate>
     <div class="modal-body">
         <h5 class="modal-title text-dark text-center pb-2">Subscription Details</h5>
-        <p class="text-center pl-lg-5 pr-lg-5 small">Thank you for deciding to subscribe to iClocker. <br>Please find
-            below details of your plan.</p>
+        <p class="text-center pl-lg-5 pr-lg-5 small">Thank you for deciding to subscribe to iClocker. <br>Please find below details of your plan.</p>
 
         <div class="pl-lg-5 pr-lg-5">
 
@@ -295,8 +294,7 @@
                                 <form #f="ngForm" (ngSubmit)="applyCoupon(coupon.value)">
                                     <div class="row px-3 py-3">
                                         <div class="col-md-9 pr-0">
-                                            <input type="text" class="form-control w-100" ngModel #coupon="ngModel"
-                                                placeholder="Enter Coupon" name="coupon" id="coupon" required>
+                                            <input type="text" class="form-control w-100" ngModel #coupon="ngModel" placeholder="Enter Coupon" name="coupon" id="coupon" required>
                                             <mat-error *ngIf="couponError" class="text-danger small pl-1">{{couponError}}</mat-error>
                                         </div>
                                         <div class="col-md-3">
@@ -369,8 +367,7 @@
             <ng-container *ngIf="selectedPlan.maxAttendeeThreshold == 0">
                 <div class="col-md-12 text-center">
                     <div class="form-group w-100">
-                        <h6 *ngIf="selectedPlan?.maxAttendeeThreshold == 0" (click)="gotoContactPage()" class="font-weight-bold text-brand mb-0"
-                            style="cursor: pointer;">CONTACT US
+                        <h6 *ngIf="selectedPlan?.maxAttendeeThreshold == 0" (click)="gotoContactPage()" class="font-weight-bold text-brand mb-0" style="cursor: pointer;">CONTACT US
                         </h6>
                     </div>
                 </div>
@@ -403,4 +400,4 @@
         </div>
 
     </div>
-</ng-template>
+</ng-template>-
