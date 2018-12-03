@@ -5,8 +5,10 @@ import {NotifyService} from "../../../../service/notify.service";
 import {MessageService} from "../../../../service/message.service";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {VerifyPaymentRequest} from "../../model/app-content.model";
+import {SubscriptionMode} from "../../enums/enums";
 
 declare function getpaidSetup(data): void;
+declare var PaystackPop: any;
 
 @Component({
     selector: 'app-subscription-card-details',
@@ -30,6 +32,7 @@ export class SubscriptionCardDetailsComponent implements OnInit {
     public loading: boolean;
     public subscription: any;
     public prevAutoRenewStatus: boolean;
+    private paymentGateway: string;
 
     constructor(private ss: StorageService,
                 private subService: SubscriptionService,
@@ -117,8 +120,14 @@ export class SubscriptionCardDetailsComponent implements OnInit {
                         this.cipher = result.cipher;
                         this.PUBKey = result.ravePayPublicKey;
                         this.transactionRef = result.transactionRef;
+                        this.paymentGateway = result.paymentGateway;
 
-                        this.callRave();
+                        if(this.paymentGateway == 'PAYSTACK') {
+                            this.payWithPaystack();
+                        } else {
+                            this.callRave();
+                        }
+
                     } else {
                         this.ns.showError(result.description);
                     }
@@ -127,6 +136,35 @@ export class SubscriptionCardDetailsComponent implements OnInit {
                     this.ns.showError("An Error Occurred");
                 }
             )
+    }
+
+    payWithPaystack() {
+        let amount = Math.round(this.getPrice() * 100);
+
+        let handler = PaystackPop.setup({
+            key: this.PUBKey,
+            email: this.userEmail,
+            amount: amount,
+            currency: this.selectedCurrency,
+            ref: this.transactionRef , // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+            firstname: '',
+            lastname: '',
+            // label: "Optional string that replaces customer email"
+            metadata: {
+                metaname: 'brcrypt', metavalue: this.cipher,
+                custom_fields: [
+                    {
+                        display_name: "Mobile Number",
+                        variable_name: "mobile_number",
+                        value: "+2348012345678"
+                    }
+                ]
+            },
+            callback: (response) => {
+                    this.verifyPayment(response.reference, true);
+            }
+        });
+        handler.openIframe();
     }
 
     callRave() {
@@ -239,6 +277,10 @@ export class SubscriptionCardDetailsComponent implements OnInit {
                     this.ns.showError("An Error Occurred");
                 }
             )
+    }
+
+    doesUserHaveActiveSub() {
+        return this.subscription.subscriptionPlanId.toLowerCase().startsWith(SubscriptionMode.TRIAL.toLowerCase())
     }
 
     proceed() {

@@ -16,3 +16,9 @@
         width: 100% !important;
     }
 }
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    button.btn.bg-white.cursor.btn2.mb-3.white.googleBtn {
+        width: 50% !important;
+    }
+}
