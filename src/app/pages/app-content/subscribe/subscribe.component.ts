@@ -16,7 +16,13 @@ import {DateUtil} from "../../../util/DateUtil";
 import {getDate} from 'ngx-bootstrap/chronos/utils/date-getters';
 
 declare function getpaidSetup(data): void;
-declare var PaystackPop: any;
+// declare var PaystackPop: any;
+
+interface MyWindow extends Window {
+    PaystackPop: any;
+}
+
+declare var window: MyWindow;
 
 @Component({
     selector: 'app-subscribe',
@@ -60,8 +66,8 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     modalOptions: ModalOptions = new ModalOptions();
     public couponError: string;
     public loading: boolean;
-    public loadedVoucher: string;
     public currentTab: number = 0;
+    public checkedPlan: string;
 
     constructor(private subService: SubscriptionService,
                 private modalService: BsModalService,
@@ -91,13 +97,12 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     }
 
     setPlan(plan: SubscriptionPlan){
-        this.selectedPlan = plan.maxAttendeeThreshold > 0 && this.subscription.subscriptionPlanId != plan.planId? plan : null;
-        this.selectedPlan.autoRenew = true;
+        this.selectedPlan = plan.maxAttendeeThreshold > 0 ? plan : null;
     }
 
     setPlanFromDropdown(event: any) {
         this.selectedPlan = this.subscriptionPlans.find(plan => plan.planId == event.target.value);
-        debugger;
+        this.checkedPlan = this.selectedPlan.planId;
 
         this.confirmPayment(null, true);
     }
@@ -109,9 +114,6 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     setSubscriptionFromDropdown(event: any) {
         var selectedSubscription: string = event.target.value;
         this.monthlyPlan = selectedSubscription.toLowerCase().search('month') != -1;
-
-        //check that user isn't selecting the current plan he is on
-
 
         this.confirmPayment(null, true);
     }
@@ -154,8 +156,10 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                         this.subscription = result.subscription;
                         this.selectedCurrency = this.subscription.currency == '---' ? 'NGN' : this.subscription.currency;
                         this.fetchSpecificExchangeRate();
-
-                        this.subscribed = true;
+                        if(!this.subscription.subscriptionPlanId.toLowerCase().startsWith(SubscriptionMode.TRIAL.toLowerCase())) {
+                            this.subscribed = true;
+                            this.checkedPlan = this.subscription.subscriptionPlanId;
+                        }
 
                         this.mService.setUpdateSub(this.subscription);
 
@@ -183,6 +187,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                 result => {
                     if (result.code == 0) {
                         this.subscriptionPlans = result.plans ? result.plans : [];
+                        this.setDefaultPlan();
                         this.setDiscountRate();
                     } else {
                         this.ns.showError(result.description);
@@ -192,6 +197,10 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                     this.ns.showError("An Error Occurred")
                 }
             )
+    }
+
+    setDefaultPlan() {
+        this.selectedPlan = this.subscriptionPlans.filter(obj => this.subscription.subscriptionPlanId == obj.planId)[0];
     }
 
     setDiscountRate() {
@@ -303,7 +312,6 @@ export class SubscribeComponent implements OnInit, OnDestroy {
                         this.PUBKey = result.ravePayPublicKey;
                         this.transactionRef = result.transactionRef;
                         this.paymentGateway = result.paymentGateway;
-
                         if (this.paymentGateway == 'PAYSTACK') {
                             this.payWithPaystack();
                         } else {
@@ -359,6 +367,12 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     }
 
     confirmPayment(template: TemplateRef<any>, fromDropdown: boolean) {
+
+        if(this.selectedPlan && !this.selectedPlan.maxAttendeeThreshold) {
+            this.modalRef? this.modalRef.hide():'';
+            return;
+        }
+
         this.couponDiscount = 0;
         this.couponCode = "";
         this.couponError = "";
@@ -375,10 +389,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
 
             !fromDropdown ? this.openModal(template) : '';
         } else {
-            // this.selectedPlan = plan;
-            // this.totalAmount = this.getPrice(plan);
             this.getProratedCost(fromDropdown);
-            // this.changePlan();
         }
     }
 
@@ -537,11 +548,12 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     payWithPaystack() {
         let amount = Math.round(this.amountToPay * 100);
 
-        let handler = PaystackPop.setup({
+        const handler = window.PaystackPop.setup({
             key: this.PUBKey,
             email: this.userEmail,
             amount: amount,
             currency: this.selectedCurrency,
+            channels: ['card'],
             ref: this.transactionRef, // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
             firstname: '',
             lastname: '',
@@ -558,7 +570,8 @@ export class SubscribeComponent implements OnInit, OnDestroy {
             },
             callback: (response) => {
                 if (this.renewSub) {
-                    this.verifyPayment(response.reference, true);
+                    this.transactionRef != response.reference? this.verifyPayment(this.transactionRef, true): this.verifyPayment(response.reference, true);
+
                 } else {
                     this.verifyPayment(response.reference, false);
                 }
@@ -571,6 +584,9 @@ export class SubscribeComponent implements OnInit, OnDestroy {
         switch (event.index) {
             case 0: {
                 this.currentTab = 0;
+                this.checkedPlan = "";
+                this.fetchSubscriptionDetails();
+                this.fetchAllExchangeRates();
                 break;
             }
             case 1: {

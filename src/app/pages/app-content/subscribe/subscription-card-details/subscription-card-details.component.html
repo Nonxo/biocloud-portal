@@ -35,7 +35,7 @@
 
     <!-- add card state -->
 
-    <div class="row col-md-12">
+    <div class="row col-md-12" *ngIf="cardDetails.length == 0 && doesUserHaveActiveSub">
         <div class="col-md-6">
             <div class="d-inline-flex">
                 <!--<img src="assets/img/mastercard1.png" alt="">-->
@@ -47,7 +47,7 @@
         </div>
         <div class="col-md-6 my-auto">
             <div class="text-md-right mt-md-0 mt-3">
-                <p class="text-brand"><span class="cursor">Add</span></p>
+                <p class="text-brand"><span class="cursor" (click)="openModal(addCardTemplate)">Add</span></p>
             </div>
         </div>
     </div>
@@ -58,7 +58,7 @@
     </div>
     <p>This page and all data is securely transmitted and encrypted. PCI Compliance, 3-D Secure, HTTPS, SSL encryption.
     </p>
-    <p>payments are processed securely by Flutterwave</p>
+    <p>Payments are processed securely by Paystack</p>
 </div>
 
 <ng-template #deleteCardTemplate>
