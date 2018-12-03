@@ -59,7 +59,7 @@ export class ReceiptComponent implements OnInit, OnDestroy {
                 "qty": 1,
                 "desc": this.description,
                 "currency": this.history.currency,
-                "amount": (this.history.amountPaid - this.history.vat)
+                "amount": ((this.history.currency == 'NGN')? (this.history.amountPaid - this.history.vat): this.history.amountPaid)
             }
         ];
 

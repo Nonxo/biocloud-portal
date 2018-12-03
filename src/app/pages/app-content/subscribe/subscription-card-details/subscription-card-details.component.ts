@@ -5,6 +5,7 @@ import {NotifyService} from "../../../../service/notify.service";
 import {MessageService} from "../../../../service/message.service";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {VerifyPaymentRequest} from "../../model/app-content.model";
+import {SubscriptionMode} from "../../enums/enums";
 
 declare function getpaidSetup(data): void;
 declare var PaystackPop: any;
@@ -276,6 +277,10 @@ export class SubscriptionCardDetailsComponent implements OnInit {
                     this.ns.showError("An Error Occurred");
                 }
             )
+    }
+
+    doesUserHaveActiveSub() {
+        return this.subscription.subscriptionPlanId.toLowerCase().startsWith(SubscriptionMode.TRIAL.toLowerCase())
     }
 
     proceed() {
