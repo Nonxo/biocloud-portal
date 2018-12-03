@@ -19,7 +19,7 @@
 
                             <div class="col-xl-auto col-lg-2 col-md-2">
                                 <button mat-raised-button color="primary" class="rounded px-5" type="submit">
-                                    <span *ngIf="!loading">Confirm</span>
+                                    <span *ngIf="!loading">Get Started</span>
                                     <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
                                 </button>
                             </div>
@@ -124,7 +124,7 @@
                 </div>
 
                 <div class="col-md-12 text-center pt-3">
-                    <button mat-raised-button color="primary" class="rounded px-5"  [disabled]="!registerForm.valid">
+                    <button mat-raised-button color="primary" class="rounded px-5" [disabled]="!registerForm.valid">
                         <span>Complete account creation <span><i class="material-icons mt-2 pl-2 position-absolute">
                                 arrow_right_alt
                                 </i></span></span>
