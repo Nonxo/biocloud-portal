@@ -48,16 +48,29 @@
         </div>
     </div>
     <div class="col-xl-5 my-auto responsive-auth">
+        <!-- <div>
+            <div class="d-inline-flex position-absolute indicator">
+                <div class="inactive-dot active-dot"></div>
+                <div class="inactive-dot mx-3"></div>
+                <div class="inactive-dot"></div>
+            </div>
+        </div> -->
         <div class="px-5">
 
-            <div class="text-xl-left text-center d-xl-none d-block pb-xl-0 pb-4">
+            <div class="text-xl-left text-center d-xl-none d-block pb-xl-0 pb-4 pt-lg-0 pt-5">
                 <img src="assets/img/logos-bc.png" class="img-fluid" alt="" style="max-width: 160px">
             </div>
             <ng-container *ngIf="!loginFlag">
 
                 <!-- <h3 class="">Create an Iclocker Account</h3> -->
                 <app-register [step]="step" [email]="email" (getStep)="getSignupStep($event)"></app-register>
+                <!-- <app-reg-email-notification></app-reg-email-notification> -->
                 <app-google-sign-in *ngIf="step == 1" [isSignIn]="loginFlag"></app-google-sign-in>
+
+                <!-- pin verification -->
+                <!-- <app-register [step]="step" [email]="email" *ngIf="!emailPin" (getStep)="getSignupStep($event)"></app-register>
+                <app-reg-email-notification *ngIf="emailPin"></app-reg-email-notification>
+                <app-google-sign-in *ngIf="step == 1 && !emailPin" [isSignIn]="loginFlag"></app-google-sign-in> -->
 
                 <ng-container *ngIf="step == 1">
                     <hr class="d-xl-none d-block">

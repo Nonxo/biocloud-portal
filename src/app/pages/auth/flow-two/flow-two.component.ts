@@ -15,6 +15,7 @@ export class FlowTwoComponent implements OnInit {
     email: string;
     token: string;
     step: number = 1;
+    emailPin = true;
 
     constructor(private route: ActivatedRoute, private authService: AuthService, private ns: NotifyService, private mService: MessageService) {
         this.route

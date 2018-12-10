@@ -1,27 +1,90 @@
-.msg {
+    /* .msg {
     position: absolute;
-}
-
-.fontSize {
-    font-size: 14px;
-}
-
-.fontWeight {
-    font-weight: 600;
-}
-
-.highlight {
-    font-weight: 700;
-}
-
-.text-color {
-    color: #1D1D1D;
-}
-
-.textHlght {
-    color: black;
-}
-
-.purple {
-    color: #603484;
-}
+} */
+    
+    .active-dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 25px;
+        background: #603484 !important;
+    }
+    
+    .inactive-dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 25px;
+        background: grey;
+    }
+    
+    .indicator {
+        left: 45% !important;
+        /* top: -145px !important; */
+    }
+    
+    .first-b-indicator {
+        top: -135px;
+    }
+    
+    .w-10 {
+        width: 10%;
+    }
+    
+    .padding-bottom>.form-group {
+        left: 30%;
+    }
+    
+    .padding-bottom {
+        padding-bottom: 98px;
+    }
+    
+    .fontSize {
+        font-size: 14px;
+    }
+    
+    .fontWeight {
+        font-weight: 600;
+    }
+    
+    .highlight {
+        font-weight: 700;
+    }
+    
+    .text-color {
+        color: #1D1D1D;
+    }
+    
+    .textHlght {
+        color: black;
+    }
+    
+    .purple {
+        color: #603484;
+    }
+    
+    .form-control {
+        line-height: 45px;
+    }
+    
+    @media only screen and (min-device-width: 320px) and (max-device-width: 823px) {
+        .first-b-indicator {
+            top: -15px;
+        }
+        .w-10 {
+            width: 15%;
+        }
+        .padding-bottom>.form-group {
+            left: 15%;
+        }
+    }
+    
+    @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+        .first-b-indicator {
+            top: -205px;
+        }
+    }
+    
+    @media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) {
+        .first-b-indicator {
+            top: -230px;
+        }
+    }
