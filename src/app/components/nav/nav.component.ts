@@ -449,7 +449,9 @@ export class NavComponent implements OnInit, OnDestroy {
     }
 
     callUsersOrgService() {
+        this.mService.setDisplay(true);
         this.contentService.fetchUsersOrg()
+            .finally(() => {this.mService.setDisplay(false)})
             .subscribe(
                 result => {
                     if (result.code == 0) {
