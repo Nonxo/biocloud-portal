@@ -321,3 +321,11 @@ thead {
 .mat-accent .mat-slider-thumb-label {
     background-color: #623485;
 }
+
+.mat-tab-header {
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+    background: #fff !important;
+}

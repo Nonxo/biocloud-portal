@@ -6,5 +6,5 @@ export enum SubscriptionMode {
 
 export enum BillingCycle {
     MONTHLY = "MONTHLY",
-    YEARLY = "YEARLY"
+    YEARLY = "ANNUAL"
 }

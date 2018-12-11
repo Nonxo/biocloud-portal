@@ -141,7 +141,7 @@
 
 
     <mat-toolbar>
-        <button mat-icon-button (click)="sidenav.toggle()" class="d-block d-md-none">
+        <button mat-icon-button (click)="sidenav.toggle()" class="d-block d-xl-none">
             <mat-icon>menu</mat-icon>
         </button>
 
@@ -151,7 +151,7 @@
   <img src="assets/img/logo-icon.svg" class="img-fluid logo-icon" *ngIf="sidenavWidth < 15"/>
 </div>-->
 
-        <button mat-icon-button (click)="toggleNavFromHam(false)" class="d-none d-md-block" *ngIf="sidenavWidth >= 15" matTooltip="Minimize navigation">
+        <button mat-icon-button (click)="toggleNavFromHam(false)" class="d-md-none d-block" *ngIf="sidenavWidth >= 15" matTooltip="Minimize navigation">
             <mat-icon>fullscreen_exit</mat-icon>
         </button>
 

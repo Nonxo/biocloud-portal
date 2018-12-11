@@ -208,8 +208,10 @@ export class VerifyPaymentRequest {
     conversionRate:number;
     transactionMode:string;
     vatAmount: number;
+    couponCode: string;
+    couponAmount: number;
 
-    constructor(txRef:string, billingCycle:string, autoRenewal:boolean, orgId:string, conversionRate:number, transactionMode:string, vatAmount: number) {
+    constructor(txRef:string, billingCycle:string, autoRenewal:boolean, orgId:string, conversionRate:number, transactionMode:string, vatAmount: number, code: string, couponAmount: number) {
         this.billingCycle = billingCycle;
         this.txRef = txRef;
         this.autoRenewal = autoRenewal;
@@ -217,6 +219,8 @@ export class VerifyPaymentRequest {
         this.conversionRate = conversionRate;
         this.transactionMode = transactionMode;
         this.vatAmount = vatAmount;
+        this.couponCode = code;
+        this.couponAmount = couponAmount;
     }
 }
 
@@ -227,14 +231,18 @@ export class SubscriptionChangeRequest {
     currency: string;
     amount: number;
     vat: number;
+    couponCode: string;
+    couponAmount: number;
 
-    constructor(billingCycle: string, orgId: string, planId: string, currency: string, amount: number, vat: number) {
+    constructor(billingCycle: string, orgId: string, planId: string, currency: string, amount: number, vat: number, code: string, couponAmount: number) {
         this.billingCycle = billingCycle;
         this.orgId = orgId;
         this.planId = planId;
         this.currency = currency;
         this.amount = amount;
         this.vat = vat;
+        this.couponCode = code;
+        this.couponAmount = couponAmount;
     }
 }
 
@@ -309,7 +317,30 @@ export class ApproveCoordinate {
     }
 }
 
-
-
+export class Subscription {
+    constructor(
+        public activatedBy: string,
+        public active: boolean,
+        public amountPaid: number,
+        public authToken: any,
+        public autoRenew: boolean,
+        public billingCycle: string,
+        public couponAmount: number,
+        public couponCode: string,
+        public created: number,
+        public currency: string,
+        public endDate: number,
+        public id: any,
+        public lastModified: number,
+        public orderRequestId: any,
+        public orgId: string,
+        public paymentMode: string,
+        public subscriptionMode: string,
+        public subscriptionPlanId: string,
+        public subscriptionStatus: string,
+        public totalAmount: number,
+        public vat: number
+    ) { }
+}
 
 
