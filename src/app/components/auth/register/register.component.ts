@@ -37,6 +37,8 @@ export class RegisterComponent implements OnInit {
     searchField: string;
     nameError: string;
     phoneError: string;
+    password: string;
+    otp: boolean = false;
 
     @Input()
     step: number;
@@ -46,6 +48,9 @@ export class RegisterComponent implements OnInit {
 
     @Output()
     getStep = new EventEmitter<number>();
+
+    @Output()
+    otpMode = new EventEmitter<boolean>();
 
 
     @ViewChild('myInput') myInput: ElementRef;
@@ -66,6 +71,7 @@ export class RegisterComponent implements OnInit {
         this.fetchCountries();
 
         this.getStep.emit(this.step);
+        this.otpMode.emit(false);
 
         this.form = this.fb.group({
             companyName: ['', Validators.required],
@@ -137,6 +143,7 @@ export class RegisterComponent implements OnInit {
                 result => {
                     if (result.code == 0) {
                         this.router.navigate(['/reg-message'], { queryParams: { email: this.form.get('email').value.toLowerCase() } });
+                        this.otpMode.emit(true);
                     } else {
                         this.ns.showError(result.description);
                     }
@@ -329,6 +336,7 @@ export class RegisterComponent implements OnInit {
     }
 
     validatePhoneField() {
+        debugger
         if(/[^0-9]/.test(this.phone)) {
             this.phoneError = "Only numbers allowed"
         } else {

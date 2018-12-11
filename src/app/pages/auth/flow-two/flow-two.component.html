@@ -63,14 +63,12 @@
             <ng-container *ngIf="!loginFlag">
 
                 <!-- <h3 class="">Create an Iclocker Account</h3> -->
-                <app-register [step]="step" [email]="email" (getStep)="getSignupStep($event)"></app-register>
-                <!-- <app-reg-email-notification></app-reg-email-notification> -->
-                <app-google-sign-in *ngIf="step == 1" [isSignIn]="loginFlag"></app-google-sign-in>
+                <!--<app-register [step]="step" [email]="email" (getStep)="getSignupStep($event)"></app-register>-->
+                <!--<app-google-sign-in *ngIf="step == 1" [isSignIn]="loginFlag"></app-google-sign-in>-->
 
                 <!-- pin verification -->
-                <!-- <app-register [step]="step" [email]="email" *ngIf="!emailPin" (getStep)="getSignupStep($event)"></app-register>
-                <app-reg-email-notification *ngIf="emailPin"></app-reg-email-notification>
-                <app-google-sign-in *ngIf="step == 1 && !emailPin" [isSignIn]="loginFlag"></app-google-sign-in> -->
+                <app-register [step]="step" [email]="email" (getStep)="getSignupStep($event)" (otpMode)="getOtpMode($event)"></app-register>
+                <app-google-sign-in *ngIf="step == 1 && !otpMode" [isSignIn]="loginFlag"></app-google-sign-in>
 
                 <ng-container *ngIf="step == 1">
                     <hr class="d-xl-none d-block">

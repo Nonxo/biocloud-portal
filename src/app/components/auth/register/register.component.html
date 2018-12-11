@@ -6,7 +6,7 @@
             <div class="inactive-dot"></div>
         </div>
     </div>
-    <div class="text-xl-left text-center">
+    <div class="text-xl-left text-center" *ngIf="!otp">
         <h3 class="text-center">Create an iClocker Account</h3>
         <p class="text-success font-weight-bold text-center">Start your 14-day Free Trial</p>
         <p class="small text-center">To create an iClocker account, please confirm your e-mail address</p>
@@ -20,7 +20,8 @@
                             <div class="col-xl col-lg-4 col-md-5 pr-0">
                                 <div class="form-group">
                                     <!-- <label>Email address</label> -->
-                                    <input type="email" class="form-control w-100" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" placeholder="you@emailprovider.com" formControlName="email" required>
+                                    <input type="email" class="form-control w-100" pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+                                           placeholder="you@emailprovider.com" formControlName="email" required>
                                 </div>
                             </div>
 
@@ -37,6 +38,11 @@
 
         </form>
     </div>
+
+    <ng-container>
+        <app-reg-email-notification *ngIf="otp"></app-reg-email-notification>
+    </ng-container>
+
 </ng-container>
 
 
@@ -53,7 +59,7 @@
 
     <div class="container px-md-5 px-0">
         <p class="text-success font-weight-bold pt-3 mb-0">you@emailprovider.com</p>
-        <form class="" [formGroup]="form" (submit)="changeStep()" ngNativeValidate>
+        <form class="" (submit)="changeStep()" ngNativeValidate>
             <div class="container-fluid">
                 <div class="row">
 
@@ -61,20 +67,26 @@
 
                         <div class="form-group">
                             <label class="text-success small font-weight-bold">{{email}}</label>
-                            <input type="password" pattern="^([a-zA-Z0-9 @*#]{6,20})" class="form-control w-100" placeholder="Enter password here" [type]="show ? 'text' : 'password'" formControlName="password" required>
+                            <input type="password" pattern="^([a-zA-Z0-9 @*#]{6,20})" class="form-control w-100"
+                                   placeholder="Enter password here" [type]="show ? 'text' : 'password'"
+                                   [(ngModel)]="password" name="password" required>
                         </div>
 
                         <div class="form-group">
                             <!-- <label class="text-success small font-weight-bold">You@emailprovider.com</label> -->
-                            <input type="text" class="form-control w-100" #fName="ngModel" placeholder="Full Name *" name="fullName" [(ngModel)]="fullName" (keyup)="validateNameField()" pattern="^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}?)" required>
+                            <input type="text" class="form-control w-100" #fName="ngModel" placeholder="Full Name *"
+                                   name="fullName" [(ngModel)]="fullName" (keyup)="validateNameField()"
+                                   pattern="^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}?)" required>
                             <p class="small text-danger px-1 pt-1" *ngIf="nameError">{{nameError}}</p>
                         </div>
                     </div>
 
                     <div class="col-md-3 pl-0 pr-0" (clickOutside)="onClickedOutside($event)">
                         <div class="cursor text-center form-control py-2 d-inline-flex" (click)="showDd()">
-                            <i *ngIf="selectedCountryCode" class="form-control d-inline-flex cursor sprite {{selectedCountryCode.toLowerCase()}}"></i>
-                            <p class="small mb-0 pl-2">{{selectedPhoneCode.charAt(0) == "+"? selectedPhoneCode: "+" + selectedPhoneCode}}</p>
+                            <i *ngIf="selectedCountryCode"
+                               class="form-control d-inline-flex cursor sprite {{selectedCountryCode.toLowerCase()}}"></i>
+                            <p class="small mb-0 pl-2">{{selectedPhoneCode.charAt(0) == "+"? selectedPhoneCode: "+" +
+                                selectedPhoneCode}}</p>
                         </div>
 
                         <div *ngIf="openDropdown" class="font-12 box-shadow mt-2 position-absolute">
@@ -82,15 +94,20 @@
                             <ul class="list-unstyled">
                                 <li class="media sticky-search">
                                     <mat-form-field class="w-100">
-                                        <input matInput placeholder="Search Country" class="company-search" autocomplete="nope" type="text" name="searchField" [(ngModel)]="searchField" (keyup)="search($event.target.value)">
+                                        <input matInput placeholder="Search Country" class="company-search"
+                                               autocomplete="nope" type="text" name="searchField"
+                                               [(ngModel)]="searchField" (keyup)="search($event.target.value)">
                                         <mat-icon matSuffix class="cursor">search</mat-icon>
                                     </mat-form-field>
                                 </li>
-                                <li class="media pb-2 cursor" *ngFor="let country of filteredCountries" value="{{country.code}}" (click)="onSelectChange(country)">
-                                    <i class="sprite {{country.code.toLowerCase()}} d-inline-flex mr-3 ml-2" style="max-width: 33px"></i> {{country.name}}
+                                <li class="media pb-2 cursor" *ngFor="let country of filteredCountries"
+                                    value="{{country.code}}" (click)="onSelectChange(country)">
+                                    <i class="sprite {{country.code.toLowerCase()}} d-inline-flex mr-3 ml-2"
+                                       style="max-width: 33px"></i> {{country.name}}
                                 </li>
 
-                                <p *ngIf="filteredCountries.length == 0" class="text-center small text-muted">No result(s) found </p>
+                                <p *ngIf="filteredCountries.length == 0" class="text-center small text-muted">No
+                                    result(s) found </p>
                             </ul>
                         </div>
                     </div>
@@ -99,7 +116,9 @@
                     <div class="col-md-9 pr-0 pl-md-2 pl-0 pt-md-0 pt-3">
                         <div class="form-group">
                             <!-- <label class="text-success small font-weight-bold">You@emailprovider.com</label> -->
-                            <input type="text" class="form-control w-100" #phoneNumber="ngModel" name="phone" [(ngModel)]="phone" placeholder="Phone Number *" pattern="[0-9]{5,20}" (keyup)="validatePhoneField()" required>
+                            <input type="text" class="form-control w-100" #phoneNumber="ngModel" name="phone"
+                                   [(ngModel)]="phone" placeholder="Phone Number *" pattern="[0-9]{5,20}"
+                                   (keyup)="validatePhoneField()" required>
                             <p class="small text-danger px-1 pt-1" *ngIf="phoneError">{{phoneError}}</p>
                         </div>
                     </div>
@@ -112,7 +131,9 @@
                     </div>
 
                     <div class="col-md-12 text-center py-3">
-                        <p class="small">Clicking the continue button means you agree to the <br> <span (click)="goToTerms()" class="cursor text-brand">Terms of Service</span> and <span (click)="goToTerms()" class="cursor text-brand">Privacy Policy</span>.</p>
+                        <p class="small">Clicking the continue button means you agree to the <br> <span
+                            (click)="goToTerms()" class="cursor text-brand">Terms of Service</span> and <span
+                            (click)="goToTerms()" class="cursor text-brand">Privacy Policy</span>.</p>
                     </div>
 
                 </div>
@@ -133,108 +154,12 @@
         <h3 class="text-center">Lastly, tell us about your company</h3>
         <!-- <p class="small">Please fill details you can be recognised with by your <br> Teammates</p> -->
 
-
-        <form class="pt-2" (ngSubmit)="changeStep()" name="registerForm" #registerForm="ngForm" ngNativeValidate>
-            <div class="container-fluid">
-                <div class="row">
-
-                    <div class="col-md-12 px-0">
-
-                        <div class="form-group">
-                            <label class="text-secondary small">What is your Company Name?</label>
-                            <input type="text" class="form-control w-100" placeholder="Seamfix Ltd" name="orgName" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="text-secondary small" for="companyType">Company Type</label>
-                            <select class="form-control" id="companyType" name="orgType" [required]="true">
-                                  <option *ngFor="let type of orgTypes" value="{{type.name}}">{{type.name}}</option>
-                                </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="text-secondary small" for="companySize">How many people are in your company?</label>
-                            <select class="form-control" id="companySize" name="employeeRange" [required]="true">
-                                      <option *ngFor="let r of range" value="{{r.upperLimit}}">{{r.lowerLimit}} - {{r.upperLimit}}</option>
-                                    </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <p class="small">Upload Company Logo</p>
-
-                            <div class="row text-md-left text-center">
-                                <div class=" col-md-3 mb-mb-0 mb-3">
-                                    <img *ngIf="!croppedImage" class="w-100 rounded-circle h-120 mx-auto image-hover mt-md-0 mt-4" src="/assets/img/1.png" alt="Profile picture" style="max-width: 120px">
-                                    <img *ngIf="croppedImage" class="w-100 rounded-circle h-120 mx-auto image-hover mt-md-0 mt-4" [src]="croppedImage" alt="Profile picture" style="max-width: 120px">
-
-                                </div>
-                                <p class="text-success upload-text">Up tp 2MB in size</p>
-                                <div class="col-md-4 my-auto fileUpload btn btn-outline-dark cursor" style="border-radius: 25px">
-                                    <span>Upload</span>
-                                    <input value="" type="file" class="btn btn-outline-dark px-3 upload" style="border-radius: 25px" accept="image/*" #input (change)="fileChange($event)" />
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <!-- <div class="form-group">
-                        <label class="text-success small font-weight-bold">You@emailprovider.com</label>
-                        <input type="text" class="form-control w-100" #fName="ngModel" placeholder="Full Name *" name="fullName" [(ngModel)]="fullName" (keyup)="validateNameField()" pattern="^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}?)" required>
-                        <p class="small text-danger px-1 pt-1" *ngIf="nameError">{{nameError}}</p>
-                    </div>
-
-                    <div class="form-group">
-                            <label class="text-success small font-weight-bold">You@emailprovider.com</label>
-                            <input type="text" class="form-control w-100" placeholder="Phone Number" required>
-                        </div> -->
-                    </div>
-
-                    <!-- <div class="col-md-3 pl-0" (clickOutside)="onClickedOutside($event)">
-                    <div class="cursor text-center form-control py-2 d-inline-flex" (click)="showDd()">
-                        <i *ngIf="selectedCountryCode" class="form-control d-inline-flex cursor sprite {{selectedCountryCode.toLowerCase()}}"></i>
-                        <p class="small mb-0 pl-2">{{selectedPhoneCode.charAt(0) == "+"? selectedPhoneCode: "+" + selectedPhoneCode}}</p>
-                    </div>
-
-                    <div *ngIf="openDropdown" class="font-12 box-shadow mt-2">
-
-                        <ul class="list-unstyled">
-                            <li class="media sticky-search">
-                                <mat-form-field class="w-100">
-                                    <input matInput placeholder="Search Country" class="company-search" autocomplete="nope" type="text" name="searchField" [(ngModel)]="searchField" (keyup)="search($event.target.value)">
-                                    <mat-icon matSuffix class="cursor">search</mat-icon>
-                                </mat-form-field>
-                            </li>
-                            <li class="media pb-2 cursor" *ngFor="let country of filteredCountries" value="{{country.code}}" (click)="onSelectChange(country)">
-                                <i class="sprite {{country.code.toLowerCase()}} d-inline-flex mr-3 ml-2" style="max-width: 33px"></i> {{country.name}}
-                            </li>
-
-                            <p *ngIf="filteredCountries.length == 0" class="text-center small text-muted">No result(s) found </p>
-                        </ul>
-                    </div>
-                </div> -->
-
-
-                    <!-- <div class="col-md-9 pr-0">
-                    <div class="form-group">
-                        <label class="text-success small font-weight-bold">You@emailprovider.com</label>
-                        <input type="text" class="form-control w-100" #phoneNumber="ngModel" name="phone" [(ngModel)]="phone" placeholder="Phone Number *" pattern="[0-9]{5,20}" (keyup)="validatePhoneField()" required>
-                        <p class="small text-danger px-1 pt-1" *ngIf="phoneError">{{phoneError}}</p>
-                    </div>
-                </div> -->
-
-                    <div class="col-md-12 text-center pt-3 mb-md-0 mb-4">
-                        <button mat-raised-button color="primary" class="rounded px-5" [disabled]="!registerForm.valid">
-                        <span>Complete account creation </span>
-                                    <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;" />
-                                    </button>
-                    </div>
-                </div>
-            </div>
-        </form>
+        <app-sign-up-as></app-sign-up-as>
     </div>
 </ng-container>
 
 
-<div class="col-12 mt-5 text-center" *ngIf="step == 1">
+<div class="col-12 mt-5 text-center" *ngIf="step == 1 && !otp">
     <!--<div class="cursor" id="googleBtn">Google</div>-->
     <!--<p class="hr">or</p>-->
     <p class="text-center textDecor smaller fontWeight mb-3"> <span> or

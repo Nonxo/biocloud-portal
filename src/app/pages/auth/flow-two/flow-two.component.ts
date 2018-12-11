@@ -15,7 +15,7 @@ export class FlowTwoComponent implements OnInit {
     email: string;
     token: string;
     step: number = 1;
-    emailPin = true;
+    otpMode: boolean;
 
     constructor(private route: ActivatedRoute, private authService: AuthService, private ns: NotifyService, private mService: MessageService) {
         this.route
@@ -66,5 +66,9 @@ export class FlowTwoComponent implements OnInit {
 
     getSignupStep(event) {
         this.step = event;
+    }
+
+    getOtpMode(event) {
+        this.otpMode = event;
     }
 }
