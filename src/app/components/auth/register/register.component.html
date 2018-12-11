@@ -6,7 +6,7 @@
             <div class="inactive-dot"></div>
         </div>
     </div>
-    <div class="text-xl-left text-center">
+    <div class="text-xl-left text-center" *ngIf="!otp">
         <h3 class="text-center">Create an iClocker Account</h3>
         <p class="text-success font-weight-bold text-center">Start your 14-day Free Trial</p>
         <p class="small text-center">To create an iClocker account, please confirm your e-mail address</p>
@@ -38,6 +38,11 @@
 
         </form>
     </div>
+
+    <ng-container>
+        <app-reg-email-notification *ngIf="otp"></app-reg-email-notification>
+    </ng-container>
+
 </ng-container>
 
 
@@ -154,7 +159,7 @@
 </ng-container>
 
 
-<div class="col-12 mt-5 text-center" *ngIf="step == 1">
+<div class="col-12 mt-5 text-center" *ngIf="step == 1 && !otp">
     <!--<div class="cursor" id="googleBtn">Google</div>-->
     <!--<p class="hr">or</p>-->
     <p class="text-center textDecor smaller fontWeight mb-3"> <span> or

@@ -38,6 +38,7 @@ export class RegisterComponent implements OnInit {
     nameError: string;
     phoneError: string;
     password: string;
+    otp: boolean = false;
 
     @Input()
     step: number;
@@ -47,6 +48,9 @@ export class RegisterComponent implements OnInit {
 
     @Output()
     getStep = new EventEmitter<number>();
+
+    @Output()
+    otpMode = new EventEmitter<boolean>();
 
 
     @ViewChild('myInput') myInput: ElementRef;
@@ -67,6 +71,7 @@ export class RegisterComponent implements OnInit {
         this.fetchCountries();
 
         this.getStep.emit(this.step);
+        this.otpMode.emit(false);
 
         this.form = this.fb.group({
             companyName: ['', Validators.required],
@@ -138,6 +143,7 @@ export class RegisterComponent implements OnInit {
                 result => {
                     if (result.code == 0) {
                         this.router.navigate(['/reg-message'], { queryParams: { email: this.form.get('email').value.toLowerCase() } });
+                        this.otpMode.emit(true);
                     } else {
                         this.ns.showError(result.description);
                     }
