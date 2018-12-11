@@ -37,6 +37,7 @@ export class RegisterComponent implements OnInit {
     searchField: string;
     nameError: string;
     phoneError: string;
+    password: string;
 
     @Input()
     step: number;
@@ -329,6 +330,7 @@ export class RegisterComponent implements OnInit {
     }
 
     validatePhoneField() {
+        debugger
         if(/[^0-9]/.test(this.phone)) {
             this.phoneError = "Only numbers allowed"
         } else {

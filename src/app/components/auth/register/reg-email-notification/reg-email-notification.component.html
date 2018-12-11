@@ -27,17 +27,17 @@
 
             <div class="padding-bottom">
                 <div class="form-group d-inline-flex position-absolute">
-                    <input type="email" class="form-control w-10 text-center" required>
-                    <input type="email" class="form-control w-10 mx-2 text-center" required>
-                    <input type="email" class="form-control w-10 text-center" required>
-                    <input type="email" class="form-control w-10 mx-2 text-center" required>
-                    <input type="email" class="form-control w-10 text-center" required>
+                    <input type="text" class="form-control w-10 text-center" (paste)="onPaste($event)" required>
+                    <input type="number" class="form-control w-10 mx-2 text-center" required>
+                    <input type="number" class="form-control w-10 text-center" required>
+                    <input type="number" class="form-control w-10 mx-2 text-center" required>
+                    <input type="number" class="form-control w-10 text-center" required>
                 </div>
             </div>
 
             <div>
-                <p class="text-center mb-1">Didnt receive email?</p>
-                <p class="text-center"><span class="text-brand cursor">Resent mail</span> or <span class="text-brand cursor" routerLink="/auth">Enter different mail</span></p>
+                <p class="text-center mb-1">Didn't receive email?</p>
+                <p class="text-center"><span class="text-brand cursor">Resend mail</span> or <span class="text-brand cursor" routerLink="/auth">Enter different mail</span></p>
             </div>
         </div>
     </div>
