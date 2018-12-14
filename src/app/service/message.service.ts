@@ -17,6 +17,7 @@ export class MessageService {
     private updateSub = new Subject<any>();
     private updateNotif = new Subject<boolean>();
     private updateLocation = new Subject<boolean>();
+    private createOrg = new Subject<boolean>();
 
     constructor() {}
 
@@ -90,6 +91,14 @@ export class MessageService {
 
     getUpdateLocation(): Observable<boolean> {
         return this.updateLocation.asObservable();
+    }
+
+    setCreateOrg(value: boolean) {
+        this.createOrg.next(value);
+    }
+
+    isCreateOrg(): Observable<boolean> {
+        return this.createOrg.asObservable();
     }
 
 }

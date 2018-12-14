@@ -67,6 +67,7 @@ export class SignUpAsComponent implements OnInit {
             .subscribe(
                 result => {
                     this.range = result.range ? result.range : [];
+                    this.range.sort((a,b) => a.upperLimit - b.upperLimit);
                 },
                 error => {
 

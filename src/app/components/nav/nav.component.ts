@@ -79,6 +79,7 @@ export class NavComponent implements OnInit, OnDestroy {
     username = this.ss.getUserName();
     userImage = this.ss.getUserImg();
     @ViewChild("assignLocation") public assignLocation: TemplateRef<any>;
+    @ViewChild("template") public createOrgTemplate: TemplateRef<any>;
     searchField: string;
     userId: string;
     searchOrgTerm$ = new Subject<any>();
@@ -169,6 +170,13 @@ export class NavComponent implements OnInit, OnDestroy {
             .subscribe(
                 result => {
                     result == true? this.callNotificationService():'';
+                }
+            )
+
+        this.mService.isCreateOrg()
+            .subscribe(
+                result => {
+                    result? this.createOrg(this.createOrgTemplate):'';
                 }
             )
 
@@ -815,6 +823,7 @@ export class NavComponent implements OnInit, OnDestroy {
             .subscribe(
                 result => {
                     this.range = result.range? result.range: [];
+                    this.range.sort((a,b) => a.upperLimit - b.upperLimit);
                 },
                 error => {}
             )
