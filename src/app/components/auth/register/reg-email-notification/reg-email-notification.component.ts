@@ -29,9 +29,4 @@ export class RegEmailNotificationComponent implements OnInit {
     ngOnInit() {
     }
 
-    onPaste(event) {
-        console.log(event.clipboardData.getData('text/plain'));
-        debugger;
-    }
-
 }

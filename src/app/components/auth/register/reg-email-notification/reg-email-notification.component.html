@@ -1,44 +1,16 @@
 <div class="container h-100">
 
-    <div>
-        <div class="d-inline-flex position-absolute indicator first-b-indicator">
-            <div class="active-dot"></div>
-            <div class="inactive-dot mx-3"></div>
-            <div class="inactive-dot"></div>
-        </div>
-    </div>
-
     <div class="row justify-content-center h-100">
 
-        <div class="p-0 msg">
-            <!-- <div class="pb-4 mt-5 pt-5 w-100 text-center">
+        <div class="col-4 p-0 mt-5 msg">
+            <div class="pb-4 mt-5 pt-5 w-100 text-center">
                 <img src="/assets/img/logos-bc.png" class="img-fluid " width="130px;" alt="iclocker logo">
-            </div> -->
-            <div class="pb-3 w-100 text-center">
+            </div>
+            <div class="pb-5 w-100 text-center">
                 <img src="/assets/img/reg-msg.png" class="img-fluid " width="70px;" alt="message image">
             </div>
-
-            <h4 class="text-center font-weight-bold">Check your email!</h4>
-            <!-- <p class=" text-left fontSize font-weight-normal text-color">A mail with a link has been sent to <span class="highlight textHlght"> {{email}}</span> Click the link to confirm your address to continue with account setup.</p>
-            <p class=" text-left fontSize fontWeight text-color"> Wrong email? <span routerLink="/auth" class="highlight cursor purple">please re-enter your address.</span></p> -->
-
-            <p class="text-center fontSize font-weight-normal text-color pt-3 mb-0">We have sent a 5 digit confirmation code to you <span class="highlight textHlght"> {{email}}</span></p>
-            <p class="text-center fontSize font-weight-normal text-color pt-0">Please copy the code and paste below. Code will expire within 24hrs</p>
-
-            <div class="padding-bottom">
-                <div class="form-group d-inline-flex position-absolute">
-                    <input type="number" class="form-control w-10 text-center" (paste)="onPaste($event)" required>
-                    <input type="number" class="form-control w-10 mx-2 text-center" required>
-                    <input type="number" class="form-control w-10 text-center" required>
-                    <input type="number" class="form-control w-10 mx-2 text-center" required>
-                    <input type="number" class="form-control w-10 text-center" required>
-                </div>
-            </div>
-
-            <div>
-                <p class="text-center mb-1">Didn't receive email?</p>
-                <p class="text-center"><span class="text-brand cursor">Resend mail</span> or <span class="text-brand cursor" routerLink="/auth">Enter different mail</span></p>
-            </div>
+            <p class=" text-left fontSize font-weight-normal text-color">A mail with a link has been sent to <span class="highlight textHlght"> {{email}}</span> Click the link to confirm your address to continue with account setup.</p>
+            <p class=" text-left fontSize fontWeight text-color"> Wrong email? <span routerLink="/auth" class="highlight cursor purple">please re-enter your address.</span></p>
         </div>
     </div>
 </div>
