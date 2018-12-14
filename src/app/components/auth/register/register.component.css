@@ -1,3 +1,57 @@
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.upload-text {
+    position: absolute;
+    left: 26%;
+}
+
+.active-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 25px;
+    background: #603484 !important;
+}
+
+.inactive-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 25px;
+    background: grey;
+}
+
+.indicator {
+    left: 45% !important;
+    /* top: -145px !important; */
+}
+
+.last-indicator {
+    top: -48px;
+}
+
+.middle-indicator {
+    top: -90px;
+}
+
+.first-a-indicator {
+    top: -135px;
+}
+
 .textDecor :before,
 .textDecor :after {
     content: " ";
@@ -1536,4 +1590,55 @@
     width: 40px;
     height: 20px;
     background-position: -578px -304px;
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 823px) {
+    .fileUpload {
+        width: 65%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .first-a-indicator,
+    .middle-indicator,
+    .last-indicator {
+        top: -15px;
+    }
+    .indicator {
+        left: 40% !important;
+    }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    .first-a-indicator,
+    .middle-indicator,
+    .last-indicator {
+        top: -205px;
+    }
+    .indicator {
+        left: 45% !important;
+    }
+    .fileUpload {
+        width: 65%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) {
+    .first-a-indicator,
+    .middle-indicator,
+    .last-indicator {
+        top: -230px;
+    }
+    .indicator {
+        left: 48% !important;
+    }
+    img.w-100.rounded-circle.h-120.mx-auto.pt-lg-0.pt-4.image-hover {
+        max-width: 185px !important;
+    }
+    .upload-text {
+        position: absolute;
+        left: 26%;
+        top: 65%;
+    }
 }
