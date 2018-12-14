@@ -345,9 +345,7 @@ export class SetupComponent implements OnInit, OnDestroy {
                 result => {
                     if (result.code == 0) {
                         this.ns.showSuccess("Location was successfully updated");
-                        this.mService.setEditLocation(true);
                         this.router.navigate(['/portal'])
-                        // this.modalRef.hide();
                     } else {
                         this.ns.showError(result.description);
                     }
