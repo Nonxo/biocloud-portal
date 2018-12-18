@@ -130,6 +130,8 @@ export class AppContentService {
     }
 
     fetchUsersInAnOrg(orgId: string, model: UserPaginationPojo): Observable<any> {
+        
+console.log(Endpoints.FETCH_USERS_IN_AN_ORG + orgId);
         const params = new HttpParams()
             .set("pageNo", String(model.pageNo))
             .set("pageSize", String(model.pageSize));
@@ -184,6 +186,25 @@ export class AppContentService {
     activateLocation(status: boolean, locId: string): Observable<any> {
         return this.httpClient
             .post(Endpoints.DEACTIVATE_ACTIVATE_LOCATION + locId + "/" + status, null, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
+    deleteLocation(locId: string): Observable<any> {
+        const params = new HttpParams()
+            .set("locId", locId);
+
+        return this.httpClient
+            .post(Endpoints.DELETE_LOCATION + '', params, {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
             })

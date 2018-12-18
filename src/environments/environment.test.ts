@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  baseUrl: 'http://logs.seamfix.org:17430'
+  baseUrl: 'http://192.168.8.12:17430'
 };

@@ -343,4 +343,36 @@ export class Subscription {
     ) { }
 }
 
+export class Location {
+    constructor(
+        public active: boolean,
+        public address: any,
+        public clockOutTime: number,
+        public confirmees: any,
+        public country: any,
+        public countryId: any,
+        public created: number,
+        public createdBy: string,
+        public deleted: boolean,
+        public gracePeriodInMinutes: number,
+        public inviteEmails: any,
+        public latitude: number,
+        public locId: string,
+        public locationType: string,
+        public longitude: number,
+        public name: string,
+        public noOfAttendees: number,
+        public noOfClockInForToday: number,
+        public noOfPendingAttendees: number,
+        public orgId: string,
+        public radiusThreshold: number,
+        public resumption: number,
+        public resumptionTimezoneId: string,
+        public state: any,
+        public stateId: any,
+        public verificationThreshold: number,
+        public verifyLocation: boolean
+    ) { }
+}
+
 

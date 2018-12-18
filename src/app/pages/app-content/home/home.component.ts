@@ -10,7 +10,7 @@ import {AddAttendeesComponent} from "../app-config/add-attendees/add-attendees.c
 import {Router} from "@angular/router";
 import {DataService} from "../../../service/data.service";
 import * as moment from "moment";
-import {AssignUserRequest} from "../model/app-content.model";
+import {AssignUserRequest, Location} from "../model/app-content.model";
 
 
 @Component({
@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     userId:string;
     startDate = moment().startOf('day').toDate().getTime();
     endDate = moment().endOf('day').toDate().getTime();
-    locations:any[] = [];
+    locations:Location[] = [];
     bsModalRef:BsModalRef;
     modalOptions:ModalOptions = new ModalOptions();
     pendingAttendees:any[] = [];
@@ -40,7 +40,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     selectedLocId:string;
     noOfAttendees:number;
     assignRequestObj:AssignUserRequest = new AssignUserRequest();
-    @ViewChild("deactivateLocation")public deactivateLocation: TemplateRef<any>;
+    @ViewChild("deactivateLocation") public deactivateLocation: TemplateRef<any>;
+    @ViewChild("deleteLocationConfirmation") public deleteLocationConfirmation: TemplateRef<any>;
     selectedLocObj: any;
 
     constructor(private mService:MessageService,
@@ -106,6 +107,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 result => {
                     if (result.code == 0) {
                         this.locations = result.locations ? result.locations : [];
+                        // this.locations.forEach(x=>x.deleted=true);console.log(this.locations);
                         this.locations.sort((a,b) => b.created - a.created);
                         this.fetchTotalClockIns();
                         this.fetchClockInsHistory();
@@ -173,6 +175,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     }
 
+    deleteLocation() {
+        this.assignRequestObj.oldlocId = this.selectedLocId;
+        this.callDeteLocationService(this.selectedLocId);
+
+    }
+
     activateLocation(status:boolean, locId:string, noOfAttendees:number) {
         this.selectedLocId = locId;
         this.noOfAttendees = noOfAttendees;
@@ -184,6 +192,13 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.openModal(this.deactivateLocation);
         }
 
+    }
+
+    deleteLocationConfirmationPopup(locId:string, noOfAttendees:number) {
+        this.selectedLocId = locId;
+        this.noOfAttendees = noOfAttendees;
+
+        this.openModal(this.deleteLocationConfirmation);  
     }
 
     callActivateLocationService(active:boolean, locId:string) {
@@ -205,6 +220,30 @@ export class HomeComponent implements OnInit, OnDestroy {
                     }
                 },
                 error => {this.ns.showError("An Error Occurred.");}
+            )
+    }
+
+    callDeteLocationService(locId: string) {
+        // let location: Location = this.locations.find(loc => loc.locId == locId);
+
+        this.contentService.deleteLocation(locId)
+            .finally(() => { this.bsModalRef.hide() })
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+
+                        if (this.assignRequestObj.newlocId) {
+                            this.assignUsers();
+                        }
+
+                        this.locations.forEach(loc => loc.deleted = loc.locId == locId);
+
+                        this.ns.showSuccess(result.description);
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => { this.ns.showError("An Error Occurred."); }
             )
     }
 
