@@ -52,7 +52,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 private dataService:DataService) {
         this.userId = this.ss.getUserId();
 
-        this.mService.getUpdateLocation()
+        this.mService.getUpdateLocation().debounceTime(5000)
             .subscribe(
                 result => {
                     result == true? this.callLocationService():'';
@@ -71,7 +71,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
         }
 
-        this.locationsSubscription = this.mService.getSelectedOrg()
+        this.locationsSubscription = this.mService.getSelectedOrg().debounceTime(400)
             .subscribe(
                 result => {
                     if(this.orgId != result) {
@@ -84,14 +84,15 @@ export class HomeComponent implements OnInit, OnDestroy {
                 }
             )
 
-        this.editLocationsSubscription = this.mService.isEditLocation()
-            .subscribe(
-                result => {
-                    if(result) {
-                        this.callLocationService();
-                    }
-                }
-            )
+        // this.editLocationsSubscription = this.mService.isEditLocation().debounceTime(5000)
+        //     .subscribe(
+        //         result => {
+        //             if(result) {
+        //                 debugger;
+        //                 this.callLocationService();
+        //             }
+        //         }
+        //     )
 
 
 
@@ -100,24 +101,23 @@ export class HomeComponent implements OnInit, OnDestroy {
     callLocationService() {
         this.mService.setDisplay(true);
         this.contentService.fetchOrgUsersLocation()
+            .finally(() => {this.mService.setDisplay(false);})
             .subscribe(
                 result => {
                     if (result.code == 0) {
                         this.locations = result.locations ? result.locations : [];
                         this.locations.sort((a,b) => b.created - a.created);
-                        this.mService.setDisplay(false);
                         this.fetchTotalClockIns();
                         this.fetchClockInsHistory();
                     } else {
                         this.ns.showError(result.description);
                         this.locations = [];
-                        this.mService.setDisplay(false);
+
                     }
                 },
                 error => {
                     this.ns.showError("An Error Occurred");
                     this.locations = [];
-                    this.mService.setDisplay(false);
                 }
             )
     }
@@ -316,6 +316,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     viewLocDetails(loc: any, template: TemplateRef<any>) {
         this.selectedLocObj = loc;
         this.openModal(template);
+    }
+
+    addCompany() {
+        this.mService.setCreateOrg(true);
     }
 
     ngOnDestroy(): void {

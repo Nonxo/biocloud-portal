@@ -48,7 +48,7 @@ export class FlowTwoComponent implements OnInit {
                     } else {
                         this.ns.showError(result.description);
                     }
-                        this.mService.setDisplay(false);
+                    this.mService.setDisplay(false);
 
 
                 },

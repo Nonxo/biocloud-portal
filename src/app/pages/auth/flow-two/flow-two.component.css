@@ -82,6 +82,26 @@ a.btn.ml-3.btn1.bg-white.font-weight-bold.purpleBorder.smaller.cursor.mt-md-0.mt
     color: #603484 !important
 }
 
+
+/* .active-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 25px;
+    background: #7b7481 !important;
+}
+
+.inactive-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 25px;
+    background: grey;
+}
+
+.indicator {
+    left: 45% !important;
+    top: -145px !important;
+} */
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 823px) {
     mat-card.auth.equal-row.h-100.mat-card {
         height: 135vh !important;

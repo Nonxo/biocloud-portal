@@ -56,10 +56,10 @@ export class RegisterComponent implements OnInit {
     ];
 
     constructor(private authService: AuthService,
-        private router: Router,
-        private ns: NotifyService,
-        private fb: FormBuilder,
-        private ss: StorageService) {
+                private router: Router,
+                private ns: NotifyService,
+                private fb: FormBuilder,
+                private ss: StorageService) {
     }
 
     ngOnInit() {
