@@ -226,8 +226,15 @@ export class NavComponent implements OnInit, OnDestroy {
         this.modalRef = this.modalService.show(template);
     }
 
-    show() {
-        !this.openDropdown ? this.openDropdown = true : this.openDropdown = false;
+    show(searchedText: string) {
+        if (searchedText) {
+            this.openDropdown = true;
+            this.orgs = (this.ss.getUsersOrg() as Org[]).filter(org => org.name.toLowerCase().startsWith(searchedText.toLowerCase()));
+        } else {
+            this.orgs = this.ss.getUsersOrg();
+            // !this.openDropdown ? this.openDropdown = true : this.openDropdown = false;
+            this.openDropdown = !this.openDropdown;
+        }
     }
 
     openAttendeesDetailsModal(template: TemplateRef<any>, locIds: string[], inviteId: string) {
