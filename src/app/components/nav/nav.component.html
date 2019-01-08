@@ -46,6 +46,10 @@
                     <small *hasAuthority="'GENERAL_ADMIN'" class="text-white" style="font-size: 0.6em"><span
                         (click)="editOrg(template)" class="cursor">EDIT</span></small>
                 </ng-container>
+                
+<div style="text-align: center">
+    <input type="text" name="searchBox"  (keyup)="show($event.target.value)" placeholder="Search company"/>
+</div>
             </div>
 
             <div *ngIf="openDropdown" class="bg-light-grey pt-2 font-12">
