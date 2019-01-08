@@ -5,7 +5,7 @@ import { WizardStepperComponent } from './components/wizard-stepper/wizard-stepp
 import {BrowserModule, HAMMER_GESTURE_CONFIG} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule, HttpClient} from '@angular/common/http';
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule } from '@angular/forms';
 
 
 import {AppComponent} from './app.component';
@@ -32,7 +32,6 @@ import {SignUpAsComponent} from "./pages/app-content/sign-up-as/sign-up-as.compo
 import {AppContentService} from "./pages/app-content/services/app-content.service";
 import {InviteUserComponent} from "./components/auth/invite-user/invite-user.component";
 import {ReceiptComponent} from "./pages/app-content/subscription-history/receipt/receipt.component";
-import {Angulartics2Facebook, Angulartics2GoogleTagManager, Angulartics2Module} from "angulartics2";
 import { FlowOneComponent } from './pages/auth/flow-one/flow-one.component';
 import { FlowTwoComponent } from './pages/auth/flow-two/flow-two.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
@@ -41,6 +40,10 @@ import { GestureConfig } from '@angular/material';
 import { ApproveCoordinatesComponent } from './components/auth/approve-coordinates/approve-coordinates.component';
 import {GeoMapService} from './service/geo-map.service';
 import { RegEmailNotificationComponent } from './components/auth/register/reg-email-notification/reg-email-notification.component';
+import {Angulartics2Module} from "angulartics2";
+import {Angulartics2GoogleTagManager} from "angulartics2/gtm";
+import {Angulartics2Facebook} from "angulartics2/facebook";
+import {Angulartics2GoogleAnalytics} from "angulartics2/ga";
 
 @NgModule({
     declarations: [
@@ -64,7 +67,7 @@ import { RegEmailNotificationComponent } from './components/auth/register/reg-em
         RegEmailNotificationComponent
     ],
     imports: [
-        FormsModule,   
+        FormsModule,
         HttpClientModule,
         SharedModule,
         BrowserModule,
@@ -74,7 +77,7 @@ import { RegEmailNotificationComponent } from './components/auth/register/reg-em
             apiKey: 'AIzaSyC7hZTZ41Qwx4XT70L8FaGico6H6w8buaU',
             libraries: ['places']
         }),
-        Angulartics2Module.forRoot([Angulartics2Facebook, Angulartics2GoogleTagManager]),
+        Angulartics2Module.forRoot([Angulartics2Facebook, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics]),
         AppRoutingModule
     ],
     providers: [
