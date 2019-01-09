@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ApproveCoordinate} from "../../../pages/app-content/model/app-content.model";
 import {NotifyService} from "../../../service/notify.service";
 import {GeoMapService} from "../../../service/geo-map.service";
-import {} from '@types/googlemaps';
+import {} from 'googlemaps';
 import {MapsAPILoader} from "@agm/core";
 
 @Component({

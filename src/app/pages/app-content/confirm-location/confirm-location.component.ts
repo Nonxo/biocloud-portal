@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {} from '@types/googlemaps';
+import {} from 'googlemaps';
 import {MapsAPILoader} from "@agm/core";
 import {AppContentService} from "../services/app-content.service";
 import {BsModalRef} from "ngx-bootstrap";
