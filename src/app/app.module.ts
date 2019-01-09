@@ -40,10 +40,11 @@ import { GestureConfig } from '@angular/material';
 import { ApproveCoordinatesComponent } from './components/auth/approve-coordinates/approve-coordinates.component';
 import {GeoMapService} from './service/geo-map.service';
 import { RegEmailNotificationComponent } from './components/auth/register/reg-email-notification/reg-email-notification.component';
-import {Angulartics2Module} from "angulartics2";
-import {Angulartics2GoogleTagManager} from "angulartics2/gtm";
-import {Angulartics2Facebook} from "angulartics2/facebook";
-import {Angulartics2GoogleAnalytics} from "angulartics2/ga";
+import {
+    Angulartics2Facebook, Angulartics2GoogleAnalytics, Angulartics2GoogleTagManager,
+    Angulartics2Module
+} from "angulartics2";
+
 
 @NgModule({
     declarations: [
