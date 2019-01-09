@@ -46,9 +46,16 @@
                     <small *hasAuthority="'GENERAL_ADMIN'" class="text-white" style="font-size: 0.6em"><span
                         (click)="editOrg(template)" class="cursor">EDIT</span></small>
                 </ng-container>
+
+
             </div>
 
             <div *ngIf="openDropdown" class="bg-light-grey pt-2 font-12">
+
+                <div class="px-3 pt-2 d-inline-flex position-relative">
+                    <input style="background: #ffffff0f; border: 1px solid #ffffff0f" class="form-control py-2" type="text" name="searchBox" (keyup)="show($event.target.value)" placeholder="Search company" />
+                    <mat-icon style="left: 82%; top:32%; color: #ffffff82 !important;"  class="position-absolute">search</mat-icon>
+                </div>
 
                 <ul class="list-unstyled px-3">
                     <!--<li class="media">-->
@@ -386,4 +393,5 @@
             </button>
         </div>
     </div>
+
 </ng-template>

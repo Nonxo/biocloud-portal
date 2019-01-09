@@ -234,3 +234,7 @@ button.btn.btn-trial-danger {
 .container-img-hover:hover .middle {
     opacity: 1;
 }
+
+input::placeholder {
+    color: #ffffff82 !important;
+}
