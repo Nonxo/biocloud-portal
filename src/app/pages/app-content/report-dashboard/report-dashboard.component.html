@@ -404,8 +404,8 @@
 
                 <!--<div class="col-md-12"><p>Report for {{selectedDate | date:'fullDate'}} as at {{reportDate | date:'shortTime'}}</p></div>-->
 
-                <div class="col-lg d-lg-flex align-items-center">
-                    <div class="col-lg">
+                <div class="col d-lg-flex align-items-center">
+                    <div class="col">
                         <mat-form-field>
                             <mat-select name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
                                 <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</mat-option>
@@ -415,7 +415,7 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="col-lg">
+                    <div class="col">
                         <mat-form-field>
                             <mat-select name="reportPeriod" [(ngModel)]="reportPeriod" (change)="filterReport()">
                                 <mat-option value="TODAY">TODAY</mat-option>
@@ -427,7 +427,7 @@
                     </div>
 
                     <ng-container>
-                        <div class="col-lg d-inline-flex">
+                        <div class="col d-inline-flex">
                             <mat-form-field *ngIf="reportPeriod == 'DATE_RANGE'">
                                 <input matInput [matDatepicker]="wrongLocStart" placeholder="Start date" [max]="dateObj" name="date" [(ngModel)]="selectedStartDate" (dateChange)="onDatePickerToggle()" (click)="wrongLocStart.open()" readonly>
                                 <mat-datepicker-toggle matSuffix [for]="wrongLocStart"></mat-datepicker-toggle>
@@ -436,7 +436,7 @@
                             <!--<mat-icon class="cursor date-style" (click)="wrongLocStart.open()">date_range</mat-icon>-->
                         </div>
 
-                        <div class="col-lg d-inline-flex">
+                        <div class="col d-inline-flex">
                             <mat-form-field *ngIf="reportPeriod == 'DATE_RANGE'">
                                 <input matInput [matDatepicker]="wrongLocEnd" placeholder="End date" [max]="dateObj" name="date" [(ngModel)]="selectedEndDate" (dateChange)="onDatePickerToggle()" (click)="wrongLocEnd.open()" readonly>
                                 <mat-datepicker-toggle matSuffix [for]="wrongLocEnd"></mat-datepicker-toggle>
@@ -448,7 +448,7 @@
 
                 </div>
 
-                <div class="col-lg col-md-12  text-left pt-lg-2 pl-lg-4 pl-4 pb-lg-0 pb-4 mb-lg-3">
+                <div class="col  text-left pt-lg-2 pl-lg-4 pl-4 pb-lg-0 pb-4 mb-lg-3">
                     <button mat-button class="primary-outline" (click)="openModal(downloadTemplate)" *ngIf="data.length > 0">Download</button>
                     <!--<mat-menu #downloadmenu="matMenu">-->
                     <!--<button mat-menu-item (click)="downloadPdf()">PDF</button>-->
