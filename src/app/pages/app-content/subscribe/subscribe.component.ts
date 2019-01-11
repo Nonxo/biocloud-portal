@@ -367,6 +367,12 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     }
 
     confirmPayment(template: TemplateRef<any>, fromDropdown: boolean) {
+        if(!this.checkedPlan) {return;}
+
+        if(!this.selectedPlan) {
+            this.gotoContactPage();
+            return;
+        }
 
         if(this.selectedPlan && !this.selectedPlan.maxAttendeeThreshold) {
             this.modalRef? this.modalRef.hide():'';

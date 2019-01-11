@@ -34,7 +34,7 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     @ViewChild("assignuserTemplate") public assignuserTemplate: TemplateRef<any>;
     userRole = this.ss.getSelectedOrgRole();
     aPojo: AttendeesPOJO = new AttendeesPOJO();
-    totalItems: number;
+    totalItems: number = 0;
     maxSize: number = 5;
     currentPage: number;
     rowsOnPage = 10;
@@ -73,7 +73,7 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
         this.mService.setDisplay(true);
         this.contentService.fetchOrgUsersLocation()
             .finally(() => {
-                this.fetchUsers()
+                this.fetchUsers();
             })
             .subscribe(
                 result => {
@@ -102,7 +102,7 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     }
 
     getRequestObj() {
-        if (!this.selectedLocId) {
+        if (!this.selectedLocId && this.userRole == 'GENERAL_ADMIN') {
             this.orgWideSearch = true;
             this.aPojo.locId = "";
             this.aPojo.orgId = this.userRole == 'GENERAL_ADMIN' ? this.orgId : "";
@@ -117,12 +117,24 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
         this.selAll = false;
         this.getRequestObj();
 
+        //Check to prevent fetching of employees when a location admin has no location assigned to them
+        if(this.orgWideSearch == false && !this.aPojo.locId) {
+            this.mService.setDisplay(false);
+            return;
+        }
+
         this.fetchAttendeesCount();
     }
 
     fetchInvitedUsers() {
         this.getRequestObj();
         this.aPojo.orgId = this.orgId;
+
+        //Check to prevent fetching of employees when a location admin has no location assigned to them
+        if(this.orgWideSearch == false && !this.aPojo.locId) {
+            this.mService.setDisplay(false);
+            return;
+        }
 
         this.callInvitedUsersCountService();
     }
