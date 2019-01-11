@@ -62,7 +62,7 @@ export class GoogleSignInComponent implements OnInit, AfterViewInit {
                                     this.ss.authToken = result.token;
                                     this.ss.loggedInUser = result.bioUser;
 
-                                    this.router.navigate(['/sign-up-as']);
+                                    this.router.navigate(['/wizard']);
                                 } else if(result.code == -9) {
                                     this.ss.authToken = result.token;
                                     this.ss.loggedInUser = result.bioUser;
