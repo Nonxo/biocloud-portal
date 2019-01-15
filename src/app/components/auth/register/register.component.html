@@ -13,12 +13,13 @@
                             <div class="col-xl col-lg-4 col-md-5 pr-0">
                                 <div class="form-group">
                                     <!-- <label>Email address</label> -->
-                                    <input type="email" class="form-control w-100" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" placeholder="you@emailprovider.com" formControlName="email" required>
+                                    <input type="email" class="form-control w-100" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" (keyup)="validateEmailAddress()" placeholder="you@emailprovider.com" formControlName="email" required>
+                                    <p class="small text-danger px-1 pt-1" *ngIf="emailError">{{emailError}}</p>
                                 </div>
                             </div>
 
                             <div class="col-xl-auto col-lg-2 col-md-2">
-                                <button mat-raised-button color="primary" class="rounded px-5" type="submit">
+                                <button mat-raised-button color="primary" class="rounded px-5" type="submit" [disabled]="emailError">
                                     <span *ngIf="!loading">Get Started</span>
                                     <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
                                 </button>
