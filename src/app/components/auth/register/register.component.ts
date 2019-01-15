@@ -350,9 +350,4 @@ export class RegisterComponent implements OnInit {
         }
     }
 
-    validateEmailAddress() {
-
-    }
-
-
 }
