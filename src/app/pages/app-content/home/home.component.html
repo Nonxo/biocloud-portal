@@ -9,7 +9,7 @@
                 <img class="img-fluid" src="assets/img/welcome.png" alt="">
                 <h6 class="text-center home-grey">We are pleased you joined the platform</h6>
                 <h6 class="text-center home-grey">To get started</h6>
-                <a href="#" (click)="addCompany()">
+                <a href="#" (click)="addCompany()" id="addCom">
                     <h5 class="pt-3 pb-3">ADD A COMPANY</h5>
                 </a>
             </div>
@@ -98,7 +98,7 @@
                         <ng-container *hasAuthority="['GENERAL_ADMIN','LOCATION_ADMIN']">
                             <h6 class="text-center home-grey">We are pleased you joined the platform</h6>
                             <h6 class="text-center home-grey">To get started</h6>
-                            <a routerLink="/portal/config">
+                            <a routerLink="/portal/config" id="addLoc">
                                 <h5 class="pt-3 pb-3">ADD A LOCATION</h5>
                             </a>
                         </ng-container>
@@ -107,7 +107,7 @@
                             <h6 class="text-center home-grey">We are pleased you joined the platform</h6>
                             <h6 class="text-center home-grey">Your clock in history in this company will appear here</h6>
                             <h6 class="text-center home-grey">Create your own Company instead</h6>
-                            <a href="#" (click)="addCompany()">
+                            <a href="#" (click)="addCompany()" id="addComp">
                                 <h5 class="pt-3 pb-3">ADD A COMPANY</h5>
                             </a>
                         </ng-container>

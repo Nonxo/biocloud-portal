@@ -37,6 +37,7 @@ export class RegisterComponent implements OnInit {
     searchField: string;
     nameError: string;
     phoneError: string;
+    emailError: string;
 
     @Input()
     step: number;
@@ -89,6 +90,17 @@ export class RegisterComponent implements OnInit {
                     this.form.get('phone').setValue(val.trim());
                 }
             })
+
+        this.form.get('email').valueChanges
+            .subscribe(
+                value => {
+                    if(/[^A-Za-z\-_.0-9@]/.test(value)) {
+                        this.emailError = "Only include characters a-z, 0-9, _, -, in your email address";
+                    } else {
+                        this.emailError = null;
+                    }
+                }
+            )
     }
 
     showDd() {
@@ -132,7 +144,9 @@ export class RegisterComponent implements OnInit {
     }
 
     verifyEmail() {
+        this.loading = true;
         this.authService.verifyEmail(this.form.get('email').value)
+            .finally(() => {this.loading = false;})
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -335,6 +349,5 @@ export class RegisterComponent implements OnInit {
             this.phoneError = "";
         }
     }
-
 
 }
