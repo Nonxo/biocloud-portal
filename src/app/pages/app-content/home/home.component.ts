@@ -237,12 +237,6 @@ export class HomeComponent implements OnInit, OnDestroy {
             .subscribe(
                 result => {
                     if (result.code == 0) {
-
-                        // if (this.assignRequestObj.newlocId) {
-                        //     this.assignUsers(false);
-                        // }
-
-                        // this.locations.forEach(loc => loc.deleted = loc.locId == locId);
                         this.callLocationService();
                         this.fetchTotalEmployeeCount();
 
@@ -336,15 +330,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     fetchTotalClockIns(){
         this.totalClockin = 0;
-      // this.contentService.totalClockInsDaily(this.orgId, this.startDate, this.endDate)
-      //   .subscribe(
-      //     result => {
-      //       if (result.code == 0) {
-      //         this.totalClockin = result.total;
-      //       }
-      //
-      //     },
-      //   )
         this.locations.forEach((obj) => {
             this.totalClockin = this.totalClockin + obj.noOfClockInForToday;
         })

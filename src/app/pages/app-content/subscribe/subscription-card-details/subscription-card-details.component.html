@@ -90,7 +90,7 @@
 
 <ng-template #addCardTemplate>
     <div class="modal-header" style="border-bottom: none">
-        <h5 class="modal-title text-brand mx-auto">Edit Card Details</h5>
+        <h5 class="modal-title text-brand mx-auto">{{cardDetails.length == 0? 'Add': 'Edit'}} Card Details</h5>
         <!-- <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button> -->

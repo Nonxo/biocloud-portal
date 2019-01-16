@@ -237,12 +237,12 @@
             </small>
         </mat-menu>
 
-        <button mat-icon-button class="pr-5" [matMenuTriggerFor]="menu">
+        <button mat-icon-button class="pr-5" id="options" [matMenuTriggerFor]="menu">
             <mat-icon class="example-icon">person</mat-icon>
         </button>
 
         <mat-menu #menu="matMenu" class="p-0">
-            <button mat-menu-item class="m-0" (click)="goToProfile()" style="height: auto;">
+            <button mat-menu-item class="m-0" id="profile" (click)="goToProfile()" style="height: auto;">
                 <div class="row align-items-center">
                     <div class="col-auto">
                         <img *ngIf="!userImage" src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon"
@@ -259,7 +259,7 @@
             <!-- <mat-divider></mat-divider>
             <button mat-menu-item routerLink="/portal/setting">Setting</button> -->
             <mat-divider></mat-divider>
-            <button (click)="logout()" mat-menu-item>Log Out</button>
+            <button (click)="logout()" mat-menu-item id="logout">Log Out</button>
         </mat-menu>
 
 
