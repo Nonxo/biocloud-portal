@@ -479,8 +479,8 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     }
 
     verifyPayment(txRef, autoRenew: boolean) {
-        var element = document.getElementById('paystack');
-        element.parentNode.removeChild(element);
+        // var element = document.getElementById('paystack');
+        // element.parentNode.removeChild(element);
         this.mService.setDisplay(true);
         this.subService.verifyPayment(new VerifyPaymentRequest(txRef, this.monthlyPlan ? 'MONTHLY' : 'ANNUAL', autoRenew, this.orgId, this.exchangeRate, "SUBSCRIPTION", this.vat, this.couponCode, this.couponDiscount))
             ._finally(() => {
