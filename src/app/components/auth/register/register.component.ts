@@ -95,7 +95,7 @@ export class RegisterComponent implements OnInit {
             .subscribe(
                 value => {
                     if(/[^A-Za-z\-_.0-9@]/.test(value)) {
-                        this.emailError = "Only include characters a-z, 0-9, _, -, in your email address";
+                        this.emailError = "Sorry, only letters (a-z), numbers (0-9) , periods ( . ) , underscores ( _ ) and hyphens ( - ) are allowed before the @ symbol";
                     } else {
                         this.emailError = null;
                     }

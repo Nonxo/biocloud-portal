@@ -101,4 +101,13 @@ export class MessageService {
         return this.createOrg.asObservable();
     }
 
+    loadScript(url, id) {
+        if(document.getElementById(id) == null) {
+            let node = document.createElement('script');
+            node.id = id;
+            node.src = url;
+            node.type = 'text/javascript';
+            document.getElementsByTagName('head')[0].appendChild(node);
+        }
+    }
 }

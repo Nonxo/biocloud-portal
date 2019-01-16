@@ -335,7 +335,7 @@ export class SubscribeComponent implements OnInit, OnDestroy {
             PBFPubKey: this.PUBKey,
             customer_email: this.userEmail,
             amount: this.amountToPay,
-            customer_phone: this.userEmail,
+            customer_phone: this.userPhoneNumber,
             currency: this.selectedCurrency,
             payment_method: "card",
             txref: this.transactionRef,
@@ -479,6 +479,8 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     }
 
     verifyPayment(txRef, autoRenew: boolean) {
+        // var element = document.getElementById('paystack');
+        // element.parentNode.removeChild(element);
         this.mService.setDisplay(true);
         this.subService.verifyPayment(new VerifyPaymentRequest(txRef, this.monthlyPlan ? 'MONTHLY' : 'ANNUAL', autoRenew, this.orgId, this.exchangeRate, "SUBSCRIPTION", this.vat, this.couponCode, this.couponDiscount))
             ._finally(() => {
@@ -552,38 +554,43 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     }
 
     payWithPaystack() {
-        let amount = Math.round(this.amountToPay * 100);
+        this.mService.loadScript('https://js.paystack.co/v1/inline.js', 'paystack');
 
-        const handler = window.PaystackPop.setup({
-            key: this.PUBKey,
-            email: this.userEmail,
-            amount: amount,
-            currency: this.selectedCurrency,
-            channels: ['card'],
-            ref: this.transactionRef, // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
-            firstname: '',
-            lastname: '',
-            // label: "Optional string that replaces customer email"
-            metadata: {
-                metaname: 'brcrypt', metavalue: this.cipher,
-                custom_fields: [
-                    {
-                        display_name: "Mobile Number",
-                        variable_name: "mobile_number",
-                        value: "+2348012345678"
+        setTimeout(() => {
+            let amount = Math.round(this.amountToPay * 100);
+
+            const handler = window.PaystackPop.setup({
+                key: this.PUBKey,
+                email: this.userEmail,
+                amount: amount,
+                currency: this.selectedCurrency,
+                channels: ['card'],
+                ref: this.transactionRef, // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+                firstname: '',
+                lastname: '',
+                // label: "Optional string that replaces customer email"
+                metadata: {
+                    metaname: 'brcrypt', metavalue: this.cipher,
+                    custom_fields: [
+                        {
+                            display_name: "Mobile Number",
+                            variable_name: "mobile_number",
+                            value: this.userPhoneNumber
+                        }
+                    ]
+                },
+                callback: (response) => {
+                    if (this.renewSub) {
+                        this.transactionRef != response.reference? this.verifyPayment(this.transactionRef, true): this.verifyPayment(response.reference, true);
+
+                    } else {
+                        this.verifyPayment(response.reference, false);
                     }
-                ]
-            },
-            callback: (response) => {
-                if (this.renewSub) {
-                    this.transactionRef != response.reference? this.verifyPayment(this.transactionRef, true): this.verifyPayment(response.reference, true);
-
-                } else {
-                    this.verifyPayment(response.reference, false);
                 }
-            }
-        });
-        handler.openIframe();
+            });
+            handler.openIframe();
+        }, 2000);
+
     }
 
     onTabChange(event) {
