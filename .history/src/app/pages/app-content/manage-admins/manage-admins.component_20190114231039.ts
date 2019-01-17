@@ -1,12 +1,12 @@
-import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
-import { StorageService } from "../../../service/storage.service";
-import { AppContentService } from "../services/app-content.service";
-import { NotifyService } from "../../../service/notify.service";
-import { BsModalRef, BsModalService } from "ngx-bootstrap/index";
-import { AssignAdminRequest, InviteRequest } from "../app-config/model/app-config.model";
-import { AppConfigService } from "../app-config/services/app-config.service";
-import { AdminRemovalRequest, UserPaginationPojo } from "../model/app-content.model";
-import { MessageService } from "../../../service/message.service";
+import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
+import {StorageService} from "../../../service/storage.service";
+import {AppContentService} from "../services/app-content.service";
+import {NotifyService} from "../../../service/notify.service";
+import {BsModalRef, BsModalService} from "ngx-bootstrap/index";
+import {AssignAdminRequest, InviteRequest} from "../app-config/model/app-config.model";
+import {AppConfigService} from "../app-config/services/app-config.service";
+import {AdminRemovalRequest, UserPaginationPojo} from "../model/app-content.model";
+import {MessageService} from "../../../service/message.service";
 
 @Component({
     selector: 'app-manage-admins',
@@ -35,20 +35,17 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
     loading: boolean;
 
     constructor(private ss: StorageService,
-        private contentService: AppContentService,
-        private ns: NotifyService,
-        private modalService: BsModalService,
-        private configService: AppConfigService,
-        private mService: MessageService) {
+                private contentService: AppContentService,
+                private ns: NotifyService,
+                private modalService: BsModalService,
+                private configService: AppConfigService,
+                private mService: MessageService) {
     }
 
     ngOnInit() {
         this.mService.setTitle("Admins");
 
-        this.currentPage = 1;
-
         this.fetchAdminUsersCount();
-
         this.callLocationService();
     }
 
@@ -61,7 +58,6 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.totalItems = result.total;
                         this.users = result.users ? result.users : [];
                         this.ss.setAdminUsers(this.users);
                     } else {
@@ -76,25 +72,25 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
 
 
     fetchAdminUsersCount() {
-        // this.mService.setDisplay(true);
-        // this.contentService.fetchUsersInAnOrgCount(this.ss.getSelectedOrg().orgId)
-        //     .subscribe(
-        //         result => {
-        //             if (result.code == 0) {
-        // this.totalItems = result.total;
-        this.fetchAdminUsers();
-        //         } else {
-        //             this.ns.showError(result.description);
-        //             this.totalItems = 0;
-        //             this.mService.setDisplay(false)
-        //         }
-        //     },
-        //     error => {
-        //         this.ns.showError("An Error Occurred.");
-        //         this.totalItems = 0;
-        //         this.mService.setDisplay(false)
-        //     }
-        // )
+        this.mService.setDisplay(true);
+        this.contentService.fetchUsersInAnOrgCount(this.ss.getSelectedOrg().orgId)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.totalItems = result.total;
+                        this.fetchAdminUsers();
+                    } else {
+                        this.ns.showError(result.description);
+                        this.totalItems = 0;
+                        this.mService.setDisplay(false)
+                    }
+                },
+                error => {
+                    this.ns.showError("An Error Occurred.");
+                    this.totalItems = 0;
+                    this.mService.setDisplay(false)
+                }
+            )
     }
 
     callLocationService() {
@@ -275,7 +271,7 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
                 result => {
                     let res: any = result;
                     if (res.code == 0) {
-                        this.modalRef ? this.modalRef.hide() : '';
+                        this.modalRef? this.modalRef.hide():'';
                         this.fetchAdminUsersCount();
                         this.ns.showSuccess(res.description);
                     } else {
@@ -347,18 +343,13 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
     }
 
     pageChanged(event) {
-        // i noticed that this event handler runs indefinitely 
-        // hence the reason why i have to introduce the if logic
-        if (event.page != this.currentPage) {
-            this.users = [];
-            this.pagObj.pageNo = event.page;
-            this.fetchAdminUsersCount();
-            this.currentPage = event.page;
-        }
+        this.users = [];
+        this.pagObj.pageNo = event.page;
+        this.fetchAdminUsersCount();
     }
 
     ngOnDestroy() {
-        this.modalRef ? this.modalRef.hide() : '';
+        this.modalRef? this.modalRef.hide():'';
     }
 
 }

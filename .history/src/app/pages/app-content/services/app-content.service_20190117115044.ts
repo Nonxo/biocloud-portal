@@ -131,7 +131,7 @@ export class AppContentService {
 
     fetchUsersInAnOrg(orgId: string, model: UserPaginationPojo): Observable<any> {
         const params = new HttpParams()
-            .set("pageNo", String((model.pageNo - 1) * model.pageSize))
+            .set("pageNo", String((model.pageNo - 1) * model.pageSize + 1))
             .set("pageSize", String(model.pageSize));
 
         return this.httpClient

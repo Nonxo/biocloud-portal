@@ -1,16 +1,16 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
-import { Endpoints } from "../../../util/endpoints";
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {Observable} from "rxjs/Observable";
+import {Endpoints} from "../../../util/endpoints";
 import {
     CreateOrgRequest, AssignUserRequest, ApproveRequest, AdminRemovalRequest, UpdateProfile,
     AttendeesPOJO, HistoryPojo, UserPaginationPojo, ApproveCoordinate
 } from "../model/app-content.model";
-import { StorageService } from "../../../service/storage.service";
-import { MediaType } from "../../../util/constants";
+import {StorageService} from "../../../service/storage.service";
+import {MediaType} from "../../../util/constants";
 import set = Reflect.set;
-import { timeout, map } from "rxjs/operators";
-import { AuthService } from "../../../components/auth/auth.service";
+import {timeout, map} from "rxjs/operators";
+import {AuthService} from "../../../components/auth/auth.service";
 
 @Injectable()
 export class AppContentService {
@@ -130,8 +130,10 @@ export class AppContentService {
     }
 
     fetchUsersInAnOrg(orgId: string, model: UserPaginationPojo): Observable<any> {
+        
+console.log(Endpoints.FETCH_USERS_IN_AN_ORG + orgId);
         const params = new HttpParams()
-            .set("pageNo", String((model.pageNo - 1) * model.pageSize))
+            .set("pageNo", String(model.pageNo))
             .set("pageSize", String(model.pageSize));
 
         return this.httpClient
@@ -444,14 +446,14 @@ export class AppContentService {
             )
     }
 
-    clockInsHistory(orgId: string, pageSize: number, pageNo: number, locations: any[]): Observable<any> {
+    clockInsHistory(orgId: string, pageSize: number, pageNo: number, locations:any[]): Observable<any> {
         let params = new HttpParams()
             .set('orgId', orgId)
             .set('pageSize', pageSize.toString())
             .set('pageNo', pageNo.toString());
 
-        if (locations.length > 0) {
-            for (let loc of locations) {
+        if(locations.length > 0) {
+            for(let loc of locations) {
                 params = params.append('locId', loc.locId);
             }
         }
@@ -658,14 +660,14 @@ export class AppContentService {
             .get(Endpoints.FETCH_EMPLOYEE_RANGE, {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
-            }).pipe(
-                timeout(50000),
-                map(response => {
-                    let res: any = response;
-                    this.as.checkUnauthorized(res.description);
-                    return res
-                })
-            )
+        }).pipe(
+            timeout(50000),
+            map(response => {
+                let res: any = response;
+                this.as.checkUnauthorized(res.description);
+                return res
+            })
+        )
     }
 
     approveCoordinates(model: ApproveCoordinate): Observable<any> {
