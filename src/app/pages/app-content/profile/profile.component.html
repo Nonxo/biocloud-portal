@@ -7,27 +7,32 @@
                 <div class="row">
                     <div class="col-lg-12 pb-lg-0 pb-2">
                         <button mat-icon-button (click)="openeditProfileModal(editProfile)" class="float-lg-right float-right">
-              <mat-icon class="float-right text-brand">edit</mat-icon>
-            </button>
+                            <mat-icon class="float-right text-brand">edit</mat-icon>
+                        </button>
 
                         <h4 class="pb-2 text-brand">Biodata</h4>
                     </div>
                     <div class="col-lg-6 pt-lg-5">
                         <!-- <h4>Biodata</h4> -->
                         <div class="container-img-hover mx-auto">
-                            <img class="w-100 rounded-circle h-120 mx-auto d-block pt-lg-0 pt-4 image-hover" *ngIf="model.img" src="data:image/jpg;base64,{{model.img}}" alt="Profile picture">
-                            <img class="w-100 rounded-circle h-120 mx-auto d-block pt-lg-0 pt-4 image-hover" *ngIf="model.img == null || model.img == ''" src="assets/img/1.png" alt="Profile picture">
+                            <img class="w-100 rounded-circle h-120 mx-auto d-block pt-lg-0 pt-4 image-hover" *ngIf="model.img"
+                                src="data:image/jpg;base64,{{model.img}}" alt="Profile picture">
+                            <img class="w-100 rounded-circle h-120 mx-auto d-block pt-lg-0 pt-4 image-hover" *ngIf="model.img == null || model.img == ''"
+                                src="assets/img/1.png" alt="Profile picture">
                             <div class="middle">
                                 <span class="fileUpload btn">
-                  <span><mat-icon class="float-left upload-icon">camera_enhance</mat-icon></span>
-                                <input type="file" class="upload" accept="image/*" #input (change)="fileChange($event)">
+                                    <span>
+                                        <mat-icon class="float-left upload-icon">camera_enhance</mat-icon>
+                                    </span>
+                                    <input type="file" class="upload" accept="image/*" #input (change)="fileChange($event)">
                                 </span>
                             </div>
                         </div>
 
                         <div class="pl-4 pt-3 col-lg-10 col-10 mx-auto d-block text-secondary cursor">
                             <!--<p class="float-left small cursor">SAVE PHOTO | </p>-->
-                            <p *ngIf="model.img" class="text-danger small cursor text-center" data-dismiss="fileinput" (click)="remove()">&nbsp; REMOVE</p>
+                            <p *ngIf="model.img" class="text-danger small cursor text-center" data-dismiss="fileinput"
+                                (click)="remove()">&nbsp; REMOVE</p>
                             <p class="text-success small text-center">*Not More than 100KB</p>
                             <p *ngIf="pictureSizeErrorMessage" class="text-danger">{{pictureSizeErrorMessage}}</p>
                             <div class="clearfix"></div>
@@ -44,7 +49,8 @@
                         </div>
                         <div class="pt-3">
                             <p>Phone Number</p>
-                            <h6>{{model.phone? (model.phoneCode?.charAt(0) == "+"? model.phoneCode: "+" + model.phoneCode):'' }} {{ model.phone}}</h6>
+                            <h6>{{model.phone? (model.phoneCode?.charAt(0) == "+"? model.phoneCode: "+" +
+                                model.phoneCode):'' }} {{ model.phone}}</h6>
                         </div>
                         <div class="pt-3">
                             <p>Residential Address</p>
@@ -97,8 +103,8 @@
                             <div>
                                 <div class="pb-lg-o pb-3">
                                     <button mat-icon-button (click)="openaboutProfileModal(aboutMe)" class="float-lg-right float-right">
-                    <mat-icon class="float-right text-brand">edit</mat-icon>
-                  </button>
+                                        <mat-icon class="float-right text-brand">edit</mat-icon>
+                                    </button>
                                     <h5 class="pb-2 text-brand">About me</h5>
                                 </div>
 
@@ -142,8 +148,8 @@
                     <small class="category">Basic Information</small>
                 </h4>
                 <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
 
             <div class="container py-5">
@@ -151,21 +157,36 @@
                     <div class="row">
                         <div class="col-md-6">
                             <mat-form-field class="input-field">
-                                <input matInput type="text" [(ngModel)]="tmpModel.fName" name="fname" placeholder="First Name" required>
+                                <input matInput type="text" #fName="ngModel" (keyup)="validateXters($event.target.value, 'fName')" [(ngModel)]="tmpModel.fName" name="fname"
+                                    placeholder="First Name" required maxlength="5">
                             </mat-form-field>
+                            <div style="font-size: 10px">(50 characters max)</div>
+                            <mat-error *ngIf="fNameIsInvalid">{{invalidInputErrorMsg}}</mat-error>
+                            <div *ngIf="fName.touched && fName.invalid">
+                                <mat-error *ngIf="fName.errors.required">First name is required.</mat-error>
+                                <mat-error *ngIf="fName.errors.maxlength">First name shouldn't exceed 50 characters.</mat-error>
+                            </div>
                         </div>
 
                         <div class="col-md-6">
                             <mat-form-field class="input-field">
-                                <input matInput type="text" [(ngModel)]="tmpModel.lName" name="lname" placeholder="Last Name" required>
+                                <input matInput type="text" #lName="ngModel" (keyup)="validateXters($event.target.value, 'lName')" [(ngModel)]="tmpModel.lName" name="lname"
+                                    placeholder="Last Name" required maxlength="5">
                             </mat-form-field>
+                            <div style="font-size: 10px; margin-top: 5px">(50 characters max)</div>
+                            <mat-error *ngIf="lNameIsInvalid">{{invalidInputErrorMsg}}</mat-error>
+                            <div *ngIf="lName.touched && lName.invalid">
+                                <mat-error *ngIf="lName.errors.required">Last name is required.</mat-error>
+                                <mat-error *ngIf="lName.errors.maxlength">Last name shouldn't exceed 50 characters.</mat-error>
+                            </div>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-12">
                             <mat-form-field class="input-field">
-                                <input matInput type="email" [(ngModel)]="tmpModel.email" name="email" placeholder="Email Address" [disabled]="true">
+                                <input matInput type="email" [(ngModel)]="tmpModel.email" name="email" placeholder="Email Address"
+                                    [disabled]="true">
                             </mat-form-field>
                         </div>
 
@@ -175,10 +196,13 @@
                                 <i *ngIf="selectedCountryCode" class="sprite {{selectedCountryCode.toLowerCase()}}"></i>
                             </div>
                             <mat-form-field class="w-100">
-                                <mat-select placeholder="" name="phoneCode" [(ngModel)]="tmpModel.phoneCode" (change)="searchInput.focus(); onSelectChange()" (openedChange)="openc($event)">
+                                <mat-select placeholder="" name="phoneCode" [(ngModel)]="tmpModel.phoneCode" (change)="searchInput.focus(); onSelectChange()"
+                                    (openedChange)="openc($event)">
 
                                     <mat-form-field class="input-field sticky-search" floatPlaceholder="never">
-                                        <input class="pl-2" (keydown)="$event.stopPropagation()" #searchInput matInput focused="'true'" [(ngModel)]="searchParam" name="searchParam" type="text" (keyup)="search($event.target.value)" autocomplete="off" placeholder="Search">
+                                        <input class="pl-2" (keydown)="$event.stopPropagation()" #searchInput matInput
+                                            focused="'true'" [(ngModel)]="searchParam" name="searchParam" type="text"
+                                            (keyup)="search($event.target.value)" autocomplete="off" placeholder="Search">
                                         <mat-icon matSuffix>search</mat-icon>
                                     </mat-form-field>
 
@@ -188,7 +212,8 @@
                                         <div><i class="sprite {{country.code.toLowerCase()}} d-inline-flex mr-2"></i>{{country.name}}</div>
                                     </mat-option>
 
-                                    <p *ngIf="filteredCountries.length == 0" class="text-center small text-muted">No result(s) found</p>
+                                    <p *ngIf="filteredCountries.length == 0" class="text-center small text-muted">No
+                                        result(s) found</p>
                                 </mat-select>
                             </mat-form-field>
                         </div>
@@ -199,7 +224,8 @@
 
                         <div class="col-md-6">
                             <mat-form-field class="input-field">
-                                <input matInput type="text" pattern="[0-9]{5,20}" (keyup)="onKeyUp()" [(ngModel)]="tmpModel.phone" name="phoneNumber" placeholder="Phone Number" required>
+                                <input matInput type="text" pattern="[0-9]{5,20}" (keyup)="onKeyUp()" [(ngModel)]="tmpModel.phone"
+                                    name="phoneNumber" placeholder="Phone Number" required>
                             </mat-form-field>
                         </div>
                     </div>
@@ -226,7 +252,8 @@
 
                     <div class="col-md-12 mt-3 text-center">
                         <button mat-raised-button class="px-4 primary-outline py-1" type="button" (click)="modalRef.hide()">CANCEL</button>
-                        <button mat-raised-button color="primary" class="px-4 primary-outline py-1 mr-2">SAVE <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/></button>
+                        <button mat-raised-button color="primary" class="px-4 primary-outline py-1 mr-2">SAVE <img
+                                *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;" /></button>
 
                     </div>
 
@@ -241,8 +268,8 @@
     <div class="modal-header">
         <h5 class="modal-title pull-left text-brand">About Me</h5>
         <button type="button" class="close pull-right" aria-label="Close" (click)="closeAboutMeModal()">
-      <span aria-hidden="true">&times;</span>
-    </button>
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <mat-card>
         <mat-form-field class="example-full-width">
@@ -251,7 +278,8 @@
 
         <div class="col-md-12 text-md-center text-center pt-5">
             <button mat-raised-button class="px-4 primary-outline py-1" type="button" (click)="closeAboutMeModal()">CANCEL</button>
-            <button mat-raised-button color="primary" class="px-4 primary-outline py-1 mr-2" (click)="onSubmit()">SAVE <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/></button>
+            <button mat-raised-button color="primary" class="px-4 primary-outline py-1 mr-2" (click)="onSubmit()">SAVE
+                <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;" /></button>
 
         </div>
     </mat-card>

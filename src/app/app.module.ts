@@ -5,7 +5,7 @@ import { WizardStepperComponent } from './components/wizard-stepper/wizard-stepp
 import {BrowserModule, HAMMER_GESTURE_CONFIG} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule, HttpClient} from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 import {AppComponent} from './app.component';
@@ -68,6 +68,7 @@ import {
         RegEmailNotificationComponent
     ],
     imports: [
+        ReactiveFormsModule,
         FormsModule,
         HttpClientModule,
         SharedModule,
