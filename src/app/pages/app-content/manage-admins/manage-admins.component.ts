@@ -1,12 +1,12 @@
-import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
-import { StorageService } from "../../../service/storage.service";
-import { AppContentService } from "../services/app-content.service";
-import { NotifyService } from "../../../service/notify.service";
-import { BsModalRef, BsModalService } from "ngx-bootstrap/index";
-import { AssignAdminRequest, InviteRequest } from "../app-config/model/app-config.model";
-import { AppConfigService } from "../app-config/services/app-config.service";
-import { AdminRemovalRequest, UserPaginationPojo } from "../model/app-content.model";
-import { MessageService } from "../../../service/message.service";
+import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
+import {StorageService} from "../../../service/storage.service";
+import {AppContentService} from "../services/app-content.service";
+import {NotifyService} from "../../../service/notify.service";
+import {BsModalRef, BsModalService} from "ngx-bootstrap/index";
+import {AssignAdminRequest, InviteRequest} from "../app-config/model/app-config.model";
+import {AppConfigService} from "../app-config/services/app-config.service";
+import {AdminRemovalRequest, UserPaginationPojo} from "../model/app-content.model";
+import {MessageService} from "../../../service/message.service";
 
 @Component({
     selector: 'app-manage-admins',
@@ -130,7 +130,7 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
         this.assignAdminRequest = new AssignAdminRequest();
 
         this.assignAdminRequest.role = this.selectedUser.role;
-        this.assignAdminRequest.locIds = this.selectedUser.locIds.length > 0 ? this.selectedUser.locIds : [];
+        this.assignAdminRequest.locIds = this.selectedUser.locIds? (this.selectedUser.locIds.length > 0 ? this.selectedUser.locIds : []): [];
         this.assignAdminRequest.email = this.selectedUser.email;
 
         this.openModal(template);
@@ -329,7 +329,7 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
     }
 
     pageChanged(event) {
-        // i noticed that this event handler runs indefinitely 
+        // i noticed that this event handler runs indefinitely
         // hence the reason why i have to introduce the if logic
         if (event.page != this.currentPage) {
             this.users = [];
