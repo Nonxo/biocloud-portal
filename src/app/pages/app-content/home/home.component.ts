@@ -177,7 +177,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     deleteLocation() {
         this.assignRequestObj.oldlocId = this.selectedLocId;
-        this.callDeteLocationService(this.selectedLocId);
+
+        if(this.assignRequestObj.newlocId) {
+            this.assignUsers(true);
+        } else {
+            this.callDeteLocationService(this.selectedLocId);
+        }
+
 
     }
 
@@ -198,7 +204,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.selectedLocId = locId;
         this.noOfAttendees = noOfAttendees;
 
-        this.openModal(this.deleteLocationConfirmation);  
+        this.openModal(this.deleteLocationConfirmation);
     }
 
     callActivateLocationService(active:boolean, locId:string) {
@@ -211,7 +217,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                         this.setStatus(active, locId);
 
                         if(!active && this.assignRequestObj.newlocId) {
-                            this.assignUsers();
+                            this.assignUsers(false);
                         }
 
                         this.ns.showSuccess(result.description);
@@ -231,12 +237,8 @@ export class HomeComponent implements OnInit, OnDestroy {
             .subscribe(
                 result => {
                     if (result.code == 0) {
-
-                        if (this.assignRequestObj.newlocId) {
-                            this.assignUsers();
-                        }
-
-                        this.locations.forEach(loc => loc.deleted = loc.locId == locId);
+                        this.callLocationService();
+                        this.fetchTotalEmployeeCount();
 
                         this.ns.showSuccess(result.description);
                     } else {
@@ -247,13 +249,19 @@ export class HomeComponent implements OnInit, OnDestroy {
             )
     }
 
-    assignUsers() {
+    assignUsers(deleted: boolean) {
         this.contentService.assignLocusers(this.assignRequestObj)
             .subscribe(
                 result => {
                     if(result.code == 0) {
                         this.ns.showSuccess(result.description);
-                        this.callLocationService();
+
+                        if(deleted) {
+                            this.callDeteLocationService(this.selectedLocId);
+                        } else {
+                            this.callLocationService();
+                        }
+
                     } else {
                         this.ns.showError(result.description);
                     }
@@ -322,15 +330,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     fetchTotalClockIns(){
         this.totalClockin = 0;
-      // this.contentService.totalClockInsDaily(this.orgId, this.startDate, this.endDate)
-      //   .subscribe(
-      //     result => {
-      //       if (result.code == 0) {
-      //         this.totalClockin = result.total;
-      //       }
-      //
-      //     },
-      //   )
         this.locations.forEach((obj) => {
             this.totalClockin = this.totalClockin + obj.noOfClockInForToday;
         })

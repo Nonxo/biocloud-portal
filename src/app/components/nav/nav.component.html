@@ -46,9 +46,16 @@
                     <small *hasAuthority="'GENERAL_ADMIN'" class="text-white" style="font-size: 0.6em"><span
                         (click)="editOrg(template)" class="cursor">EDIT</span></small>
                 </ng-container>
+
+
             </div>
 
             <div *ngIf="openDropdown" class="bg-light-grey pt-2 font-12">
+
+                <div class="px-3 pt-2 d-inline-flex position-relative">
+                    <input style="background: #f3e1e10f; background: transparent; border: 1px solid #ffffff0f; color: #fff !important;" class="form-control py-2" type="text" name="searchBox" (keyup)="show($event.target.value)" placeholder="Search company" />
+                    <mat-icon style="left: 82%; top:32%; color: #ffffff82 !important; color: #fff"  class="position-absolute">search</mat-icon>
+                </div>
 
                 <ul class="list-unstyled px-3">
                     <!--<li class="media">-->
@@ -230,12 +237,12 @@
             </small>
         </mat-menu>
 
-        <button mat-icon-button class="pr-5" [matMenuTriggerFor]="menu">
+        <button mat-icon-button class="pr-5" id="options" [matMenuTriggerFor]="menu">
             <mat-icon class="example-icon">person</mat-icon>
         </button>
 
         <mat-menu #menu="matMenu" class="p-0">
-            <button mat-menu-item class="m-0" (click)="goToProfile()" style="height: auto;">
+            <button mat-menu-item class="m-0" id="profile" (click)="goToProfile()" style="height: auto;">
                 <div class="row align-items-center">
                     <div class="col-auto">
                         <img *ngIf="!userImage" src=" assets/img/1.png" class="img-fluid rounded-circle logo-icon"
@@ -252,7 +259,7 @@
             <!-- <mat-divider></mat-divider>
             <button mat-menu-item routerLink="/portal/setting">Setting</button> -->
             <mat-divider></mat-divider>
-            <button (click)="logout()" mat-menu-item>Log Out</button>
+            <button (click)="logout()" mat-menu-item id="logout">Log Out</button>
         </mat-menu>
 
 
@@ -386,4 +393,5 @@
             </button>
         </div>
     </div>
+
 </ng-template>

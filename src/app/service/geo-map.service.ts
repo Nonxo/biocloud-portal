@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
-import {} from '@types/googlemaps';
+import {} from 'googlemaps';
 /**
  * Created by Kingsley Ezeokeke on 2/14/2018.
  */

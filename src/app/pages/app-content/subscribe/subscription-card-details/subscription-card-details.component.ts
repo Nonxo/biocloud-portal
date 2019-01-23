@@ -139,32 +139,37 @@ export class SubscriptionCardDetailsComponent implements OnInit {
     }
 
     payWithPaystack() {
-        let amount = Math.round(this.getPrice() * 100);
+        this.mService.loadScript('https://js.paystack.co/v1/inline.js', 'paystack');
 
-        let handler = PaystackPop.setup({
-            key: this.PUBKey,
-            email: this.userEmail,
-            amount: amount,
-            currency: this.selectedCurrency,
-            ref: this.transactionRef , // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
-            firstname: '',
-            lastname: '',
-            // label: "Optional string that replaces customer email"
-            metadata: {
-                metaname: 'brcrypt', metavalue: this.cipher,
-                custom_fields: [
-                    {
-                        display_name: "Mobile Number",
-                        variable_name: "mobile_number",
-                        value: "+2348012345678"
-                    }
-                ]
-            },
-            callback: (response) => {
+        setTimeout(() => {
+            let amount = Math.round(this.getPrice() * 100);
+
+            let handler = PaystackPop.setup({
+                key: this.PUBKey,
+                email: this.userEmail,
+                amount: amount,
+                currency: this.selectedCurrency,
+                ref: this.transactionRef , // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+                firstname: '',
+                lastname: '',
+                // label: "Optional string that replaces customer email"
+                metadata: {
+                    metaname: 'brcrypt', metavalue: this.cipher,
+                    custom_fields: [
+                        {
+                            display_name: "Mobile Number",
+                            variable_name: "mobile_number",
+                            value: "+2348012345678"
+                        }
+                    ]
+                },
+                callback: (response) => {
                     this.verifyPayment(response.reference, true);
-            }
-        });
-        handler.openIframe();
+                }
+            });
+            handler.openIframe();
+        },2000);
+
     }
 
     callRave() {
@@ -199,6 +204,9 @@ export class SubscriptionCardDetailsComponent implements OnInit {
     }
 
     verifyPayment(txRef, autoRenew: boolean) {
+        // var element = document.getElementById('paystack');
+        // element.parentNode.removeChild(element);
+
         this.mService.setDisplay(true);
         this.subService.verifyPayment(new VerifyPaymentRequest(txRef, null, autoRenew, this.orgId, null, "ADD_CARD",0, null, 0))
             .finally(() => {
