@@ -76,25 +76,7 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
 
 
     fetchAdminUsersCount() {
-        // this.mService.setDisplay(true);
-        // this.contentService.fetchUsersInAnOrgCount(this.ss.getSelectedOrg().orgId)
-        //     .subscribe(
-        //         result => {
-        //             if (result.code == 0) {
-        // this.totalItems = result.total;
         this.fetchAdminUsers();
-        //         } else {
-        //             this.ns.showError(result.description);
-        //             this.totalItems = 0;
-        //             this.mService.setDisplay(false)
-        //         }
-        //     },
-        //     error => {
-        //         this.ns.showError("An Error Occurred.");
-        //         this.totalItems = 0;
-        //         this.mService.setDisplay(false)
-        //     }
-        // )
     }
 
     callLocationService() {
