@@ -72,7 +72,7 @@
                                 <p class="cursor text-brand" (click)="gotoOverview(d.email)">{{d.firstName }} {{ d.lastName}}</p>
                             </td>
                             <td>{{d.email}}</td>
-                            <td>{{d.phoneCode? d.phoneCode: "" }} {{ d.phone}}</td>
+                            <td><ng-container *ngIf="d.phone">{{d.phoneCode? (d.phoneCode.charAt(0) == "+"? d.phoneCode: "+" + d.phoneCode): "+234" }} {{ d.phone}}</ng-container></td>
                             <!--<td>{{d.status? 'Active':'Inactive'}}</td>-->
                         </tr>
 
@@ -177,7 +177,7 @@
                                 <p class="cursor text-brand" (click)="gotoOverview(d.email)">{{d.firstName }} {{ d.lastName}}</p>
                             </td>
                             <td>{{d.email}}</td>
-                            <td>{{d.phoneCode? d.phoneCode: "" }} {{ d.phone}}</td>
+                            <td><ng-container *ngIf="d.phone">{{d.phoneCode? (d.phoneCode.charAt(0) == "+"? d.phoneCode: "+" + d.phoneCode): "+234" }} {{ d.phone}}</ng-container></td>
                         </tr>
 
                     </tbody>

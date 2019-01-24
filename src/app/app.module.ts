@@ -1,3 +1,4 @@
+import { CreateLocationComponent } from './pages/app-content/app-config/setup/onboarding/create-location/create-location.component';
 import { MessageService } from './service/message.service';
 import { BsModalRef } from 'ngx-bootstrap';
 import { AppConfigService } from './pages/app-content/app-config/services/app-config.service';
@@ -5,7 +6,7 @@ import { WizardStepperComponent } from './components/wizard-stepper/wizard-stepp
 import {BrowserModule, HAMMER_GESTURE_CONFIG} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule, HttpClient} from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 import {AppComponent} from './app.component';
@@ -62,12 +63,14 @@ import {
         GoogleSignInComponent,
         ApproveCoordinatesComponent,
         RegEmailNotificationComponent,
+        CreateLocationComponent,
         // CreatePasswordComponent,
         // PersonalDetailsComponent,
         WizardStepperComponent,
         RegEmailNotificationComponent
     ],
     imports: [
+        ReactiveFormsModule,
         FormsModule,
         HttpClientModule,
         SharedModule,

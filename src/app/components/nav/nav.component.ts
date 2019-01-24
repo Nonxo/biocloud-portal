@@ -45,6 +45,12 @@ export class NavComponent implements OnInit, OnDestroy {
             authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']
         },
         {
+            icon: "file_copy",
+            route: "Schedules",
+            url: "/portal/manage-schedule",
+            authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']
+        },
+        {
             icon: "payment",
             route: "Subscribe",
             url: "/portal/subscribe",

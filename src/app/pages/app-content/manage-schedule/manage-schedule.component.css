@@ -1,0 +1,30 @@
+.activateShiftBtn {
+    background: #DA4167;
+    color: #fff !important;
+}
+
+.deleteShiftBtn {
+    background: #D2D9E3;
+}
+
+.addShift {
+    color: #6B9B20
+}
+
+.workDaysDiv {
+    background: #F8FBFC;
+}
+
+.px-custom {
+    padding-left: 2.10rem!important;
+    padding-right: 2.10rem!important;
+}
+
+.border-right {
+    border-right: 1px solid #e8dcdc;
+}
+
+.days-active {
+    background: #E7E7E7;
+    color: #603484;
+}
