@@ -30,9 +30,9 @@
 
                 <div class="col-xl-4 col-md-6 d-xl-block text-center">
                     <ng-container *ngIf="isChecked()">
-                        <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')" class="primary-outline">Reassign
+                        <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')" class="primary-outline" id="reassign">Reassign
                         </button>
-                        <button mat-button class="primary-outline" (click)="groupActions('DE_ACTIVATE')">Deactivate
+                        <button mat-button class="primary-outline" (click)="groupActions('DE_ACTIVATE')" id="deactivate">Deactivate
                         </button>
                     </ng-container>
                 </div>
@@ -40,7 +40,7 @@
                 <div class="col-xl-4 col-md-6 d-flex align-items-center pt-xl-0 pt-3 my-auto">
                     <!-- <div class="ml-md-auto mr-auto"> -->
                     <div class="ml-md-auto">
-                        <a class="text-right" role="button" (click)="openInviteModal()">
+                        <a class="text-right" role="button" (click)="openInviteModal()" id="invite">
                             <p class="cursor text-brand">INVITE NEW EMPLOYEE</p>
                         </a>
                     </div>
@@ -72,7 +72,7 @@
                                 <p class="cursor text-brand" (click)="gotoOverview(d.email)">{{d.firstName }} {{ d.lastName}}</p>
                             </td>
                             <td>{{d.email}}</td>
-                            <td>{{d.phoneCode? d.phoneCode: "" }} {{ d.phone}}</td>
+                            <td><ng-container *ngIf="d.phone">{{d.phoneCode? (d.phoneCode.charAt(0) == "+"? d.phoneCode: "+" + d.phoneCode): "+234" }} {{ d.phone}}</ng-container></td>
                             <!--<td>{{d.status? 'Active':'Inactive'}}</td>-->
                         </tr>
 
@@ -136,15 +136,15 @@
 
                 <div class="col-lg-4 col-12 text-md-center text-left">
                     <ng-container *ngIf="isChecked()">
-                        <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')" class="primary-outline">Reassign
+                        <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')" class="primary-outline" id="re-assign">Reassign
                         </button>
-                        <button mat-button class="primary-outline" (click)="groupActions('ACTIVATE')">Activate</button>
+                        <button mat-button class="primary-outline" (click)="groupActions('ACTIVATE')" id="activate">Activate</button>
                     </ng-container>
                 </div>
 
                 <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
                     <div class="ml-md-auto mr-auto">
-                        <a class="text-right" role="button" (click)="openInviteModal()">
+                        <a class="text-right" role="button" (click)="openInviteModal()" id="invite">
                             <p class="cursor text-brand">INVITE NEW EMPLOYEE</p>
                         </a>
                     </div>
@@ -177,7 +177,7 @@
                                 <p class="cursor text-brand" (click)="gotoOverview(d.email)">{{d.firstName }} {{ d.lastName}}</p>
                             </td>
                             <td>{{d.email}}</td>
-                            <td>{{d.phoneCode? d.phoneCode: "" }} {{ d.phone}}</td>
+                            <td><ng-container *ngIf="d.phone">{{d.phoneCode? (d.phoneCode.charAt(0) == "+"? d.phoneCode: "+" + d.phoneCode): "+234" }} {{ d.phone}}</ng-container></td>
                         </tr>
 
                     </tbody>
@@ -240,15 +240,15 @@
 
                 <div class="col-lg-4 col-12 text-md-center text-left">
                     <ng-container *ngIf="isChecked()">
-                        <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')" class="primary-outline">Reassign
+                        <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')" class="primary-outline" id="reAssign">Reassign
                         </button>
-                        <button mat-button class="primary-outline" (click)="groupActions('ACTIVATE')">Activate</button>
+                        <button mat-button class="primary-outline" (click)="groupActions('ACTIVATE')" id="active">Activate</button>
                     </ng-container>
                 </div>
 
                 <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
                     <div class="ml-md-auto mr-auto">
-                        <a class="text-right" role="button" (click)="openInviteModal()">
+                        <a class="text-right" role="button" (click)="openInviteModal()" id="invite">
                             <p class="cursor text-brand">INVITE NEW EMPLOYEE</p>
                         </a>
                     </div>
@@ -332,8 +332,8 @@
         </div>
 
         <div class="col-md-12 text-right">
-            <button mat-raised-button color="danger" type="button" (click)="modalRef.hide()">CANCEL</button>
-            <button mat-raised-button color="primary" type="button" (click)="activateDeactivateUser()">
+            <button mat-raised-button color="danger" type="button" (click)="modalRef.hide()" id="cancel">CANCEL</button>
+            <button mat-raised-button color="primary" type="button" (click)="activateDeactivateUser()" id="confirm">
                 OK
                 <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
             </button>
@@ -371,8 +371,8 @@
 
             <div class="col-md-12 text-right">
 
-                <button mat-raised-button color="danger" type="button" (click)="modalRef.hide()">CANCEL</button>
-                <button mat-raised-button color="primary" type="button" (click)="assignUser()">
+                <button mat-raised-button color="danger" type="button" (click)="modalRef.hide()" id="cancelReassign">CANCEL</button>
+                <button mat-raised-button color="primary" type="button" (click)="assignUser()" id="confirmReassign">
                     Reassign
                     <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
                 </button>

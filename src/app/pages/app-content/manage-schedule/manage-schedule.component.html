@@ -1,0 +1,284 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-5 my-auto pl-0">
+                    <div class="px-3 w-100 pt-2 d-inline-flex position-relative">
+                        <input style="background: #EEEEEE; border: 1px solid #e2e2e2; color: #fff !important;" class="form-control py-2" type="text" name="searchBox" (keyup)="show($event.target.value)" placeholder="Search company" />
+                        <mat-icon style="left: 82%; top:32%; color: #969DA4 !important" class="position-absolute">search</mat-icon>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="font-weight-normal text-secondary" for="shiftLocation"></label>
+                        <select class="form-control" id="shiftLocation" name="shiftLocation">
+                                                  <option value="All Location">All Locations</option>
+                                              </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="font-weight-normal text-secondary" for="publishStatus"></label>
+                        <select class="form-control" id="publishStatus" name="publishStatus">
+                                                  <option value="Published">Published</option>
+                                              </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div *ngIf="isCreateNewShift" class="text-right">
+                <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1" (click)="openModal(createNewShift)">Create new shift</button>
+            </div>
+
+            <div *ngIf="isChecked" class="text-right">
+                <button type="submit" mat-raised-button class="mt-4 px-4 py-1 deleteShiftBtn mr-2">Delete shifts</button>
+                <button type="submit" mat-raised-button class="mt-4 px-4 py-1 activateShiftBtn">Activate shifts</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        <mat-checkbox (click)=chkShift() name="selAll"></mat-checkbox>
+                    </th>
+                    <th scope="col">SHIFT NAME</th>
+                    <th scope="col">LOCATION</th>
+                    <th scope="col">NO. OF EMPLOYEES</th>
+                    <th scope="col">DATE STARTED</th>
+                    <th scope="col">DATE ENDING</th>
+                    <th scope="col">STATUS</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                        <mat-checkbox></mat-checkbox>
+                    </th>
+                    <td>Customer support morning shift</td>
+                    <td>Seamfix Headquaters</td>
+                    <td>100 Employees</td>
+                    <td>12 December, 2018</td>
+                    <td>Forever</td>
+                    <td><span class="text-success">Active</span></td>
+                    <td>
+                        <mat-icon [matMenuTriggerFor]="moreOption" class="cursor">more_vert</mat-icon>
+
+                        <mat-menu #moreOption="matMenu">
+                            <button mat-menu-item>
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Edit</span>
+                                  </button>
+                            <button mat-menu-item>
+                                    <mat-icon>people</mat-icon>
+                                    <span>Invite Employee</span>
+                                  </button>
+                            <button mat-menu-item>
+                                          <mat-icon>exit_to_app</mat-icon>
+                                          <span>Deactivate</span>
+                                        </button>
+                            <button mat-menu-item>
+                                              <mat-icon>delete</mat-icon>
+                                              <span>Delete</span>
+                                            </button>
+                        </mat-menu>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        <mat-checkbox></mat-checkbox>
+                    </th>
+                    <td>Customer support morning shift</td>
+                    <td>Seamfix Headquaters</td>
+                    <td>100 Employees</td>
+                    <td>12 December, 2018</td>
+                    <td>Forever</td>
+                    <td><span class="text-danger">Inactive</span></td>
+                    <td>
+                        <mat-icon class="cursor">more_vert</mat-icon>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        <mat-checkbox></mat-checkbox>
+                    </th>
+                    <td>Customer support morning shift</td>
+                    <td>Seamfix Headquaters</td>
+                    <td>100 Employees</td>
+                    <td>12 December, 2018</td>
+                    <td>Forever</td>
+                    <td><span class="text-danger">Inactive</span></td>
+                    <td>
+                        <mat-icon class="cursor">more_vert</mat-icon>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        <mat-checkbox></mat-checkbox>
+                    </th>
+                    <td>Customer support morning shift</td>
+                    <td>Seamfix Headquaters</td>
+                    <td>100 Employees</td>
+                    <td>12 December, 2018</td>
+                    <td>Forever</td>
+                    <td><span class="text-danger">Inactive</span></td>
+                    <td>
+                        <mat-icon class="cursor">more_vert</mat-icon>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        <mat-checkbox></mat-checkbox>
+                    </th>
+                    <td>Customer support morning shift</td>
+                    <td>Seamfix Headquaters</td>
+                    <td>100 Employees</td>
+                    <td>12 December, 2018</td>
+                    <td>Forever</td>
+                    <td><span class="text-success">Active</span></td>
+                    <td>
+                        <mat-icon class="cursor">more_vert</mat-icon>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        <mat-checkbox></mat-checkbox>
+                    </th>
+                    <td>Customer support morning shift</td>
+                    <td>Seamfix Headquaters</td>
+                    <td>100 Employees</td>
+                    <td>12 December, 2018</td>
+                    <td>Forever</td>
+                    <td><span class="text-success">Active</span></td>
+                    <td>
+                        <mat-icon class="cursor">more_vert</mat-icon>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        <mat-checkbox></mat-checkbox>
+                    </th>
+                    <td>Customer support morning shift</td>
+                    <td>Seamfix Headquaters</td>
+                    <td>100 Employees</td>
+                    <td>12 December, 2018</td>
+                    <td>Forever</td>
+                    <td><span class="text-success">Active</span></td>
+                    <td>
+                        <mat-icon class="cursor">more_vert</mat-icon>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<ng-template #createNewShift>
+    <div class="modal-body">
+        <div class="container px-5">
+            <div class="row">
+                <div class="col-md-12">
+                    <h5 class="text-brand pt-2 pb-4 text-center">New shift</h5>
+                    <div>
+                        <div class="form-group">
+                            <label class="small font-weight-bold">Shift Name</label>
+                            <input type="text" class="form-control w-100" placeholder="Name your shift" name="shiftName" required>
+                        </div>
+
+                        <div class="row pt-2">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="font-weight-normal text-secondary" for="clockiInTime">Clock-in time</label>
+                                    <select class="form-control" id="clockiInTime" name="clockIn">
+                                                          <option value="defaultClockIn">(HH:MM AM/PM)</option>
+                                                      </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="font-weight-normal text-secondary" for="clockiOutTime">Clock-out time</label>
+                                    <select class="form-control" id="clockiOutTime" name="clockIn">
+                                                          <option value="defaultClockOut">(HH:MM AM/PM)</option>
+                                                      </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="font-weight-normal text-secondary" for="gracePeriod">Grace period</label>
+                                    <select class="form-control" id="gracePeriod" name="gracePeriod">
+                                                                  <option value="gracePeriod">10 minutes</option>
+                                                              </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row pt-4">
+                            <div class="col-md-12">
+                                <p class="small font-weight-bold">Work days</p>
+
+                                <div class="workDaysDiv d-inline-flex">
+                                    <div class="px-custom border-right py-3 cursor">Mon</div>
+                                    <div class="px-custom border-right py-3 cursor">Tue</div>
+                                    <div class="px-custom border-right days-active py-3 cursor">Wed</div>
+                                    <div class="px-custom border-right py-3 cursor">Thu</div>
+                                    <div class="px-custom border-right py-3 cursor">Fri</div>
+                                    <div class="px-custom border-right py-3 cursor">Sat</div>
+                                    <div class="px-custom py-3">Sun</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group pt-4">
+                            <label class="font-weight-bold small" for="location">Location</label>
+                            <select class="form-control" id="location" name="location">
+                                    <option value="SelectTimezone">Search/select location</option>
+                                </select>
+                        </div>
+
+                        <div class="form-group pt-4">
+                            <label class="font-weight-bold small">Add employees to shift name</label>
+                            <input type="text" class="form-control w-100" placeholder="Enter employee email address" name="addEmployeeToShiftName" required>
+                            <p class="small text-primary float-left">Bulk upload email</p>
+                            <p class="small text-success float-right">Separate multiple enteries by comma ","</p>
+                            <div class="clear"></div>
+                        </div>
+
+                        <div class="row py-4">
+                            <div class="col-md-12">
+
+
+                                <div class="row">
+                                    <div class="col-md-6 text-left">
+                                        <!-- <button type="submit" mat-raised-button class="mt-4 px-4 py-1 back-Btn" (click)=previousStep()>Back</button> -->
+                                    </div>
+
+                                    <div class="col-md-6 text-right">
+                                        <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1">Create Shift<img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/></button>
+                                        <button type="submit" mat-raised-button class="mt-4 px-4 py-1 text-brand" (click)="modalRef.hide()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

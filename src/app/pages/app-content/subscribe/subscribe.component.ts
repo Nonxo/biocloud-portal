@@ -479,8 +479,8 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     }
 
     verifyPayment(txRef, autoRenew: boolean) {
-        // var element = document.getElementById('paystack');
-        // element.parentNode.removeChild(element);
+        var element = document.getElementById('paystack');
+        element.parentNode.removeChild(element);
         this.mService.setDisplay(true);
         this.subService.verifyPayment(new VerifyPaymentRequest(txRef, this.monthlyPlan ? 'MONTHLY' : 'ANNUAL', autoRenew, this.orgId, this.exchangeRate, "SUBSCRIPTION", this.vat, this.couponCode, this.couponDiscount))
             ._finally(() => {
@@ -555,8 +555,10 @@ export class SubscribeComponent implements OnInit, OnDestroy {
 
     payWithPaystack() {
         this.mService.loadScript('https://js.paystack.co/v1/inline.js', 'paystack');
+        this.mService.setDisplay(true);
 
         setTimeout(() => {
+            this.mService.setDisplay(false);
             let amount = Math.round(this.amountToPay * 100);
 
             const handler = window.PaystackPop.setup({

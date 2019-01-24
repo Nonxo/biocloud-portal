@@ -45,6 +45,12 @@ export class NavComponent implements OnInit, OnDestroy {
             authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']
         },
         {
+            icon: "file_copy",
+            route: "Schedules",
+            url: "/portal/manage-schedule",
+            authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']
+        },
+        {
             icon: "payment",
             route: "Subscribe",
             url: "/portal/subscribe",
@@ -53,9 +59,9 @@ export class NavComponent implements OnInit, OnDestroy {
     ];
 
     reportDropdowns = [
-        {subName: 'Quick Report', route: '/portal/quick-report'},
-        {subName: 'Summary Report', route: '/portal/report-dashboard'},
-        {subName: 'Performance Dashboard', route: '/portal/analytics'}
+        {subName: 'Quick Report', id: 'quickReport', route: '/portal/quick-report'},
+        {subName: 'Summary Report', id: 'summaryReport', route: '/portal/report-dashboard'},
+        {subName: 'Performance Dashboard', id: 'performanceDashboard', route: '/portal/analytics'}
     ];
 
     orgTypes: string[] = ["SCHOOL", "SECURITY", "HOSPITAL"];
