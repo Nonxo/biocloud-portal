@@ -1,12 +1,16 @@
-import {Component, OnInit, TemplateRef, HostListener, ViewChild, OnDestroy} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
-import {BsModalService, BsModalRef, ModalOptions} from "ngx-bootstrap/index";
+import {BsModalRef, BsModalService, ModalOptions} from "ngx-bootstrap/index";
 import {StorageService} from "../../service/storage.service";
 import {AppContentService} from "../../pages/app-content/services/app-content.service";
 import {NotifyService} from "../../service/notify.service";
 import {
-    CreateOrgRequest, Org, AdminRemovalRequest, Invitation,
-    ApproveRequest, UpdateProfile
+    AdminRemovalRequest,
+    ApproveRequest,
+    CreateOrgRequest,
+    Invitation,
+    Org,
+    UpdateProfile
 } from "../../pages/app-content/model/app-content.model";
 import {MessageService} from "../../service/message.service";
 import {InviteRequest} from "../../pages/app-content/app-config/model/app-config.model";
@@ -18,6 +22,7 @@ import {SubscriptionService} from "../../pages/app-content/services/subscription
 import {DateUtil} from "../../util/DateUtil";
 import {SubscriptionMode} from "../../pages/app-content/enums/enums";
 import {ConfirmLocationComponent} from "../../pages/app-content/confirm-location/confirm-location.component";
+
 declare const gapi: any;
 
 @Component({
@@ -44,12 +49,12 @@ export class NavComponent implements OnInit, OnDestroy {
             url: "/portal/manage-users",
             authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']
         },
-        {
-            icon: "file_copy",
-            route: "Schedules",
-            url: "/portal/manage-schedule",
-            authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']
-        },
+        // {
+        //     icon: "file_copy",
+        //     route: "Schedules",
+        //     url: "/portal/manage-schedule",
+        //     authority: ['GENERAL_ADMIN', 'LOCATION_ADMIN']
+        // },
         {
             icon: "payment",
             route: "Subscribe",
