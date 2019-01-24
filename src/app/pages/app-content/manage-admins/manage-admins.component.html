@@ -16,7 +16,7 @@
 
         <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
             <div class="ml-md-auto mr-auto">
-                <a class="text-right cursor" role="button" (click)="inviteAdminModal(inviteAdminTemplate)">
+                <a class="text-right cursor" role="button" (click)="inviteAdminModal(inviteAdminTemplate)" id="invite">
                     <p class="text-brand">INVITE NEW ADMIN</p>
                 </a>
             </div>
@@ -26,7 +26,7 @@
 
 <div class="container-fluid">
     <div class="table-responsive">
-        <table class="table table-striped" [mfData]="users" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
+        <table class="table table-striped" id="adminTable" [mfData]="users" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
             <thead>
                 <tr>
                     <th scope="col">

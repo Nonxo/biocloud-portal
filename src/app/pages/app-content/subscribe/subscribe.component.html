@@ -76,7 +76,7 @@
 
                                         <div class="col-md-5"></div>
                                         <div class="col-md-7 text-center mt-md-0 mt-4">
-                                            <button mat-raised-button color="primary" disabled="{{selectedPlan?.planId == subscription?.subscriptionPlanId && (subscription?.billingCycle == 'MONTHLY' && monthlyPlan) && subscription?.subscriptionStatus != 'EXPIRED'}}" class="px-5 py-2 subscribe-btn" (click)="confirmPayment(confirmPaymentTemplate)"> Subscribe Now </button>
+                                            <button mat-raised-button color="primary" id="subscribe" disabled="{{selectedPlan?.planId == subscription?.subscriptionPlanId && (subscription?.billingCycle == 'MONTHLY' && monthlyPlan) && subscription?.subscriptionStatus != 'EXPIRED'}}" class="px-5 py-2 subscribe-btn" (click)="confirmPayment(confirmPaymentTemplate)"> Subscribe Now </button>
                                         </div>
                                     </div>
                                 </mat-card-content>
@@ -175,7 +175,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-12 md-0 mt-4 text-center">
-                                                <button mat-raised-button color="primary" disabled="{{selectedPlan?.planId == subscription?.subscriptionPlanId && (subscription?.billingCycle == 'MONTHLY' && monthlyPlan || subscription?.billingCycle == 'ANNUAL' && !monthlyPlan) && subscription?.subscriptionStatus != 'EXPIRED'}}" class="px-5 py-2 subscribe-btn" (click)="confirmPayment(confirmPaymentTemplate, false)"> Upgrade Plan </button>
+                                                <button mat-raised-button color="primary" id="upgradePlan" disabled="{{selectedPlan?.planId == subscription?.subscriptionPlanId && (subscription?.billingCycle == 'MONTHLY' && monthlyPlan || subscription?.billingCycle == 'ANNUAL' && !monthlyPlan) && subscription?.subscriptionStatus != 'EXPIRED'}}" class="px-5 py-2 subscribe-btn" (click)="confirmPayment(confirmPaymentTemplate, false)"> Upgrade Plan </button>
                                             </div>
                                         </div>
                                     </mat-card-content>

@@ -148,7 +148,7 @@ export class ReceiptComponent implements OnInit, OnDestroy {
     }
 
     goBack() {
-        this.router.navigate(['/portal/subscription-history']);
+        this.router.navigate(['/portal/subscribe']);
     }
 
     ngOnDestroy() {
