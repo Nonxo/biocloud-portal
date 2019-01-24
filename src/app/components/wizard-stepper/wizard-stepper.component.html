@@ -19,7 +19,8 @@
         <div class="col-xl-10 col-md-8" style="max-height: 100vh;overflow-y: auto;">
             <app-sign-up-as *ngIf="tab == 1" (onOrgSave)="saveOrg($event)"></app-sign-up-as>
 
-            <app-setup *ngIf="tab == 2"></app-setup>
+            <!-- <app-setup *ngIf="tab == 2"></app-setup> -->
+            <app-create-location *ngIf="tab == 2"></app-create-location>
         </div>
     </div>
 </div>

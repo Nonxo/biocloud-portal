@@ -1,0 +1,183 @@
+.sfx-stepper {
+    display: table;
+    width: 45%;
+    margin: 0 auto;
+    background-color: transparent;
+}
+
+.sfx-stepper .sfx-step {
+    display: table-cell;
+    position: relative;
+    padding: 24px;
+}
+
+
+/* .sfx-stepper .sfx-step:hover,
+.sfx-stepper .sfx-step:active {
+    background-color: rgba(0, 0, 0, 0.04);
+} */
+
+.sfx-stepper .sfx-step:active {
+    border-radius: 15% / 75%;
+}
+
+.sfx-stepper .sfx-step:first-child:active {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.sfx-stepper .sfx-step:last-child:active {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+
+/* .sfx-stepper .sfx-step:hover .sfx-step-circle {
+    background-color: #757575;
+} */
+
+.sfx-stepper .sfx-step:first-child .sfx-step-bar-left,
+.sfx-stepper .sfx-step:last-child .sfx-step-bar-right {
+    display: none;
+}
+
+.sfx-stepper .sfx-step .sfx-step-circle {
+    width: 30px;
+    height: 30px;
+    margin: 0 auto;
+    background-color: #fff;
+    border: 1px solid grey;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    color: grey;
+}
+
+.sfx-stepper.green .sfx-step.active-stepper .sfx-step-circle {
+    background-color: #00AE4D;
+}
+
+.sfx-stepper.purple .sfx-step.active-stepper .sfx-step-circle {
+    background-color: #603484;
+}
+
+.sfx-stepper .sfx-step.active-stepper .sfx-step-circle {
+    background-color: rgb(33, 150, 243);
+}
+
+.sfx-stepper .sfx-step.done .sfx-step-circle:before {
+    font-family: 'FontAwesome';
+    font-weight: 100;
+    content: "1";
+}
+
+.sfx-stepper .sfx-step.done .sfx-step-circle *,
+.sfx-stepper .sfx-step.editable .sfx-step-circle * {
+    display: none;
+}
+
+.sfx-stepper .sfx-step.editable .sfx-step-circle:before {
+    font-family: 'FontAwesome';
+    font-weight: 100;
+    content: "2";
+}
+
+.sfx-stepper .sfx-step .sfx-step-title {
+    margin-top: 16px;
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.sfx-stepper .sfx-step .sfx-step-title,
+.sfx-stepper .sfx-step .sfx-step-optional {
+    text-align: center;
+    color: rgba(0, 0, 0, .26);
+}
+
+.sfx-stepper .sfx-step.active-stepper .sfx-step-title {
+    font-weight: 600;
+    color: rgba(0, 0, 0, .87);
+}
+
+.sfx-stepper .sfx-step.active-stepper.done .sfx-step-title,
+.sfx-stepper .sfx-step.active-stepper.editable .sfx-step-title {
+    font-weight: 600;
+}
+
+.sfx-stepper .sfx-step .sfx-step-optional {
+    font-size: 12px;
+}
+
+.sfx-stepper .sfx-step.active-stepper .sfx-step-optional {
+    color: rgba(0, 0, 0, .54);
+}
+
+.sfx-stepper .sfx-step .sfx-step-bar-left,
+.sfx-stepper .sfx-step .sfx-step-bar-right {
+    position: absolute;
+    top: 36px;
+    height: 1px;
+    border-top: 1px solid #DDDDDD;
+}
+
+.sfx-stepper .sfx-step .sfx-step-bar-right {
+    right: 0;
+    left: 50%;
+    margin-left: 20px;
+}
+
+.sfx-stepper .sfx-step .sfx-step-bar-left {
+    left: 0;
+    right: 50%;
+    margin-right: 20px;
+}
+
+.active-stepper>.sfx-step-circle {
+    color: #fff !important;
+    border: none !important;
+}
+
+
+/* btns */
+
+.help-btn {
+    background: #DA4167;
+    color: #fff !important;
+    font-size: 12px;
+}
+
+.back-Btn {
+    background: #D2D9E3;
+}
+
+.addShift {
+    color: #6B9B20
+}
+
+.workDaysDiv {
+    background: #F8FBFC;
+}
+
+.px-custom {
+    padding-left: 2.10rem!important;
+    padding-right: 2.10rem!important;
+}
+
+.border-right {
+    border-right: 1px solid #e8dcdc;
+}
+
+.days-active {
+    background: #E7E7E7;
+    color: #603484;
+}
+
+.modal-content {
+    min-height: 40vh !important;
+}
+
+.custom-padding-left {
+    padding-left: 6rem;
+}

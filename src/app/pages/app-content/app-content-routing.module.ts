@@ -15,6 +15,7 @@ import {CustomReportComponent} from './custom-report/custom-report.component';
 import {LatenessReportComponent} from './lateness-report/lateness-report.component';
 import {AuthGuard} from "../../auth/guards/auth-guard.service";
 import {ProfileComponent} from "./profile/profile.component";
+import { ManageScheduleComponent } from './manage-schedule/manage-schedule.component';
 import {ManageAdminsComponent} from "./manage-admins/manage-admins.component";
 import {SettingComponent} from './setting/setting.component';
 import {EmployeeOverviewComponent} from "./employee-overview/employee-overview.component";
@@ -49,6 +50,10 @@ const routes: Routes = [
             {
                 path: 'manage-users',
                 component: ManageAttendeesComponent
+            },
+            {
+                path: 'manage-schedule',
+                component: ManageScheduleComponent
             },
             {
                 path: 'manage-admins',

@@ -1,3 +1,4 @@
+import { CreateLocationComponent } from './pages/app-content/app-config/setup/onboarding/create-location/create-location.component';
 import { MessageService } from './service/message.service';
 import { BsModalRef } from 'ngx-bootstrap';
 import { AppConfigService } from './pages/app-content/app-config/services/app-config.service';
@@ -62,6 +63,7 @@ import {
         GoogleSignInComponent,
         ApproveCoordinatesComponent,
         RegEmailNotificationComponent,
+        CreateLocationComponent,
         // CreatePasswordComponent,
         // PersonalDetailsComponent,
         WizardStepperComponent,
