@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-xl-6">
             <div class="row">
                 <div class="col-md-5 my-auto pl-0">
                     <div class="px-3 w-100 pt-2 d-inline-flex position-relative">
@@ -27,7 +27,7 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-xl-6">
             <div *ngIf="isCreateNewShift" class="text-right">
                 <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1" (click)="openModal(createNewShift)">Create new shift</button>
             </div>
@@ -200,7 +200,7 @@
                         </div>
 
                         <div class="row pt-2">
-                            <div class="col-md-4">
+                            <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="font-weight-normal text-secondary" for="clockiInTime">Clock-in time</label>
                                     <select class="form-control" id="clockiInTime" name="clockIn">
@@ -209,7 +209,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="font-weight-normal text-secondary" for="clockiOutTime">Clock-out time</label>
                                     <select class="form-control" id="clockiOutTime" name="clockIn">
@@ -218,7 +218,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="font-weight-normal text-secondary" for="gracePeriod">Grace period</label>
                                     <select class="form-control" id="gracePeriod" name="gracePeriod">
@@ -232,14 +232,47 @@
                             <div class="col-md-12">
                                 <p class="small font-weight-bold">Work days</p>
 
-                                <div class="workDaysDiv d-inline-flex">
-                                    <div class="px-custom border-right py-3 cursor">Mon</div>
-                                    <div class="px-custom border-right py-3 cursor">Tue</div>
-                                    <div class="px-custom border-right days-active py-3 cursor">Wed</div>
-                                    <div class="px-custom border-right py-3 cursor">Thu</div>
-                                    <div class="px-custom border-right py-3 cursor">Fri</div>
-                                    <div class="px-custom border-right py-3 cursor">Sat</div>
-                                    <div class="px-custom py-3">Sun</div>
+                                <!-- desktop view for days of the week -->
+                                <div class="d-xl-block d-none">
+                                    <div class="workDaysDiv d-inline-flex">
+                                        <div class="px-custom border-right py-3 cursor">Mon</div>
+                                        <div class="px-custom border-right py-3 cursor">Tue</div>
+                                        <div class="px-custom border-right days-active py-3 cursor">Wed</div>
+                                        <div class="px-custom border-right py-3 cursor">Thu</div>
+                                        <div class="px-custom border-right py-3 cursor">Fri</div>
+                                        <div class="px-custom border-right py-3 cursor">Sat</div>
+                                        <div class="px-custom py-3">Sun</div>
+                                    </div>
+                                </div>
+
+                                <!-- Mobile view for days of the week -->
+                                <div class="d-xl-none d-block">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <mat-checkbox>Mon</mat-checkbox>
+                                        </div>
+                                        <div class="col-3">
+                                            <mat-checkbox>Tue</mat-checkbox>
+                                        </div>
+                                        <div class="col-3">
+                                            <mat-checkbox>Wed</mat-checkbox>
+                                        </div>
+                                        <div class="col-3">
+                                            <mat-checkbox>Thu</mat-checkbox>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <mat-checkbox>Fri</mat-checkbox>
+                                        </div>
+                                        <div class="col-3">
+                                            <mat-checkbox>Sat</mat-checkbox>
+                                        </div>
+                                        <div class="col-3">
+                                            <mat-checkbox>Sun</mat-checkbox>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -264,11 +297,11 @@
 
 
                                 <div class="row">
-                                    <div class="col-md-6 text-left">
+                                    <div class="col-lg-6 text-left">
                                         <!-- <button type="submit" mat-raised-button class="mt-4 px-4 py-1 back-Btn" (click)=previousStep()>Back</button> -->
                                     </div>
 
-                                    <div class="col-md-6 text-right">
+                                    <div class="col-lg-6 text-right">
                                         <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1">Create Shift<img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/></button>
                                         <button type="submit" mat-raised-button class="mt-4 px-4 py-1 text-brand" (click)="modalRef.hide()">Cancel</button>
                                     </div>

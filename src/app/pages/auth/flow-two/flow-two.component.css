@@ -16,6 +16,7 @@
 
 .bg-email {
     background-image: url(/assets/img/bg-img.png) !important;
+    background-size: cover;
 }
 
 .bg-create-pwd {

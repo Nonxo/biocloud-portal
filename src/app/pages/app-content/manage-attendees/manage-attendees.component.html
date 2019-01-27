@@ -15,7 +15,7 @@
             </div>
 
             <div class="row mt-4">
-                <div class="col-xl-4 col-md-6 d-flex align-items-center">
+                <div class="col-lg-4 col-md-6 d-flex align-items-center">
                     <mat-form-field>
                         <mat-select placeholder="" name="location" [(ngModel)]="selectedLocId" (change)="fetchUsers()">
                             <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All Locations</mat-option>
@@ -28,7 +28,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="col-xl-4 col-md-6 d-xl-block text-center">
+                <div class="col-lg-4 col-md-6 d-xl-block text-center">
                     <ng-container *ngIf="isChecked()">
                         <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')" class="primary-outline">Reassign
                         </button>
@@ -37,7 +37,7 @@
                     </ng-container>
                 </div>
 
-                <div class="col-xl-4 col-md-6 d-flex align-items-center pt-xl-0 pt-3 my-auto">
+                <div class="col-lg-4 col-md-6 d-flex align-items-center pt-xl-0 pt-3 my-auto">
                     <!-- <div class="ml-md-auto mr-auto"> -->
                     <div class="ml-md-auto">
                         <a class="text-right" role="button" (click)="openInviteModal()">
@@ -121,7 +121,7 @@
             </div>
 
             <div class="row mt-4">
-                <div class="col-xl-4 col-md-6 d-flex align-items-center">
+                <div class="col-lg-4 col-md-6 d-flex align-items-center">
                     <mat-form-field>
                         <mat-select placeholder="" name="location" [(ngModel)]="selectedLocId" (change)="fetchUsers()">
                             <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All Locations</mat-option>

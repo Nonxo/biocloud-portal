@@ -1,27 +1,30 @@
 <div class="container">
     <div class="row">
+        <div class="col-md-12">
+            <h5 class="d-lg-none d-block text-center pt-5">Create Location</h5>
+        </div>
         <div class="sfx-stepper purple pb-5 pt-2">
             <div class="sfx-step  done {{step == 1? 'active-stepper':''}}">
                 <div class="sfx-step-circle"><span>1</span></div>
-                <div class="sfx-step-title">Name Location</div>
+                <div class="sfx-step-title d-xl-block d-none">Name Location</div>
                 <div class="sfx-step-bar-left"></div>
                 <div class="sfx-step-bar-right"></div>
             </div>
             <div class="sfx-step {{step == 2? 'active-stepper':''}}">
                 <div class="sfx-step-circle"><span>2</span></div>
-                <div class="sfx-step-title">Set Address</div>
+                <div class="sfx-step-title d-xl-block d-none">Set Address</div>
                 <div class="sfx-step-bar-left"></div>
                 <div class="sfx-step-bar-right"></div>
             </div>
             <div class="sfx-step {{step == 3? 'active-stepper':''}}">
                 <div class="sfx-step-circle"><span>3</span></div>
-                <div class="sfx-step-title">Time clock setup</div>
+                <div class="sfx-step-title d-xl-block d-none">Time clock setup</div>
                 <div class="sfx-step-bar-left"></div>
                 <div class="sfx-step-bar-right"></div>
             </div>
             <div class="sfx-step {{step == 4 || step == 5? 'active-stepper':''}}">
                 <div class="sfx-step-circle"><span>4</span></div>
-                <div class="sfx-step-title">Add Employees</div>
+                <div class="sfx-step-title d-xl-block d-none">Add Employees</div>
                 <div class="sfx-step-bar-left"></div>
                 <div class="sfx-step-bar-right"></div>
             </div>
@@ -47,7 +50,7 @@
                         </div>
                     </form>
 
-                    <div class="text-md-right text-center">
+                    <div class="text-xl-right text-center">
                         <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1" (click)=nextStep()>Save and Continue
                         <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/></button>
                     </div>
@@ -77,7 +80,7 @@
         <div *ngIf="step == 2" class="col-md-12 pb-5">
             <div>
                 <div class="row">
-                    <div class="col-md-1"></div>
+                    <div class="col-xl-1"></div>
                     <div class="col-md-9 custom-padding-left">
 
                         <!-- specific address -->
@@ -87,15 +90,17 @@
                             </div>
 
                             <p class="d-inline-flex cursor">
-                                <mat-icon>location_on</mat-icon> <span class="text-brand">Click to use current location</span></p>
+                                <mat-icon>location_on</mat-icon> <span class="text-brand cursor">Click to use current location</span></p>
+
+                            <p class="d-lg-none d-block"><span class="text-secondary">Having issues with address?</span> <span (click)="openModal(getHelp)" class="text-brand cursor font-weight-bold pl-2">Get help here</span></p>
 
                             <div>
                                 <p class="mb-2 font-weight-bold mt-2">Clock-in Range</p>
                                 <p class="text-secondary mb-0">Allow clock-in within the maximum distance from your set address</p>
                             </div>
 
-                            <div class="row" style="width:93%">
-                                <div class="col-md-8">
+                            <div class="row location-slider-row">
+                                <div class="col-8">
                                     <mat-slider class="w-100" min="1" max="200" name="radius"></mat-slider>
                                     <div style="margin-top: -15px">
                                         <p class="float-left text-secondary">0</p>
@@ -104,10 +109,10 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-4">
+                                <div class="col-4">
                                     <form>
                                         <div class="form-group d-inline-flex">
-                                            <input type="number" style="width: 35%" class="form-control" name="rad">
+                                            <input type="number" class="form-control clock-in-range-input" name="rad">
                                             <p class="text-secondary my-auto font-weight-bold pl-2">
                                                 m</p>
                                         </div>
@@ -158,18 +163,18 @@
                         </div>
 
 
-                        <div class="row" style="width:79%">
-                            <div class="col-md-6 text-left">
+                        <div class="row action-btn">
+                            <div class="col-6 text-left">
                                 <button type="submit" mat-raised-button class="mt-4 px-4 py-1 back-Btn" (click)=previousStep()>Back</button>
                             </div>
 
-                            <div class="col-md-6 text-right">
+                            <div class="col-6 text-right">
                                 <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1" (click)=nextStep()>Save and Continue<img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/></button>
                             </div>
                         </div>
                     </div>
 
-                    <div *ngIf="isSpecificAdress" class="col-md-2">
+                    <div *ngIf="isSpecificAdress" class="col-xl-2 col-3 d-lg-block d-none">
                         <div class="bg-white text-center py-5">
                             <h6 class="text-secondary font-weight-normal small">Having issues with address?</h6>
 
@@ -196,7 +201,7 @@
                     <div class="col-md-11">
 
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-xl-4">
                                 <div class="form-group">
                                     <label class="font-weight-normal text-secondary" for="clockiInTime">Clock-in time</label>
                                     <select class="form-control" id="clockiInTime" name="clockIn">
@@ -205,7 +210,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-xl-4">
                                 <div class="form-group">
                                     <label class="font-weight-normal text-secondary" for="clockiOutTime">Clock-out time</label>
                                     <select class="form-control" id="clockiOutTime" name="clockIn">
@@ -214,7 +219,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-xl-4">
                                 <div class="form-group">
                                     <label class="font-weight-normal text-secondary" for="gracePeriod">Grace period</label>
                                     <select class="form-control" id="gracePeriod" name="gracePeriod">
@@ -224,40 +229,58 @@
                             </div>
                         </div>
 
+
+                        <!-- work days -->
                         <div class="row">
                             <div class="col-md-12">
                                 <p class="small font-weight-bold">Work days</p>
 
-                                <div class="workDaysDiv d-inline-flex">
-                                    <div class="px-custom border-right py-3 cursor">Mon</div>
-                                    <div class="px-custom border-right py-3 cursor">Tue</div>
-                                    <div class="px-custom border-right days-active py-3 cursor">Wed</div>
-                                    <div class="px-custom border-right py-3 cursor">Thu</div>
-                                    <div class="px-custom border-right py-3 cursor">Fri</div>
-                                    <div class="px-custom border-right py-3 cursor">Sat</div>
-                                    <div class="px-custom py-3">Sun</div>
+                                <!-- desktop view for days of the week -->
+                                <div class="d-xl-block d-none">
+                                    <div class="workDaysDiv d-inline-flex">
+                                        <div class="px-custom border-right py-3 cursor">Mon</div>
+                                        <div class="px-custom border-right py-3 cursor">Tue</div>
+                                        <div class="px-custom border-right days-active py-3 cursor">Wed</div>
+                                        <div class="px-custom border-right py-3 cursor">Thu</div>
+                                        <div class="px-custom border-right py-3 cursor">Fri</div>
+                                        <div class="px-custom border-right py-3 cursor">Sat</div>
+                                        <div class="px-custom py-3">Sun</div>
+                                    </div>
                                 </div>
 
-                                <p (click)=addShift() class="small font-weight-bold text-right addShift cursor pt-3">+ Add shifts to location</p>
+                                <!-- Mobile view for days of the week -->
+                                <div class="d-xl-none d-block">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <mat-checkbox>Mon</mat-checkbox>
+                                        </div>
+                                        <div class="col-3">
+                                            <mat-checkbox>Tue</mat-checkbox>
+                                        </div>
+                                        <div class="col-3">
+                                            <mat-checkbox>Wed</mat-checkbox>
+                                        </div>
+                                        <div class="col-3">
+                                            <mat-checkbox>Thu</mat-checkbox>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <mat-checkbox>Fri</mat-checkbox>
+                                        </div>
+                                        <div class="col-3">
+                                            <mat-checkbox>Sat</mat-checkbox>
+                                        </div>
+                                        <div class="col-3">
+                                            <mat-checkbox>Sun</mat-checkbox>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p (click)=addShift() class="small font-weight-bold text-md-right text-left addShift cursor pt-3">+ Add shifts to location</p>
                             </div>
                         </div>
-
-                        <!-- <div class="row">
-                            <div class="col-md-12">
-
-
-                                <div class="row">
-                                    <div class="col-md-6 text-left">
-                                        <button type="submit" mat-raised-button class="mt-4 px-4 py-1 back-Btn" (click)=previousStep()>Back</button>
-                                    </div>
-
-                                    <div class="col-md-6 text-right">
-                                        <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1" (click)=nextStep()>Save and Continue<img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/></button>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div> -->
                     </div>
                 </div>
             </div>
@@ -271,6 +294,9 @@
             <!-- Add shift -->
             <div *ngIf="isNewShift && isDeleteShift" class="row">
                 <div class="col-md-11">
+                    <div class="text-right d-md-none d-block">
+                        <mat-icon (click)=deleteShift() class="text-secondary cursor">delete</mat-icon>
+                    </div>
                     <div>
                         <div class="form-group">
                             <label class="small font-weight-bold">Shift Name</label>
@@ -278,7 +304,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-xl-4">
                                 <div class="form-group">
                                     <label class="font-weight-normal text-secondary" for="clockiInTime">Clock-in time</label>
                                     <select class="form-control" id="clockiInTime" name="clockIn">
@@ -287,7 +313,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-xl-4">
                                 <div class="form-group">
                                     <label class="font-weight-normal text-secondary" for="clockiOutTime">Clock-out time</label>
                                     <select class="form-control" id="clockiOutTime" name="clockIn">
@@ -296,7 +322,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-xl-4">
                                 <div class="form-group">
                                     <label class="font-weight-normal text-secondary" for="gracePeriod">Grace period</label>
                                     <select class="form-control" id="gracePeriod" name="gracePeriod">
@@ -310,17 +336,50 @@
                             <div class="col-md-12">
                                 <p class="small font-weight-bold">Work days</p>
 
-                                <div class="workDaysDiv d-inline-flex">
-                                    <div class="px-custom border-right py-3 cursor">Mon</div>
-                                    <div class="px-custom border-right py-3 cursor">Tue</div>
-                                    <div class="px-custom border-right days-active py-3 cursor">Wed</div>
-                                    <div class="px-custom border-right py-3 cursor">Thu</div>
-                                    <div class="px-custom border-right py-3 cursor">Fri</div>
-                                    <div class="px-custom border-right py-3 cursor">Sat</div>
-                                    <div class="px-custom py-3">Sun</div>
+                                <!-- desktop view for days of the week -->
+                                <div class="d-xl-block d-none">
+                                    <div class="workDaysDiv d-inline-flex">
+                                        <div class="px-custom border-right py-3 cursor">Mon</div>
+                                        <div class="px-custom border-right py-3 cursor">Tue</div>
+                                        <div class="px-custom border-right days-active py-3 cursor">Wed</div>
+                                        <div class="px-custom border-right py-3 cursor">Thu</div>
+                                        <div class="px-custom border-right py-3 cursor">Fri</div>
+                                        <div class="px-custom border-right py-3 cursor">Sat</div>
+                                        <div class="px-custom py-3">Sun</div>
+                                    </div>
                                 </div>
 
-                                <p class="small font-weight-bold text-right addShift cursor pt-3">+ Add shifts to location</p>
+                                <!-- Mobile view for days of the week -->
+                                <div class="d-xl-none d-block">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <mat-checkbox>Mon</mat-checkbox>
+                                        </div>
+                                        <div class="col-3">
+                                            <mat-checkbox>Tue</mat-checkbox>
+                                        </div>
+                                        <div class="col-3">
+                                            <mat-checkbox>Wed</mat-checkbox>
+                                        </div>
+                                        <div class="col-3">
+                                            <mat-checkbox>Thu</mat-checkbox>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <mat-checkbox>Fri</mat-checkbox>
+                                        </div>
+                                        <div class="col-3">
+                                            <mat-checkbox>Sat</mat-checkbox>
+                                        </div>
+                                        <div class="col-3">
+                                            <mat-checkbox>Sun</mat-checkbox>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p class="small font-weight-bold text-md-right text-left addShift cursor pt-3">+ Add shifts to location</p>
                             </div>
                         </div>
 
@@ -328,7 +387,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-1">
+                <div class="col-md-1 d-md-block d-none">
                     <mat-icon (click)=deleteShift() class="text-secondary cursor">delete</mat-icon>
 
                 </div>
@@ -340,11 +399,11 @@
 
 
                     <div class="row">
-                        <div class="col-md-6 text-left">
+                        <div class="col-6 text-left">
                             <button type="submit" mat-raised-button class="mt-4 px-4 py-1 back-Btn" (click)=previousStep()>Back</button>
                         </div>
 
-                        <div class="col-md-6 text-right">
+                        <div class="col-6 text-right">
                             <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1" (click)=nextStep()>Save and Continue<img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/></button>
                         </div>
                     </div>
@@ -360,20 +419,33 @@
                 <p class="text-secondary small">Now let's Invite employees to clock in and out of this location</p>
             </div>
 
-            <div class="form-group">
-                <label class="font-weight-bold small">Add employees to shift name</label>
-                <input type="text" class="form-control w-100" placeholder="Enter employee email address" name="addEmployeeToShiftName" required>
-                <p class="small text-primary float-left">Bulk upload email</p>
-                <p class="small text-secondary float-right">Separate multiple enteries by comma ","</p>
-                <div class="clear"></div>
+            <!-- add employee to shift desktop view -->
+            <div class="d-md-block d-none">
+                <div class="form-group">
+                    <label class="font-weight-bold small">Add employees to shift name</label>
+                    <input type="text" class="form-control w-100" placeholder="Enter employee email address" name="addEmployeeToShiftName" required>
+                    <p class="small text-primary float-left">Bulk upload email</p>
+                    <p class="small text-secondary float-right">Separate multiple enteries by comma ","</p>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="font-weight-bold small">Add employees to shift name</label>
+                    <input type="text" class="form-control w-100" placeholder="Enter employee email address" name="addEmployeeToShiftName" required>
+                    <p class="small text-primary float-left">Bulk upload email</p>
+                    <p class="small text-secondary float-right">Separate multiple enteries by comma ","</p>
+                    <div class="clear"></div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label class="font-weight-bold small">Add employees to shift name</label>
-                <input type="text" class="form-control w-100" placeholder="Enter employee email address" name="addEmployeeToShiftName" required>
-                <p class="small text-primary float-left">Bulk upload email</p>
-                <p class="small text-secondary float-right">Separate multiple enteries by comma ","</p>
-                <div class="clear"></div>
+            <!-- add employee to shift mobile view -->
+            <div class="d-md-none d-block">
+                <div class="form-group">
+                    <label class="font-weight-bold small">Add employees to shift name</label>
+                    <input type="text" class="form-control w-100" placeholder="Enter employee email address" name="addEmployeeToShiftName" required>
+                    <p class="small text-secondary text-right">Separate multiple enteries by comma ","</p>
+                </div>
+                <p class="small text-primary text-left">Bulk upload email</p>
             </div>
 
             <div class="row">
@@ -381,11 +453,11 @@
 
 
                     <div class="row">
-                        <div class="col-md-6 text-left">
+                        <div class="col-6 text-left">
                             <button type="submit" mat-raised-button class="mt-4 px-4 py-1 back-Btn" (click)=previousStep()>Back</button>
                         </div>
 
-                        <div class="col-md-6 text-right">
+                        <div class="col-6 text-right">
                             <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1" (click)=nextStep()>Finish location setup<img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/></button>
                         </div>
                     </div>
@@ -427,7 +499,7 @@
                 <!-- <mat-radio-button (click)=wrongLocationClockIn() class="pr-2" value="WRONG_LOCATION_CLOCK_IN">My employees clock-in at the set address but registers clock-in as wrong location</mat-radio-button>
                 <br> -->
                 <mat-radio-button (click)=otherIssues() class="pr-2" value="OTHER_ISSUES">Other</mat-radio-button>
-                <div *ngIf="isOtherIssues" class="pl-4">
+                <div *ngIf="isOtherIssues" class="pl-md-4">
                     <form>
                         <div class="form-group mb-0">
                             <input type="text" class="form-control w-100" placeholder="Enter explain the issue you are having" name="otherIssue" required/>
@@ -440,11 +512,13 @@
             <div *ngIf="isSolutions">
                 <p class="font-weight-bold">Select one of our suggested solutions?</p>
                 <mat-radio-group>
-                    <mat-radio-button (click)=specificEmployeeClockIn() class="pr-2" value="SPECIFIC_EMPLOYEE">Get specific employees to confirm clock-in location
-                        <mat-icon matTooltip="Info about the action" class="small">help</mat-icon>
+                    <mat-radio-button (click)=specificEmployeeClockIn() class="pr-2" value="SPECIFIC_EMPLOYEE"><span class="d-md-block d-none">Get specific employees to confirm clock-in location
+                        <mat-icon matTooltip="Info about the action" class="small">help</mat-icon></span>
                     </mat-radio-button>
+                    <span class="d-md-none d-block">Get specific employees to confirm clock-in location
+                            <mat-icon matTooltip="Info about the action" class="small">help</mat-icon></span>
                     <!-- Get specific employees to confirm clock-in location -->
-                    <div *ngIf="specificEmployee" class="pl-4">
+                    <div *ngIf="specificEmployee" class="pl-md-4">
                         <form>
                             <div class="form-group mb-0">
                                 <input type="text" class="form-control w-100" placeholder="Enter employee(s) email address" name="employeeName" required/>
@@ -482,27 +556,4 @@
         </div>
 
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</ng-template>
-
-
-
-
 </ng-template>
