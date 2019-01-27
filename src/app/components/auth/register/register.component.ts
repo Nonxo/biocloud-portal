@@ -31,6 +31,7 @@ export class RegisterComponent implements OnInit {
     baseUrl: string = environment.baseUrl;
     filteredCountries: any = [];
     openDropdown: boolean;
+    password: string;
     fullName: string;
     phone: string;
     iAgree: boolean;
@@ -129,16 +130,8 @@ export class RegisterComponent implements OnInit {
                 break;
             }
             case 2: {
-                this.step += 1;
-                this.getStep.emit(this.step);
-                break;
-            }
-            case 3: {
                 this.register();
                 break;
-            }
-            default: {
-
             }
         }
     }
@@ -182,6 +175,7 @@ export class RegisterComponent implements OnInit {
         this.loading = true;
         this.payload = this.form.value;
 
+        this.payload['password'] = this.password;
         this.payload['phoneCode'] = this.selectedPhoneCode.charAt(0) == "+" ? this.selectedPhoneCode : "+" + this.selectedPhoneCode;
 
         //set Device Type

@@ -140,8 +140,10 @@ export class SubscriptionCardDetailsComponent implements OnInit {
 
     payWithPaystack() {
         this.mService.loadScript('https://js.paystack.co/v1/inline.js', 'paystack');
+        this.mService.setDisplay(true);
 
         setTimeout(() => {
+            this.mService.setDisplay(false);
             let amount = Math.round(this.getPrice() * 100);
 
             let handler = PaystackPop.setup({
@@ -149,6 +151,7 @@ export class SubscriptionCardDetailsComponent implements OnInit {
                 email: this.userEmail,
                 amount: amount,
                 currency: this.selectedCurrency,
+                channels: ['card'],
                 ref: this.transactionRef , // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
                 firstname: '',
                 lastname: '',
@@ -204,8 +207,8 @@ export class SubscriptionCardDetailsComponent implements OnInit {
     }
 
     verifyPayment(txRef, autoRenew: boolean) {
-        // var element = document.getElementById('paystack');
-        // element.parentNode.removeChild(element);
+        var element = document.getElementById('paystack');
+        element.parentNode.removeChild(element);
 
         this.mService.setDisplay(true);
         this.subService.verifyPayment(new VerifyPaymentRequest(txRef, null, autoRenew, this.orgId, null, "ADD_CARD",0, null, 0))

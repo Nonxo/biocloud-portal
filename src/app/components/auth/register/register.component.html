@@ -21,7 +21,7 @@
                             <div class="col-xl-auto col-lg-2 col-md-2">
                                 <button mat-raised-button color="primary" class="rounded px-5" type="submit" [disabled]="emailError">
                                     <span *ngIf="!loading">Get Started</span>
-                                    <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
+                                    <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;" />
                                 </button>
                             </div>
                         </div>
@@ -38,6 +38,7 @@
     <h3 class="pt-md-0 pt-5 text-xl-left text-center">Create Password</h3>
     <p class="small text-xl-left text-center">Create a password for your account with at least 6 characters</p>
 
+    <!-- <p class="small">Create a password for your account with at least 6 <br> characters</p> -->
 
     <form class="pt-2 create-pwd-form mx-auto" [formGroup]="form" (submit)="changeStep()" ngNativeValidate>
         <div class="container-fluid">
@@ -47,54 +48,26 @@
 
                     <div class="form-group">
                         <label class="text-success small font-weight-bold">{{email}}</label>
-                        <input type="password" pattern="^([a-zA-Z0-9 @*#]{6,20})" class="form-control w-100" placeholder="Enter password here" [type]="show ? 'text' : 'password'" formControlName="password" required>
-                        <!--<p class="small text-danger px-1 pt-1" *ngIf="form.controls['password'].errors && form.touched">Must be at least 6 characters and no special characters allowed</p>-->
+                        <input type="text" pattern="^([a-zA-Z0-9 @*#]{6,20})" class="form-control w-100" name="password" #pw="ngModel" [(ngModel)]="password" placeholder="Enter password here" [type]="show ? 'text' : 'password'" required>
+                        <p class="small text-muted px-1 pt-1">(6 characters minimum)</p>
+                        <!-- <p class="small text-danger px-1 pt-1" *ngIf="form.controls['password'].errors && form.touched">Must be at least 6 characters and no special characters allowed</p> -->
                     </div>
                 </div>
-
-                <div class="col-md-12 text-center pt-3">
-                    <button type="submit" mat-raised-button color="primary" class="rounded px-5">
-                        <span>Continue</span>
-                        <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
-                    </button>
-                </div>
-
-                <div class="col-md-12 text-center py-3">
-                    <p class="small">Clicking the continue button means you agree to the <br> <span (click)="goToTerms()" class="cursor text-brand">Terms of Service</span> and Privacy Policy.</p>
-                </div>
-
-            </div>
-        </div>
-    </form>
-</ng-container>
-
-<ng-container *ngIf="step == 3">
-    <h3 class="text-xl-left text-center pt-md-0 pt-5">Complete your personal details</h3>
-    <p class="small text-xl-left text-center">Please fill details you can be recognised with by your Teammates</p>
-
-
-    <form class="pt-2 mx-auto personal-details-form" (ngSubmit)="changeStep()" name="registerForm" #registerForm="ngForm" ngNativeValidate>
-        <div class="container-fluid">
-            <div class="row">
-
                 <div class="col-md-12 px-0">
 
                     <div class="form-group">
                         <!-- <label class="text-success small font-weight-bold">You@emailprovider.com</label> -->
                         <input type="text" class="form-control w-100" #fName="ngModel" placeholder="Full Name *" name="fullName" [(ngModel)]="fullName" (keyup)="validateNameField()" pattern="^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}?)" required>
+                        <p class="small text-muted px-1 pt-1">(Firstname & Lastname Only)</p>
                         <p class="small text-danger px-1 pt-1" *ngIf="nameError">{{nameError}}</p>
                     </div>
-
-                    <!-- <div class="form-group">
-                            <label class="text-success small font-weight-bold">You@emailprovider.com</label>
-                            <input type="text" class="form-control w-100" placeholder="Phone Number" required>
-                        </div> -->
                 </div>
 
                 <div class="col-md-3 pl-0 pr-0 mb-md-0 mb-3 pr-md-3" (clickOutside)="onClickedOutside($event)">
                     <div class="cursor text-center form-control py-2 d-inline-flex" (click)="showDd()">
                         <i *ngIf="selectedCountryCode" class="form-control d-inline-flex cursor sprite {{selectedCountryCode.toLowerCase()}}"></i>
-                        <p class="small mb-0 pl-2">{{selectedPhoneCode.charAt(0) == "+"? selectedPhoneCode: "+" + selectedPhoneCode}}</p>
+                        <p class="small mb-0 pl-2">{{selectedPhoneCode.charAt(0) == "+"? selectedPhoneCode: "+" + selectedPhoneCode}}
+                        </p>
                     </div>
 
                     <div *ngIf="openDropdown" class="font-12 box-shadow mt-2">
@@ -124,19 +97,23 @@
                     </div>
                 </div>
 
-                <div class="col-md-12 text-center pt-3 px-0">
-                    <button mat-raised-button color="primary" class="rounded px-5" [disabled]="!registerForm.valid">
+                <div class="col-md-12 text-center pt-3">
+                    <button mat-raised-button color="primary" class="rounded px-5" [disabled]="!f.valid">
+                        <!-- <button mat-raised-button color="primary" class="rounded px-5" [disabled]="!registerForm.valid"> -->
                         <span>Complete account creation <span><i class="material-icons mt-2 pl-2 position-absolute">
-                                arrow_right_alt
+                                    arrow_right_alt
                                 </i></span></span>
                         <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;" />
                     </button>
                 </div>
+                <div class="col-md-12 text-center py-3">
+                    <p class="small">Clicking the continue button means you agree to the <br> <span (click)="goToTerms()" class="cursor text-brand">Terms of Service</span> and Privacy Policy.</p>
+                </div>
+
             </div>
         </div>
     </form>
 </ng-container>
-
 
 <div class="col-12 mt-5 text-center" *ngIf="step == 1">
     <!--<div class="cursor" id="googleBtn">Google</div>-->
