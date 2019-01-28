@@ -329,8 +329,8 @@ export class RegisterComponent implements OnInit {
     }
 
     validateNameField() {
-        if(/[^A-Za-z \-']/.test(this.fullName)) {
-            this.nameError = "Numbers and special characters not allowed";
+        if(!(/^([a-zA-Z]{1,}'?-?[a-zA-Z]{2,}?\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}?)/.test(this.fullName))) {
+            this.nameError = "Type only firstname & lastname. DO NOT include numbers & special characters";
         }else{
             this.nameError = "";
         }
