@@ -1,12 +1,12 @@
-import { CreateLocationComponent } from './pages/app-content/app-config/setup/onboarding/create-location/create-location.component';
-import { MessageService } from './service/message.service';
-import { BsModalRef } from 'ngx-bootstrap';
-import { AppConfigService } from './pages/app-content/app-config/services/app-config.service';
-import { WizardStepperComponent } from './components/wizard-stepper/wizard-stepper.component';
+import {CreateLocationComponent} from './pages/app-content/app-config/setup/onboarding/create-location/create-location.component';
+import {MessageService} from './service/message.service';
+import {BsModalRef} from 'ngx-bootstrap';
+import {AppConfigService} from './pages/app-content/app-config/services/app-config.service';
+import {WizardStepperComponent} from './components/wizard-stepper/wizard-stepper.component';
 import {BrowserModule, HAMMER_GESTURE_CONFIG} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {HTTP_INTERCEPTORS, HttpClientModule, HttpClient} from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 
 import {AppComponent} from './app.component';
@@ -33,18 +33,21 @@ import {SignUpAsComponent} from "./pages/app-content/sign-up-as/sign-up-as.compo
 import {AppContentService} from "./pages/app-content/services/app-content.service";
 import {InviteUserComponent} from "./components/auth/invite-user/invite-user.component";
 import {ReceiptComponent} from "./pages/app-content/subscription-history/receipt/receipt.component";
-import { FlowOneComponent } from './pages/auth/flow-one/flow-one.component';
-import { FlowTwoComponent } from './pages/auth/flow-two/flow-two.component';
-import { LandingPageComponent } from './landing-page/landing-page.component';
-import { GoogleSignInComponent } from './components/auth/google-sign-in/google-sign-in.component';
-import { GestureConfig } from '@angular/material';
-import { ApproveCoordinatesComponent } from './components/auth/approve-coordinates/approve-coordinates.component';
+import {FlowOneComponent} from './pages/auth/flow-one/flow-one.component';
+import {FlowTwoComponent} from './pages/auth/flow-two/flow-two.component';
+import {LandingPageComponent} from './landing-page/landing-page.component';
+import {GoogleSignInComponent} from './components/auth/google-sign-in/google-sign-in.component';
+import {GestureConfig} from '@angular/material';
+import {ApproveCoordinatesComponent} from './components/auth/approve-coordinates/approve-coordinates.component';
 import {GeoMapService} from './service/geo-map.service';
-import { RegEmailNotificationComponent } from './components/auth/register/reg-email-notification/reg-email-notification.component';
+import {RegEmailNotificationComponent} from './components/auth/register/reg-email-notification/reg-email-notification.component';
 import {
-    Angulartics2Facebook, Angulartics2GoogleAnalytics, Angulartics2GoogleTagManager,
+    Angulartics2Facebook,
+    Angulartics2GoogleAnalytics,
+    Angulartics2GoogleTagManager,
     Angulartics2Module
 } from "angulartics2";
+import {TagInputModule} from "ngx-chips";
 
 
 @NgModule({
@@ -76,6 +79,7 @@ import {
         SharedModule,
         BrowserModule,
         BrowserAnimationsModule,
+        TagInputModule,
         RecaptchaModule.forRoot(),
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyC7hZTZ41Qwx4XT70L8FaGico6H6w8buaU',
