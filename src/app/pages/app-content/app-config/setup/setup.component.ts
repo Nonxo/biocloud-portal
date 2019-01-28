@@ -1,16 +1,15 @@
-import {Component, OnInit, TemplateRef, NgZone, AfterViewInit, AfterViewChecked, OnDestroy} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import {LocationRequest, TimezonePOJO} from "../model/app-config.model";
 import {AppConfigService} from "../services/app-config.service";
-import {BsModalService, BsModalRef, ModalOptions} from "ngx-bootstrap/index";
+import {BsModalRef, BsModalService, ModalOptions} from "ngx-bootstrap/index";
 import {MapsAPILoader} from "@agm/core";
-import {} from 'googlemaps';
 import {GeoMapService} from "../../../../service/geo-map.service";
 import {NotifyService} from "../../../../service/notify.service";
 import {Router} from "@angular/router";
 import {StorageService} from "../../../../service/storage.service";
 import {DateUtil} from "../../../../util/DateUtil";
 import {MessageService} from "../../../../service/message.service";
-import {ENTER, COMMA} from "@angular/cdk/keycodes";
+import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {TranslateService} from "@ngx-translate/core";
 
 @Component({
