@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-xl-2 col-md-4 bg-white px-4" style="height: 100vh">
+        <div class="col-xl-2 col-md-4 bg-white px-4 d-lg-block d-none" style="height: 100vh">
             <!-- <div class="first-tab"><div>1</div></div>
         <div class="second-tab">2</div> -->
 
@@ -16,7 +16,7 @@
             </div>
 
         </div>
-        <div class="col-xl-10 col-md-8" style="max-height: 100vh;overflow-y: auto;">
+        <div class="col-xl-10 col-lg-8 col-md-12" style="max-height: 100vh;overflow-y: auto;">
             <app-sign-up-as *ngIf="tab == 1" (onOrgSave)="saveOrg($event)"></app-sign-up-as>
 
             <!-- <app-setup *ngIf="tab == 2"></app-setup> -->

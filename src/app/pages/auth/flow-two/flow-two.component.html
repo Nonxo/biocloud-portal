@@ -10,7 +10,7 @@
                     <div *ngIf="!loginFlag" class="col-md-6 text-right d-xl-block d-none">
                         <div class="d-inline-flex">
                             <p class="small text-white my-auto">Already have an account?</p>
-                            <a class="btn ml-3 btn1 bg-white font-weight-bold purpleBorder smaller cursor mt-md-0 mt-3 login-btn hover-div" (click)="viewLoginPage(true)">
+                            <a class="btn ml-3 btn1 bg-white font-weight-bold purpleBorder smaller cursor mt-md-0 login-btn hover-div" (click)="viewLoginPage(true)">
                                 <span class="text-white font-weight-normal hover-text"> Log in here</span>
                             </a>
                         </div>
@@ -19,7 +19,7 @@
                     <div *ngIf="loginFlag" class="col-md-6 text-right d-xl-block d-none">
                         <div class="d-inline-flex">
                             <p class="small text-white my-auto">Don't have an account?</p>
-                            <a class="btn ml-3 btn1 bg-white font-weight-bold purpleBorder smaller cursor mt-md-0 mt-3 login-btn hover-text" (click)="viewLoginPage(false)">
+                            <a class="btn ml-3 btn1 bg-white font-weight-bold purpleBorder smaller cursor mt-md-0 login-btn hover-text" (click)="viewLoginPage(false)">
                                 <span class="text-white font-weight-normal hover-text"> Sign Up</span>
                             </a>
                         </div>
@@ -48,7 +48,7 @@
         </div>
     </div>
     <div class="col-xl-5 my-auto responsive-auth">
-        <div class="px-5">
+        <div class="px-md-5">
 
             <div class="text-xl-left text-center d-xl-none d-block pb-xl-0 pb-4">
                 <img src="assets/img/logos-bc.png" class="img-fluid" alt="" style="max-width: 160px">
@@ -63,7 +63,7 @@
                     <hr class="d-xl-none d-block">
                     <div class="mt-4  mb-5 text-center d-xl-none d-block">
                         <p class=" fontWeight smaller mt-1 text-secondary">Already have an account?
-                            <a class="btn ml-3 btn1 bg-white font-weight-bold purpleBorder smaller cursor mt-md-0 mt-3" id="login" (click)="viewLoginPage(true)">
+                            <a class="btn ml-3 btn1 bg-white font-weight-bold purpleBorder smaller cursor" id="login" (click)="viewLoginPage(true)">
                                 <span class="purple"> Log in here</span>
                             </a>
                         </p>
