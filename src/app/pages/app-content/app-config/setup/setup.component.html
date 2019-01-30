@@ -305,7 +305,7 @@
                                             <div class="form-group w-100">
                                                 <label class="text-secondary small">Clock-in Time</label>
                                                 <input type="text" name="resumptionTime" class="form-control w-100" [(ngModel)]="resumptionTime" placeholder="(HH:MM AM/PM)" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4">
-                                                <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
+                                                <owl-date-time hour12Timer="true" [pickerType]="'timer'" #dt4></owl-date-time>
 
                                                 <div class="col-md-4 text-right x-icon">
                                                     <button class="btn btn-clear cursor" type="button" *ngIf="resumptionTime" (click)="clearResumptionTime()"><i
@@ -339,7 +339,7 @@
                                             <div class="form-group w-100">
                                                 <label class="text-secondary small">Clock-out Time</label>
                                                 <input type="text" class="form-control w-100" name="clockoutTime" placeholder="(HH:MM AM/PM)" [(ngModel)]="clockoutTime" [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5">
-                                                <owl-date-time [pickerType]="'timer'" #dt5></owl-date-time>
+                                                <owl-date-time hour12Timer="true" [pickerType]="'timer'" #dt5></owl-date-time>
 
                                                 <div class="col-md-4 text-right x-icon">
                                                     <button class="btn btn-clear cursor" type="button" *ngIf="clockoutTime" (click)="clearClosingTime()"><i

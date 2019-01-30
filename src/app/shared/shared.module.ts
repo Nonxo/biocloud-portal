@@ -28,24 +28,20 @@ import {
     MatSlideToggleModule,
     MatSnackBarModule,
     MatSortModule,
+    MatStepperModule,
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatStepperModule,
 } from '@angular/material';
 import {CdkTableModule} from '@angular/cdk/table';
 import {NavComponent} from '../components/nav/nav.component';
 import {RouterModule} from '@angular/router';
-import {
-    ModalModule,
-    PopoverModule,
-    CarouselModule
-} from 'ngx-bootstrap';
+import {CarouselModule, ModalModule, PopoverModule} from 'ngx-bootstrap';
 import {AlertModule} from 'ngx-alerts';
 import {HttpClient} from "@angular/common/http";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
-import {TranslateModule, TranslateLoader} from "@ngx-translate/core";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {ClickOutsideModule} from "ng-click-outside/lib/index";
 import {EllipsisPipe} from "../util/pipes/ellipsis-pipe";
 import {SetupComponent} from "../pages/app-content/app-config/setup/setup.component";
@@ -56,6 +52,7 @@ import {LoadingComponent} from '../components/loading/loading.component';
 import {ChangePasswordComponent} from "../pages/change-password/change-password.component";
 import {OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
 import {ImageCropperModule} from "ngx-image-cropper";
+import {CreateLocationComponent} from "../pages/app-content/app-config/setup/onboarding/create-location/create-location.component";
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -171,10 +168,11 @@ export function createTranslateLoader(http: HttpClient) {
         ChangePasswordComponent,
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
-        ImageCropperModule
+        ImageCropperModule,
+        CreateLocationComponent
 
     ],
-    declarations: [NavComponent, SetupComponent, EllipsisPipe, AddAttendeesComponent, HasAuthorityDirective, LoadingComponent, ChangePasswordComponent]
+    declarations: [NavComponent, SetupComponent, EllipsisPipe, AddAttendeesComponent, HasAuthorityDirective, LoadingComponent, ChangePasswordComponent, CreateLocationComponent]
 })
 export class SharedModule {
 }
