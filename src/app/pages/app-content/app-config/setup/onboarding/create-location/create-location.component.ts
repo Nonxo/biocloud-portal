@@ -411,7 +411,8 @@ export class CreateLocationComponent implements OnInit {
             }
             case 4: {
                 if(this.isFormValid()) {
-                    // this.inviteRequest.locIds.push(this.location);
+                    this.inviteRequest.locIds.push(this.locRequest.locId);
+                    this.inviteRequest.emails = this.inviteEmails;
                     this.inviteRequest.role = 'ATTENDEE';
                     this.invite();
                 }
@@ -549,7 +550,7 @@ export class CreateLocationComponent implements OnInit {
             let diff = this.dateUtil.getTimeStamp(this.clockoutTime) - this.dateUtil.getTimeStamp(this.resumptionTime);
 
             if (diff < this.dateUtil.convertMinutesToMS(this.locRequest.gracePeriodInMinutes)) {
-                this.ns.showError("Your grace period should be less than " + Math.round((diff/1000)/60) + " minutes");
+                this.ns.showError("Your grace period should be less than " + (Math.round((diff/1000)/60) + 1) + " minutes");
                 return false;
             }
         }
@@ -634,6 +635,7 @@ export class CreateLocationComponent implements OnInit {
                 result => {
                     if (result.code == 0) {
                         this.inviteRequest = new InviteRequest();
+                        this.step +=1;
                     } else {
                         this.ns.showError(result.description);
                     }
