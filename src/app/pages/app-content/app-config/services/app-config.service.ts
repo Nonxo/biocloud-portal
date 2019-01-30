@@ -59,7 +59,7 @@ export class AppConfigService {
                     .set('Content-Type', MediaType.APPLICATION_JSON)
             })
             .pipe(
-                timeout(50000),
+                timeout(90000),
                 map(response => {
                     let res:any = response;
                     this.as.checkUnauthorized(res.description);

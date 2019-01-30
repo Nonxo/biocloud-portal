@@ -1,4 +1,3 @@
-import {CreateLocationComponent} from './pages/app-content/app-config/setup/onboarding/create-location/create-location.component';
 import {MessageService} from './service/message.service';
 import {BsModalRef} from 'ngx-bootstrap';
 import {AppConfigService} from './pages/app-content/app-config/services/app-config.service';
@@ -47,7 +46,6 @@ import {
     Angulartics2GoogleTagManager,
     Angulartics2Module
 } from "angulartics2";
-import {TagInputModule} from "ngx-chips";
 
 
 @NgModule({
@@ -66,7 +64,6 @@ import {TagInputModule} from "ngx-chips";
         GoogleSignInComponent,
         ApproveCoordinatesComponent,
         RegEmailNotificationComponent,
-        CreateLocationComponent,
         // CreatePasswordComponent,
         // PersonalDetailsComponent,
         WizardStepperComponent,
@@ -79,7 +76,6 @@ import {TagInputModule} from "ngx-chips";
         SharedModule,
         BrowserModule,
         BrowserAnimationsModule,
-        TagInputModule,
         RecaptchaModule.forRoot(),
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyC7hZTZ41Qwx4XT70L8FaGico6H6w8buaU',

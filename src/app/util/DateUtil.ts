@@ -157,4 +157,15 @@ export class DateUtil {
         return [year, month, day].join('-');
     }
 
+    /**
+     * returns timeStamp
+     */
+    getTimeStamp(date: Date): number {
+        return date.getTime();
+    }
+
+    convertMinutesToMS(minutes: number) {
+        return minutes * 60 * 1000;
+    }
+
 }

@@ -1,11 +1,13 @@
 import {Component, NgZone, OnInit, TemplateRef} from '@angular/core';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
-import {LocationRequest, TimezonePOJO} from "../../../model/app-config.model";
+import {InviteRequest, LocationRequest, TimezonePOJO} from "../../../model/app-config.model";
 import {AppConfigService} from "../../../services/app-config.service";
 import {NotifyService} from "../../../../../../service/notify.service";
 import {StorageService} from "../../../../../../service/storage.service";
 import {MapsAPILoader} from "@agm/core";
 import {GeoMapService} from "../../../../../../service/geo-map.service";
+import {DateUtil} from '../../../../../../util/DateUtil';
+import {COMMA, ENTER} from "@angular/cdk/keycodes";
 
 @Component({
     selector: 'app-create-location',
@@ -16,7 +18,7 @@ export class CreateLocationComponent implements OnInit {
 
     modalRef: BsModalRef;
 
-    step: number = 2;
+    step: number = 1;
     isNewShift: boolean = false;
     isDeleteShift: boolean = false;
     isSolutions: boolean = false;
@@ -35,6 +37,14 @@ export class CreateLocationComponent implements OnInit {
     filteredTimezones: TimezonePOJO[] = [];
     resumptionTime: Date;
     clockoutTime: Date;
+    items = ['king', 'eze'];
+    countries: any[] = [];
+    states: any[] = [];
+    inviteEmails: string[] = [];
+    confirmees: string[] = [];
+    tempName: string = "";
+    separatorKeysCodes = [ENTER, COMMA];
+    inviteRequest = new InviteRequest();
 
     constructor(private modalService: BsModalService,
                 private aService: AppConfigService,
@@ -42,10 +52,12 @@ export class CreateLocationComponent implements OnInit {
                 private ss: StorageService,
                 private loader: MapsAPILoader,
                 private ngZone: NgZone,
-                private mapService: GeoMapService,) {
+                private mapService: GeoMapService,
+                private dateUtil: DateUtil,
+                private configService: AppConfigService) {
         this.username = this.ss.getUserName();
     }
-//TODO add check to ensure grace period doesnt exceed the difference between resumption time and closing time
+
     ngOnInit() {
 
         this.fetchTimezones();
@@ -71,7 +83,8 @@ export class CreateLocationComponent implements OnInit {
         // this.confirmees = [];
 
         if (this.locRequest.locationType == 'COUNTRY' || this.locRequest.locationType == 'STATE') {
-            // this.fetchCountries();
+            this.fetchCountries();
+
             // this.verifyLocation = 'false';
         }
 
@@ -260,7 +273,8 @@ export class CreateLocationComponent implements OnInit {
 
                         this.locRequest = result.loc;
 
-                        this.step = 2;
+                        this.step += 1;
+                        // !this.locRequest.locationType ? this.locRequest.locationType = 'SPECIFIC_ADDRESS' : '';
                     } else {
                         this.ns.showError(result.description);
                     }
@@ -290,7 +304,91 @@ export class CreateLocationComponent implements OnInit {
             )
     }
 
+    isFormValid() {
+
+        if (!this.locRequest.locationType) {
+            return false;
+        }
+
+        if (this.locRequest.locationType == 'SPECIFIC_ADDRESS') {
+
+            if (!this.locRequest.address) {
+                this.ns.showError("You must select an Address");
+                return false;
+            }
+
+            this.locRequest.latitude = this.lat;
+            this.locRequest.longitude = this.lng;
+        }
+
+        if (this.locRequest.locationType == 'COUNTRY') {
+            if (this.locRequest.countryId < 1) {
+                this.ns.showError("You must select a Country");
+                return false;
+            }
+        }
+
+        if (this.locRequest.locationType == 'STATE') {
+            if (this.locRequest.countryId < 1 || this.locRequest.stateId < 1) {
+                this.ns.showError("You must select a State");
+                return false;
+            }
+        }
+
+        if (this.inviteEmails.length > 0) {
+            this.inviteEmails = this.removeDuplicate(this.inviteEmails);
+            if (!this.validateEmails('INVITE')) {
+                return false
+            }
+        }
+
+        if (this.confirmees.length > 0) {
+            this.confirmees = this.removeDuplicate(this.confirmees);
+            if (!this.validateEmails('VERIFY')) {
+                return false
+            }
+        }
+
+        return true;
+    }
+
+    //TODO Grace Period message
+
+    validateEmails(type: string): boolean {
+        let regex = /[^@\s]+@[^@\s]+\.[^@\s]+/;
+
+
+        for (let a of type == 'INVITE' ? this.inviteEmails : this.confirmees) {
+            if (a) {
+                let res = regex.test(a);
+                if (!res) {
+                    this.ns.showError("Incorrect Email format detected: " + a);
+                    return false;
+                }
+            }
+        }
+
+        type == 'INVITE' ? this.locRequest.inviteEmails = this.inviteEmails : this.locRequest.confirmees = this.confirmees;
+        return true;
+    }
+
+    removeDuplicate(arr: string[]): string[] {
+        let set = new Set(arr);
+
+        return Array.from(set);
+    }
+
     validateLocName() {
+        if (this.locRequest.name.length < 50) {
+            return;
+        }
+
+        if (this.tempName.length > 49) {
+            this.locRequest.name = this.tempName;
+            return;
+        }
+
+        this.tempName = this.locRequest.name;
     }
 
     nextStep() {
@@ -299,23 +397,26 @@ export class CreateLocationComponent implements OnInit {
                 this.locRequest.locId ? this.editLocation() : this.saveLocation();
                 break;
             }
-
             case 2: {
-                !this.locRequest.locationType ? this.locRequest.locationType = 'SPECIFIC_ADDRESS' : '';
-                this.step = 3;
+                if(this.isFormValid()) {
+                    this.editLocation();
+                }
                 break;
             }
-
             case 3: {
-                this.step = 4;
+                if (this.isTimeSetupValid()) {
+                    this.editLocation();
+                }
                 break;
             }
-
             case 4: {
-                this.step = 5;
+                if(this.isFormValid()) {
+                    // this.inviteRequest.locIds.push(this.location);
+                    this.inviteRequest.role = 'ATTENDEE';
+                    this.invite();
+                }
                 break;
             }
-
             case 5: {
                 break;
             }
@@ -329,18 +430,18 @@ export class CreateLocationComponent implements OnInit {
             }
 
             case 2: {
-                !this.locRequest.locationType ? this.locRequest.locationType = 'SPECIFIC_ADDRESS' : '';
-                this.step = 1;
+                // !this.locRequest.locationType ? this.locRequest.locationType = 'SPECIFIC_ADDRESS' : '';
+                this.step -= 1;
                 break;
             }
 
             case 3: {
-                this.step = 2;
+                this.step -= 1;
                 break;
             }
 
             case 4: {
-                this.step = 3;
+                this.step -= 1;
                 break;
             }
 
@@ -378,6 +479,169 @@ export class CreateLocationComponent implements OnInit {
             (e) => {
                 this.ns.showError(e)
             })
+    }
+
+    fetchCountries() {
+        if (this.countries.length == 0) {
+            this.aService.fetchCountries()
+                .subscribe(
+                    result => {
+                        if (result.code == 0) {
+                            this.countries = result.countries;
+                        }
+                    },
+                    error => {
+                    }
+                )
+        }
+    }
+
+    fetchStates(id: number) {
+        if (this.locRequest.locationType == 'STATE') {
+            this.states = [];
+            this.aService.fetchStates(id)
+                .subscribe(
+                    result => {
+                        if (result.code == 0) {
+                            this.states = result.states;
+                        }
+                    },
+                    error => {
+                    }
+                )
+        }
+    }
+
+    isTimeSetupValid(): boolean {
+        if (this.resumptionTime) {
+            if (!this.locRequest.resumptionTimezoneId) {
+                this.ns.showError("You must select a timezone.");
+                return false;
+            }
+
+            //validate that timezone entered is valid
+            if (!this.isValidTimezone()) {
+                this.ns.showError("Invalid timezone selected. Please make sure you select any of the timezones suggested in the Auto-Complete dropdown");
+                return false;
+            }
+
+            this.locRequest.resumption = this.dateUtil.getTimeStamp(this.resumptionTime);
+            //check if closing time is selected
+            if (this.clockoutTime) {
+                //check if closing time is less than resumption time
+                if (this.clockoutTime.getTime() < this.resumptionTime.getTime()) {
+                    this.ns.showError("Closing time should be greater than resumption time");
+                    return false;
+                }
+
+                this.locRequest.clockOutTime = this.dateUtil.getTimeStamp(this.clockoutTime);
+            } else {
+                this.locRequest.clockOutTime = null;
+            }
+
+        } else {
+            this.locRequest.resumption = null;
+            this.locRequest.clockOutTime = null;
+            return true;
+        }
+
+        if (this.locRequest.gracePeriodInMinutes) {
+            let diff = this.dateUtil.getTimeStamp(this.clockoutTime) - this.dateUtil.getTimeStamp(this.resumptionTime);
+
+            if (diff < this.dateUtil.convertMinutesToMS(this.locRequest.gracePeriodInMinutes)) {
+                this.ns.showError("Your grace period should be less than " + Math.round((diff/1000)/60) + " minutes");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    isValidTimezone(): boolean {
+        let filter: any[] = this.timezones.filter((obj) => obj.zoneId.toLowerCase() == (this.locRequest.resumptionTimezoneId.toLowerCase()));
+
+        if (filter.length == 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+    addEmails(event, type: string) {
+        let input, value;
+
+        if (event && event.target) {
+            input = event.target;
+            value = event.target.value.toLowerCase();
+        } else {
+            input = event.input;
+            value = event.value.toLowerCase();
+        }
+
+        let arr = value.split(" ");
+        if (arr.length > 0) {
+            for (let a of arr) {
+                // Add email
+                if ((a || '').trim()) {
+                    if (type == 'INVITE') {
+                        this.inviteEmails.push(a.trim())
+                    } else {
+                        this.confirmees.push(a.trim());
+                        this.inviteEmails.push(a.trim());
+                    }
+                }
+            }
+        } else {
+            // Add email
+            if ((value || '').trim()) {
+                if (type == 'INVITE') {
+                    this.inviteEmails.push(value.trim())
+                } else {
+                    this.confirmees.push(value.trim());
+                    this.inviteEmails.push(value.trim());
+                }
+            }
+        }
+
+
+        // Reset the input value
+        if (input) {
+            input.value = '';
+        }
+    }
+
+    removeEmail(email: any, type: string): void {
+        let index = type == 'INVITE' ? this.inviteEmails.indexOf(email) : this.confirmees.indexOf(email);
+
+        if (index >= 0) {
+            type == 'INVITE' ? this.inviteEmails.splice(index, 1) : this.confirmees.splice(index, 1);
+        }
+    }
+
+    clearTime(type: string) {
+
+        if(type == 'resumption') {
+            this.resumptionTime = void 0;
+        } else {
+            this.clockoutTime = void 0;
+        }
+    }
+
+    invite() {
+        this.configService.inviteAttendees(this.inviteRequest)
+            .finally(() => {this.loading = false;})
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.inviteRequest = new InviteRequest();
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {
+                    this.ns.showError("An Error Occurred.");
+                }
+            )
     }
 
 }
