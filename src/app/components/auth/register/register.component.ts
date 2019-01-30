@@ -31,6 +31,7 @@ export class RegisterComponent implements OnInit {
     baseUrl: string = environment.baseUrl;
     filteredCountries: any = [];
     openDropdown: boolean;
+    password: string;
     fullName: string;
     phone: string;
     iAgree: boolean;
@@ -129,16 +130,8 @@ export class RegisterComponent implements OnInit {
                 break;
             }
             case 2: {
-                this.step += 1;
-                this.getStep.emit(this.step);
-                break;
-            }
-            case 3: {
                 this.register();
                 break;
-            }
-            default: {
-
             }
         }
     }
@@ -182,6 +175,7 @@ export class RegisterComponent implements OnInit {
         this.loading = true;
         this.payload = this.form.value;
 
+        this.payload['password'] = this.password;
         this.payload['phoneCode'] = this.selectedPhoneCode.charAt(0) == "+" ? this.selectedPhoneCode : "+" + this.selectedPhoneCode;
 
         //set Device Type
@@ -335,8 +329,8 @@ export class RegisterComponent implements OnInit {
     }
 
     validateNameField() {
-        if(/[^A-Za-z \-']/.test(this.fullName)) {
-            this.nameError = "Numbers and special characters not allowed";
+        if(!(/^([a-zA-Z]{1,}'?-?[a-zA-Z]{2,}?\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}?)/.test(this.fullName))) {
+            this.nameError = "Type only firstname & lastname. DO NOT include numbers & special characters";
         }else{
             this.nameError = "";
         }

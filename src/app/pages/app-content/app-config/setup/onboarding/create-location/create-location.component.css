@@ -73,14 +73,24 @@ input[type=number]::-webkit-outer-spin-button {
     background-color: #603484;
 }
 
+.stepperCustom-done {
+    background-color: #603484 !important;
+}
+
 .sfx-stepper .sfx-step.active-stepper .sfx-step-circle {
     background-color: rgb(33, 150, 243);
 }
 
-.sfx-stepper .sfx-step.done .sfx-step-circle:before {
+.sfx-stepper .sfx-step.done .sfx-step-circle::before {
     font-family: 'FontAwesome';
     font-weight: 100;
     content: "1";
+}
+
+.sfx-stepper .sfx-step.done .sfx-step-circle::after {
+    font-family: 'FontAwesome';
+    font-weight: 100;
+    content: "";
 }
 
 .sfx-stepper .sfx-step.done .sfx-step-circle *,
@@ -88,10 +98,10 @@ input[type=number]::-webkit-outer-spin-button {
     display: none;
 }
 
-.sfx-stepper .sfx-step.editable .sfx-step-circle:before {
+.sfx-stepper .sfx-step.editable .sfx-step-circle::before {
     font-family: 'FontAwesome';
     font-weight: 100;
-    content: "2";
+    content: "";
 }
 
 .sfx-stepper .sfx-step .sfx-step-title {
@@ -190,4 +200,55 @@ input[type=number]::-webkit-outer-spin-button {
 
 .custom-padding-left {
     padding-left: 6rem;
+}
+
+.clock-in-range-input {
+    width: 35%
+}
+
+.location-slider-row {
+    width: 93%;
+}
+
+.action-btn {
+    width: 79%;
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    .clock-in-range-input {
+        width: 100%
+    }
+    .custom-padding-left {
+        padding-left: 8rem;
+    }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 823px) {
+    .clock-in-range-input {
+        width: 100%
+    }
+    .custom-padding-left {
+        padding-left: 0rem;
+    }
+    .w-50 {
+        width: 100% !important;
+    }
+    .location-slider-row {
+        width: 100%;
+    }
+    .action-btn {
+        width: 100%;
+    }
+    .w-75 {
+        width: 100% !important;
+    }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    .custom-padding-left {
+        padding-left: 8rem;
+    }
+    .w-50 {
+        width: 50% !important;
+    }
 }

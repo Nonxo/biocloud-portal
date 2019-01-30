@@ -168,16 +168,19 @@
                                     <mat-radio-group name="verifyLocation" [(ngModel)]="verifyLocation" (change)="onLocationOptionChange()">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <mat-radio-button value=true>Getting specific employees to confirm clock-in location
+                                                <mat-radio-button value=true><span class="d-md-block d-none">Getting specific employees to confirm clock-in location
                                                     <mat-icon class="small" matTooltip="Get one or more employees to download the app and confirm location at the specific address." [matTooltipPosition]="'right'">help
-                                                    </mat-icon>
+                                                    </mat-icon></span>
                                                 </mat-radio-button>
+                                                <span class="d-md-none d-block">Get specific employees to confirm clock-in location
+                                                        <mat-icon class="small" matTooltip="Get one or more employees to download the app and confirm location at the specific address." [matTooltipPosition]="'right'">help</mat-icon></span>
                                             </div>
 
                                             <div class="col-md-12">
-                                                <mat-radio-button value=false>Searching for my location or entering coordinates on the map
+                                                <mat-radio-button value=false><span class="d-md-block d-none">Searching for my location or entering coordinates on the map</span>
                                                     <!-- <mat-icon class="small" matTooltip="Get one or more employees to download the app and confirm location at the specific address." [matTooltipPosition]="'right'">help</mat-icon> -->
                                                 </mat-radio-button>
+                                                <span class="d-md-none d-block">Searching for my location or entering coordinates on the map</span>
                                             </div>
                                         </div>
                                     </mat-radio-group>
