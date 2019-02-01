@@ -3,6 +3,7 @@
  */
 
 export class LocationRequest {
+    id:string;
     locId:string;
     longitude:number;
     latitude:number;
@@ -28,7 +29,7 @@ export class LocationRequest {
         this.inviteEmails = [];
         this.confirmees = [];
         this.radiusThreshold = 32;
-        this.locationType = 'SPECIFIC_ADDRESS';
+        this.locationType = '';
     }
 }
 
