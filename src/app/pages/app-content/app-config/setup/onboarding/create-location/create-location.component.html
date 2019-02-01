@@ -258,13 +258,14 @@
                                     <div class="form-group">
                                         <label class="font-weight-normal text-secondary" for="clockiInTime">Clock-in
                                             time</label>
+                                        <div class="position-relative">
                                         <input class="form-control" id="clockiInTime" name="resumption" [(ngModel)]="resumptionTime"
                                                placeholder="(HH:MM AM/PM)" [owlDateTimeTrigger]="dt4"
                                                [owlDateTime]="dt4" required/>
                                         <owl-date-time hour12Timer="true" [pickerType]="'timer'" #dt4></owl-date-time>
 
-                                        <div class="col-md-4 text-right x-icon">
-                                            <button class="btn btn-clear cursor" type="button" *ngIf="resumptionTime" (click)="clearTime('resumption')"><i
+
+                                            <button class="btn btn-clear cursor position-absolute" type="button" *ngIf="resumptionTime" (click)="clearTime('resumption')"><i
                                                 class="material-icons">
                                                 cancel
                                             </i></button>
@@ -277,13 +278,15 @@
                                     <div class="form-group">
                                         <label class="font-weight-normal text-secondary" for="clockiOutTime">Clock-out
                                             time</label>
+
+                                        <div class="position-relative">
                                         <input class="form-control" id="clockiOutTime" name="clockoutTime"
                                                placeholder="(HH:MM AM/PM)" [(ngModel)]="clockoutTime"
                                                [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5" required/>
                                         <owl-date-time hour12Timer="true" [pickerType]="'timer'" #dt5></owl-date-time>
 
-                                        <div class="col-md-4 text-right x-icon">
-                                            <button class="btn btn-clear cursor" type="button" *ngIf="clockoutTime" (click)="clearTime('closing')"><i
+
+                                            <button class="btn btn-clear cursor position-absolute" type="button" *ngIf="clockoutTime" (click)="clearTime('closing')"><i
                                                 class="material-icons">
                                                 cancel
                                             </i></button>
@@ -589,19 +592,19 @@
             <!-- HELP CENTER -->
             <p class="font-weight-bold">What issues are you faced with ?</p>
 
-            <mat-radio-group>
-                <mat-radio-button (click)=cantGetLocation() class="pr-2" value="CANT_GET_LOCATION">I can't get my
+            <mat-radio-group name="helpOption" [(ngModel)]="helpOption">
+                <mat-radio-button class="pr-2" value="CANT_GET_LOCATION">I can't get my
                     location on the map
                 </mat-radio-button>
                 <br>
                 <!-- <mat-radio-button (click)=wrongLocationClockIn() class="pr-2" value="WRONG_LOCATION_CLOCK_IN">My employees clock-in at the set address but registers clock-in as wrong location</mat-radio-button>
                 <br> -->
-                <mat-radio-button (click)=otherIssues() class="pr-2" value="OTHER_ISSUES">Other</mat-radio-button>
-                <div *ngIf="isOtherIssues" class="pl-md-4">
+                <mat-radio-button class="pr-2" value="OTHER_ISSUES">Other</mat-radio-button>
+                <div *ngIf="helpOption == 'OTHER_ISSUES'" class="pl-md-4">
                     <form>
                         <div class="form-group mb-0">
                             <input type="text" class="form-control w-100"
-                                   placeholder="Enter explain the issue you are having" name="otherIssue" required/>
+                                   placeholder="Explain the issue you are having" name="otherIssue" [(ngModel)]="supportRequest.issue" required/>
                         </div>
                     </form>
                 </div>
@@ -619,12 +622,18 @@
                     <!-- Get specific employees to confirm clock-in location -->
                     <div *ngIf="specificEmployee" class="pl-md-4">
                         <form>
-                            <div class="form-group mb-0">
-                                <input type="text" class="form-control w-100"
-                                       placeholder="Enter employee(s) email address" name="employeeName" required/>
-                                <p class="small text-secondary text-right mb-0">seperate multiple enteries by comma
-                                    ","</p>
-                            </div>
+                            <mat-form-field class="w-50 input-field demo-chip-list" floatPlaceholder="never">
+                                <mat-chip-list #chippList>
+                                    <mat-chip *ngFor="let email of confirmees" [selectable]="true" [removable]="true" (remove)="removeEmail(email, 'VERIFY')">
+                                        {{email}}
+                                        <mat-icon matChipRemove>cancel</mat-icon>
+                                    </mat-chip>
+                                    <input placeholder="Enter Email Address (es)" name="confirmees" (focusout)="addEmails($event, 'VERIFY')" [matChipInputFor]="chippList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addEmails($event, 'VERIFY')"
+                                    />
+                                </mat-chip-list>
+                                <mat-hint class="text-success">Separate Multiple entries with comma or space
+                                </mat-hint>
+                            </mat-form-field>
                         </form>
                     </div>
                     <!-- <br>
@@ -644,7 +653,7 @@
                         </div>
 
                         <div class="col-md-6 text-right">
-                            <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1">Continue<img
+                            <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1" (click)="sendSupportEmail()">Continue<img
                                 *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/></button>
                             <button type="button" mat-raised-button class="mt-4 px-4 py-1 text-brand"
                                     (click)="modalRef.hide()">Back

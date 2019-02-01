@@ -60,3 +60,10 @@ export class TimezonePOJO {
     zoneId:string;
     offset:string;
 }
+
+export class SupportMailRequest {
+    email: string;
+    customerName: string;
+    phoneNo: number;
+    issue: string;
+}
