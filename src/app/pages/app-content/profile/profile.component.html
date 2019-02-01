@@ -15,29 +15,21 @@
                     <div class="col-lg-6 pt-lg-5">
                         <!-- <h4>Biodata</h4> -->
                         <div class="container-img-hover mx-auto">
-<<<<<<< HEAD
-                            <img class="w-100 rounded-circle mx-auto d-block mt-lg-0 mt-4 image-hover" *ngIf="model.img" src="data:image/jpg;base64,{{model.img}}" alt="Profile picture">
-                            <img class="w-100 rounded-circle mx-auto d-block mt-lg-0 mt-4 image-hover" *ngIf="model.img == null || model.img == ''" src="assets/img/1.png" alt="Profile picture">
-=======
-                            <img class="w-100 rounded-circle h-120 mx-auto d-block pt-lg-0 pt-4 image-hover" *ngIf="model.img"
-                                src="data:image/jpg;base64,{{model.img}}" alt="Profile picture">
-                            <img class="w-100 rounded-circle h-120 mx-auto d-block pt-lg-0 pt-4 image-hover" *ngIf="model.img == null || model.img == ''"
-                                src="assets/img/1.png" alt="Profile picture">
->>>>>>> eba97a843b0fd330e7046dfbd8bdfd484018ef51
+                            <img class="w-100 rounded-circle h-120 mx-auto d-block mt-lg-0 mt-4 image-hover" *ngIf="model.img" src="data:image/jpg;base64,{{model.img}}" alt="Profile picture">
+                            <img class="w-100 rounded-circle h-120 mx-auto d-block mt-lg-0 mt-4 image-hover" *ngIf="model.img == null || model.img == ''" src="assets/img/1.png" alt="Profile picture">
                             <div class="middle">
                                 <span class="fileUpload btn">
                                     <span>
                                         <mat-icon class="float-left upload-icon">camera_enhance</mat-icon>
                                     </span>
-                                    <input type="file" class="upload" accept="image/*" #input (change)="fileChange($event)">
+                                <input type="file" class="upload" accept="image/*" #input (change)="fileChange($event)">
                                 </span>
                             </div>
                         </div>
 
                         <div class="pl-4 pt-3 col-lg-10 col-10 mx-auto d-block text-secondary cursor">
                             <!--<p class="float-left small cursor">SAVE PHOTO | </p>-->
-                            <p *ngIf="model.img" class="text-danger small cursor text-center" data-dismiss="fileinput"
-                                (click)="remove()">&nbsp; REMOVE</p>
+                            <p *ngIf="model.img" class="text-danger small cursor text-center" data-dismiss="fileinput" (click)="remove()">&nbsp; REMOVE</p>
                             <p class="text-success small text-center">*Not More than 100KB</p>
                             <p *ngIf="pictureSizeErrorMessage" class="text-danger">{{pictureSizeErrorMessage}}</p>
                             <div class="clearfix"></div>
@@ -54,8 +46,7 @@
                         </div>
                         <div class="pt-3">
                             <p>Phone Number</p>
-                            <h6>{{model.phone? (model.phoneCode?.charAt(0) == "+"? model.phoneCode: "+" +
-                                model.phoneCode):'' }} {{ model.phone}}</h6>
+                            <h6>{{model.phone? (model.phoneCode?.charAt(0) == "+"? model.phoneCode: "+" + model.phoneCode):'' }} {{ model.phone}}</h6>
                         </div>
                         <div class="pt-3">
                             <p>Residential Address</p>
@@ -161,38 +152,58 @@
                 <form (ngSubmit)="onSubmit()" name="editProfile" #editProfile="ngForm" ngNativeValidate>
                     <div class="row">
                         <div class="col-md-6">
-                            <mat-form-field class="input-field">
-                                <input matInput type="text" #fName="ngModel" (keyup)="validateXters($event.target.value, 'fName')" [(ngModel)]="tmpModel.fName" name="fname"
-                                    placeholder="First Name" required maxlength="50">
-                            </mat-form-field>
-                            <div style="font-size: 10px">(50 characters max)</div>
-                            <mat-error *ngIf="fNameIsInvalid">{{invalidInputErrorMsg}}</mat-error>
+                            <!-- <mat-form-field class="input-field">
+                                <input matInput type="text" #fName="ngModel" (keyup)="validateXters($event.target.value, 'fName')" [(ngModel)]="tmpModel.fName" name="fname" placeholder="First Name" required maxlength="50">
+                            </mat-form-field> -->
+                            <div class="form-group">
+                                <input class="form-control w-100" type="text" #fName="ngModel" (keyup)="validateXters($event.target.value, 'fName')" [(ngModel)]="tmpModel.fName" name="fname" placeholder="First Name" required maxlength="50">
+                                <p class="small text-secondary text-left mb-1">(50 characters max)</p>
+                                <mat-error *ngIf="fNameIsInvalid">{{invalidInputErrorMsg}}</mat-error>
+                                <div *ngIf="fName.touched && fName.invalid">
+                                    <mat-error class="small" *ngIf="fName.errors.required">First name is required.</mat-error>
+                                    <mat-error class="small" *ngIf="fName.errors.maxlength">First name shouldn't exceed 50 characters.</mat-error>
+                                </div>
+                            </div>
+                            <!-- <mat-error *ngIf="fNameIsInvalid">{{invalidInputErrorMsg}}</mat-error>
                             <div *ngIf="fName.touched && fName.invalid">
                                 <mat-error *ngIf="fName.errors.required">First name is required.</mat-error>
                                 <mat-error *ngIf="fName.errors.maxlength">First name shouldn't exceed 50 characters.</mat-error>
-                            </div>
+                            </div> -->
                         </div>
 
                         <div class="col-md-6">
-                            <mat-form-field class="input-field">
-                                <input matInput type="text" #lName="ngModel" (keyup)="validateXters($event.target.value, 'lName')" [(ngModel)]="tmpModel.lName" name="lname"
-                                    placeholder="Last Name" required maxlength="50">
+                            <div class="form-group">
+                                <input class="form-control w-100" type="text" #lName="ngModel" (keyup)="validateXters($event.target.value, 'lName')" [(ngModel)]="tmpModel.lName" name="lname" placeholder="Last Name" required maxlength="50">
+                                <p class="small text-secondary text-left mb-1">(50 characters max)</p>
+                                <mat-error *ngIf="lNameIsInvalid">{{invalidInputErrorMsg}}</mat-error>
+                                <div *ngIf="lName.touched && lName.invalid">
+                                    <mat-error *ngIf="lName.errors.required">Last name is required.</mat-error>
+                                    <mat-error *ngIf="lName.errors.maxlength">Last name shouldn't exceed 50 characters.</mat-error>
+                                </div>
+                            </div>
+
+
+                            <!-- <mat-form-field class="input-field">
+                                <input matInput type="text" #lName="ngModel" (keyup)="validateXters($event.target.value, 'lName')" [(ngModel)]="tmpModel.lName" name="lname" placeholder="Last Name" required maxlength="50">
                             </mat-form-field>
                             <div style="font-size: 10px; margin-top: 5px">(50 characters max)</div>
                             <mat-error *ngIf="lNameIsInvalid">{{invalidInputErrorMsg}}</mat-error>
                             <div *ngIf="lName.touched && lName.invalid">
                                 <mat-error *ngIf="lName.errors.required">Last name is required.</mat-error>
                                 <mat-error *ngIf="lName.errors.maxlength">Last name shouldn't exceed 50 characters.</mat-error>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-12">
-                            <mat-form-field class="input-field">
-                                <input matInput type="email" [(ngModel)]="tmpModel.email" name="email" placeholder="Email Address"
-                                    [disabled]="true">
-                            </mat-form-field>
+                            <div class="form-group">
+                                <input class="form-control w-100" type="email" [(ngModel)]="tmpModel.email" name="email" placeholder="Email Address" [disabled]="true">
+                            </div>
+
+                            <!-- <mat-form-field class="input-field">
+                                <input matInput type="email" [(ngModel)]="tmpModel.email" name="email" placeholder="Email Address" [disabled]="true">
+                            </mat-form-field> -->
                         </div>
 
                         <div class="{{selectedCountryCode? 'col-md-3 flag-col':'col-md-3'}}">
@@ -201,13 +212,10 @@
                                 <i *ngIf="selectedCountryCode" class="sprite {{selectedCountryCode.toLowerCase()}}"></i>
                             </div>
                             <mat-form-field class="w-100">
-                                <mat-select placeholder="" name="phoneCode" [(ngModel)]="tmpModel.phoneCode" (change)="searchInput.focus(); onSelectChange()"
-                                    (openedChange)="openc($event)">
+                                <mat-select placeholder="" name="phoneCode" [(ngModel)]="tmpModel.phoneCode" (change)="searchInput.focus(); onSelectChange()" (openedChange)="openc($event)">
 
                                     <mat-form-field class="input-field sticky-search" floatPlaceholder="never">
-                                        <input class="pl-2" (keydown)="$event.stopPropagation()" #searchInput matInput
-                                            focused="'true'" [(ngModel)]="searchParam" name="searchParam" type="text"
-                                            (keyup)="search($event.target.value)" autocomplete="off" placeholder="Search">
+                                        <input class="pl-2" (keydown)="$event.stopPropagation()" #searchInput matInput focused="'true'" [(ngModel)]="searchParam" name="searchParam" type="text" (keyup)="search($event.target.value)" autocomplete="off" placeholder="Search">
                                         <mat-icon matSuffix>search</mat-icon>
                                     </mat-form-field>
 
@@ -217,21 +225,25 @@
                                         <div><i class="sprite {{country.code.toLowerCase()}} d-inline-flex mr-2"></i>{{country.name}}</div>
                                     </mat-option>
 
-                                    <p *ngIf="filteredCountries.length == 0" class="text-center small text-muted">No
-                                        result(s) found</p>
+                                    <p *ngIf="filteredCountries.length == 0" class="text-center small text-muted">No result(s) found</p>
                                 </mat-select>
                             </mat-form-field>
                         </div>
 
                         <div class="col-md-2 pl-lg-0 text-center pl-3 pl-0 pr-0 my-auto pt-3 text-muted">
-                            <p>{{selectedPhoneCode?.charAt(0) == "+"? selectedPhoneCode: "+" + selectedPhoneCode}}</p>
+                            <p class="form-control mb-1">{{selectedPhoneCode?.charAt(0) == "+"? selectedPhoneCode: "+" + selectedPhoneCode}}</p>
                         </div>
 
                         <div class="col-md-6">
-                            <mat-form-field class="input-field">
-                                <input matInput type="text" pattern="[0-9]{5,20}" (keyup)="onKeyUp()" [(ngModel)]="tmpModel.phone"
-                                    name="phoneNumber" placeholder="Phone Number" required>
-                            </mat-form-field>
+
+                            <div class="form-group">
+                                <label class="font-weight-bold small">Phone Number</label>
+                                <input class="form-control w-100" type="text" pattern="[0-9]{5,20}" (keyup)="onKeyUp()" [(ngModel)]="tmpModel.phone" name="phoneNumber" placeholder="Phone Number" required>
+                            </div>
+
+                            <!-- <mat-form-field class="input-field">
+                                <input matInput type="text" pattern="[0-9]{5,20}" (keyup)="onKeyUp()" [(ngModel)]="tmpModel.phone" name="phoneNumber" placeholder="Phone Number" required>
+                            </mat-form-field> -->
                         </div>
                     </div>
 
@@ -249,9 +261,13 @@
 
                     <div class="row">
                         <div class="col-md-12">
+                            <div class="form-group">
+                                <input class="form-control w-100" type="text" [(ngModel)]="tmpModel.address" name="address" placeholder="Contact Address">
+                            </div>
+                            <!--
                             <mat-form-field class="input-field">
                                 <input matInput type="text" [(ngModel)]="tmpModel.address" name="address" placeholder="Contact Address">
-                            </mat-form-field>
+                            </mat-form-field> -->
                         </div>
                     </div>
 
@@ -277,9 +293,14 @@
         </button>
     </div>
     <mat-card>
-        <mat-form-field class="example-full-width">
+        <!-- <mat-form-field class="example-full-width">
             <textarea matInput placeholder="My info" [(ngModel)]="tmpModel.bio"></textarea>
-        </mat-form-field>
+        </mat-form-field> -->
+
+        <div class="form-group">
+            <label for="comment">My info</label>
+            <textarea class="form-control" rows="5" id="comment" [(ngModel)]="tmpModel.bio"></textarea>
+        </div>
 
         <div class="col-md-12 text-md-center text-center pt-5">
             <button mat-raised-button class="px-4 primary-outline py-1" type="button" (click)="closeAboutMeModal()">CANCEL</button>

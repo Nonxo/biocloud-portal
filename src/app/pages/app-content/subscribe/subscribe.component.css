@@ -325,3 +325,7 @@
     font-weight: normal;
     cursor: pointer;
 }
+
+.currencySelect {
+    height: 2.2rem !important;
+}
