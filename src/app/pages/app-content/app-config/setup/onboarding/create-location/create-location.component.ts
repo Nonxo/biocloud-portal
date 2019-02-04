@@ -18,7 +18,7 @@ export class CreateLocationComponent implements OnInit {
 
     modalRef: BsModalRef;
 
-    step: number = 2;
+    step: number = 1;
     isNewShift: boolean = false;
     isDeleteShift: boolean = false;
     isSolutions: boolean = false;
@@ -262,6 +262,7 @@ export class CreateLocationComponent implements OnInit {
     }
 
     saveLocation() {
+        this.loading = true;
         this.locRequest.createdBy = this.ss.getLoggedInUserEmail();
 
         // noinspection TypeScriptValidateTypes,TypeScriptUnresolvedFunction
@@ -288,6 +289,7 @@ export class CreateLocationComponent implements OnInit {
     }
 
     editLocation() {
+        this.loading = true;
         this.aService.editLocation(this.locRequest)
             .finally(() => {
                 this.loading = false;
@@ -629,6 +631,7 @@ export class CreateLocationComponent implements OnInit {
     }
 
     invite() {
+        this.loading = true;
         this.configService.inviteAttendees(this.inviteRequest)
             .finally(() => {this.loading = false;})
             .subscribe(
@@ -658,7 +661,8 @@ export class CreateLocationComponent implements OnInit {
         this.configService.sendSupportEmail(this.supportRequest)
             .subscribe(
                 (result) => {
-                    this.ns.showSuccess("Message sent successfully")
+                    this.ns.showSuccess("Message sent successfully");
+                    this.modalRef.hide();
                 },
                 (error) => { this.ns.showError("An Error Occurred");}
             )

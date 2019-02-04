@@ -94,7 +94,7 @@
                             <div *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS'">
                                 <div class="form-group">
                                     <input type="text" class="form-control w-75"
-                                           placeholder="Enter address e.g. Lagos Nigeria or No 8 C&I leasing"
+                                           placeholder="Enter address e.g. Lagos Nigeria or No 8 C&I leasing or coordinates"
                                            name="search" [(ngModel)]="searchValue" id="autocompleteInput"
                                            (keydown.enter)="$event.preventDefault()"/>
                                 </div>
@@ -618,7 +618,7 @@
                         <mat-icon matTooltip="Info about the action" class="small">help</mat-icon></span>
                     </mat-radio-button>
                     <span class="d-md-none d-block">Get specific employees to confirm clock-in location
-                            <mat-icon matTooltip="Info about the action" class="small">help</mat-icon></span>
+                            <mat-icon matTooltip="Employees coordinates will be used to find your location." class="small">help</mat-icon></span>
                     <!-- Get specific employees to confirm clock-in location -->
                     <div *ngIf="specificEmployee" class="pl-md-4">
                         <form>
