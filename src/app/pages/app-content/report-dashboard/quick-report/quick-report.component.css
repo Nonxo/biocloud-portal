@@ -18,6 +18,12 @@
     color: #fff;
 }
 
+.searchIcon {
+    position: absolute;
+    top: 25%;
+    right: 1%;
+}
+
 .report-input {
     background: transparent;
     border: none;
