@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 
 @Component({
@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
 })
 export class WizardStepperComponent implements OnInit {
 
-    tab: number = 2;
+    tab: number = 1;
 
 
     constructor(private router: Router) {
