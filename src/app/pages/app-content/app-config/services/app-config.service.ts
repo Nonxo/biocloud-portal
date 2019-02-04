@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../../util/endpoints";
-import {AssignAdminRequest, InviteRequest, LocationRequest} from "../model/app-config.model";
+import {AssignAdminRequest, InviteRequest, LocationRequest, SupportMailRequest} from "../model/app-config.model";
 import {StorageService} from "../../../../service/storage.service";
 import {MediaType} from "../../../../util/constants";
 import {map, timeout} from "rxjs/operators";
@@ -158,6 +158,22 @@ export class AppConfigService {
 
         return this.httpClient
             .post(Endpoints.ASSIGN_ADMINS_LOCATIONS, JSON.stringify(model), {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
+    sendSupportEmail(model: SupportMailRequest) {
+        return this.httpClient
+            .post(Endpoints.SEND_SUPPORT_EMAIL, JSON.stringify(model), {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_JSON)
             })

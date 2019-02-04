@@ -252,3 +252,10 @@ input[type=number]::-webkit-outer-spin-button {
         width: 50% !important;
     }
 }
+
+
+.btn-clear {
+    background: transparent;
+    top: 0;
+    right: 0;
+}

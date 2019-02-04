@@ -1,6 +1,6 @@
 import {Component, NgZone, OnInit, TemplateRef} from '@angular/core';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
-import {InviteRequest, LocationRequest, TimezonePOJO} from "../../../model/app-config.model";
+import {InviteRequest, LocationRequest, SupportMailRequest, TimezonePOJO} from "../../../model/app-config.model";
 import {AppConfigService} from "../../../services/app-config.service";
 import {NotifyService} from "../../../../../../service/notify.service";
 import {StorageService} from "../../../../../../service/storage.service";
@@ -45,6 +45,8 @@ export class CreateLocationComponent implements OnInit {
     tempName: string = "";
     separatorKeysCodes = [ENTER, COMMA];
     inviteRequest = new InviteRequest();
+    supportRequest = new SupportMailRequest();
+    helpOption: string;
 
     constructor(private modalService: BsModalService,
                 private aService: AppConfigService,
@@ -260,6 +262,7 @@ export class CreateLocationComponent implements OnInit {
     }
 
     saveLocation() {
+        this.loading = true;
         this.locRequest.createdBy = this.ss.getLoggedInUserEmail();
 
         // noinspection TypeScriptValidateTypes,TypeScriptUnresolvedFunction
@@ -286,6 +289,7 @@ export class CreateLocationComponent implements OnInit {
     }
 
     editLocation() {
+        this.loading = true;
         this.aService.editLocation(this.locRequest)
             .finally(() => {
                 this.loading = false;
@@ -351,8 +355,6 @@ export class CreateLocationComponent implements OnInit {
 
         return true;
     }
-
-    //TODO Grace Period message
 
     validateEmails(type: string): boolean {
         let regex = /[^@\s]+@[^@\s]+\.[^@\s]+/;
@@ -629,6 +631,7 @@ export class CreateLocationComponent implements OnInit {
     }
 
     invite() {
+        this.loading = true;
         this.configService.inviteAttendees(this.inviteRequest)
             .finally(() => {this.loading = false;})
             .subscribe(
@@ -643,6 +646,25 @@ export class CreateLocationComponent implements OnInit {
                 error => {
                     this.ns.showError("An Error Occurred.");
                 }
+            )
+    }
+
+    sendSupportEmail() {
+        if(this.helpOption == 'CANT_GET_LOCATION') {
+            this.supportRequest.issue = "I can't get my location on the map";
+        }
+
+        this.supportRequest.email = this.ss.getLoggedInUserEmail();
+        this.supportRequest.customerName = this.ss.getUserName();
+        this.supportRequest.phoneNo = 0;
+
+        this.configService.sendSupportEmail(this.supportRequest)
+            .subscribe(
+                (result) => {
+                    this.ns.showSuccess("Message sent successfully");
+                    this.modalRef.hide();
+                },
+                (error) => { this.ns.showError("An Error Occurred");}
             )
     }
 

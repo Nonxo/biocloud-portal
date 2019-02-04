@@ -88,7 +88,10 @@
                             <!-- specific address -->
                             <div *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS'">
                                 <div class="form-group">
-                                    <input type="text" class="form-control w-75" placeholder="Enter address e.g. Lagos Nigeria or No 8 C&I leasing" name="search" [(ngModel)]="searchValue" id="autocompleteInput" (keydown.enter)="$event.preventDefault()" />
+                                    <input type="text" class="form-control w-75"
+                                           placeholder="Enter address e.g. Lagos Nigeria or No 8 C&I leasing or coordinates"
+                                           name="search" [(ngModel)]="searchValue" id="autocompleteInput"
+                                           (keydown.enter)="$event.preventDefault()"/>
                                 </div>
 
                                 <p class="d-inline-flex cursor" (click)="getCurrentPosition(true)">
@@ -147,7 +150,10 @@
                             <div *ngIf="locRequest.locationType == 'COUNTRY' || locRequest.locationType == 'STATE'">
                                 <div class="form-group w-75">
                                     <label class="font-weight-bold" for="selectCountry">Country</label>
-                                    <select class="form-control" id="selectCountry" name="country" [(ngModel)]="locRequest.countryId" (change)="fetchStates(locRequest.countryId)" [required]="locRequest.locationType == 'COUNTRY' || locRequest.locationType == 'STATE'">
+                                    <select class="form-control" id="selectCountry" name="country"
+                                            [(ngModel)]="locRequest.countryId"
+                                            (change)="fetchStates(locRequest.countryId)"
+                                            [required]="locRequest.locationType == 'COUNTRY' || locRequest.locationType == 'STATE'">
                                         <option value="0">Select Country</option>
                                         <option *ngFor="let country of countries" value="{{country.countryId}}">
                                             {{country.name}}
@@ -163,7 +169,9 @@
                                 <div>
                                     <div class="form-group w-75">
                                         <label class="font-weight-bold" for="selectState">State/Province</label>
-                                        <select class="form-control" id="selectState" name="state" [(ngModel)]="locRequest.stateId" [required]="locRequest.locationType == 'STATE'">
+                                        <select class="form-control" id="selectState" name="state"
+                                                [(ngModel)]="locRequest.stateId"
+                                                [required]="locRequest.locationType == 'STATE'">
                                             <option value="0">Select State/Province</option>
                                             <option *ngFor="let state of states" value="{{state.stateId}}">
                                                 {{state.name}}
@@ -176,7 +184,9 @@
                             <div *ngIf="locRequest.locationType">
                                 <div class="form-group w-75">
                                     <label class="font-weight-bold" for="locationTimezone">Location Timezone</label>
-                                    <input class="form-control" id="locationTimezone" placeholder="Select Timezone" (keydown)="filter()" [matAutocomplete]="auto" name="timezone" [(ngModel)]="locRequest.resumptionTimezoneId" required/>
+                                    <input class="form-control" id="locationTimezone" placeholder="Select Timezone"
+                                           (keydown)="filter()" [matAutocomplete]="auto" name="timezone"
+                                           [(ngModel)]="locRequest.resumptionTimezoneId" required/>
                                 </div>
                             </div>
 
@@ -188,7 +198,8 @@
 
                             <div class="row action-btn">
                                 <div class="col-6 text-left">
-                                    <button type="button" mat-raised-button class="mt-4 px-4 py-1 back-Btn" (click)=previousStep()>Back
+                                    <button type="button" mat-raised-button class="mt-4 px-4 py-1 back-Btn"
+                                            (click)=previousStep()>Back
                                     </button>
                                 </div>
 
@@ -205,7 +216,8 @@
                                 <h6 class="text-secondary font-weight-normal small">Having issues with address?</h6>
 
                                 <div class="text-center">
-                                    <button type="button" mat-raised-button color="primary" (click)="openModal(getHelp)" class="mt-4 px-2 help-btn small">Get help here
+                                    <button type="button" mat-raised-button color="primary" (click)="openModal(getHelp)"
+                                            class="mt-4 px-2 help-btn small">Get help here
                                     </button>
                                 </div>
                             </div>
@@ -219,8 +231,8 @@
         <div *ngIf="step == 3" class="col-md-8 offset-md-2 pb-5">
             <form (ngSubmit)="nextStep()" name="addLocationForm" #addLocationForm="ngForm" ngNativeValidate>
                 <div class="text-center">
-                    <h4 class="text-brand">Now, set a daily resumption and closing time for employees in this location.
-                    </h4>
+                    <h4 class="text-brand">Now, set a daily resumption and closing time for employees in this
+                        location.</h4>
                     <p class="small">My employees will clock-in and out at...</p>
                 </div>
 
@@ -234,11 +246,14 @@
                                     <div class="form-group">
                                         <label class="font-weight-normal text-secondary" for="clockiInTime">Clock-in
                                             time</label>
-                                        <input class="form-control" id="clockiInTime" name="resumption" [(ngModel)]="resumptionTime" placeholder="(HH:MM AM/PM)" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4" required/>
+                                        <div class="position-relative">
+                                        <input class="form-control" id="clockiInTime" name="resumption" [(ngModel)]="resumptionTime"
+                                               placeholder="(HH:MM AM/PM)" [owlDateTimeTrigger]="dt4"
+                                               [owlDateTime]="dt4" required/>
                                         <owl-date-time hour12Timer="true" [pickerType]="'timer'" #dt4></owl-date-time>
 
-                                        <div class="col-md-4 text-right x-icon">
-                                            <button class="btn btn-clear cursor" type="button" *ngIf="resumptionTime" (click)="clearTime('resumption')"><i
+
+                                            <button class="btn btn-clear cursor position-absolute" type="button" *ngIf="resumptionTime" (click)="clearTime('resumption')"><i
                                                 class="material-icons">
                                                 cancel
                                             </i></button>
@@ -251,11 +266,15 @@
                                     <div class="form-group">
                                         <label class="font-weight-normal text-secondary" for="clockiOutTime">Clock-out
                                             time</label>
-                                        <input class="form-control" id="clockiOutTime" name="clockoutTime" placeholder="(HH:MM AM/PM)" [(ngModel)]="clockoutTime" [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5" required/>
+
+                                        <div class="position-relative">
+                                        <input class="form-control" id="clockiOutTime" name="clockoutTime"
+                                               placeholder="(HH:MM AM/PM)" [(ngModel)]="clockoutTime"
+                                               [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5" required/>
                                         <owl-date-time hour12Timer="true" [pickerType]="'timer'" #dt5></owl-date-time>
 
-                                        <div class="col-md-4 text-right x-icon">
-                                            <button class="btn btn-clear cursor" type="button" *ngIf="clockoutTime" (click)="clearTime('closing')"><i
+
+                                            <button class="btn btn-clear cursor position-absolute" type="button" *ngIf="clockoutTime" (click)="clearTime('closing')"><i
                                                 class="material-icons">
                                                 cancel
                                             </i></button>
@@ -268,7 +287,9 @@
                                     <div class="form-group">
                                         <label class="font-weight-normal text-secondary" for="gracePeriod">Grace
                                             period</label>
-                                        <input class="form-control" id="gracePeriod" type="number" min="0" placeholder="Enter Grace period in minutes" name="gracePeriod" [(ngModel)]="locRequest.gracePeriodInMinutes" />
+                                        <input class="form-control" id="gracePeriod" type="number" min="0"
+                                               placeholder="Enter Grace period in minutes" name="gracePeriod"
+                                               [(ngModel)]="locRequest.gracePeriodInMinutes"/>
                                     </div>
                                 </div>
                             </div>
@@ -380,48 +401,48 @@
                                 <div class="col-md-12">
                                     <p class="small font-weight-bold">Work days</p>
 
-                                    <!-- desktop view for days of the week -->
-                                    <div class="d-xl-block d-none">
-                                        <div class="workDaysDiv d-inline-flex">
-                                            <div class="px-custom border-right py-3 cursor">Mon</div>
-                                            <div class="px-custom border-right py-3 cursor">Tue</div>
-                                            <div class="px-custom border-right days-active py-3 cursor">Wed</div>
-                                            <div class="px-custom border-right py-3 cursor">Thu</div>
-                                            <div class="px-custom border-right py-3 cursor">Fri</div>
-                                            <div class="px-custom border-right py-3 cursor">Sat</div>
-                                            <div class="px-custom py-3">Sun</div>
+                                <!-- desktop view for days of the week -->
+                                <div class="d-xl-block d-none">
+                                    <div class="workDaysDiv d-inline-flex">
+                                        <div class="px-custom border-right py-3 cursor">Mon</div>
+                                        <div class="px-custom border-right py-3 cursor">Tue</div>
+                                        <div class="px-custom border-right days-active py-3 cursor">Wed</div>
+                                        <div class="px-custom border-right py-3 cursor">Thu</div>
+                                        <div class="px-custom border-right py-3 cursor">Fri</div>
+                                        <div class="px-custom border-right py-3 cursor">Sat</div>
+                                        <div class="px-custom py-3">Sun</div>
+                                    </div>
+                                </div>
+
+                                <!-- Mobile view for days of the week -->
+                                <div class="d-xl-none d-block">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <mat-checkbox>Mon</mat-checkbox>
+                                        </div>
+                                        <div class="col-3">
+                                            <mat-checkbox>Tue</mat-checkbox>
+                                        </div>
+                                        <div class="col-3">
+                                            <mat-checkbox>Wed</mat-checkbox>
+                                        </div>
+                                        <div class="col-3">
+                                            <mat-checkbox>Thu</mat-checkbox>
                                         </div>
                                     </div>
 
-                                    <!-- Mobile view for days of the week -->
-                                    <div class="d-xl-none d-block">
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <mat-checkbox>Mon</mat-checkbox>
-                                            </div>
-                                            <div class="col-3">
-                                                <mat-checkbox>Tue</mat-checkbox>
-                                            </div>
-                                            <div class="col-3">
-                                                <mat-checkbox>Wed</mat-checkbox>
-                                            </div>
-                                            <div class="col-3">
-                                                <mat-checkbox>Thu</mat-checkbox>
-                                            </div>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <mat-checkbox>Fri</mat-checkbox>
                                         </div>
-
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <mat-checkbox>Fri</mat-checkbox>
-                                            </div>
-                                            <div class="col-3">
-                                                <mat-checkbox>Sat</mat-checkbox>
-                                            </div>
-                                            <div class="col-3">
-                                                <mat-checkbox>Sun</mat-checkbox>
-                                            </div>
+                                        <div class="col-3">
+                                            <mat-checkbox>Sat</mat-checkbox>
+                                        </div>
+                                        <div class="col-3">
+                                            <mat-checkbox>Sun</mat-checkbox>
                                         </div>
                                     </div>
+                                </div>
 
                                     <p class="small font-weight-bold text-md-right text-left addShift cursor pt-3">+ Add shifts to location</p>
                                 </div>
@@ -474,7 +495,10 @@
                             {{email}}
                             <mat-icon matChipRemove>cancel</mat-icon>
                         </mat-chip>
-                        <input placeholder="Enter Email Address (es)" name="invitees" (focusout)="addEmails($event, 'INVITE')" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addEmails($event, 'INVITE')"
+                        <input placeholder="Enter Email Address (es)" name="invitees"
+                               (focusout)="addEmails($event, 'INVITE')" [matChipInputFor]="chipList"
+                               [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                               (matChipInputTokenEnd)="addEmails($event, 'INVITE')"
                         />
                     </mat-chip-list>
                     <mat-hint class="text-success">Separate Multiple entries with comma or space
@@ -507,7 +531,8 @@
 
                     <div class="row">
                         <div class="col-6 text-left">
-                            <button type="button" mat-raised-button class="mt-4 px-4 py-1 back-Btn" (click)=previousStep()>Back
+                            <button type="button" mat-raised-button class="mt-4 px-4 py-1 back-Btn"
+                                    (click)=previousStep()>Back
                             </button>
                         </div>
 
@@ -532,7 +557,8 @@
                 <h4 class="text-brand">Location created successfully</h4>
 
                 <div class="col-md-12">
-                    <button type="button" mat-raised-button color="primary" class="mt-4 px-4 py-1" [routerLink]="['/portal']">See your dashboard<img *ngIf="loading"
+                    <button type="button" mat-raised-button color="primary" class="mt-4 px-4 py-1"
+                            [routerLink]="['/portal']">See your dashboard<img *ngIf="loading"
                                                                               src="assets/img/loading.gif"
                                                                               style="max-width: 20px;"/></button>
                 </div>
@@ -552,17 +578,19 @@
             <!-- HELP CENTER -->
             <p class="font-weight-bold">What issues are you faced with ?</p>
 
-            <mat-radio-group>
-                <mat-radio-button (click)=cantGetLocation() class="pr-2" value="CANT_GET_LOCATION">I can't get my location on the map
+            <mat-radio-group name="helpOption" [(ngModel)]="helpOption">
+                <mat-radio-button class="pr-2" value="CANT_GET_LOCATION">I can't get my
+                    location on the map
                 </mat-radio-button>
                 <br>
                 <!-- <mat-radio-button (click)=wrongLocationClockIn() class="pr-2" value="WRONG_LOCATION_CLOCK_IN">My employees clock-in at the set address but registers clock-in as wrong location</mat-radio-button>
                 <br> -->
-                <mat-radio-button (click)=otherIssues() class="pr-2" value="OTHER_ISSUES">Other</mat-radio-button>
-                <div *ngIf="isOtherIssues" class="pl-md-4">
+                <mat-radio-button class="pr-2" value="OTHER_ISSUES">Other</mat-radio-button>
+                <div *ngIf="helpOption == 'OTHER_ISSUES'" class="pl-md-4">
                     <form>
                         <div class="form-group mb-0">
-                            <input type="text" class="form-control w-100" placeholder="Enter explain the issue you are having" name="otherIssue" required/>
+                            <input type="text" class="form-control w-100"
+                                   placeholder="Explain the issue you are having" name="otherIssue" [(ngModel)]="supportRequest.issue" required/>
                         </div>
                     </form>
                 </div>
@@ -576,15 +604,22 @@
                         <mat-icon matTooltip="Info about the action" class="small">help</mat-icon></span>
                     </mat-radio-button>
                     <span class="d-md-none d-block">Get specific employees to confirm clock-in location
-                            <mat-icon matTooltip="Info about the action" class="small">help</mat-icon></span>
+                            <mat-icon matTooltip="Employees coordinates will be used to find your location." class="small">help</mat-icon></span>
                     <!-- Get specific employees to confirm clock-in location -->
                     <div *ngIf="specificEmployee" class="pl-md-4">
                         <form>
-                            <div class="form-group mb-0">
-                                <input type="text" class="form-control w-100" placeholder="Enter employee(s) email address" name="employeeName" required/>
-                                <p class="small text-secondary text-right mb-0">seperate multiple enteries by comma ","
-                                </p>
-                            </div>
+                            <mat-form-field class="w-50 input-field demo-chip-list" floatPlaceholder="never">
+                                <mat-chip-list #chippList>
+                                    <mat-chip *ngFor="let email of confirmees" [selectable]="true" [removable]="true" (remove)="removeEmail(email, 'VERIFY')">
+                                        {{email}}
+                                        <mat-icon matChipRemove>cancel</mat-icon>
+                                    </mat-chip>
+                                    <input placeholder="Enter Email Address (es)" name="confirmees" (focusout)="addEmails($event, 'VERIFY')" [matChipInputFor]="chippList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addEmails($event, 'VERIFY')"
+                                    />
+                                </mat-chip-list>
+                                <mat-hint class="text-success">Separate Multiple entries with comma or space
+                                </mat-hint>
+                            </mat-form-field>
                         </form>
                     </div>
                     <!-- <br>
@@ -604,9 +639,10 @@
                         </div>
 
                         <div class="col-md-6 text-right">
-                            <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1">Continue<img
+                            <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1" (click)="sendSupportEmail()">Continue<img
                                 *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/></button>
-                            <button type="button" mat-raised-button class="mt-4 px-4 py-1 text-brand" (click)="modalRef.hide()">Back
+                            <button type="button" mat-raised-button class="mt-4 px-4 py-1 text-brand"
+                                    (click)="modalRef.hide()">Back
                             </button>
                         </div>
                     </div>

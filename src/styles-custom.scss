@@ -355,3 +355,21 @@ tbody>tr {
 tbody > tr > td {
     font-size: 14px;
 }
+
+
+.mat-form-field-flex {
+    display: inline-flex;
+    align-items: baseline;
+    width: 100%;
+    border: 1px solid #cfcece !important;
+    border-bottom: none !important;
+    padding: 0 10px;
+    background: #fff !important;
+}
+
+.mat-form-field-infix {
+    display: block;
+    position: relative;
+    flex: auto;
+    margin-top: -7px !important;
+}
