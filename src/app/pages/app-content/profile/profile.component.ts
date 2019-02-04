@@ -25,6 +25,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     selectedCountry: any;
     userId: string;
     bio: string;
+    openDropdown: boolean;
+    searchField: string;
     model: UpdateProfile = new UpdateProfile();
     tmpModel: UpdateProfile = new UpdateProfile();
     changePasswordForm: FormGroup;
@@ -85,6 +87,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
         // this.fetchUser();
         this.modalRef.hide();
     }
+
+    showDd() {
+        if (!this.openDropdown) {
+            //first load filteredCountries afresh else the old searched countries will still be displayed
+            this.filteredCountries = this.countries;
+
+            this.openDropdown = true;
+        } else {
+            this.openDropdown = false;
+        }
+    }
+
 
     fileChange(event) {
         if (!this.validateImageFile(event.target.files[0].name)) {
@@ -269,6 +283,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
                     }
                 }
             )
+    }
+
+    onClickedOutside(e: Event) {
+        this.openDropdown = false;
+        this.searchField = "";
+
+        //load filteredCountries afresh else the old searched countries will still be displayed
+        this.filteredCountries = this.countries;
     }
 
 

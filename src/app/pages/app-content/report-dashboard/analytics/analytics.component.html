@@ -5,53 +5,65 @@
             <div class="col-4"></div>
             <div class="col-8 text-right">
                 <div class="row">
-                <div class="col">
-                    <mat-form-field>
+                    <div class="col my-auto">
+
+                        <div class="form-group mb-0">
+                            <select class="form-control analytics-select" id="reportPeriod" name="reportPeriod" [(ngModel)]="reportPeriod" (change)="filterReport()">
+                                        <option value="TODAY">TODAY</option>
+                                        <option value="THIS_WEEK">THIS WEEK</option>
+                                        <option value="THIS_MONTH">THIS MONTH</option>
+                                        <option value="DATE_RANGE">DATE RANGE</option>
+                                    </select>
+                        </div>
+
+                        <!-- <mat-form-field>
                         <mat-select name="reportPeriod" [(ngModel)]="reportPeriod" (change)="filterReport()">
                             <mat-option value="TODAY">TODAY</mat-option>
                             <mat-option value="THIS_WEEK">THIS WEEK</mat-option>
                             <mat-option value="THIS_MONTH">THIS MONTH</mat-option>
                             <mat-option value="DATE_RANGE">DATE RANGE</mat-option>
                         </mat-select>
-                    </mat-form-field>
-                </div>
-                <ng-container *ngIf="reportPeriod == 'DATE_RANGE'">
-                    <div class="col">
-                        <mat-form-field>
-                            <input matInput [matDatepicker]="earlyStart" placeholder="Start date" [max]="dateObj"
-                                   name="date"
-                                   [(ngModel)]="selectedStartDate" (dateChange)="onDatePickerToggle()" (click)="earlyStart.open()" readonly>
-                            <mat-datepicker-toggle matSuffix [for]="earlyStart"></mat-datepicker-toggle>
-                            <mat-datepicker #earlyStart disabled="false"></mat-datepicker>
-                        </mat-form-field>
-                        <!--<mat-icon class="cursor date-style" (click)="earlyStart.open()">date_range</mat-icon>-->
+                    </mat-form-field> -->
                     </div>
+                    <ng-container *ngIf="reportPeriod == 'DATE_RANGE'">
+                        <div class="col my-auto">
+                            <div class="form-group position-relative mb-0">
+                                <input class="form-control w-100" [matDatepicker]="earlyStart" placeholder="Start date" [max]="dateObj" name="date" [(ngModel)]="selectedStartDate" (dateChange)="onDatePickerToggle()" (click)="earlyStart.open()" readonly>
+                                <mat-datepicker-toggle class="position-absolute" style="top: 0; right:0" matSuffix [for]="earlyStart"></mat-datepicker-toggle>
+                                <mat-datepicker class="position-absolute" style="top: 0; right:0" #earlyStart disabled="false"></mat-datepicker>
+                            </div>
 
-                    <div class="col">
-                        <mat-form-field>
-                            <input matInput [matDatepicker]="earlyEnd" placeholder="End date" [max]="dateObj"
-                                   name="date"
-                                   [(ngModel)]="selectedEndDate" (dateChange)="onDatePickerToggle()" (click)="earlyEnd.open()" readonly>
-                            <mat-datepicker-toggle matSuffix [for]="earlyEnd"></mat-datepicker-toggle>
-                            <mat-datepicker #earlyEnd disabled="false"></mat-datepicker>
-                        </mat-form-field>
-                        <!--<mat-icon class="cursor date-style" (click)="earlyEnd.open()">date_range</mat-icon>-->
-                    </div>
-                </ng-container>
+                            <!-- <mat-form-field>
+                                <input class="form-control w-100" matInput [matDatepicker]="earlyStart" placeholder="Start date" [max]="dateObj" name="date" [(ngModel)]="selectedStartDate" (dateChange)="onDatePickerToggle()" (click)="earlyStart.open()" readonly>
+                                <mat-datepicker-toggle matSuffix [for]="earlyStart"></mat-datepicker-toggle>
+                                <mat-datepicker #earlyStart disabled="false"></mat-datepicker>
+                            </mat-form-field> -->
+                            <!--<mat-icon class="cursor date-style" (click)="earlyStart.open()">date_range</mat-icon>-->
+                        </div>
+
+                        <div class="col my-auto">
+
+                            <div class="form-group position-relative mb-0">
+                                <input class="form-control w-100" [matDatepicker]="earlyEnd" placeholder="End date" [max]="dateObj" name="date" [(ngModel)]="selectedEndDate" (dateChange)="onDatePickerToggle()" (click)="earlyEnd.open()" readonly>
+                                <mat-datepicker-toggle class="position-absolute" style="top: 0; right:0" matSuffix [for]="earlyEnd"></mat-datepicker-toggle>
+                                <mat-datepicker class="position-absolute" style="top: 0; right:0" #earlyEnd disabled="false"></mat-datepicker>
+                            </div>
+
+                            <!-- <mat-form-field>
+                                <input class="form-control w-100" [matDatepicker]="earlyEnd" placeholder="End date" [max]="dateObj" name="date" [(ngModel)]="selectedEndDate" (dateChange)="onDatePickerToggle()" (click)="earlyEnd.open()" readonly>
+                                <mat-datepicker-toggle class="position-absolute" style="top: 0; right:0" matSuffix [for]="earlyEnd"></mat-datepicker-toggle>
+                                <mat-datepicker class="position-absolute" style="top: 0; right:0" #earlyEnd disabled="false"></mat-datepicker>
+                            </mat-form-field> -->
+                            <!--<mat-icon class="cursor date-style" (click)="earlyEnd.open()">date_range</mat-icon>-->
+                        </div>
+                    </ng-container>
                 </div>
-                </div>
+            </div>
         </div>
     </div>
 </ng-container>
 
 
 <ng-container *ngIf="iframeUrl">
-    <iframe style="height: 100vh" class="w-100"
-            [src]="sanitizer.bypassSecurityTrustResourceUrl(iframeUrl)"
-            frameborder="0"
-            width="800"
-            height="600"
-            id="frame"
-            allowtransparency
-    ></iframe>
+    <iframe style="height: 100vh" class="w-100 mt-3" [src]="sanitizer.bypassSecurityTrustResourceUrl(iframeUrl)" frameborder="0" width="800" height="600" id="frame" allowtransparency></iframe>
 </ng-container>
