@@ -234,6 +234,7 @@ export class NavComponent implements OnInit, OnDestroy {
 
     openModal(template: TemplateRef<any>) {
         // this.inviteRequest = new InviteRequest();
+        this.modalRef? this.modalRef.hide():'';
         this.modalRef = this.modalService.show(template);
     }
 
@@ -686,11 +687,16 @@ export class NavComponent implements OnInit, OnDestroy {
     }
 
     createOrg(template: TemplateRef<any>) {
-        this.editOrgMode = false;
-        this.uploadedFileName = "";
-        this.employeeRangeUpperLimit = "";
-        this.orgRequest = new CreateOrgRequest();
-        this.openModal(template);
+        if(this.orgs.length > 0) {
+            this.editOrgMode = false;
+            this.uploadedFileName = "";
+            this.employeeRangeUpperLimit = "";
+            this.orgRequest = new CreateOrgRequest();
+            this.openModal(template);
+        } else {
+            this.router.navigate(['/wizard']);
+        }
+
     }
 
     editOrg(template: TemplateRef<any>) {

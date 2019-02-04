@@ -69,7 +69,8 @@ export class Endpoints {
     public static VERIFY_SOCIAL_MEDIA_SIGN_IN = `${Endpoints.BASE_URL}/users/api/social/login`;
     public static APPROVE_COORDINATES = `${Endpoints.BASE_URL}/users/api/locations/approve`;
     public static VERIFY_EMAIL = `${Endpoints.BASE_URL}/users/api/verify/`;
-    public static VERIFY_USER_TOKEN = `${Endpoints.BASE_URL}/users/api/verify?`;    
+    public static VERIFY_USER_TOKEN = `${Endpoints.BASE_URL}/users/api/verify?`;
     public static GET_COUPON_DISCOUNT = `${Endpoints.BASE_URL}/users/api/subscriptions/verify-coupon`;
     public static DELETE_LOCATION = `${Endpoints.BASE_URL}/users/api/locations/delete/`;
+    public static SEND_SUPPORT_EMAIL = `${Endpoints.BASE_URL}/users/api/u/getHelp`;
 }

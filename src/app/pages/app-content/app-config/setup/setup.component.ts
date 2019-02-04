@@ -1,5 +1,5 @@
 import {Component, NgZone, OnDestroy, OnInit, TemplateRef} from '@angular/core';
-import {LocationRequest, TimezonePOJO} from "../model/app-config.model";
+import {LocationRequest, SupportMailRequest, TimezonePOJO} from "../model/app-config.model";
 import {AppConfigService} from "../services/app-config.service";
 import {BsModalRef, BsModalService, ModalOptions} from "ngx-bootstrap/index";
 import {MapsAPILoader} from "@agm/core";
@@ -47,9 +47,12 @@ export class SetupComponent implements OnInit, OnDestroy {
     resumptionTime: Date;
     clockoutTime: Date;
     searchValue: string;
-    verifyLocation: string = 'true';
+    verifyLocation: string = 'false';
     changeAddress: boolean = false;
     tempName: string = "";
+    helpOption: string;
+    wrongLocationOption: string;
+    supportRequest = new SupportMailRequest();
 
     constructor(private aService: AppConfigService,
                 private modalService: BsModalService,
@@ -62,7 +65,8 @@ export class SetupComponent implements OnInit, OnDestroy {
                 private ss: StorageService,
                 private dateUtil: DateUtil,
                 private mService: MessageService,
-                private translate: TranslateService) {
+                private translate: TranslateService,
+                private configService: AppConfigService) {
         translate.setDefaultLang('en/add-location');
         translate.use('en/add-location');
 
@@ -580,7 +584,6 @@ export class SetupComponent implements OnInit, OnDestroy {
                         this.inviteEmails.push(a.trim())
                     }else {
                         this.confirmees.push(a.trim());
-                        this.inviteEmails.push(a.trim());
                     }
                 }
             }
@@ -656,6 +659,7 @@ export class SetupComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.ss.clearLocationObj();
+        this.modalRef? this.modalRef.hide():'';
     }
 
     onLocationOptionChange() {
@@ -686,4 +690,45 @@ export class SetupComponent implements OnInit, OnDestroy {
 
         this.tempName = this.locRequest.name;
     }
+
+    proceedForHelp() {
+        switch(this.helpOption) {
+            case "CANT_GET_LOCATION": {
+                this.supportRequest.issue = "I can't get my location on the map";
+                this.sendSupportEmail();
+                break;
+            }
+
+            case "WRONG_LOCATION_CLOCK_IN": {
+                if(this.confirmees.length > 0) {
+                    this.verifyLocation = 'true';
+                    this.submit();
+                } else {
+                    this.ns.showError("Please specify at least one employee to verify your location.")
+                }
+                break;
+            }
+
+            case "OTHER_ISSUES": {
+                this.sendSupportEmail();
+                break;
+            }
+        }
+    }
+
+    sendSupportEmail() {
+        this.supportRequest.email = this.ss.getLoggedInUserEmail();
+        this.supportRequest.customerName = this.ss.getUserName();
+        this.supportRequest.phoneNo = 0;
+
+        this.configService.sendSupportEmail(this.supportRequest)
+            .subscribe(
+                (result) => {
+                    this.ns.showSuccess("Message sent successfully");
+                    this.modalRef.hide();
+                },
+                (error) => { this.ns.showError("An Error Occurred");}
+            )
+    }
+
 }

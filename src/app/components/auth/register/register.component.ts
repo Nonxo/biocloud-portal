@@ -1,12 +1,12 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import 'rxjs/add/operator/finally';
-import { NotifyService } from '../../../service/notify.service';
-import { AuthService } from '../auth.service';
-import { Constants } from "../../../util/constants";
-import { Router } from "@angular/router";
-import { StorageService } from "../../../service/storage.service";
-import { environment } from "../../../../environments/environment";
+import {NotifyService} from '../../../service/notify.service';
+import {AuthService} from '../auth.service';
+import {Constants} from "../../../util/constants";
+import {Router} from "@angular/router";
+import {StorageService} from "../../../service/storage.service";
+import {environment} from "../../../../environments/environment";
 
 
 @Component({
@@ -329,7 +329,7 @@ export class RegisterComponent implements OnInit {
     }
 
     validateNameField() {
-        if(!(/^([a-zA-Z]{1,}'?-?[a-zA-Z]{2,}?\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}?)/.test(this.fullName))) {
+        if(!(/^([a-zA-Z]{1,}'?-?[a-zA-Z]{1,}?\s[a-zA-Z]{1,}'?-?[a-zA-Z]{1,}?)/.test(this.fullName))) {
             this.nameError = "Type only firstname & lastname. DO NOT include numbers & special characters";
         }else{
             this.nameError = "";
