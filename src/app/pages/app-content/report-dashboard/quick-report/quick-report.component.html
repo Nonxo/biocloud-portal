@@ -31,8 +31,8 @@
                 </div>
             </div>
 
-            <div class="col-md-12 pl-0 col-lg d-lg-flex align-items-center">
-                <div class="col-xl-2 col-lg-3">
+            <div class="col-md-12 pl-0 col-lg d-lg-flex align-items-center pr-0">
+                <div class="col-xl-2 col-lg-3 px-md-3 px-0">
 
                     <div class="form-group mb-0">
                         <select class="form-control" id="loc" name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
@@ -48,7 +48,7 @@
                     </mat-form-field> -->
                 </div>
 
-                <div class="col-xl-2 col-lg-3" *ngIf="locations.length > 0">
+                <div class="col-xl-2 col-lg-3 py-md-0 py-3 px-md-3 px-0" *ngIf="locations.length > 0">
 
                     <div class="form-group mb-0">
                         <select class="form-control" id="statPeriod" name="statPeriod" [(ngModel)]="statPeriod" (change)="filter()">
@@ -70,7 +70,7 @@
                 </div>
 
                 <ng-container *ngIf="statPeriod == 'OTHER_WEEKS' || statPeriod == 'OTHER_MONTHS'">
-                    <div class="col-md-2 col-lg-2">
+                    <div class="col-md-2 col-lg-2 px-md-3 px-0">
 
                         <div class="form-group mb-0">
                             <select class="form-control" name="selectedYear" [(ngModel)]="selectedYear" (change)="onFilterToggle()">
@@ -86,7 +86,7 @@
                         </mat-form-field> -->
                     </div>
 
-                    <div class="col-md-2 col-lg-2">
+                    <div class="col-md-2 col-lg-2 py-md-0 py-3 px-md-3 px-0">
 
                         <div class="form-group mb-0">
                             <select placeholder="Select Month" class="form-control" name="selectedMonth" [(ngModel)]="selectedMonth" (change)="onFilterToggle()">
@@ -102,7 +102,7 @@
                         </mat-form-field> -->
                     </div>
 
-                    <div class="col-md-2 col-lg-2" *ngIf="statPeriod == 'OTHER_WEEKS'">
+                    <div class="col-md-2 col-lg-2 px-md-3 px-0" *ngIf="statPeriod == 'OTHER_WEEKS'">
 
                         <div class="form-group mb-0">
                             <select class="form-control" name="week" [(ngModel)]="selectedWeek" (change)="onWeekFilter()">
@@ -119,7 +119,7 @@
                     </div>
                 </ng-container>
 
-                <div class="col-md-2 col-lg" *ngIf="employees.length > 0">
+                <div class="col-md-2 col-lg px-md-3 px-0" *ngIf="employees.length > 0">
                     <button mat-button class="primary-outline" (click)="downloadReport()">Download</button>
                 </div>
 
