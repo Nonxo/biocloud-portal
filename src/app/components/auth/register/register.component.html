@@ -19,7 +19,7 @@
                             </div>
 
                             <div class="col-xl-auto col-lg-2 col-md-2">
-                                <button mat-raised-button color="primary" class="rounded px-5" type="submit" [disabled]="emailError">
+                                <button mat-raised-button color="primary" class="rounded px-5 getStartedBtn" type="submit" [disabled]="emailError">
                                     <span *ngIf="!loading">Get Started</span>
                                     <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;" />
                                 </button>
@@ -60,15 +60,13 @@
                         </div>
                         <div class="col-md-12 px-0">
 
-                    <div class="form-group">
-                        <!-- <label class="text-success small font-weight-bold">You@emailprovider.com</label> -->
-                        <input type="text" class="form-control w-100" #fName="ngModel" placeholder="Full Name *" name="fullName"
-                            [(ngModel)]="fullName" (keyup)="validateNameField()" pattern="^([a-zA-Z]{1,}'?-?[a-zA-Z]{1,}?\s[a-zA-Z]{1,}'?-?[a-zA-Z]{1,}?)"
-                            required>
-                            <p class="small text-muted px-1 pt-1">(Firstname & Lastname Only)</p>
-                        <p class="small text-danger px-1 pt-1" style="margin-top: -25px"  *ngIf="nameError">{{nameError}}</p>
-                    </div>
-                </div>
+                            <div class="form-group">
+                                <!-- <label class="text-success small font-weight-bold">You@emailprovider.com</label> -->
+                                <input type="text" class="form-control w-100" #fName="ngModel" placeholder="Full Name *" name="fullName" [(ngModel)]="fullName" (keyup)="validateNameField()" pattern="^([a-zA-Z]{1,}'?-?[a-zA-Z]{1,}?\s[a-zA-Z]{1,}'?-?[a-zA-Z]{1,}?)" required>
+                                <p class="small text-muted px-1 pt-1">(Firstname & Lastname Only)</p>
+                                <p class="small text-danger px-1 pt-1" style="margin-top: -25px" *ngIf="nameError">{{nameError}}</p>
+                            </div>
+                        </div>
 
                         <div class="col-md-3 pl-0 pr-md-3 pr-0" (clickOutside)="onClickedOutside($event)">
                             <div class="cursor text-center form-control py-2 d-inline-flex" (click)="showDd()">
@@ -90,11 +88,10 @@
                                         <i class="sprite {{country.code.toLowerCase()}} d-inline-flex mr-3 ml-2" style="max-width: 33px"></i> {{country.name}}
                                     </li>
 
-                            <p *ngIf="filteredCountries.length == 0" class="text-center small text-muted">No result(s)
-                                found </p>
-                        </ul>
-                    </div>
-                </div>
+                                    <p *ngIf="filteredCountries.length == 0" class="text-center small text-muted">No result(s) found </p>
+                                </ul>
+                            </div>
+                        </div>
 
                         <div class="col-md-9 pr-0 pl-0 pt-md-0 pt-4">
                             <div class="form-group">
