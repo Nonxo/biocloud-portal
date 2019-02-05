@@ -299,9 +299,9 @@
                 <div class="col-md-3 text-lg-right" *ngIf="locations.length > 0">
 
                     <div class="form-group position-relative">
-                        <input class="form-control w-100" placeholder="Search" name="search" [(ngModel)]="searchValue" (keydown.enter)="search()">
+                        <input class="form-control w-100" placeholder="Search" name="search" [(ngModel)]="searchValue" (keydown.enter)="searchInvitedUser()">
                         <mat-icon class="searchIcon" *ngIf="searchValue" (click)="searchValue = ''" class="cursor text-secondary pl-1" style="font-size: 20px;position: absolute;top: 25%;right: 1%;">cancel</mat-icon>
-                        <mat-icon class="searchIcon" *ngIf="!searchValue" class="cursor" (click)="search()" style="position: absolute;top: 25%;right: 1%;">search</mat-icon>
+                        <mat-icon class="searchIcon" *ngIf="!searchValue" class="cursor" (click)="searchInvitedUser()" style="position: absolute;top: 25%;right: 1%;">search</mat-icon>
                     </div>
                 </div>
             </div>
