@@ -36,7 +36,7 @@
                         <!--[(ngModel)]="inviteRequest.email" required>-->
                         <!--</mat-form-field>-->
 
-                        <mat-form-field class="input-field mb-4 demo-chip-list">
+                        <mat-form-field class="input-field mb-4 demo-chip-list" floatPlaceholder="never">
                             <mat-chip-list #chipList>
                                 <mat-chip *ngFor="let email of inviteRequest.emails" [selectable]="true" [removable]="true" (remove)="removeEmail(email)">
                                     {{email}}
@@ -52,7 +52,7 @@
                     <div class="col-md-8">
 
                         <div class="form-group pt-3">
-                            <label class="" for="location">Company Type</label>
+                            <label class="" for="location">Select Location</label>
                             <select class="form-control" name="location" [(ngModel)]="location" required>
                                                 <option *ngFor="let loc of locations" value="{{loc.locId}}">{{loc.name}}</option>
                                             </select>

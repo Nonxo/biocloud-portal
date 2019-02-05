@@ -207,7 +207,7 @@
                         </div>
 
                         <div class="{{selectedCountryCode? 'col-md-3 flag-col':'col-md-3'}}">
-                            <div class="position-absolute pt-3">
+                            <div class="position-absolute pt-2 pl-2" style="z-index: 99">
                                 <!-- <i *ngIf="selectedCountryCode"><img class="flag-img"  src="{{baseUrl}}/as/flags/{{selectedCountryCode.toLowerCase()}}.png"></i> -->
                                 <i *ngIf="selectedCountryCode" class="sprite {{selectedCountryCode.toLowerCase()}}"></i>
                             </div>
@@ -230,7 +230,7 @@
                             </mat-form-field>
                         </div>
 
-                        <div class="col-md-2 pl-lg-0 text-center pl-3 pl-0 pr-0 my-auto pt-3 text-muted">
+                        <div class="col-md-3 pl-lg-0 text-center pl-3 pl-0 pr-0 my-auto pt-3 text-muted">
                             <p class="form-control mb-1">{{selectedPhoneCode?.charAt(0) == "+"? selectedPhoneCode: "+" + selectedPhoneCode}}</p>
                         </div>
 
