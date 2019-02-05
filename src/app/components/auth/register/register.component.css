@@ -1632,6 +1632,9 @@
     .custom-col-md-8 {
         max-width: 66.67%;
     }
+    .getStartedBtn {
+        width: 10rem !important;
+    }
 }
 
 @media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) {
@@ -1656,6 +1659,9 @@
 @media only screen and (min-device-width: 320px) and (max-device-width: 823px) {
     h3 {
         font-size: 24px;
+    }
+    .getStartedBtn {
+        width: 100%;
     }
 }
 
