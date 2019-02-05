@@ -1626,6 +1626,12 @@
         margin-left: 0;
         margin-right: 0;
     }
+    .custom-col-md-2 {
+        max-width: 16.67%;
+    }
+    .custom-col-md-8 {
+        max-width: 66.67%;
+    }
 }
 
 @media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) {

@@ -2,13 +2,15 @@
 
     <div class="row h-100">
 
-        <div class="col-md-12 my-5 my-md-0 pl-md-0">
+        <div class="col-md-6 offset-md-3 my-5 my-md-0 pl-md-0">
 
             <div class="row pt-4">
 
 
                 <div class="col-md-12">
                     <form (ngSubmit)="saveOrg()" name="orgCreationForm" #orgCreationForm="ngForm" ngNativeValidate>
+
+                        <h4 class="text-brand text-center py-3">Let's get to know your company</h4>
 
                         <!-- <h4 class="text-brand">Company Info</h4>
                         <p class="small">Let's get to know your company better?</p> -->
@@ -93,7 +95,7 @@
                         </div>
 
                         <div class="text-md-left text-center">
-                            <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1" [disabled]="loading">CONTINUE
+                            <button type="submit" mat-raised-button color="primary" class="w-100 mt-4 px-4 py-1" [disabled]="loading">CONTINUE
                                 <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
                             </button>
                         </div>

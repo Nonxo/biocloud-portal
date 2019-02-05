@@ -45,11 +45,8 @@
 
                     <form (ngSubmit)="nextStep()" name="addLocationForm" #addLocationForm="ngForm" ngNativeValidate>
                         <div class="form-group">
-                            <input type="text" class="form-control w-100" [(ngModel)]="locRequest.name"
-                                   placeholder="Enter location name here e.g. Seamfix Head office"
-                                   (keyup)="validateLocName()" name="locationName" required/>
-                            <p class="small text-secondary text-right">{{locRequest.name? locRequest.name.length : 0}}
-                                of 50 Max</p>
+                            <input type="text" class="form-control w-100" [(ngModel)]="locRequest.name" placeholder="Enter location name here e.g. Seamfix Head office" (keyup)="validateLocName()" name="locationName" required/>
+                            <p class="small text-secondary text-right">{{locRequest.name? locRequest.name.length : 0}} of 50 Max</p>
                         </div>
 
                         <div class="text-xl-right text-center">
@@ -63,8 +60,7 @@
         </div>
 
         <!-- second step -->
-        <form style="display: contents" (ngSubmit)="nextStep()" name="addLocationForm" #addLocationForm="ngForm"
-              ngNativeValidate>
+        <form style="display: contents" (ngSubmit)="nextStep()" name="addLocationForm" #addLocationForm="ngForm" ngNativeValidate>
             <div *ngIf="step == 2" class="col-md-8 offset-md-2 pb-5 px-0">
                 <div class="text-center">
                     <h4 class="text-brand">Next, let's know where your location is.</h4>
@@ -73,8 +69,7 @@
                 <p class="font-weight-bold mb-0">Your location type</p>
                 <p class="small">My employees will clock in and out from...</p>
 
-                <mat-radio-group class="d-inline-flex" name="locType" [(ngModel)]="locRequest.locationType"
-                                 (change)="clearData()" required>
+                <mat-radio-group class="d-inline-flex" name="locType" [(ngModel)]="locRequest.locationType" (change)="clearData()" required>
                     <mat-radio-button class="pr-2" value="SPECIFIC_ADDRESS">A Specific address
                     </mat-radio-button>
                     <mat-radio-button class="pr-2" value="STATE">Anywhere in a State/Province
@@ -105,30 +100,25 @@
                                 <p class="d-lg-none d-block"><span class="text-secondary">Having issues with address?</span> <span (click)="openModal(getHelp)" class="text-brand cursor font-weight-bold pl-2">Get help here</span></p>
 
                                 <!--Map-->
-                                <div class="col-md-12 mt-3 pl-0 pr-0">
+                                <div class="col-md-9 mt-3 pl-0 pr-0">
 
-                                    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoomSize"
-                                             (mapClick)="mapClicked($event)" [mapTypeControl]="true">
-                                        <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="draggable"
-                                                    (dragEnd)="markerDragEnd($event)"></agm-marker>
+                                    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoomSize" (mapClick)="mapClicked($event)" [mapTypeControl]="true">
+                                        <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="draggable" (dragEnd)="markerDragEnd($event)"></agm-marker>
 
-                                        <agm-circle [latitude]="lat" [longitude]="lng"
-                                                    [radius]="locRequest.radiusThreshold" [fillColor]="'red'">
+                                        <agm-circle [latitude]="lat" [longitude]="lng" [radius]="locRequest.radiusThreshold" [fillColor]="'red'">
                                         </agm-circle>
                                     </agm-map>
                                 </div>
 
                                 <div>
                                     <p class="mb-2 font-weight-bold mt-2">Clock-in Range</p>
-                                    <p class="text-secondary mb-0">Allow clock-in within the maximum distance from your
-                                        set
-                                        address</p>
+                                    <p class="text-secondary mb-0">Allow clock-in within the maximum distance from your set address
+                                    </p>
                                 </div>
 
                                 <div class="row location-slider-row">
                                     <div class="col-md-8">
-                                        <mat-slider class="w-100" min="1" max="200" name="radius"
-                                                    [(ngModel)]="locRequest.radiusThreshold"></mat-slider>
+                                        <mat-slider class="w-100" min="1" max="200" name="radius" [(ngModel)]="locRequest.radiusThreshold"></mat-slider>
                                         <div style="margin-top: -15px">
                                             <p class="float-left text-secondary">0</p>
                                             <p class="float-right text-secondary">200</p>
@@ -139,9 +129,7 @@
                                     <div class="col-4">
                                         <form>
                                             <div class="form-group d-inline-flex">
-                                                <input type="number" style="width: 35%" class="form-control clock-in-range-input" name="rad"
-                                                       [(ngModel)]="locRequest.radiusThreshold"
-                                                       (keyup)="validateRadius()">
+                                                <input type="number" style="width: 35%" class="form-control clock-in-range-input" name="rad" [(ngModel)]="locRequest.radiusThreshold" (keyup)="validateRadius()">
                                                 <p class="text-secondary my-auto font-weight-bold pl-2">
                                                     m</p>
                                             </div>
@@ -224,7 +212,7 @@
                         </div>
 
                         <div *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS'" class="col-xl-2 col-3 d-lg-block d-none">
-                            <div class="bg-white text-center py-5">
+                            <div class="bg-white text-center py-4">
                                 <h6 class="text-secondary font-weight-normal small">Having issues with address?</h6>
 
                                 <div class="text-center">
@@ -307,60 +295,60 @@
                             </div>
 
 
-                        <!-- work days -->
-                        <!--<div class="row">-->
+                            <!-- work days -->
+                            <!--<div class="row">-->
                             <!--<div class="col-md-12">-->
-                                <!--<p class="small font-weight-bold">Work days</p>-->
+                            <!--<p class="small font-weight-bold">Work days</p>-->
 
-                                <!--&lt;!&ndash; desktop view for days of the week &ndash;&gt;-->
-                                <!--<div class="d-xl-block d-none">-->
-                                    <!--<div class="workDaysDiv d-inline-flex">-->
-                                        <!--<div class="px-custom border-right py-3 cursor">Mon</div>-->
-                                        <!--<div class="px-custom border-right py-3 cursor">Tue</div>-->
-                                        <!--<div class="px-custom border-right days-active py-3 cursor">Wed</div>-->
-                                        <!--<div class="px-custom border-right py-3 cursor">Thu</div>-->
-                                        <!--<div class="px-custom border-right py-3 cursor">Fri</div>-->
-                                        <!--<div class="px-custom border-right py-3 cursor">Sat</div>-->
-                                        <!--<div class="px-custom py-3">Sun</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-
-                                <!--&lt;!&ndash; Mobile view for days of the week &ndash;&gt;-->
-                                <!--<div class="d-xl-none d-block">-->
-                                    <!--<div class="row">-->
-                                        <!--<div class="col-3">-->
-                                            <!--<mat-checkbox>Mon</mat-checkbox>-->
-                                        <!--</div>-->
-                                        <!--<div class="col-3">-->
-                                            <!--<mat-checkbox>Tue</mat-checkbox>-->
-                                        <!--</div>-->
-                                        <!--<div class="col-3">-->
-                                            <!--<mat-checkbox>Wed</mat-checkbox>-->
-                                        <!--</div>-->
-                                        <!--<div class="col-3">-->
-                                            <!--<mat-checkbox>Thu</mat-checkbox>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-
-                                    <!--<div class="row">-->
-                                        <!--<div class="col-3">-->
-                                            <!--<mat-checkbox>Fri</mat-checkbox>-->
-                                        <!--</div>-->
-                                        <!--<div class="col-3">-->
-                                            <!--<mat-checkbox>Sat</mat-checkbox>-->
-                                        <!--</div>-->
-                                        <!--<div class="col-3">-->
-                                            <!--<mat-checkbox>Sun</mat-checkbox>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-
-                                <!--<p (click)=addShift() class="small font-weight-bold text-md-right text-left addShift cursor pt-3">+ Add shifts to location</p>-->
+                            <!--&lt;!&ndash; desktop view for days of the week &ndash;&gt;-->
+                            <!--<div class="d-xl-block d-none">-->
+                            <!--<div class="workDaysDiv d-inline-flex">-->
+                            <!--<div class="px-custom border-right py-3 cursor">Mon</div>-->
+                            <!--<div class="px-custom border-right py-3 cursor">Tue</div>-->
+                            <!--<div class="px-custom border-right days-active py-3 cursor">Wed</div>-->
+                            <!--<div class="px-custom border-right py-3 cursor">Thu</div>-->
+                            <!--<div class="px-custom border-right py-3 cursor">Fri</div>-->
+                            <!--<div class="px-custom border-right py-3 cursor">Sat</div>-->
+                            <!--<div class="px-custom py-3">Sun</div>-->
                             <!--</div>-->
-                        <!--</div>-->
+                            <!--</div>-->
+
+                            <!--&lt;!&ndash; Mobile view for days of the week &ndash;&gt;-->
+                            <!--<div class="d-xl-none d-block">-->
+                            <!--<div class="row">-->
+                            <!--<div class="col-3">-->
+                            <!--<mat-checkbox>Mon</mat-checkbox>-->
+                            <!--</div>-->
+                            <!--<div class="col-3">-->
+                            <!--<mat-checkbox>Tue</mat-checkbox>-->
+                            <!--</div>-->
+                            <!--<div class="col-3">-->
+                            <!--<mat-checkbox>Wed</mat-checkbox>-->
+                            <!--</div>-->
+                            <!--<div class="col-3">-->
+                            <!--<mat-checkbox>Thu</mat-checkbox>-->
+                            <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="row">-->
+                            <!--<div class="col-3">-->
+                            <!--<mat-checkbox>Fri</mat-checkbox>-->
+                            <!--</div>-->
+                            <!--<div class="col-3">-->
+                            <!--<mat-checkbox>Sat</mat-checkbox>-->
+                            <!--</div>-->
+                            <!--<div class="col-3">-->
+                            <!--<mat-checkbox>Sun</mat-checkbox>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<p (click)=addShift() class="small font-weight-bold text-md-right text-left addShift cursor pt-3">+ Add shifts to location</p>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                        </div>
                     </div>
                 </div>
-            </div>
 
                 <div *ngIf="isNewShift && isDeleteShift" class="row">
                     <div class="col-md-11">
@@ -368,46 +356,46 @@
                     </div>
                 </div>
 
-            <!-- Add shift -->
-            <div *ngIf="isNewShift && isDeleteShift" class="row">
-                <div class="col-md-11">
-                    <div class="text-right d-md-none d-block">
-                        <mat-icon (click)=deleteShift() class="text-secondary cursor">delete</mat-icon>
-                    </div>
-                    <div>
-                        <div class="form-group">
-                            <label class="small font-weight-bold">Shift Name</label>
-                            <input type="text" class="form-control w-100" placeholder="Name your shift" name="shiftName" required>
+                <!-- Add shift -->
+                <div *ngIf="isNewShift && isDeleteShift" class="row">
+                    <div class="col-md-11">
+                        <div class="text-right d-md-none d-block">
+                            <mat-icon (click)=deleteShift() class="text-secondary cursor">delete</mat-icon>
                         </div>
+                        <div>
+                            <div class="form-group">
+                                <label class="small font-weight-bold">Shift Name</label>
+                                <input type="text" class="form-control w-100" placeholder="Name your shift" name="shiftName" required>
+                            </div>
 
-                        <div class="row">
-                            <div class="col-xl-4">
-                                <div class="form-group">
-                                    <label class="font-weight-normal text-secondary" for="clockiInTime">Clock-in time</label>
-                                    <select class="form-control" id="clockiInTime" name="clockIn">
+                            <div class="row">
+                                <div class="col-xl-4">
+                                    <div class="form-group">
+                                        <label class="font-weight-normal text-secondary" for="clockiInTime">Clock-in time</label>
+                                        <select class="form-control" id="clockiInTime" name="clockIn">
                                                 <option value="defaultClockIn">(HH:MM AM/PM)</option>
                                             </select>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-xl-4">
-                                <div class="form-group">
-                                    <label class="font-weight-normal text-secondary" for="clockiOutTime">Clock-out time</label>
-                                    <select class="form-control" id="clockiOutTime" name="clockIn">
+                                <div class="col-xl-4">
+                                    <div class="form-group">
+                                        <label class="font-weight-normal text-secondary" for="clockiOutTime">Clock-out time</label>
+                                        <select class="form-control" id="clockiOutTime" name="clockIn">
                                                 <option value="defaultClockOut">(HH:MM AM/PM)</option>
                                             </select>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-xl-4">
-                                <div class="form-group">
-                                    <label class="font-weight-normal text-secondary" for="gracePeriod">Grace period</label>
-                                    <select class="form-control" id="gracePeriod" name="gracePeriod">
+                                <div class="col-xl-4">
+                                    <div class="form-group">
+                                        <label class="font-weight-normal text-secondary" for="gracePeriod">Grace period</label>
+                                        <select class="form-control" id="gracePeriod" name="gracePeriod">
                                                         <option value="gracePeriod">10 minutes</option>
                                                     </select>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
                             <div class="row">
                                 <div class="col-md-12">
@@ -456,16 +444,16 @@
                                     </div>
                                 </div>
 
-                                <p class="small font-weight-bold text-md-right text-left addShift cursor pt-3">+ Add shifts to location</p>
+                                    <p class="small font-weight-bold text-md-right text-left addShift cursor pt-3">+ Add shifts to location</p>
+                                </div>
                             </div>
+
+
                         </div>
-
-
                     </div>
-                </div>
 
-                <div class="col-md-1 d-md-block d-none">
-                    <mat-icon (click)=deleteShift() class="text-secondary cursor">delete</mat-icon>
+                    <div class="col-md-1 d-md-block d-none">
+                        <mat-icon (click)=deleteShift() class="text-secondary cursor">delete</mat-icon>
 
                     </div>
 
@@ -477,8 +465,7 @@
 
                         <div class="row">
                             <div class="col-6 text-left">
-                                <button type="button" mat-raised-button class="mt-4 px-4 py-1 back-Btn"
-                                        (click)=previousStep()>Back
+                                <button type="button" mat-raised-button class="mt-4 px-4 py-1 back-Btn" (click)=previousStep()>Back
                                 </button>
                             </div>
 
@@ -502,10 +489,9 @@
             </div>
 
             <div class="col-md-12 pl-0 pt-3">
-                <mat-form-field class="w-50 input-field mb-4 demo-chip-list" floatPlaceholder="never">
+                <mat-form-field class="w-100 input-field mb-4 demo-chip-list" floatPlaceholder="never">
                     <mat-chip-list #chipList>
-                        <mat-chip *ngFor="let email of inviteEmails" [selectable]="true" [removable]="true"
-                                  (remove)="removeEmail(email, 'INVITE')">
+                        <mat-chip *ngFor="let email of inviteEmails" [selectable]="true" [removable]="true" (remove)="removeEmail(email, 'INVITE')">
                             {{email}}
                             <mat-icon matChipRemove>cancel</mat-icon>
                         </mat-chip>

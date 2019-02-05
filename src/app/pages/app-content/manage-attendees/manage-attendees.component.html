@@ -31,9 +31,9 @@
             </div> -->
 
             <div class="row mt-4">
-                <div class="col-lg-4 col-md-6 d-flex align-items-center">
+                <div class="col-lg-4 col-md-4 d-flex align-items-center">
 
-                    <div class="form-group mb-0">
+                    <div class="form-group responsive-width mb-0">
                         <select class="form-control" id="location" name="location" [(ngModel)]="selectedLocId" (change)="fetchUsers()">
                                             <option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All Locations</option>
                                             <ng-container *ngFor="let loc of locations">
@@ -54,7 +54,7 @@
                     </mat-form-field> -->
                 </div>
 
-                <div class="col-lg-4 col-md-6 d-xl-block text-center">
+                <div class="col-lg-4 col-md-4 d-xl-block text-md-center pt-md-0 pt-4">
                     <ng-container *ngIf="isChecked()">
                         <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')" class="primary-outline" id="reassign">Reassign
                         </button>
@@ -63,7 +63,7 @@
                     </ng-container>
                 </div>
 
-                <div class="col-lg-4 col-md-6 d-flex align-items-center pt-xl-0 pt-3 my-auto">
+                <div class="col-lg-4 col-md-4 d-flex align-items-center pt-xl-0 pt-3 my-auto">
                     <!-- <div class="ml-md-auto mr-auto"> -->
                     <div class="ml-md-auto">
                         <a class="text-right" role="button" (click)="openInviteModal()" id="invite">
@@ -175,9 +175,9 @@
             </div> -->
 
             <div class="row mt-4">
-                <div class="col-lg-4 col-md-6 d-flex align-items-center">
+                <div class="col-lg-4 col-md-4 d-flex align-items-center">
 
-                    <div class="form-group">
+                    <div class="form-group responsive-width">
                         <select class="form-control" id="location" name="location" [(ngModel)]="selectedLocId" (change)="fetchUsers()">
                                             <option  value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All Locations</option>
                                             <ng-container *ngFor="let loc of locations">
@@ -199,7 +199,7 @@
                     </mat-form-field> -->
                 </div>
 
-                <div class="col-lg-4 col-12 text-md-center text-left">
+                <div class="col-lg-4 col-md-4 text-md-center text-left">
                     <ng-container *ngIf="isChecked()">
                         <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')" class="primary-outline" id="re-assign">Reassign
                         </button>
@@ -207,7 +207,7 @@
                     </ng-container>
                 </div>
 
-                <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
+                <div class="col-lg-4 col-md-4 d-flex align-items-center pt-md-0 pt-3 pb-md-0 pb-4">
                     <div class="ml-md-auto mr-auto">
                         <a class="text-right" role="button" (click)="openInviteModal()" id="invite">
                             <p class="cursor text-brand my-auto">INVITE NEW EMPLOYEE</p>
@@ -317,9 +317,9 @@
             </div> -->
 
             <div class="row mt-4">
-                <div class="col-lg-4 col-12  d-flex align-items-center">
+                <div class="col-lg-4 col-md-4  d-flex align-items-center">
 
-                    <div class="form-group">
+                    <div class="form-group responsive-width">
                         <select class="form-control" id="location" name="location" [(ngModel)]="selectedLocId" (change)="fetchInvitedUsers()">
                                             <option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All Locations</option>
                                             <ng-container *ngFor="let loc of locations">
@@ -340,7 +340,7 @@
                     </mat-form-field> -->
                 </div>
 
-                <div class="col-lg-4 col-12 text-md-center text-left">
+                <div class="col-lg-4 col-md-4 text-md-center text-left">
                     <ng-container *ngIf="isChecked()">
                         <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')" class="primary-outline" id="reAssign">Reassign
                         </button>
@@ -348,7 +348,7 @@
                     </ng-container>
                 </div>
 
-                <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
+                <div class="col-lg-4 col-md-4 d-flex align-items-center pt-md-0 pt-3 pb-md-0 pb-4">
                     <div class="ml-md-auto mr-auto">
                         <a class="text-right" role="button" (click)="openInviteModal()" id="invite">
                             <p class="cursor text-brand my-auto">INVITE NEW EMPLOYEE</p>
