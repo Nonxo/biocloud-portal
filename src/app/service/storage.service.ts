@@ -60,6 +60,16 @@ export class StorageService {
       return '';
     }
 
+    getUserPhone() {
+        let obj:any = JSON.parse(localStorage.getItem('_u'));
+
+        if(obj) {
+            return obj.phoneCode? obj.phoneCode: '234' + ' ' + obj.phone;
+        }
+
+        return '';
+    }
+
     setUserImage(value) {
       let _u:any = JSON.parse(localStorage.getItem('_u'))
 

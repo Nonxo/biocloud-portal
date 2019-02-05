@@ -662,7 +662,7 @@ export class CreateLocationComponent implements OnInit {
 
         this.supportRequest.email = this.ss.getLoggedInUserEmail();
         this.supportRequest.customerName = this.ss.getUserName();
-        this.supportRequest.phoneNo = 0;
+        this.supportRequest.phoneNo = this.ss.getUserPhone();
 
         this.configService.sendSupportEmail(this.supportRequest)
             .subscribe(
