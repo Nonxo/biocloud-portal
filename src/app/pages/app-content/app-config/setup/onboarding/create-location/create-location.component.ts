@@ -412,6 +412,12 @@ export class CreateLocationComponent implements OnInit {
                 break;
             }
             case 4: {
+
+                if(this.inviteEmails.length == 0) {
+                    this.ns.showError("Please add employee emails or select the option to skip this step");
+                    break;
+                }
+
                 if(this.isFormValid()) {
                     this.inviteRequest.locIds.push(this.locRequest.locId);
                     this.inviteRequest.emails = this.inviteEmails;
