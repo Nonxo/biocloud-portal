@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
 })
 export class WizardStepperComponent implements OnInit {
 
-    tab: number = 1;
+    tab: number = 2;
 
 
     constructor(private router: Router) {
