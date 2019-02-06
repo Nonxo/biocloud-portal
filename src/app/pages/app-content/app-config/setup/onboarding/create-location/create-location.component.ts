@@ -311,7 +311,7 @@ export class CreateLocationComponent implements OnInit {
     isFormValid() {
 
         if (!this.locRequest.locationType) {
-            // return false;
+            return false;
         }
 
         if (this.locRequest.locationType == 'SPECIFIC_ADDRESS') {
@@ -424,7 +424,7 @@ export class CreateLocationComponent implements OnInit {
                     this.inviteRequest.locIds.push(this.locRequest.locId);
                     this.inviteRequest.emails = this.inviteEmails;
                     this.inviteRequest.role = 'ATTENDEE';
-                    // this.invite();
+                    this.invite();
                 }
                 break;
             }
