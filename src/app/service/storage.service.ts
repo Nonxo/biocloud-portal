@@ -64,7 +64,7 @@ export class StorageService {
         let obj:any = JSON.parse(localStorage.getItem('_u'));
 
         if(obj) {
-            return obj.phoneCode? obj.phoneCode: '234' + ' ' + obj.phone;
+            return (obj.phoneCode? obj.phoneCode: '234') + ' ' + obj.phone;
         }
 
         return '';

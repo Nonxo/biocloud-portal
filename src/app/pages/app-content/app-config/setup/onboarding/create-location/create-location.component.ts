@@ -311,7 +311,7 @@ export class CreateLocationComponent implements OnInit {
     isFormValid() {
 
         if (!this.locRequest.locationType) {
-            return false;
+            // return false;
         }
 
         if (this.locRequest.locationType == 'SPECIFIC_ADDRESS') {
@@ -358,12 +358,15 @@ export class CreateLocationComponent implements OnInit {
 
     validateEmails(type: string): boolean {
         let regex = /[^@\s]+@[^@\s]+\.[^@\s]+/;
+        let regex2 = /[^A-Za-z\-_.0-9@]/;
 
 
         for (let a of type == 'INVITE' ? this.inviteEmails : this.confirmees) {
             if (a) {
                 let res = regex.test(a);
-                if (!res) {
+                let res2 = regex2.test(a);
+
+                if (!res || res2) {
                     this.ns.showError("Incorrect Email format detected: " + a);
                     return false;
                 }
@@ -412,7 +415,6 @@ export class CreateLocationComponent implements OnInit {
                 break;
             }
             case 4: {
-
                 if(this.inviteEmails.length == 0) {
                     this.ns.showError("Please add employee emails or select the option to skip this step");
                     break;
@@ -422,7 +424,7 @@ export class CreateLocationComponent implements OnInit {
                     this.inviteRequest.locIds.push(this.locRequest.locId);
                     this.inviteRequest.emails = this.inviteEmails;
                     this.inviteRequest.role = 'ATTENDEE';
-                    this.invite();
+                    // this.invite();
                 }
                 break;
             }
@@ -558,7 +560,7 @@ export class CreateLocationComponent implements OnInit {
             let diff = this.dateUtil.getTimeStamp(this.clockoutTime) - this.dateUtil.getTimeStamp(this.resumptionTime);
 
             if (diff < this.dateUtil.convertMinutesToMS(this.locRequest.gracePeriodInMinutes)) {
-                this.ns.showError("Your grace period should be less than " + (Math.round((diff/1000)/60) + 1) + " minutes");
+                this.ns.showError("Your grace period should be less than " + (Math.round((diff/1000)/60) + 1) + " minute(s)");
                 return false;
             }
         }

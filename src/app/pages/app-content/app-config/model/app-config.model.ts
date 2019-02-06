@@ -64,6 +64,6 @@ export class TimezonePOJO {
 export class SupportMailRequest {
     email: string;
     customerName: string;
-    phoneNo: number;
+    phoneNo: string;
     issue: string;
 }

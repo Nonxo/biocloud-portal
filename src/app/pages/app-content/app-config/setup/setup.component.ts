@@ -234,6 +234,16 @@ export class SetupComponent implements OnInit, OnDestroy {
                 }
 
                 this.locRequest.clockOutTime = this.getTimeStamp(this.clockoutTime);
+
+                if (this.locRequest.gracePeriodInMinutes) {
+                    let diff = this.dateUtil.getTimeStamp(this.clockoutTime) - this.dateUtil.getTimeStamp(this.resumptionTime);
+
+                    if (diff < this.dateUtil.convertMinutesToMS(this.locRequest.gracePeriodInMinutes)) {
+                        this.ns.showError("Your grace period should be less than " + (Math.round((diff/1000)/60) + 1) + " minute(s)");
+                        return false;
+                    }
+                }
+
             } else {
                 this.locRequest.clockOutTime = null;
             }
@@ -719,7 +729,7 @@ export class SetupComponent implements OnInit, OnDestroy {
     sendSupportEmail() {
         this.supportRequest.email = this.ss.getLoggedInUserEmail();
         this.supportRequest.customerName = this.ss.getUserName();
-        this.supportRequest.phoneNo = 0;
+        this.supportRequest.phoneNo = this.ss.getUserPhone();
 
         this.configService.sendSupportEmail(this.supportRequest)
             .subscribe(
