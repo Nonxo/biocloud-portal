@@ -8,7 +8,6 @@ import {TranslateService} from "@ngx-translate/core";
 import * as FileSaver from 'file-saver';
 import {BsModalRef} from "ngx-bootstrap/index";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {MatChipInputEvent} from "@angular/material";
 
 @Component({
     selector: 'app-add-attendees',
@@ -96,7 +95,14 @@ export class AddAttendeesComponent implements OnInit {
                     }
                 },
                 error => {
-                    this.ns.showError("An Error Occurred.");
+                    if(error.name == "TimeoutError") {
+                        this.inviteRequest = new InviteRequest();
+                        this.location = null;
+                        this.ns.showSuccess("Successfully invited user(s) to join company");
+                        this.cancel();
+                    }else {
+                        this.ns.showError("An Error Occurred.");
+                    }
                 }
             )
     }
@@ -186,11 +192,14 @@ export class AddAttendeesComponent implements OnInit {
 
     validateEmails(): boolean {
         let regex = /[^@\s]+@[^@\s]+\.[^@\s]+/;
+        let regex2 = /[^A-Za-z\-_.0-9@]/;
 
         for (let a of this.inviteRequest.emails) {
             if (a) {
                 let res = regex.test(a);
-                if (!res) {
+                let res2 = regex2.test(a);
+
+                if (!res || res2) {
                     this.ns.showError("Incorrect Email format detected: " + a);
                     return false;
                 }

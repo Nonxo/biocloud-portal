@@ -197,7 +197,7 @@
             to a location</p>
         <div class="container pl-lg-4 pl-2 pt-4">
             <div class="text-center pl-lg-5 pl-4">
-                <mat-form-field class="form-width-70">
+                <mat-form-field class="form-width-70" floatPlaceholder="never">
                     <mat-select placeholder="Select Locations" name="locs" [(ngModel)]="approveRequest.locIds" multiple>
                         <mat-select-trigger>
                             {{locations? getSelectedLocationName() : ''}}

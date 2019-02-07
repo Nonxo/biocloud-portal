@@ -79,7 +79,7 @@
 
                                 <ul class="list-unstyled">
                                     <li class="media sticky-search">
-                                        <mat-form-field class="w-100">
+                                        <mat-form-field class="w-100" floatPlaceholder="never">
                                             <input matInput placeholder="Search Country" class="company-search" autocomplete="nope" type="text" name="searchField" [(ngModel)]="searchField" (keyup)="search($event.target.value)">
                                             <mat-icon matSuffix class="cursor">search</mat-icon>
                                         </mat-form-field>

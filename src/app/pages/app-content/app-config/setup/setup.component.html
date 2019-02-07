@@ -15,7 +15,7 @@
                         <div class="row">
                             <div class="col-md-12 pl-0">
                                 <h5 class="text-brand">Create Location</h5>
-                                <p class="small pb-2">Set where your employees are to clock in from?</p>
+                                <p class="small pb-2">Set where your employees are to clock in from</p>
                                 <h5 class="mb-3">{{ 'ADD_LOCATION.TITLE' | translate}}
                                 </h5>
                                 <mat-divider class="w-50"></mat-divider>
@@ -459,6 +459,7 @@
 
             <!-- HELP CENTER -->
             <p class="font-weight-bold">What issues are you faced with ?</p>
+            <form (ngSubmit)="proceedForHelp()" name="supportForm" #supportForm="ngForm" ngNativeValidate>
 
             <mat-radio-group name="helpOption" [(ngModel)]="helpOption">
                 <mat-radio-button class="pr-2" value="CANT_GET_LOCATION">I can't get my
@@ -469,12 +470,10 @@
                 <br>
                 <mat-radio-button class="pr-2" value="OTHER_ISSUES">Other</mat-radio-button>
                 <div *ngIf="helpOption == 'OTHER_ISSUES'" class="pl-md-4">
-                    <form>
                         <div class="form-group mb-0">
                             <input type="text" class="form-control w-100"
                                    placeholder="Explain the issue you are having" name="otherIssue" [(ngModel)]="supportRequest.issue" required/>
                         </div>
-                    </form>
                 </div>
             </mat-radio-group>
 
@@ -521,7 +520,7 @@
                         </div>
 
                         <div class="col-md-6 text-right">
-                            <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1" (click)="proceedForHelp()">Continue<img
+                            <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1">Continue<img
                                 *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/></button>
                             <button type="button" mat-raised-button class="mt-4 px-4 py-1 text-brand"
                                     (click)="modalRef.hide()">Back
@@ -532,7 +531,7 @@
                 </div>
 
             </div>
-
+            </form>
 
         </div>
 

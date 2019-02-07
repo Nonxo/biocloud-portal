@@ -229,7 +229,7 @@
 
             <div class="col-md-8" *ngIf="noOfAttendees > 0">
                 <span>Reassign Employees to a new Location</span>
-                <mat-form-field class="input-field">
+                <mat-form-field class="input-field" floatPlaceholder="never">
                     <mat-select placeholder="Select Location" name="locId" [(ngModel)]="assignRequestObj.newlocId">
                         <mat-option [value]="''">NONE</mat-option>
                         <ng-container *ngFor="let loc of locations">
@@ -267,7 +267,7 @@
 
             <div class="col-md-8" *ngIf="noOfAttendees > 0">
                 <span>Reassign Employees to a new Location</span>
-                <mat-form-field class="input-field">
+                <mat-form-field class="input-field" floatPlaceholder="never">
                     <mat-select placeholder="Select Location" name="locId" [(ngModel)]="assignRequestObj.newlocId">
                         <mat-option [value]="''">NONE</mat-option>
                         <ng-container *ngFor="let loc of locations">

@@ -358,12 +358,15 @@ export class CreateLocationComponent implements OnInit {
 
     validateEmails(type: string): boolean {
         let regex = /[^@\s]+@[^@\s]+\.[^@\s]+/;
+        let regex2 = /[^A-Za-z\-_.0-9@]/;
 
 
         for (let a of type == 'INVITE' ? this.inviteEmails : this.confirmees) {
             if (a) {
                 let res = regex.test(a);
-                if (!res) {
+                let res2 = regex2.test(a);
+
+                if (!res || res2) {
                     this.ns.showError("Incorrect Email format detected: " + a);
                     return false;
                 }
@@ -412,7 +415,6 @@ export class CreateLocationComponent implements OnInit {
                 break;
             }
             case 4: {
-
                 if(this.inviteEmails.length == 0) {
                     this.ns.showError("Please add employee emails or select the option to skip this step");
                     break;
@@ -558,7 +560,7 @@ export class CreateLocationComponent implements OnInit {
             let diff = this.dateUtil.getTimeStamp(this.clockoutTime) - this.dateUtil.getTimeStamp(this.resumptionTime);
 
             if (diff < this.dateUtil.convertMinutesToMS(this.locRequest.gracePeriodInMinutes)) {
-                this.ns.showError("Your grace period should be less than " + (Math.round((diff/1000)/60) + 1) + " minutes");
+                this.ns.showError("Your grace period should be less than " + (Math.round((diff/1000)/60) + 1) + " minute(s)");
                 return false;
             }
         }
@@ -650,7 +652,12 @@ export class CreateLocationComponent implements OnInit {
                     }
                 },
                 error => {
+                    if(error.name == "TimeoutError") {
+                        this.inviteRequest = new InviteRequest();
+                        this.step +=1;
+                    }else {
                     this.ns.showError("An Error Occurred.");
+                    }
                 }
             )
     }
@@ -662,7 +669,7 @@ export class CreateLocationComponent implements OnInit {
 
         this.supportRequest.email = this.ss.getLoggedInUserEmail();
         this.supportRequest.customerName = this.ss.getUserName();
-        this.supportRequest.phoneNo = 0;
+        this.supportRequest.phoneNo = this.ss.getUserPhone();
 
         this.configService.sendSupportEmail(this.supportRequest)
             .subscribe(
