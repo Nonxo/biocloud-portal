@@ -48,7 +48,7 @@
                     </mat-form-field> -->
                 </div>
 
-                <div class="col-xl-2 col-lg-3 py-md-0 py-3 px-md-3 px-0" *ngIf="locations.length > 0">
+                <div class="col-xl-2 col-lg-3 py-lg-0 py-3 px-md-3 px-0" *ngIf="locations.length > 0">
 
                     <div class="form-group mb-0">
                         <select class="form-control" id="statPeriod" name="statPeriod" [(ngModel)]="statPeriod" (change)="filter()">
@@ -70,7 +70,7 @@
                 </div>
 
                 <ng-container *ngIf="statPeriod == 'OTHER_WEEKS' || statPeriod == 'OTHER_MONTHS'">
-                    <div class="col-md-2 col-lg-2 px-md-3 px-0">
+                    <div class="col-md-12 col-lg-2 px-md-3 px-0">
 
                         <div class="form-group mb-0">
                             <select class="form-control" name="selectedYear" [(ngModel)]="selectedYear" (change)="onFilterToggle()">
@@ -86,7 +86,7 @@
                         </mat-form-field> -->
                     </div>
 
-                    <div class="col-md-2 col-lg-2 py-md-0 py-3 px-md-3 px-0">
+                    <div class="col-md-12 col-lg-2 py-lg-0 py-3 px-md-3 px-0">
 
                         <div class="form-group mb-0">
                             <select placeholder="Select Month" class="form-control" name="selectedMonth" [(ngModel)]="selectedMonth" (change)="onFilterToggle()">
