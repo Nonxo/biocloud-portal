@@ -95,7 +95,14 @@ export class AddAttendeesComponent implements OnInit {
                     }
                 },
                 error => {
-                    this.ns.showError("An Error Occurred.");
+                    if(error.name == "TimeoutError") {
+                        this.inviteRequest = new InviteRequest();
+                        this.location = null;
+                        this.ns.showSuccess("Successfully invited user(s) to join company");
+                        this.cancel();
+                    }else {
+                        this.ns.showError("An Error Occurred.");
+                    }
                 }
             )
     }

@@ -652,7 +652,12 @@ export class CreateLocationComponent implements OnInit {
                     }
                 },
                 error => {
+                    if(error.name == "TimeoutError") {
+                        this.inviteRequest = new InviteRequest();
+                        this.step +=1;
+                    }else {
                     this.ns.showError("An Error Occurred.");
+                    }
                 }
             )
     }

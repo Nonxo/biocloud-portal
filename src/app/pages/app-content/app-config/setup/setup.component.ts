@@ -723,6 +723,9 @@ export class SetupComponent implements OnInit, OnDestroy {
                 this.sendSupportEmail();
                 break;
             }
+            default: {
+                this.ns.showError("Please select an option");
+            }
         }
     }
 
