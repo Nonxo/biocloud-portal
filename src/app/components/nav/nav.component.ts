@@ -559,7 +559,7 @@ export class NavComponent implements OnInit, OnDestroy {
                         this.updateOrgRoles(result.organisation);
                         this.selectOrg(result.organisation);
 
-                        this.router.navigate(['/portal/config']);
+                        this.router.navigate(['/portal/create-location']);
                     } else {
                         this.ns.showError(result.description);
                     }
