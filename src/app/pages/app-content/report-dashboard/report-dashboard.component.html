@@ -36,9 +36,9 @@
 
                         <div class="form-group mb-0">
                             <select class="form-control" id="loc" name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
-                                                <option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</option>
-                                                <option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}</option>
-                                            </select>
+                                <option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</option>
+                                <option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}</option>
+                            </select>
                         </div>
 
                         <!-- <mat-form-field>
@@ -54,11 +54,11 @@
 
                         <div class="form-group mb-0">
                             <select class="form-control" id="reportPeriod" name="reportPeriod" [(ngModel)]="reportPeriod" (change)="filterReport()">
-                                                <option value="TODAY">TODAY</option>
-                                                <option value="WEEKLY">THIS WEEK</option>
-                                                <option value="MONTHLY">THIS MONTH</option>
-                                                <option value="DATE_RANGE">DATE RANGE</option>
-                                            </select>
+                                <option value="TODAY">TODAY</option>
+                                <option value="WEEKLY">THIS WEEK</option>
+                                <option value="MONTHLY">THIS MONTH</option>
+                                <option value="DATE_RANGE">DATE RANGE</option>
+                            </select>
                         </div>
 
                         <!-- <mat-form-field>
@@ -119,27 +119,27 @@
             <div class="table-responsive">
                 <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                     <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Location</th>
-                            <th scope="col">Clock-In Address</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Clock-In Time</th>
-                            <th scope="col">Clock-Out Time</th>
-                            <th scope="col"></th>
-                        </tr>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">Clock-In Address</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Clock-In Time</th>
+                        <th scope="col">Clock-Out Time</th>
+                        <th scope="col"></th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let d of mf.data">
-                            <td>{{d.name}}</td>
-                            <td>{{d.location}}</td>
-                            <td>{{d.clock_in_address}}</td>
-                            <td>{{d.date}}</td>
-                            <td>{{d.clock_in_time}}</td>
-                            <td>{{d.clock_out_time}}</td>
-                            <td><i (click)="viewDetails(d)" matTooltip="View More" class="material-icons cursor">list</i>
-                            </td>
-                        </tr>
+                    <tr *ngFor="let d of mf.data">
+                        <td>{{d.name}}</td>
+                        <td>{{d.location}}</td>
+                        <td>{{d.clock_in_address}}</td>
+                        <td>{{d.date}}</td>
+                        <td>{{d.clock_in_time}}</td>
+                        <td>{{d.clock_out_time}}</td>
+                        <td><i (click)="viewDetails(d)" matTooltip="View More" class="material-icons cursor">list</i>
+                        </td>
+                    </tr>
                 </table>
             </div>
 
@@ -151,11 +151,11 @@
 
                             <div class="form-group w-25">
                                 <select class="form-control" id="rows" name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
-                                                <option [value]="10">10</option>
-                                                <option [value]="25">25</option>
-                                                <option [value]="50">50</option>
-                                                <option [value]="100">100</option>
-                                            </select>
+                                    <option [value]="10">10</option>
+                                    <option [value]="25">25</option>
+                                    <option [value]="50">50</option>
+                                    <option [value]="100">100</option>
+                                </select>
                             </div>
 
                             <!-- <mat-form-field class="w-25">
@@ -171,7 +171,7 @@
                 </div>
                 <div class="col-auto">
                     <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 0" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
-                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
                 </div>
             </div>
 
@@ -225,9 +225,9 @@
 
                         <div class="form-group mb-0 py-md-0 py-3">
                             <select class="form-control" name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
-                                                <option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</option>
-                                                <option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}</option>
-                                            </select>
+                                <option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</option>
+                                <option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}</option>
+                            </select>
                         </div>
 
                         <!-- <mat-form-field>
@@ -243,11 +243,11 @@
 
                         <div class="form-group mb-0">
                             <select class="form-control" name="reportPeriod" [(ngModel)]="reportPeriod" (change)="filterReport()">
-                                                <option value="TODAY">TODAY</option>
-                                                <option value="WEEKLY">THIS WEEK</option>
-                                                <option value="MONTHLY">THIS MONTH</option>
-                                                <option value="DATE_RANGE">DATE RANGE</option>
-                                            </select>
+                                <option value="TODAY">TODAY</option>
+                                <option value="WEEKLY">THIS WEEK</option>
+                                <option value="MONTHLY">THIS MONTH</option>
+                                <option value="DATE_RANGE">DATE RANGE</option>
+                            </select>
                         </div>
 
                         <!-- <mat-form-field>
@@ -280,7 +280,7 @@
                         <div class="col-lg-3 d-inline-flex my-lg-0 my-3 px-md-3 px-0">
 
                             <div class="form-group position-relative mb-0 w-100" *ngIf="reportPeriod == 'DATE_RANGE'">
-                                <input type="text" class="form-control w-100" [matDatepicker]="lateStart" placeholder="Start date" [max]="dateObj" name="ls" [(ngModel)]="selectedStartDate" (dateChange)="onDatePickerToggle()" (click)="lateStart.open()" readonly>
+                                <input type="text" class="form-control w-100" [matDatepicker]="lateEnd" placeholder="End date" [max]="dateObj" name="le" [(ngModel)]="selectedEndDate" (dateChange)="onDatePickerToggle()" (click)="lateEnd.open()" readonly>
                                 <mat-datepicker-toggle class="position-absolute" style="top: 0; right:0" matSuffix [for]="lateEnd"></mat-datepicker-toggle>
                                 <mat-datepicker class="position-absolute" style="top: 0; right:0" #lateEnd disabled="false"></mat-datepicker>
                             </div>
@@ -322,27 +322,27 @@
             <div class="table-responsive">
                 <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                     <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Location</th>
-                            <th scope="col">Clock-In Address</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Clock-In Time</th>
-                            <th scope="col">Clock-Out Time</th>
-                            <th scope="col"></th>
-                        </tr>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">Clock-In Address</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Clock-In Time</th>
+                        <th scope="col">Clock-Out Time</th>
+                        <th scope="col"></th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let d of mf.data">
-                            <td>{{d.name}}</td>
-                            <td>{{d.location}}</td>
-                            <td>{{d.clock_in_address}}</td>
-                            <td>{{d.date}}</td>
-                            <td>{{d.clock_in_time}}</td>
-                            <td>{{d.clock_out_time}}</td>
-                            <td><i (click)="viewDetails(d)" matTooltip="View More" class="material-icons cursor">list</i>
-                            </td>
-                        </tr>
+                    <tr *ngFor="let d of mf.data">
+                        <td>{{d.name}}</td>
+                        <td>{{d.location}}</td>
+                        <td>{{d.clock_in_address}}</td>
+                        <td>{{d.date}}</td>
+                        <td>{{d.clock_in_time}}</td>
+                        <td>{{d.clock_out_time}}</td>
+                        <td><i (click)="viewDetails(d)" matTooltip="View More" class="material-icons cursor">list</i>
+                        </td>
+                    </tr>
                 </table>
             </div>
 
@@ -354,11 +354,11 @@
 
                             <div class="form-group w-25">
                                 <select class="form-control" name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
-                                                <option [value]="10">10</option>
-                                                <option [value]="25">25</option>
-                                                <option [value]="50">50</option>
-                                                <option [value]="100">100</option>
-                                            </select>
+                                    <option [value]="10">10</option>
+                                    <option [value]="25">25</option>
+                                    <option [value]="50">50</option>
+                                    <option [value]="100">100</option>
+                                </select>
                             </div>
 
                             <!-- <mat-form-field class="w-25">
@@ -374,7 +374,7 @@
                 </div>
                 <div class="col-auto">
                     <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 1" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
-                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
                 </div>
             </div>
 
@@ -429,9 +429,9 @@
 
                         <div class="form-group mb-0">
                             <select class="form-control" name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
-                                                <option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</option>
-                                                <option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}</option>
-                                            </select>
+                                <option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</option>
+                                <option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}</option>
+                            </select>
                         </div>
 
                         <!-- <mat-form-field>
@@ -506,18 +506,18 @@
             <div class="table-responsive">
                 <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                     <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Email Address</th>
-                            <th scope="col">Location</th>
-                        </tr>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email Address</th>
+                        <th scope="col">Location</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let d of mf.data">
-                            <td>{{d.name}}</td>
-                            <td>{{d.email}}</td>
-                            <td>{{d.location}}</td>
-                        </tr>
+                    <tr *ngFor="let d of mf.data">
+                        <td>{{d.name}}</td>
+                        <td>{{d.email}}</td>
+                        <td>{{d.location}}</td>
+                    </tr>
                 </table>
             </div>
 
@@ -529,11 +529,11 @@
 
                             <div class="form-group w-25">
                                 <select class="form-control" name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
-                                                <option [value]="10">10</option>
-                                                <option [value]="25">25</option>
-                                                <option [value]="50">50</option>
-                                                <option [value]="100">100</option>
-                                            </select>
+                                    <option [value]="10">10</option>
+                                    <option [value]="25">25</option>
+                                    <option [value]="50">50</option>
+                                    <option [value]="100">100</option>
+                                </select>
                             </div>
 
                             <!-- <mat-form-field class="w-25">
@@ -549,7 +549,7 @@
                 </div>
                 <div class="col-auto">
                     <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 2" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
-                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
                 </div>
             </div>
 
@@ -604,9 +604,9 @@
 
                         <div class="form-group mb-0">
                             <select class="form-control" name="loc" [(ngModel)]="reportModel.locId" (change)="locationChange()">
-                                                <option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</option>
-                                                <option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}</option>
-                                            </select>
+                                <option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All location</option>
+                                <option [value]="loc.locId" *ngFor="let loc of locations">{{loc.name}}</option>
+                            </select>
                         </div>
 
                         <!-- <mat-form-field>
@@ -622,11 +622,11 @@
 
                         <div class="form-group mb-0">
                             <select class="form-control" name="reportPeriod" [(ngModel)]="reportPeriod" (change)="filterReport()">
-                                                <option value="TODAY">TODAY</option>
-                                                <option value="WEEKLY">THIS WEEK</option>
-                                                <option value="MONTHLY">THIS MONTH</option>
-                                                <option value="DATE_RANGE">DATE RANGE</option>
-                                            </select>
+                                <option value="TODAY">TODAY</option>
+                                <option value="WEEKLY">THIS WEEK</option>
+                                <option value="MONTHLY">THIS MONTH</option>
+                                <option value="DATE_RANGE">DATE RANGE</option>
+                            </select>
                         </div>
 
                         <!-- <mat-form-field>
@@ -701,26 +701,26 @@
             <div class="table-responsive">
                 <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                     <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Email Address</th>
-                            <th scope="col">Clock-In Location</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Expected Location</th>
-                            <th scope="col">Mode of Clock-In</th>
-                            <th scope="col">Clock-In Time</th>
-                        </tr>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email Address</th>
+                        <th scope="col">Clock-In Location</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Expected Location</th>
+                        <th scope="col">Mode of Clock-In</th>
+                        <th scope="col">Clock-In Time</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let d of mf.data">
-                            <td>{{d.name}}</td>
-                            <td>{{d.email}}</td>
-                            <td>{{d.clock_in_address}}</td>
-                            <td>{{d.date}}</td>
-                            <td>{{d.location}}</td>
-                            <td>{{d.mode}}</td>
-                            <td>{{d.clock_in_time}}</td>
-                        </tr>
+                    <tr *ngFor="let d of mf.data">
+                        <td>{{d.name}}</td>
+                        <td>{{d.email}}</td>
+                        <td>{{d.clock_in_address}}</td>
+                        <td>{{d.date}}</td>
+                        <td>{{d.location}}</td>
+                        <td>{{d.mode}}</td>
+                        <td>{{d.clock_in_time}}</td>
+                    </tr>
                 </table>
             </div>
 
@@ -732,11 +732,11 @@
 
                             <div class="form-group w-25">
                                 <select class="form-control" name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
-                                                <option [value]="10">10</option>
-                                                <option [value]="25">25</option>
-                                                <option [value]="50">50</option>
-                                                <option [value]="100">100</option>
-                                            </select>
+                                    <option [value]="10">10</option>
+                                    <option [value]="25">25</option>
+                                    <option [value]="50">50</option>
+                                    <option [value]="100">100</option>
+                                </select>
                             </div>
 
                             <!-- <mat-form-field class="w-25">
@@ -752,7 +752,7 @@
                 </div>
                 <div class="col-auto">
                     <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 3" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
-                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
                 </div>
             </div>
 
@@ -1045,11 +1045,11 @@
         <div class="col-md-12 text-center mb-3 mt-3">
 
             <button mat-raised-button color="primary" class="px-4 primary-outline py-1 mr-2" (click)="downloadReport()">
-                        Download
-                    </button>
+                Download
+            </button>
 
             <button mat-raised-button class="px-4 primary-outline py-1" type="button" (click)="modalRef.hide()">CANCEL
-                </button>
+            </button>
 
 
         </div>

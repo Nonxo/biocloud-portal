@@ -1,8 +1,5 @@
 import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
-import {
-    AttendanceStatusRequest, AttendeesPOJO, DateColumn, DaysPresentRequest,
-    ReportModel
-} from "../model/app-content.model";
+import {ReportModel} from "../model/app-content.model";
 import {ReportService} from "../services/report.service";
 import {StorageService} from "../../../service/storage.service";
 import {AppContentService} from "../services/app-content.service";
@@ -304,7 +301,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     onDatePickerToggle() {
         this.resetValues();
 
-        if ((this.selectedStartDate.getTime() > this.selectedEndDate.getTime()) && this.reportModel.reportType != "ABSENT") {
+        if ((this.selectedStartDate.getTime() > this.selectedEndDate.getTime()) && this.reportModel.reportType != "absent") {
             this.ns.showError("End date should be greater than Start date.");
             return;
         }

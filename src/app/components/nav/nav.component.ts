@@ -769,6 +769,7 @@ export class NavComponent implements OnInit, OnDestroy {
                     if (this.hoverState) {
                         this.orgRequest.type = this.selectedOrg.sector;
                         this.orgRequest.name = this.selectedOrg.name;
+                        this.orgRequest.createdBy = null;
                         this.callOrgEditService();
                     }
 
