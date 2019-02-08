@@ -245,6 +245,9 @@ input[type=number]::-webkit-outer-spin-button {
     .radio-flex {
         display: block !important;
     }
+    .saveBtn {
+        width: 100%;
+    }
 }
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {

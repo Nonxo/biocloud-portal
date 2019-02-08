@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="text-xl-right text-center">
-                            <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1">Save and
+                            <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1 saveBtn">Save and
                                 Continue
                                 <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/></button>
                         </div>
@@ -218,7 +218,7 @@
         </form>
 
         <!-- third step -->
-        <div *ngIf="step == 3" class="col-md-8 offset-md-2 pb-5">
+        <div *ngIf="step == 3" class="col-md-8 offset-md-2 pb-5 px-0">
             <form (ngSubmit)="nextStep()" name="addLocationForm" #addLocationForm="ngForm" ngNativeValidate>
                 <div class="text-center">
                     <h4 class="text-brand">Now, set a daily resumption and closing time for employees in this location.
@@ -457,7 +457,7 @@
                             </div>
 
                             <div class="col-6 text-right">
-                                <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1">Save and
+                                <button type="submit" mat-raised-button color="primary" class="mt-4 px-md-4 px-2 py-1">Save and
                                     Continue<img *ngIf="loading"
                                                  src="assets/img/loading.gif"
                                                  style="max-width: 20px;"/></button>
@@ -515,12 +515,12 @@
 
 
                     <div class="row">
-                        <div class="col-6 text-left">
+                        <div class="col-md-6 col-4 text-left">
                             <button type="button" mat-raised-button class="mt-4 px-4 py-1 back-Btn" (click)=previousStep()>Back
                             </button>
                         </div>
 
-                        <div class="col-6 text-right">
+                        <div class="col-md-6 col-8 text-right">
                             <button type="button" mat-raised-button color="primary" class="mt-4 px-4 py-1" (click)="nextStep()">Finish location setup<img *ngIf="loading"
                                                                                    src="assets/img/loading.gif"
                                                                                    style="max-width: 20px;"/></button>
