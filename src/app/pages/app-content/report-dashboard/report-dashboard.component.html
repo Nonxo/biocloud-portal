@@ -1025,12 +1025,21 @@
         <mat-divider></mat-divider>
 
         <div class="col-md-12 pt-3">
-            <mat-form-field class="w-100">
-                <mat-select placeholder="Download Format" name="exportType" [(ngModel)]="exportType">
+
+            <div class="form-group">
+                <label class="font-weight-bold" for="exportType">Download Format</label>
+                <select class="form-control" id="exportType" name="exportType" [(ngModel)]="exportType">
+                            <option value="pdf">PDF</option>
+                            <option value="sheet">EXCEL</option>
+                        </select>
+            </div>
+
+            <!-- <mat-form-field class="w-100">
+                <mat-select placeholder="Download Format" name="exportType" [(ngModel)]="exportType" floatPlaceholder="never">
                     <mat-option value="pdf">PDF</mat-option>
                     <mat-option value="sheet">EXCEL</mat-option>
                 </mat-select>
-            </mat-form-field>
+            </mat-form-field> -->
         </div>
 
         <div class="col-md-12 text-center mb-3 mt-3">
