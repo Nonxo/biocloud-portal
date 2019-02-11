@@ -663,6 +663,12 @@ export class CreateLocationComponent implements OnInit {
     }
 
     sendSupportEmail() {
+
+        if(!this.helpOption) {
+            this.ns.showError("Please select an option");
+            return;
+        }
+
         if(this.helpOption == 'CANT_GET_LOCATION') {
             this.supportRequest.issue = "I can't get my location on the map";
         }
