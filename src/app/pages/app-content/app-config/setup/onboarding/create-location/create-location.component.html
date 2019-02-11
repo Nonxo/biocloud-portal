@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <h5 class="d-lg-none d-block text-center pt-5">Create Location</h5>
         </div>
-        <div class="sfx-stepper purple pb-5 pt-2">
+        <div class="sfx-stepper mx-auto purple pb-5 pt-2">
             <div class="sfx-step  done {{step == 1? 'active-stepper':''}}">
                 <div class="sfx-step-circle"><span>1</span></div>
                 <div class="sfx-step-title d-xl-block d-none">Name Location</div>
@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="text-xl-right text-center">
-                            <button id="saveBtn"type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1 saveBtn">Save and
+                            <button id="saveBtn" type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1 saveBtn">Save and
                                 Continue
                                 <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/></button>
                         </div>
@@ -88,7 +88,8 @@
                             <!-- specific address -->
                             <div *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS'">
                                 <div class="form-group">
-                                    <input id="locationAddressInput" type="text" class="form-control w-75" placeholder="Enter address e.g. Lagos Nigeria or No 8 C&I leasing or coordinates" name="search" [(ngModel)]="searchValue" id="autocompleteInput" (keydown.enter)="$event.preventDefault()" />
+                                    <input id="locationAddressInput" type="text" class="form-control w-75" placeholder="Enter address e.g. Lagos Nigeria or No 8 C&I leasing or coordinates" name="search" [(ngModel)]="searchValue" id="autocompleteInput" (keydown.enter)="$event.preventDefault()"
+                                    />
                                 </div>
 
                                 <p class="d-inline-flex cursor" (click)="getCurrentPosition(true)">
