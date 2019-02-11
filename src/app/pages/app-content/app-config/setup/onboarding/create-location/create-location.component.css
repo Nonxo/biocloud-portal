@@ -248,6 +248,9 @@ input[type=number]::-webkit-outer-spin-button {
     .saveBtn {
         width: 100%;
     }
+    .sfx-stepper {
+        margin: 0 0;
+    }
 }
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {

@@ -45,12 +45,12 @@
 
                     <form (ngSubmit)="nextStep()" name="addLocationForm" #addLocationForm="ngForm" ngNativeValidate>
                         <div class="form-group">
-                            <input type="text" class="form-control w-100" [(ngModel)]="locRequest.name" placeholder="Enter location name here e.g. Seamfix Head office" (keyup)="validateLocName()" name="locationName" required/>
+                            <input id="locationNameInput" type="text" class="form-control w-100" [(ngModel)]="locRequest.name" placeholder="Enter location name here e.g. Seamfix Head office" (keyup)="validateLocName()" name="locationName" required/>
                             <p class="small text-secondary text-right">{{locRequest.name? locRequest.name.length : 0}} of 50 Max</p>
                         </div>
 
                         <div class="text-xl-right text-center">
-                            <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1 saveBtn">Save and
+                            <button id="saveBtn"type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1 saveBtn">Save and
                                 Continue
                                 <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/></button>
                         </div>
@@ -69,12 +69,12 @@
                 <p class="font-weight-bold mb-0">Your location type</p>
                 <p class="small">My employees will clock in and out from...</p>
 
-                <mat-radio-group class="d-inline-flex radio-flex" name="locType" [(ngModel)]="locRequest.locationType" (change)="clearData()" required>
-                    <mat-radio-button class="pr-2" value="SPECIFIC_ADDRESS">A Specific address
+                <mat-radio-group id="locationTypeRadio" class="d-inline-flex radio-flex" name="locType" [(ngModel)]="locRequest.locationType" (change)="clearData()" required>
+                    <mat-radio-button id="specificAddressRadio" class="pr-2" value="SPECIFIC_ADDRESS">A Specific address
                     </mat-radio-button>
-                    <mat-radio-button class="pr-2" value="STATE">Anywhere in a State/Province
+                    <mat-radio-button id="stateRadio" class="pr-2" value="STATE">Anywhere in a State/Province
                     </mat-radio-button>
-                    <mat-radio-button value="COUNTRY">Anywhere in a country</mat-radio-button>
+                    <mat-radio-button id="countryRadio" value="COUNTRY">Anywhere in a country</mat-radio-button>
                 </mat-radio-group>
 
 
@@ -88,7 +88,7 @@
                             <!-- specific address -->
                             <div *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS'">
                                 <div class="form-group">
-                                    <input type="text" class="form-control w-75" placeholder="Enter address e.g. Lagos Nigeria or No 8 C&I leasing or coordinates" name="search" [(ngModel)]="searchValue" id="autocompleteInput" (keydown.enter)="$event.preventDefault()" />
+                                    <input id="locationAddressInput" type="text" class="form-control w-75" placeholder="Enter address e.g. Lagos Nigeria or No 8 C&I leasing or coordinates" name="search" [(ngModel)]="searchValue" id="autocompleteInput" (keydown.enter)="$event.preventDefault()" />
                                 </div>
 
                                 <p class="d-inline-flex cursor" (click)="getCurrentPosition(true)">
@@ -127,7 +127,7 @@
                                     <div class="col-4">
                                         <form>
                                             <div class="form-group d-inline-flex">
-                                                <input type="number" style="width: 35%" class="form-control clock-in-range-input" name="rad" [(ngModel)]="locRequest.radiusThreshold" (keyup)="validateRadius()">
+                                                <input id="radiusInput" type="number" style="width: 35%" class="form-control clock-in-range-input" name="rad" [(ngModel)]="locRequest.radiusThreshold" (keyup)="validateRadius()">
                                                 <p class="text-secondary my-auto font-weight-bold pl-2">
                                                     m</p>
                                             </div>
@@ -177,7 +177,7 @@
                             <div *ngIf="locRequest.locationType">
                                 <div class="form-group w-75">
                                     <label class="font-weight-bold" for="locationTimezone">Location Timezone</label>
-                                    <input class="form-control" id="locationTimezone" placeholder="Select Timezone" (keydown)="filter()" [matAutocomplete]="auto" name="timezone" [(ngModel)]="locRequest.resumptionTimezoneId" required/>
+                                    <input id="timeZoneBtn" class="form-control" id="locationTimezone" placeholder="Select Timezone" (keydown)="filter()" [matAutocomplete]="auto" name="timezone" [(ngModel)]="locRequest.resumptionTimezoneId" required/>
                                 </div>
                             </div>
 
@@ -189,12 +189,12 @@
 
                             <div class="row action-btn">
                                 <div class="col-6 text-left">
-                                    <button type="button" mat-raised-button class="mt-4 px-4 py-1 back-Btn" (click)=previousStep()>Back
+                                    <button id="backBtn" type="button" mat-raised-button class="mt-4 px-4 py-1 back-Btn" (click)=previousStep()>Back
                                     </button>
                                 </div>
 
                                 <div class="col-6 text-right">
-                                    <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1">Save
+                                    <button id="saveBtn" type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1">Save
                                         and Continue<img *ngIf="loading"
                                                          src="assets/img/loading.gif"
                                                          style="max-width: 20px;"/></button>
@@ -207,7 +207,7 @@
                                 <h6 class="text-secondary font-weight-normal small">Having issues with address?</h6>
 
                                 <div class="text-center">
-                                    <button type="button" mat-raised-button color="primary" (click)="openModal(getHelp)" class="mt-4 px-2 help-btn small">Get help here
+                                    <button id="getHelpBtn" type="button" mat-raised-button color="primary" (click)="openModal(getHelp)" class="mt-4 px-2 help-btn small">Get help here
                                     </button>
                                 </div>
                             </div>
@@ -237,11 +237,11 @@
                                         <label class="font-weight-normal text-secondary" for="clockiInTime">Clock-in
                                             time</label>
                                         <div class="position-relative">
-                                            <input class="form-control" id="clockiInTime" name="resumption" [(ngModel)]="resumptionTime" placeholder="(HH:MM AM/PM)" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4" required/>
+                                            <input id="resumptionTime" class="form-control" id="clockiInTime" name="resumption" [(ngModel)]="resumptionTime" placeholder="(HH:MM AM/PM)" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4" required/>
                                             <owl-date-time hour12Timer="true" [pickerType]="'timer'" #dt4></owl-date-time>
 
 
-                                            <button class="btn btn-clear cursor position-absolute" type="button" *ngIf="resumptionTime" (click)="clearTime('resumption')"><i
+                                            <button id="resumptionTimeCancelBtn" class="btn btn-clear cursor position-absolute" type="button" *ngIf="resumptionTime" (click)="clearTime('resumption')"><i
                                                 class="material-icons">
                                                 cancel
                                             </i></button>
@@ -256,11 +256,11 @@
                                             time</label>
 
                                         <div class="position-relative">
-                                            <input class="form-control" id="clockiOutTime" name="clockoutTime" placeholder="(HH:MM AM/PM)" [(ngModel)]="clockoutTime" [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5" required/>
+                                            <input id="clockOutTime" class="form-control" id="clockiOutTime" name="clockoutTime" placeholder="(HH:MM AM/PM)" [(ngModel)]="clockoutTime" [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5" required/>
                                             <owl-date-time hour12Timer="true" [pickerType]="'timer'" #dt5></owl-date-time>
 
 
-                                            <button class="btn btn-clear cursor position-absolute" type="button" *ngIf="clockoutTime" (click)="clearTime('closing')"><i
+                                            <button id="clockOutTimeCancelBtn" class="btn btn-clear cursor position-absolute" type="button" *ngIf="clockoutTime" (click)="clearTime('closing')"><i
                                                 class="material-icons">
                                                 cancel
                                             </i></button>
@@ -273,7 +273,7 @@
                                     <div class="form-group">
                                         <label class="font-weight-normal text-secondary" for="gracePeriod">Grace
                                             period</label>
-                                        <input class="form-control" id="gracePeriod" type="number" min="0" placeholder="Enter Grace period in minutes" name="gracePeriod" [(ngModel)]="locRequest.gracePeriodInMinutes" />
+                                        <input id="gracePeriodInput" class="form-control" id="gracePeriod" type="number" min="0" placeholder="Enter Grace period in minutes" name="gracePeriod" [(ngModel)]="locRequest.gracePeriodInMinutes" />
                                     </div>
                                 </div>
                             </div>
@@ -344,12 +344,12 @@
                 <div *ngIf="isNewShift && isDeleteShift" class="row">
                     <div class="col-md-11">
                         <div class="text-right d-md-none d-block">
-                            <mat-icon (click)=deleteShift() class="text-secondary cursor">delete</mat-icon>
+                            <mat-icon id="deleteShiftBtn" (click)=deleteShift() class="text-secondary cursor">delete</mat-icon>
                         </div>
                         <div>
                             <div class="form-group">
                                 <label class="small font-weight-bold">Shift Name</label>
-                                <input type="text" class="form-control w-100" placeholder="Name your shift" name="shiftName" required>
+                                <input id="shiftNameInput" type="text" class="form-control w-100" placeholder="Name your shift" name="shiftName" required>
                             </div>
 
                             <div class="row">
@@ -440,7 +440,7 @@
                     </div>
 
                     <div class="col-md-1 d-md-block d-none">
-                        <mat-icon (click)=deleteShift() class="text-secondary cursor">delete</mat-icon>
+                        <mat-icon id="deleteShiftBtn" (click)=deleteShift() class="text-secondary cursor">delete</mat-icon>
 
                     </div>
 
@@ -452,12 +452,12 @@
 
                         <div class="row">
                             <div class="col-6 text-left">
-                                <button type="button" mat-raised-button class="mt-4 px-4 py-1 back-Btn" (click)=previousStep()>Back
+                                <button id="backBtn" type="button" mat-raised-button class="mt-4 px-4 py-1 back-Btn" (click)=previousStep()>Back
                                 </button>
                             </div>
 
                             <div class="col-6 text-right">
-                                <button type="submit" mat-raised-button color="primary" class="mt-4 px-md-4 px-2 py-1">Save and
+                                <button id="saveBtn" type="submit" mat-raised-button color="primary" class="mt-4 px-md-4 px-2 py-1">Save and
                                     Continue<img *ngIf="loading"
                                                  src="assets/img/loading.gif"
                                                  style="max-width: 20px;"/></button>
@@ -483,7 +483,7 @@
                             {{email}}
                             <mat-icon matChipRemove>cancel</mat-icon>
                         </mat-chip>
-                        <input placeholder="Enter Email Address (es)" name="invitees" (focusout)="addEmails($event, 'INVITE')" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addEmails($event, 'INVITE')"
+                        <input id="emailAddressesInput" placeholder="Enter Email Address (es)" name="invitees" (focusout)="addEmails($event, 'INVITE')" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addEmails($event, 'INVITE')"
                         />
                     </mat-chip-list>
                     <mat-hint class="text-success">Separate Multiple entries with comma or space
@@ -516,12 +516,12 @@
 
                     <div class="row">
                         <div class="col-md-6 col-4 text-left">
-                            <button type="button" mat-raised-button class="mt-4 px-4 py-1 back-Btn" (click)=previousStep()>Back
+                            <button id="backBtn" type="button" mat-raised-button class="mt-4 px-4 py-1 back-Btn" (click)=previousStep()>Back
                             </button>
                         </div>
 
                         <div class="col-md-6 col-8 text-right">
-                            <button type="button" mat-raised-button color="primary" class="mt-4 px-4 py-1" (click)="nextStep()">Finish location setup<img *ngIf="loading"
+                            <button id="SaveBtn" type="button" mat-raised-button color="primary" class="mt-4 px-4 py-1" (click)="nextStep()">Finish location setup<img *ngIf="loading"
                                                                                    src="assets/img/loading.gif"
                                                                                    style="max-width: 20px;"/></button>
                         </div>
@@ -530,7 +530,7 @@
 
             </div>
 
-            <p (click)="step = 5" class="text-primary text-center pt-4 cursor"><u>Skip, I will invite employees
+            <p id="skipToDasboard" (click)="step = 5" class="text-primary text-center pt-4 cursor"><u>Skip, I will invite employees
                 later</u></p>
         </div>
 
@@ -541,7 +541,7 @@
                 <h4 class="text-brand">Location created successfully</h4>
 
                 <div class="col-md-12">
-                    <button type="button" mat-raised-button color="primary" class="mt-4 px-4 py-1" [routerLink]="['/portal']">See your dashboard<img *ngIf="loading"
+                    <button id="seeYourDashboardBtn" type="button" mat-raised-button color="primary" class="mt-4 px-4 py-1" [routerLink]="['/portal']">See your dashboard<img *ngIf="loading"
                                                                               src="assets/img/loading.gif"
                                                                               style="max-width: 20px;"/></button>
                 </div>
@@ -619,10 +619,10 @@
                             </div>
 
                             <div class="col-md-6 text-right">
-                                <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1">
+                                <button id="saveBtn" type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1">
                                     Continue<img
                                     *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/></button>
-                                <button type="button" mat-raised-button class="mt-4 px-4 py-1 text-brand" (click)="modalRef.hide()">Back
+                                <button id="backBtn" type="button" mat-raised-button class="mt-4 px-4 py-1 text-brand" (click)="modalRef.hide()">Back
                                 </button>
                             </div>
                         </div>
