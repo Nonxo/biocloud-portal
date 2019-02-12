@@ -9,8 +9,8 @@
                 <img class="img-fluid" src="assets/img/welcome.png" alt="">
                 <h6 class="text-center home-grey">We are pleased you joined the platform</h6>
                 <h6 class="text-center home-grey">To get started</h6>
-                <a href="#" (click)="addCompany()" id="addCom">
-                    <h5 class="pt-3 pb-3">ADD A COMPANY</h5>
+                <a (click)="addCompany()" id="addCom">
+                    <h5 class="pt-3 pb-3 text-primary cursor">ADD A COMPANY</h5>
                 </a>
             </div>
         </div>
@@ -25,7 +25,7 @@
             <div class="row" *ngIf="locations.length > 0">
                 <div class=" col-lg-12 px-md-4 px-lg-4">
                     <h5 class="float-left text-brand">Locations</h5>
-                    <a routerLink="/portal/config" role="button" *hasAuthority="'GENERAL_ADMIN'">
+                    <a routerLink="/portal/create-location" role="button" *hasAuthority="'GENERAL_ADMIN'">
                         <h6 class="float-right pt-lg-0 pt-1">ADD NEW LOCATION</h6>
                     </a>
                 </div>
@@ -98,7 +98,7 @@
                         <ng-container *hasAuthority="['GENERAL_ADMIN','LOCATION_ADMIN']">
                             <h6 class="text-center home-grey">We are pleased you joined the platform</h6>
                             <h6 class="text-center home-grey">To get started</h6>
-                            <a routerLink="/portal/config" id="addLoc">
+                            <a routerLink="/portal/create-location" id="addLoc">
                                 <h5 class="pt-3 pb-3">ADD A LOCATION</h5>
                             </a>
                         </ng-container>
@@ -107,8 +107,8 @@
                             <h6 class="text-center home-grey">We are pleased you joined the platform</h6>
                             <h6 class="text-center home-grey">Your clock in history in this company will appear here</h6>
                             <h6 class="text-center home-grey">Create your own Company instead</h6>
-                            <a href="#" (click)="addCompany()" id="addComp">
-                                <h5 class="pt-3 pb-3">ADD A COMPANY</h5>
+                            <a (click)="addCompany()" id="addComp">
+                                <h5 class="pt-3 pb-3 text-primary cursor">ADD A COMPANY</h5>
                             </a>
                         </ng-container>
 
@@ -229,7 +229,7 @@
 
             <div class="col-md-8" *ngIf="noOfAttendees > 0">
                 <span>Reassign Employees to a new Location</span>
-                <mat-form-field class="input-field">
+                <mat-form-field class="input-field" floatPlaceholder="never">
                     <mat-select placeholder="Select Location" name="locId" [(ngModel)]="assignRequestObj.newlocId">
                         <mat-option [value]="''">NONE</mat-option>
                         <ng-container *ngFor="let loc of locations">
@@ -267,7 +267,7 @@
 
             <div class="col-md-8" *ngIf="noOfAttendees > 0">
                 <span>Reassign Employees to a new Location</span>
-                <mat-form-field class="input-field">
+                <mat-form-field class="input-field" floatPlaceholder="never">
                     <mat-select placeholder="Select Location" name="locId" [(ngModel)]="assignRequestObj.newlocId">
                         <mat-option [value]="''">NONE</mat-option>
                         <ng-container *ngFor="let loc of locations">

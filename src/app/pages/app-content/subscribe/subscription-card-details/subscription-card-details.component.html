@@ -102,12 +102,20 @@
         <p class="text-center pt-2">You are about to edit your card details a fee of {{getPrice() | currency:selectedCurrency:'symbol-narrow':'1.0'}} will be deducted from your card to verify the card.</p>
 
         <div class="text-center">
-            <mat-form-field>
+
+            <div class="form-group w-25 mx-auto">
+                <select class="form-control" id="selectedCurrency" name="selectedCurrency" [(ngModel)]="selectedCurrency" (change)="onChange()">
+                                    <option  select value="NGN">NGN</option>
+                                    <option  select *ngFor="let e of exchangeRates" value="{{e.target}}">{{e.target}}</option>
+                                </select>
+            </div>
+
+            <!-- <mat-form-field>
                 <mat-select placeholder="Select Currency" name="selectedCurrency" [(ngModel)]="selectedCurrency" (change)="onChange()">
                     <mat-option select value="NGN">NGN</mat-option>
                     <mat-option select *ngFor="let e of exchangeRates" value="{{e.target}}">{{e.target}}</mat-option>
                 </mat-select>
-            </mat-form-field>
+            </mat-form-field> -->
         </div>
 
 

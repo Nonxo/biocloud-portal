@@ -202,7 +202,9 @@ a:hover {
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-    background-color: $light-grey !important;
+    // background-color: $light-grey !important;
+    background-color: #fff !important;
+    border-bottom: 8px solid #F4F4F4;
 }
 
 .mat-menu-content {
@@ -230,8 +232,9 @@ a:hover {
 }
 
 thead {
-    background: mat-color($candy-app-primary, 500) !important;
-    color: $white;
+    background: transparent !important;
+    color: mat-color($candy-app-primary, 500) !important;
+    ;
 }
 
 .active {
@@ -328,4 +331,57 @@ thead {
     position: relative;
     flex-shrink: 0;
     background: #fff !important;
+}
+
+.clear {
+    clear: both;
+}
+
+// table
+thead>tr>th {
+    font-weight: 600;
+}
+
+.table thead th {
+    border-bottom: 4px solid #e9ecef;
+    border-top: none;
+}
+
+tbody>tr {
+    background-color: #fff !important;
+    border-bottom: 8px solid #F4F4F4;
+}
+
+tbody>tr>td {
+    font-size: 14px;
+}
+
+.mat-form-field-flex {
+    display: inline-flex;
+    align-items: baseline;
+    width: 100%;
+    border: 1px solid #cfcece !important;
+    border-bottom: none !important;
+    padding: 0 10px;
+    background: #fff !important;
+}
+
+.mat-form-field-infix {
+    display: block;
+    position: relative;
+    flex: auto;
+    margin-top: -7px !important;
+}
+
+.mat-datepicker-content .mat-calendar {
+    width: 296px;
+    height: auto !important;
+}
+
+.form-control:focus {
+    color: none !important;
+    background-color: #fff;
+    border-color: none !important;
+    outline: 0;
+    box-shadow: none !important;
 }

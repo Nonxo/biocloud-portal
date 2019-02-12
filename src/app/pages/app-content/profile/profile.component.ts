@@ -1,17 +1,17 @@
-import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../../../components/auth/auth.service";
-import {Router} from "@angular/router";
-import {NotifyService} from "../../../service/notify.service";
-import {StorageService} from "../../../service/storage.service";
-import {UpdateProfile} from "../model/app-content.model";
-import {PictureUtil} from "../../../util/PictureUtil";
-import {AppContentService} from "../services/app-content.service";
-import {DataService} from "../../../service/data.service";
-import {BsModalRef, BsModalService} from "ngx-bootstrap";
-import {TranslateService} from "@ngx-translate/core";
-import {MessageService} from "../../../service/message.service";
-import {environment} from "../../../../environments/environment";
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AuthService } from "../../../components/auth/auth.service";
+import { Router } from "@angular/router";
+import { NotifyService } from "../../../service/notify.service";
+import { StorageService } from "../../../service/storage.service";
+import { UpdateProfile } from "../model/app-content.model";
+import { PictureUtil } from "../../../util/PictureUtil";
+import { AppContentService } from "../services/app-content.service";
+import { DataService } from "../../../service/data.service";
+import { BsModalRef, BsModalService } from "ngx-bootstrap";
+import { TranslateService } from "@ngx-translate/core";
+import { MessageService } from "../../../service/message.service";
+import { environment } from "../../../../environments/environment";
 
 
 @Component({
@@ -25,6 +25,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     selectedCountry: any;
     userId: string;
     bio: string;
+    openDropdown: boolean;
+    searchField: string;
     model: UpdateProfile = new UpdateProfile();
     tmpModel: UpdateProfile = new UpdateProfile();
     changePasswordForm: FormGroup;
@@ -43,6 +45,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
     filteredCountries: any[] = [];
     baseUrl: string = environment.baseUrl;
     searchParam: string;
+    fNameIsInvalid: boolean = false;
+    lNameIsInvalid: boolean = false;
+    invalidInputErrorMsg = 'Only letters and hyphens are allowed'
 
 
     ngOnInit() {
@@ -62,29 +67,41 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
 
     constructor(private authService: AuthService,
-                private contentService: AppContentService,
-                private router: Router,
-                private dataService: DataService,
-                private ns: NotifyService,
-                private modalService: BsModalService,
-                private fb: FormBuilder,
-                private pictureUtil: PictureUtil,
-                private ss: StorageService,
-                private translate: TranslateService,
-                private mService: MessageService) {
+        private contentService: AppContentService,
+        private router: Router,
+        private dataService: DataService,
+        private ns: NotifyService,
+        private modalService: BsModalService,
+        private fb: FormBuilder,
+        private pictureUtil: PictureUtil,
+        private ss: StorageService,
+        private translate: TranslateService,
+        private mService: MessageService) {
         translate.setDefaultLang('en/profile');
         translate.use('en/profile');
 
         this.fetchCountries();
 
     }
-cancel() {
-   // this.fetchUser();
-    this.modalRef.hide();
-}
+    cancel() {
+        // this.fetchUser();
+        this.modalRef.hide();
+    }
+
+    showDd() {
+        if (!this.openDropdown) {
+            //first load filteredCountries afresh else the old searched countries will still be displayed
+            this.filteredCountries = this.countries;
+
+            this.openDropdown = true;
+        } else {
+            this.openDropdown = false;
+        }
+    }
+
 
     fileChange(event) {
-        if(!this.validateImageFile(event.target.files[0].name)) {
+        if (!this.validateImageFile(event.target.files[0].name)) {
             this.ns.showError('File format not supported');
             event.target.value = '';
             return;
@@ -153,17 +170,17 @@ cancel() {
             )
     }
 
-    fetchBio(){
-    this.contentService.retrieveUser(this.userId)
-      .subscribe(
-         result => {
-          if (result.code == 0) {
-            this.retrieveStatus = true;
-            this.bio = result.user.bio;
-          } else {
-          }
-        },
-       )
+    fetchBio() {
+        this.contentService.retrieveUser(this.userId)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.retrieveStatus = true;
+                        this.bio = result.user.bio;
+                    } else {
+                    }
+                },
+            )
     }
 
     transformUserObj(userObj: any, bio: string) {
@@ -174,7 +191,7 @@ cancel() {
         this.model.email = userObj.email;
         this.model.address = userObj.address;
         this.model.img = userObj.img;
-        this.model.phoneCode = userObj.phoneCode? userObj.phoneCode: "234";
+        this.model.phoneCode = userObj.phoneCode ? userObj.phoneCode : "234";
         this.model.bio = bio;
 
         if (this.model.img) {
@@ -268,6 +285,14 @@ cancel() {
             )
     }
 
+    onClickedOutside(e: Event) {
+        this.openDropdown = false;
+        this.searchField = "";
+
+        //load filteredCountries afresh else the old searched countries will still be displayed
+        this.filteredCountries = this.countries;
+    }
+
 
     changePasswordResponse(event) {
 
@@ -350,5 +375,14 @@ cancel() {
         this.modalRef ? this.modalRef.hide() : '';
     }
 
+    validateXters(input: string, formElement: string) {
+        if (input && !/([a-zA-Z\-]+)$/i.test(input)) {
+            if (formElement == "fName") this.fNameIsInvalid = true;
+            if (formElement == "lName") this.lNameIsInvalid = true;
+        } else {
+            if (formElement == "fName") this.fNameIsInvalid = false;
+            if (formElement == "lName") this.lNameIsInvalid = false;
+        }
+    }
 
 }

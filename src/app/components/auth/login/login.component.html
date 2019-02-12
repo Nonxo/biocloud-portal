@@ -1,4 +1,4 @@
-<h3 class="text-xl-left text-center">Sign in to your iClocker account</h3>
+<h3 class="text-xl-left text-center login-text">Sign in to your iClocker account</h3>
 
 
 <form class="pt-5" [formGroup]="loginForm" (submit)="login()">
@@ -68,9 +68,14 @@
     <div class="modal-body">
         <form (submit)="forgotPassword()" [formGroup]="resetForm">
             <div class="col-md-12">
-                <mat-form-field class="input-field">
+
+                <div class="form-group">
+                    <input class="form-control w-100" placeholder="Email" type="email" formControlName="email" required>
+                </div>
+
+                <!-- <mat-form-field class="input-field" floatPlaceholder="never">
                     <input matInput placeholder="Email" type="email" formControlName="email">
-                </mat-form-field>
+                </mat-form-field> -->
             </div>
             <div class="col-md-12 text-right">
                 <button mat-raised-button color="primary" class="px-4 py-1" [disabled]="resetForm.invalid || loading">

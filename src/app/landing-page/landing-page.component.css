@@ -99,7 +99,7 @@ button.btn.btn-primary-outline {
     button.btn.btn-outline-white[_ngcontent-c2] {
         position: absolute;
         top: 45%;
-        left: 14%;
+        left: 18% !important;
     }
 }
 

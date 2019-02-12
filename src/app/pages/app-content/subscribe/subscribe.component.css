@@ -82,7 +82,7 @@
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 823px) {
     .subscribe-btn {
-        width: 18rem
+        width: 16rem
     }
 }
 
@@ -324,4 +324,8 @@
     min-width: 18px;
     font-weight: normal;
     cursor: pointer;
+}
+
+.currencySelect {
+    height: 2.2rem !important;
 }

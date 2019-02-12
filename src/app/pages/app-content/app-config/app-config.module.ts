@@ -14,7 +14,7 @@ import {BsModalRef} from "ngx-bootstrap/index";
     ],
     declarations: [
         AppConfigComponent,
-        GroupAttendeesComponent
+        GroupAttendeesComponent,
     ],
     providers: [BsModalRef]
 })

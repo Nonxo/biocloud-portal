@@ -3,7 +3,7 @@ import {MessageService} from "../../../service/message.service";
 import {AppContentService} from "../services/app-content.service";
 import {NotifyService} from "../../../service/notify.service";
 import {StorageService} from "../../../service/storage.service";
-import {BsModalService, BsModalRef, ModalOptions} from "ngx-bootstrap/index";
+import {BsModalRef, BsModalService, ModalOptions} from "ngx-bootstrap/index";
 import {LocationRequest} from "../app-config/model/app-config.model";
 import {SetupComponent} from "../app-config/setup/setup.component";
 import {AddAttendeesComponent} from "../app-config/add-attendees/add-attendees.component";
@@ -357,7 +357,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     addCompany() {
-        this.mService.setCreateOrg(true);
+        // this.mService.setCreateOrg(true);
+        this.router.navigate(['/wizard']);
     }
 
     ngOnDestroy(): void {

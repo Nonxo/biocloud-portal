@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Endpoints} from "../../../../util/endpoints";
-import {LocationRequest, InviteRequest, AssignAdminRequest} from "../model/app-config.model";
+import {AssignAdminRequest, InviteRequest, LocationRequest, SupportMailRequest} from "../model/app-config.model";
 import {StorageService} from "../../../../service/storage.service";
 import {MediaType} from "../../../../util/constants";
 import {map, timeout} from "rxjs/operators";
@@ -50,6 +50,8 @@ export class AppConfigService {
     saveLocation(model:LocationRequest): Observable<any> {
         model.orgId = this.ss.getSelectedOrg()? this.ss.getSelectedOrg().orgId:null;
         model.createdBy = this.ss.getLoggedInUserEmail();
+
+        delete model.id;
 
         return this.httpClient
             .post(Endpoints.SAVE_LOCATION, JSON.stringify(model), {
@@ -109,10 +111,15 @@ export class AppConfigService {
         model.orgId = this.ss.getSelectedOrg()? this.ss.getSelectedOrg().orgId:null;
         model.createdBy = this.ss.getLoggedInUserEmail();
 
+        delete model.id;
+
         let body = JSON.parse(JSON.stringify(model));
         delete body.created;
         delete body.active;
         delete body.lastModified;
+        delete body.locId;
+        delete body.suggestedLng;
+        delete body.suggestedLat;
         delete body.locId;
 
         return this.httpClient
@@ -151,6 +158,22 @@ export class AppConfigService {
 
         return this.httpClient
             .post(Endpoints.ASSIGN_ADMINS_LOCATIONS, JSON.stringify(model), {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res:any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
+    sendSupportEmail(model: SupportMailRequest) {
+        return this.httpClient
+            .post(Endpoints.SEND_SUPPORT_EMAIL, JSON.stringify(model), {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_JSON)
             })

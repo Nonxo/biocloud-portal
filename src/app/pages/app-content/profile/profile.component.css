@@ -1,7 +1,11 @@
-fileUpload {
+.fileUpload {
     position: relative;
     overflow: hidden;
     margin: 10px;
+}
+
+.mat-input-flex.mat-form-field-flex {
+    height: 36px;
 }
 
 .example-full-width {
@@ -116,7 +120,23 @@ fileUpload {
 }
 
 .flag-col {
-    margin-top: -4px;
+    margin-top: 29px;
+}
+
+.search-style {
+    position: absolute;
+    top: 40%;
+    color: #9fa9b5;
+    left: 119%;
+}
+
+.box-shadow {
+    -webkit-box-shadow: 4px 4px 33px -4px rgba(163, 163, 163, 0.75);
+    -moz-box-shadow: 4px 4px 33px -4px rgba(163, 163, 163, 0.75);
+    box-shadow: 4px 4px 33px -4px rgba(163, 163, 163, 0.75);
+    width: 185px;
+    max-height: 165px;
+    overflow: auto;
 }
 
 .sticky-search {
@@ -1619,6 +1639,7 @@ fileUpload {
     height: 20px;
     background-position: -578px -304px;
 }
+
 .break-word {
     word-break: break-all;
 }

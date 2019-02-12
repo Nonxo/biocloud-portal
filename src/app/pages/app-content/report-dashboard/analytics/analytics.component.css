@@ -1,0 +1,10 @@
+.analytics-select {
+    display: initial !important;
+    width: 10rem;
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 823px) {
+    .report-Period-width {
+        width: 100%;
+    }
+}

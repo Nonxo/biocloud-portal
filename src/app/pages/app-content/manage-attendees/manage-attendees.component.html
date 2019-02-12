@@ -4,7 +4,23 @@
 <mat-tab-group class="employee" (selectedTabChange)="onTabChange($event)">
     <mat-tab label="Active">
         <div class="container-fluid pr-lg-3 pl-lg-3">
-            <div class="col-md-12 text-lg-right" *ngIf="locations.length > 0">
+
+            <div class="row mt-3">
+                <div class="col-md-4"></div>
+
+                <div class="col-md-5"></div>
+
+                <div class="col-md-3 text-lg-right" *ngIf="locations.length > 0">
+
+                    <div class="form-group position-relative">
+                        <input class="form-control w-100" placeholder="Search" name="search" [(ngModel)]="searchValue" (keydown.enter)="search()">
+                        <mat-icon class="searchIcon" *ngIf="searchValue" (click)="searchValue = ''" class="cursor text-secondary pl-1" style="font-size: 20px;position: absolute;top: 25%;right: 1%;">cancel</mat-icon>
+                        <mat-icon class="searchIcon" *ngIf="!searchValue" class="cursor" (click)="search()" style="position: absolute;top: 25%;right: 1%;">search</mat-icon>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="col-md-12 text-lg-right" *ngIf="locations.length > 0">
                 <mat-form-field>
                     <div class="d-inline-flex">
                         <input matInput placeholder="Search" name="search" [(ngModel)]="searchValue" (keydown.enter)="search()">
@@ -12,11 +28,21 @@
                         <mat-icon *ngIf="!searchValue" class="cursor" (click)="search()">search</mat-icon>
                     </div>
                 </mat-form-field>
-            </div>
+            </div> -->
 
             <div class="row mt-4">
-                <div class="col-xl-4 col-md-6 d-flex align-items-center">
-                    <mat-form-field>
+                <div class="col-lg-4 col-md-4 d-flex align-items-center">
+
+                    <div class="form-group responsive-width mb-0">
+                        <select class="form-control" id="location" name="location" [(ngModel)]="selectedLocId" (change)="fetchUsers()">
+                                            <option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All Locations</option>
+                                            <ng-container *ngFor="let loc of locations">
+                                                    <option [value]="loc.locId"> {{ loc.name }}</option>
+                                                </ng-container>
+                                        </select>
+                    </div>
+
+                    <!-- <mat-form-field>
                         <mat-select placeholder="" name="location" [(ngModel)]="selectedLocId" (change)="fetchUsers()">
                             <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All Locations</mat-option>
                             <ng-container *ngFor="let loc of locations">
@@ -25,23 +51,23 @@
                                 </mat-option>
                             </ng-container>
                         </mat-select>
-                    </mat-form-field>
+                    </mat-form-field> -->
                 </div>
 
-                <div class="col-xl-4 col-md-6 d-xl-block text-center">
+                <div class="col-lg-4 col-md-4 d-xl-block text-md-center pt-md-0 pt-4">
                     <ng-container *ngIf="isChecked()">
-                        <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')" class="primary-outline">Reassign
+                        <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')" class="primary-outline" id="reassign">Reassign
                         </button>
-                        <button mat-button class="primary-outline" (click)="groupActions('DE_ACTIVATE')">Deactivate
+                        <button mat-button class="primary-outline" (click)="groupActions('DE_ACTIVATE')" id="deactivate">Deactivate
                         </button>
                     </ng-container>
                 </div>
 
-                <div class="col-xl-4 col-md-6 d-flex align-items-center pt-xl-0 pt-3 my-auto">
+                <div class="col-lg-4 col-md-4 d-flex align-items-center pt-xl-0 pt-3 my-auto">
                     <!-- <div class="ml-md-auto mr-auto"> -->
                     <div class="ml-md-auto">
-                        <a class="text-right" role="button" (click)="openInviteModal()">
-                            <p class="cursor text-brand">INVITE NEW EMPLOYEE</p>
+                        <a class="text-right" role="button" (click)="openInviteModal()" id="invite">
+                            <p class="cursor text-brand my-auto">INVITE NEW EMPLOYEE</p>
                         </a>
                     </div>
                 </div>
@@ -72,7 +98,9 @@
                                 <p class="cursor text-brand" (click)="gotoOverview(d.email)">{{d.firstName }} {{ d.lastName}}</p>
                             </td>
                             <td>{{d.email}}</td>
-                            <td>{{d.phoneCode? d.phoneCode: "" }} {{ d.phone}}</td>
+                            <td>
+                                <ng-container *ngIf="d.phone">{{d.phoneCode? (d.phoneCode.charAt(0) == "+"? d.phoneCode: "+" + d.phoneCode): "+234" }} {{ d.phone}}</ng-container>
+                            </td>
                             <!--<td>{{d.status? 'Active':'Inactive'}}</td>-->
                         </tr>
 
@@ -85,14 +113,24 @@
                     <div class="pb-lg-0 pb-4">
                         <div class="form-group form-inline">
                             <p class="pt-3 pr-2">Show</p>
-                            <mat-form-field class="w-25">
+
+                            <div class="form-group w-25">
+                                <select class="form-control" name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
+                                                <option [value]="10">10</option>
+                                                <option [value]="25">25</option>
+                                                <option [value]="50">50</option>
+                                                <option [value]="10">10</option>
+                                            </select>
+                            </div>
+
+                            <!-- <mat-form-field class="w-25">
                                 <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
                                     <mat-option [value]="10">10</mat-option>
                                     <mat-option [value]="25">25</mat-option>
                                     <mat-option [value]="50">50</mat-option>
                                     <mat-option [value]="100">100</mat-option>
                                 </mat-select>
-                            </mat-form-field>
+                            </mat-form-field> -->
                         </div>
                     </div>
                 </div>
@@ -110,7 +148,23 @@
 
 
         <div class="container-fluid pr-lg-3 pl-lg-3">
-            <div class="col-md-12 text-lg-right" *ngIf="locations.length > 0">
+
+            <div class="row mt-3">
+                <div class="col-md-4"></div>
+
+                <div class="col-md-5"></div>
+
+                <div class="col-md-3 text-lg-right" *ngIf="locations.length > 0">
+
+                    <div class="form-group position-relative">
+                        <input class="form-control w-100" placeholder="Search" name="search" [(ngModel)]="searchValue" (keydown.enter)="search()">
+                        <mat-icon class="searchIcon" *ngIf="searchValue" (click)="searchValue = ''" class="cursor text-secondary pl-1" style="font-size: 20px;position: absolute;top: 25%;right: 1%;">cancel</mat-icon>
+                        <mat-icon class="searchIcon" *ngIf="!searchValue" class="cursor" (click)="search()" style="position: absolute;top: 25%;right: 1%;">search</mat-icon>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="col-md-12 text-lg-right" *ngIf="locations.length > 0">
                 <mat-form-field>
                     <div class="d-inline-flex">
                         <input matInput placeholder="Search" name="search" [(ngModel)]="searchValue" (keydown.enter)="search()">
@@ -118,11 +172,22 @@
                         <mat-icon *ngIf="!searchValue" class="cursor" (click)="search()">search</mat-icon>
                     </div>
                 </mat-form-field>
-            </div>
+            </div> -->
 
             <div class="row mt-4">
-                <div class="col-xl-4 col-md-6 d-flex align-items-center">
-                    <mat-form-field>
+                <div class="col-lg-4 col-md-4 d-flex align-items-center">
+
+                    <div class="form-group responsive-width">
+                        <select class="form-control" id="location" name="location" [(ngModel)]="selectedLocId" (change)="fetchUsers()">
+                                            <option  value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All Locations</option>
+                                            <ng-container *ngFor="let loc of locations">
+                                                    <option  [value]="loc.locId">
+                                                            {{ loc.name }}</option>
+                                                </ng-container>
+                                        </select>
+                    </div>
+
+                    <!-- <mat-form-field>
                         <mat-select placeholder="" name="location" [(ngModel)]="selectedLocId" (change)="fetchUsers()">
                             <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All Locations</mat-option>
                             <ng-container *ngFor="let loc of locations">
@@ -131,21 +196,21 @@
                                 </mat-option>
                             </ng-container>
                         </mat-select>
-                    </mat-form-field>
+                    </mat-form-field> -->
                 </div>
 
-                <div class="col-lg-4 col-12 text-md-center text-left">
+                <div class="col-lg-4 col-md-4 text-md-center text-left">
                     <ng-container *ngIf="isChecked()">
-                        <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')" class="primary-outline">Reassign
+                        <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')" class="primary-outline" id="re-assign">Reassign
                         </button>
-                        <button mat-button class="primary-outline" (click)="groupActions('ACTIVATE')">Activate</button>
+                        <button mat-button class="primary-outline" (click)="groupActions('ACTIVATE')" id="activate">Activate</button>
                     </ng-container>
                 </div>
 
-                <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
+                <div class="col-lg-4 col-md-4 d-flex align-items-center pt-md-0 pt-3 pb-md-0 pb-4">
                     <div class="ml-md-auto mr-auto">
-                        <a class="text-right" role="button" (click)="openInviteModal()">
-                            <p class="cursor text-brand">INVITE NEW EMPLOYEE</p>
+                        <a class="text-right" role="button" (click)="openInviteModal()" id="invite">
+                            <p class="cursor text-brand my-auto">INVITE NEW EMPLOYEE</p>
                         </a>
                     </div>
                 </div>
@@ -177,7 +242,9 @@
                                 <p class="cursor text-brand" (click)="gotoOverview(d.email)">{{d.firstName }} {{ d.lastName}}</p>
                             </td>
                             <td>{{d.email}}</td>
-                            <td>{{d.phoneCode? d.phoneCode: "" }} {{ d.phone}}</td>
+                            <td>
+                                <ng-container *ngIf="d.phone">{{d.phoneCode? (d.phoneCode.charAt(0) == "+"? d.phoneCode: "+" + d.phoneCode): "+234" }} {{ d.phone}}</ng-container>
+                            </td>
                         </tr>
 
                     </tbody>
@@ -189,14 +256,24 @@
                     <div class="pb-lg-0 pb-4">
                         <div class="form-group form-inline">
                             <p class="pt-3 pr-2">Show</p>
-                            <mat-form-field class="w-25">
+
+                            <div class="form-group w-25">
+                                <select class="form-control" name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
+                                                <option [value]="10">10</option>
+                                                <option [value]="25">25</option>
+                                                <option [value]="50">50</option>
+                                                <option [value]="100">100</option>
+                                            </select>
+                            </div>
+
+                            <!-- <mat-form-field class="w-25">
                                 <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
                                     <mat-option [value]="10">10</mat-option>
                                     <mat-option [value]="25">25</mat-option>
                                     <mat-option [value]="50">50</mat-option>
                                     <mat-option [value]="100">100</mat-option>
                                 </mat-select>
-                            </mat-form-field>
+                            </mat-form-field> -->
                         </div>
                     </div>
                 </div>
@@ -214,7 +291,22 @@
 
         <div class="container-fluid pr-lg-3 pl-lg-3">
 
-            <div class="col-md-12 text-lg-right" *ngIf="locations.length > 0">
+            <div class="row mt-3">
+                <div class="col-md-4"></div>
+
+                <div class="col-md-5"></div>
+
+                <div class="col-md-3 text-lg-right" *ngIf="locations.length > 0">
+
+                    <div class="form-group position-relative">
+                        <input class="form-control w-100" placeholder="Search" name="search" [(ngModel)]="searchValue" (keydown.enter)="searchInvitedUser()">
+                        <mat-icon class="searchIcon" *ngIf="searchValue" (click)="searchValue = ''" class="cursor text-secondary pl-1" style="font-size: 20px;position: absolute;top: 25%;right: 1%;">cancel</mat-icon>
+                        <mat-icon class="searchIcon" *ngIf="!searchValue" class="cursor" (click)="searchInvitedUser()" style="position: absolute;top: 25%;right: 1%;">search</mat-icon>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="col-md-12 text-lg-right" *ngIf="locations.length > 0">
                 <mat-form-field>
                     <div class="d-inline-flex">
                         <input matInput placeholder="Search" name="search" [(ngModel)]="searchValue" (keydown.enter)="searchInvitedUser()">
@@ -222,11 +314,21 @@
                         <mat-icon *ngIf="!searchValue" class="cursor" (click)="searchInvitedUser()">search</mat-icon>
                     </div>
                 </mat-form-field>
-            </div>
+            </div> -->
 
             <div class="row mt-4">
-                <div class="col-lg-4 col-12  d-flex align-items-center">
-                    <mat-form-field>
+                <div class="col-lg-4 col-md-4  d-flex align-items-center">
+
+                    <div class="form-group responsive-width">
+                        <select class="form-control" id="location" name="location" [(ngModel)]="selectedLocId" (change)="fetchInvitedUsers()">
+                                            <option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All Locations</option>
+                                            <ng-container *ngFor="let loc of locations">
+                                                    <option [value]="loc.locId">{{ loc.name }}</option>
+                                                </ng-container>
+                                        </select>
+                    </div>
+
+                    <!-- <mat-form-field>
                         <mat-select placeholder="" name="location" [(ngModel)]="selectedLocId" (change)="fetchInvitedUsers()">
                             <mat-option value="" *ngIf="userRole !== 'LOCATION_ADMIN'">All Locations</mat-option>
                             <ng-container *ngFor="let loc of locations">
@@ -235,21 +337,21 @@
                                 </mat-option>
                             </ng-container>
                         </mat-select>
-                    </mat-form-field>
+                    </mat-form-field> -->
                 </div>
 
-                <div class="col-lg-4 col-12 text-md-center text-left">
+                <div class="col-lg-4 col-md-4 text-md-center text-left">
                     <ng-container *ngIf="isChecked()">
-                        <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')" class="primary-outline">Reassign
+                        <button *ngIf="selectedLocId" mat-raised-button color="primary" (click)="groupActions('ASSIGN')" class="primary-outline" id="reAssign">Reassign
                         </button>
-                        <button mat-button class="primary-outline" (click)="groupActions('ACTIVATE')">Activate</button>
+                        <button mat-button class="primary-outline" (click)="groupActions('ACTIVATE')" id="active">Activate</button>
                     </ng-container>
                 </div>
 
-                <div class="col-lg-4 col-12 d-flex align-items-center pt-md-0 pt-3">
+                <div class="col-lg-4 col-md-4 d-flex align-items-center pt-md-0 pt-3 pb-md-0 pb-4">
                     <div class="ml-md-auto mr-auto">
-                        <a class="text-right" role="button" (click)="openInviteModal()">
-                            <p class="cursor text-brand">INVITE NEW EMPLOYEE</p>
+                        <a class="text-right" role="button" (click)="openInviteModal()" id="invite">
+                            <p class="cursor text-brand my-auto">INVITE NEW EMPLOYEE</p>
                         </a>
                     </div>
                 </div>
@@ -293,14 +395,24 @@
                     <div class="pb-lg-0 pb-4">
                         <div class="form-group form-inline">
                             <p class="pt-3 pr-2">Show</p>
-                            <mat-form-field class="w-25">
+
+                            <div class="form-group w-25">
+                                <select class="form-control" name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
+                                                <option [value]="10">10</option>
+                                                <option [value]="25">25</option>
+                                                <option [value]="50">50</option>
+                                                <option [value]="100">100</option>
+                                            </select>
+                            </div>
+
+                            <!-- <mat-form-field class="w-25">
                                 <mat-select name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
                                     <mat-option [value]="10">10</mat-option>
                                     <mat-option [value]="25">25</mat-option>
                                     <mat-option [value]="50">50</mat-option>
                                     <mat-option [value]="100">100</mat-option>
                                 </mat-select>
-                            </mat-form-field>
+                            </mat-form-field> -->
                         </div>
                     </div>
                 </div>
@@ -332,8 +444,8 @@
         </div>
 
         <div class="col-md-12 text-right">
-            <button mat-raised-button color="danger" type="button" (click)="modalRef.hide()">CANCEL</button>
-            <button mat-raised-button color="primary" type="button" (click)="activateDeactivateUser()">
+            <button mat-raised-button color="danger" type="button" (click)="modalRef.hide()" id="cancel">CANCEL</button>
+            <button mat-raised-button color="primary" type="button" (click)="activateDeactivateUser()" id="confirm">
                 OK
                 <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
             </button>
@@ -358,7 +470,17 @@
             </div>
 
             <div class="col-md-8">
-                <mat-form-field class="input-field">
+
+                <div class="form-group">
+                    <select class="form-control" id="locId" name="locId" [(ngModel)]="assignRequestObj.newlocId">
+                                        <option value="0">--</option>
+                                        <ng-container *ngFor="let loc of locations">
+                                                <option *ngIf="selectedLocId !== loc.locId" value="{{loc.locId}}">{{loc.name}}</option>
+                                            </ng-container>
+                                    </select>
+                </div>
+
+                <!-- <mat-form-field class="input-field">
                     <mat-select placeholder="Select Location" name="locId" [(ngModel)]="assignRequestObj.newlocId">
                         <mat-option value="0">--</mat-option>
                         <ng-container *ngFor="let loc of locations">
@@ -366,13 +488,13 @@
                             </mat-option>
                         </ng-container>
                     </mat-select>
-                </mat-form-field>
+                </mat-form-field> -->
             </div>
 
             <div class="col-md-12 text-right">
 
-                <button mat-raised-button color="danger" type="button" (click)="modalRef.hide()">CANCEL</button>
-                <button mat-raised-button color="primary" type="button" (click)="assignUser()">
+                <button mat-raised-button color="danger" type="button" (click)="modalRef.hide()" id="cancelReassign">CANCEL</button>
+                <button mat-raised-button color="primary" type="button" (click)="assignUser()" id="confirmReassign">
                     Reassign
                     <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/>
                 </button>

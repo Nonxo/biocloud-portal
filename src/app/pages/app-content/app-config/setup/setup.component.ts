@@ -1,16 +1,15 @@
-import {Component, OnInit, TemplateRef, NgZone, AfterViewInit, AfterViewChecked, OnDestroy} from '@angular/core';
-import {LocationRequest, TimezonePOJO} from "../model/app-config.model";
+import {Component, NgZone, OnDestroy, OnInit, TemplateRef} from '@angular/core';
+import {LocationRequest, SupportMailRequest, TimezonePOJO} from "../model/app-config.model";
 import {AppConfigService} from "../services/app-config.service";
-import {BsModalService, BsModalRef, ModalOptions} from "ngx-bootstrap/index";
+import {BsModalRef, BsModalService, ModalOptions} from "ngx-bootstrap/index";
 import {MapsAPILoader} from "@agm/core";
-import {} from 'googlemaps';
 import {GeoMapService} from "../../../../service/geo-map.service";
 import {NotifyService} from "../../../../service/notify.service";
 import {Router} from "@angular/router";
 import {StorageService} from "../../../../service/storage.service";
 import {DateUtil} from "../../../../util/DateUtil";
 import {MessageService} from "../../../../service/message.service";
-import {ENTER, COMMA} from "@angular/cdk/keycodes";
+import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {TranslateService} from "@ngx-translate/core";
 
 @Component({
@@ -48,9 +47,12 @@ export class SetupComponent implements OnInit, OnDestroy {
     resumptionTime: Date;
     clockoutTime: Date;
     searchValue: string;
-    verifyLocation: string = 'true';
+    verifyLocation: string = 'false';
     changeAddress: boolean = false;
     tempName: string = "";
+    helpOption: string;
+    wrongLocationOption: string;
+    supportRequest = new SupportMailRequest();
 
     constructor(private aService: AppConfigService,
                 private modalService: BsModalService,
@@ -63,7 +65,8 @@ export class SetupComponent implements OnInit, OnDestroy {
                 private ss: StorageService,
                 private dateUtil: DateUtil,
                 private mService: MessageService,
-                private translate: TranslateService) {
+                private translate: TranslateService,
+                private configService: AppConfigService) {
         translate.setDefaultLang('en/add-location');
         translate.use('en/add-location');
 
@@ -231,6 +234,16 @@ export class SetupComponent implements OnInit, OnDestroy {
                 }
 
                 this.locRequest.clockOutTime = this.getTimeStamp(this.clockoutTime);
+
+                if (this.locRequest.gracePeriodInMinutes) {
+                    let diff = this.dateUtil.getTimeStamp(this.clockoutTime) - this.dateUtil.getTimeStamp(this.resumptionTime);
+
+                    if (diff < this.dateUtil.convertMinutesToMS(this.locRequest.gracePeriodInMinutes)) {
+                        this.ns.showError("Your grace period should be less than " + (Math.round((diff/1000)/60) + 1) + " minute(s)");
+                        return false;
+                    }
+                }
+
             } else {
                 this.locRequest.clockOutTime = null;
             }
@@ -581,7 +594,6 @@ export class SetupComponent implements OnInit, OnDestroy {
                         this.inviteEmails.push(a.trim())
                     }else {
                         this.confirmees.push(a.trim());
-                        this.inviteEmails.push(a.trim());
                     }
                 }
             }
@@ -657,6 +669,7 @@ export class SetupComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.ss.clearLocationObj();
+        this.modalRef? this.modalRef.hide():'';
     }
 
     onLocationOptionChange() {
@@ -687,4 +700,48 @@ export class SetupComponent implements OnInit, OnDestroy {
 
         this.tempName = this.locRequest.name;
     }
+
+    proceedForHelp() {
+        switch(this.helpOption) {
+            case "CANT_GET_LOCATION": {
+                this.supportRequest.issue = "I can't get my location on the map";
+                this.sendSupportEmail();
+                break;
+            }
+
+            case "WRONG_LOCATION_CLOCK_IN": {
+                if(this.confirmees.length > 0) {
+                    this.verifyLocation = 'true';
+                    this.submit();
+                } else {
+                    this.ns.showError("Please specify at least one employee to verify your location.")
+                }
+                break;
+            }
+
+            case "OTHER_ISSUES": {
+                this.sendSupportEmail();
+                break;
+            }
+            default: {
+                this.ns.showError("Please select an option");
+            }
+        }
+    }
+
+    sendSupportEmail() {
+        this.supportRequest.email = this.ss.getLoggedInUserEmail();
+        this.supportRequest.customerName = this.ss.getUserName();
+        this.supportRequest.phoneNo = this.ss.getUserPhone();
+
+        this.configService.sendSupportEmail(this.supportRequest)
+            .subscribe(
+                (result) => {
+                    this.ns.showSuccess("Message sent successfully");
+                    this.modalRef.hide();
+                },
+                (error) => { this.ns.showError("An Error Occurred");}
+            )
+    }
+
 }

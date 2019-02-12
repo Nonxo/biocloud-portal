@@ -15,7 +15,7 @@
                         <div class="row">
                             <div class="col-md-12 pl-0">
                                 <h5 class="text-brand">Create Location</h5>
-                                <p class="small pb-2">Set where your employees are to clock in from?</p>
+                                <p class="small pb-2">Set where your employees are to clock in from</p>
                                 <h5 class="mb-3">{{ 'ADD_LOCATION.TITLE' | translate}}
                                 </h5>
                                 <mat-divider class="w-50"></mat-divider>
@@ -161,27 +161,30 @@
 
                                 </div>
 
-                                <div class="col-md-12 pl-0 mt-4" *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS'">
-                                    <p class="mb-2 font-weight-bold">Clock-in Location</p>
-                                    <p class="text-secondary">I will activate my location by ...
-                                    </p>
-                                    <mat-radio-group name="verifyLocation" [(ngModel)]="verifyLocation" (change)="onLocationOptionChange()">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <mat-radio-button value=true>Getting specific employees to confirm clock-in location
-                                                    <mat-icon class="small" matTooltip="Get one or more employees to download the app and confirm location at the specific address." [matTooltipPosition]="'right'">help
-                                                    </mat-icon>
-                                                </mat-radio-button>
-                                            </div>
+                                <!--<div class="col-md-12 pl-0 mt-4" *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS'">-->
+                                    <!--<p class="mb-2 font-weight-bold">Clock-in Location</p>-->
+                                    <!--<p class="text-secondary">I will activate my location by ...-->
+                                    <!--</p>-->
+                                    <!--<mat-radio-group name="verifyLocation" [(ngModel)]="verifyLocation" (change)="onLocationOptionChange()">-->
+                                        <!--<div class="row">-->
+                                            <!--<div class="col-md-12">-->
+                                                <!--<mat-radio-button value=true><span class="d-md-block d-none">Getting specific employees to confirm clock-in location-->
+                                                    <!--<mat-icon class="small" matTooltip="Get one or more employees to download the app and confirm location at the specific address." [matTooltipPosition]="'right'">help-->
+                                                    <!--</mat-icon></span>-->
+                                                <!--</mat-radio-button>-->
+                                                <!--<span class="d-md-none d-block">Get specific employees to confirm clock-in location-->
+                                                        <!--<mat-icon class="small" matTooltip="Get one or more employees to download the app and confirm location at the specific address." [matTooltipPosition]="'right'">help</mat-icon></span>-->
+                                            <!--</div>-->
 
-                                            <div class="col-md-12">
-                                                <mat-radio-button value=false>Searching for my location or entering coordinates on the map
-                                                    <!-- <mat-icon class="small" matTooltip="Get one or more employees to download the app and confirm location at the specific address." [matTooltipPosition]="'right'">help</mat-icon> -->
-                                                </mat-radio-button>
-                                            </div>
-                                        </div>
-                                    </mat-radio-group>
-                                </div>
+                                            <!--<div class="col-md-12">-->
+                                                <!--<mat-radio-button value=false><span class="d-md-block d-none">Searching for my location or entering coordinates on the map</span>-->
+                                                    <!--&lt;!&ndash; <mat-icon class="small" matTooltip="Get one or more employees to download the app and confirm location at the specific address." [matTooltipPosition]="'right'">help</mat-icon> &ndash;&gt;-->
+                                                <!--</mat-radio-button>-->
+                                                <!--<span class="d-md-none d-block">Searching for my location or entering coordinates on the map</span>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</mat-radio-group>-->
+                                <!--</div>-->
 
                                 <div class="col-md-12 pl-0 mt-4" *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS' && verifyLocation == 'false'">
                                     <p class="mb-2 font-weight-bold">Search for Address</p>
@@ -195,6 +198,10 @@
                                     <div class="form-group">
                                         <!-- <label class="text-secondary small">Search for Address</label> -->
                                         <input type="text" class="form-control w-50" placeholder="Search address or enter location coordinates" name="search" [(ngModel)]="searchValue" id="autocompleteInput" (keydown.enter)="$event.preventDefault()">
+                                        <p class="d-inline-flex cursor" (click)="getCurrentPosition(true)">
+                                            <mat-icon>location_on</mat-icon>
+                                            <span class="text-brand">Click to use current location</span></p>
+                                        <p class=""><span class="text-secondary">Having issues with address?</span> <span (click)="openModal(getHelp)" class="text-brand cursor font-weight-bold pl-2">Get help here</span></p>
                                     </div>
 
 
@@ -237,22 +244,22 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-12 pl-0 mt-3" *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS' && verifyLocation == 'true'">
-                                    <p class="mb-2 font-weight-bold text-brand">Get location coordinates from specific employees</p>
-                                    <!-- <p class="text-secondary mb-0">During their first clock in, employees will be prompted to confirm their exact locations. Type below to set the number of employees to check with.</p> -->
-                                    <mat-form-field class="w-50 input-field demo-chip-list" floatPlaceholder="never">
-                                        <mat-chip-list #chippList>
-                                            <mat-chip *ngFor="let email of confirmees" [selectable]="true" [removable]="true" (remove)="removeEmail(email, 'VERIFY')">
-                                                {{email}}
-                                                <mat-icon matChipRemove>cancel</mat-icon>
-                                            </mat-chip>
-                                            <input placeholder="Enter Email Address (es)" name="confirmees" (focusout)="addEmails($event, 'VERIFY')" [matChipInputFor]="chippList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addEmails($event, 'VERIFY')"
-                                            />
-                                        </mat-chip-list>
-                                        <mat-hint class="text-success">Separate Multiple entries with comma or space
-                                        </mat-hint>
-                                    </mat-form-field>
-                                </div>
+                                <!--<div class="col-md-12 pl-0 mt-3" *ngIf="locRequest.locationType == 'SPECIFIC_ADDRESS' && verifyLocation == 'true'">-->
+                                    <!--<p class="mb-2 font-weight-bold text-brand">Get location coordinates from specific employees</p>-->
+                                    <!--&lt;!&ndash; <p class="text-secondary mb-0">During their first clock in, employees will be prompted to confirm their exact locations. Type below to set the number of employees to check with.</p> &ndash;&gt;-->
+                                    <!--<mat-form-field class="w-50 input-field demo-chip-list" floatPlaceholder="never">-->
+                                        <!--<mat-chip-list #chippList>-->
+                                            <!--<mat-chip *ngFor="let email of confirmees" [selectable]="true" [removable]="true" (remove)="removeEmail(email, 'VERIFY')">-->
+                                                <!--{{email}}-->
+                                                <!--<mat-icon matChipRemove>cancel</mat-icon>-->
+                                            <!--</mat-chip>-->
+                                            <!--<input placeholder="Enter Email Address (es)" name="confirmees" (focusout)="addEmails($event, 'VERIFY')" [matChipInputFor]="chippList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addEmails($event, 'VERIFY')"-->
+                                            <!--/>-->
+                                        <!--</mat-chip-list>-->
+                                        <!--<mat-hint class="text-success">Separate Multiple entries with comma or space-->
+                                        <!--</mat-hint>-->
+                                    <!--</mat-form-field>-->
+                                <!--</div>-->
                             </ng-container>
 
                             <div class="col-md-12 pl-0 mt-4">
@@ -302,7 +309,7 @@
                                             <div class="form-group w-100">
                                                 <label class="text-secondary small">Clock-in Time</label>
                                                 <input type="text" name="resumptionTime" class="form-control w-100" [(ngModel)]="resumptionTime" placeholder="(HH:MM AM/PM)" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4">
-                                                <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
+                                                <owl-date-time hour12Timer="true" [pickerType]="'timer'" #dt4></owl-date-time>
 
                                                 <div class="col-md-4 text-right x-icon">
                                                     <button class="btn btn-clear cursor" type="button" *ngIf="resumptionTime" (click)="clearResumptionTime()"><i
@@ -336,7 +343,7 @@
                                             <div class="form-group w-100">
                                                 <label class="text-secondary small">Clock-out Time</label>
                                                 <input type="text" class="form-control w-100" name="clockoutTime" placeholder="(HH:MM AM/PM)" [(ngModel)]="clockoutTime" [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5">
-                                                <owl-date-time [pickerType]="'timer'" #dt5></owl-date-time>
+                                                <owl-date-time hour12Timer="true" [pickerType]="'timer'" #dt5></owl-date-time>
 
                                                 <div class="col-md-4 text-right x-icon">
                                                     <button class="btn btn-clear cursor" type="button" *ngIf="clockoutTime" (click)="clearClosingTime()"><i
@@ -442,3 +449,92 @@
         </div>
     </form>
 </div>
+
+<ng-template #getHelp>
+    <div class="modal-body py-4" style="min-height: 40vh !important;">
+        <div class="container pb-4">
+            <h5 class="text-brand text-center">Location Help Center</h5>
+            <p class="text-center small">Do you have issues regarding your location, you can work things out here.</p>
+            <hr>
+
+            <!-- HELP CENTER -->
+            <p class="font-weight-bold">What issues are you faced with ?</p>
+            <form (ngSubmit)="proceedForHelp()" name="supportForm" #supportForm="ngForm" ngNativeValidate>
+
+            <mat-radio-group name="helpOption" [(ngModel)]="helpOption">
+                <mat-radio-button class="pr-2" value="CANT_GET_LOCATION">I can't get my
+                    location on the map
+                </mat-radio-button>
+                <br>
+                <mat-radio-button class="pr-2" value="WRONG_LOCATION_CLOCK_IN">My employees clock-in at the set address but registers clock-in as wrong location</mat-radio-button>
+                <br>
+                <mat-radio-button class="pr-2" value="OTHER_ISSUES">Other</mat-radio-button>
+                <div *ngIf="helpOption == 'OTHER_ISSUES'" class="pl-md-4">
+                        <div class="form-group mb-0">
+                            <input type="text" class="form-control w-100"
+                                   placeholder="Explain the issue you are having" name="otherIssue" [(ngModel)]="supportRequest.issue" required/>
+                        </div>
+                </div>
+            </mat-radio-group>
+
+            <!-- suggested solutions -->
+            <div *ngIf="helpOption == 'WRONG_LOCATION_CLOCK_IN'">
+                <p class="font-weight-bold">Select one of our suggested solutions?</p>
+                <mat-radio-group name="wrongLocationOption" [(ngModel)]="wrongLocationOption">
+                    <mat-radio-button class="pr-2" value="SPECIFIC_EMPLOYEE"><span class="d-md-block d-none">Get specific employees to confirm clock-in location
+                        <mat-icon matTooltip="Employees coordinates will be used to find your location." class="small">help</mat-icon></span>
+                    </mat-radio-button>
+                    <span class="d-md-none d-block">Get specific employees to confirm clock-in location
+                            <mat-icon matTooltip="Info about the action" class="small">help</mat-icon></span>
+                    <!-- Get specific employees to confirm clock-in location -->
+                    <div class="pl-md-4" *ngIf="helpOption == 'WRONG_LOCATION_CLOCK_IN' && wrongLocationOption">
+                        <form>
+                            <mat-form-field class="w-50 input-field demo-chip-list" floatPlaceholder="never">
+                                <mat-chip-list #chippList>
+                                    <mat-chip *ngFor="let email of confirmees" [selectable]="true" [removable]="true" (remove)="removeEmail(email, 'VERIFY')">
+                                        {{email}}
+                                        <mat-icon matChipRemove>cancel</mat-icon>
+                                    </mat-chip>
+                                    <input placeholder="Enter Email Address (es)" name="confirmees" (focusout)="addEmails($event, 'VERIFY')" [matChipInputFor]="chippList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addEmails($event, 'VERIFY')"
+                                    />
+                                </mat-chip-list>
+                                <mat-hint class="text-success">Separate Multiple entries with comma or space
+                                </mat-hint>
+                            </mat-form-field>
+                        </form>
+                    </div>
+                    <!-- <br>
+                    <mat-radio-button (click)=searchAddressFromRecent() class="pr-2" value="SEARCH_ADDRESS">Suggest my address fron recent employee clock-in
+                        <mat-icon matTooltip="Info about the action" class="small">help</mat-icon>
+                    </mat-radio-button> -->
+                </mat-radio-group>
+            </div>
+
+            <div class="row pt-3">
+                <div class="col-md-12">
+
+
+                    <div class="row">
+                        <div class="col-md-6 text-left">
+                            <!-- <button type="submit" mat-raised-button class="mt-4 px-4 py-1 back-Btn" (click)=previousStep()>Back</button> -->
+                        </div>
+
+                        <div class="col-md-6 text-right">
+                            <button type="submit" mat-raised-button color="primary" class="mt-4 px-4 py-1">Continue<img
+                                *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;"/></button>
+                            <button type="button" mat-raised-button class="mt-4 px-4 py-1 text-brand"
+                                    (click)="modalRef.hide()">Back
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            </form>
+
+        </div>
+
+    </div>
+
+</ng-template>

@@ -15,6 +15,7 @@ import {CustomReportComponent} from './custom-report/custom-report.component';
 import {LatenessReportComponent} from './lateness-report/lateness-report.component';
 import {AuthGuard} from "../../auth/guards/auth-guard.service";
 import {ProfileComponent} from "./profile/profile.component";
+import {ManageScheduleComponent} from './manage-schedule/manage-schedule.component';
 import {ManageAdminsComponent} from "./manage-admins/manage-admins.component";
 import {SettingComponent} from './setting/setting.component';
 import {EmployeeOverviewComponent} from "./employee-overview/employee-overview.component";
@@ -23,6 +24,7 @@ import {EmployeesReportComponent} from "./report-dashboard/employees-report/empl
 import {QuickReportComponent} from "./report-dashboard/quick-report/quick-report.component";
 import {MetabaseReportComponent} from "./report-dashboard/analytics/analytics.component";
 import {ConfirmLocationComponent} from "./confirm-location/confirm-location.component";
+import {CreateLocationComponent} from "./app-config/setup/onboarding/create-location/create-location.component";
 
 const routes: Routes = [
     {
@@ -49,6 +51,10 @@ const routes: Routes = [
             {
                 path: 'manage-users',
                 component: ManageAttendeesComponent
+            },
+            {
+                path: 'manage-schedule',
+                component: ManageScheduleComponent
             },
             {
                 path: 'manage-admins',
@@ -102,7 +108,8 @@ const routes: Routes = [
             {
                 path: 'card-details',
                 component: SubscriptionCardDetailsComponent
-            }
+            },
+            {path: 'create-location', component: CreateLocationComponent},
 
         ]
     }
