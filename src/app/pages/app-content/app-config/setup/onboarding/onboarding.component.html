@@ -1,0 +1,24 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-2 col-md-4 bg-white px-4 d-lg-block d-none" style="height: 100vh">
+            <!-- <div class="first-tab"><div>1</div></div>
+        <div class="second-tab">2</div> -->
+
+            <img src="assets/img/logos-bc.png" class="img-fluid pb-4 pt-3" style="max-width: 150px" />
+
+            <div class="d-flex align-items-center">
+                <div class="tablinks text-center float-left mr-3 tab {{tab == 1? 'active-tab':''}}">1</div> Add company Info
+            </div>
+            <div style="border-right: 1px solid #b4b4b4; height: 20px; width: 22px; margin: 3px -4px !important;">
+            </div>
+            <div class="d-flex align-items-center">
+                <div class="tablinks tab text-center float-left mr-3 {{tab == 2? 'active-tab':''}}"> 2</div> Create Location
+            </div>
+
+        </div>
+        <div class="col-xl-10 col-lg-8 col-md-12" style="max-height: 100vh;overflow-y: auto;">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
+
