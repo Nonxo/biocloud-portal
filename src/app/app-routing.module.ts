@@ -11,6 +11,7 @@ import {ReceiptComponent} from "./pages/app-content/subscription-history/receipt
 import {FlowTwoComponent} from "./pages/auth/flow-two/flow-two.component";
 import {LandingPageComponent} from './landing-page/landing-page.component';
 import {ApproveCoordinatesComponent} from "./components/auth/approve-coordinates/approve-coordinates.component";
+import {RegisterComponent} from "./components/auth/register/register.component";
 
 
 const routes: Routes = [
@@ -25,6 +26,7 @@ const routes: Routes = [
     {path: 'receipt', component: ReceiptComponent},
     {path: 'reg-message', component: RegEmailNotificationComponent},
     {path: 'wizard', component: WizardStepperComponent},
+    {path: 'auth/register', component: RegisterComponent},
     {
         path: 'portal',
         loadChildren: 'app/pages/app-content/app-content.module#AppContentModule'

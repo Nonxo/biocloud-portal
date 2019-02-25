@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../../components/auth/auth.service";
 import {NotifyService} from "../../../service/notify.service";
 import {MessageService} from "../../../service/message.service";
@@ -16,7 +16,7 @@ export class FlowTwoComponent implements OnInit {
     token: string;
     step: number = 1;
 
-    constructor(private route: ActivatedRoute, private authService: AuthService, private ns: NotifyService, private mService: MessageService) {
+    constructor(private route: ActivatedRoute, private authService: AuthService, private ns: NotifyService, private mService: MessageService, private router: Router) {
         this.route
             .queryParams
             .subscribe(params => {
@@ -28,6 +28,18 @@ export class FlowTwoComponent implements OnInit {
                     if (this.email && this.token) {
                         //cal service to verify email and token
                         this.verifyToken();
+                    } else if (this.email) {
+                        this.route
+                            .queryParams
+                            .subscribe(params => {
+                                    // Defaults to null if no query param provided.
+                                    this.email = params['email'] || null;
+
+                                    if(this.email) {
+                                        this.router.navigate(['/auth/register'], { queryParams: { email: this.email.toLowerCase()} });
+                                    }
+                                }
+                            )
                     }
                 }
             )

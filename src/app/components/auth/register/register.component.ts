@@ -4,7 +4,7 @@ import 'rxjs/add/operator/finally';
 import {NotifyService} from '../../../service/notify.service';
 import {AuthService} from '../auth.service';
 import {Constants} from "../../../util/constants";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {StorageService} from "../../../service/storage.service";
 import {environment} from "../../../../environments/environment";
 
@@ -61,7 +61,18 @@ export class RegisterComponent implements OnInit {
                 private router: Router,
                 private ns: NotifyService,
                 private fb: FormBuilder,
-                private ss: StorageService) {
+                private ss: StorageService,
+                private route: ActivatedRoute) {
+        this.route
+            .queryParams
+            .subscribe(params => {
+                let email = params['email'] || null;
+                    // Defaults to null if no query param provided.
+                    if(email) {
+                        this.verifyEmail(email);
+                    }
+                }
+            )
     }
 
     ngOnInit() {
@@ -136,20 +147,26 @@ export class RegisterComponent implements OnInit {
         }
     }
 
-    verifyEmail() {
+    verifyEmail(emailFromRoute?: string) {
         this.loading = true;
-        this.authService.verifyEmail(this.form.get('email').value)
+        let email = "";
+
+        emailFromRoute? email = emailFromRoute: email = this.form.get('email').value;
+
+        this.authService.verifyEmail(email)
             .finally(() => {this.loading = false;})
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.router.navigate(['/reg-message'], { queryParams: { email: this.form.get('email').value.toLowerCase() } });
+                        this.router.navigate(['/reg-message'], { queryParams: { email: email.toLowerCase() } });
                     } else {
                         this.ns.showError(result.description);
+                        this.router.navigate(['/auth']);
                     }
                 },
                 error => {
                     this.ns.showError("An Error Occurred");
+                    this.router.navigate(['/auth']);
                 }
             )
     }
