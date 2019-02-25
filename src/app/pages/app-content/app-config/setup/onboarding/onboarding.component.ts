@@ -1,4 +1,6 @@
-import {Component} from "@angular/core";
+import {Component, OnDestroy} from "@angular/core";
+import {SharedService} from "./service/sharedService";
+import {StorageService} from "../../../../../service/storage.service";
 
 @Component({
     selector: 'onboarding',
@@ -6,8 +8,14 @@ import {Component} from "@angular/core";
     styleUrls: ['onboarding.component.css']
 })
 
-export class OnboardingComponent {
+export class OnboardingComponent implements OnDestroy {
 
     tab: number = 1;
+
+    constructor(public sharedService: SharedService, private ss: StorageService) {}
+
+    public ngOnDestroy() {
+        this.ss.clearOnBoardingObj();
+    }
 
 }

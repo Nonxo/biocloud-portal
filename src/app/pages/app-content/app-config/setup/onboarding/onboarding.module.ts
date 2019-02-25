@@ -6,11 +6,13 @@ import {LocationStepOneComponent} from './location-step-one/location-step-one.co
 import {LocationStepTwoComponent} from './location-step-two/location-step-two.component';
 import {LocationStepThreeComponent} from './location-step-three/location-step-three.component';
 import {LocationStepFourComponent} from './location-step-four/location-step-four.component';
+import {CompanySetupComponent} from './company-setup/company-setup.component';
+import {SharedService} from "./service/sharedService";
 
 @NgModule({
-    declarations: [OnboardingComponent, LocationStepOneComponent, LocationStepTwoComponent, LocationStepThreeComponent, LocationStepFourComponent],
+    declarations: [OnboardingComponent, LocationStepOneComponent, LocationStepTwoComponent, LocationStepThreeComponent, LocationStepFourComponent, CompanySetupComponent],
     imports: [SharedModule, OnboardingRoutingModule],
-    providers: []
+    providers: [SharedService]
 })
 
 export class OnboardingModule {

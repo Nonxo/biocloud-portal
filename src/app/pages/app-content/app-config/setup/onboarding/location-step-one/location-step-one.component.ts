@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {SharedService} from "../service/sharedService";
 
 @Component({
   selector: 'app-location-step-one',
@@ -7,7 +8,9 @@ import {Component, OnInit} from '@angular/core';
 })
 export class LocationStepOneComponent implements OnInit {
 
-  constructor() { }
+  constructor(private sharedService: SharedService) {
+      this.sharedService.tab = 2;
+  }
 
   ngOnInit() {
   }

@@ -358,7 +358,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     addCompany() {
         // this.mService.setCreateOrg(true);
-        this.router.navigate(['/wizard']);
+        this.router.navigate(['/onboard']);
     }
 
     ngOnDestroy(): void {

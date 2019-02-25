@@ -242,4 +242,17 @@ export class StorageService {
         localStorage.removeItem("_l");
     }
 
+    setOnBoardingObj(obj: any) {
+        localStorage.setItem('onB', JSON.stringify(obj));
+    }
+
+    getOnBoardingObj() {
+        let obj: LocationRequest = JSON.parse(localStorage.getItem('onB'));
+
+        return obj? obj:null;
+    }
+
+    clearOnBoardingObj() {
+        localStorage.removeItem("onB");
+    }
 }

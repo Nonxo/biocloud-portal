@@ -1,4 +1,4 @@
-import {Component, NgZone, OnInit, TemplateRef} from '@angular/core';
+import {Component, Input, NgZone, OnInit, TemplateRef} from '@angular/core';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 import {InviteRequest, LocationRequest, SupportMailRequest, TimezonePOJO} from "../../../model/app-config.model";
 import {AppConfigService} from "../../../services/app-config.service";
@@ -8,6 +8,7 @@ import {MapsAPILoader} from "@agm/core";
 import {GeoMapService} from "../../../../../../service/geo-map.service";
 import {DateUtil} from '../../../../../../util/DateUtil';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-create-location',
@@ -18,6 +19,7 @@ export class CreateLocationComponent implements OnInit {
 
     modalRef: BsModalRef;
 
+    @Input()
     step: number = 1;
     isNewShift: boolean = false;
     isDeleteShift: boolean = false;
@@ -47,6 +49,8 @@ export class CreateLocationComponent implements OnInit {
     inviteRequest = new InviteRequest();
     supportRequest = new SupportMailRequest();
     helpOption: string;
+    @Input()
+    onBoard: boolean;
 
     constructor(private modalService: BsModalService,
                 private aService: AppConfigService,
@@ -56,17 +60,47 @@ export class CreateLocationComponent implements OnInit {
                 private ngZone: NgZone,
                 private mapService: GeoMapService,
                 private dateUtil: DateUtil,
-                private configService: AppConfigService) {
+                private configService: AppConfigService,
+                private router: Router) {
         this.username = this.ss.getUserName();
     }
 
     ngOnInit() {
-
-        this.fetchTimezones();
+        let obj = this.ss.getOnBoardingObj();
 
         //noinspection TypeScriptUnresolvedFunction
         this.loader.load().then(() => {
         });
+
+        if(this.onBoard && !obj && this.step != 1) {
+            this.router.navigate(['/onboard']);
+        }
+
+        //check local storage for saved obj
+
+        if(obj) {
+            this.getOnBoardingObj(obj);
+            if(this.locRequest.locationType) {
+                switch(this.locRequest.locationType) {
+                    case "COUNTRY": {
+                        this.fetchCountries();
+                        break;
+                    }
+                    case "STATE": {
+                        this.fetchCountries();
+                        this.fetchStates(this.locRequest.countryId);
+                        break;
+                    }
+                    case "SPECIFIC_ADDRESS": {
+                        setTimeout(() => {
+                            this.show();
+                        }, 200);
+                        break
+                    }
+                }
+            }
+        }
+        this.fetchTimezones();
     }
 
     openModal(template: TemplateRef<any>) {
@@ -275,8 +309,12 @@ export class CreateLocationComponent implements OnInit {
                     if (result.code == 0) {
 
                         this.locRequest = result.loc;
-
+                        if(this.onBoard) {
+                            this.setOnBoardingObj();
+                            this.routeUser();
+                        }
                         this.step += 1;
+
                         // !this.locRequest.locationType ? this.locRequest.locationType = 'SPECIFIC_ADDRESS' : '';
                     } else {
                         this.ns.showError(result.description);
@@ -297,6 +335,11 @@ export class CreateLocationComponent implements OnInit {
             .subscribe(
                 result => {
                     if (result.code == 0) {
+                        if(this.onBoard) {
+                            this.setOnBoardingObj();
+                            this.routeUser();
+                        }
+
                         this.step += 1;
                     } else {
                         this.ns.showError(result.description);
@@ -306,6 +349,26 @@ export class CreateLocationComponent implements OnInit {
                     this.ns.showError("An Error Occurred");
                 }
             )
+    }
+    routeUser() {
+        switch(this.step) {
+            case 1: {
+                this.router.navigate(['/onboard/step-two']);
+                break;
+            };
+            case 2: {
+                this.router.navigate(['/onboard/step-three']);
+                break;
+            };
+            case 3: {
+                this.router.navigate(['/onboard/step-four']);
+                break;
+            };
+            case 4: {
+                this.router.navigate(['/portal']);
+                break;
+            }
+        }
     }
 
     isFormValid() {
@@ -442,20 +505,19 @@ export class CreateLocationComponent implements OnInit {
 
             case 2: {
                 // !this.locRequest.locationType ? this.locRequest.locationType = 'SPECIFIC_ADDRESS' : '';
-                this.step -= 1;
+                this.onBoard? this.router.navigate(['/onboard/step-one']): this.step -= 1;
                 break;
             }
 
             case 3: {
-                this.step -= 1;
+                this.onBoard? this.router.navigate(['/onboard/step-two']): this.step -= 1;
                 break;
             }
 
             case 4: {
-                this.step -= 1;
+                this.onBoard? this.router.navigate(['/onboard/step-three']): this.step -= 1;
                 break;
             }
-
         }
     }
 
@@ -685,6 +747,28 @@ export class CreateLocationComponent implements OnInit {
                 },
                 (error) => { this.ns.showError("An Error Occurred");}
             )
+    }
+
+    setOnBoardingObj() {
+        let obj = {};
+
+        obj['locRequest'] = this.locRequest;
+        obj['lat'] = this.lat;
+        obj['lng'] = this.lng;
+        obj['resumptionTime'] = this.resumptionTime;
+        obj['clockoutTime'] = this.clockoutTime;
+        obj['inviteEmails'] = this.inviteEmails;
+
+        this.ss.setOnBoardingObj(obj);
+    }
+
+    getOnBoardingObj(obj: any) {
+        this.locRequest = obj.locRequest;
+        this.lat = obj.lat;
+        this.lng = obj.lng;
+        this.resumptionTime = this.locRequest.resumption? new Date(this.locRequest.resumption): null;
+        this.clockoutTime = this.locRequest.clockOutTime? new Date(this.locRequest.clockOutTime): null;
+        this.inviteEmails = obj.inviteEmails;
     }
 
 }

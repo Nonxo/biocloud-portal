@@ -257,7 +257,7 @@ export class RegisterComponent implements OnInit {
                     if (res.code == 0) {
                         this.ss.authToken = res.token;
                         this.ss.loggedInUser = res.bioUser;
-                        this.router.navigate(['/wizard']);
+                        this.router.navigate(['/onboard']);
                     } else {
                         this.ns.showError(res.description);
                         this.resetCaptcha();
