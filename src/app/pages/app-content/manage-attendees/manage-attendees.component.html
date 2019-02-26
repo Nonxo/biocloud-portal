@@ -95,10 +95,10 @@
                                 <mat-checkbox name="check{{i}}" [(ngModel)]="d.checked" (click)="selectOne($event)"></mat-checkbox>
                             </th>
                             <td data-label="name">
-                                <p class="cursor text-brand" (click)="gotoOverview(d.email)">{{d.firstName }} {{ d.lastName}}</p>
+                                <p class="cursor text-brand mb-0" (click)="gotoOverview(d.email)">{{d.firstName }} {{ d.lastName}}</p>
                             </td>
                             <td data-label="email">{{d.email}}</td>
-                            <td data-label="phone">
+                            <td class="phone" data-label="phone">
                                 <ng-container *ngIf="d.phone">{{d.phoneCode? (d.phoneCode.charAt(0) == "+"? d.phoneCode: "+" + d.phoneCode): "+234" }} {{ d.phone}}</ng-container>
                             </td>
                             <!--<td>{{d.status? 'Active':'Inactive'}}</td>-->

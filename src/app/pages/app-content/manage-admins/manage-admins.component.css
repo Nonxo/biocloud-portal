@@ -12,6 +12,7 @@
     table tr {
         border-bottom: 3px solid #ddd;
         display: block;
+        margin-bottom: 15px;
     }
     table td {
         border-bottom: 1px solid #ddd;
@@ -20,6 +21,9 @@
     }
     table td::before {
         content: attr(data-label);
-        float: right;
+        float: left;
+    }
+    .role {
+        padding-bottom: 3rem;
     }
 }
