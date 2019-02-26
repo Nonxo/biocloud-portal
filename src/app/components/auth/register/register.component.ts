@@ -49,6 +49,8 @@ export class RegisterComponent implements OnInit {
     @Output()
     getStep = new EventEmitter<number>();
 
+    @Input()
+    ignoreRouteParams: boolean;
 
     @ViewChild('myInput') myInput: ElementRef;
 
@@ -67,8 +69,9 @@ export class RegisterComponent implements OnInit {
             .queryParams
             .subscribe(params => {
                 let email = params['email'] || null;
+                let token = params['token'] || null;
                     // Defaults to null if no query param provided.
-                    if(email) {
+                    if(email && !token) {
                         this.verifyEmail(email);
                     }
                 }

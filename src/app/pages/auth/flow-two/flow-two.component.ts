@@ -28,18 +28,10 @@ export class FlowTwoComponent implements OnInit {
                     if (this.email && this.token) {
                         //cal service to verify email and token
                         this.verifyToken();
-                    } else if (this.email) {
-                        this.route
-                            .queryParams
-                            .subscribe(params => {
-                                    // Defaults to null if no query param provided.
-                                    this.email = params['email'] || null;
-
-                                    if(this.email) {
-                                        this.router.navigate(['/auth/register'], { queryParams: { email: this.email.toLowerCase()} });
-                                    }
-                                }
-                            )
+                    } else {
+                        if (this.email) {
+                            this.router.navigate(['/auth/register'], {queryParams: {email: this.email.toLowerCase()}});
+                        }
                     }
                 }
             )
