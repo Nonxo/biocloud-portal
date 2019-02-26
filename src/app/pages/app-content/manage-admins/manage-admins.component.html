@@ -40,15 +40,15 @@
             </thead>
             <tbody>
                 <tr *ngFor="let d of mf.data; let i = index">
-                    <th>
+                    <th data-label="chkbox">
                         <mat-checkbox name="check{{i}}" [(ngModel)]="d.checked" (click)="selectOne(d,$event)" [disabled]="currentUserEmail == d.email || d.email == orgCreator || (userRole =='LOCATION_ADMIN' && d.role == 'GENERAL_ADMIN')"></mat-checkbox>
                     </th>
-                    <td>{{d.firstName }} {{ d.lastName}}</td>
-                    <td>{{d.email}}</td>
-                    <td>
+                    <td data-label="name">{{d.firstName }} {{ d.lastName}}</td>
+                    <td data-label="email">{{d.email}}</td>
+                    <td data-label="phone">
                         <ng-container *ngIf="d.phone">{{d.phoneCode? (d.phoneCode.charAt(0) == "+"? d.phoneCode: "+" + d.phoneCode): "+234" }} {{ d.phone}}</ng-container>
                     </td>
-                    <td>{{d.role.replace('_', ' ')}}</td>
+                    <td data-label="role">{{d.role.replace('_', ' ')}}</td>
                 </tr>
 
             </tbody>
