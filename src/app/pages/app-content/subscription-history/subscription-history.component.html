@@ -43,11 +43,11 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let d of mf.data; let i = index">
-                                <td>{{d.startDate | date:'mediumDate'}}</td>
-                                <td>{{d.planName}}</td>
-                                <td>{{d.currency}}</td>
-                                <td>{{d.amountPaid}}</td>
-                                <td>
+                                <td data-label="DATE">{{d.startDate | date:'mediumDate'}}</td>
+                                <td data-label="PLAN NAME">{{d.planName}}</td>
+                                <td data-label="CURRENCY">{{d.currency}}</td>
+                                <td data-label="AMOUNT">{{d.amountPaid}}</td>
+                                <td data-label="REFERENCE">
                                     <p class="cursor text-brand" (click)="viewReceipt(d)">{{d.reference}}</p>
                                 </td>
                                 <!--<td>{{d.status? 'Active':'Inactive'}}</td>-->

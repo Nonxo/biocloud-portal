@@ -43,12 +43,12 @@
                     <th data-label="chkbox" class="align-middle">
                         <mat-checkbox name="check{{i}}" [(ngModel)]="d.checked" (click)="selectOne(d,$event)" [disabled]="currentUserEmail == d.email || d.email == orgCreator || (userRole =='LOCATION_ADMIN' && d.role == 'GENERAL_ADMIN')"></mat-checkbox>
                     </th>
-                    <td data-label="name" class="align-middle">{{d.firstName }} {{ d.lastName}}</td>
-                    <td data-label="email" class="align-middle">{{d.email}}</td>
-                    <td data-label="phone" class="align-middle">
+                    <td data-label="NAME" class="align-middle">{{d.firstName }} {{ d.lastName}}</td>
+                    <td data-label="EMAIL" class="align-middle">{{d.email}}</td>
+                    <td data-label="PHONE" class="align-middle">
                         <ng-container *ngIf="d.phone">{{d.phoneCode? (d.phoneCode.charAt(0) == "+"? d.phoneCode: "+" + d.phoneCode): "+234" }} {{ d.phone}}</ng-container>
                     </td>
-                    <td class="role" data-label="role" class="align-middle">{{d.role.replace('_', ' ')}}</td>
+                    <td class="ROLE" data-label="role" class="align-middle">{{d.role.replace('_', ' ')}}</td>
                 </tr>
 
             </tbody>

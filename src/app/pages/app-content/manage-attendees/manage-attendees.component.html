@@ -74,6 +74,10 @@
             </div>
         </div>
 
+        <div class="d-md-none d-block ml-4 mt-4 mb-2">
+            <mat-checkbox name="selAll" [(ngModel)]="selAll" (change)="selectAll($event)"></mat-checkbox> Select All
+        </div>
+
         <div class="container-fluid" *ngIf="currentTab == 0">
 
             <div class="table-responsive" *ngIf="totalItems > 0">
@@ -94,11 +98,11 @@
                             <th>
                                 <mat-checkbox name="check{{i}}" [(ngModel)]="d.checked" (click)="selectOne($event)"></mat-checkbox>
                             </th>
-                            <td data-label="name">
+                            <td data-label="NAME">
                                 <p class="cursor text-brand mb-0" (click)="gotoOverview(d.email)">{{d.firstName }} {{ d.lastName}}</p>
                             </td>
-                            <td data-label="email">{{d.email}}</td>
-                            <td class="phone" data-label="phone">
+                            <td data-label="EMAIL">{{d.email}}</td>
+                            <td class="phone" data-label="PHONE">
                                 <ng-container *ngIf="d.phone">{{d.phoneCode? (d.phoneCode.charAt(0) == "+"? d.phoneCode: "+" + d.phoneCode): "+234" }} {{ d.phone}}</ng-container>
                             </td>
                             <!--<td>{{d.status? 'Active':'Inactive'}}</td>-->
