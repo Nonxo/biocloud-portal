@@ -59,13 +59,13 @@
                                             <div class="col-md-7">
                                                 <div class="container">
                                                     <div class="row" *ngFor="let plan of subscriptionPlans">
-                                                        <div class="col-md-8 form-check">
+                                                        <div class="col-md-8 col-7 form-check">
                                                             <input class="form-check-input" (change)="setPlan(plan)" type="radio" name="subscription" id="{{plan.name}}" value="{{plan.planId}}" [(ngModel)]="checkedPlan">
                                                             <label class="form-check-label" for="{{plan.name}}">
                                                             {{plan.maxAttendeeThreshold ? "Up to" + plan.maxAttendeeThreshold : "Over 100 "}} Employees <br> <span class="small text-brand font-weight-bold">{{plan.name}}</span>
                                                             </label>
                                                         </div>
-                                                        <div class="col-md-4 mb-md-0 mb-3">
+                                                        <div class="col-md-4 col-5 mb-md-0 mb-3">
                                                             <ng-container *ngIf="plan.maxAttendeeThreshold > 0">
                                                                 <h5 class="font-weight-bold text-dark mb-0">{{getPrice(plan, true) | currency:selectedCurrency:'symbol-narrow':'1.0'}}</h5>
                                                                 <p class="small text-brand pt-0 font-weight-bold">per month</p>
