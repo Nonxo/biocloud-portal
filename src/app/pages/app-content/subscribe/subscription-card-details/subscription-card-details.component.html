@@ -36,7 +36,7 @@
     <!-- add card state -->
 
     <div class="row col-md-12" *ngIf="cardDetails.length == 0 && doesUserHaveActiveSub">
-        <div class="col-md-6">
+        <div class="col-6">
             <div class="d-inline-flex">
                 <!--<img src="assets/img/mastercard1.png" alt="">-->
                 <p class="font-weight-normal my-auto">Add New Card</p>
@@ -45,9 +45,9 @@
                 </div> -->
             </div>
         </div>
-        <div class="col-md-6 my-auto">
-            <div class="text-md-right mt-md-0 mt-3">
-                <p class="text-brand"><span class="cursor" (click)="openModal(addCardTemplate)">Add</span></p>
+        <div class="col-6 my-auto">
+            <div class="text-md-right">
+                <p class="text-brand text-right"><span class="cursor" (click)="openModal(addCardTemplate)">Add</span></p>
             </div>
         </div>
     </div>

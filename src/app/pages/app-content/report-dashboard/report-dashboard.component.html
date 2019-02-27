@@ -119,27 +119,27 @@
             <div class="table-responsive">
                 <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                     <thead>
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Location</th>
-                        <th scope="col">Clock-In Address</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Clock-In Time</th>
-                        <th scope="col">Clock-Out Time</th>
-                        <th scope="col"></th>
-                    </tr>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Clock-In Address</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Clock-In Time</th>
+                            <th scope="col">Clock-Out Time</th>
+                            <th scope="col"></th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let d of mf.data">
-                        <td>{{d.name}}</td>
-                        <td>{{d.location}}</td>
-                        <td>{{d.clock_in_address}}</td>
-                        <td>{{d.date}}</td>
-                        <td>{{d.clock_in_time}}</td>
-                        <td>{{d.clock_out_time}}</td>
-                        <td><i (click)="viewDetails(d)" matTooltip="View More" class="material-icons cursor">list</i>
-                        </td>
-                    </tr>
+                        <tr *ngFor="let d of mf.data">
+                            <td data-label="NAME">{{d.name}}</td>
+                            <td data-label="LOCATION">{{d.location}}</td>
+                            <td data-label="ADDRESS">{{d.clock_in_address}}</td>
+                            <td data-label="DATE">{{d.date}}</td>
+                            <td data-label="CLOCK IN TIME">{{d.clock_in_time}}</td>
+                            <td data-label="CLOCK OUT TIME">{{d.clock_out_time}}</td>
+                            <td data-label="VIEW DETAILS"><i (click)="viewDetails(d)" matTooltip="View More" class="material-icons cursor">list</i>
+                            </td>
+                        </tr>
                 </table>
             </div>
 
@@ -149,7 +149,7 @@
                         <div class="form-group form-inline">
                             <p class="pt-3 pr-2">Show</p>
 
-                            <div class="form-group w-25">
+                            <div class="form-group w-50">
                                 <select class="form-control" id="rows" name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
                                     <option [value]="10">10</option>
                                     <option [value]="25">25</option>
@@ -171,7 +171,7 @@
                 </div>
                 <div class="col-auto">
                     <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 0" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
-                                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
                 </div>
             </div>
 
@@ -241,7 +241,7 @@
 
                     <div class="col-lg-3 px-md-3 px-0 py-lg-0 py-3">
 
-                        <div class="form-group mb-0">
+                        <div class="form-group mb-0 w-50">
                             <select class="form-control" name="reportPeriod" [(ngModel)]="reportPeriod" (change)="filterReport()">
                                 <option value="TODAY">TODAY</option>
                                 <option value="WEEKLY">THIS WEEK</option>
@@ -322,27 +322,27 @@
             <div class="table-responsive">
                 <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                     <thead>
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Location</th>
-                        <th scope="col">Clock-In Address</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Clock-In Time</th>
-                        <th scope="col">Clock-Out Time</th>
-                        <th scope="col"></th>
-                    </tr>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Clock-In Address</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Clock-In Time</th>
+                            <th scope="col">Clock-Out Time</th>
+                            <th scope="col"></th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let d of mf.data">
-                        <td>{{d.name}}</td>
-                        <td>{{d.location}}</td>
-                        <td>{{d.clock_in_address}}</td>
-                        <td>{{d.date}}</td>
-                        <td>{{d.clock_in_time}}</td>
-                        <td>{{d.clock_out_time}}</td>
-                        <td><i (click)="viewDetails(d)" matTooltip="View More" class="material-icons cursor">list</i>
-                        </td>
-                    </tr>
+                        <tr *ngFor="let d of mf.data">
+                            <td data-label="NAME">{{d.name}}</td>
+                            <td data-label="LOCATION">{{d.location}}</td>
+                            <td data-label="ADDRESS">{{d.clock_in_address}}</td>
+                            <td data-label="DATE">{{d.date}}</td>
+                            <td data-label="CLOCK IN TIME">{{d.clock_in_time}}</td>
+                            <td data-label="CLOCK OUT TIME">{{d.clock_out_time}}</td>
+                            <td data-label="VIEW DETAILS"><i (click)="viewDetails(d)" matTooltip="View More" class="material-icons cursor">list</i>
+                            </td>
+                        </tr>
                 </table>
             </div>
 
@@ -352,7 +352,7 @@
                         <div class="form-group form-inline">
                             <p class="pt-3 pr-2">Show</p>
 
-                            <div class="form-group w-25">
+                            <div class="form-group w-50">
                                 <select class="form-control" name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
                                     <option [value]="10">10</option>
                                     <option [value]="25">25</option>
@@ -374,7 +374,7 @@
                 </div>
                 <div class="col-auto">
                     <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 1" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
-                                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
                 </div>
             </div>
 
@@ -506,18 +506,18 @@
             <div class="table-responsive">
                 <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                     <thead>
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email Address</th>
-                        <th scope="col">Location</th>
-                    </tr>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email Address</th>
+                            <th scope="col">Location</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let d of mf.data">
-                        <td>{{d.name}}</td>
-                        <td>{{d.email}}</td>
-                        <td>{{d.location}}</td>
-                    </tr>
+                        <tr *ngFor="let d of mf.data">
+                            <td data-label="NAME">{{d.name}}</td>
+                            <td data-label="EMAIL">{{d.email}}</td>
+                            <td data-label="LOCATION">{{d.location}}</td>
+                        </tr>
                 </table>
             </div>
 
@@ -527,7 +527,7 @@
                         <div class="form-group form-inline">
                             <p class="pt-3 pr-2">Show</p>
 
-                            <div class="form-group w-25">
+                            <div class="form-group w-50">
                                 <select class="form-control" name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
                                     <option [value]="10">10</option>
                                     <option [value]="25">25</option>
@@ -549,7 +549,7 @@
                 </div>
                 <div class="col-auto">
                     <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 2" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
-                                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
                 </div>
             </div>
 
@@ -701,26 +701,26 @@
             <div class="table-responsive">
                 <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                     <thead>
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email Address</th>
-                        <th scope="col">Clock-In Location</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Expected Location</th>
-                        <th scope="col">Mode of Clock-In</th>
-                        <th scope="col">Clock-In Time</th>
-                    </tr>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email Address</th>
+                            <th scope="col">Clock-In Location</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Expected Location</th>
+                            <th scope="col">Mode of Clock-In</th>
+                            <th scope="col">Clock-In Time</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let d of mf.data">
-                        <td>{{d.name}}</td>
-                        <td>{{d.email}}</td>
-                        <td>{{d.clock_in_address}}</td>
-                        <td>{{d.date}}</td>
-                        <td>{{d.location}}</td>
-                        <td>{{d.mode}}</td>
-                        <td>{{d.clock_in_time}}</td>
-                    </tr>
+                        <tr *ngFor="let d of mf.data">
+                            <td data-label="NAME">{{d.name}}</td>
+                            <td data-label="EMAIL">{{d.email}}</td>
+                            <td data-label="ADDRESS">{{d.clock_in_address}}</td>
+                            <td data-label="DATE">{{d.date}}</td>
+                            <td data-label="LOCATION">{{d.location}}</td>
+                            <td data-label="MODE">{{d.mode}}</td>
+                            <td data-label="CLOCK IN TIME">{{d.clock_in_time}}</td>
+                        </tr>
                 </table>
             </div>
 
@@ -730,7 +730,7 @@
                         <div class="form-group form-inline">
                             <p class="pt-3 pr-2">Show</p>
 
-                            <div class="form-group w-25">
+                            <div class="form-group w-50">
                                 <select class="form-control" name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
                                     <option [value]="10">10</option>
                                     <option [value]="25">25</option>
@@ -752,7 +752,7 @@
                 </div>
                 <div class="col-auto">
                     <pagination class="pt-2" *ngIf="data.length > 0 && currentTab == 3" [totalItems]="totalSize" [itemsPerPage]="rowsOnPage" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" previousText="&lsaquo;"
-                                nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+                        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
                 </div>
             </div>
 
