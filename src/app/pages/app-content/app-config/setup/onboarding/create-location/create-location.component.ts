@@ -20,7 +20,7 @@ export class CreateLocationComponent implements OnInit {
     modalRef: BsModalRef;
 
     @Input()
-    step: number = 1;
+    step: number = 2;
     isNewShift: boolean = false;
     isDeleteShift: boolean = false;
     isSolutions: boolean = false;
