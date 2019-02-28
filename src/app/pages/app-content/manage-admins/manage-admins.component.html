@@ -135,7 +135,7 @@
 
 
             <div class="col-md-12" *ngIf="inviteRequest.role == 'LOCATION_ADMIN'">
-                <mat-form-field class="input-field">
+                <mat-form-field floatPlaceholder="never" class="input-field">
                     <mat-select placeholder="Select Locations" name="locations" [(ngModel)]="inviteRequest.locIds" multiple>
                         <mat-select-trigger>
                             {{locations? getSelectedLocationName(true) : ''}}
@@ -172,18 +172,18 @@
     <div class="modal-body">
         <form (ngSubmit)="assignAdmins()" name="inviteAdminForm" #inviteAdminForm="ngForm" ngNativeValidate>
             <div class="col-md-12">
-                <mat-form-field class="input-field">
+                <mat-form-field floatPlaceholder="never" class="input-field">
                     <input matInput placeholder="Name" [value]="selectedUser.firstName + ' ' + selectedUser.lastName" disabled>
                 </mat-form-field>
             </div>
 
             <div class="col-md-12">
-                <mat-form-field class="input-field">
+                <mat-form-field floatPlaceholder="never" class="input-field">
                     <input matInput type="email" placeholder="Email Address" [value]="selectedUser.email" disabled>
                 </mat-form-field>
             </div>
             <div class="col-md-12">
-                <mat-form-field class="input-field">
+                <mat-form-field floatPlaceholder="never" class="input-field">
                     <mat-select placeholder="Role" name="role" #role="ngModel" [(ngModel)]="assignAdminRequest.role" [required]="true">
                         <mat-option *ngIf="userRole != 'LOCATION_ADMIN'" value="GENERAL_ADMIN">GENERAL ADMIN</mat-option>
                         <mat-option value="LOCATION_ADMIN">LOCATION ADMIN</mat-option>
@@ -194,7 +194,7 @@
 
 
             <div class="col-md-12" *ngIf="assignAdminRequest.role == 'LOCATION_ADMIN'">
-                <mat-form-field class="input-field">
+                <mat-form-field floatPlaceholder="never" class="input-field">
                     <mat-select placeholder="Select Locations" name="locations" [(ngModel)]="assignAdminRequest.locIds" multiple>
                         <mat-select-trigger>
                             {{locations? getSelectedLocationName(false) : ''}}
