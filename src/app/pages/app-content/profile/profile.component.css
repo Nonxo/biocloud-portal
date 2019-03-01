@@ -77,9 +77,10 @@
     backface-visibility: hidden;
 }
 
-.h-120 {
+
+/* .h-120 {
     height: 120px !important;
-}
+} */
 
 .upload-icon {
     font-size: 35px;

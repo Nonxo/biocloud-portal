@@ -694,7 +694,7 @@ export class NavComponent implements OnInit, OnDestroy {
             this.orgRequest = new CreateOrgRequest();
             this.openModal(template);
         } else {
-            this.router.navigate(['/wizard']);
+            this.router.navigate(['/onboard']);
         }
 
     }

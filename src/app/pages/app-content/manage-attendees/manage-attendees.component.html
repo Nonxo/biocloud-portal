@@ -74,6 +74,10 @@
             </div>
         </div>
 
+        <div class="d-md-none d-block ml-4 mt-4 mb-2">
+            <mat-checkbox name="selAll" [(ngModel)]="selAll" (change)="selectAll($event)"></mat-checkbox> Select All
+        </div>
+
         <div class="container-fluid" *ngIf="currentTab == 0">
 
             <div class="table-responsive" *ngIf="totalItems > 0">
@@ -94,11 +98,11 @@
                             <th>
                                 <mat-checkbox name="check{{i}}" [(ngModel)]="d.checked" (click)="selectOne($event)"></mat-checkbox>
                             </th>
-                            <td>
-                                <p class="cursor text-brand" (click)="gotoOverview(d.email)">{{d.firstName }} {{ d.lastName}}</p>
+                            <td data-label="NAME">
+                                <p class="cursor text-brand mb-0" (click)="gotoOverview(d.email)">{{d.firstName }} {{ d.lastName}}</p>
                             </td>
-                            <td>{{d.email}}</td>
-                            <td>
+                            <td data-label="EMAIL">{{d.email}}</td>
+                            <td class="phone" data-label="PHONE">
                                 <ng-container *ngIf="d.phone">{{d.phoneCode? (d.phoneCode.charAt(0) == "+"? d.phoneCode: "+" + d.phoneCode): "+234" }} {{ d.phone}}</ng-container>
                             </td>
                             <!--<td>{{d.status? 'Active':'Inactive'}}</td>-->
@@ -114,7 +118,7 @@
                         <div class="form-group form-inline">
                             <p class="pt-3 pr-2">Show</p>
 
-                            <div class="form-group w-25">
+                            <div class="form-group w-50">
                                 <select class="form-control" name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
                                                 <option [value]="10">10</option>
                                                 <option [value]="25">25</option>

@@ -40,15 +40,15 @@
             </thead>
             <tbody>
                 <tr *ngFor="let d of mf.data; let i = index">
-                    <th>
+                    <th data-label="chkbox" class="align-middle">
                         <mat-checkbox name="check{{i}}" [(ngModel)]="d.checked" (click)="selectOne(d,$event)" [disabled]="currentUserEmail == d.email || d.email == orgCreator || (userRole =='LOCATION_ADMIN' && d.role == 'GENERAL_ADMIN')"></mat-checkbox>
                     </th>
-                    <td>{{d.firstName }} {{ d.lastName}}</td>
-                    <td>{{d.email}}</td>
-                    <td>
+                    <td data-label="NAME" class="align-middle">{{d.firstName }} {{ d.lastName}}</td>
+                    <td data-label="EMAIL" class="align-middle">{{d.email}}</td>
+                    <td data-label="PHONE" class="align-middle">
                         <ng-container *ngIf="d.phone">{{d.phoneCode? (d.phoneCode.charAt(0) == "+"? d.phoneCode: "+" + d.phoneCode): "+234" }} {{ d.phone}}</ng-container>
                     </td>
-                    <td>{{d.role.replace('_', ' ')}}</td>
+                    <td class="ROLE" data-label="role" class="align-middle">{{d.role.replace('_', ' ')}}</td>
                 </tr>
 
             </tbody>
@@ -61,7 +61,7 @@
                 <div class="form-group form-inline">
                     <p class="pt-3 pr-2">Show</p>
 
-                    <div class="form-group w-25">
+                    <div class="form-group w-50">
                         <!-- <label class="font-weight-bold" for="locationTimezone">Location Timezone</label> -->
                         <select class="form-control" id="rowsPage" name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
                                     <option [value]="2">2</option>
@@ -135,7 +135,7 @@
 
 
             <div class="col-md-12" *ngIf="inviteRequest.role == 'LOCATION_ADMIN'">
-                <mat-form-field class="input-field">
+                <mat-form-field floatPlaceholder="never" class="input-field">
                     <mat-select placeholder="Select Locations" name="locations" [(ngModel)]="inviteRequest.locIds" multiple>
                         <mat-select-trigger>
                             {{locations? getSelectedLocationName(true) : ''}}
@@ -172,18 +172,18 @@
     <div class="modal-body">
         <form (ngSubmit)="assignAdmins()" name="inviteAdminForm" #inviteAdminForm="ngForm" ngNativeValidate>
             <div class="col-md-12">
-                <mat-form-field class="input-field">
+                <mat-form-field floatPlaceholder="never" class="input-field">
                     <input matInput placeholder="Name" [value]="selectedUser.firstName + ' ' + selectedUser.lastName" disabled>
                 </mat-form-field>
             </div>
 
             <div class="col-md-12">
-                <mat-form-field class="input-field">
+                <mat-form-field floatPlaceholder="never" class="input-field">
                     <input matInput type="email" placeholder="Email Address" [value]="selectedUser.email" disabled>
                 </mat-form-field>
             </div>
             <div class="col-md-12">
-                <mat-form-field class="input-field">
+                <mat-form-field floatPlaceholder="never" class="input-field">
                     <mat-select placeholder="Role" name="role" #role="ngModel" [(ngModel)]="assignAdminRequest.role" [required]="true">
                         <mat-option *ngIf="userRole != 'LOCATION_ADMIN'" value="GENERAL_ADMIN">GENERAL ADMIN</mat-option>
                         <mat-option value="LOCATION_ADMIN">LOCATION ADMIN</mat-option>
@@ -194,7 +194,7 @@
 
 
             <div class="col-md-12" *ngIf="assignAdminRequest.role == 'LOCATION_ADMIN'">
-                <mat-form-field class="input-field">
+                <mat-form-field floatPlaceholder="never" class="input-field">
                     <mat-select placeholder="Select Locations" name="locations" [(ngModel)]="assignAdminRequest.locIds" multiple>
                         <mat-select-trigger>
                             {{locations? getSelectedLocationName(false) : ''}}

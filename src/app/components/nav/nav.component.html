@@ -158,11 +158,11 @@
   <img src="assets/img/logo-icon.svg" class="img-fluid logo-icon" *ngIf="sidenavWidth < 15"/>
 </div>-->
 
-        <button mat-icon-button (click)="toggleNavFromHam(false)" class="d-md-none d-block" *ngIf="sidenavWidth >= 15" matTooltip="Minimize navigation">
+        <button mat-icon-button (click)="toggleNavFromHam(false)" class="d-none d-xl-block" *ngIf="sidenavWidth >= 15" matTooltip="Minimize navigation">
             <mat-icon>fullscreen_exit</mat-icon>
         </button>
 
-        <button mat-icon-button (click)="toggleNavFromHam(true)" class="d-none d-md-block" *ngIf="sidenavWidth < 15" matTooltip="Maximize navigation">
+        <button mat-icon-button (click)="toggleNavFromHam(true)" class="d-none d-xl-block" *ngIf="sidenavWidth < 15" matTooltip="Maximize navigation">
             <mat-icon>fullscreen</mat-icon>
         </button>
 
@@ -190,7 +190,7 @@
             <span class="badge badge-danger free-flows" *ngIf="notifAlert">{{notificationLength}}</span>
         </button>
 
-        <mat-menu #notify="matMenu" class="p-0">s
+        <mat-menu #notify="matMenu" class="p-0">
             <div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications | slice:0:5; let i=index">
 
                 <ng-container *ngIf="notif.notifType == 'USER_INVITE'">
@@ -338,7 +338,7 @@
 
             </div>
             <div class="col-md-12 text-center pt-3 pb-3">
-                <button mat-raised-button color="primary" class="auth-btn" type="submit" [disabled]="loading">PROCEED
+                <button id="proceedBtn" mat-raised-button color="primary" class="auth-btn" type="submit" [disabled]="loading">PROCEED
                 </button>
             </div>
         </form>

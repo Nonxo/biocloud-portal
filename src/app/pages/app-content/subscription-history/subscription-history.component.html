@@ -43,11 +43,11 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let d of mf.data; let i = index">
-                                <td>{{d.startDate | date:'mediumDate'}}</td>
-                                <td>{{d.planName}}</td>
-                                <td>{{d.currency}}</td>
-                                <td>{{d.amountPaid}}</td>
-                                <td>
+                                <td data-label="DATE">{{d.startDate | date:'mediumDate'}}</td>
+                                <td data-label="PLAN NAME">{{d.planName}}</td>
+                                <td data-label="CURRENCY">{{d.currency}}</td>
+                                <td data-label="AMOUNT">{{d.amountPaid}}</td>
+                                <td data-label="REFERENCE">
                                     <p class="cursor text-brand" (click)="viewReceipt(d)">{{d.reference}}</p>
                                 </td>
                                 <!--<td>{{d.status? 'Active':'Inactive'}}</td>-->
@@ -63,7 +63,7 @@
                             <div class="form-group form-inline">
                                 <p class="pt-3 pr-2">Show</p>
 
-                                <div class="form-group w-25">
+                                <div class="form-group w-50">
                                     <select class="form-control" id="rows" name="rows" [(ngModel)]="rowsOnPage" (change)="updateSize()">
                                                     <option [value]="10">10</option>
                                                     <option [value]="25">25</option>

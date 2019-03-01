@@ -1,7 +1,6 @@
 import {MessageService} from './service/message.service';
 import {BsModalRef} from 'ngx-bootstrap';
 import {AppConfigService} from './pages/app-content/app-config/services/app-config.service';
-import {WizardStepperComponent} from './components/wizard-stepper/wizard-stepper.component';
 import {BrowserModule, HAMMER_GESTURE_CONFIG} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
@@ -28,7 +27,6 @@ import {SessionGuard} from "./auth/guards/session-guard.service";
 import {ChangePasswordComponent} from "./pages/change-password/change-password.component";
 import {PictureUtil} from "./util/PictureUtil";
 import {AddAdminAuthComponent} from "./components/auth/add-admin-auth/add-admin-auth.component";
-import {SignUpAsComponent} from "./pages/app-content/sign-up-as/sign-up-as.component";
 import {AppContentService} from "./pages/app-content/services/app-content.service";
 import {InviteUserComponent} from "./components/auth/invite-user/invite-user.component";
 import {ReceiptComponent} from "./pages/app-content/subscription-history/receipt/receipt.component";
@@ -54,7 +52,6 @@ import {
         AuthComponent,
         RegisterComponent,
         AddAdminAuthComponent,
-        SignUpAsComponent,
         InviteUserComponent,
         LoginComponent,
         ReceiptComponent,
@@ -66,7 +63,6 @@ import {
         RegEmailNotificationComponent,
         // CreatePasswordComponent,
         // PersonalDetailsComponent,
-        WizardStepperComponent,
         RegEmailNotificationComponent
     ],
     imports: [

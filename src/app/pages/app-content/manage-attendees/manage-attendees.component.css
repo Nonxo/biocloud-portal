@@ -1,3 +1,33 @@
+@media screen and (max-width: 600px) {
+    table thead {
+        border: none;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+    table tr {
+        border-bottom: 3px solid #ddd;
+        display: block;
+        margin-bottom: 15px;
+    }
+    table td {
+        border-bottom: 1px solid #ddd;
+        display: block;
+        text-align: right;
+    }
+    table td::before {
+        content: attr(data-label);
+        float: left;
+    }
+    .phone {
+        padding-bottom: 2rem;
+    }
+}
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 823px) {
     .responsive-width {
         width: 100%;
