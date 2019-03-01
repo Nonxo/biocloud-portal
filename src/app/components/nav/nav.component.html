@@ -190,7 +190,7 @@
             <span class="badge badge-danger free-flows" *ngIf="notifAlert">{{notificationLength}}</span>
         </button>
 
-        <mat-menu #notify="matMenu" class="p-0">s
+        <mat-menu #notify="matMenu" class="p-0">
             <div class="media pt-2 pl-2 pb-2" *ngFor="let notif of notifications | slice:0:5; let i=index">
 
                 <ng-container *ngIf="notif.notifType == 'USER_INVITE'">

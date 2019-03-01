@@ -54,9 +54,10 @@ export class RegisterComponent implements OnInit {
 
     @ViewChild('myInput') myInput: ElementRef;
 
+
     userTypes: Array<{ name, checked }> = [
-        { name: 'INDIVIDUAL', checked: true },
-        { name: 'CORPORATE', checked: false }
+        {name: 'INDIVIDUAL', checked: true},
+        {name: 'CORPORATE', checked: false}
     ];
 
     constructor(private authService: AuthService,
@@ -68,10 +69,10 @@ export class RegisterComponent implements OnInit {
         this.route
             .queryParams
             .subscribe(params => {
-                let email = params['email'] || null;
-                let token = params['token'] || null;
+                    let email = params['email'] || null;
+                    let token = params['token'] || null;
                     // Defaults to null if no query param provided.
-                    if(email && !token) {
+                    if (email && !token) {
                         this.verifyEmail(email);
                     }
                 }
@@ -91,7 +92,7 @@ export class RegisterComponent implements OnInit {
             phone: ['', Validators.required],
             email: [this.email, Validators.email],
             password: ['', Validators.required],
-            gdprCompliance: ['',Validators.requiredTrue]
+            gdprCompliance: ['', Validators.requiredTrue]
         });
 
         // disable validation for company name when it is invisible initially
@@ -109,7 +110,7 @@ export class RegisterComponent implements OnInit {
         this.form.get('email').valueChanges
             .subscribe(
                 value => {
-                    if(/[^A-Za-z\-_.0-9@]/.test(value)) {
+                    if (/[^A-Za-z\-_.0-9@]/.test(value)) {
                         this.emailError = "Sorry, only letters (a-z), numbers (0-9) , periods ( . ) , underscores ( _ ) and hyphens ( - ) are allowed before the @ symbol";
                     } else {
                         this.emailError = null;
@@ -154,17 +155,19 @@ export class RegisterComponent implements OnInit {
         this.loading = true;
         let email = "";
 
-        emailFromRoute? email = emailFromRoute: email = this.form.get('email').value;
+        emailFromRoute ? email = emailFromRoute : email = this.form.get('email').value;
 
         this.authService.verifyEmail(email)
-            .finally(() => {this.loading = false;})
+            .finally(() => {
+                this.loading = false;
+            })
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.router.navigate(['/reg-message'], { queryParams: { email: email.toLowerCase() } });
+                        this.router.navigate(['/reg-message'], {queryParams: {email: email.toLowerCase()}});
                     } else {
                         this.ns.showError(result.description);
-                        this.router.navigate(['/auth']);
+                            this.router.navigate(['/auth'], {queryParams: {login: true}});
                     }
                 },
                 error => {
@@ -349,15 +352,15 @@ export class RegisterComponent implements OnInit {
     }
 
     validateNameField() {
-        if(!(/^([a-zA-Z]{1,}'?-?[a-zA-Z]{1,}?\s[a-zA-Z]{1,}'?-?[a-zA-Z]{1,}?)/.test(this.fullName))) {
+        if (!(/^([a-zA-Z]{1,}'?-?[a-zA-Z]{1,}?\s[a-zA-Z]{1,}'?-?[a-zA-Z]{1,}?)/.test(this.fullName))) {
             this.nameError = "Type only firstname & lastname. DO NOT include numbers & special characters";
-        }else{
+        } else {
             this.nameError = "";
         }
     }
 
     validatePhoneField() {
-        if(/[^0-9]/.test(this.phone)) {
+        if (/[^0-9]/.test(this.phone)) {
             this.phoneError = "Only numbers allowed"
         } else {
             this.phoneError = "";
