@@ -71,10 +71,6 @@ export class RegisterComponent implements OnInit {
             .subscribe(params => {
                     let email = params['email'] || null;
                     let token = params['token'] || null;
-                    // Defaults to null if no query param provided.
-                    if (email && !token) {
-                        this.verifyEmail(email);
-                    }
                 }
             )
     }
@@ -141,7 +137,8 @@ export class RegisterComponent implements OnInit {
     changeStep() {
         switch (this.step) {
             case 1: {
-                this.verifyEmail();
+                this.email = this.form.get('email').value;
+                this.step = 2;
                 break;
             }
             case 2: {
@@ -282,8 +279,12 @@ export class RegisterComponent implements OnInit {
                         this.ss.loggedInUser = res.bioUser;
                         this.router.navigate(['/onboard']);
                     } else {
-                        this.ns.showError(res.description);
-                        this.resetCaptcha();
+                        if(res.code == -9) {
+                            this.ns.showError("This email already exist. Please proceed to sign in");
+                            this.router.navigate(['/auth'], {queryParams: {login: true}});
+                        } else {
+                            this.ns.showError(res.description);
+                        }
                     }
                 }, error => {
                     this.ns.showError(error ? '' : error.description);

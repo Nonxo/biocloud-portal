@@ -30,7 +30,7 @@ export class FlowTwoComponent implements OnInit {
                         this.verifyToken();
                     } else {
                         if (this.email) {
-                            this.router.navigate(['/auth/register'], {queryParams: {email: this.email.toLowerCase()}});
+                            this.step = 2;
                         }
                     }
                 }
