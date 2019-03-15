@@ -71,10 +71,6 @@ export class RegisterComponent implements OnInit {
             .subscribe(params => {
                     let email = params['email'] || null;
                     let token = params['token'] || null;
-                    // Defaults to null if no query param provided.
-                    // if (email && !token) {
-                    //     this.step = 2;
-                    // }
                 }
             )
     }
@@ -141,7 +137,6 @@ export class RegisterComponent implements OnInit {
     changeStep() {
         switch (this.step) {
             case 1: {
-                // this.verifyEmail();
                 this.email = this.form.get('email').value;
                 this.step = 2;
                 break;
@@ -290,7 +285,6 @@ export class RegisterComponent implements OnInit {
                         } else {
                             this.ns.showError(res.description);
                         }
-                        // this.resetCaptcha();
                     }
                 }, error => {
                     this.ns.showError(error ? '' : error.description);
