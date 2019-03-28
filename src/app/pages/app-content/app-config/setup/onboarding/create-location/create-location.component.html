@@ -102,7 +102,7 @@
                                 <div class="col-md-9 mt-3 pl-0 pr-0">
 
                                     <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoomSize" (mapClick)="mapClicked($event)" [mapTypeControl]="true">
-                                        <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="draggable" (dragEnd)="markerDragEnd($event)"></agm-marker>
+                                        <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)"></agm-marker>
 
                                         <agm-circle [latitude]="lat" [longitude]="lng" [radius]="locRequest.radiusThreshold" [fillColor]="'red'">
                                         </agm-circle>
