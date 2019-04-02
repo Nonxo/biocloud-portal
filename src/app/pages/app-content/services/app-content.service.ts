@@ -3,14 +3,21 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 import { Endpoints } from "../../../util/endpoints";
 import {
-    CreateOrgRequest, AssignUserRequest, ApproveRequest, AdminRemovalRequest, UpdateProfile,
-    AttendeesPOJO, HistoryPojo, UserPaginationPojo, ApproveCoordinate
+    AdminRemovalRequest,
+    ApproveCoordinate,
+    ApproveRequest,
+    AssignUserRequest,
+    AttendeesPOJO,
+    CreateOrgRequest,
+    HistoryPojo,
+    UpdateProfile,
+    UserPaginationPojo
 } from "../model/app-content.model";
 import { StorageService } from "../../../service/storage.service";
 import { MediaType } from "../../../util/constants";
-import set = Reflect.set;
-import { timeout, map } from "rxjs/operators";
+import { map, timeout } from "rxjs/operators";
 import { AuthService } from "../../../components/auth/auth.service";
+import { ShiftActionPayload, ShiftRequest } from '../app-config/model/app-config.model';
 
 @Injectable()
 export class AppContentService {
@@ -244,6 +251,8 @@ export class AppContentService {
         } else {
             params = new HttpParams()
                 .set("locId", model.locId)
+                .set("shiftId", model.shiftId)
+                .set("schedule", model.schedule)
                 .set("active", String(model.active))
                 .set("param", model.param)
                 .set("pageNo", String(model.pageNo))
@@ -275,6 +284,8 @@ export class AppContentService {
         } else {
             params = new HttpParams()
                 .set("locId", model.locId)
+                .set("shiftId", model.shiftId)
+                .set("schedule", model.schedule)
                 .set("param", model.param)
                 .set("active", String(model.active));
         }
@@ -557,6 +568,42 @@ export class AppContentService {
             )
     }
 
+    fetchEmailInvitations(email: string): Observable<any> {
+
+        return this.httpClient
+            .get(Endpoints.FETCH_EMAIL_INVITATIONS + email, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
+    inviteUserByOrgId(email: string, orgCOde: string): Observable<any> {
+        const params = new HttpParams()
+            .set("orgCode", orgCOde)
+            .set("email", email);
+        return this.httpClient
+            .post(Endpoints.INVITE_USER_BY_ORG_CODE, params, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
     fetchInvitedUsers(model: AttendeesPOJO): Observable<any> {
         const params = new HttpParams()
             .set("orgId", model.orgId)
@@ -683,4 +730,139 @@ export class AppContentService {
             )
     }
 
+    fetchOrgShifts(model: ShiftRequest, pageNo: number, pageSize: number): Observable<any> {
+        const params = new HttpParams()
+            .set(model.locId ? "locId" : "null", model.locId ? model.locId : null)
+            .set(model.active ? "active" : "null", model.active ? model.active : null)
+            .set("pageNo", String(pageNo))
+            .set("pageSize", String(pageSize));
+
+        const orgId = this.ss.getSelectedOrg().orgId;
+
+        return this.httpClient
+            .get(Endpoints.SHIFT_ENDPOINT + "/org/" + orgId + "?" + params, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+
+    }
+
+    deactivateActivateShifts(payload: ShiftActionPayload): Observable<any> {
+        return this.httpClient
+            .post(Endpoints.DEACTIVATE_ACTIVATE_SHIFTS + "/", payload, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
+    deleteShifts(payload: ShiftActionPayload): Observable<any> {
+        return this.httpClient
+            .post(Endpoints.DELETE_SHIFTS + "/" + (payload.newShiftId ? payload.newShiftId : "-1") + "/", payload.shiftIds, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
+    inviteEmployees(shiftId: string, orgId: string, emails: string[]): Observable<any> {
+        return this.httpClient
+            .post(Endpoints.SHIFT_ENDPOINT + "/" + shiftId + "/" + orgId + "/invite", JSON.stringify(emails), {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+
+
+    }
+
+    fetchLocationEmails(locId: string): Observable<any> {
+        const params = new HttpParams()
+            .set("pageNo", "1")
+            .set("pageSize", "1000");
+
+        return this.httpClient
+            .get(Endpoints.GET_EMAILS_IN_LOCATION + "/" + locId + "/emails", {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+
+    }
+
+    fetchShiftEmails(shiftId: string): Observable<any> {
+        const params = new HttpParams()
+            .set("pageNo", "1")
+            .set("pageSize", "1000");
+
+        return this.httpClient
+            .get(Endpoints.GET_EMAILS_IN_SHIFT + "/" + shiftId + "/emails", {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+
+    }
+
+    fetchShiftEmployees(shiftId: string): Observable<any> {
+        const params = new HttpParams()
+
+        return this.httpClient
+            .get(Endpoints.GET_EMPLOYEES_IN_SHIFT + "/" + shiftId, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+
+    }
 }
