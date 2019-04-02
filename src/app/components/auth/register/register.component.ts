@@ -166,10 +166,6 @@ export class RegisterComponent implements OnInit {
                 this.step = 5;
                 break;
             }
-            // case 2: {
-            // this.register();
-            //     break;
-            // }
         }
     }
 
