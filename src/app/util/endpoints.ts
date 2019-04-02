@@ -42,6 +42,8 @@ export class Endpoints {
     public static FETCH_WORK_STATUS = `${Endpoints.BASE_URL}/users/api/u/`;
     public static FETCH_PUNCTUALITY_SCORE = `${Endpoints.BASE_URL}/attendance/api/clock-in/punctuality-score?`;
     public static FETCH_INVITED_USERS = `${Endpoints.BASE_URL}/users/api/org/invites?`;
+    public static FETCH_EMAIL_INVITATIONS = `${Endpoints.BASE_URL}/users/api/org/invites/`;
+    public static INVITE_USER_BY_ORG_CODE = `${Endpoints.BASE_URL}/users/api/org/invites/request/`;
     public static FETCH_INVITED_USERS_COUNT = `${Endpoints.BASE_URL}/users/api/org/invites/count?`;
     public static REASSIGN_LOC_USERS = `${Endpoints.BASE_URL}/users/api/attendees/location/`;
     public static FETCH_ATTENDEES_LOCATION = `${Endpoints.BASE_URL}/users/api/attendees/`;
@@ -72,5 +74,12 @@ export class Endpoints {
     public static VERIFY_USER_TOKEN = `${Endpoints.BASE_URL}/users/api/verify?`;
     public static GET_COUPON_DISCOUNT = `${Endpoints.BASE_URL}/users/api/subscriptions/verify-coupon`;
     public static DELETE_LOCATION = `${Endpoints.BASE_URL}/users/api/locations/delete/`;
+    public static SHIFT_ENDPOINT = `${Endpoints.BASE_URL}/users/api/shifts`;
+    public static DEACTIVATE_ACTIVATE_SHIFTS = `${Endpoints.BASE_URL}/users/api/shifts/change-status`;
+    public static DELETE_SHIFTS = `${Endpoints.BASE_URL}/users/api/shifts/delete`;    
     public static SEND_SUPPORT_EMAIL = `${Endpoints.BASE_URL}/users/api/u/getHelp`;
+    public static GET_EMAILS_IN_LOCATION = `${Endpoints.BASE_URL}/users/api/locations`;
+    public static GET_EMAILS_IN_SHIFT = `${Endpoints.BASE_URL}/users/api/locations/shift`;
+    public static GET_EMPLOYEES_IN_SHIFT = `${Endpoints.BASE_URL}/users/api/shifts/get-shift-attendees`;
+    public static BULK_CREATE_SHIFT = `${Endpoints.BASE_URL}/users/api/shifts/bulk-update`;
 }
