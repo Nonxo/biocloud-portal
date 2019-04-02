@@ -148,7 +148,6 @@ export class RegisterComponent implements OnInit {
             case 2: {
                 this.payload = this.form.value;
                 this.setName();
-                this.step = 3;
                 this.register();
                 break;
             }
@@ -299,7 +298,7 @@ export class RegisterComponent implements OnInit {
                     if (res.code == 0) {
                         this.ss.authToken = res.token;
                         this.ss.loggedInUser = res.bioUser;
-                        // this.router.navigate(['/onboard']);
+                        this.step = 3;
                     } else {
                         if (res.code == -9) {
                             this.ns.showError("This email already exist. Please proceed to sign in");
