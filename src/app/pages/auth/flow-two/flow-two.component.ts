@@ -65,6 +65,7 @@ export class FlowTwoComponent implements OnInit {
 
     viewLoginPage(value: boolean) {
         this.loginFlag = value;
+        !this.loginFlag? this.step = 1: '';
     }
 
     getSignupStep(event) {

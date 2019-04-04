@@ -1,13 +1,13 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import 'rxjs/add/operator/finally';
-import { NotifyService } from '../../../service/notify.service';
-import { AuthService } from '../auth.service';
-import { Constants } from "../../../util/constants";
-import { ActivatedRoute, Router } from "@angular/router";
-import { StorageService } from "../../../service/storage.service";
-import { environment } from "../../../../environments/environment";
-import { AppContentService } from '../../../pages/app-content/services/app-content.service';
+import {NotifyService} from '../../../service/notify.service';
+import {AuthService} from '../auth.service';
+import {Constants} from "../../../util/constants";
+import {ActivatedRoute, Router} from "@angular/router";
+import {StorageService} from "../../../service/storage.service";
+import {environment} from "../../../../environments/environment";
+import {AppContentService} from '../../../pages/app-content/services/app-content.service';
 
 
 @Component({
@@ -40,7 +40,7 @@ export class RegisterComponent implements OnInit {
     nameError: string;
     phoneError: string;
     emailError: string;
-    invites: any[];
+    invites: any[] = [];
     orgCode: string = '';
 
     @Input()
@@ -143,6 +143,7 @@ export class RegisterComponent implements OnInit {
             case 1: {
                 this.email = this.form.get('email').value;
                 this.step = 2;
+                this.getStep.emit(this.step);
                 break;
             }
             case 2: {
@@ -162,7 +163,6 @@ export class RegisterComponent implements OnInit {
             }
             case 4: {
                 this.goToFinalStage();
-                this.step = 5;
                 break;
             }
         }
@@ -391,7 +391,6 @@ export class RegisterComponent implements OnInit {
 
     goToFinalStage() {
         this.callOrgInvitationsService();
-        this.step = 5;
     }
 
     goToCompany() {
@@ -411,7 +410,6 @@ export class RegisterComponent implements OnInit {
                         this.invites = result.attendees ? result.attendees : [];
                     } else {
                         this.ns.showError(result.description);
-                        console.log(result.description);
                     }
                 },
                 error => {
@@ -427,6 +425,7 @@ export class RegisterComponent implements OnInit {
                     if (result.code == 0) {
                         this.invites = result.attendees ? result.attendees : [];
                         this.ns.showSuccess(result.description);
+                        this.step = 5;
                     } else {
                         this.ns.showError(result.description);
                     }

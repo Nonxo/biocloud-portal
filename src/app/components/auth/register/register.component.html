@@ -3,9 +3,9 @@
             <h3 class="login-text">Create an iClocker Account</h3>
             <p class="text-success font-weight-bold">Start your 14-day Free Trial</p>
             <p class="small">To create an iClocker account, please confirm your e-mail address</p>
-    
+
             <form class="pt-4 form-inline" [formGroup]="form" (submit)="changeStep()" ngNativeValidate>
-    
+
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12 px-0 col-xl-12 offset-xl-0 offset-md-2 offset-lg-3">
@@ -19,7 +19,7 @@
                                         <p class="small text-danger px-1 pt-1" *ngIf="emailError">{{emailError}}</p>
                                     </div>
                                 </div>
-    
+
                                 <div class="col-xl-auto col-lg-2 col-md-2">
                                     <button mat-raised-button color="primary" class="rounded px-5 getStartedBtn"
                                         type="submit" [disabled]="emailError">
@@ -31,29 +31,29 @@
                         </div>
                     </div>
                 </div>
-    
+
             </form>
         </div>
     </ng-container>
-    
-    
-    
+
+
+
     <ng-container *ngIf="step == 2">
         <h3 class="text-center font-weight-bold">Complete <br> Personal Information</h3>
         <p class="small text-center">Continue account creation by completing theform below</p>
-    
+
         <!-- <p class="small">Create a password for your account with at least 6 <br> characters</p> -->
-    
+
         <form class="pt-2 form-width mx-auto" #f="ngForm" (ngSubmit)="changeStep()" ngNativeValidate>
             <div class="container-fluid">
                 <div class="row">
                     <div class="custom-col-md-2"></div>
-    
+
                     <div class="custom-col-md-8 mx-auto px-md-0 px-3">
                         <div class="row">
-    
+
                             <div class="col-md-12 px-0">
-    
+
                                 <div class="form-group">
                                     <label class="text-success small font-weight-bold">{{email}}</label>
                                     <input type="text" pattern="^([a-zA-Z0-9 @*#]{6,20})" class="form-control w-100"
@@ -64,7 +64,7 @@
                                 </div>
                             </div>
                             <div class="col-md-12 px-0">
-    
+
                                 <div class="form-group">
                                     <!-- <label class="text-success small font-weight-bold">You@emailprovider.com</label> -->
                                     <input type="text" class="form-control w-100" #fName="ngModel" placeholder="Full Name *"
@@ -75,7 +75,7 @@
                                         {{nameError}}</p>
                                 </div>
                             </div>
-    
+
                             <div class="col-md-4 pl-0 pr-md-3 pr-0" (clickOutside)="onClickedOutside($event)">
                                 <div class="cursor text-center form-control py-2 d-inline-flex" (click)="showDd()">
                                     <i *ngIf="selectedCountryCode"
@@ -84,9 +84,9 @@
                                         {{selectedPhoneCode.charAt(0) == "+"? selectedPhoneCode: "+" + selectedPhoneCode}}
                                     </p>
                                 </div>
-    
+
                                 <div *ngIf="openDropdown" class="font-12 box-shadow mt-2">
-    
+
                                     <ul class="list-unstyled">
                                         <li class="media sticky-search">
                                             <mat-form-field class="w-100" floatPlaceholder="never">
@@ -101,13 +101,13 @@
                                             <i class="sprite {{country.code.toLowerCase()}} d-inline-flex mr-3 ml-2"
                                                 style="max-width: 33px"></i> {{country.name}}
                                         </li>
-    
+
                                         <p *ngIf="filteredCountries.length == 0" class="text-center small text-muted">No
                                             result(s) found </p>
                                     </ul>
                                 </div>
                             </div>
-    
+
                             <div class="col-md-8 pr-0 pl-0 pt-md-0 pt-4">
                                 <div class="form-group">
                                     <!-- <label class="text-success small font-weight-bold">You@emailprovider.com</label> -->
@@ -117,7 +117,7 @@
                                     <p class="small text-danger px-1 pt-1" *ngIf="phoneError">{{phoneError}}</p>
                                 </div>
                             </div>
-    
+
                             <div class="col-md-12 text-center pt-3 px-0">
                                 <button mat-raised-button color="primary" class="rounded px-5 w-100" [disabled]="!f.valid">
                                     <!-- <button mat-raised-button color="primary" class="rounded px-5" [disabled]="!registerForm.valid"> -->
@@ -134,22 +134,22 @@
                                         (click)="goToTerms()" class="cursor text-brand">Terms of Service</span> and Privacy
                                     Policy.</p>
                             </div>
-    
+
                         </div>
                     </div>
-    
+
                     <div class="custom-col-md-2"></div>
                 </div>
             </div>
         </form>
     </ng-container>
-    
+
     <ng-container *ngIf="step == 3">
         <h3 class="text-center font-weight-bold">Welcome! {{payload.fName}}</h3>
         <p class="text-secondary small w-75 text-center mx-auto pb-3">To continue, select from the options below, which
             perfectly describes you.</p>
         <hr>
-    
+
         <!-- I am an employer -->
         <div class="cursor" (click)="changeStep('employer')">
             <div class="row">
@@ -162,13 +162,13 @@
                 </div>
                 <div class="col-1 my-auto">
                     <mat-icon class="text-secondary">keyboard_arrow_right</mat-icon>
-    
+
                 </div>
             </div>
         </div>
-    
+
         <hr>
-    
+
         <!-- I work for a company -->
         <div class="cursor" (click)="changeStep('employee')">
             <div class="row">
@@ -181,14 +181,14 @@
                 </div>
                 <div class="col-1 my-auto">
                     <mat-icon class="text-secondary">keyboard_arrow_right</mat-icon>
-    
+
                 </div>
             </div>
         </div>
-    
+
         <hr>
     </ng-container>
-    
+
     <ng-container *ngIf="step == 4">
         <div *ngIf="invites.length==0">
             <h3 class="text-center font-weight-bold w-75 mx-auto">No Pending invite to<br> join a company.</h3>
@@ -197,7 +197,7 @@
             <div class="col-12 px-0 col-xl-12 offset-xl-0 offset-md-2 offset-lg-3">
                 <p class="small font-weight-bold mb-1">Company Code</p>
                 <div class="row">
-    
+
                     <div class="col-xl col-lg-4 col-md-5 pr-lg-0">
                         <div class="form-group">
                             <input type="text" [(ngModel)]="orgCode" class="form-control w-100"
@@ -205,16 +205,16 @@
                             <p class="small px-1 pt-1">A 3 letter and 4 digit code unique to a company</p>
                         </div>
                     </div>
-    
+
                     <div class="col-xl-auto col-lg-2 col-md-2">
-                        <button mat-raised-button color="primary" class="rounded" type="submit" (click)="changeStep()">
+                        <button mat-raised-button color="primary" class="rounded" type="submit" [disabled]="!orgCode" (click)="changeStep()">
                             <span *ngIf="!loading">Request to join Company</span>
                             <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;" />
                         </button>
                     </div>
                 </div>
             </div>
-    
+
             <p class="small text-center">Want to create your own company? <span
                     class="cursor text-brand font-weight-bold pl-2" (click)="goToCreateCompany()">Create Company Here</span>
             </p>
@@ -227,7 +227,7 @@
                     <strong>{{invite.orgName}}</strong>
                 </li>
             </ul>
-    
+
             <p class="small text-center w-75 mx-auto">To start clocking in and managing your account,</p>
             <p class="small text-center w-75 mx-auto">Please download the mobile app.</p>
             <div class="text-center">
@@ -237,9 +237,9 @@
                         src="assets/img/appstore.png" alt="" style="max-width: 100px"></a>
             </div>
         </div>
-    
+
     </ng-container>
-    
+
     <ng-container *ngIf="step == 5">
         <div class="text-center">
             <img class="img-fluid" src="assets/img/em.png" alt="" style="max-width: 300px">
@@ -248,7 +248,7 @@
         <p class="font-weight-bold text-center w-75 mx-auto">Your admin has been sent an email to approve your request</p>
         <p class="small text-center w-75 mx-auto">Please Download the mobile app manage your request and start clocking in.
         </p>
-    
+
         <div class="text-center">
             <a href="https://play.google.com/store/apps/details?id=com.seamfix.iclocker"><img class="img-fluid"
                     src="assets/img/google-play-badge-en@2x-1.png" alt="" style="max-width: 100px"></a>
@@ -256,13 +256,13 @@
                     src="assets/img/appstore.png" alt="" style="max-width: 100px"></a>
         </div>
     </ng-container>
-    
-    
+
+
     <div class="col-12 mt-5 text-center" *ngIf="step == 1">
         <!--<div class="cursor" id="googleBtn">Google</div>-->
         <!--<p class="hr">or</p>-->
         <p class="text-center textDecor smaller fontWeight mb-3"> <span> or
                 continue with</span>
         </p>
-    
+
     </div>
