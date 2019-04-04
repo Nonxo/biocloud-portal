@@ -1,13 +1,13 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import 'rxjs/add/operator/finally';
-import {NotifyService} from '../../../service/notify.service';
-import {AuthService} from '../auth.service';
-import {Constants} from "../../../util/constants";
-import {ActivatedRoute, Router} from "@angular/router";
-import {StorageService} from "../../../service/storage.service";
-import {environment} from "../../../../environments/environment";
-import {AppContentService} from '../../../pages/app-content/services/app-content.service';
+import { NotifyService } from '../../../service/notify.service';
+import { AuthService } from '../auth.service';
+import { Constants } from "../../../util/constants";
+import { ActivatedRoute, Router } from "@angular/router";
+import { StorageService } from "../../../service/storage.service";
+import { environment } from "../../../../environments/environment";
+import { AppContentService } from '../../../pages/app-content/services/app-content.service';
 
 
 @Component({
@@ -38,6 +38,7 @@ export class RegisterComponent implements OnInit {
     iAgree: boolean;
     searchField: string;
     nameError: string;
+    passwordError: string;
     phoneError: string;
     emailError: string;
     invites: any[] = [];
@@ -378,6 +379,14 @@ export class RegisterComponent implements OnInit {
             this.nameError = "Type only firstname & lastname. DO NOT include numbers & special characters";
         } else {
             this.nameError = "";
+        }
+    }
+
+    validatePassword() {
+        if (!(/[A-Za-z0-9\S]{6,}/.test(this.password)) || this.password.indexOf(' ') >= 0) {
+            this.passwordError = "Password should be minimum of 6 characters and must not contain spaces";
+        } else {
+            this.passwordError = '';
         }
     }
 
