@@ -58,7 +58,7 @@
                                 <label class="text-success small font-weight-bold">{{email}}</label>
                                 <input type="text" pattern="^([A-Za-z0-9\S]{6,})" class="form-control w-100"
                                     name="password" #pw="ngModel" [(ngModel)]="password" (keyup)="validatePassword()"
-                                    placeholder="Enter password here" [type]="show ? 'text' : 'password'" required>
+                                    placeholder="Enter password here" [type]="show ? 'text' : 'password'" passwordToggle required>
                                 <p class="small text-muted px-1 pt-1">(6 characters minimum, must not contain spaces)
                                 </p>
                                 <p class="small text-danger px-1 pt-1" style="margin-top: -25px" *ngIf="passwordError">
