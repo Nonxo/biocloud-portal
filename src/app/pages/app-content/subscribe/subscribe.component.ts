@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {
+    Subscription,
     SubscriptionChangeRequest,
     SubscriptionPlan,
-    VerifyPaymentRequest,
-    Subscription
+    VerifyPaymentRequest
 } from "../model/app-content.model";
 import {SubscriptionService} from "../services/subscription.service";
 import {NotifyService} from "../../../service/notify.service";
@@ -13,7 +13,7 @@ import {MessageService} from "../../../service/message.service";
 import {BillingCycle, SubscriptionMode} from "../enums/enums";
 import {DomSanitizer} from "@angular/platform-browser";
 import {DateUtil} from "../../../util/DateUtil";
-import {getDate} from 'ngx-bootstrap/chronos/utils/date-getters';
+import {finalize} from "rxjs/internal/operators";
 
 declare function getpaidSetup(data): void;
 // declare var PaystackPop: any;
@@ -147,9 +147,10 @@ export class SubscribeComponent implements OnInit, OnDestroy {
 
     fetchSubscriptionDetails() {
         this.subService.fetchSubscriptionDetails(this.orgId)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.fetchPlans()
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -180,9 +181,10 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     fetchPlans() {
         this.mService.setDisplay(true);
         this.subService.fetchPlans()
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.mService.setDisplay(false);
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -251,9 +253,10 @@ export class SubscribeComponent implements OnInit, OnDestroy {
         this.loading = true;
 
         this.subService.getCouponDiscount(this.orgId, this.monthlyPlan ? BillingCycle.MONTHLY.toUpperCase() : BillingCycle.YEARLY.toUpperCase(), this.couponCode)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.loading = false;
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -402,9 +405,10 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     getProratedCost(fromDropdown: boolean) {
         this.mService.setDisplay(true);
         this.subService.getProratedCost(new SubscriptionChangeRequest(this.monthlyPlan ? 'MONTHLY' : 'ANNUAL', this.orgId, this.selectedPlan.planId, this.selectedCurrency, 0, 0, null, 0))
-            ._finally(() => {
+            .pipe(
+            finalize(() => {
                 this.mService.setDisplay(false)
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -483,9 +487,10 @@ export class SubscribeComponent implements OnInit, OnDestroy {
         element.parentNode.removeChild(element);
         this.mService.setDisplay(true);
         this.subService.verifyPayment(new VerifyPaymentRequest(txRef, this.monthlyPlan ? 'MONTHLY' : 'ANNUAL', autoRenew, this.orgId, this.exchangeRate, "SUBSCRIPTION", this.vat, this.couponCode, this.couponDiscount))
-            ._finally(() => {
+            .pipe(
+            finalize(() => {
                 this.mService.setDisplay(false);
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -504,9 +509,10 @@ export class SubscribeComponent implements OnInit, OnDestroy {
     changePlan() {
         this.mService.setDisplay(true);
         this.subService.changePlan(new SubscriptionChangeRequest(this.monthlyPlan ? 'MONTHLY' : 'ANNUAL', this.orgId, this.selectedPlan.planId, this.selectedCurrency, this.amountToPay, this.vat, this.couponCode, this.couponDiscount))
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.mService.setDisplay(false)
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {

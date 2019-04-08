@@ -1,6 +1,7 @@
+import {finalize} from 'rxjs/operators';
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import 'rxjs/add/operator/finally';
+
 import {NotifyService} from '../../../service/notify.service';
 import {AuthService} from '../auth.service';
 import {Constants} from "../../../util/constants";
@@ -175,10 +176,10 @@ export class RegisterComponent implements OnInit {
 
         emailFromRoute ? email = emailFromRoute : email = this.form.get('email').value;
 
-        this.authService.verifyEmail(email)
-            .finally(() => {
+        this.authService.verifyEmail(email).pipe(
+            finalize(() => {
                 this.loading = false;
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -291,8 +292,8 @@ export class RegisterComponent implements OnInit {
 
     registerUser() {
         //noinspection TypeScriptValidateTypes
-        this.authService.register(this.payload)
-            .finally(() => this.loading = false)
+        this.authService.register(this.payload).pipe(
+            finalize(() => this.loading = false))
             .subscribe(
                 res => {
                     if (res.code == 0) {

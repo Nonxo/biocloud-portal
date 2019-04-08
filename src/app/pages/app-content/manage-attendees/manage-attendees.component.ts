@@ -1,13 +1,14 @@
-import {Component, OnInit, TemplateRef, ViewChild, OnDestroy} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {AppContentService} from "../services/app-content.service";
 import {StorageService} from "../../../service/storage.service";
 import {NotifyService} from "../../../service/notify.service";
 import {BsModalRef, BsModalService, ModalOptions} from "ngx-bootstrap/index";
 import {DataService} from "../../../service/data.service";
-import {AssignUserRequest, ActivateDeactivateUserRequest, AttendeesPOJO} from "../model/app-content.model";
+import {ActivateDeactivateUserRequest, AssignUserRequest, AttendeesPOJO} from "../model/app-content.model";
 import {AddAttendeesComponent} from "../app-config/add-attendees/add-attendees.component";
 import {MessageService} from "../../../service/message.service";
 import {Router} from "@angular/router";
+import {finalize} from "rxjs/internal/operators";
 
 @Component({
     selector: 'app-manage-attendees',
@@ -72,9 +73,10 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     callLocationService() {
         this.mService.setDisplay(true);
         this.contentService.fetchOrgUsersLocation()
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.fetchUsers();
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -165,9 +167,10 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     callInvitedUsersService() {
         this.mService.setDisplay(true);
         this.contentService.fetchInvitedUsers(this.aPojo)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.mService.setDisplay(false)
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -185,9 +188,10 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
     fetchAttendeesList() {
         this.mService.setDisplay(true);
         this.contentService.fetchAttendees(this.aPojo)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.mService.setDisplay(false)
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -310,10 +314,11 @@ console.log('ssssssssss');
         this.loading = true;
         //noinspection TypeScriptValidateTypes
         this.contentService.activateDeactivateAttendees(this.adr)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.selAll = false;
                 this.loading = false;
-            })
+            }))
             .subscribe(
                 result => {
                     let res: any = result;
@@ -352,10 +357,11 @@ console.log('ssssssssss');
         this.assignRequestObj.oldlocId = this.selectedLocId;
         //noinspection TypeScriptValidateTypes
         this.contentService.assignUsersToLocation(this.assignRequestObj)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.selAll = false;
                 this.loading = false;
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {

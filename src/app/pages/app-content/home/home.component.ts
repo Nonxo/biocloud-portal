@@ -1,3 +1,4 @@
+import {debounceTime} from 'rxjs/operators';
 import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {MessageService} from "../../../service/message.service";
 import {AppContentService} from "../services/app-content.service";
@@ -11,6 +12,7 @@ import {Router} from "@angular/router";
 import {DataService} from "../../../service/data.service";
 import * as moment from "moment";
 import {AssignUserRequest, Location} from "../model/app-content.model";
+import {finalize} from "rxjs/internal/operators";
 
 
 @Component({
@@ -53,7 +55,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 private dataService:DataService) {
         this.userId = this.ss.getUserId();
 
-        this.mService.getUpdateLocation().debounceTime(5000)
+        this.mService.getUpdateLocation().pipe(debounceTime(5000))
             .subscribe(
                 result => {
                     result == true? this.callLocationService():'';
@@ -72,7 +74,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
         }
 
-        this.locationsSubscription = this.mService.getSelectedOrg().debounceTime(400)
+        this.locationsSubscription = this.mService.getSelectedOrg().pipe(debounceTime(400))
             .subscribe(
                 result => {
                     if(this.orgId != result) {
@@ -102,7 +104,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     callLocationService() {
         this.mService.setDisplay(true);
         this.contentService.fetchOrgUsersLocation()
-            .finally(() => {this.mService.setDisplay(false);})
+            .pipe(
+            finalize(() => {this.mService.setDisplay(false);}))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -209,7 +212,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     callActivateLocationService(active:boolean, locId:string) {
         this.contentService.activateLocation(active, locId)
-            .finally(() => {!active? this.bsModalRef.hide():''})
+            .pipe(
+            finalize(() => {!active? this.bsModalRef.hide():''}))
             .subscribe(
                 result => {
                     if(result.code == 0) {
@@ -233,7 +237,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         // let location: Location = this.locations.find(loc => loc.locId == locId);
 
         this.contentService.deleteLocation(locId)
-            .finally(() => { this.bsModalRef.hide() })
+            .pipe(
+            finalize(() => { this.bsModalRef.hide() }))
             .subscribe(
                 result => {
                     if (result.code == 0) {

@@ -10,7 +10,6 @@ import {SetupComponent} from "./app-config/setup/setup.component";
 import {AppConfigService} from "./app-config/services/app-config.service";
 import {GeoMapService} from "../../service/geo-map.service";
 import {AddAttendeesComponent} from "./app-config/add-attendees/add-attendees.component";
-import {DataTableModule} from "angular2-datatable";
 import {ManageAttendeesComponent} from './manage-attendees/manage-attendees.component';
 import {ReportDashboardComponent} from './report-dashboard/report-dashboard.component';
 import {CustomReportComponent} from './custom-report/custom-report.component';
@@ -32,6 +31,7 @@ import {QuickReportComponent} from './report-dashboard/quick-report/quick-report
 import {MetabaseReportComponent} from './report-dashboard/analytics/analytics.component';
 import {ConfirmLocationComponent} from './confirm-location/confirm-location.component';
 import {ManageScheduleComponent} from './manage-schedule/manage-schedule.component';
+import {DataTableModule} from "@cmglez10/ng-datatable";
 
 @NgModule({
     imports: [

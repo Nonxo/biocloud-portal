@@ -8,6 +8,7 @@ import {ApproveRequest, Invitation} from "../model/app-content.model";
 import {MessageService} from "../../../service/message.service";
 import {ConfirmLocationComponent} from "../confirm-location/confirm-location.component";
 import {ModalOptions} from "ngx-bootstrap";
+import {finalize} from "rxjs/internal/operators";
 
 
 @Component({
@@ -85,9 +86,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this.mService.setDisplay(true)
 
         this.contentService.fetchNotification(this.orgId)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.mService.setDisplay(false)
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {

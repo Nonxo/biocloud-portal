@@ -4,7 +4,7 @@
 
 
 import {Injectable} from "@angular/core";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Endpoints} from "../../../util/endpoints";
 import {DaysPresentRequest, ReportModel} from "../model/app-content.model";

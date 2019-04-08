@@ -13,6 +13,7 @@ import {DateUtil} from "../../../util/DateUtil";
 import {MyDateAdapter} from "../../../util/adapters/date-adapter";
 import {DateAdapter} from "@angular/material";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
+import {finalize} from "rxjs/internal/operators";
 
 
 @Component({
@@ -107,10 +108,11 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
 
         this.mService.setDisplay(true);
         this.reportService.fetchDailyReport(this.reportModel)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.reportModel.export = false;
                 this.mService.setDisplay(false);
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {

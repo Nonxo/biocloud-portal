@@ -1,17 +1,18 @@
-import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { AuthService } from "../../../components/auth/auth.service";
-import { Router } from "@angular/router";
-import { NotifyService } from "../../../service/notify.service";
-import { StorageService } from "../../../service/storage.service";
-import { UpdateProfile } from "../model/app-content.model";
-import { PictureUtil } from "../../../util/PictureUtil";
-import { AppContentService } from "../services/app-content.service";
-import { DataService } from "../../../service/data.service";
-import { BsModalRef, BsModalService } from "ngx-bootstrap";
-import { TranslateService } from "@ngx-translate/core";
-import { MessageService } from "../../../service/message.service";
-import { environment } from "../../../../environments/environment";
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AuthService} from "../../../components/auth/auth.service";
+import {Router} from "@angular/router";
+import {NotifyService} from "../../../service/notify.service";
+import {StorageService} from "../../../service/storage.service";
+import {UpdateProfile} from "../model/app-content.model";
+import {PictureUtil} from "../../../util/PictureUtil";
+import {AppContentService} from "../services/app-content.service";
+import {DataService} from "../../../service/data.service";
+import {BsModalRef, BsModalService} from "ngx-bootstrap";
+import {TranslateService} from "@ngx-translate/core";
+import {MessageService} from "../../../service/message.service";
+import {environment} from "../../../../environments/environment";
+import {finalize} from "rxjs/internal/operators";
 
 
 @Component({
@@ -155,9 +156,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
     fetchUser() {
         this.mService.setDisplay(true);
         this.contentService.retrieveUser(this.userId)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.mService.setDisplay(false)
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -249,10 +251,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.loading = true;
 
         this.contentService.updateProfile(this.userId, this.tmpModel)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
 
                 this.loading = false;
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {

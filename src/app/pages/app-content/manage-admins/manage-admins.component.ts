@@ -7,6 +7,7 @@ import {AssignAdminRequest, InviteRequest} from "../app-config/model/app-config.
 import {AppConfigService} from "../app-config/services/app-config.service";
 import {AdminRemovalRequest, UserPaginationPojo} from "../model/app-content.model";
 import {MessageService} from "../../../service/message.service";
+import {finalize} from "rxjs/internal/operators";
 
 @Component({
     selector: 'app-manage-admins',
@@ -55,9 +56,10 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
     fetchAdminUsers() {
         this.mService.setDisplay(true);
         this.contentService.fetchUsersInAnOrg(this.ss.getSelectedOrg().orgId, this.pagObj)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.mService.setDisplay(false)
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -150,9 +152,10 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
 
         this.loading = true;
         this.configService.inviteAttendees(this.inviteRequest)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.loading = false;
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -249,10 +252,11 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
 
         this.loading = true;
         this.contentService.removeAdmin(this.adminRemovalRequest)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.selAll = false;
                 this.loading = false;
-            })
+            }))
             .subscribe(
                 result => {
                     let res: any = result;
@@ -281,9 +285,10 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
 
         this.loading = true;
         this.configService.assignAdmins(this.assignAdminRequest)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.loading = false;
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {

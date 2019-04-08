@@ -9,6 +9,7 @@ import {GeoMapService} from "../../../../../../service/geo-map.service";
 import {DateUtil} from '../../../../../../util/DateUtil';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {Router} from "@angular/router";
+import {finalize} from "rxjs/internal/operators";
 
 @Component({
     selector: 'app-create-location',
@@ -301,9 +302,10 @@ export class CreateLocationComponent implements OnInit {
 
         // noinspection TypeScriptValidateTypes,TypeScriptUnresolvedFunction
         this.aService.saveLocation(this.locRequest)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.loading = false;
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -329,9 +331,10 @@ export class CreateLocationComponent implements OnInit {
     editLocation() {
         this.loading = true;
         this.aService.editLocation(this.locRequest)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.loading = false;
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -703,7 +706,8 @@ export class CreateLocationComponent implements OnInit {
     invite() {
         this.loading = true;
         this.configService.inviteAttendees(this.inviteRequest)
-            .finally(() => {this.loading = false;})
+            .pipe(
+            finalize(() => {this.loading = false;}))
             .subscribe(
                 result => {
                     if (result.code == 0) {

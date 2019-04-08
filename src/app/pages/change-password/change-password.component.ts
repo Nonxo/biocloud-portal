@@ -1,3 +1,4 @@
+import {finalize} from 'rxjs/operators';
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {AuthService} from "../../components/auth/auth.service";
 import {StorageService} from "../../service/storage.service";
@@ -58,8 +59,8 @@ export class ChangePasswordComponent implements OnInit {
         const payload = this.changePasswordForm.value;
         this.formGroupDirective.resetForm();
 
-        this.authService.changePassword(this.email, payload.oldPw, payload.newPw)
-            .finally(() => {this.loading = false;})
+        this.authService.changePassword(this.email, payload.oldPw, payload.newPw).pipe(
+            finalize(() => {this.loading = false;}))
             .subscribe(
                 res => {
                     if (this.profilePage) {

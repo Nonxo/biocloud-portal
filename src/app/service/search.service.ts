@@ -1,6 +1,9 @@
+import {map} from 'rxjs/operators';
 import {Injectable} from "@angular/core";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
 import {StorageService} from "./storage.service";
+import {debounceTime, distinctUntilChanged} from 'rxjs/internal/operators';
+
 /**
  * Created by Kingsley Ezeokeke on 3/4/2018.
  */
@@ -14,9 +17,9 @@ export class SearchService {
 
     search(terms:Observable<any>) {
         //noinspection TypeScriptValidateTypes
-        return terms.debounceTime(100)
-            .distinctUntilChanged()
-            .map(term => this.searchOrgs(term.searchValue, term.searchType));
+        return terms.pipe(debounceTime(100))
+            .pipe(distinctUntilChanged()).pipe(
+            map(term => this.searchOrgs(term.searchValue, term.searchType)));
     }
 
     searchOrgs(term:any, type:string) {

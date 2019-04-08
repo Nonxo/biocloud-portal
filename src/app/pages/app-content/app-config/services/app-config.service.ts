@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
 import {Endpoints} from "../../../../util/endpoints";
 import {AssignAdminRequest, InviteRequest, LocationRequest, SupportMailRequest} from "../model/app-config.model";
 import {StorageService} from "../../../../service/storage.service";

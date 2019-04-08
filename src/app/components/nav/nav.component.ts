@@ -15,13 +15,14 @@ import {
 import {MessageService} from "../../service/message.service";
 import {InviteRequest} from "../../pages/app-content/app-config/model/app-config.model";
 import {SearchService} from "../../service/search.service";
-import {Subject} from "rxjs/Subject";
+import {Subject} from "rxjs";
 import {AuthService} from "../auth/auth.service";
 import {PictureUtil} from "../../util/PictureUtil";
 import {SubscriptionService} from "../../pages/app-content/services/subscription.service";
 import {DateUtil} from "../../util/DateUtil";
 import {SubscriptionMode} from "../../pages/app-content/enums/enums";
 import {ConfirmLocationComponent} from "../../pages/app-content/confirm-location/confirm-location.component";
+import {finalize} from "rxjs/internal/operators";
 
 declare const gapi: any;
 
@@ -478,7 +479,7 @@ export class NavComponent implements OnInit, OnDestroy {
     callUsersOrgService() {
         this.mService.setDisplay(true);
         this.contentService.fetchUsersOrg()
-            .finally(() => {this.mService.setDisplay(false)})
+            .pipe(finalize(() => {this.mService.setDisplay(false)}))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -546,9 +547,10 @@ export class NavComponent implements OnInit, OnDestroy {
 
     callOrgCreationService() {
         this.contentService.createOrg(this.orgRequest)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.loading = false;
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -572,10 +574,11 @@ export class NavComponent implements OnInit, OnDestroy {
 
     callOrgEditService() {
         this.contentService.updateOrg(this.orgRequest)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.hoverState = false;
                 this.loading = false;
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {

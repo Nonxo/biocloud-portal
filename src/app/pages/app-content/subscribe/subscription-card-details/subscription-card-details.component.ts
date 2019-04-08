@@ -6,6 +6,7 @@ import {MessageService} from "../../../../service/message.service";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {VerifyPaymentRequest} from "../../model/app-content.model";
 import {SubscriptionMode} from "../../enums/enums";
+import {finalize} from "rxjs/internal/operators";
 
 declare function getpaidSetup(data): void;
 declare var PaystackPop: any;
@@ -68,9 +69,10 @@ export class SubscriptionCardDetailsComponent implements OnInit {
     fetchCards() {
         this.mService.setDisplay(true);
         this.subService.fetchCards(this.orgId)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.mService.setDisplay(false);
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -85,9 +87,10 @@ export class SubscriptionCardDetailsComponent implements OnInit {
 
     deleteCard() {
         this.subService.deleteCard(this.orgId)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.modalRef.hide()
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -110,10 +113,11 @@ export class SubscriptionCardDetailsComponent implements OnInit {
     generateTransactionRef() {
         this.loading = true;
         this.subService.generateTransactionRef(this.orgId, this.getPrice(), this.selectedCurrency, this.planId, "ADD_CARD")
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.loading = false;
                 this.modalRef.hide();
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -212,9 +216,10 @@ export class SubscriptionCardDetailsComponent implements OnInit {
 
         this.mService.setDisplay(true);
         this.subService.verifyPayment(new VerifyPaymentRequest(txRef, null, autoRenew, this.orgId, null, "ADD_CARD",0, null, 0))
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.mService.setDisplay(false);
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {

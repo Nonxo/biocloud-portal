@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {
-    AttendanceStatusRequest, AttendeesPOJO, DateColumn, DaysPresentRequest,
+    AttendanceStatusRequest,
+    AttendeesPOJO,
+    DateColumn,
+    DaysPresentRequest,
     ReportModel
 } from "../../model/app-content.model";
 import {ReportService} from "../../services/report.service";
@@ -12,9 +15,9 @@ import {DataService} from "../../../../service/data.service";
 import {Router} from "@angular/router";
 import {MessageService} from "../../../../service/message.service";
 import {DateUtil} from "../../../../util/DateUtil";
-import {Subject} from 'rxjs';
 import {SearchService} from "../../../../service/search.service";
 import * as FileSaver from "file-saver";
+import {finalize} from "rxjs/internal/operators";
 
 @Component({
     selector: 'app-quick-report',
@@ -200,7 +203,7 @@ export class QuickReportComponent implements OnInit {
 
         for (let i = 0; i < this.employees.length; i++) {
 
-            for (let j = 0; j < weeks; i++) {
+            for (let j = 0; j < weeks; j++) {
                 this.employees[i]['weeks'] = [];
                 this.employees[i].weeks.push({
                     id: j,
@@ -261,9 +264,10 @@ export class QuickReportComponent implements OnInit {
     fetchAttendees() {
         this.mService.setDisplay(true);
         this.contentService.fetchAttendees(this.attendeePOJO)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.mService.setDisplay(false);
-            })
+            }))
             .subscribe(
                 result => {
                     this.employees = result.attendees? result.attendees:[];

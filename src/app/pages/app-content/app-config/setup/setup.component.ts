@@ -11,6 +11,7 @@ import {DateUtil} from "../../../../util/DateUtil";
 import {MessageService} from "../../../../service/message.service";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {TranslateService} from "@ngx-translate/core";
+import {finalize} from "rxjs/internal/operators";
 
 @Component({
     selector: 'app-setup',
@@ -351,9 +352,10 @@ export class SetupComponent implements OnInit, OnDestroy {
 
     editLocation() {
         this.aService.editLocation(this.locRequest)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.loading = false;
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -374,9 +376,10 @@ export class SetupComponent implements OnInit, OnDestroy {
 
         // noinspection TypeScriptValidateTypes,TypeScriptUnresolvedFunction
         this.aService.saveLocation(this.locRequest)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.loading = false;
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {

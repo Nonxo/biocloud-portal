@@ -9,6 +9,7 @@ import {isNullOrUndefined} from "util";
 import {ReportService} from "../services/report.service";
 import {DateUtil} from "../../../util/DateUtil";
 import {StorageService} from "../../../service/storage.service";
+import {finalize} from "rxjs/internal/operators";
 
 @Component({
     selector: 'app-employee-overview',
@@ -95,9 +96,10 @@ export class EmployeeOverviewComponent implements OnInit, OnDestroy {
 
 
         this.contentService.fetchAttendees(this.attendeePOJO)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.mService.setDisplay(false);
-            })
+            }))
             .subscribe(
                 result => {
                     this.created = result.attendees? result.attendees[0].created:null;

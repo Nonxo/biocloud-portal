@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {NotifyService} from "../../../../service/notify.service";
 import {MessageService} from "../../../../service/message.service";
 import {AppContentService} from "../../services/app-content.service";
+import {finalize} from "rxjs/internal/operators";
 
 @Component({
     selector: 'app-employees-report',
@@ -55,9 +56,10 @@ export class EmployeesReportComponent implements OnInit {
     fetchUserReport() {
         this.mService.setDisplay(true);
         this.reportService.fetchUserDailyReport(this.orgId, this.userEmail, this.locId, this.startDateTimestamp, this.endDateTimestamp)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.mService.setDisplay(false);
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {

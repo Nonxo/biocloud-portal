@@ -8,6 +8,7 @@ import {TranslateService} from "@ngx-translate/core";
 import * as FileSaver from 'file-saver';
 import {BsModalRef} from "ngx-bootstrap/index";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
+import {finalize} from "rxjs/internal/operators";
 
 @Component({
     selector: 'app-add-attendees',
@@ -82,7 +83,8 @@ export class AddAttendeesComponent implements OnInit {
 
     invite() {
         this.configService.inviteAttendees(this.inviteRequest)
-            .finally(() => {this.loading = false;})
+            .pipe(
+            finalize(() => {this.loading = false;}))
             .subscribe(
                 result => {
                     if (result.code == 0) {
