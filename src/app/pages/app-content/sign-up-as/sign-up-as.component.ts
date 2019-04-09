@@ -6,7 +6,7 @@ import {StorageService} from "../../../service/storage.service";
 import {Router} from "@angular/router";
 import {PictureUtil} from "../../../util/PictureUtil";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
-import {ImageCroppedEvent} from 'ngx-image-cropper/src/image-cropper.component';
+import {ImageCroppedEvent} from "ngx-image-cropper";
 
 @Component({
     selector: 'app-sign-up-as',
