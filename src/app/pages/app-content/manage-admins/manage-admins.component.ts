@@ -56,7 +56,7 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
     }
 
     onDone() {
-        this.router.navigate(['/auth']);
+        this.router.navigate(['/portal']);
     }
 
 
