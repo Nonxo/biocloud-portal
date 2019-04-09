@@ -55,6 +55,7 @@ import {ImageCropperModule} from "ngx-image-cropper";
 import {CreateLocationComponent} from "../pages/app-content/app-config/setup/onboarding/create-location/create-location.component";
 import {WizardStepperComponent} from "../components/wizard-stepper/wizard-stepper.component";
 import {SignUpAsComponent} from "../pages/app-content/sign-up-as/sign-up-as.component";
+import {JoyrideModule} from "ngx-joyride";
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -100,6 +101,7 @@ export function createTranslateLoader(http: HttpClient) {
         MatNativeDateModule,
         ReactiveFormsModule,
         RouterModule,
+        JoyrideModule.forRoot(),
         ModalModule.forRoot(),
         PopoverModule.forRoot(),
         CarouselModule.forRoot(),
@@ -173,7 +175,8 @@ export function createTranslateLoader(http: HttpClient) {
         ImageCropperModule,
         CreateLocationComponent,
         WizardStepperComponent,
-        SignUpAsComponent
+        SignUpAsComponent,
+        JoyrideModule
 
     ],
     declarations: [NavComponent, SetupComponent, EllipsisPipe, AddAttendeesComponent, HasAuthorityDirective, LoadingComponent, ChangePasswordComponent, CreateLocationComponent, WizardStepperComponent, SignUpAsComponent]
