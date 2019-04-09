@@ -8,6 +8,7 @@ import {AppConfigService} from "../app-config/services/app-config.service";
 import {AdminRemovalRequest, UserPaginationPojo} from "../model/app-content.model";
 import {MessageService} from "../../../service/message.service";
 import {finalize} from "rxjs/internal/operators";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-manage-admins',
@@ -40,7 +41,8 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
         private ns: NotifyService,
         private modalService: BsModalService,
         private configService: AppConfigService,
-        private mService: MessageService) {
+        private mService: MessageService,
+        private router: Router) {
     }
 
     ngOnInit() {
@@ -52,6 +54,11 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
 
         this.callLocationService();
     }
+
+    onDone() {
+        this.router.navigate(['/portal']);
+    }
+
 
     fetchAdminUsers() {
         this.mService.setDisplay(true);
