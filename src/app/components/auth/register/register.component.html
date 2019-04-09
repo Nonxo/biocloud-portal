@@ -59,9 +59,8 @@
                                 <input type="text" pattern="^([A-Za-z0-9\S]{6,})" class="form-control w-100"
                                     name="password" #pw="ngModel" [(ngModel)]="password" (keyup)="validatePassword()"
                                     placeholder="Enter password here" [type]="show ? 'text' : 'password'" passwordToggle required>
-                                <p class="small text-muted px-1 pt-1">(6 characters minimum, must not contain spaces)
-                                </p>
-                                <p class="small text-danger px-1 pt-1" style="margin-top: -25px" *ngIf="passwordError">
+                                <p *ngIf="!passwordError" class="small text-muted px-1 pt-1">(6 characters minimum, must not contain spaces)</p>
+                                <p class="small text-danger px-1 pt-1" *ngIf="passwordError">
                                     {{passwordError}}</p>
                             </div>
                         </div>
@@ -72,8 +71,8 @@
                                 <input type="text" class="form-control w-100" #fName="ngModel" placeholder="Full Name *"
                                     name="fullName" [(ngModel)]="fullName" (keyup)="validateNameField()"
                                     pattern="^([a-zA-Z]{1,}'?-?[a-zA-Z]{1,}?\s[a-zA-Z]{1,}'?-?[a-zA-Z]{1,}?)" required>
-                                <p class="small text-muted px-1 pt-1">(Firstname & Lastname Only)</p>
-                                <p class="small text-danger px-1 pt-1" style="margin-top: -25px" *ngIf="nameError">
+                                <p *ngIf="!nameError" class="small text-muted px-1 pt-1">(Firstname & Lastname Only)</p>
+                                <p class="small text-danger px-1 pt-1" *ngIf="nameError">
                                     {{nameError}}</p>
                             </div>
                         </div>
@@ -204,7 +203,6 @@
                     <div class="form-group">
                         <input type="text" [(ngModel)]="orgCode" class="form-control w-100"
                             pattern="[^@\s]+@[^@\s]+\.[^@\s]+" placeholder="Enter company code" required>
-                        <p class="small px-1 pt-1">A 3 letter and 4 digit code unique to a company</p>
                     </div>
                 </div>
 
