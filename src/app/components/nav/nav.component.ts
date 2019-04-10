@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild, AfterViewInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {BsModalRef, BsModalService, ModalOptions} from "ngx-bootstrap/index";
 import {StorageService} from "../../service/storage.service";
@@ -23,6 +23,7 @@ import {DateUtil} from "../../util/DateUtil";
 import {SubscriptionMode} from "../../pages/app-content/enums/enums";
 import {ConfirmLocationComponent} from "../../pages/app-content/confirm-location/confirm-location.component";
 import {finalize} from "rxjs/internal/operators";
+import { JoyrideService } from "ngx-joyride";
 
 declare const gapi: any;
 
@@ -108,6 +109,7 @@ export class NavComponent implements OnInit, OnDestroy {
     range: any[] = [];
     employeeRangeUpperLimit:any;
     modalOptions:ModalOptions = new ModalOptions();
+    @ViewChild("joyRide") joyRide: TemplateRef<any>;
 
     constructor(private router: Router,
                 private authService: AuthService,
@@ -119,7 +121,8 @@ export class NavComponent implements OnInit, OnDestroy {
                 private pictureUtil: PictureUtil,
                 private searchService: SearchService,
                 private subService: SubscriptionService,
-                private dateUtil: DateUtil) {
+                private dateUtil: DateUtil,
+                private readonly joyrideService: JoyrideService) {
 
         if (this.router.url == "/portal") {
             this.activeClass = "active";
@@ -209,6 +212,33 @@ export class NavComponent implements OnInit, OnDestroy {
         this.onResizeByWindowScreen();
         this.callNotificationService();
     }
+
+    ngAfterViewInit() {
+        if (window.screen.width >= 1025) {
+            this.openModal(this.joyRide);
+        }
+    }
+
+    // start joyride
+    startJoyride() {
+        this.joyrideService.startTour(
+            {
+                steps: [
+                    "navBar",
+                    "companyInfo",
+                    "home@/auth",
+                    "location@/auth",
+                    "employees@portal/manage-users",
+                    "quickReport@/portal/quick-report",
+                    "reportDashboard@/portal/report-dashboard",
+                    "admin@/portal/manage-admins"
+                ]
+            } // Your steps order
+        );
+        this.modalRef.hide();
+    }
+
+
 
     fetchCompanyType() {
         if (this.ss.getCompanyType() && this.ss.getCompanyType().length > 0) {

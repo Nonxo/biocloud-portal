@@ -1,6 +1,7 @@
 @import '~@angular/material/theming';
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin,latin-ext,vietnamese);
-$font-stack: Open Sans, sans-serif;
+$font-stack: Open Sans,
+sans-serif;
 $custom-typography: mat-typography-config( $font-family: $font-stack);
 @include mat-core($custom-typography);
 $mat-mcprimary: ( 50: #ece7f0, 100: #cfc2da, 200: #b09ac2, 300: #9071a9, 400: #785296, 500: #603484, 600: #582f7c, 700: #4e2771, 800: #442167, 900: #331554, A100: #c18fff, A200: #a55cff, A400: #8929ff, A700: #7b0fff, contrast: ( 50: #000000, 100: #000000, 200: #000000, 300: #000000, 400: #ffffff, 500: #ffffff, 600: #ffffff, 700: #ffffff, 800: #ffffff, 900: #ffffff, A100: #000000, A200: #000000, A400: #ffffff, A700: #ffffff, ));
@@ -382,5 +383,38 @@ tbody>tr>td {
     background-color: #fff;
     border-color: none !important;
     outline: 0;
+    box-shadow: none !important;
+}
+
+//intro js
+.joyride-step__title {
+    color: #603484 !important;
+    font-weight: normal !important;
+    text-align: center !important;
+}
+
+.joyride-step__body {
+    padding: 10px 10px !important;
+    font-weight: normal !important;
+    color: #58595a !important;
+}
+
+.joyride-backdrop {
+    background-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+button.joyride-button {
+    background: transparent !important;
+    color: mat-color($candy-app-primary) !important;
+    border: none !important;
+    font-weight: 600 !important;
+}
+
+.joyride-step__counter {
+    font-weight: normal !important;
+    font-size: 13px !important;
+}
+
+.joyride-step__container {
     box-shadow: none !important;
 }

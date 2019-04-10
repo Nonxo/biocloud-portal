@@ -1,7 +1,7 @@
 <mat-sidenav-container autosize>
 
     <mat-sidenav #sidenav mode="{{sideNavMode}}" [opened]="opener" [ngStyle]="{ 'width.em': sidenavWidth }">
-        <div class="nav-header d-md-block d-none">
+        <div class="nav-header d-md-block d-none"  joyrideStep="navBar" title="The iClocker Nav-bar" text="The Side bar is a Navigation Tool on iClocker made available to get to every page on the app" stepPosition="right">
             <div class="py-4 pb-0 px-3">
                 <img src="assets/img/logo-img.png" class="img-fluid logo-icon" *ngIf="sidenavWidth >= 15" style="max-height:50px;" />
                 <img src="assets/img/logo-icon.png" class="img-fluid logo-icon" *ngIf="sidenavWidth < 15" />
@@ -9,7 +9,7 @@
         </div>
 
 
-        <div class="container-fluid px-0" (clickOutside)="onClickedOutside($event)">
+        <div class="container-fluid px-0" (clickOutside)="onClickedOutside($event)" joyrideStep="companyInfo" title="Company Info" text="The Company name, logo and company code are dispalyed at the top corner of the navigation bar. Clicking the dropdown gives you access to add new companies to your profile or switch between different companies on your profile" stepPosition="right">
             <a role="button" (click)="createOrg(template)" *ngIf="orgs.length == 0 && !selectedOrg.orgId">
                 <div class="cursor border-top">
                     <small>
@@ -415,4 +415,26 @@
         </div>
     </div>
 
+</ng-template>
+
+
+<!--joyride modal-->
+<ng-template #joyRide>
+    <!--<div class="modal-header">-->
+        <!--<h4 class="modal-title pull-left">Modal</h4>-->
+        <!--<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">-->
+            <!--<span aria-hidden="true">&times;</span>-->
+        <!--</button>-->
+    <!--</div>-->
+    <div class="modal-body py-4">
+        <h5 class="text-center font-weight-normal text-brand">Welcome to iClocker Dashboard</h5>
+        <p style="font-weight: 600" class="small text-center py-2">This tutorial is filled with dummy data to show how your data will be represented when you start using iclocker fully</p>
+
+        <div class="col-md-12 text-right">
+            <div class="d-inline-flex">
+            <p class="text-secondary cursor my-auto pr-3" style="font-size: 14px" (click)="modalRef.hide()">Skip</p>
+            <button class="btn btn-primary cursor" style="font-size: 14px" (click)="startJoyride()">Start</button>
+            </div>
+        </div>
+    </div>
 </ng-template>
