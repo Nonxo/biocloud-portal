@@ -74,7 +74,7 @@
 
                         <div class="form-group mb-0">
                             <select class="form-control" name="selectedYear" [(ngModel)]="selectedYear" (change)="onFilterToggle()">
-                                    <option selected>Select Year</option>
+                                    <option value ="null">Select Year</option>
                                                                 <option value="{{year}}" *ngFor="let year of years">{{year}}</option>
                                                             </select>
                         </div>
@@ -90,7 +90,7 @@
 
                         <div class="form-group mb-0">
                             <select placeholder="Select Month" class="form-control" name="selectedMonth" [(ngModel)]="selectedMonth" (change)="onFilterToggle()">
-                                    <option selected>Select Month</option>
+                                    <option value="null">Select Month</option>
                                                                         <option value="{{month.id}}" *ngFor="let month of months">{{month.name}}</option>
                                                                     </select>
                         </div>
@@ -105,8 +105,8 @@
                     <div class="col-md-2 col-lg-2 px-md-3 px-0" *ngIf="statPeriod == 'OTHER_WEEKS'">
 
                         <div class="form-group mb-0">
-                            <select class="form-control" name="week" [(ngModel)]="selectedWeek" (change)="onWeekFilter()">
-                                    <option selected>Select Week</option>
+                            <select class="form-control" name="week" [(ngModel)]="selectedWeek" (change)="onFilterToggle()">
+                                    <option value="null">Select Week</option>
                                                                                 <option value="{{week.id}}" *ngFor="let week of weeks">{{week.title}}</option>
                                                                             </select>
                         </div>

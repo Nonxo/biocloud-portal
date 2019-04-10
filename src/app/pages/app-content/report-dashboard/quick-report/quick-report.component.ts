@@ -372,9 +372,10 @@ export class QuickReportComponent implements OnInit {
     }
 
     onFilterToggle() {
+        debugger;
         switch(this.statPeriod) {
             case 'OTHER_WEEKS':
-                if(this.selectedMonth && this.selectedYear) {
+                if((this.selectedMonth && !isNaN(this.selectedMonth)) && (this.selectedYear &&!isNaN(this.selectedYear))) {
                     let weekInaMonth = this.dateUtil.weeksInAmonth(this.selectedMonth, this.selectedYear);
 
                     this.weeks = [];
@@ -384,12 +385,14 @@ export class QuickReportComponent implements OnInit {
                     }
                 }
 
-                if(this.selectedMonth && this.selectedYear && this.selectedWeek) {
+                if((this.selectedMonth && !isNaN(this.selectedMonth)) &&
+                    (this.selectedYear &&!isNaN(this.selectedYear)) &&
+                    (this.selectedWeek && !isNaN(this.selectedWeek))) {
                     this.onWeekFilter();
                 }
                 break;
             case 'OTHER_MONTHS':
-                if(this.selectedMonth && this.selectedYear) {
+                if((this.selectedMonth && !isNaN(this.selectedMonth)) && (this.selectedYear &&!isNaN(this.selectedYear))) {
                     let firstDateOfTheMonth = this.dateUtil.getFirstDayOfCurrentMonth(new Date(this.selectedYear, this.selectedMonth, 0));
 
 
@@ -410,17 +413,20 @@ export class QuickReportComponent implements OnInit {
     }
 
     onWeekFilter() {
-        let firstDateOfTheWeek = this.dateUtil.getFirstDayOfAweek(this.selectedYear, this.selectedMonth, this.selectedWeek);
+        if(!isNaN(this.selectedWeek)) {
+            let firstDateOfTheWeek = this.dateUtil.getFirstDayOfAweek(this.selectedYear, this.selectedMonth, this.selectedWeek);
 
 
-        let firstDay = this.dateUtil.getFirstDayOfCurrentWeek(firstDateOfTheWeek);
-        let lastDay = this.dateUtil.getLastDayOfCurrentWeek(firstDateOfTheWeek);
+            let firstDay = this.dateUtil.getFirstDayOfCurrentWeek(firstDateOfTheWeek);
+            let lastDay = this.dateUtil.getLastDayOfCurrentWeek(firstDateOfTheWeek);
 
-        this.startRange = firstDay.getTime();
-        this.endRange = lastDay.getTime();
+            this.startRange = firstDay.getTime();
+            this.endRange = lastDay.getTime();
 
 
-        this.fetchAttendeesCount();
+            this.fetchAttendeesCount();
+        }
+
     }
 
     search() {
