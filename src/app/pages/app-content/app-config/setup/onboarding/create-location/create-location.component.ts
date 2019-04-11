@@ -630,6 +630,10 @@ export class CreateLocationComponent implements OnInit {
                     if (result.code == 0) {
                         let timezones: string[] = result.timeZonesId;
                         this.locRequest.resumptionTimezoneId = timezones.filter(tzs => tzs.includes(stateName))[0];
+
+                        if (!this.locRequest.resumptionTimezoneId) {
+                            this.locRequest.resumptionTimezoneId = timezones[0];
+                        }
                     }
                 },
                 error => {
