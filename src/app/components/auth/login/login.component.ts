@@ -140,7 +140,7 @@ export class LoginComponent implements OnInit,OnDestroy {
             .subscribe(
                 res => {
                     if (res.code == 0) {
-                        this.ns.showSuccess(res.description);
+                        this.ns.showSuccess("Email sent successfully");
                         this.modalRef.hide();
                     } else {
                         this.ns.showError(res.description);
