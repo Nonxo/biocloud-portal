@@ -96,6 +96,7 @@ export class LoginComponent implements OnInit,OnDestroy {
         const payload = this.loginForm.value;
         this.modalOptions.initialState = {
             email: payload.email,
+            oldPw: payload.pw,
             response: res
 
         };
