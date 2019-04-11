@@ -13,13 +13,16 @@
                             <div class="col-xl col-lg-4 col-md-5 pr-lg-0">
                                 <div class="form-group">
                                     <!-- <label>Email address</label> -->
-                                    <input type="email" class="form-control w-100" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" (keyup)="validateEmailAddress()" placeholder="you@emailprovider.com" formControlName="email" required>
+                                    <input type="email" class="form-control w-100" pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+                                        (keyup)="validateEmailAddress()" placeholder="you@emailprovider.com"
+                                        formControlName="email" required>
                                     <p class="small text-danger px-1 pt-1" *ngIf="emailError">{{emailError}}</p>
                                 </div>
                             </div>
 
                             <div class="col-xl-auto col-lg-2 col-md-2">
-                                <button mat-raised-button color="primary" class="rounded px-5 getStartedBtn" type="submit" [disabled]="emailError">
+                                <button mat-raised-button color="primary" class="rounded px-5 getStartedBtn"
+                                    type="submit" [disabled]="emailError">
                                     <span *ngIf="!loading">Get Started</span>
                                     <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;" />
                                 </button>
@@ -36,12 +39,12 @@
 
 
 <ng-container *ngIf="step == 2">
-    <h3 class="text-center">Create Password & Personal Details</h3>
-    <p class="small text-center">Please fill details you can be recognised with by your Teammates</p>
+    <h3 class="text-center font-weight-bold">Complete <br> Personal Information</h3>
+    <p class="small text-center">Continue account creation by completing the form below</p>
 
     <!-- <p class="small">Create a password for your account with at least 6 <br> characters</p> -->
 
-    <form class="pt-2" #f="ngForm" (ngSubmit)="changeStep()" ngNativeValidate>
+    <form class="pt-2 form-width mx-auto" #f="ngForm" (ngSubmit)="changeStep()" ngNativeValidate>
         <div class="container-fluid">
             <div class="row">
                 <div class="custom-col-md-2"></div>
@@ -52,26 +55,34 @@
                         <div class="col-md-12 px-0">
 
                             <div class="form-group">
-                                <label class="text-success small font-weight-bold">{{email}}</label>
-                                <input type="text" pattern="^([a-zA-Z0-9 @*#]{6,20})" class="form-control w-100" name="password" #pw="ngModel" [(ngModel)]="password" placeholder="Enter password here" [type]="show ? 'text' : 'password'" required>
-                                <p class="small text-muted px-1 pt-1">(6 characters minimum)</p>
-                                <!-- <p class="small text-danger px-1 pt-1" *ngIf="form.controls['password'].errors && form.touched">Must be at least 6 characters and no special characters allowed</p> -->
+                                <label class="text-success small font-weight-bold" [innerHTML]="email">-</label>
+                                <input type="text" pattern="^([A-Za-z0-9\S]{6,})" class="form-control w-100"
+                                    name="password" #pw="ngModel" [(ngModel)]="password" (keyup)="validatePassword()"
+                                    placeholder="Enter password here" [type]="show ? 'text' : 'password'" passwordToggle required>
+                                <p *ngIf="!passwordError" class="small text-muted px-1 pt-1">(6 characters minimum, must not contain spaces)</p>
+                                <p class="small text-danger px-1 pt-1" *ngIf="passwordError">
+                                    {{passwordError}}</p>
                             </div>
                         </div>
                         <div class="col-md-12 px-0">
 
                             <div class="form-group">
                                 <!-- <label class="text-success small font-weight-bold">You@emailprovider.com</label> -->
-                                <input type="text" class="form-control w-100" #fName="ngModel" placeholder="Full Name *" name="fullName" [(ngModel)]="fullName" (keyup)="validateNameField()" pattern="^([a-zA-Z]{1,}'?-?[a-zA-Z]{1,}?\s[a-zA-Z]{1,}'?-?[a-zA-Z]{1,}?)" required>
-                                <p class="small text-muted px-1 pt-1">(Firstname & Lastname Only)</p>
-                                <p class="small text-danger px-1 pt-1" style="margin-top: -25px" *ngIf="nameError">{{nameError}}</p>
+                                <input type="text" class="form-control w-100" #fName="ngModel" placeholder="Full Name *"
+                                    name="fullName" [(ngModel)]="fullName" (keyup)="validateNameField()"
+                                    pattern="^([a-zA-Z]{1,}'?-?[a-zA-Z]{1,}?\s[a-zA-Z]{1,}'?-?[a-zA-Z]{1,}?)" required>
+                                <p *ngIf="!nameError" class="small text-muted px-1 pt-1">(Firstname & Lastname Only)</p>
+                                <p class="small text-danger px-1 pt-1" *ngIf="nameError">
+                                    {{nameError}}</p>
                             </div>
                         </div>
 
-                        <div class="col-md-3 pl-0 pr-md-3 pr-0" (clickOutside)="onClickedOutside($event)">
+                        <div class="col-md-4 pl-0 pr-md-3 pr-0" (clickOutside)="onClickedOutside($event)">
                             <div class="cursor text-center form-control py-2 d-inline-flex" (click)="showDd()">
-                                <i *ngIf="selectedCountryCode" class="form-control d-inline-flex cursor sprite {{selectedCountryCode.toLowerCase()}}"></i>
-                                <p class="small mb-0 pl-2">{{selectedPhoneCode.charAt(0) == "+"? selectedPhoneCode: "+" + selectedPhoneCode}}
+                                <i *ngIf="selectedCountryCode"
+                                    class="form-control d-inline-flex cursor sprite {{selectedCountryCode.toLowerCase()}}"></i>
+                                <p class="small mb-0 pl-2">
+                                    {{selectedPhoneCode.charAt(0) == "+"? selectedPhoneCode: "+" + selectedPhoneCode}}
                                 </p>
                             </div>
 
@@ -80,38 +91,49 @@
                                 <ul class="list-unstyled">
                                     <li class="media sticky-search">
                                         <mat-form-field class="w-100" floatPlaceholder="never">
-                                            <input matInput placeholder="Search Country" class="company-search" autocomplete="nope" type="text" name="searchField" [(ngModel)]="searchField" (keyup)="search($event.target.value)">
+                                            <input matInput placeholder="Search Country" class="company-search"
+                                                autocomplete="nope" type="text" name="searchField"
+                                                [(ngModel)]="searchField" (keyup)="search($event.target.value)">
                                             <mat-icon matSuffix class="cursor">search</mat-icon>
                                         </mat-form-field>
                                     </li>
-                                    <li class="media pb-2 cursor" *ngFor="let country of filteredCountries" value="{{country.code}}" (click)="onSelectChange(country)">
-                                        <i class="sprite {{country.code.toLowerCase()}} d-inline-flex mr-3 ml-2" style="max-width: 33px"></i> {{country.name}}
+                                    <li class="media pb-2 cursor" *ngFor="let country of filteredCountries"
+                                        value="{{country.code}}" (click)="onSelectChange(country)">
+                                        <i class="sprite {{country.code.toLowerCase()}} d-inline-flex mr-3 ml-2"
+                                            style="max-width: 33px"></i> {{country.name}}
                                     </li>
 
-                                    <p *ngIf="filteredCountries.length == 0" class="text-center small text-muted">No result(s) found </p>
+                                    <p *ngIf="filteredCountries.length == 0" class="text-center small text-muted">No
+                                        result(s) found </p>
                                 </ul>
                             </div>
                         </div>
 
-                        <div class="col-md-9 pr-0 pl-0 pt-md-0 pt-4">
+                        <div class="col-md-8 pr-0 pl-0 pt-md-0 pt-4">
                             <div class="form-group">
                                 <!-- <label class="text-success small font-weight-bold">You@emailprovider.com</label> -->
-                                <input type="text" class="form-control w-100" #phoneNumber="ngModel" name="phone" [(ngModel)]="phone" placeholder="Phone Number *" pattern="[0-9]{5,20}" (keyup)="validatePhoneField()" required>
+                                <input type="text" class="form-control w-100" #phoneNumber="ngModel" name="phone"
+                                    [(ngModel)]="phone" placeholder="Phone Number *" pattern="[0-9]{5,20}"
+                                    (keyup)="validatePhoneField()" required>
                                 <p class="small text-danger px-1 pt-1" *ngIf="phoneError">{{phoneError}}</p>
                             </div>
                         </div>
 
                         <div class="col-md-12 text-center pt-3 px-0">
                             <button mat-raised-button color="primary" class="rounded px-5 w-100" [disabled]="!f.valid">
-                        <!-- <button mat-raised-button color="primary" class="rounded px-5" [disabled]="!registerForm.valid"> -->
-                        <span>Complete account creation <span><i class="material-icons mt-2 pl-2 position-absolute">
-                                    arrow_right_alt
-                                </i></span></span>
-                        <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;" />
-                    </button>
+                                <!-- <button mat-raised-button color="primary" class="rounded px-5" [disabled]="!registerForm.valid"> -->
+                                <span>Continue <span>
+                                        <!-- <i class="material-icons mt-2 pl-2 position-absolute">
+                                        arrow_right_alt</i> -->
+                                    </span>
+                                </span>
+                                <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;" />
+                            </button>
                         </div>
                         <div class="col-md-12 text-center py-3">
-                            <p class="small">Clicking the continue button means you agree to the <br> <span (click)="goToTerms()" class="cursor text-brand">Terms of Service</span> and Privacy Policy.</p>
+                            <p class="small">Clicking the continue button means you agree to the <br> <span
+                                    (click)="goToTerms()" class="cursor text-brand">Terms of Service</span> and Privacy
+                                Policy.</p>
                         </div>
 
                     </div>
@@ -123,6 +145,129 @@
     </form>
 </ng-container>
 
+<ng-container *ngIf="step == 3">
+    <h3 class="text-center font-weight-bold">Welcome! {{payload.fName}}</h3>
+    <p class="text-secondary small w-75 text-center mx-auto pb-3">To continue, select from the options below, which
+        perfectly describes you.</p>
+    <hr>
+
+    <!-- I am an employer -->
+    <div class="cursor" (click)="changeStep('employer')">
+        <div class="row">
+            <div class="col-md-1 col-2 my-auto">
+                <img src="assets/img/employer.png" alt="" style="max-width: 30px">
+            </div>
+            <div class="col-md-10 col-8">
+                <h6>I am an Employer</h6>
+                <p class="text-secondary small">I want to monitor my employees time and attendance</p>
+            </div>
+            <div class="col-md-1 my-auto col-2">
+                <mat-icon class="text-secondary">keyboard_arrow_right</mat-icon>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- I work for a company -->
+    <div class="cursor" (click)="changeStep('employee')">
+        <div class="row">
+            <div class="col-md-1 my-auto col-2">
+                <img src="assets/img/company.png" alt="" style="max-width: 30px">
+            </div>
+            <div class="col-md-10 col-8">
+                <h6>I work for a company</h6>
+                <p class="text-secondary small">I want to join an existing company as an employee</p>
+            </div>
+            <div class="col-md-1 my-auto col-2">
+                <mat-icon class="text-secondary">keyboard_arrow_right</mat-icon>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+</ng-container>
+
+<ng-container *ngIf="step == 4">
+    <div *ngIf="invites.length==0">
+        <h3 class="text-center font-weight-bold w-75 mx-auto">No Pending invite to<br> join a company.</h3>
+        <p class="text-secondary small w-75 text-center mx-auto pb-3">Please inform your admin to send you a request or
+            type in the company invite code if you have it</p>
+        <div class="col-12 px-0 col-xl-12 offset-xl-0 offset-md-2 offset-lg-3">
+            <p class="small font-weight-bold mb-1">Company Code</p>
+            <div class="row">
+
+                <div class="col-xl col-lg-4 col-md-5 pr-lg-0">
+                    <div class="form-group">
+                        <input type="text" [(ngModel)]="orgCode" class="form-control w-100"
+                            pattern="[^@\s]+@[^@\s]+\.[^@\s]+" placeholder="Enter company code" required>
+                    </div>
+                </div>
+
+                <div class="col-xl-auto col-lg-2 col-md-2">
+                    <button mat-raised-button color="primary" class="rounded" type="submit" [disabled]="!orgCode"
+                        (click)="changeStep()">
+                        <span *ngIf="!loading">Request to join Company</span>
+                        <img *ngIf="loading" src="assets/img/loading.gif" style="max-width: 20px;" />
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-5">
+        <p class="small text-center">Want to create your own company? <span
+                class="cursor text-brand font-weight-bold pl-2" (click)="goToCreateCompany()">Create Company Here</span>
+        </p>
+        </div>
+    </div>
+    <div *ngIf="invites.length>0">
+        <h2 class="text-center pt-md-0 pt-3">You have been added to <span class="text-brand">{{invites.length}}</span>
+            compan{{invites.length==1?'y':'ies'}}</h2>
+
+        <p class="small text-left mb-0 pb-0 pt-5 font-weight-bold">Companies added to:</p>
+
+        <hr>
+        <div *ngFor="let invite of invites">
+            <p>{{invite.orgName}}</p>
+        </div>
+        <hr>
+
+        <p class="small text-center w-75 mx-auto mb-1">To start clocking in and managing your account,</p>
+        <p class="small text-center w-75 mx-auto">Please download the mobile app.</p>
+        <div class="text-center">
+            <a href="https://play.google.com/store/apps/details?id=com.seamfix.iclocker"><img class="img-fluid"
+                    src="assets/img/google-play-badge-en@2x-1.png" alt="" style="max-width: 100px"></a>
+            <a href="https://itunes.apple.com/ng/app/iclocker/id1440168749"><img class="img-fluid"
+                    src="assets/img/appstore.png" alt="" style="max-width: 100px"></a>
+        </div>
+
+        <div class="pt-5">
+            <p class="small text-center">You are an Employer? <span class="cursor text-brand font-weight-bold pl-2"
+                    (click)="goToCreateCompany()">Create Company Here</span>
+            </p>
+        </div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="step == 5">
+    <div class="text-center">
+        <img class="img-fluid" src="assets/img/success-request-to-join.png" alt="" style="max-width: 300px">
+    </div>
+    <h5 class="text-center font-weight-bold pt-3">Awesome!</h5>
+    <p class="font-weight-bold text-center w-75 mx-auto">Your admin has been sent an email to approve your request</p>
+    <p class="small text-center w-75 mx-auto">Please Download the mobile app, manage your request and start clocking in.
+    </p>
+
+    <div class="text-center">
+        <a href="https://play.google.com/store/apps/details?id=com.seamfix.iclocker"><img class="img-fluid"
+                src="assets/img/google-play-badge-en@2x-1.png" alt="" style="max-width: 100px"></a>
+        <a href="https://itunes.apple.com/ng/app/iclocker/id1440168749"><img class="img-fluid"
+                src="assets/img/appstore.png" alt="" style="max-width: 100px"></a>
+    </div>
+</ng-container>
+
 
 <div class="col-12 mt-5 text-center" *ngIf="step == 1">
     <!--<div class="cursor" id="googleBtn">Google</div>-->
@@ -130,5 +275,4 @@
     <p class="text-center textDecor smaller fontWeight mb-3"> <span> or
             continue with</span>
     </p>
-
 </div>

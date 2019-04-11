@@ -557,6 +557,42 @@ export class AppContentService {
             )
     }
 
+    fetchEmailInvitations(email: string): Observable<any> {
+
+        return this.httpClient
+            .get(Endpoints.FETCH_EMAIL_INVITATIONS + email, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
+    inviteUserByOrgId(email: string, orgCOde: string): Observable<any> {
+        const params = new HttpParams()
+            .set("orgCode", orgCOde)
+            .set("email", email);
+        return this.httpClient
+            .post(Endpoints.INVITE_USER_BY_ORG_CODE, params, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_FORM_URLENCODED)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
     fetchInvitedUsers(model: AttendeesPOJO): Observable<any> {
         const params = new HttpParams()
             .set("orgId", model.orgId)

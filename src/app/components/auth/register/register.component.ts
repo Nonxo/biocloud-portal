@@ -1,12 +1,13 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import 'rxjs/add/operator/finally';
-import {NotifyService} from '../../../service/notify.service';
-import {AuthService} from '../auth.service';
-import {Constants} from "../../../util/constants";
-import {ActivatedRoute, Router} from "@angular/router";
-import {StorageService} from "../../../service/storage.service";
-import {environment} from "../../../../environments/environment";
+import { NotifyService } from '../../../service/notify.service';
+import { AuthService } from '../auth.service';
+import { Constants } from "../../../util/constants";
+import { ActivatedRoute, Router } from "@angular/router";
+import { StorageService } from "../../../service/storage.service";
+import { environment } from "../../../../environments/environment";
+import { AppContentService } from '../../../pages/app-content/services/app-content.service';
 
 
 @Component({
@@ -37,8 +38,11 @@ export class RegisterComponent implements OnInit {
     iAgree: boolean;
     searchField: string;
     nameError: string;
+    passwordError: string;
     phoneError: string;
     emailError: string;
+    invites: any[] = [];
+    orgCode: string = '';
 
     @Input()
     step: number;
@@ -56,22 +60,23 @@ export class RegisterComponent implements OnInit {
 
 
     userTypes: Array<{ name, checked }> = [
-        {name: 'INDIVIDUAL', checked: true},
-        {name: 'CORPORATE', checked: false}
+        { name: 'INDIVIDUAL', checked: true },
+        { name: 'CORPORATE', checked: false }
     ];
 
-    constructor(private authService: AuthService,
-                private router: Router,
-                private ns: NotifyService,
-                private fb: FormBuilder,
-                private ss: StorageService,
-                private route: ActivatedRoute) {
+    constructor(private contentService: AppContentService,
+        private authService: AuthService,
+        private router: Router,
+        private ns: NotifyService,
+        private fb: FormBuilder,
+        private ss: StorageService,
+        private route: ActivatedRoute) {
         this.route
             .queryParams
             .subscribe(params => {
-                    let email = params['email'] || null;
-                    let token = params['token'] || null;
-                }
+                let email = params['email'] || null;
+                let token = params['token'] || null;
+            }
             )
     }
 
@@ -134,19 +139,36 @@ export class RegisterComponent implements OnInit {
         this.filteredCountries = this.countries;
     }
 
-    changeStep() {
+    changeStep(param?: string) {
         switch (this.step) {
             case 1: {
                 this.email = this.form.get('email').value;
                 this.step = 2;
+                this.getStep.emit(this.step);
                 break;
             }
             case 2: {
+                this.payload = this.form.value;
+                this.setName();
                 this.register();
+                break;
+            }
+            case 3: {
+                if (param == 'employer') {
+                    this.goToCreateCompany();
+                } else if (param == 'employee') {
+                    this.goToCompany();
+                }
+                this.step = 4;
+                break;
+            }
+            case 4: {
+                this.goToFinalStage();
                 break;
             }
         }
     }
+
 
     verifyEmail(emailFromRoute?: string) {
         this.loading = true;
@@ -161,10 +183,10 @@ export class RegisterComponent implements OnInit {
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        this.router.navigate(['/reg-message'], {queryParams: {email: email.toLowerCase()}});
+                        this.router.navigate(['/reg-message'], { queryParams: { email: email.toLowerCase() } });
                     } else {
                         this.ns.showError(result.description);
-                            this.router.navigate(['/auth'], {queryParams: {login: true}});
+                        this.router.navigate(['/auth'], { queryParams: { login: true } });
                     }
                 },
                 error => {
@@ -277,11 +299,11 @@ export class RegisterComponent implements OnInit {
                     if (res.code == 0) {
                         this.ss.authToken = res.token;
                         this.ss.loggedInUser = res.bioUser;
-                        this.router.navigate(['/onboard']);
+                        this.step = 3;
                     } else {
-                        if(res.code == -9) {
+                        if (res.code == -9) {
                             this.ns.showError("This email already exist. Please proceed to sign in");
-                            this.router.navigate(['/auth'], {queryParams: {login: true}});
+                            this.router.navigate(['/auth'], { queryParams: { login: true } });
                         } else {
                             this.ns.showError(res.description);
                         }
@@ -360,12 +382,67 @@ export class RegisterComponent implements OnInit {
         }
     }
 
+    validatePassword() {
+        if (!(/[A-Za-z0-9\S]{6,}/.test(this.password)) || this.password.indexOf(' ') >= 0) {
+            this.passwordError = "Password should be minimum of 6 characters and must not contain spaces";
+        } else {
+            this.passwordError = '';
+        }
+    }
+
     validatePhoneField() {
         if (/[^0-9]/.test(this.phone)) {
             this.phoneError = "Only numbers allowed"
         } else {
             this.phoneError = "";
         }
+    }
+
+    goToFinalStage() {
+        this.callOrgInvitationsService();
+    }
+
+    goToCompany() {
+        this.callEmailInvitationsService();
+        this.step = 4;
+    }
+
+    goToCreateCompany() {
+        this.router.navigate(['/onboard']);
+    }
+
+    callEmailInvitationsService() {
+        this.contentService.fetchEmailInvitations(this.payload.email)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.invites = result.attendees ? result.attendees : [];
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {
+                    this.ns.showError("An Error Occurred.");
+                }
+            )
+    }
+
+    callOrgInvitationsService() {
+        this.contentService.inviteUserByOrgId(this.payload.email, this.orgCode)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.invites = result.attendees ? result.attendees : [];
+                        this.ns.showSuccess(result.description);
+                        this.step = 5;
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {
+                    this.ns.showError("An Error Occurred.");
+                }
+            )
     }
 
 }

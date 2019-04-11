@@ -44,6 +44,8 @@ import {
     Angulartics2GoogleTagManager,
     Angulartics2Module
 } from "angulartics2";
+import {DeviceDetectorModule} from "ngx-device-detector";
+import { NgxPasswordToggleModule } from 'ngx-password-toggle';
 
 
 @NgModule({
@@ -66,6 +68,7 @@ import {
         RegEmailNotificationComponent
     ],
     imports: [
+        NgxPasswordToggleModule,
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,
@@ -78,6 +81,7 @@ import {
             libraries: ['places']
         }),
         Angulartics2Module.forRoot([Angulartics2Facebook, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics]),
+        DeviceDetectorModule.forRoot(),
         AppRoutingModule
     ],
     providers: [
