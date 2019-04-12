@@ -1,16 +1,15 @@
-import { Component, Input, NgZone, OnInit, TemplateRef } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { InviteRequest, LocationRequest, SupportMailRequest, TimezonePOJO } from "../../../model/app-config.model";
-import { AppConfigService } from "../../../services/app-config.service";
-import { NotifyService } from "../../../../../../service/notify.service";
-import { StorageService } from "../../../../../../service/storage.service";
-import { MapsAPILoader } from "@agm/core";
-import { GeoMapService } from "../../../../../../service/geo-map.service";
-import { DateUtil } from '../../../../../../util/DateUtil';
-import { COMMA, ENTER } from "@angular/cdk/keycodes";
-import { Router } from "@angular/router";
-import { finalize } from "rxjs/internal/operators";
-import { state } from '@angular/animations';
+import {Component, Input, NgZone, OnInit, TemplateRef} from '@angular/core';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {InviteRequest, LocationRequest, SupportMailRequest, TimezonePOJO} from "../../../model/app-config.model";
+import {AppConfigService} from "../../../services/app-config.service";
+import {NotifyService} from "../../../../../../service/notify.service";
+import {StorageService} from "../../../../../../service/storage.service";
+import {MapsAPILoader} from "@agm/core";
+import {GeoMapService} from "../../../../../../service/geo-map.service";
+import {DateUtil} from '../../../../../../util/DateUtil';
+import {COMMA, ENTER} from "@angular/cdk/keycodes";
+import {Router} from "@angular/router";
+import {finalize} from "rxjs/internal/operators";
 
 @Component({
     selector: 'app-create-location',
@@ -240,6 +239,7 @@ export class CreateLocationComponent implements OnInit {
 
                         if (typeof result === 'string') {
                             this.locRequest.address = result;
+                            this.ns.showSuccess("Address retrieved successfully");
                         } else {
                             this.ns.showError("Unable to get Address")
                         }

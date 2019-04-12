@@ -517,6 +517,7 @@ export class SetupComponent implements OnInit, OnDestroy {
 
                         if (typeof result === 'string') {
                             this.locRequest.address = result;
+                            this.ns.showSuccess("Address retrieved successfully");
                         } else {
                             this.ns.showError("Unable to get Address")
                         }
