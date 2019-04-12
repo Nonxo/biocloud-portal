@@ -45,6 +45,7 @@ import {
     Angulartics2Module
 } from "angulartics2";
 import {DeviceDetectorModule} from "ngx-device-detector";
+import {CookieService} from "./service/cookie.service";
 
 @NgModule({
     declarations: [
@@ -95,6 +96,7 @@ import {DeviceDetectorModule} from "ngx-device-detector";
         AppConfigService,
         BsModalRef,
         MessageService,
+        CookieService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: ApiInterceptor,

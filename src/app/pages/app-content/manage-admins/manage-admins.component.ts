@@ -9,6 +9,7 @@ import {AdminRemovalRequest, UserPaginationPojo} from "../model/app-content.mode
 import {MessageService} from "../../../service/message.service";
 import {finalize} from "rxjs/internal/operators";
 import {Router} from "@angular/router";
+import {CookieService} from "../../../service/cookie.service";
 
 @Component({
     selector: 'app-manage-admins',
@@ -37,12 +38,13 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
     loading: boolean;
 
     constructor(private ss: StorageService,
-        private contentService: AppContentService,
-        private ns: NotifyService,
-        private modalService: BsModalService,
-        private configService: AppConfigService,
-        private mService: MessageService,
-        private router: Router) {
+                private contentService: AppContentService,
+                private ns: NotifyService,
+                private modalService: BsModalService,
+                private configService: AppConfigService,
+                private mService: MessageService,
+                private router: Router,
+                private cookieService: CookieService) {
     }
 
     ngOnInit() {
@@ -56,6 +58,9 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
     }
 
     onDone() {
+        //set cookie to save user's preference
+        this.cookieService.set(this.ss.getLoggedInUserEmail(), JSON.stringify({dontShowGuide: true}));
+
         this.router.navigate(['/portal']);
     }
 
@@ -64,9 +69,9 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
         this.mService.setDisplay(true);
         this.contentService.fetchUsersInAnOrg(this.ss.getSelectedOrg().orgId, this.pagObj)
             .pipe(
-            finalize(() => {
-                this.mService.setDisplay(false)
-            }))
+                finalize(() => {
+                    this.mService.setDisplay(false)
+                }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -139,7 +144,7 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
         this.assignAdminRequest = new AssignAdminRequest();
 
         this.assignAdminRequest.role = this.selectedUser.role;
-        this.assignAdminRequest.locIds = this.selectedUser.locIds? (this.selectedUser.locIds.length > 0 ? this.selectedUser.locIds : []): [];
+        this.assignAdminRequest.locIds = this.selectedUser.locIds ? (this.selectedUser.locIds.length > 0 ? this.selectedUser.locIds : []) : [];
         this.assignAdminRequest.email = this.selectedUser.email;
 
         this.openModal(template);
@@ -160,9 +165,9 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
         this.loading = true;
         this.configService.inviteAttendees(this.inviteRequest)
             .pipe(
-            finalize(() => {
-                this.loading = false;
-            }))
+                finalize(() => {
+                    this.loading = false;
+                }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -260,10 +265,10 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
         this.loading = true;
         this.contentService.removeAdmin(this.adminRemovalRequest)
             .pipe(
-            finalize(() => {
-                this.selAll = false;
-                this.loading = false;
-            }))
+                finalize(() => {
+                    this.selAll = false;
+                    this.loading = false;
+                }))
             .subscribe(
                 result => {
                     let res: any = result;
@@ -293,9 +298,9 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
         this.loading = true;
         this.configService.assignAdmins(this.assignAdminRequest)
             .pipe(
-            finalize(() => {
-                this.loading = false;
-            }))
+                finalize(() => {
+                    this.loading = false;
+                }))
             .subscribe(
                 result => {
                     if (result.code == 0) {

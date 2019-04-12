@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild, AfterViewInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
 import {BsModalRef, BsModalService, ModalOptions} from "ngx-bootstrap/index";
 import {StorageService} from "../../service/storage.service";
@@ -23,7 +23,8 @@ import {DateUtil} from "../../util/DateUtil";
 import {SubscriptionMode} from "../../pages/app-content/enums/enums";
 import {ConfirmLocationComponent} from "../../pages/app-content/confirm-location/confirm-location.component";
 import {finalize} from "rxjs/internal/operators";
-import { JoyrideService } from "ngx-joyride";
+import {JoyrideService} from "ngx-joyride";
+import {CookieService} from "../../service/cookie.service";
 
 declare const gapi: any;
 
@@ -122,7 +123,8 @@ export class NavComponent implements OnInit, OnDestroy {
                 private searchService: SearchService,
                 private subService: SubscriptionService,
                 private dateUtil: DateUtil,
-                private readonly joyrideService: JoyrideService) {
+                private readonly joyrideService: JoyrideService,
+                private cookieService: CookieService) {
 
         if (this.router.url == "/portal") {
             this.activeClass = "active";
@@ -215,7 +217,20 @@ export class NavComponent implements OnInit, OnDestroy {
 
     ngAfterViewInit() {
         if (window.screen.width >= 1025) {
-            this.openModal(this.joyRide);
+            //check user's preference in cookie
+            try {
+                if(this.cookieService.get(this.ss.getLoggedInUserEmail())) {
+                    let obj = JSON.parse(this.cookieService.get(this.ss.getLoggedInUserEmail()));
+
+                    if(!obj.dontShowGuide) {
+                        this.openModal(this.joyRide);
+                    }
+                } else {
+                    this.openModal(this.joyRide);
+                }
+            }catch(e) {
+                console.log(e);
+            }
         }
     }
 
@@ -228,7 +243,7 @@ export class NavComponent implements OnInit, OnDestroy {
                     "companyInfo",
                     "home@/auth",
                     "location@/auth",
-                    "employees@portal/manage-users",
+                    "employees@/portal/manage-users",
                     "quickReport@/portal/quick-report",
                     "reportDashboard@/portal/report-dashboard",
                     "admin@/portal/manage-admins"
