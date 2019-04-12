@@ -82,4 +82,6 @@ export class Endpoints {
     public static GET_EMAILS_IN_SHIFT = `${Endpoints.BASE_URL}/users/api/locations/shift`;
     public static GET_EMPLOYEES_IN_SHIFT = `${Endpoints.BASE_URL}/users/api/shifts/get-shift-attendees`;
     public static BULK_CREATE_SHIFT = `${Endpoints.BASE_URL}/users/api/shifts/bulk-update`;
+    public static GET_TIMEZONE_BY_COORDS = `${Endpoints.BASE_URL}/users/api/countries/get-timezone/coords/`;
+    public static FETCH_COUNTRY_TIMEZONES = `${Endpoints.BASE_URL}/users/api/countries/get-timezone/`;
 }
