@@ -13,6 +13,8 @@ import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {TranslateService} from "@ngx-translate/core";
 import {finalize} from "rxjs/internal/operators";
 
+export const ADRESS_RETRIVED_SUCCESS_MESSAGE = "Address retrieved successfully";
+
 @Component({
     selector: 'app-setup',
     templateUrl: './setup.component.html',
@@ -517,6 +519,7 @@ export class SetupComponent implements OnInit, OnDestroy {
 
                         if (typeof result === 'string') {
                             this.locRequest.address = result;
+                            this.ns.showSuccess(ADRESS_RETRIVED_SUCCESS_MESSAGE);
                         } else {
                             this.ns.showError("Unable to get Address")
                         }
