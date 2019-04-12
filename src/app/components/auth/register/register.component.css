@@ -1596,6 +1596,10 @@
     background-position: -578px -304px;
 }
 
+.bottom-position{
+    top: 100%;
+}
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 823px) {
     .fileUpload {
         width: 65%;
@@ -1609,6 +1613,10 @@
     }
     .indicator {
         left: 40% !important;
+    }
+
+    h2 {
+        font-size: 25px;
     }
 }
 
@@ -1670,4 +1678,10 @@
     .personal-details-form {
         width: 75%;
     }
+}
+
+.pwd-icon {
+    top: 46%;
+    right: 3%;
+    font-size: 18px;
 }

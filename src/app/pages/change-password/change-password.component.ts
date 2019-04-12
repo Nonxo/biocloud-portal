@@ -23,6 +23,7 @@ export class ChangePasswordComponent implements OnInit {
     changePasswordForm: FormGroup;
     loading = false;
     email: string = this.ss.getLoggedInUserEmail();
+    oldPw: string = '';
     response: any;
     @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
@@ -47,7 +48,7 @@ export class ChangePasswordComponent implements OnInit {
 
     ngOnInit() {
         this.changePasswordForm = this.fb.group({
-            oldPw: ['', Validators.required],
+            oldPw: [this.oldPw, Validators.required],
             newPw: ['', Validators.required],
         });
 

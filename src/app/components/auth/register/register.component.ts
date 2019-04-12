@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit {
     form: FormGroup;
     company = false;
     loading = false;
-    hide: boolean;
+    hide: boolean = true;
     show: boolean;
     recaptchaSiteKey: string = Constants.SITE_KEY;
     captchaResponse: string;
@@ -39,6 +39,7 @@ export class RegisterComponent implements OnInit {
     iAgree: boolean;
     searchField: string;
     nameError: string;
+    passwordError: string;
     phoneError: string;
     emailError: string;
     invites: any[] = [];
@@ -379,6 +380,14 @@ export class RegisterComponent implements OnInit {
             this.nameError = "Type only firstname & lastname. DO NOT include numbers & special characters";
         } else {
             this.nameError = "";
+        }
+    }
+
+    validatePassword() {
+        if (!(/[A-Za-z0-9\S]{6,}/.test(this.password)) || this.password.indexOf(' ') >= 0) {
+            this.passwordError = "Password should be minimum of 6 characters and must not contain spaces";
+        } else {
+            this.passwordError = '';
         }
     }
 

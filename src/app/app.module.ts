@@ -46,7 +46,6 @@ import {
 } from "angulartics2";
 import {DeviceDetectorModule} from "ngx-device-detector";
 
-
 @NgModule({
     declarations: [
         AppComponent,
