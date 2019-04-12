@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit {
     form: FormGroup;
     company = false;
     loading = false;
-    hide: boolean;
+    hide: boolean = true;
     show: boolean;
     recaptchaSiteKey: string = Constants.SITE_KEY;
     captchaResponse: string;

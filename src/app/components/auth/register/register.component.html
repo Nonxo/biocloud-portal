@@ -54,11 +54,12 @@
 
                         <div class="col-md-12 px-0">
 
-                            <div class="form-group">
+                            <div class="form-group position-relative">
                                 <label class="text-success small font-weight-bold" [innerHTML]="email">-</label>
                                 <input type="text" pattern="^([A-Za-z0-9\S]{6,})" class="form-control w-100"
                                     name="password" #pw="ngModel" [(ngModel)]="password" (keyup)="validatePassword()"
-                                    placeholder="Enter password here" [type]="show ? 'text' : 'password'" passwordToggle required>
+                                    placeholder="Enter password here" [type]="hide ? 'password' : 'text'" required>
+                                <mat-icon class="position-absolute cursor pwd-icon" matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                                 <p *ngIf="!passwordError" class="small text-muted px-1 pt-1">(6 characters minimum, must not contain spaces)</p>
                                 <p class="small text-danger px-1 pt-1" *ngIf="passwordError">
                                     {{passwordError}}</p>

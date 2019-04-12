@@ -45,8 +45,6 @@ import {
     Angulartics2Module
 } from "angulartics2";
 import {DeviceDetectorModule} from "ngx-device-detector";
-import { NgxPasswordToggleModule } from 'ngx-password-toggle';
-
 
 @NgModule({
     declarations: [
@@ -68,7 +66,6 @@ import { NgxPasswordToggleModule } from 'ngx-password-toggle';
         RegEmailNotificationComponent
     ],
     imports: [
-        NgxPasswordToggleModule,
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,

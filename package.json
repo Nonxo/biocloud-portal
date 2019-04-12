@@ -20,6 +20,7 @@
         "@angular/common": "^6.1.10",
         "@angular/compiler": "^6.1.10",
         "@angular/core": "^6.1.10",
+
         "@angular/forms": "^6.1.10",
         "@angular/http": "^6.1.10",
         "@angular/material": "^5.1.0",
@@ -52,7 +53,6 @@
         "ngx-image-cropper": "^1.2.2",
         "ngx-infinite-scroll": "^0.8.4",
         "ngx-joyride": "^2.2.9",
-        "ngx-password-toggle": "^1.0.3",
         "popper.js": "^1.12.9",
         "rxjs": "^6.4.0",
         "rxjs-compat": "^6.0.0-rc.0",
