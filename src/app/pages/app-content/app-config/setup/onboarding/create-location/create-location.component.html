@@ -165,7 +165,7 @@
                                 <div>
                                     <div class="form-group w-75">
                                         <label class="font-weight-bold" for="selectState">State/Province</label>
-                                        <select class="form-control" id="selectState" name="state" [(ngModel)]="locRequest.stateId" [required]="locRequest.locationType == 'STATE'">
+                                        <select class="form-control" id="selectState" name="state" [(ngModel)]="locRequest.stateId" [required]="locRequest.locationType == 'STATE'" (change)="fetchStateTimezones($event.target, locRequest.countryId)">
                                             <option value="0">Select State/Province</option>
                                             <option *ngFor="let state of states" value="{{state.stateId}}">
                                                 {{state.name}}
