@@ -232,6 +232,8 @@ export class CreateLocationComponent implements OnInit {
     }
 
     getSearchAddress(lat: number, lng: number) {
+        this.fetchTimezoneByCoords();
+
         this.mapService.getAddress(lat, lng)
             .subscribe(
                 result => {
@@ -260,8 +262,6 @@ export class CreateLocationComponent implements OnInit {
         this.lng = $event.coords.lng;
 
         this.getSearchAddress(this.lat, this.lng);
-
-        this.fetchTimezoneByCoords();
     }
 
     markerDragEnd($event: any) {
@@ -550,8 +550,8 @@ export class CreateLocationComponent implements OnInit {
     }
 
     fetchTimezoneByCoords() {
-        this.getCurrentPosition(false);
-        this.aService.getTimezoneByCoords(this.lng, this.lat)
+        this.locRequest.resumptionTimezoneId = "";
+        this.aService.getTimezoneByCoords(this.lat, this.lng)
             .subscribe(
                 result => {
                     if (result.code == 0) {

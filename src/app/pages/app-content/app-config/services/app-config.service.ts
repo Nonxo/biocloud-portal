@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { Endpoints } from "../../../../util/endpoints";
-import { AssignAdminRequest, InviteRequest, LocationRequest, SupportMailRequest } from "../model/app-config.model";
-import { StorageService } from "../../../../service/storage.service";
-import { MediaType } from "../../../../util/constants";
-import { map, timeout } from "rxjs/operators";
-import { AuthService } from "../../../../components/auth/auth.service";
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {Endpoints} from "../../../../util/endpoints";
+import {AssignAdminRequest, InviteRequest, LocationRequest, SupportMailRequest} from "../model/app-config.model";
+import {StorageService} from "../../../../service/storage.service";
+import {MediaType} from "../../../../util/constants";
+import {map, timeout} from "rxjs/operators";
+import {AuthService} from "../../../../components/auth/auth.service";
 
 @Injectable()
 export class AppConfigService {
@@ -187,9 +187,9 @@ export class AppConfigService {
             )
     }
 
-    getTimezoneByCoords(longitude: number, latitude: number) {
+    getTimezoneByCoords(latitude: number, longitude: number) {
         return this.httpClient
-            .get(Endpoints.GET_TIMEZONE_BY_COORDS + longitude + '/' + latitude, {
+            .get(Endpoints.GET_TIMEZONE_BY_COORDS + latitude + '/' + longitude, {
                 headers: new HttpHeaders()
                     .set('Content-Type', MediaType.APPLICATION_JSON)
             })
