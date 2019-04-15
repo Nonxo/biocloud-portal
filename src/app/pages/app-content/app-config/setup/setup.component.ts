@@ -1,17 +1,17 @@
-import {Component, NgZone, OnDestroy, OnInit, TemplateRef} from '@angular/core';
-import {LocationRequest, SupportMailRequest, TimezonePOJO} from "../model/app-config.model";
-import {AppConfigService} from "../services/app-config.service";
-import {BsModalRef, BsModalService, ModalOptions} from "ngx-bootstrap/index";
-import {MapsAPILoader} from "@agm/core";
-import {GeoMapService} from "../../../../service/geo-map.service";
-import {NotifyService} from "../../../../service/notify.service";
-import {Router} from "@angular/router";
-import {StorageService} from "../../../../service/storage.service";
-import {DateUtil} from "../../../../util/DateUtil";
-import {MessageService} from "../../../../service/message.service";
-import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {TranslateService} from "@ngx-translate/core";
-import {finalize} from "rxjs/internal/operators";
+import { Component, NgZone, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { LocationRequest, SupportMailRequest, TimezonePOJO } from "../model/app-config.model";
+import { AppConfigService } from "../services/app-config.service";
+import { BsModalRef, BsModalService, ModalOptions } from "ngx-bootstrap/index";
+import { MapsAPILoader } from "@agm/core";
+import { GeoMapService } from "../../../../service/geo-map.service";
+import { NotifyService } from "../../../../service/notify.service";
+import { Router } from "@angular/router";
+import { StorageService } from "../../../../service/storage.service";
+import { DateUtil } from "../../../../util/DateUtil";
+import { MessageService } from "../../../../service/message.service";
+import { COMMA, ENTER } from "@angular/cdk/keycodes";
+import { TranslateService } from "@ngx-translate/core";
+import { finalize } from "rxjs/internal/operators";
 
 export const ADRESS_RETRIVED_SUCCESS_MESSAGE = "Address retrieved successfully";
 
@@ -42,9 +42,9 @@ export class SetupComponent implements OnInit, OnDestroy {
     confirmees: string[] = [];
     separatorKeysCodes = [ENTER, COMMA];
     locationTypes = [
-        {value: "COUNTRY", name: "Country"},
-        {value: "STATE", name: "State"},
-        {value: "SPECIFIC_ADDRESS", name: "Specific Address"}
+        { value: "COUNTRY", name: "Country" },
+        { value: "STATE", name: "State" },
+        { value: "SPECIFIC_ADDRESS", name: "Specific Address" }
     ];
     loading: boolean;
     resumptionTime: Date;
@@ -58,18 +58,18 @@ export class SetupComponent implements OnInit, OnDestroy {
     supportRequest = new SupportMailRequest();
 
     constructor(private aService: AppConfigService,
-                private modalService: BsModalService,
-                private loader: MapsAPILoader,
-                private ngZone: NgZone,
-                private mapService: GeoMapService,
-                private ns: NotifyService,
-                private router: Router,
-                public modalRef: BsModalRef,
-                private ss: StorageService,
-                private dateUtil: DateUtil,
-                private mService: MessageService,
-                private translate: TranslateService,
-                private configService: AppConfigService) {
+        private modalService: BsModalService,
+        private loader: MapsAPILoader,
+        private ngZone: NgZone,
+        private mapService: GeoMapService,
+        private ns: NotifyService,
+        private router: Router,
+        public modalRef: BsModalRef,
+        private ss: StorageService,
+        private dateUtil: DateUtil,
+        private mService: MessageService,
+        private translate: TranslateService,
+        private configService: AppConfigService) {
         translate.setDefaultLang('en/add-location');
         translate.use('en/add-location');
 
@@ -182,9 +182,43 @@ export class SetupComponent implements OnInit, OnDestroy {
                         }
                     },
                     error => {
+                        this.ns.showError("Unable to fetch state list");
+                    }
+                )
+        } else {
+            this.aService.fetchCountryTimezones(id)
+                .subscribe(
+                    result => {
+                        if (result.code == 0) {
+                            this.locRequest.resumptionTimezoneId = result.timeZonesId[0];
+                        }
+                    },
+                    error => {
+                        this.ns.showError("Unable to fetch country timezones");
                     }
                 )
         }
+    }
+
+    fetchStateTimezones(dropDown, countryId: number) {
+        let stateName = dropDown.options[dropDown.selectedIndex].text;
+
+        this.aService.fetchCountryTimezones(countryId)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        let timezones: string[] = result.timeZonesId;
+                        this.locRequest.resumptionTimezoneId = timezones.filter(tzs => tzs.includes(stateName))[0];
+
+                        if (!this.locRequest.resumptionTimezoneId) {
+                            this.locRequest.resumptionTimezoneId = timezones[0];
+                        }
+                    }
+                },
+                error => {
+                    this.ns.showError("Unable to fetch state timezones");
+                }
+            )
     }
 
     clearData() {
@@ -242,7 +276,7 @@ export class SetupComponent implements OnInit, OnDestroy {
                     let diff = this.dateUtil.getTimeStamp(this.clockoutTime) - this.dateUtil.getTimeStamp(this.resumptionTime);
 
                     if (diff < this.dateUtil.convertMinutesToMS(this.locRequest.gracePeriodInMinutes)) {
-                        this.ns.showError("Your grace period should be less than " + (Math.round((diff/1000)/60) + 1) + " minute(s)");
+                        this.ns.showError("Your grace period should be less than " + (Math.round((diff / 1000) / 60) + 1) + " minute(s)");
                         return false;
                     }
                 }
@@ -355,9 +389,9 @@ export class SetupComponent implements OnInit, OnDestroy {
     editLocation() {
         this.aService.editLocation(this.locRequest)
             .pipe(
-            finalize(() => {
-                this.loading = false;
-            }))
+                finalize(() => {
+                    this.loading = false;
+                }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -379,9 +413,9 @@ export class SetupComponent implements OnInit, OnDestroy {
         // noinspection TypeScriptValidateTypes,TypeScriptUnresolvedFunction
         this.aService.saveLocation(this.locRequest)
             .pipe(
-            finalize(() => {
-                this.loading = false;
-            }))
+                finalize(() => {
+                    this.loading = false;
+                }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -432,10 +466,10 @@ export class SetupComponent implements OnInit, OnDestroy {
 
         if (country != "") {
             a.setComponentRestrictions(
-                {'country': country});
+                { 'country': country });
         } else {
             a.setComponentRestrictions(
-                {'country': []});
+                { 'country': [] });
         }
 
         a.addListener("place_changed", () => {
@@ -511,6 +545,8 @@ export class SetupComponent implements OnInit, OnDestroy {
     }
 
     getSearchAddress(lat: number, lng: number) {
+        this.fetchTimezoneByCoords();
+
         this.mapService.getAddress(lat, lng)
             .subscribe(
                 result => {
@@ -534,13 +570,30 @@ export class SetupComponent implements OnInit, OnDestroy {
             );
     }
 
-    getCurrentPosition(withAddress: boolean) {
-        this.mapService.getLocation({enableHighAccuracy: true}).subscribe((result) => {
-                this.lat = result.coords.latitude;
-                this.lng = result.coords.longitude;
+    fetchTimezoneByCoords() {
+        this.locRequest.resumptionTimezoneId = "";
+        this.aService.getTimezoneByCoords(this.lat, this.lng)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.locRequest.resumptionTimezoneId = result.timeZonesId[0];
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {
+                    this.ns.showError("Unable to fetch timezone details");
+                }
+            )
+    }
 
-                withAddress ? this.getSearchAddress(result.coords.latitude, result.coords.longitude) : '';
-            },
+    getCurrentPosition(withAddress: boolean) {
+        this.mapService.getLocation({ enableHighAccuracy: true }).subscribe((result) => {
+            this.lat = result.coords.latitude;
+            this.lng = result.coords.longitude;
+
+            withAddress ? this.getSearchAddress(result.coords.latitude, result.coords.longitude) : '';
+        },
             (e) => {
                 this.ns.showError(e)
             })
@@ -596,9 +649,9 @@ export class SetupComponent implements OnInit, OnDestroy {
             for (let a of arr) {
                 // Add email
                 if ((a || '').trim()) {
-                    if(type == 'INVITE') {
+                    if (type == 'INVITE') {
                         this.inviteEmails.push(a.trim())
-                    }else {
+                    } else {
                         this.confirmees.push(a.trim());
                     }
                 }
@@ -606,9 +659,9 @@ export class SetupComponent implements OnInit, OnDestroy {
         } else {
             // Add email
             if ((value || '').trim()) {
-                if(type == 'INVITE') {
+                if (type == 'INVITE') {
                     this.inviteEmails.push(value.trim())
-                }else {
+                } else {
                     this.confirmees.push(value.trim());
                     this.inviteEmails.push(value.trim());
                 }
@@ -668,14 +721,14 @@ export class SetupComponent implements OnInit, OnDestroy {
         document.body.scrollTop = document.documentElement.scrollTop = 0;
         this.changeAddress = !this.changeAddress;
 
-        if(this.changeAddress) {
-            this.verifyLocation == 'false'? this.show():'';
+        if (this.changeAddress) {
+            this.verifyLocation == 'false' ? this.show() : '';
         }
     }
 
     ngOnDestroy() {
         this.ss.clearLocationObj();
-        this.modalRef? this.modalRef.hide():'';
+        this.modalRef ? this.modalRef.hide() : '';
     }
 
     onLocationOptionChange() {
@@ -685,21 +738,21 @@ export class SetupComponent implements OnInit, OnDestroy {
     }
 
     getCountryName(id: number) {
-        let obj = this.countries.filter( obj => obj.countryId == id)[0];
-        return obj? obj.name:'';
+        let obj = this.countries.filter(obj => obj.countryId == id)[0];
+        return obj ? obj.name : '';
     }
 
     getStateName(id: number) {
-        let obj = this.states.filter( obj => obj.stateId == id)[0];
-        return obj? obj.name:'';
+        let obj = this.states.filter(obj => obj.stateId == id)[0];
+        return obj ? obj.name : '';
     }
 
     validateLocName() {
-        if(this.locRequest.name.length < 50) {
+        if (this.locRequest.name.length < 50) {
             return;
         }
 
-        if(this.tempName.length > 49) {
+        if (this.tempName.length > 49) {
             this.locRequest.name = this.tempName;
             return;
         }
@@ -708,7 +761,7 @@ export class SetupComponent implements OnInit, OnDestroy {
     }
 
     proceedForHelp() {
-        switch(this.helpOption) {
+        switch (this.helpOption) {
             case "CANT_GET_LOCATION": {
                 this.supportRequest.issue = "I can't get my location on the map";
                 this.sendSupportEmail();
@@ -716,7 +769,7 @@ export class SetupComponent implements OnInit, OnDestroy {
             }
 
             case "WRONG_LOCATION_CLOCK_IN": {
-                if(this.confirmees.length > 0) {
+                if (this.confirmees.length > 0) {
                     this.verifyLocation = 'true';
                     this.submit();
                 } else {
@@ -746,7 +799,7 @@ export class SetupComponent implements OnInit, OnDestroy {
                     this.ns.showSuccess("Message sent successfully");
                     this.modalRef.hide();
                 },
-                (error) => { this.ns.showError("An Error Occurred");}
+                (error) => { this.ns.showError("An Error Occurred"); }
             )
     }
 
