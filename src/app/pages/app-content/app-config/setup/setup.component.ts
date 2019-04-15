@@ -182,9 +182,43 @@ export class SetupComponent implements OnInit, OnDestroy {
                         }
                     },
                     error => {
+                        this.ns.showError("Unable to fetch state list");
+                    }
+                )
+        } else {
+            this.aService.fetchCountryTimezones(id)
+                .subscribe(
+                    result => {
+                        if (result.code == 0) {
+                            this.locRequest.resumptionTimezoneId = result.timeZonesId[0];
+                        }
+                    },
+                    error => {
+                        this.ns.showError("Unable to fetch country timezones");
                     }
                 )
         }
+    }
+
+    fetchStateTimezones(dropDown, countryId: number) {
+        let stateName = dropDown.options[dropDown.selectedIndex].text;
+
+        this.aService.fetchCountryTimezones(countryId)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        let timezones: string[] = result.timeZonesId;
+                        this.locRequest.resumptionTimezoneId = timezones.filter(tzs => tzs.includes(stateName))[0];
+
+                        if (!this.locRequest.resumptionTimezoneId) {
+                            this.locRequest.resumptionTimezoneId = timezones[0];
+                        }
+                    }
+                },
+                error => {
+                    this.ns.showError("Unable to fetch state timezones");
+                }
+            )
     }
 
     clearData() {
@@ -511,6 +545,7 @@ export class SetupComponent implements OnInit, OnDestroy {
     }
 
     getSearchAddress(lat: number, lng: number, getCurrentPosition?: boolean) {
+        this.fetchTimezoneByCoords();
         this.mapService.getAddress(lat, lng)
             .subscribe(
                 result => {
@@ -534,10 +569,27 @@ export class SetupComponent implements OnInit, OnDestroy {
             );
     }
 
+    fetchTimezoneByCoords() {
+        this.locRequest.resumptionTimezoneId = "";
+        this.aService.getTimezoneByCoords(this.lat, this.lng)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.locRequest.resumptionTimezoneId = result.timeZonesId[0];
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {
+                    this.ns.showError("Unable to fetch timezone details");
+                }
+            )
+    }
+
     getCurrentPosition(withAddress: boolean) {
-        this.mapService.getLocation({enableHighAccuracy: true}).subscribe((result) => {
-                this.lat = result.coords.latitude;
-                this.lng = result.coords.longitude;
+        this.mapService.getLocation({ enableHighAccuracy: true }).subscribe((result) => {
+            this.lat = result.coords.latitude;
+            this.lng = result.coords.longitude;
 
                 withAddress ? this.getSearchAddress(result.coords.latitude, result.coords.longitude, true) : '';
             },
