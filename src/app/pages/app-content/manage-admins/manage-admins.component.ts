@@ -59,7 +59,7 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
 
     onDone() {
         //set cookie to save user's preference
-        this.cookieService.set(this.ss.getLoggedInUserEmail(), JSON.stringify({dontShowGuide: true}));
+        this.cookieService.set(this.ss.getLoggedInUserEmail(), JSON.stringify({dontShowGuide: true}), new Date(7267139602000));
 
         this.router.navigate(['/portal']);
     }

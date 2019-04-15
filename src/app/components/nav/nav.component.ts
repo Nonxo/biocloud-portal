@@ -219,15 +219,16 @@ export class NavComponent implements OnInit, OnDestroy {
         if (window.screen.width >= 1025) {
             //check user's preference in cookie
             try {
-                if(this.cookieService.get(this.ss.getLoggedInUserEmail())) {
-                    let obj = JSON.parse(this.cookieService.get(this.ss.getLoggedInUserEmail()));
+                    if(this.cookieService.get(this.ss.getLoggedInUserEmail())) {
+                        let obj = JSON.parse(this.cookieService.get(this.ss.getLoggedInUserEmail()));
 
-                    if(!obj.dontShowGuide) {
+                        if(!obj.dontShowGuide) {
+                            this.openModal(this.joyRide);
+                        }
+                    } else {
                         this.openModal(this.joyRide);
                     }
-                } else {
-                    this.openModal(this.joyRide);
-                }
+
             }catch(e) {
                 console.log(e);
             }
@@ -900,6 +901,11 @@ export class NavComponent implements OnInit, OnDestroy {
                 },
                 error => {}
             )
+    }
+
+    skipTutorial() {
+        this.modalRef.hide();
+        this.cookieService.set(this.ss.getLoggedInUserEmail(), JSON.stringify({dontShowGuide: true}), new Date(7267139602000));
     }
 
 }

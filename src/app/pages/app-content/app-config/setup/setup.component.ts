@@ -510,7 +510,7 @@ export class SetupComponent implements OnInit, OnDestroy {
             )
     }
 
-    getSearchAddress(lat: number, lng: number) {
+    getSearchAddress(lat: number, lng: number, getCurrentPosition?: boolean) {
         this.mapService.getAddress(lat, lng)
             .subscribe(
                 result => {
@@ -519,7 +519,7 @@ export class SetupComponent implements OnInit, OnDestroy {
 
                         if (typeof result === 'string') {
                             this.locRequest.address = result;
-                            this.ns.showSuccess(ADRESS_RETRIVED_SUCCESS_MESSAGE);
+                            getCurrentPosition? this.ns.showSuccess(ADRESS_RETRIVED_SUCCESS_MESSAGE): '';
                         } else {
                             this.ns.showError("Unable to get Address")
                         }
@@ -539,7 +539,7 @@ export class SetupComponent implements OnInit, OnDestroy {
                 this.lat = result.coords.latitude;
                 this.lng = result.coords.longitude;
 
-                withAddress ? this.getSearchAddress(result.coords.latitude, result.coords.longitude) : '';
+                withAddress ? this.getSearchAddress(result.coords.latitude, result.coords.longitude, true) : '';
             },
             (e) => {
                 this.ns.showError(e)

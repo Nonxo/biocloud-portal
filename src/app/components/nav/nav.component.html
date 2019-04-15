@@ -421,19 +421,13 @@
 
 <!--joyride modal-->
 <ng-template #joyRide>
-    <!--<div class="modal-header">-->
-    <!--<h4 class="modal-title pull-left">Modal</h4>-->
-    <!--<button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">-->
-    <!--<span aria-hidden="true">&times;</span>-->
-    <!--</button>-->
-    <!--</div>-->
     <div class="modal-body py-4">
         <h5 class="text-center font-weight-normal text-brand">Welcome to iClocker Dashboard</h5>
         <p style="font-weight: 600" class="small text-center py-2">These short tutorials will help you navigate the app with ease.</p>
 
         <div class="col-md-12 text-right">
             <div class="d-inline-flex">
-                <p class="text-secondary cursor my-auto pr-3" style="font-size: 14px" (click)="modalRef.hide()">Skip</p>
+                <p class="text-secondary cursor my-auto pr-3" style="font-size: 14px" (click)="skipTutorial()">Skip</p>
                 <button class="btn btn-primary cursor" style="font-size: 14px" (click)="startJoyride()">Start</button>
             </div>
         </div>
