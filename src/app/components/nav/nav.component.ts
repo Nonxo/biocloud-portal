@@ -215,7 +215,7 @@ export class NavComponent implements OnInit, OnDestroy {
         this.callNotificationService();
     }
 
-    ngAfterViewInit() {
+    triggerTutorial() {
         if (window.screen.width >= 1025) {
             //check user's preference in cookie
             try {
@@ -896,8 +896,11 @@ export class NavComponent implements OnInit, OnDestroy {
         this.contentService.fetchEmployeeRange()
             .subscribe(
                 result => {
-                    this.range = result.range? result.range: [];
-                    this.range.sort((a,b) => a.upperLimit - b.upperLimit);
+                    if(result.code == 0) {
+                        this.range = result.range? result.range: [];
+                        this.range.sort((a,b) => a.upperLimit - b.upperLimit);
+                        this.triggerTutorial();
+                    }
                 },
                 error => {}
             )
