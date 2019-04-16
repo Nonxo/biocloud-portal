@@ -231,7 +231,7 @@ export class CreateLocationComponent implements OnInit {
             )
     }
 
-    getSearchAddress(lat: number, lng: number) {
+    getSearchAddress(lat: number, lng: number, getCurrentPosition?: boolean) {
         this.fetchTimezoneByCoords();
 
         this.mapService.getAddress(lat, lng)
@@ -242,7 +242,7 @@ export class CreateLocationComponent implements OnInit {
 
                         if (typeof result === 'string') {
                             this.locRequest.address = result;
-                            this.ns.showSuccess(ADRESS_RETRIVED_SUCCESS_MESSAGE);
+                            getCurrentPosition? this.ns.showSuccess(ADRESS_RETRIVED_SUCCESS_MESSAGE): '';
                         } else {
                             this.ns.showError("Unable to get Address")
                         }
@@ -571,7 +571,7 @@ export class CreateLocationComponent implements OnInit {
             this.lat = result.coords.latitude;
             this.lng = result.coords.longitude;
 
-            withAddress ? this.getSearchAddress(result.coords.latitude, result.coords.longitude) : '';
+            withAddress ? this.getSearchAddress(result.coords.latitude, result.coords.longitude, true) : '';
         },
             (e) => {
                 this.ns.showError(e)

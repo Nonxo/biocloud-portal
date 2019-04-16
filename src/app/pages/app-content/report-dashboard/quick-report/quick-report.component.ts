@@ -372,7 +372,6 @@ export class QuickReportComponent implements OnInit {
     }
 
     onFilterToggle() {
-        debugger;
         switch(this.statPeriod) {
             case 'OTHER_WEEKS':
                 if((this.selectedMonth && !isNaN(this.selectedMonth)) && (this.selectedYear &&!isNaN(this.selectedYear))) {

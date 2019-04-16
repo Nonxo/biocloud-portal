@@ -215,19 +215,20 @@ export class NavComponent implements OnInit, OnDestroy {
         this.callNotificationService();
     }
 
-    ngAfterViewInit() {
+    triggerTutorial() {
         if (window.screen.width >= 1025) {
             //check user's preference in cookie
             try {
-                if(this.cookieService.get(this.ss.getLoggedInUserEmail())) {
-                    let obj = JSON.parse(this.cookieService.get(this.ss.getLoggedInUserEmail()));
+                    if(this.cookieService.get(this.ss.getLoggedInUserEmail())) {
+                        let obj = JSON.parse(this.cookieService.get(this.ss.getLoggedInUserEmail()));
 
-                    if(!obj.dontShowGuide) {
+                        if(!obj.dontShowGuide) {
+                            this.openModal(this.joyRide);
+                        }
+                    } else {
                         this.openModal(this.joyRide);
                     }
-                } else {
-                    this.openModal(this.joyRide);
-                }
+
             }catch(e) {
                 console.log(e);
             }
@@ -895,11 +896,19 @@ export class NavComponent implements OnInit, OnDestroy {
         this.contentService.fetchEmployeeRange()
             .subscribe(
                 result => {
-                    this.range = result.range? result.range: [];
-                    this.range.sort((a,b) => a.upperLimit - b.upperLimit);
+                    if(result.code == 0) {
+                        this.range = result.range? result.range: [];
+                        this.range.sort((a,b) => a.upperLimit - b.upperLimit);
+                        this.triggerTutorial();
+                    }
                 },
                 error => {}
             )
+    }
+
+    skipTutorial() {
+        this.modalRef.hide();
+        this.cookieService.set(this.ss.getLoggedInUserEmail(), JSON.stringify({dontShowGuide: true}), new Date(7267139602000));
     }
 
 }
