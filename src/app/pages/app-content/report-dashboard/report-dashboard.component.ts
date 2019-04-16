@@ -64,8 +64,11 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
         this.reportModel.reportType = "early";
         this.reportModel.pageSize = this.rowsOnPage;
         this.reportModel.user = this.ss.getUserName();
-        this.reportModel.orgId = this.ss.getSelectedOrg().orgId;
-        this.reportModel.companyName = this.ss.getSelectedOrg().name;
+
+        if(this.ss.getSelectedOrg()) {
+            this.reportModel.orgId = this.ss.getSelectedOrg().orgId;
+            this.reportModel.companyName = this.ss.getSelectedOrg().name;
+        }
 
         if (this.dataService.getLocId()) {
             this.reportModel.locId = this.dataService.getLocId();

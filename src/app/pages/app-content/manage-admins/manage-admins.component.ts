@@ -34,7 +34,7 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
     currentPage: number;
     maxSize: number = 5;
     userRole: string = this.ss.getSelectedOrgRole();
-    orgCreator: string = this.ss.getSelectedOrg().createdBy;
+    orgCreator: string = this.ss.getSelectedOrg()? this.ss.getSelectedOrg().createdBy: '';
     loading: boolean;
 
     constructor(private ss: StorageService,
@@ -67,25 +67,30 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
 
     fetchAdminUsers() {
         this.mService.setDisplay(true);
-        this.contentService.fetchUsersInAnOrg(this.ss.getSelectedOrg().orgId, this.pagObj)
-            .pipe(
-                finalize(() => {
-                    this.mService.setDisplay(false)
-                }))
-            .subscribe(
-                result => {
-                    if (result.code == 0) {
-                        this.totalItems = result.total;
-                        this.users = result.users ? result.users : [];
-                        this.ss.setAdminUsers(this.users);
-                    } else {
-                        this.ns.showError(result.description);
+        let orgId = this.ss.getSelectedOrg()? this.ss.getSelectedOrg().orgId: '';
+
+        if(orgId) {
+            this.contentService.fetchUsersInAnOrg(orgId, this.pagObj)
+                .pipe(
+                    finalize(() => {
+                        this.mService.setDisplay(false)
+                    }))
+                .subscribe(
+                    result => {
+                        if (result.code == 0) {
+                            this.totalItems = result.total;
+                            this.users = result.users ? result.users : [];
+                            this.ss.setAdminUsers(this.users);
+                        } else {
+                            this.ns.showError(result.description);
+                        }
+                    },
+                    error => {
+                        this.ns.showError("An Error Occurred.");
                     }
-                },
-                error => {
-                    this.ns.showError("An Error Occurred.");
-                }
-            )
+                )
+        }
+
     }
 
 

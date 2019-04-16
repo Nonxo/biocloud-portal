@@ -498,7 +498,10 @@ export class AppContentService {
 
     fetchOrgUsersLocation(): Observable<any> {
         const userId = this.ss.getUserId();
-        const orgId = this.ss.getSelectedOrg().orgId;
+        let orgId = '';
+        if(this.ss.getSelectedOrg()) {
+             orgId = this.ss.getSelectedOrg().orgId;
+        }
 
         return this.httpClient
             .get(Endpoints.FETCH_USERS_ORG + userId + "/orgs/" + orgId + "/locations", {

@@ -242,8 +242,7 @@ export class NavComponent implements OnInit, OnDestroy {
                 steps: [
                     "navBar",
                     "companyInfo",
-                    "home@/auth",
-                    "location@/auth",
+                    "home@/portal",
                     "employees@/portal/manage-users",
                     "quickReport@/portal/quick-report",
                     "reportDashboard@/portal/report-dashboard",

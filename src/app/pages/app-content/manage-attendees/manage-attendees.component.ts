@@ -49,7 +49,7 @@ export class ManageAttendeesComponent implements OnInit, OnDestroy {
                 private dataService: DataService,
                 private mService: MessageService,
                 private router: Router) {
-        this.orgId = this.ss.getSelectedOrg().orgId;
+        this.orgId = this.ss.getSelectedOrg()? this.ss.getSelectedOrg().orgId: '';
         this.ss.clearPrevRoute();
 
         if (this.dataService.getLocId()) {
