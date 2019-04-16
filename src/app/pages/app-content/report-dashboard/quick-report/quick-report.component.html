@@ -1,6 +1,7 @@
 <app-loading></app-loading>
 <mat-tab-group class="employee" (selectedTabChange)="onTabChange($event)">
-    <mat-tab label="Quick Report" joyrideStep="quickReport" title="Quick Report" text="View quick, summarized reports of employees' attendance statuses and performances for a selected period span. Reports can be downloaded and exported in multiple formats." stepPosition="center">
+    <mat-tab label="Quick Report" joyrideStep="quickReport" title="Quick Report" text="View quick, summarized reports of employees' attendance statuses and performances for a selected period span. Reports can be downloaded and exported in multiple formats."
+        stepPosition="center">
 
         <div class="container-fluid">
             <div class="row mt-4">
@@ -179,16 +180,16 @@
                     <table class="table table-striped" [mfData]="employees" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                         <thead class="text-center">
                             <tr>
-                                <th class="font-weight-bold small" scope="col">Employee Name</th>
+                                <th class="font-weight-bold small" scope="col">Employee <br> Name</th>
                                 <ng-container *ngIf="statPeriod != 'THIS_MONTH'">
                                     <th class="font-weight-normal small" scope="col" *ngFor="let date of dateColumn">
-                                        <span class="font-weight-bold">{{(date.startTime | date:'full').split(',')[0]}}</span>
+                                        <span class="font-weight-bold">{{(date.startTime | date:'full').split(',')[0]}}</span> <br>
                                         <span>{{date.startTime | date:'d/M/yyyy'}}</span>
                                     </th>
                                 </ng-container>
-                                <th class="font-weight-bold small" scope="col">Total Days Early</th>
-                                <th class="font-weight-bold small" scope="col">Total Days Late</th>
-                                <th class="font-weight-bold small" scope="col">Total Days Absent</th>
+                                <th class="font-weight-bold small" scope="col">Total Days<br> Early</th>
+                                <th class="font-weight-bold small" scope="col">Total Days <br> Late</th>
+                                <th class="font-weight-bold small" scope="col">Total Days <br> Absent</th>
                             </tr>
                         </thead>
                         <tbody>
