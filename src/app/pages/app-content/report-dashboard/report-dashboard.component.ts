@@ -30,7 +30,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     rowsOnPage: number = 10;
     data: any[] = [];
     totalSize: number;
-    currentPage: number;
+    currentPage: number = 1;
     maxSize: number = 5;
     currentTab: number = 0;
     locations: any[] = [];
@@ -264,7 +264,6 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     }
 
     downloadReport() {
-
         switch (this.exportOption) {
             case "1":
                 this.reportModel.pageNo = this.currentPage;
