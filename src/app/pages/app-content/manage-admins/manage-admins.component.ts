@@ -7,6 +7,9 @@ import {AssignAdminRequest, InviteRequest} from "../app-config/model/app-config.
 import {AppConfigService} from "../app-config/services/app-config.service";
 import {AdminRemovalRequest, UserPaginationPojo} from "../model/app-content.model";
 import {MessageService} from "../../../service/message.service";
+import {finalize} from "rxjs/internal/operators";
+import {Router} from "@angular/router";
+import {CookieService} from "../../../service/cookie.service";
 
 @Component({
     selector: 'app-manage-admins',
@@ -31,15 +34,17 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
     currentPage: number;
     maxSize: number = 5;
     userRole: string = this.ss.getSelectedOrgRole();
-    orgCreator: string = this.ss.getSelectedOrg().createdBy;
+    orgCreator: string = this.ss.getSelectedOrg()? this.ss.getSelectedOrg().createdBy: '';
     loading: boolean;
 
     constructor(private ss: StorageService,
-        private contentService: AppContentService,
-        private ns: NotifyService,
-        private modalService: BsModalService,
-        private configService: AppConfigService,
-        private mService: MessageService) {
+                private contentService: AppContentService,
+                private ns: NotifyService,
+                private modalService: BsModalService,
+                private configService: AppConfigService,
+                private mService: MessageService,
+                private router: Router,
+                private cookieService: CookieService) {
     }
 
     ngOnInit() {
@@ -52,26 +57,40 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
         this.callLocationService();
     }
 
+    onDone() {
+        //set cookie to save user's preference
+        this.cookieService.set(this.ss.getLoggedInUserEmail(), JSON.stringify({dontShowGuide: true}), new Date(7267139602000));
+
+        this.router.navigate(['/portal']);
+    }
+
+
     fetchAdminUsers() {
         this.mService.setDisplay(true);
-        this.contentService.fetchUsersInAnOrg(this.ss.getSelectedOrg().orgId, this.pagObj)
-            .finally(() => {
-                this.mService.setDisplay(false)
-            })
-            .subscribe(
-                result => {
-                    if (result.code == 0) {
-                        this.totalItems = result.total;
-                        this.users = result.users ? result.users : [];
-                        this.ss.setAdminUsers(this.users);
-                    } else {
-                        this.ns.showError(result.description);
+        let orgId = this.ss.getSelectedOrg()? this.ss.getSelectedOrg().orgId: '';
+
+        if(orgId) {
+            this.contentService.fetchUsersInAnOrg(orgId, this.pagObj)
+                .pipe(
+                    finalize(() => {
+                        this.mService.setDisplay(false)
+                    }))
+                .subscribe(
+                    result => {
+                        if (result.code == 0) {
+                            this.totalItems = result.total;
+                            this.users = result.users ? result.users : [];
+                            this.ss.setAdminUsers(this.users);
+                        } else {
+                            this.ns.showError(result.description);
+                        }
+                    },
+                    error => {
+                        this.ns.showError("An Error Occurred.");
                     }
-                },
-                error => {
-                    this.ns.showError("An Error Occurred.");
-                }
-            )
+                )
+        }
+
     }
 
 
@@ -130,7 +149,7 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
         this.assignAdminRequest = new AssignAdminRequest();
 
         this.assignAdminRequest.role = this.selectedUser.role;
-        this.assignAdminRequest.locIds = this.selectedUser.locIds? (this.selectedUser.locIds.length > 0 ? this.selectedUser.locIds : []): [];
+        this.assignAdminRequest.locIds = this.selectedUser.locIds ? (this.selectedUser.locIds.length > 0 ? this.selectedUser.locIds : []) : [];
         this.assignAdminRequest.email = this.selectedUser.email;
 
         this.openModal(template);
@@ -150,9 +169,10 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
 
         this.loading = true;
         this.configService.inviteAttendees(this.inviteRequest)
-            .finally(() => {
-                this.loading = false;
-            })
+            .pipe(
+                finalize(() => {
+                    this.loading = false;
+                }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -249,10 +269,11 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
 
         this.loading = true;
         this.contentService.removeAdmin(this.adminRemovalRequest)
-            .finally(() => {
-                this.selAll = false;
-                this.loading = false;
-            })
+            .pipe(
+                finalize(() => {
+                    this.selAll = false;
+                    this.loading = false;
+                }))
             .subscribe(
                 result => {
                     let res: any = result;
@@ -281,9 +302,10 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
 
         this.loading = true;
         this.configService.assignAdmins(this.assignAdminRequest)
-            .finally(() => {
-                this.loading = false;
-            })
+            .pipe(
+                finalize(() => {
+                    this.loading = false;
+                }))
             .subscribe(
                 result => {
                     if (result.code == 0) {

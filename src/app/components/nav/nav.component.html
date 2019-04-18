@@ -1,7 +1,7 @@
 <mat-sidenav-container autosize>
 
     <mat-sidenav #sidenav mode="{{sideNavMode}}" [opened]="opener" [ngStyle]="{ 'width.em': sidenavWidth }">
-        <div class="nav-header d-md-block d-none">
+        <div class="nav-header d-md-block d-none" joyrideStep="navBar" title="iClocker side bar" text="Here you can navigate to every page on the app." stepPosition="right">
             <div class="py-4 pb-0 px-3">
                 <img src="assets/img/logo-img.png" class="img-fluid logo-icon" *ngIf="sidenavWidth >= 15" style="max-height:50px;" />
                 <img src="assets/img/logo-icon.png" class="img-fluid logo-icon" *ngIf="sidenavWidth < 15" />
@@ -9,7 +9,8 @@
         </div>
 
 
-        <div class="container-fluid px-0" (clickOutside)="onClickedOutside($event)">
+        <div class="container-fluid px-0" (clickOutside)="onClickedOutside($event)" joyrideStep="companyInfo" title="Company Info" text="Your company logo, name and code are displayed here. You can switch between companies and add new ones under your profile by clicking the drop down."
+            stepPosition="right">
             <a role="button" (click)="createOrg(template)" *ngIf="orgs.length == 0 && !selectedOrg.orgId">
                 <div class="cursor border-top">
                     <small>
@@ -415,4 +416,25 @@
         </div>
     </div>
 
+</ng-template>
+
+
+<!--joyride modal-->
+<ng-template #joyRide>
+    <div class="modal-body py-4">
+        <h5 class="text-center font-weight-normal text-brand">Welcome to iClocker Dashboard</h5>
+        <p class="text-center pt-3 mb-0 font-weight-bold">Lets walk you through the App</p>
+        <p class="small text-center py-2">These short tutorials will help you navigate the app with ease.</p>
+
+        <div class="text-center">
+            <img class="img-fluid pb-3" src="assets/img/intro-img.png" alt="" style="max-width: 250px">
+        </div>
+
+        <div class="col-md-12 text-right">
+            <div class="d-inline-flex">
+                <p class="text-secondary cursor my-auto pr-3" style="font-size: 14px" (click)="skipTutorial()">Skip</p>
+                <button class="btn btn-primary cursor" style="font-size: 14px" (click)="startJoyride()">Start</button>
+            </div>
+        </div>
+    </div>
 </ng-template>

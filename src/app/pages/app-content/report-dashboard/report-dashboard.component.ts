@@ -13,6 +13,7 @@ import {DateUtil} from "../../../util/DateUtil";
 import {MyDateAdapter} from "../../../util/adapters/date-adapter";
 import {DateAdapter} from "@angular/material";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
+import {finalize} from "rxjs/internal/operators";
 
 
 @Component({
@@ -29,7 +30,7 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     rowsOnPage: number = 10;
     data: any[] = [];
     totalSize: number;
-    currentPage: number;
+    currentPage: number = 1;
     maxSize: number = 5;
     currentTab: number = 0;
     locations: any[] = [];
@@ -63,8 +64,11 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
         this.reportModel.reportType = "early";
         this.reportModel.pageSize = this.rowsOnPage;
         this.reportModel.user = this.ss.getUserName();
-        this.reportModel.orgId = this.ss.getSelectedOrg().orgId;
-        this.reportModel.companyName = this.ss.getSelectedOrg().name;
+
+        if(this.ss.getSelectedOrg()) {
+            this.reportModel.orgId = this.ss.getSelectedOrg().orgId;
+            this.reportModel.companyName = this.ss.getSelectedOrg().name;
+        }
 
         if (this.dataService.getLocId()) {
             this.reportModel.locId = this.dataService.getLocId();
@@ -107,10 +111,11 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
 
         this.mService.setDisplay(true);
         this.reportService.fetchDailyReport(this.reportModel)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.reportModel.export = false;
                 this.mService.setDisplay(false);
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -259,7 +264,6 @@ export class ReportDashboardComponent implements OnInit, OnDestroy {
     }
 
     downloadReport() {
-
         switch (this.exportOption) {
             case "1":
                 this.reportModel.pageNo = this.currentPage;

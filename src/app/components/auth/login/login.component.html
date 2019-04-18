@@ -26,9 +26,10 @@
                     <input type="email" class="form-control w-100" placeholder="you@emailprovider.com" id="email" formControlName="email" autofocus>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group position-relative">
                     <label class="text-secondary small">Password</label>
-                    <input type="password" class="form-control w-100" placeholder="Password" id="password" [type]="hide ? 'password' : 'text'" formControlName="pw" passwordToggle>
+                    <input type="password" class="form-control w-100" placeholder="Password" id="password" [type]="hide ? 'password' : 'text'" formControlName="pw">
+                    <mat-icon class="position-absolute cursor pwd-icon" matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </div>
             </div>
 

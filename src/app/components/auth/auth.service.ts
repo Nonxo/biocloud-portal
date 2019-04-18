@@ -1,6 +1,6 @@
-import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {Endpoints} from '../../util/endpoints';
 import {MediaType} from "../../util/constants";
 import {StorageService} from "../../service/storage.service";

@@ -1679,3 +1679,9 @@
         width: 75%;
     }
 }
+
+.pwd-icon {
+    top: 46%;
+    right: 3%;
+    font-size: 18px;
+}

@@ -9,6 +9,8 @@ import {GeoMapService} from "../../../../../../service/geo-map.service";
 import {DateUtil} from '../../../../../../util/DateUtil';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {Router} from "@angular/router";
+import {finalize} from "rxjs/internal/operators";
+import {ADRESS_RETRIVED_SUCCESS_MESSAGE} from "../../setup.component";
 
 @Component({
     selector: 'app-create-location',
@@ -53,15 +55,15 @@ export class CreateLocationComponent implements OnInit {
     onBoard: boolean;
 
     constructor(private modalService: BsModalService,
-                private aService: AppConfigService,
-                private ns: NotifyService,
-                private ss: StorageService,
-                private loader: MapsAPILoader,
-                private ngZone: NgZone,
-                private mapService: GeoMapService,
-                private dateUtil: DateUtil,
-                private configService: AppConfigService,
-                private router: Router) {
+        private aService: AppConfigService,
+        private ns: NotifyService,
+        private ss: StorageService,
+        private loader: MapsAPILoader,
+        private ngZone: NgZone,
+        private mapService: GeoMapService,
+        private dateUtil: DateUtil,
+        private configService: AppConfigService,
+        private router: Router) {
         this.username = this.ss.getUserName();
     }
 
@@ -72,16 +74,16 @@ export class CreateLocationComponent implements OnInit {
         this.loader.load().then(() => {
         });
 
-        if(this.onBoard && !obj && this.step != 1) {
+        if (this.onBoard && !obj && this.step != 1) {
             this.router.navigate(['/onboard']);
         }
 
         //check local storage for saved obj
 
-        if(obj) {
+        if (obj) {
             this.getOnBoardingObj(obj);
-            if(this.locRequest.locationType) {
-                switch(this.locRequest.locationType) {
+            if (this.locRequest.locationType) {
+                switch (this.locRequest.locationType) {
                     case "COUNTRY": {
                         this.fetchCountries();
                         break;
@@ -104,7 +106,7 @@ export class CreateLocationComponent implements OnInit {
     }
 
     openModal(template: TemplateRef<any>) {
-        this.modalRef = this.modalService.show(template, {class: 'modal-lg'});
+        this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
     }
 
     clearData() {
@@ -163,10 +165,10 @@ export class CreateLocationComponent implements OnInit {
 
         if (country != "") {
             a.setComponentRestrictions(
-                {'country': country});
+                { 'country': country });
         } else {
             a.setComponentRestrictions(
-                {'country': []});
+                { 'country': [] });
         }
 
         a.addListener("place_changed", () => {
@@ -229,7 +231,9 @@ export class CreateLocationComponent implements OnInit {
             )
     }
 
-    getSearchAddress(lat: number, lng: number) {
+    getSearchAddress(lat: number, lng: number, getCurrentPosition?: boolean) {
+        this.fetchTimezoneByCoords();
+
         this.mapService.getAddress(lat, lng)
             .subscribe(
                 result => {
@@ -238,6 +242,7 @@ export class CreateLocationComponent implements OnInit {
 
                         if (typeof result === 'string') {
                             this.locRequest.address = result;
+                            getCurrentPosition? this.ns.showSuccess(ADRESS_RETRIVED_SUCCESS_MESSAGE): '';
                         } else {
                             this.ns.showError("Unable to get Address")
                         }
@@ -301,15 +306,16 @@ export class CreateLocationComponent implements OnInit {
 
         // noinspection TypeScriptValidateTypes,TypeScriptUnresolvedFunction
         this.aService.saveLocation(this.locRequest)
-            .finally(() => {
-                this.loading = false;
-            })
+            .pipe(
+                finalize(() => {
+                    this.loading = false;
+                }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
 
                         this.locRequest = result.loc;
-                        if(this.onBoard) {
+                        if (this.onBoard) {
                             this.setOnBoardingObj();
                             this.routeUser();
                         }
@@ -329,13 +335,14 @@ export class CreateLocationComponent implements OnInit {
     editLocation() {
         this.loading = true;
         this.aService.editLocation(this.locRequest)
-            .finally(() => {
-                this.loading = false;
-            })
+            .pipe(
+                finalize(() => {
+                    this.loading = false;
+                }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
-                        if(this.onBoard) {
+                        if (this.onBoard) {
                             this.setOnBoardingObj();
                             this.routeUser();
                         }
@@ -351,7 +358,7 @@ export class CreateLocationComponent implements OnInit {
             )
     }
     routeUser() {
-        switch(this.step) {
+        switch (this.step) {
             case 1: {
                 this.router.navigate(['/onboard/step-two']);
                 break;
@@ -466,7 +473,7 @@ export class CreateLocationComponent implements OnInit {
                 break;
             }
             case 2: {
-                if(this.isFormValid()) {
+                if (this.isFormValid()) {
                     this.editLocation();
                 }
                 break;
@@ -478,12 +485,12 @@ export class CreateLocationComponent implements OnInit {
                 break;
             }
             case 4: {
-                if(this.inviteEmails.length == 0) {
+                if (this.inviteEmails.length == 0) {
                     this.ns.showError("Please add employee emails or select the option to skip this step");
                     break;
                 }
 
-                if(this.isFormValid()) {
+                if (this.isFormValid()) {
                     this.inviteRequest.locIds.push(this.locRequest.locId);
                     this.inviteRequest.emails = this.inviteEmails;
                     this.inviteRequest.role = 'ATTENDEE';
@@ -505,17 +512,17 @@ export class CreateLocationComponent implements OnInit {
 
             case 2: {
                 // !this.locRequest.locationType ? this.locRequest.locationType = 'SPECIFIC_ADDRESS' : '';
-                this.onBoard? this.router.navigate(['/onboard/step-one']): this.step -= 1;
+                this.onBoard ? this.router.navigate(['/onboard/step-one']) : this.step -= 1;
                 break;
             }
 
             case 3: {
-                this.onBoard? this.router.navigate(['/onboard/step-two']): this.step -= 1;
+                this.onBoard ? this.router.navigate(['/onboard/step-two']) : this.step -= 1;
                 break;
             }
 
             case 4: {
-                this.onBoard? this.router.navigate(['/onboard/step-three']): this.step -= 1;
+                this.onBoard ? this.router.navigate(['/onboard/step-three']) : this.step -= 1;
                 break;
             }
         }
@@ -542,13 +549,30 @@ export class CreateLocationComponent implements OnInit {
 
     }
 
+    fetchTimezoneByCoords() {
+        this.locRequest.resumptionTimezoneId = "";
+        this.aService.getTimezoneByCoords(this.lat, this.lng)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.locRequest.resumptionTimezoneId = result.timeZonesId[0];
+                    } else {
+                        this.ns.showError(result.description);
+                    }
+                },
+                error => {
+                    this.ns.showError("Unable to fetch timezone details");
+                }
+            )
+    }
+
     getCurrentPosition(withAddress: boolean) {
         this.mapService.getLocation().subscribe((result) => {
-                this.lat = result.coords.latitude;
-                this.lng = result.coords.longitude;
+            this.lat = result.coords.latitude;
+            this.lng = result.coords.longitude;
 
-                withAddress ? this.getSearchAddress(result.coords.latitude, result.coords.longitude) : '';
-            },
+            withAddress ? this.getSearchAddress(result.coords.latitude, result.coords.longitude, true) : '';
+        },
             (e) => {
                 this.ns.showError(e)
             })
@@ -580,9 +604,43 @@ export class CreateLocationComponent implements OnInit {
                         }
                     },
                     error => {
+                        this.ns.showError("Unable to fetch state list");
+                    }
+                )
+        } else {
+            this.aService.fetchCountryTimezones(id)
+                .subscribe(
+                    result => {
+                        if (result.code == 0) {
+                            this.locRequest.resumptionTimezoneId = result.timeZonesId[0];
+                        }
+                    },
+                    error => {
+                        this.ns.showError("Unable to fetch country timezones");
                     }
                 )
         }
+    }
+
+    fetchStateTimezones(dropDown, countryId: number) {
+        let stateName = dropDown.options[dropDown.selectedIndex].text;
+
+        this.aService.fetchCountryTimezones(countryId)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        let timezones: string[] = result.timeZonesId;
+                        this.locRequest.resumptionTimezoneId = timezones.filter(tzs => tzs.includes(stateName))[0];
+
+                        if (!this.locRequest.resumptionTimezoneId) {
+                            this.locRequest.resumptionTimezoneId = timezones[0];
+                        }
+                    }
+                },
+                error => {
+                    this.ns.showError("Unable to fetch state timezones");
+                }
+            )
     }
 
     isTimeSetupValid(): boolean {
@@ -622,7 +680,7 @@ export class CreateLocationComponent implements OnInit {
             let diff = this.dateUtil.getTimeStamp(this.clockoutTime) - this.dateUtil.getTimeStamp(this.resumptionTime);
 
             if (diff < this.dateUtil.convertMinutesToMS(this.locRequest.gracePeriodInMinutes)) {
-                this.ns.showError("Your grace period should be less than " + (Math.round((diff/1000)/60) + 1) + " minute(s)");
+                this.ns.showError("Your grace period should be less than " + (Math.round((diff / 1000) / 60) + 1) + " minute(s)");
                 return false;
             }
         }
@@ -693,7 +751,7 @@ export class CreateLocationComponent implements OnInit {
 
     clearTime(type: string) {
 
-        if(type == 'resumption') {
+        if (type == 'resumption') {
             this.resumptionTime = void 0;
         } else {
             this.clockoutTime = void 0;
@@ -703,22 +761,23 @@ export class CreateLocationComponent implements OnInit {
     invite() {
         this.loading = true;
         this.configService.inviteAttendees(this.inviteRequest)
-            .finally(() => {this.loading = false;})
+            .pipe(
+                finalize(() => { this.loading = false; }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
                         this.inviteRequest = new InviteRequest();
-                        this.step +=1;
+                        this.step += 1;
                     } else {
                         this.ns.showError(result.description);
                     }
                 },
                 error => {
-                    if(error.name == "TimeoutError") {
+                    if (error.name == "TimeoutError") {
                         this.inviteRequest = new InviteRequest();
-                        this.step +=1;
-                    }else {
-                    this.ns.showError("An Error Occurred.");
+                        this.step += 1;
+                    } else {
+                        this.ns.showError("An Error Occurred.");
                     }
                 }
             )
@@ -726,12 +785,12 @@ export class CreateLocationComponent implements OnInit {
 
     sendSupportEmail() {
 
-        if(!this.helpOption) {
+        if (!this.helpOption) {
             this.ns.showError("Please select an option");
             return;
         }
 
-        if(this.helpOption == 'CANT_GET_LOCATION') {
+        if (this.helpOption == 'CANT_GET_LOCATION') {
             this.supportRequest.issue = "I can't get my location on the map";
         }
 
@@ -745,7 +804,7 @@ export class CreateLocationComponent implements OnInit {
                     this.ns.showSuccess("Message sent successfully");
                     this.modalRef.hide();
                 },
-                (error) => { this.ns.showError("An Error Occurred");}
+                (error) => { this.ns.showError("An Error Occurred"); }
             )
     }
 
@@ -766,8 +825,8 @@ export class CreateLocationComponent implements OnInit {
         this.locRequest = obj.locRequest;
         this.lat = obj.lat;
         this.lng = obj.lng;
-        this.resumptionTime = this.locRequest.resumption? new Date(this.locRequest.resumption): null;
-        this.clockoutTime = this.locRequest.clockOutTime? new Date(this.locRequest.clockOutTime): null;
+        this.resumptionTime = this.locRequest.resumption ? new Date(this.locRequest.resumption) : null;
+        this.clockoutTime = this.locRequest.clockOutTime ? new Date(this.locRequest.clockOutTime) : null;
         this.inviteEmails = obj.inviteEmails;
     }
 

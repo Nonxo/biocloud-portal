@@ -4,7 +4,7 @@
 
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
 import {Endpoints} from "../../../util/endpoints";
 import {MediaType} from "../../../util/constants";
 import {map, timeout} from "rxjs/operators";

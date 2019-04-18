@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {
-    AttendanceStatusRequest, AttendeesPOJO, DateColumn, DaysPresentRequest,
+    AttendanceStatusRequest,
+    AttendeesPOJO,
+    DateColumn,
+    DaysPresentRequest,
     ReportModel
 } from "../../model/app-content.model";
 import {ReportService} from "../../services/report.service";
@@ -12,9 +15,9 @@ import {DataService} from "../../../../service/data.service";
 import {Router} from "@angular/router";
 import {MessageService} from "../../../../service/message.service";
 import {DateUtil} from "../../../../util/DateUtil";
-import {Subject} from 'rxjs';
 import {SearchService} from "../../../../service/search.service";
 import * as FileSaver from "file-saver";
+import {finalize} from "rxjs/internal/operators";
 
 @Component({
     selector: 'app-quick-report',
@@ -84,10 +87,12 @@ export class QuickReportComponent implements OnInit {
                 private mService: MessageService,
                 private dateUtil: DateUtil,
                 private searchService: SearchService) {
-        this.reportModel.orgId = this.ss.getSelectedOrg().orgId;
-        this.companyName = this.ss.getSelectedOrg().name;
-        this.username = this.ss.getUserName();
+        if(this.ss.getSelectedOrg()) {
+            this.reportModel.orgId = this.ss.getSelectedOrg().orgId;
+            this.companyName = this.ss.getSelectedOrg().name;
+        }
 
+        this.username = this.ss.getUserName();
         this.ss.clearPrevRoute();
 
     }
@@ -200,7 +205,7 @@ export class QuickReportComponent implements OnInit {
 
         for (let i = 0; i < this.employees.length; i++) {
 
-            for (let j = 0; j < weeks; i++) {
+            for (let j = 0; j < weeks; j++) {
                 this.employees[i]['weeks'] = [];
                 this.employees[i].weeks.push({
                     id: j,
@@ -261,9 +266,10 @@ export class QuickReportComponent implements OnInit {
     fetchAttendees() {
         this.mService.setDisplay(true);
         this.contentService.fetchAttendees(this.attendeePOJO)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.mService.setDisplay(false);
-            })
+            }))
             .subscribe(
                 result => {
                     this.employees = result.attendees? result.attendees:[];
@@ -370,7 +376,7 @@ export class QuickReportComponent implements OnInit {
     onFilterToggle() {
         switch(this.statPeriod) {
             case 'OTHER_WEEKS':
-                if(this.selectedMonth && this.selectedYear) {
+                if((this.selectedMonth && !isNaN(this.selectedMonth)) && (this.selectedYear &&!isNaN(this.selectedYear))) {
                     let weekInaMonth = this.dateUtil.weeksInAmonth(this.selectedMonth, this.selectedYear);
 
                     this.weeks = [];
@@ -380,12 +386,14 @@ export class QuickReportComponent implements OnInit {
                     }
                 }
 
-                if(this.selectedMonth && this.selectedYear && this.selectedWeek) {
+                if((this.selectedMonth && !isNaN(this.selectedMonth)) &&
+                    (this.selectedYear &&!isNaN(this.selectedYear)) &&
+                    (this.selectedWeek && !isNaN(this.selectedWeek))) {
                     this.onWeekFilter();
                 }
                 break;
             case 'OTHER_MONTHS':
-                if(this.selectedMonth && this.selectedYear) {
+                if((this.selectedMonth && !isNaN(this.selectedMonth)) && (this.selectedYear &&!isNaN(this.selectedYear))) {
                     let firstDateOfTheMonth = this.dateUtil.getFirstDayOfCurrentMonth(new Date(this.selectedYear, this.selectedMonth, 0));
 
 
@@ -406,17 +414,20 @@ export class QuickReportComponent implements OnInit {
     }
 
     onWeekFilter() {
-        let firstDateOfTheWeek = this.dateUtil.getFirstDayOfAweek(this.selectedYear, this.selectedMonth, this.selectedWeek);
+        if(!isNaN(this.selectedWeek)) {
+            let firstDateOfTheWeek = this.dateUtil.getFirstDayOfAweek(this.selectedYear, this.selectedMonth, this.selectedWeek);
 
 
-        let firstDay = this.dateUtil.getFirstDayOfCurrentWeek(firstDateOfTheWeek);
-        let lastDay = this.dateUtil.getLastDayOfCurrentWeek(firstDateOfTheWeek);
+            let firstDay = this.dateUtil.getFirstDayOfCurrentWeek(firstDateOfTheWeek);
+            let lastDay = this.dateUtil.getLastDayOfCurrentWeek(firstDateOfTheWeek);
 
-        this.startRange = firstDay.getTime();
-        this.endRange = lastDay.getTime();
+            this.startRange = firstDay.getTime();
+            this.endRange = lastDay.getTime();
 
 
-        this.fetchAttendeesCount();
+            this.fetchAttendeesCount();
+        }
+
     }
 
     search() {

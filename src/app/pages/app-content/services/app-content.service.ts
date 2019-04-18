@@ -1,16 +1,22 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
-import { Endpoints } from "../../../util/endpoints";
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {Endpoints} from "../../../util/endpoints";
 import {
-    CreateOrgRequest, AssignUserRequest, ApproveRequest, AdminRemovalRequest, UpdateProfile,
-    AttendeesPOJO, HistoryPojo, UserPaginationPojo, ApproveCoordinate
+    AdminRemovalRequest,
+    ApproveCoordinate,
+    ApproveRequest,
+    AssignUserRequest,
+    AttendeesPOJO,
+    CreateOrgRequest,
+    HistoryPojo,
+    UpdateProfile,
+    UserPaginationPojo
 } from "../model/app-content.model";
-import { StorageService } from "../../../service/storage.service";
-import { MediaType } from "../../../util/constants";
-import set = Reflect.set;
-import { timeout, map } from "rxjs/operators";
-import { AuthService } from "../../../components/auth/auth.service";
+import {StorageService} from "../../../service/storage.service";
+import {MediaType} from "../../../util/constants";
+import {map, timeout} from "rxjs/operators";
+import {AuthService} from "../../../components/auth/auth.service";
 
 @Injectable()
 export class AppContentService {
@@ -492,7 +498,10 @@ export class AppContentService {
 
     fetchOrgUsersLocation(): Observable<any> {
         const userId = this.ss.getUserId();
-        const orgId = this.ss.getSelectedOrg().orgId;
+        let orgId = '';
+        if(this.ss.getSelectedOrg()) {
+             orgId = this.ss.getSelectedOrg().orgId;
+        }
 
         return this.httpClient
             .get(Endpoints.FETCH_USERS_ORG + userId + "/orgs/" + orgId + "/locations", {

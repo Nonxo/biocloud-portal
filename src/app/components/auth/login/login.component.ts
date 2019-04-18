@@ -1,15 +1,9 @@
-import {
-    Component,
-    OnDestroy,
-    OnInit,
-    TemplateRef,
-    ViewChild,
-    ViewChildren
-} from '@angular/core';
+import {finalize} from 'rxjs/operators';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewChildren} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {BsModalRef, BsModalService, ModalOptions} from 'ngx-bootstrap';
-import 'rxjs/add/operator/finally';
+
 import {NotifyService} from '../../../service/notify.service';
 import {StorageService} from '../../../service/storage.service';
 import {AuthService} from '../auth.service';
@@ -102,6 +96,7 @@ export class LoginComponent implements OnInit,OnDestroy {
         const payload = this.loginForm.value;
         this.modalOptions.initialState = {
             email: payload.email,
+            oldPw: payload.pw,
             response: res
 
         };
@@ -115,8 +110,8 @@ export class LoginComponent implements OnInit,OnDestroy {
         const payload = this.loginForm.value;
 
         //noinspection TypeScriptValidateTypes
-        this.authService.login(payload.email, payload.pw)
-            .finally(() => this.loading = false)
+        this.authService.login(payload.email, payload.pw).pipe(
+            finalize(() => this.loading = false))
             .subscribe(
                 res => {
                     if (res.code == 0) {
@@ -140,12 +135,12 @@ export class LoginComponent implements OnInit,OnDestroy {
         const payload = this.resetForm.value;
         this.loading = true;
         //noinspection TypeScriptValidateTypes
-        this.authService.forgotPassword(payload.email)
-            .finally(() => this.loading = false)
+        this.authService.forgotPassword(payload.email).pipe(
+            finalize(() => this.loading = false))
             .subscribe(
                 res => {
                     if (res.code == 0) {
-                        this.ns.showSuccess(res.description);
+                        this.ns.showSuccess("Email sent successfully");
                         this.modalRef.hide();
                     } else {
                         this.ns.showError(res.description);
@@ -170,8 +165,8 @@ export class LoginComponent implements OnInit,OnDestroy {
 
     accept() {
         this.loading = true;
-        this.authService.acceptCompliance(this.loginForm.get('email').value)
-            .finally(() => {this.loading = false})
+        this.authService.acceptCompliance(this.loginForm.get('email').value).pipe(
+            finalize(() => {this.loading = false}))
             .subscribe(
                 result => {
                     if(result.code == 0) {

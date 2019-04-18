@@ -1,10 +1,11 @@
-import {Component, OnChanges, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DomSanitizer} from "@angular/platform-browser";
 import {ReportService} from "../../services/report.service";
 import {StorageService} from "../../../../service/storage.service";
 import {MessageService} from "../../../../service/message.service";
 import {DateUtil} from "../../../../util/DateUtil";
 import {NotifyService} from "../../../../service/notify.service";
+import {finalize} from "rxjs/internal/operators";
 
 @Component({
   selector: 'app-metabase-report',
@@ -42,7 +43,8 @@ export class MetabaseReportComponent implements OnInit {
   getToken() {
       this.mService.setDisplay(true);
       this.reportService.generateMetabaseToken(this.orgId, this.startdate, this.enddate)
-          .finally(() => {this.mService.setDisplay(false)})
+          .pipe(
+          finalize(() => {this.mService.setDisplay(false)}))
           .subscribe(
               result => {
                   this.token = result.token;

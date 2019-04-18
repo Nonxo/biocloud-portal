@@ -45,8 +45,7 @@ import {
     Angulartics2Module
 } from "angulartics2";
 import {DeviceDetectorModule} from "ngx-device-detector";
-import { NgxPasswordToggleModule } from 'ngx-password-toggle';
-
+import {CookieService} from "./service/cookie.service";
 
 @NgModule({
     declarations: [
@@ -68,7 +67,6 @@ import { NgxPasswordToggleModule } from 'ngx-password-toggle';
         RegEmailNotificationComponent
     ],
     imports: [
-        NgxPasswordToggleModule,
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,
@@ -98,6 +96,7 @@ import { NgxPasswordToggleModule } from 'ngx-password-toggle';
         AppConfigService,
         BsModalRef,
         MessageService,
+        CookieService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: ApiInterceptor,

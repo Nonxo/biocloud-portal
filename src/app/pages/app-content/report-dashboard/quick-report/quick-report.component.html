@@ -1,6 +1,7 @@
 <app-loading></app-loading>
 <mat-tab-group class="employee" (selectedTabChange)="onTabChange($event)">
-    <mat-tab label="Quick Report">
+    <mat-tab label="Quick Report" joyrideStep="quickReport" title="Quick Report" text="View quick, summarized reports of employees' attendance statuses and performances for a selected period span. Reports can be downloaded and exported in multiple formats."
+        stepPosition="center">
 
         <div class="container-fluid">
             <div class="row mt-4">
@@ -74,7 +75,7 @@
 
                         <div class="form-group mb-0">
                             <select class="form-control" name="selectedYear" [(ngModel)]="selectedYear" (change)="onFilterToggle()">
-                                    <option selected>Select Year</option>
+                                    <option value ="null">Select Year</option>
                                                                 <option value="{{year}}" *ngFor="let year of years">{{year}}</option>
                                                             </select>
                         </div>
@@ -90,7 +91,7 @@
 
                         <div class="form-group mb-0">
                             <select placeholder="Select Month" class="form-control" name="selectedMonth" [(ngModel)]="selectedMonth" (change)="onFilterToggle()">
-                                    <option selected>Select Month</option>
+                                    <option value="null">Select Month</option>
                                                                         <option value="{{month.id}}" *ngFor="let month of months">{{month.name}}</option>
                                                                     </select>
                         </div>
@@ -105,8 +106,8 @@
                     <div class="col-md-2 col-lg-2 px-md-3 px-0" *ngIf="statPeriod == 'OTHER_WEEKS'">
 
                         <div class="form-group mb-0">
-                            <select class="form-control" name="week" [(ngModel)]="selectedWeek" (change)="onWeekFilter()">
-                                    <option selected>Select Week</option>
+                            <select class="form-control" name="week" [(ngModel)]="selectedWeek" (change)="onFilterToggle()">
+                                    <option value="null">Select Week</option>
                                                                                 <option value="{{week.id}}" *ngFor="let week of weeks">{{week.title}}</option>
                                                                             </select>
                         </div>
@@ -179,16 +180,16 @@
                     <table class="table table-striped" [mfData]="employees" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
                         <thead class="text-center">
                             <tr>
-                                <th class="font-weight-bold small" scope="col">Employee Name</th>
+                                <th class="font-weight-bold small" scope="col">Employee <br> Name</th>
                                 <ng-container *ngIf="statPeriod != 'THIS_MONTH'">
                                     <th class="font-weight-normal small" scope="col" *ngFor="let date of dateColumn">
-                                        <span class="font-weight-bold">{{(date.startTime | date:'full').split(',')[0]}}</span>
+                                        <span class="font-weight-bold">{{(date.startTime | date:'full').split(',')[0]}}</span> <br>
                                         <span>{{date.startTime | date:'d/M/yyyy'}}</span>
                                     </th>
                                 </ng-container>
-                                <th class="font-weight-bold small" scope="col">Total Days Early</th>
-                                <th class="font-weight-bold small" scope="col">Total Days Late</th>
-                                <th class="font-weight-bold small" scope="col">Total Days Absent</th>
+                                <th class="font-weight-bold small" scope="col">Total Days<br> Early</th>
+                                <th class="font-weight-bold small" scope="col">Total Days <br> Late</th>
+                                <th class="font-weight-bold small" scope="col">Total Days <br> Absent</th>
                             </tr>
                         </thead>
                         <tbody>

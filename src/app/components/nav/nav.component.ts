@@ -15,13 +15,16 @@ import {
 import {MessageService} from "../../service/message.service";
 import {InviteRequest} from "../../pages/app-content/app-config/model/app-config.model";
 import {SearchService} from "../../service/search.service";
-import {Subject} from "rxjs/Subject";
+import {Subject} from "rxjs";
 import {AuthService} from "../auth/auth.service";
 import {PictureUtil} from "../../util/PictureUtil";
 import {SubscriptionService} from "../../pages/app-content/services/subscription.service";
 import {DateUtil} from "../../util/DateUtil";
 import {SubscriptionMode} from "../../pages/app-content/enums/enums";
 import {ConfirmLocationComponent} from "../../pages/app-content/confirm-location/confirm-location.component";
+import {finalize} from "rxjs/internal/operators";
+import {JoyrideService} from "ngx-joyride";
+import {CookieService} from "../../service/cookie.service";
 
 declare const gapi: any;
 
@@ -107,6 +110,7 @@ export class NavComponent implements OnInit, OnDestroy {
     range: any[] = [];
     employeeRangeUpperLimit:any;
     modalOptions:ModalOptions = new ModalOptions();
+    @ViewChild("joyRide") joyRide: TemplateRef<any>;
 
     constructor(private router: Router,
                 private authService: AuthService,
@@ -118,7 +122,9 @@ export class NavComponent implements OnInit, OnDestroy {
                 private pictureUtil: PictureUtil,
                 private searchService: SearchService,
                 private subService: SubscriptionService,
-                private dateUtil: DateUtil) {
+                private dateUtil: DateUtil,
+                private readonly joyrideService: JoyrideService,
+                private cookieService: CookieService) {
 
         if (this.router.url == "/portal") {
             this.activeClass = "active";
@@ -208,6 +214,46 @@ export class NavComponent implements OnInit, OnDestroy {
         this.onResizeByWindowScreen();
         this.callNotificationService();
     }
+
+    triggerTutorial() {
+        if (window.screen.width >= 1025) {
+            //check user's preference in cookie
+            try {
+                    if(this.cookieService.get(this.ss.getLoggedInUserEmail())) {
+                        let obj = JSON.parse(this.cookieService.get(this.ss.getLoggedInUserEmail()));
+
+                        if(!obj.dontShowGuide) {
+                            this.openModal(this.joyRide);
+                        }
+                    } else {
+                        this.openModal(this.joyRide);
+                    }
+
+            }catch(e) {
+                console.log(e);
+            }
+        }
+    }
+
+    // start joyride
+    startJoyride() {
+        this.joyrideService.startTour(
+            {
+                steps: [
+                    "navBar",
+                    "companyInfo",
+                    "home@/portal",
+                    "employees@/portal/manage-users",
+                    "quickReport@/portal/quick-report",
+                    "reportDashboard@/portal/report-dashboard",
+                    "admin@/portal/manage-admins"
+                ]
+            } // Your steps order
+        );
+        this.modalRef.hide();
+    }
+
+
 
     fetchCompanyType() {
         if (this.ss.getCompanyType() && this.ss.getCompanyType().length > 0) {
@@ -478,7 +524,7 @@ export class NavComponent implements OnInit, OnDestroy {
     callUsersOrgService() {
         this.mService.setDisplay(true);
         this.contentService.fetchUsersOrg()
-            .finally(() => {this.mService.setDisplay(false)})
+            .pipe(finalize(() => {this.mService.setDisplay(false)}))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -546,9 +592,10 @@ export class NavComponent implements OnInit, OnDestroy {
 
     callOrgCreationService() {
         this.contentService.createOrg(this.orgRequest)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.loading = false;
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -572,10 +619,11 @@ export class NavComponent implements OnInit, OnDestroy {
 
     callOrgEditService() {
         this.contentService.updateOrg(this.orgRequest)
-            .finally(() => {
+            .pipe(
+            finalize(() => {
                 this.hoverState = false;
                 this.loading = false;
-            })
+            }))
             .subscribe(
                 result => {
                     if (result.code == 0) {
@@ -847,11 +895,19 @@ export class NavComponent implements OnInit, OnDestroy {
         this.contentService.fetchEmployeeRange()
             .subscribe(
                 result => {
-                    this.range = result.range? result.range: [];
-                    this.range.sort((a,b) => a.upperLimit - b.upperLimit);
+                    if(result.code == 0) {
+                        this.range = result.range? result.range: [];
+                        this.range.sort((a,b) => a.upperLimit - b.upperLimit);
+                        this.triggerTutorial();
+                    }
                 },
                 error => {}
             )
+    }
+
+    skipTutorial() {
+        this.modalRef.hide();
+        this.cookieService.set(this.ss.getLoggedInUserEmail(), JSON.stringify({dontShowGuide: true}), new Date(7267139602000));
     }
 
 }
