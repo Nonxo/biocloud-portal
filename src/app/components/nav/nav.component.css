@@ -31,6 +31,10 @@ mat-sidenav {
     flex: 1 1 auto;
 }
 
+.border-r {
+    border-right: 1px solid #939393;
+}
+
 mat-sidenav {
     width: 16em;
 }
@@ -130,8 +134,6 @@ button.btn.btn-trial-danger {
     padding-right: 21px;
 }
 
-
-
 @media only screen and (min-device-width: 653px) and (max-device-width: 1440px) {
     .trial-div-success {
         margin-right: 335px;
@@ -142,7 +144,6 @@ button.btn.btn-trial-danger {
         border-bottom-left-radius: 12px;
         border-bottom-right-radius: 12px;
     }
-
     .trial-div-danger {
         margin-right: 335px;
         margin-top: -25px;
