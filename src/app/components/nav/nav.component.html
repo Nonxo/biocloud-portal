@@ -42,11 +42,26 @@
                     <i class="material-icons mr-3 text-white" *ngIf="sidenavWidth >= 15">{{openDropdown?
                         'arrow_drop_up':'arrow_drop_down'}}</i>
                 </div>
-                <h6 class="text-white">{{selectedOrg.orgCode}}</h6>
-                <ng-container *ngIf="openDropdown">
-                    <small *hasAuthority="'GENERAL_ADMIN'" class="text-white" style="font-size: 0.6em"><span
-                        (click)="editOrg(template)" class="cursor">EDIT</span></small>
+
+                <ng-container *ngIf="!openDropdown">
+                    <h6 class="text-white">{{selectedOrg.orgCode}}</h6>
                 </ng-container>
+
+                <ng-container *ngIf="openDropdown">
+                    <div class="d-inline-flex">
+                        <p *hasAuthority="'GENERAL_ADMIN'" class="small cursor border-r pr-2" style="color: #939393" (click)="editOrg(template)">Edit</p>
+
+                        <p class="small cursor pl-2" style="color: #939393">Set as default</p>
+                    </div>
+                </ng-container>
+
+                <!--
+                <ng-container *ngIf="openDropdown">
+                    <div>
+                        <small *hasAuthority="'GENERAL_ADMIN'" class="text-white" style="font-size: 0.6em"><span
+                        (click)="editOrg(template)" class="cursor">EDIT</span></small>
+                    </div>
+                </ng-container> -->
 
 
             </div>

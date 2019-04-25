@@ -20,7 +20,6 @@
         "@angular/common": "^6.1.10",
         "@angular/compiler": "^6.1.10",
         "@angular/core": "^6.1.10",
-
         "@angular/forms": "^6.1.10",
         "@angular/http": "^6.1.10",
         "@angular/material": "^5.1.0",
