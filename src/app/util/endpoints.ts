@@ -76,7 +76,7 @@ export class Endpoints {
     public static DELETE_LOCATION = `${Endpoints.BASE_URL}/users/api/locations/delete/`;
     public static SHIFT_ENDPOINT = `${Endpoints.BASE_URL}/users/api/shifts`;
     public static DEACTIVATE_ACTIVATE_SHIFTS = `${Endpoints.BASE_URL}/users/api/shifts/change-status`;
-    public static DELETE_SHIFTS = `${Endpoints.BASE_URL}/users/api/shifts/delete`;    
+    public static DELETE_SHIFTS = `${Endpoints.BASE_URL}/users/api/shifts/delete`;
     public static SEND_SUPPORT_EMAIL = `${Endpoints.BASE_URL}/users/api/u/getHelp`;
     public static GET_EMAILS_IN_LOCATION = `${Endpoints.BASE_URL}/users/api/locations`;
     public static GET_EMAILS_IN_SHIFT = `${Endpoints.BASE_URL}/users/api/locations/shift`;
@@ -84,4 +84,5 @@ export class Endpoints {
     public static BULK_CREATE_SHIFT = `${Endpoints.BASE_URL}/users/api/shifts/bulk-update`;
     public static GET_TIMEZONE_BY_COORDS = `${Endpoints.BASE_URL}/users/api/countries/get-timezone/coords/`;
     public static FETCH_COUNTRY_TIMEZONES = `${Endpoints.BASE_URL}/users/api/countries/get-timezone/`;
+    public static SET_DEFAULT_ORG = `${Endpoints.BASE_URL}/users/api/org/`;
 }

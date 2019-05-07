@@ -728,4 +728,22 @@ export class AppContentService {
             )
     }
 
+    setDefaultOrg(): Observable<any> {
+        const userId = this.ss.getUserId();
+        const orgId = this.ss.getSelectedOrg().orgId;
+
+        return this.httpClient
+            .post(Endpoints.SET_DEFAULT_ORG + userId + "/set-default-org/" + orgId, null, {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            }).pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
 }
