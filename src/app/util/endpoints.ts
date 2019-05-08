@@ -85,4 +85,5 @@ export class Endpoints {
     public static GET_TIMEZONE_BY_COORDS = `${Endpoints.BASE_URL}/users/api/countries/get-timezone/coords/`;
     public static FETCH_COUNTRY_TIMEZONES = `${Endpoints.BASE_URL}/users/api/countries/get-timezone/`;
     public static SET_DEFAULT_ORG = `${Endpoints.BASE_URL}/users/api/org/`;
+    public static VERIFY_IF_EMAIL_EXIST = `${Endpoints.BASE_URL}/users/api/u/verify/`;
 }

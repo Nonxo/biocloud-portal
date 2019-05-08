@@ -219,4 +219,20 @@ export class AppConfigService {
             )
     }
 
+    verifyEmail(email: string): Observable<any> {
+        return this.httpClient
+            .get(Endpoints.VERIFY_IF_EMAIL_EXIST + email , {
+                headers: new HttpHeaders()
+                    .set('Content-Type', MediaType.APPLICATION_JSON)
+            })
+            .pipe(
+                timeout(50000),
+                map(response => {
+                    let res: any = response;
+                    this.as.checkUnauthorized(res.description);
+                    return res
+                })
+            )
+    }
+
 }
