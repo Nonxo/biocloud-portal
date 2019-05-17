@@ -382,9 +382,7 @@ export class RegisterComponent implements OnInit {
         } else {
             this.nameError = "";
         }
-        console.log(this.fullName);
         this.fullName.trim();
-        console.log(this.fullName);
     }
 
     validatePassword() {
