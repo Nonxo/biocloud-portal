@@ -470,7 +470,7 @@ console.log('ssssssssss');
 
     search() {
         this.resetValues();
-        this.aPojo.param = this.searchValue;
+        this.aPojo.param = this.searchValue.trim();
         this.fetchAttendeesCount();
     }
 

@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../../components/auth/auth.service";
 import {NotifyService} from "../../../service/notify.service";
 import {MessageService} from "../../../service/message.service";
+import {AppConfigService} from "../../app-content/app-config/services/app-config.service";
 
 @Component({
     selector: 'app-flow-two',
@@ -16,7 +17,8 @@ export class FlowTwoComponent implements OnInit {
     token: string;
     step: number = 1;
 
-    constructor(private route: ActivatedRoute, private authService: AuthService, private ns: NotifyService, private mService: MessageService, private router: Router) {
+    constructor(private route: ActivatedRoute, private authService: AuthService,
+                private ns: NotifyService, private mService: MessageService, private router: Router, private service: AppConfigService) {
         this.route
             .queryParams
             .subscribe(params => {
@@ -30,7 +32,7 @@ export class FlowTwoComponent implements OnInit {
                         this.verifyToken();
                     } else {
                         if (this.email) {
-                            this.step = 2;
+                            this.verifyUser();
                         }
                     }
                 }
@@ -70,5 +72,21 @@ export class FlowTwoComponent implements OnInit {
 
     getSignupStep(event) {
         this.step = event;
+    }
+
+    verifyUser() {
+        this.service.verifyEmail(this.email)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.ns.showError("User with this email already exists");
+                    } else {
+                        this.step = 2;
+                    }
+                },
+                error => {
+                    this.ns.showError("An Error Occurred.");
+                }
+            )
     }
 }
