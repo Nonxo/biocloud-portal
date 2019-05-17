@@ -9,6 +9,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {StorageService} from "../../../service/storage.service";
 import {environment} from "../../../../environments/environment";
 import {AppContentService} from '../../../pages/app-content/services/app-content.service';
+import {AppConfigService} from "../../../pages/app-content/app-config/services/app-config.service";
 
 
 @Component({
@@ -66,18 +67,19 @@ export class RegisterComponent implements OnInit {
     ];
 
     constructor(private contentService: AppContentService,
-        private authService: AuthService,
-        private router: Router,
-        private ns: NotifyService,
-        private fb: FormBuilder,
-        private ss: StorageService,
-        private route: ActivatedRoute) {
+                private authService: AuthService,
+                private router: Router,
+                private ns: NotifyService,
+                private fb: FormBuilder,
+                private ss: StorageService,
+                private route: ActivatedRoute,
+                private service: AppConfigService) {
         this.route
             .queryParams
             .subscribe(params => {
-                let email = params['email'] || null;
-                let token = params['token'] || null;
-            }
+                    let email = params['email'] || null;
+                    let token = params['token'] || null;
+                }
             )
     }
 
@@ -144,8 +146,7 @@ export class RegisterComponent implements OnInit {
         switch (this.step) {
             case 1: {
                 this.email = this.form.get('email').value;
-                this.step = 2;
-                this.getStep.emit(this.step);
+                this.verifyUser();
                 break;
             }
             case 2: {
@@ -226,7 +227,7 @@ export class RegisterComponent implements OnInit {
 
         //Get firstname and lastname
         this.setName();
-        this.payload.phone = this.phone;
+        this.payload.phone = this.phone.trim();
 
         this.payload.gdprCompliance = true;
 
@@ -381,6 +382,7 @@ export class RegisterComponent implements OnInit {
         } else {
             this.nameError = "";
         }
+        this.fullName.trim();
     }
 
     validatePassword() {
@@ -392,7 +394,7 @@ export class RegisterComponent implements OnInit {
     }
 
     validatePhoneField() {
-        if (/[^0-9]/.test(this.phone)) {
+        if (/[^0-9 ]/.test(this.phone)) {
             this.phoneError = "Only numbers allowed"
         } else {
             this.phoneError = "";
@@ -438,6 +440,23 @@ export class RegisterComponent implements OnInit {
                         this.step = 5;
                     } else {
                         this.ns.showError(result.description);
+                    }
+                },
+                error => {
+                    this.ns.showError("An Error Occurred.");
+                }
+            )
+    }
+
+    verifyUser() {
+        this.service.verifyEmail(this.email)
+            .subscribe(
+                result => {
+                    if (result.code == 0) {
+                        this.ns.showError("User with this email already exists");
+                    } else {
+                        this.step = 2;
+                        this.getStep.emit(this.step);
                     }
                 },
                 error => {

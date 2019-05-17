@@ -111,6 +111,7 @@ export class NavComponent implements OnInit, OnDestroy {
     employeeRangeUpperLimit:any;
     modalOptions:ModalOptions = new ModalOptions();
     @ViewChild("joyRide") joyRide: TemplateRef<any>;
+    defaultOrg: string;
 
     constructor(private router: Router,
                 private authService: AuthService,
@@ -506,10 +507,19 @@ export class NavComponent implements OnInit, OnDestroy {
     }
 
     setDefaultSelectedOrg() {
+        //check if user has a default organisation set
+        this.defaultOrg = this.ss.getUserDefaultOrg();
+
         if (!this.selectedOrg.orgId) {
             if (this.orgs.length > 0) {
-                this.selectedOrg = this.orgs[0];
-                this.ss.setSelectedOrg(this.orgs[0]);
+                if(this.defaultOrg) {
+                    let org = this.orgs.filter(obj => obj.orgId == this.defaultOrg)[0];
+                    org? this.selectedOrg = org: this.selectedOrg = this.orgs[0];
+                } else {
+                    this.selectedOrg = this.orgs[0];
+                }
+
+                this.ss.setSelectedOrg(this.selectedOrg);
                 this.setOrgRole();
 
                 this.mService.setSelectedOrg(this.orgs[0].orgId);
@@ -698,7 +708,7 @@ export class NavComponent implements OnInit, OnDestroy {
     }
 
     onResizeByWindowScreen() {
-        if (window.screen.width < 1366) {
+        if (window.screen.width < 1200) {
             this.sideNavMode = "over";
             this.opener = false;
         }
@@ -711,7 +721,7 @@ export class NavComponent implements OnInit, OnDestroy {
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
-        if (event.target.innerWidth < 1366) {
+        if (event.target.innerWidth < 1200) {
             this.sideNavMode = "over";
             this.opener = false;
         }
@@ -908,6 +918,20 @@ export class NavComponent implements OnInit, OnDestroy {
     skipTutorial() {
         this.modalRef.hide();
         this.cookieService.set(this.ss.getLoggedInUserEmail(), JSON.stringify({dontShowGuide: true}), new Date(7267139602000));
+    }
+
+    setDefaultOrg() {
+        this.contentService.setDefaultOrg()
+            .subscribe(
+                result => {
+                    if(result.code == 0) {
+                        this.ns.showSuccess("Success! " + this.ss.getSelectedOrg().name + " has been set as your default company");
+                        this.defaultOrg = this.selectedOrg.orgId;
+                        this.ss.setUserDefaultOrg(this.defaultOrg);
+                    }
+                },
+                error => {this.ns.showError("An Error Occurred");}
+            )
     }
 
 }

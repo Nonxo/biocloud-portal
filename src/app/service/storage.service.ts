@@ -255,4 +255,24 @@ export class StorageService {
     clearOnBoardingObj() {
         localStorage.removeItem("onB");
     }
+
+    getUserDefaultOrg() {
+        let obj:any = JSON.parse(localStorage.getItem('_u'));
+
+        if(obj) {
+            return obj.defaultOrg? obj.defaultOrg: null;
+        }
+
+        return null;
+    }
+
+    setUserDefaultOrg(orgId: string) {
+        let obj:any = JSON.parse(localStorage.getItem('_u'));
+
+        if(obj) {
+            obj["defaultOrg"] = orgId;
+            localStorage.setItem('_u', JSON.stringify(obj));
+        }
+    }
+
 }

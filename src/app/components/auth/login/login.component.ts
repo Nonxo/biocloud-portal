@@ -110,7 +110,7 @@ export class LoginComponent implements OnInit,OnDestroy {
         const payload = this.loginForm.value;
 
         //noinspection TypeScriptValidateTypes
-        this.authService.login(payload.email, payload.pw).pipe(
+        this.authService.login(payload.email, payload.pw.trim()).pipe(
             finalize(() => this.loading = false))
             .subscribe(
                 res => {

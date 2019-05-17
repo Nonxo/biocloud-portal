@@ -13,8 +13,7 @@
                             <div class="col-xl col-lg-4 col-md-5 pr-lg-0">
                                 <div class="form-group">
                                     <!-- <label>Email address</label> -->
-                                    <input type="email" class="form-control w-100" pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
-                                        (keyup)="validateEmailAddress()" placeholder="you@emailprovider.com"
+                                    <input type="email" class="form-control w-100" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" placeholder="you@emailprovider.com"
                                         formControlName="email" required>
                                     <p class="small text-danger px-1 pt-1" *ngIf="emailError">{{emailError}}</p>
                                 </div>
@@ -71,7 +70,7 @@
                                 <!-- <label class="text-success small font-weight-bold">You@emailprovider.com</label> -->
                                 <input type="text" class="form-control w-100" #fName="ngModel" placeholder="Full Name *"
                                     name="fullName" [(ngModel)]="fullName" (keyup)="validateNameField()"
-                                    pattern="^([a-zA-Z]{1,}'?-?[a-zA-Z]{1,}?\s[a-zA-Z]{1,}'?-?[a-zA-Z]{1,}?)" required>
+                                     required>
                                 <p *ngIf="!nameError" class="small text-muted px-1 pt-1">(Firstname & Lastname Only)</p>
                                 <p class="small text-danger px-1 pt-1" *ngIf="nameError">
                                     {{nameError}}</p>
@@ -114,14 +113,14 @@
                             <div class="form-group">
                                 <!-- <label class="text-success small font-weight-bold">You@emailprovider.com</label> -->
                                 <input type="text" class="form-control w-100" #phoneNumber="ngModel" name="phone"
-                                    [(ngModel)]="phone" placeholder="Phone Number *" pattern="[0-9]{5,20}"
+                                    [(ngModel)]="phone" placeholder="Phone Number *" pattern="[0-9]{5,20} *"
                                     (keyup)="validatePhoneField()" required>
                                 <p class="small text-danger px-1 pt-1" *ngIf="phoneError">{{phoneError}}</p>
                             </div>
                         </div>
 
                         <div class="col-md-12 text-center pt-3 px-0">
-                            <button mat-raised-button color="primary" class="rounded px-5 w-100" [disabled]="!f.valid">
+                            <button mat-raised-button color="primary" class="rounded px-5 w-100" [disabled]="!f.valid || nameError.length > 0">
                                 <!-- <button mat-raised-button color="primary" class="rounded px-5" [disabled]="!registerForm.valid"> -->
                                 <span>Continue <span>
                                         <!-- <i class="material-icons mt-2 pl-2 position-absolute">
