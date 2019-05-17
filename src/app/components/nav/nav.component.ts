@@ -708,7 +708,7 @@ export class NavComponent implements OnInit, OnDestroy {
     }
 
     onResizeByWindowScreen() {
-        if (window.screen.width < 1366) {
+        if (window.screen.width < 1200) {
             this.sideNavMode = "over";
             this.opener = false;
         }
@@ -721,7 +721,7 @@ export class NavComponent implements OnInit, OnDestroy {
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
-        if (event.target.innerWidth < 1366) {
+        if (event.target.innerWidth < 1200) {
             this.sideNavMode = "over";
             this.opener = false;
         }
