@@ -227,7 +227,7 @@ export class RegisterComponent implements OnInit {
 
         //Get firstname and lastname
         this.setName();
-        this.payload.phone = this.phone;
+        this.payload.phone = this.phone.trim();
 
         this.payload.gdprCompliance = true;
 
@@ -382,7 +382,9 @@ export class RegisterComponent implements OnInit {
         } else {
             this.nameError = "";
         }
+        console.log(this.fullName);
         this.fullName.trim();
+        console.log(this.fullName);
     }
 
     validatePassword() {
@@ -394,7 +396,7 @@ export class RegisterComponent implements OnInit {
     }
 
     validatePhoneField() {
-        if (/[^0-9]/.test(this.phone)) {
+        if (/[^0-9 ]/.test(this.phone)) {
             this.phoneError = "Only numbers allowed"
         } else {
             this.phoneError = "";
