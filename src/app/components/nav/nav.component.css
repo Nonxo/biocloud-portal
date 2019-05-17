@@ -239,3 +239,21 @@ button.btn.btn-trial-danger {
 input::placeholder {
     color: #ffffff82 !important;
 }
+
+@media only screen and (max-width: 1280px) {
+    .hamMenu {
+        display: block;
+    }
+    .minimizeMenu {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 1281px) {
+    .hamMenu {
+        display: none;
+    }
+    .minimizeMenu {
+        display: block;
+    }
+}
