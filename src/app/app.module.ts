@@ -1,3 +1,4 @@
+
 import {MessageService} from './service/message.service';
 import {BsModalRef} from 'ngx-bootstrap';
 import {AppConfigService} from './pages/app-content/app-config/services/app-config.service';
@@ -5,6 +6,8 @@ import {BrowserModule, HAMMER_GESTURE_CONFIG} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 
 import {AppComponent} from './app.component';
@@ -80,7 +83,9 @@ import {CookieService} from "./service/cookie.service";
         }),
         Angulartics2Module.forRoot([Angulartics2Facebook, Angulartics2GoogleTagManager, Angulartics2GoogleAnalytics]),
         DeviceDetectorModule.forRoot(),
-        AppRoutingModule
+        AppRoutingModule,
+
+        ImageCropperModule
     ],
     providers: [
         AuthService,
@@ -109,3 +114,8 @@ import {CookieService} from "./service/cookie.service";
 })
 export class AppModule {
 }
+
+
+
+
+

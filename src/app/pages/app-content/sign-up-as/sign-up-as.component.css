@@ -62,3 +62,8 @@ input#file {
         margin-right: 0;
     }
 }
+
+
+.scrollbar-remover{
+    display:block !important;
+}
