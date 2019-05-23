@@ -257,3 +257,23 @@ input::placeholder {
         display: block;
     }
 }
+
+.companyItemLogoDiv {
+    border-radius: 50%;
+    display: flex;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+}
+
+.companyLogoDiv {
+    border-radius: 50% !important;
+    display: flex;
+    width: 115px;
+    height: 115px;
+    overflow: hidden;
+}
+
+.companyLogo {
+    flex: none;
+}
