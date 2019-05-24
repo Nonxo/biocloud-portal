@@ -1,5 +1,5 @@
 <mat-sidenav-container autosize>
-
+<!--    <div id="flows" class="companyLogoDiv"></div>-->
     <mat-sidenav #sidenav mode="{{sideNavMode}}" [opened]="opener" [ngStyle]="{ 'width.em': sidenavWidth }">
         <div class="nav-header d-md-block d-none" joyrideStep="navBar" title="iClocker side bar" text="Here you can navigate to every page on the app." stepPosition="right">
             <div class="py-4 pb-0 px-3">
@@ -11,6 +11,7 @@
 
         <div class="container-fluid px-0" (clickOutside)="onClickedOutside($event)" joyrideStep="companyInfo" title="Company Info" text="Your company logo, name and code are displayed here. You can switch between companies and add new ones under your profile by clicking the drop down."
             stepPosition="right">
+<!--            <div id="flows" class="ffd"></div>-->
             <a role="button" (click)="createOrg(template)" *ngIf="orgs.length == 0 && !selectedOrg.orgId">
                 <div class="cursor border-top">
                     <small>
@@ -24,9 +25,9 @@
                 </div>
             </a>
 
-            <div class=" text-center my-3 px-3 pb-3 border-0" *ngIf="orgs.length > 0 || selectedOrg.orgId">
+            <div class="text-center my-3 px-3 pb-3 border-0" *ngIf="orgs.length > 0 || selectedOrg.orgId">
                 <div class="mx-auto mb-2 container-img-hover">
-                    <div class="companyLogoDiv">
+                    <div id="companyLogoContainer" class="companyLogoDiv">
                         <img *ngIf="!selectedOrg.logo" src=" assets/img/1.png" class="image-hover mx-auto img-fluid companyLogo logo-icon" />
                         <img *ngIf="selectedOrg.logo" src="data:image/jpg;base64,{{selectedOrg.logo}}" class="image-hover mx-auto img-fluid companyLogo logo-icon" />
                     </div>
@@ -87,9 +88,9 @@
 
                     <ng-container *ngFor="let org of orgs">
                         <li *ngIf="org.orgId != selectedOrg.orgId" class="media my-3 cursor d-flex align-items-center" (click)="selectOrg(org)">
-                            <div class="companyItemLogoDiv mr-2">
-                            <img *ngIf="!org.logo" class="mr-3 img-fluid companyLogo" src="assets/img/2.jpg" >
-                            <img *ngIf="org.logo" class="mr-3 img-fluid  companyLogo" src="data:image/jpg;base64,{{org.logo}}" >
+                            <div id="companyItemLogoContainer" class="companyItemLogoDiv mr-2">
+                                <img *ngIf="!org.logo" class="mr-3 img-fluid companyLogo" src="assets/img/2.jpg" >
+                                <img *ngIf="org.logo" class="mr-3 img-fluid  companyLogo" src="data:image/jpg;base64,{{org.logo}}" >
                             </div>
                             <div class="media-body text-white">
                                 <b class="mt-0 mb-1 text-capitalize">{{org.name}}</b>
