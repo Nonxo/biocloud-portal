@@ -19,7 +19,7 @@ import {NotifyService} from "../../../service/notify.service";
 import {MessageService} from "../../../service/message.service";
 import {DateUtil} from "../../../util/DateUtil";
 
-fdescribe('ReportDashboardComponent', () => {
+describe('ReportDashboardComponent', () => {
   let component: ReportDashboardComponent;
   let fixture: ComponentFixture<ReportDashboardComponent>;
 
