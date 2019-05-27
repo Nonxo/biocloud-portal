@@ -1,5 +1,4 @@
 <mat-sidenav-container autosize>
-<!--    <div id="flows" class="companyLogoDiv"></div>-->
     <mat-sidenav #sidenav mode="{{sideNavMode}}" [opened]="opener" [ngStyle]="{ 'width.em': sidenavWidth }">
         <div class="nav-header d-md-block d-none" joyrideStep="navBar" title="iClocker side bar" text="Here you can navigate to every page on the app." stepPosition="right">
             <div class="py-4 pb-0 px-3">
@@ -11,7 +10,6 @@
 
         <div class="container-fluid px-0" (clickOutside)="onClickedOutside($event)" joyrideStep="companyInfo" title="Company Info" text="Your company logo, name and code are displayed here. You can switch between companies and add new ones under your profile by clicking the drop down."
             stepPosition="right">
-<!--            <div id="flows" class="ffd"></div>-->
             <a role="button" (click)="createOrg(template)" *ngIf="orgs.length == 0 && !selectedOrg.orgId">
                 <div class="cursor border-top">
                     <small>

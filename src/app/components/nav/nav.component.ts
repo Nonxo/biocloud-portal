@@ -203,7 +203,6 @@ export class NavComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
 
-        // this.testAngular(flows);
         this.selectedOrg = this.ss.getSelectedOrg() ? this.ss.getSelectedOrg() : new Org();
 
         //if an org is already selected, update role
@@ -219,10 +218,6 @@ export class NavComponent implements OnInit, OnDestroy {
         this.callNotificationService();
     }
 
-    // testAngular(flows: HTMLElement) {
-    //     let testVar = flows.innerHTML;
-    //     console.log(testVar)
-    // }
 
     triggerTutorial() {
         if (window.screen.width >= 1025) {
