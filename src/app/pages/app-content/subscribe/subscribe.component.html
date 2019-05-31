@@ -60,7 +60,8 @@
                                                 <div class="container">
                                                     <div class="row" *ngFor="let plan of subscriptionPlans">
                                                         <div class="col-md-8 col-7 form-check">
-                                                            <input class="form-check-input" (change)="setPlan(plan)" type="radio" name="subscription" id="{{plan.name}}" value="{{plan.planId}}" [(ngModel)]="checkedPlan">
+<!--                                                            commented radio button-->
+<!--                                                            <input class="form-check-input" (change)="setPlan(plan)" type="radio" name="subscription" id="{{plan.name}}" value="{{plan.planId}}" [(ngModel)]="checkedPlan">-->
                                                             <label class="form-check-label" for="{{plan.name}}">
                                                             {{plan.maxAttendeeThreshold ? "Up to" + plan.maxAttendeeThreshold : "Over 100 "}} Employees <br> <span class="small text-brand font-weight-bold">{{plan.name}}</span>
                                                             </label>
@@ -85,8 +86,11 @@
 
                                             <div class="col-md-5"></div>
                                             <div class="col-md-7 text-center mt-md-0 mt-4">
-                                                <button mat-raised-button id="subscribe" color="primary" disabled="{{selectedPlan?.planId == subscription?.subscriptionPlanId && (subscription?.billingCycle == 'MONTHLY' && monthlyPlan) && subscription?.subscriptionStatus != 'EXPIRED'}}" class="px-5 py-2 subscribe-btn"
-                                                    (click)="confirmPayment(confirmPaymentTemplate)"> Subscribe Now </button>
+<!--                                                <button mat-raised-button id="subscribe" color="primary" disabled="{{selectedPlan?.planId == subscription?.subscriptionPlanId && (subscription?.billingCycle == 'MONTHLY' && monthlyPlan) && subscription?.subscriptionStatus != 'EXPIRED'}}" class="px-5 py-2 subscribe-btn"-->
+<!--                                                    (click)="confirmPayment(confirmPaymentTemplate)"> Subscribe Now </button>-->
+
+                                                <button mat-raised-button id="subscribe" color="primary" class="px-5 py-2 subscribe-btn"
+                                                        (click)="gotoContactPage()"> Contact Us</button>
                                             </div>
                                         </div>
                                     </mat-card-content>
@@ -171,7 +175,8 @@
                                                     <div class="container">
                                                         <div class="row" *ngFor="let plan of subscriptionPlans">
                                                             <div class="col-md-8 form-check">
-                                                                <input class="form-check-input" (change)="setPlan(plan)" type="radio" name="upgradeSubscription" id="{{plan.name}}" value="{{plan.planId}}" [(ngModel)]="checkedPlan">
+<!--                                                                commented out the radio button-->
+<!--                                                                <input class="form-check-input" (change)="setPlan(plan)" type="radio" name="upgradeSubscription" id="{{plan.name}}" value="{{plan.planId}}" [(ngModel)]="checkedPlan">-->
                                                                 <label class="form-check-label" for="{{plan.name}}">
                                                                 {{plan.maxAttendeeThreshold ? "Up to " + plan.maxAttendeeThreshold : "Over 100 "}} Employees <br> <span class="small text-brand font-weight-bold">{{plan.name}}</span>
                                                                 </label>
@@ -192,8 +197,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 md-0 mt-4 text-center">
-                                                    <button mat-raised-button color="primary" id="upgradePlan" disabled="{{selectedPlan?.planId == subscription?.subscriptionPlanId && (subscription?.billingCycle == 'MONTHLY' && monthlyPlan || subscription?.billingCycle == 'ANNUAL' && !monthlyPlan) && subscription?.subscriptionStatus != 'EXPIRED'}}"
-                                                        class="px-5 py-2 subscribe-btn" (click)="confirmPayment(confirmPaymentTemplate, false)"> Upgrade Plan </button>
+<!--                                                    <button mat-raised-button color="primary" id="upgradePlan" disabled="{{selectedPlan?.planId == subscription?.subscriptionPlanId && (subscription?.billingCycle == 'MONTHLY' && monthlyPlan || subscription?.billingCycle == 'ANNUAL' && !monthlyPlan) && subscription?.subscriptionStatus != 'EXPIRED'}}"-->
+<!--                                                        class="px-5 py-2 subscribe-btn" (click)="confirmPayment(confirmPaymentTemplate, false)"> Upgrade Plan </button>-->
+
+                                                    <button mat-raised-button color="primary" id="upgradePlan" class="px-5 py-2 subscribe-btn" (click)="gotoContactPage()">Contact Us</button>
                                                 </div>
                                             </div>
                                         </mat-card-content>
