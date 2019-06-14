@@ -14,7 +14,7 @@ import {AppContentService} from "../../../pages/app-content/services/app-content
 import {Endpoints} from "../../../util/endpoints";
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 
-fdescribe('RegisterComponent', () => {
+describe('RegisterComponent', () => {
     let component: RegisterComponent;
     let fixture: ComponentFixture<RegisterComponent>;
     let service: AppConfigService;

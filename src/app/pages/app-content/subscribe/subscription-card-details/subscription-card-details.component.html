@@ -14,7 +14,7 @@
             <mat-checkbox name="autoRenew" [(ngModel)]="subscription.autoRenew" (change)="updateAutoRenewal()">Auto Renewal</mat-checkbox>
         </div>
     </div> -->
-    <hr>
+    <hr *ngIf="cardDetails.length > 0">
     <div class="row col-md-12" *ngFor="let detail of cardDetails">
         <div class="col-md-6">
             <div class="d-inline-flex">
@@ -28,14 +28,16 @@
         </div>
         <div class="col-md-6 my-auto">
             <div class="text-md-right mt-md-0 mt-3">
-                <p class="text-brand"><span class="cursor" (click)="openModal(addCardTemplate)">Edit</span> | <span class="cursor" (click)="openModal(deleteCardTemplate)">Delete</span></p>
+                <!-- <p class="text-brand"><span class="cursor" (click)="openModal(addCardTemplate)">Edit</span> | <span class="cursor" (click)="openModal(deleteCardTemplate)">Delete</span></p> -->
+
+                <p class="text-brand"><span class="cursor" (click)="openModal(deleteCardTemplate)">Delete</span></p>
             </div>
         </div>
     </div>
 
     <!-- add card state -->
 
-    <div class="row col-md-12" *ngIf="cardDetails.length == 0 && doesUserHaveActiveSub">
+    <div class="row col-md-12 d-none" *ngIf="cardDetails.length == 0 && doesUserHaveActiveSub">
         <div class="col-6">
             <div class="d-inline-flex">
                 <!--<img src="assets/img/mastercard1.png" alt="">-->
@@ -52,9 +54,9 @@
         </div>
     </div>
 
-    <hr>
+    <hr *ngIf="cardDetails.length > 0">
     <div class="pb-3">
-        <img src="assets/img/cardslogo.png" alt="" class="">
+        <img src="assets/img/cardslogo.png" alt="" class="py-2">
     </div>
     <p>This page and all data is securely transmitted and encrypted. PCI Compliance, 3-D Secure, HTTPS, SSL encryption.
     </p>

@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, HostListener, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
 import {BsModalRef, BsModalService, ModalOptions} from "ngx-bootstrap/index";
 import {StorageService} from "../../service/storage.service";
@@ -25,6 +25,7 @@ import {ConfirmLocationComponent} from "../../pages/app-content/confirm-location
 import {finalize} from "rxjs/internal/operators";
 import {JoyrideService} from "ngx-joyride";
 import {CookieService} from "../../service/cookie.service";
+import {MatSidenav} from "@angular/material";
 
 declare const gapi: any;
 
@@ -34,7 +35,7 @@ declare const gapi: any;
     styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit, OnDestroy {
-
+    sidenav: MatSidenav;
     sideNavMode = "side";
     opener: boolean = true;
     modalRef: BsModalRef;
@@ -201,6 +202,7 @@ export class NavComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+
         this.selectedOrg = this.ss.getSelectedOrg() ? this.ss.getSelectedOrg() : new Org();
 
         //if an org is already selected, update role
@@ -215,6 +217,7 @@ export class NavComponent implements OnInit, OnDestroy {
         this.onResizeByWindowScreen();
         this.callNotificationService();
     }
+
 
     triggerTutorial() {
         if (window.screen.width >= 1025) {

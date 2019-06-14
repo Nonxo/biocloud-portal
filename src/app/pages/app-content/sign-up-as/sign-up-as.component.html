@@ -1,3 +1,4 @@
+
 <div class="container  h-100">
 
     <div class="row h-100">
@@ -111,7 +112,8 @@
 
 </div>
 
-<ng-template #cropImageTemplate>
+<ng-template #cropImageTemplate >
+ <div class=scrollbar-remover>
     <div class="modal-header" style="border-bottom: none">
         <h5 class="modal-title pull-left text-brand">Crop Image</h5>
         <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
@@ -121,8 +123,20 @@
     <div class="modal-body">
         <!--Give div a max height/width -->
         <div>
-            <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1 / 1" [resizeToWidth]="128" [roundCropper]="false" format="jpeg" outputType="both" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
-                (loadImageFailed)="loadImageFailed()" style="max-height: 200px" [style.display]="cropperReady ? null : 'none'"></image-cropper>
+            <image-cropper
+              [imageChangedEvent]="imageChangedEvent"
+              [maintainAspectRatio]="true"
+              [aspectRatio]="1 / 1"
+              [resizeToWidth]="128"
+              [roundCropper]="false"
+              format="jpeg"
+              outputType="both" 
+              (imageCropped)="imageCropped($event)" 
+              (imageLoaded)="imageLoaded()"
+              (loadImageFailed)="loadImageFailed()" 
+              style="max-height: 200px" 
+             [style.display]="cropperReady ? null : 'none'">
+             </image-cropper>
         </div>
     </div>
 
@@ -136,4 +150,5 @@
         <button mat-raised-button color="primary" type="button" (click)="saveImage()">Crop & Continue</button>
 
     </div> -->
+ </div>
 </ng-template>
